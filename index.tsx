@@ -1,12 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { GetKeplrProvider } from "./providers/wc-keplr";
+import { StoreProvider } from "./stores";
+
+import "./styles/index.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <GetKeplrProvider>
+      <StoreProvider>
+        <App />
+      </StoreProvider>
+    </GetKeplrProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
