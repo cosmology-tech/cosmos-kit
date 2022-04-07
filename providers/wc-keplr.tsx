@@ -141,7 +141,7 @@ export const GetKeplrProvider: FunctionComponent = ({ children }) => {
         eventListener.off("modal_close");
         eventListener.off("select_extension");
         eventListener.off("select_wallet_connect");
-        eventListener.off("wc_modal_close");
+        eventListener.off("wc_qr_modal_close");
         eventListener.off("connect");
       };
 
@@ -178,7 +178,7 @@ export const GetKeplrProvider: FunctionComponent = ({ children }) => {
           },
         });
 
-        eventListener.on("wc_modal_close", () => {
+        eventListener.on("wc_qr_modal_close", () => {
           setWCUri("");
           if (callbackClosed) {
             callbackClosed();
@@ -250,7 +250,7 @@ export const GetKeplrProvider: FunctionComponent = ({ children }) => {
       <KeplrWalletConnectQRModal
         isOpen={wcUri.length > 0}
         onRequestClose={() => {
-          eventListener.emit("wc_modal_close");
+          eventListener.emit("wc_qr_modal_close");
         }}
         uri={wcUri}
       />
