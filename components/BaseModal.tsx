@@ -1,6 +1,7 @@
 import React, { FunctionComponent, ReactElement } from "react";
 import ReactModal, { setAppElement } from "react-modal";
 import classNames from "classnames";
+import CloseIcon from "./CloseIcon";
 
 setAppElement("body");
 
@@ -8,7 +9,7 @@ export interface BaseModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
 
-  title?: ReactElement;
+  title?: ReactElement | string;
   className?: string;
   bodyOpenClassName?: string;
   overlayClassName?: string;
@@ -32,11 +33,11 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
       }}
       bodyOpenClassName={classNames("overflow-hidden", bodyOpenClassName)}
       overlayClassName={classNames(
-        "fixed flex items-center justify-center inset-0 bg-modalOverlay z-50",
+        "z-50 fixed inset-0 bg-modalOverlay flex items-center justify-center",
         overlayClassName
       )}
       className={classNames(
-        "absolute outline-none w-full p-5 bg-surface rounded-2xl z-50 flex flex-col max-w-modal",
+        "absolute z-50 outline-none w-modal max-w-base-modal p-5 rounded-2xl flex flex-col bg-white dark:bg-dark",
         className
       )}
     >
@@ -44,9 +45,19 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
         className="absolute top-5 right-5 cursor-pointer"
         onClick={() => onRequestClose()}
       >
-        <img src="/close-icon.svg" alt="close icon" className="w-8 h-8" />
+        <CloseIcon
+          className="text-gray-800 dark:text-gray-200"
+          width={26}
+          height={26}
+        />
       </div>
-      {title}
+      {typeof title === "string" ? (
+        <h2 className="text-gray-800 dark:text-gray-200 text-xl font-bold mb-4">
+          {title}
+        </h2>
+      ) : (
+        title
+      )}
       {children}
     </ReactModal>
   );

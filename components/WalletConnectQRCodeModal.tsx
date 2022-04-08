@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import { BaseModal, BaseModalProps } from "./BaseModal";
 import QRCode from "qrcode.react";
 
-export const KeplrWalletConnectQRModal: FunctionComponent<
+export const WalletConnectQRCodeModal: FunctionComponent<
   BaseModalProps & {
     uri: string;
   }
@@ -11,13 +11,15 @@ export const KeplrWalletConnectQRModal: FunctionComponent<
     <BaseModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="max-w-[35.5rem]"
-      title={<h5 className="mb-4">Scan QR Code</h5>}
+      className="max-w-wc-modal"
+      title="Scan QR code"
     >
       {uri ? (
-        <div className="bg-white-high p-3.5">
-          <QRCode size={500} value={uri} />
-        </div>
+        <QRCode
+          style={{ width: "100%", height: "100%" }}
+          size={500}
+          value={uri}
+        />
       ) : undefined}
     </BaseModal>
   );

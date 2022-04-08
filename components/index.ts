@@ -1,3 +1,4 @@
 export * from "./BaseModal";
-export * from "./KeplrWalletConnectQRModal";
-export * from "./WalletSelectionModal";
+export * from "./WalletConnectQRCodeModal";
+export * from "./SelectWalletModal";
+export * from "./GetWalletProvider";
