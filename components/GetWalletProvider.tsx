@@ -19,10 +19,10 @@ export interface WalletInfo {
 }
 
 export const GetWalletContext = createContext<{
-  getWallet(): Promise<any>;
-  clearLastUsedWallet(): void;
+  getWallet: () => Promise<any>;
+  clearLastUsedWallet: () => void;
+  setDefaultConnectionType: (type: string | undefined) => void;
   connectionType?: string | undefined;
-  setDefaultConnectionType(type: string | undefined): void;
 } | null>(null);
 
 export const GetWalletProvider: FunctionComponent<{

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { BaseModal, BaseModalProps } from "./BaseModal";
 
 export interface Wallet {

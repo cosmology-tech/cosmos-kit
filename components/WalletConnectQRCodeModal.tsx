@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import { BaseModal, BaseModalProps } from "./BaseModal";
 import QRCode from "qrcode.react";
 

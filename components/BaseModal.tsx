@@ -1,9 +1,7 @@
 import React, { FunctionComponent, ReactElement } from "react";
-import ReactModal, { setAppElement } from "react-modal";
+import ReactModal from "react-modal";
 import classNames from "classnames";
 import CloseIcon from "./CloseIcon";
-
-setAppElement("body");
 
 export interface BaseModalProps {
   isOpen: boolean;
