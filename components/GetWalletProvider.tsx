@@ -3,6 +3,7 @@ import EventEmitter from "eventemitter3";
 import React, {
   createContext,
   FunctionComponent,
+  ReactNode,
   useCallback,
   useContext,
   useRef,
@@ -27,6 +28,7 @@ export const GetWalletContext = createContext<{
 
 export const GetWalletProvider: FunctionComponent<{
   walletInfoList: WalletInfo[];
+  children: ReactNode;
 }> = ({ walletInfoList, children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [wcUri, setWCUri] = useState("");
