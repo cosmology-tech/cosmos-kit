@@ -1,6 +1,6 @@
 import React, { SVGProps } from "react";
 
-const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
+export const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width={props.width || 16}
     height={props.width || 16}
@@ -18,5 +18,3 @@ const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-
-export default CloseIcon;

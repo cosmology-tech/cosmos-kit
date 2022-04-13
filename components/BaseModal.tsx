@@ -1,25 +1,21 @@
 import React, { FunctionComponent, ReactElement } from "react";
 import ReactModal from "react-modal";
-import classNames from "classnames";
-import CloseIcon from "./CloseIcon";
+import styled from "styled-components";
+import { CloseIcon } from "./CloseIcon";
 
 export interface BaseModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
 
   title?: ReactElement | string;
-  className?: string;
-  bodyOpenClassName?: string;
-  overlayClassName?: string;
+  maxWidth?: string;
 }
 
 export const BaseModal: FunctionComponent<BaseModalProps> = ({
   isOpen,
   onRequestClose,
   title,
-  className,
-  bodyOpenClassName,
-  overlayClassName,
+  maxWidth = "40rem",
   children,
 }) => {
   return (
@@ -29,34 +25,69 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
         e.preventDefault();
         onRequestClose();
       }}
-      bodyOpenClassName={classNames("overflow-hidden", bodyOpenClassName)}
-      overlayClassName={classNames(
-        "z-50 fixed inset-0 bg-modalOverlay flex items-center justify-center",
-        overlayClassName
+      className="_"
+      overlayClassName="_"
+      contentElement={(props, children) => (
+        <ModalContent maxWidth={maxWidth} {...props}>
+          {children}
+        </ModalContent>
       )}
-      className={classNames(
-        "absolute z-50 outline-none w-modal max-w-base-modal p-5 rounded-2xl flex flex-col bg-white dark:bg-dark",
-        className
+      overlayElement={(props, children) => (
+        <ModalOverlay {...props}>{children}</ModalOverlay>
       )}
     >
-      <div
-        className="absolute top-5 right-5 cursor-pointer"
-        onClick={() => onRequestClose()}
-      >
-        <CloseIcon
-          className="text-gray-800 dark:text-gray-200"
-          width={26}
-          height={26}
-        />
-      </div>
-      {typeof title === "string" ? (
-        <h2 className="text-gray-800 dark:text-gray-200 text-xl font-bold mb-4">
-          {title}
-        </h2>
-      ) : (
-        title
-      )}
+      {typeof title === "string" ? <ModalHeader>{title}</ModalHeader> : title}
+      <ModalCloseButton onClick={() => onRequestClose()}>
+        <CloseIcon width={26} height={26} />
+      </ModalCloseButton>
       {children}
     </ReactModal>
   );
 };
+
+const ModalContent = styled.div<{ maxWidth: string }>`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1.25rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  width: 100%;
+  max-width: ${(props) => props.maxWidth};
+
+  @media (max-width: 768px) {
+    width: calc(100% - 40px);
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: cetner;
+`;
+
+const ModalHeader = styled.div`
+  color: rgb(31, 41, 55);
+  font-size: 1.25rem;
+  font-weight: bold;
+  line-height: 1.75rem;
+  margin-bottom: 1rem;
+`;
+
+const ModalCloseButton = styled.div`
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  cursor: pointer;
+`;

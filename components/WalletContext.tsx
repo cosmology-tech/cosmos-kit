@@ -19,14 +19,14 @@ export interface WalletInfo {
   getWallet: (connector?: WalletConnect) => Promise<any>;
 }
 
-export const GetWalletContext = createContext<{
+export const WalletContext = createContext<{
   getWallet: () => Promise<any>;
   clearLastUsedWallet: () => void;
   setDefaultConnectionType: (type: string | undefined) => void;
   connectionType?: string | undefined;
 } | null>(null);
 
-export const GetWalletProvider: FunctionComponent<{
+export const WalletProvider: FunctionComponent<{
   walletInfoList: WalletInfo[];
   children: ReactNode;
 }> = ({ walletInfoList, children }) => {
@@ -133,7 +133,7 @@ export const GetWalletProvider: FunctionComponent<{
   });
 
   return (
-    <GetWalletContext.Provider
+    <WalletContext.Provider
       value={{
         getWallet,
         clearLastUsedWallet: useCallback(() => {
@@ -162,14 +162,14 @@ export const GetWalletProvider: FunctionComponent<{
         uri={wcUri}
       />
       {children}
-    </GetWalletContext.Provider>
+    </WalletContext.Provider>
   );
 };
 
 export const useWallet = () => {
-  const context = useContext(GetWalletContext);
+  const context = useContext(WalletContext);
   if (!context) {
-    throw new Error("You forgot yo use GetWalletProvider");
+    throw new Error("You forgot to use GetWalletProvider");
   }
 
   return context;

@@ -1,8 +1,17 @@
 import {
-  IConnector,
-  IJsonRpcRequest,
-  IRequestOptions,
-} from "@walletconnect/types";
+  AminoSignResponse,
+  BroadcastMode,
+  OfflineSigner,
+  StdSignature,
+  StdSignDoc,
+  StdTx,
+} from "@cosmjs/launchpad";
+import { DirectSignResponse, OfflineDirectSigner } from "@cosmjs/proto-signing";
+import { IndexedDBKVStore, KVStore } from "@keplr-wallet/common";
+import {
+  CosmJSOfflineSigner,
+  CosmJSOfflineSignerOnlyAmino,
+} from "@keplr-wallet/provider";
 import {
   ChainInfo,
   Keplr,
@@ -11,32 +20,22 @@ import {
   KeplrSignOptions,
   Key,
 } from "@keplr-wallet/types";
-import { DirectSignResponse, OfflineDirectSigner } from "@cosmjs/proto-signing";
 import {
-  AminoSignResponse,
-  BroadcastMode,
-  OfflineSigner,
-  StdSignature,
-  StdSignDoc,
-  StdTx,
-} from "@cosmjs/launchpad";
-import {
-  CosmJSOfflineSigner,
-  CosmJSOfflineSignerOnlyAmino,
-} from "@keplr-wallet/provider";
-import { SecretUtils } from "secretjs/types/enigmautils";
+  IConnector,
+  IJsonRpcRequest,
+  IRequestOptions,
+} from "@walletconnect/types";
 import { payloadId } from "@walletconnect/utils";
-import deepmerge from "deepmerge";
+import Axios from "axios";
 import { Buffer } from "buffer/";
-import { IndexedDBKVStore, KVStore } from "@keplr-wallet/common";
+import deepmerge from "deepmerge";
+import { SecretUtils } from "secretjs/types/enigmautils";
 
 // VersionFormatRegExp checks if a chainID is in the format required for parsing versions
 // The chainID should be in the form: `{identifier}-{version}`
 const ChainVersionFormatRegExp = /(.+)-([\d]+)/;
 
-function parseChainId(
-  chainId: string
-): {
+function parseChainId(chainId: string): {
   identifier: string;
   version: number;
 } {
@@ -75,9 +74,9 @@ export type KeplrKeystoreMayChangedEventParam = {
 export class KeplrWalletConnectV1 implements Keplr {
   constructor(
     public readonly connector: IConnector,
+    public readonly chainInfos: ChainInfo[],
     public readonly options: {
       kvStore?: KVStore;
-      sendTx?: Keplr["sendTx"];
       onBeforeSendRequest?: (
         request: Partial<IJsonRpcRequest>,
         options?: IRequestOptions
@@ -411,25 +410,52 @@ export class KeplrWalletConnectV1 implements Keplr {
     throw new Error("Not yet implemented");
   }
 
-  /**
-   * In the extension environment, this API let the extension to send the tx on behalf of the client.
-   * But, in the wallet connect environment, in order to send the tx on behalf of the client, wallet should receive the tx data from remote.
-   * However, this approach is not efficient and hard to ensure the stability and `KeplrWalletConnect` should have the informations of rpc and rest endpoints.
-   * So, rather than implementing this, just fallback to the client sided implementation or throw error of the client sided implementation is not delivered to the `options`.
-   * @param chainId
-   * @param stdTx
-   * @param mode
-   */
-  sendTx(
+  async sendTx(
     chainId: string,
     tx: StdTx | Uint8Array,
     mode: BroadcastMode
   ): Promise<Uint8Array> {
-    if (this.options.sendTx) {
-      return this.options.sendTx(chainId, tx, mode);
+    const restInstance = Axios.create({
+      baseURL: this.chainInfos.find(
+        (chainInfo) => chainInfo.chainId === chainId
+      )!.rest,
+    });
+
+    const isProtoTx = Buffer.isBuffer(tx) || tx instanceof Uint8Array;
+
+    const params = isProtoTx
+      ? {
+          tx_bytes: Buffer.from(tx as any).toString("base64"),
+          mode: (() => {
+            switch (mode) {
+              case "async":
+                return "BROADCAST_MODE_ASYNC";
+              case "block":
+                return "BROADCAST_MODE_BLOCK";
+              case "sync":
+                return "BROADCAST_MODE_SYNC";
+              default:
+                return "BROADCAST_MODE_UNSPECIFIED";
+            }
+          })(),
+        }
+      : {
+          tx,
+          mode: mode,
+        };
+
+    const result = await restInstance.post(
+      isProtoTx ? "/cosmos/tx/v1beta1/txs" : "/txs",
+      params
+    );
+
+    const txResponse = isProtoTx ? result.data["tx_response"] : result.data;
+
+    if (txResponse.code != null && txResponse.code !== 0) {
+      throw new Error(txResponse["raw_log"]);
     }
 
-    throw new Error("send tx is not delivered by options");
+    return Buffer.from(txResponse.txhash, "hex");
   }
 
   async signAmino(

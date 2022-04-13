@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import styled from "styled-components";
 import { BaseModal, BaseModalProps } from "./BaseModal";
 
 export interface Wallet {
@@ -20,31 +21,65 @@ export const SelectWalletModal: FunctionComponent<
       onRequestClose={onRequestClose}
       title="Select a wallet"
     >
-      <div className="flex flex-col gap-4">
+      <WalletList>
         {wallets.map((wallet) => (
-          <button
-            className="bg-background rounded-2xl p-5 flex items-center bg-gray-200 dark:bg-gray-800 ring-1 ring-gray-400 hover:ring-gray-600 dark:ring-gray-600 dark:hover:ring-gray-400"
+          <Wallet
+            key={wallet.id}
             onClick={(e) => {
               e.preventDefault();
               selectWallet(wallet.id);
             }}
           >
-            <img
-              src={wallet.logoImgUrl}
-              alt="keplr logo"
-              className="w-16 h-16"
-            />
-            <div className="flex flex-col text-left ml-5">
-              <h4 className="text-black dark:text-gray-200 text-lg font-semibold">
-                {wallet.name}
-              </h4>
-              <p className="mt-1 text-gray-600 dark:text-gray-400">
-                {wallet.description}
-              </p>
-            </div>
-          </button>
+            <WalletIconImg src={wallet.logoImgUrl} alt="keplr logo" />
+            <WalletInfo>
+              <WalletName>{wallet.name}</WalletName>
+              <WalletDescription>{wallet.description}</WalletDescription>
+            </WalletInfo>
+          </Wallet>
         ))}
-      </div>
+      </WalletList>
     </BaseModal>
   );
 };
+
+const WalletList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Wallet = styled.div`
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  background-color: rgb(229 231 235);
+  box-shadow: inset 0 0 0 1px rgb(156 163 175);
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const WalletIconImg = styled.img`
+  width: 4rem;
+  height: 4rem;
+`;
+
+const WalletInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.25rem;
+`;
+
+const WalletName = styled.div`
+  color: black;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+`;
+
+const WalletDescription = styled.div`
+  margin-top: 0.25rem;
+  color: rgb(75 85 99);
+`;

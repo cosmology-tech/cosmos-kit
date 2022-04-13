@@ -1,6 +1,6 @@
+import QRCode from "qrcode.react";
 import React, { FunctionComponent } from "react";
 import { BaseModal, BaseModalProps } from "./BaseModal";
-import QRCode from "qrcode.react";
 
 export const WalletConnectQRCodeModal: FunctionComponent<
   BaseModalProps & {
@@ -11,8 +11,8 @@ export const WalletConnectQRCodeModal: FunctionComponent<
     <BaseModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="max-w-wc-modal"
       title="Scan QR code"
+      maxWidth="30rem"
     >
       {uri ? (
         <QRCode

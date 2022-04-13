@@ -1,2 +1,2 @@
 export * from "./components";
-export * from "./wc-client";
+export * from "./providers";
