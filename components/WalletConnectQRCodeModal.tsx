@@ -12,7 +12,7 @@ export const WalletConnectQRCodeModal: FunctionComponent<
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       title="Scan QR code"
-      maxWidth="30rem"
+      maxWidth="24rem"
     >
       {uri ? (
         <QRCode

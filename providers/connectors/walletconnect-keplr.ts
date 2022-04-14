@@ -195,13 +195,17 @@ export class KeplrWalletConnectV1 implements Keplr {
       await this.options.onBeforeSendRequest(request, options);
     }
 
-    const res = await this.connector.sendCustomRequest(request, options);
+    try {
+      const res = await this.connector.sendCustomRequest(request, options);
 
-    if (this.options.onAfterSendRequest) {
-      await this.options.onAfterSendRequest(res, request, options);
+      if (this.options.onAfterSendRequest) {
+        await this.options.onAfterSendRequest(res, request, options);
+      }
+
+      return res;
+    } catch (e) {
+      console.log(e);
     }
-
-    return res;
   }
 
   async enable(chainIds: string | string[]): Promise<void> {

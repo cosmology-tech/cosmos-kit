@@ -19,14 +19,14 @@ export interface WalletInfo {
   getWallet: (connector?: WalletConnect) => Promise<any>;
 }
 
-export const WalletContext = createContext<{
+export const WalletManagerContext = createContext<{
   getWallet: () => Promise<any>;
   clearLastUsedWallet: () => void;
   setDefaultConnectionType: (type: string | undefined) => void;
   connectionType?: string | undefined;
 } | null>(null);
 
-export const WalletProvider: FunctionComponent<{
+export const WalletManagerProvider: FunctionComponent<{
   walletInfoList: WalletInfo[];
   children: ReactNode;
 }> = ({ walletInfoList, children }) => {
@@ -58,7 +58,7 @@ export const WalletProvider: FunctionComponent<{
     let callbackClosed: (() => void) | undefined;
 
     const wcConnector = new WalletConnect({
-      bridge: "https://bridge.walletconnect.org", // Required
+      bridge: "https://bridge.walletconnect.org",
       signingMethods: [
         "keplr_enable_wallet_connect_v1",
         "keplr_sign_amino_wallet_connect_v1",
@@ -79,7 +79,8 @@ export const WalletProvider: FunctionComponent<{
       const wallet = await walletInfo.getWallet(wcConnector);
       lastUsedWalletRef.current = wallet;
       setConnectionType(walletInfo.id);
-      cleanUp();
+      eventListener.off("modal_close");
+      eventListener.off("wc_qr_modal_close");
       return resolver ? resolver(wallet) : Promise.resolve(wallet);
     };
 
@@ -114,7 +115,7 @@ export const WalletProvider: FunctionComponent<{
             if (!wcConnector.connected) {
               wcConnector.createSession();
 
-              wcConnector.on("connect", (error) => {
+              wcConnector.on("connect", (error: any) => {
                 if (error) {
                   reject(error);
                 } else {
@@ -133,7 +134,7 @@ export const WalletProvider: FunctionComponent<{
   });
 
   return (
-    <WalletContext.Provider
+    <WalletManagerContext.Provider
       value={{
         getWallet,
         clearLastUsedWallet: useCallback(() => {
@@ -162,14 +163,14 @@ export const WalletProvider: FunctionComponent<{
         uri={wcUri}
       />
       {children}
-    </WalletContext.Provider>
+    </WalletManagerContext.Provider>
   );
 };
 
-export const useWallet = () => {
-  const context = useContext(WalletContext);
+export const useWalletManager = () => {
+  const context = useContext(WalletManagerContext);
   if (!context) {
-    throw new Error("You forgot to use GetWalletProvider");
+    throw new Error("You forgot to use WalletManagerProvider");
   }
 
   return context;

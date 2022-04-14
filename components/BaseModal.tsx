@@ -56,6 +56,7 @@ const ModalContent = styled.div<{ maxWidth: string }>`
   background: white;
   width: 100%;
   max-width: ${(props) => props.maxWidth};
+  outline: none;
 
   @media (max-width: 768px) {
     width: calc(100% - 40px);
