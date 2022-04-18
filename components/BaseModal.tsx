@@ -15,7 +15,7 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
   isOpen,
   onRequestClose,
   title,
-  maxWidth = "40rem",
+  maxWidth = "36rem",
   children,
 }) => {
   return (
