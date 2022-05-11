@@ -41,8 +41,8 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
         e.preventDefault();
         onRequestClose();
       }}
-      className={classNames?.modalContent}
-      overlayClassName={classNames?.modalOverlay}
+      className={classNames?.modalContent ?? "_"}
+      overlayClassName={classNames?.modalOverlay ?? "_"}
       contentElement={(props, children) => (
         <ModalContent maxWidth={maxWidth} {...props}>
           {children}
