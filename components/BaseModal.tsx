@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import React, { FunctionComponent, ReactElement } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
@@ -42,22 +41,15 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
         e.preventDefault();
         onRequestClose();
       }}
-      contentElement={({ className, ...props }, children) => (
-        <ModalContent
-          maxWidth={maxWidth}
-          className={clsx(className, classNames?.modalContent)}
-          {...props}
-        >
+      className={classNames?.modalContent}
+      overlayClassName={classNames?.modalOverlay}
+      contentElement={(props, children) => (
+        <ModalContent maxWidth={maxWidth} {...props}>
           {children}
         </ModalContent>
       )}
-      overlayElement={({ className, ...props }, children) => (
-        <ModalOverlay
-          className={clsx(className, classNames?.modalOverlay)}
-          {...props}
-        >
-          {children}
-        </ModalOverlay>
+      overlayElement={(props, children) => (
+        <ModalOverlay {...props}>{children}</ModalOverlay>
       )}
     >
       {typeof title === "string" ? (
