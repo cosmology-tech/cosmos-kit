@@ -1,7 +1,21 @@
+import clsx from "clsx";
 import React, { FunctionComponent, ReactElement } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import { CloseIcon } from "./CloseIcon";
+
+export interface ModalClassNames {
+  modalContent?: string;
+  modalOverlay?: string;
+  modalHeader?: string;
+  modalCloseButton?: string;
+  walletList?: string;
+  wallet?: string;
+  walletIconImg?: string;
+  walletInfo?: string;
+  walletName?: string;
+  walletDescription?: string;
+}
 
 export interface BaseModalProps {
   isOpen: boolean;
@@ -9,6 +23,8 @@ export interface BaseModalProps {
 
   title?: ReactElement | string;
   maxWidth?: string;
+
+  classNames?: ModalClassNames;
 }
 
 export const BaseModal: FunctionComponent<BaseModalProps> = ({
@@ -16,6 +32,7 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
   onRequestClose,
   title,
   maxWidth = "36rem",
+  classNames,
   children,
 }) => {
   return (
@@ -25,19 +42,33 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
         e.preventDefault();
         onRequestClose();
       }}
-      className="_"
-      overlayClassName="_"
-      contentElement={(props, children) => (
-        <ModalContent maxWidth={maxWidth} {...props}>
+      contentElement={({ className, ...props }, children) => (
+        <ModalContent
+          maxWidth={maxWidth}
+          className={clsx(className, classNames?.modalContent)}
+          {...props}
+        >
           {children}
         </ModalContent>
       )}
-      overlayElement={(props, children) => (
-        <ModalOverlay {...props}>{children}</ModalOverlay>
+      overlayElement={({ className, ...props }, children) => (
+        <ModalOverlay
+          className={clsx(className, classNames?.modalOverlay)}
+          {...props}
+        >
+          {children}
+        </ModalOverlay>
       )}
     >
-      {typeof title === "string" ? <ModalHeader>{title}</ModalHeader> : title}
-      <ModalCloseButton onClick={() => onRequestClose()}>
+      {typeof title === "string" ? (
+        <ModalHeader className={classNames?.modalHeader}>{title}</ModalHeader>
+      ) : (
+        title
+      )}
+      <ModalCloseButton
+        onClick={() => onRequestClose()}
+        className={classNames?.modalCloseButton}
+      >
         <CloseIcon width={26} height={26} />
       </ModalCloseButton>
       {children}

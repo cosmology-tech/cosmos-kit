@@ -6,13 +6,14 @@ export const WalletConnectQRCodeModal: FunctionComponent<
   BaseModalProps & {
     uri: string;
   }
-> = ({ isOpen, onRequestClose, uri }) => {
+> = ({ isOpen, onRequestClose, uri, classNames }) => {
   return (
     <BaseModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       title="Scan QR code"
       maxWidth="24rem"
+      classNames={classNames}
     >
       {uri ? (
         <QRCode

@@ -14,14 +14,10 @@ export const SelectWalletModal: FunctionComponent<
     wallets: Wallet[];
     selectWallet: (walletId: string) => void;
   }
-> = ({ isOpen, onRequestClose, wallets, selectWallet }) => {
+> = ({ wallets, selectWallet, classNames, ...props }) => {
   return (
-    <BaseModal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      title="Select a wallet"
-    >
-      <WalletList>
+    <BaseModal title="Select a wallet" classNames={classNames} {...props}>
+      <WalletList className={classNames?.walletList}>
         {wallets.map((wallet) => (
           <Wallet
             key={wallet.id}
@@ -29,11 +25,20 @@ export const SelectWalletModal: FunctionComponent<
               e.preventDefault();
               selectWallet(wallet.id);
             }}
+            className={classNames?.wallet}
           >
-            <WalletIconImg src={wallet.logoImgUrl} alt="keplr logo" />
-            <WalletInfo>
-              <WalletName>{wallet.name}</WalletName>
-              <WalletDescription>{wallet.description}</WalletDescription>
+            <WalletIconImg
+              src={wallet.logoImgUrl}
+              alt="keplr logo"
+              className={classNames?.walletIconImg}
+            />
+            <WalletInfo className={classNames?.walletInfo}>
+              <WalletName className={classNames?.walletName}>
+                {wallet.name}
+              </WalletName>
+              <WalletDescription className={classNames?.walletDescription}>
+                {wallet.description}
+              </WalletDescription>
             </WalletInfo>
           </Wallet>
         ))}

@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { SelectWalletModal, WalletConnectQRCodeModal } from ".";
+import { ModalClassNames, SelectWalletModal, WalletConnectQRCodeModal } from ".";
 
 export interface WalletInfo {
   id: string;
@@ -29,7 +29,8 @@ export const WalletManagerContext = createContext<{
 export const WalletManagerProvider: FunctionComponent<{
   walletInfoList: WalletInfo[];
   children: ReactNode;
-}> = ({ walletInfoList, children }) => {
+  classNames?: ModalClassNames;
+}> = ({ walletInfoList, children, classNames }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [wcUri, setWCUri] = useState("");
 
@@ -156,11 +157,13 @@ export const WalletManagerProvider: FunctionComponent<{
         selectWallet={(walletId: string) => {
           eventListener.emit(walletId);
         }}
+        classNames={classNames}
       />
       <WalletConnectQRCodeModal
         isOpen={wcUri.length > 0}
         onRequestClose={() => eventListener.emit("wc_qr_modal_close")}
         uri={wcUri}
+        classNames={classNames}
       />
       {children}
     </WalletManagerContext.Provider>
