@@ -201,6 +201,8 @@ export class KeplrWalletConnectV1 implements Keplr {
       await this.options.onAfterSendRequest(res, request, options);
     }
 
+    console.log(res);
+
     return res;
   }
 
