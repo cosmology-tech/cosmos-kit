@@ -201,19 +201,9 @@ export class KeplrWalletConnectV1 implements Keplr {
         ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
         : "keplrwallet://wcV1"
 
+      console.log(request)
       switch (request.method) {
         case "keplr_enable_wallet_connect_v1":
-          // Keplr mobile requests another per-chain permission for each wallet connect session.
-          // By the current logic, `enable()` is requested immediately after wallet connect is connected.
-          // However, in this case, two requests are made consecutively.
-          // So in ios, the deep link modal pops up twice and confuses the user.
-          // To solve this problem, enable on the chain does not open deep links.
-          console.log(request)
-          if (request.params && request.params.length === 1) {
-            break
-          }
-          window.location.href = deepLink
-          break
         case "keplr_sign_amino_wallet_connect_v1":
           window.location.href = deepLink
           break

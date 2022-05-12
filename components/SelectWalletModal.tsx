@@ -2,18 +2,12 @@ import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 
 import { BaseModal, BaseModalProps } from "./BaseModal"
-
-export interface Wallet {
-  id: string
-  name: string
-  description: string
-  logoImgUrl: string
-}
+import { Wallet } from "./common"
 
 export const SelectWalletModal: FunctionComponent<
   BaseModalProps & {
     wallets: Wallet[]
-    selectWallet: (walletId: string) => void
+    selectWallet: (wallet: Wallet) => void
   }
 > = ({ wallets, selectWallet, classNames, ...props }) => (
   <BaseModal classNames={classNames} title="Select a wallet" {...props}>
@@ -24,7 +18,7 @@ export const SelectWalletModal: FunctionComponent<
           className={classNames?.wallet}
           onClick={(e) => {
             e.preventDefault()
-            selectWallet(wallet.id)
+            selectWallet(wallet)
           }}
         >
           <WalletIconImg

@@ -2,7 +2,6 @@ import {
   isAndroid as checkIsAndroid,
   isMobile as checkIsMobile,
 } from "@walletconnect/browser-utils"
-import { saveMobileLinkInfo } from "@walletconnect/utils"
 import QRCode from "qrcode.react"
 import React, { FunctionComponent, useEffect, useMemo } from "react"
 
@@ -16,29 +15,17 @@ export const WalletConnectQRCodeModal: FunctionComponent<
   const isMobile = useMemo(() => checkIsMobile(), [])
   const isAndroid = useMemo(() => checkIsAndroid(), [])
 
-  const navigateToAppURL = useMemo(() => {
-    if (isMobile) {
-      if (isAndroid) {
-        // Save the mobile link.
-        saveMobileLinkInfo({
-          name: "Keplr",
-          href: "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;",
-        })
+  const navigateToAppURL = useMemo(
+    () =>
+      isMobile
+        ? isAndroid
+          ? `intent://wcV1?${uri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`
+          : `keplrwallet://wcV1?${uri}`
+        : undefined,
+    [isMobile, isAndroid, uri]
+  )
 
-        return `intent://wcV1?${uri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`
-      } else {
-        // Save the mobile link.
-        saveMobileLinkInfo({
-          name: "Keplr",
-          href: "keplrwallet://wcV1",
-        })
-
-        return `keplrwallet://wcV1?${uri}`
-      }
-    }
-    return undefined
-  }, [isMobile, isAndroid, uri])
-
+  // Open app if mobile URL is available.
   useEffect(() => {
     if (isOpen && navigateToAppURL) {
       window.location.href = navigateToAppURL
