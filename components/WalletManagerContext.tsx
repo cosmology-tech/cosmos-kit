@@ -1,62 +1,74 @@
-import WalletConnect from "@walletconnect/client";
-import EventEmitter from "eventemitter3";
+import { Keplr } from "@keplr-wallet/types"
+import WalletConnect from "@walletconnect/client"
+import EventEmitter from "eventemitter3"
 import React, {
   createContext,
   FunctionComponent,
   ReactNode,
   useCallback,
   useContext,
+  useMemo,
   useRef,
   useState,
-} from "react";
-import { ModalClassNames, SelectWalletModal, WalletConnectQRCodeModal } from ".";
+} from "react"
+
+import { KeplrWalletConnectV1 } from "../providers"
+import { ModalClassNames, SelectWalletModal, WalletConnectQRCodeModal } from "."
+
+export type WalletClient = Keplr | KeplrWalletConnectV1
 
 export interface WalletInfo {
-  id: string;
-  name: string;
-  description: string;
-  logoImgUrl: string;
-  getWallet: (connector?: WalletConnect) => Promise<any>;
+  id: string
+  name: string
+  description: string
+  logoImgUrl: string
+  getWallet: (connector?: WalletConnect) => Promise<WalletClient | undefined>
 }
 
 export const WalletManagerContext = createContext<{
-  getWallet: () => Promise<any>;
-  clearLastUsedWallet: () => void;
-  setDefaultConnectionType: (type: string | undefined) => void;
-  connectionType?: string | undefined;
-} | null>(null);
+  getWallet: () => Promise<WalletClient | undefined>
+  clearLastUsedWallet: () => void
+  setDefaultConnectionType: (type: string | undefined) => void
+  connectionType?: string | undefined
+} | null>(null)
+
+export enum Event {
+  ModalClose = "modal_close",
+  QrModalClose = "qr_modal_close",
+}
 
 export const WalletManagerProvider: FunctionComponent<{
-  walletInfoList: WalletInfo[];
-  children: ReactNode;
-  classNames?: ModalClassNames;
-}> = ({ walletInfoList, children, classNames }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [wcUri, setWCUri] = useState("");
+  walletInfoList: WalletInfo[]
+  children: ReactNode
+  classNames?: ModalClassNames
+  closeIcon?: ReactNode
+}> = ({ walletInfoList, children, classNames, closeIcon }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [wcQrUri, setWcQrUri] = useState<string>()
 
-  const lastUsedWalletRef = useRef<any>();
-  const defaultConnectionTypeRef = useRef<string | undefined>();
-  const [connectionType, setConnectionType] = useState<string | undefined>();
-  const [eventListener] = useState(() => new EventEmitter());
+  const lastUsedWalletRef = useRef<WalletClient>()
+  const defaultConnectionTypeRef = useRef<string>()
+  const [connectionType, setConnectionType] = useState<string>()
+  const eventListener = useMemo(() => new EventEmitter(), [])
 
-  const [getWallet] = useState(() => (): Promise<any> => {
+  const getWallet = useCallback(async (): Promise<WalletClient | undefined> => {
     if (typeof window === "undefined") {
-      return Promise.resolve(undefined);
+      return
     }
 
     if (lastUsedWalletRef.current) {
-      return Promise.resolve(lastUsedWalletRef.current);
+      return lastUsedWalletRef.current
     }
 
     const cleanUp = () => {
-      eventListener.off("modal_close");
-      eventListener.off("wc_qr_modal_close");
+      eventListener.off(Event.ModalClose)
+      eventListener.off(Event.QrModalClose)
       walletInfoList.forEach((walletInfo) => {
-        eventListener.off(walletInfo.id);
-      });
-    };
+        eventListener.off(walletInfo.id)
+      })
+    }
 
-    let callbackClosed: (() => void) | undefined;
+    let callbackClosed: (() => void) | undefined
 
     const wcConnector = new WalletConnect({
       bridge: "https://bridge.walletconnect.org",
@@ -66,115 +78,109 @@ export const WalletManagerProvider: FunctionComponent<{
       ],
       qrcodeModal: {
         open: (uri: string, cb: any) => {
-          setWCUri(uri);
-          callbackClosed = cb;
+          setWcQrUri(uri)
+          callbackClosed = cb
         },
-        close: () => setWCUri(""),
+        close: () => setWcQrUri(undefined),
       },
-    });
+    })
 
-    const resolveWallet = async (
-      walletInfo: WalletInfo,
-      resolver?: (value: any) => void
-    ) => {
-      const wallet = await walletInfo.getWallet(wcConnector);
-      lastUsedWalletRef.current = wallet;
-      setConnectionType(walletInfo.id);
-      eventListener.off("modal_close");
-      eventListener.off("wc_qr_modal_close");
-      return resolver ? resolver(wallet) : Promise.resolve(wallet);
-    };
+    const resolveWallet = async (walletInfo: WalletInfo) => {
+      const wallet = await walletInfo.getWallet(wcConnector)
+      lastUsedWalletRef.current = wallet
+      setConnectionType(walletInfo.id)
+      eventListener.off(Event.ModalClose)
+      eventListener.off(Event.QrModalClose)
+      return wallet
+    }
 
     const defaultConnectionWalletInfo = walletInfoList.find(
       (walletInfo) => defaultConnectionTypeRef.current === walletInfo.id
-    );
+    )
     if (defaultConnectionWalletInfo) {
-      return resolveWallet(defaultConnectionWalletInfo);
+      return resolveWallet(defaultConnectionWalletInfo)
     }
 
     return new Promise((resolve, reject) => {
-      setIsModalOpen(true);
+      setIsModalOpen(true)
 
-      eventListener.on("modal_close", () => {
-        setIsModalOpen(false);
-        reject();
-        cleanUp();
-      });
+      eventListener.on(Event.ModalClose, () => {
+        setIsModalOpen(false)
+        reject()
+        cleanUp()
+      })
 
-      eventListener.on("wc_qr_modal_close", () => {
-        setWCUri("");
-        if (callbackClosed) {
-          callbackClosed();
-        }
-      });
+      eventListener.on(Event.QrModalClose, () => {
+        setWcQrUri(undefined)
+        callbackClosed?.()
+      })
 
       walletInfoList.forEach((walletInfo) => {
         eventListener.on(walletInfo.id, async () => {
-          setIsModalOpen(false);
+          setIsModalOpen(false)
 
           if (walletInfo.id.startsWith("walletconnect")) {
             if (!wcConnector.connected) {
-              wcConnector.createSession();
+              wcConnector.createSession()
 
-              wcConnector.on("connect", (error: any) => {
+              wcConnector.on("connect", (error) => {
                 if (error) {
-                  reject(error);
+                  reject(error)
                 } else {
-                  resolveWallet(walletInfo, resolve);
+                  resolve(resolveWallet(walletInfo))
                 }
-              });
+              })
             } else {
-              resolveWallet(walletInfo, resolve);
+              resolve(resolveWallet(walletInfo))
             }
           } else {
-            resolveWallet(walletInfo, resolve);
+            resolve(resolveWallet(walletInfo))
           }
-        });
-      });
-    });
-  });
+        })
+      })
+    })
+  }, [])
 
   return (
     <WalletManagerContext.Provider
       value={{
         getWallet,
         clearLastUsedWallet: useCallback(() => {
-          lastUsedWalletRef.current = undefined;
-          setConnectionType(undefined);
+          lastUsedWalletRef.current = undefined
+          setConnectionType(undefined)
         }, []),
         setDefaultConnectionType: useCallback((type: string | undefined) => {
-          defaultConnectionTypeRef.current = type;
+          defaultConnectionTypeRef.current = type
         }, []),
         connectionType,
       }}
     >
+      {children}
+
       <SelectWalletModal
-        isOpen={isModalOpen}
-        onRequestClose={() => {
-          eventListener.emit("modal_close");
-        }}
-        wallets={walletInfoList}
-        selectWallet={(walletId: string) => {
-          eventListener.emit(walletId);
-        }}
         classNames={classNames}
+        closeIcon={closeIcon}
+        isOpen={isModalOpen}
+        onClose={() => eventListener.emit(Event.ModalClose)}
+        selectWallet={(walletId: string) => eventListener.emit(walletId)}
+        wallets={walletInfoList}
       />
       <WalletConnectQRCodeModal
-        isOpen={wcUri.length > 0}
-        onRequestClose={() => eventListener.emit("wc_qr_modal_close")}
-        uri={wcUri}
         classNames={classNames}
+        closeIcon={closeIcon}
+        isOpen={!!wcQrUri}
+        onClose={() => eventListener.emit(Event.QrModalClose)}
+        uri={wcQrUri}
       />
-      {children}
     </WalletManagerContext.Provider>
-  );
-};
+  )
+}
 
 export const useWalletManager = () => {
-  const context = useContext(WalletManagerContext);
+  const context = useContext(WalletManagerContext)
   if (!context) {
-    throw new Error("You forgot to use WalletManagerProvider");
+    throw new Error("You forgot to use WalletManagerProvider")
   }
 
-  return context;
-};
+  return context
+}

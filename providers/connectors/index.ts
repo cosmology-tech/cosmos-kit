@@ -1,1 +1,1 @@
-export * from "./walletconnect-keplr";
+export * from "./walletconnect-keplr"

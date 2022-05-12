@@ -5,13 +5,13 @@ import {
   StdSignature,
   StdSignDoc,
   StdTx,
-} from "@cosmjs/launchpad";
-import { DirectSignResponse, OfflineDirectSigner } from "@cosmjs/proto-signing";
-import { IndexedDBKVStore, KVStore } from "@keplr-wallet/common";
+} from "@cosmjs/launchpad"
+import { DirectSignResponse, OfflineDirectSigner } from "@cosmjs/proto-signing"
+import { IndexedDBKVStore, KVStore } from "@keplr-wallet/common"
 import {
   CosmJSOfflineSigner,
   CosmJSOfflineSignerOnlyAmino,
-} from "@keplr-wallet/provider";
+} from "@keplr-wallet/provider"
 import {
   ChainInfo,
   Keplr,
@@ -19,102 +19,108 @@ import {
   KeplrMode,
   KeplrSignOptions,
   Key,
-} from "@keplr-wallet/types";
+} from "@keplr-wallet/types"
+import { isAndroid, isMobile } from "@walletconnect/browser-utils"
 import {
   IConnector,
   IJsonRpcRequest,
   IRequestOptions,
-} from "@walletconnect/types";
-import { payloadId } from "@walletconnect/utils";
-import Axios from "axios";
-import { Buffer } from "buffer/";
-import deepmerge from "deepmerge";
-import { SecretUtils } from "secretjs/types/enigmautils";
+} from "@walletconnect/types"
+import { payloadId } from "@walletconnect/utils"
+import Axios from "axios"
+import { Buffer } from "buffer"
+import deepmerge from "deepmerge"
+import { SecretUtils } from "secretjs/types/enigmautils"
 
 // VersionFormatRegExp checks if a chainID is in the format required for parsing versions
 // The chainID should be in the form: `{identifier}-{version}`
-const ChainVersionFormatRegExp = /(.+)-([\d]+)/;
+const ChainVersionFormatRegExp = /(.+)-([\d]+)/
 
 function parseChainId(chainId: string): {
-  identifier: string;
-  version: number;
+  identifier: string
+  version: number
 } {
-  const split = chainId.split(ChainVersionFormatRegExp).filter(Boolean);
+  const split = chainId.split(ChainVersionFormatRegExp).filter(Boolean)
   if (split.length !== 2) {
     return {
       identifier: chainId,
       version: 0,
-    };
+    }
   } else {
-    return { identifier: split[0], version: parseInt(split[1]) };
+    return { identifier: split[0], version: parseInt(split[1]) }
   }
 }
 
 export type KeplrGetKeyWalletCoonectV1Response = {
-  address: string;
-  algo: string;
-  bech32Address: string;
-  isNanoLedger: boolean;
-  name: string;
-  pubKey: string;
-};
+  address: string
+  algo: string
+  bech32Address: string
+  isNanoLedger: boolean
+  name: string
+  pubKey: string
+}
 
 export type KeplrKeystoreMayChangedEventParam = {
-  algo: string;
-  name: string;
-  isNanoLedger: boolean;
+  algo: string
+  name: string
+  isNanoLedger: boolean
   keys: {
-    chainIdentifier: string;
-    address: string;
-    bech32Address: string;
-    pubKey: string;
-  }[];
-};
+    chainIdentifier: string
+    address: string
+    bech32Address: string
+    pubKey: string
+  }[]
+}
 
 export class KeplrWalletConnectV1 implements Keplr {
+  kvStore: KVStore
+  onBeforeSendRequest?: (
+    request: Partial<IJsonRpcRequest>,
+    options?: IRequestOptions
+  ) => Promise<void> | void
+  onAfterSendRequest?: (
+    response: any,
+    request: Partial<IJsonRpcRequest>,
+    options?: IRequestOptions
+  ) => Promise<void> | void
+
   constructor(
     public readonly connector: IConnector,
     public readonly chainInfos: ChainInfo[],
-    public readonly options: {
-      kvStore?: KVStore;
-      onBeforeSendRequest?: (
-        request: Partial<IJsonRpcRequest>,
-        options?: IRequestOptions
-      ) => Promise<void> | void;
-      onAfterSendRequest?: (
-        response: any,
-        request: Partial<IJsonRpcRequest>,
-        options?: IRequestOptions
-      ) => Promise<void> | void;
+    options: {
+      kvStore?: KVStore
+      onBeforeSendRequest?: KeplrWalletConnectV1["onBeforeSendRequest"]
+      onAfterSendRequest?: KeplrWalletConnectV1["onAfterSendRequest"]
     } = {}
   ) {
-    if (!options.kvStore) {
-      options.kvStore = new IndexedDBKVStore("keplr_wallet_connect");
-    }
+    this.kvStore =
+      options.kvStore ?? new IndexedDBKVStore("keplr_wallet_connect")
+    this.onBeforeSendRequest = options.onBeforeSendRequest
+    this.onAfterSendRequest = options.onAfterSendRequest
 
     connector.on("disconnect", () => {
-      this.clearSaved();
-    });
+      this.clearSaved()
+    })
 
-    connector.on("call_request", this.onCallReqeust);
+    connector.on("call_request", this.onCallReqeust)
   }
 
-  readonly version: string = "0.9.0";
-  readonly mode: KeplrMode = "walletconnect";
+  readonly version: string = "0.9.0"
+  readonly mode: KeplrMode = "walletconnect"
 
-  defaultOptions: KeplrIntereactionOptions = {};
+  defaultOptions: KeplrIntereactionOptions = {}
 
   protected readonly onCallReqeust = async (
     error: Error | null,
     payload: any | null
   ) => {
     if (error) {
-      console.log(error);
-      return;
+      console.log(error)
+      return
     }
 
     if (!payload) {
-      return;
+      return
     }
 
     if (
@@ -122,20 +128,20 @@ export class KeplrWalletConnectV1 implements Keplr {
     ) {
       const param = payload.params[0] as
         | KeplrKeystoreMayChangedEventParam
-        | undefined;
+        | undefined
       if (!param) {
-        return;
+        return
       }
 
-      const lastSeenKeys = await this.getAllLastSeenKey();
+      const lastSeenKeys = await this.getAllLastSeenKey()
       if (!lastSeenKeys) {
-        return;
+        return
       }
 
       const mayChangedKeyMap: Record<
         string,
         KeplrGetKeyWalletCoonectV1Response
-      > = {};
+      > = {}
       for (const mayChangedKey of param.keys) {
         mayChangedKeyMap[mayChangedKey.chainIdentifier] = {
           address: mayChangedKey.address,
@@ -144,16 +150,16 @@ export class KeplrWalletConnectV1 implements Keplr {
           isNanoLedger: param.isNanoLedger,
           name: param.name,
           pubKey: mayChangedKey.pubKey,
-        };
+        }
       }
 
-      let hasChanged = false;
+      let hasChanged = false
 
       for (const chainId of Object.keys(lastSeenKeys)) {
-        const savedKey = lastSeenKeys[chainId];
+        const savedKey = lastSeenKeys[chainId]
         if (savedKey) {
-          const { identifier } = parseChainId(chainId);
-          const mayChangedKey = mayChangedKeyMap[identifier];
+          const { identifier } = parseChainId(chainId)
+          const mayChangedKey = mayChangedKeyMap[identifier]
           if (mayChangedKey) {
             if (
               mayChangedKey.algo !== savedKey.algo ||
@@ -163,65 +169,89 @@ export class KeplrWalletConnectV1 implements Keplr {
               mayChangedKey.bech32Address !== savedKey.bech32Address ||
               mayChangedKey.pubKey !== savedKey.pubKey
             ) {
-              hasChanged = true;
+              hasChanged = true
 
-              lastSeenKeys[chainId] = mayChangedKey;
+              lastSeenKeys[chainId] = mayChangedKey
             }
           }
         }
       }
 
       if (hasChanged) {
-        await this.saveAllLastSeenKey(lastSeenKeys);
-        window.dispatchEvent(new Event("keplr_keystorechange"));
+        await this.saveAllLastSeenKey(lastSeenKeys)
+        window.dispatchEvent(new Event("keplr_keystorechange"))
       }
     }
-  };
+  }
 
   protected async clearSaved(): Promise<void> {
-    const kvStore = this.options.kvStore!;
-
     await Promise.all([
-      kvStore.set(this.getKeyHasEnabled(), null),
-      kvStore.set(this.getKeyLastSeenKey(), null),
-    ]);
+      this.kvStore.set(this.getKeyHasEnabled(), null),
+      this.kvStore.set(this.getKeyLastSeenKey(), null),
+    ])
   }
 
   protected async sendCustomRequest(
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
   ): Promise<any> {
-    if (this.options.onBeforeSendRequest) {
-      await this.options.onBeforeSendRequest(request, options);
+    // If mobile, attempt to open app to approve request.
+    if (isMobile()) {
+      const deepLink = isAndroid()
+        ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
+        : "keplrwallet://wcV1"
+
+      switch (request.method) {
+        // case 'keplr_enable_wallet_connect_v1':
+        //   // Keplr mobile requests another per-chain permission for each wallet connect session.
+        //   // By the current logic, `enable()` is requested immediately after wallet connect is connected.
+        //   // However, in this case, two requests are made consecutively.
+        //   // So in ios, the deep link modal pops up twice and confuses the user.
+        //   // To solve this problem, enable on the chain does not open deep links.
+        //   if (
+        //     request.params &&
+        //     request.params.length === 1 &&
+        //     request.params[0] === CHAIN_ID
+        //   ) {
+        //     break
+        //   }
+        //   window.location.href = deepLink
+        //   break
+        case "keplr_sign_amino_wallet_connect_v1":
+          window.location.href = deepLink
+          break
+      }
     }
 
-    const res = await this.connector.sendCustomRequest(request, options);
-
-    if (this.options.onAfterSendRequest) {
-      await this.options.onAfterSendRequest(res, request, options);
+    if (this.onBeforeSendRequest) {
+      await this.onBeforeSendRequest(request, options)
     }
 
-    console.log(res);
+    const res = await this.connector.sendCustomRequest(request, options)
 
-    return res;
+    if (this.onAfterSendRequest) {
+      await this.onAfterSendRequest(res, request, options)
+    }
+
+    return res
   }
 
   async enable(chainIds: string | string[]): Promise<void> {
     if (typeof chainIds === "string") {
-      chainIds = [chainIds];
+      chainIds = [chainIds]
     }
 
-    const hasEnabledChainIds = await this.getHasEnabledChainIds();
-    let allEnabled = true;
+    const hasEnabledChainIds = await this.getHasEnabledChainIds()
+    let allEnabled = true
     for (const chainId of chainIds) {
       if (hasEnabledChainIds.indexOf(chainId) < 0) {
-        allEnabled = false;
-        break;
+        allEnabled = false
+        break
       }
     }
 
     if (allEnabled) {
-      return;
+      return
     }
 
     await this.sendCustomRequest({
@@ -229,32 +259,27 @@ export class KeplrWalletConnectV1 implements Keplr {
       jsonrpc: "2.0",
       method: "keplr_enable_wallet_connect_v1",
       params: chainIds,
-    });
+    })
 
-    await this.saveHasEnabledChainIds(chainIds);
+    await this.saveHasEnabledChainIds(chainIds)
   }
 
   protected getKeyHasEnabled() {
-    return `${this.connector.session.handshakeTopic}-enabled`;
+    return `${this.connector.session.key}-enabled`
   }
 
   protected async getHasEnabledChainIds(): Promise<string[]> {
-    return (
-      (await this.options.kvStore!.get<string[]>(this.getKeyHasEnabled())) ?? []
-    );
+    return (await this.kvStore.get<string[]>(this.getKeyHasEnabled())) ?? []
   }
 
   protected async saveHasEnabledChainIds(chainIds: string[]) {
-    const hasEnabledChainIds = await this.getHasEnabledChainIds();
+    const hasEnabledChainIds = await this.getHasEnabledChainIds()
     for (const chainId of chainIds) {
       if (hasEnabledChainIds.indexOf(chainId) < 0) {
-        hasEnabledChainIds.push(chainId);
+        hasEnabledChainIds.push(chainId)
       }
     }
-    await this.options.kvStore!.set(
-      this.getKeyHasEnabled(),
-      hasEnabledChainIds
-    );
+    await this.kvStore.set(this.getKeyHasEnabled(), hasEnabledChainIds)
   }
 
   enigmaDecrypt(
@@ -262,7 +287,7 @@ export class KeplrWalletConnectV1 implements Keplr {
     _ciphertext: Uint8Array,
     _nonce: Uint8Array
   ): Promise<Uint8Array> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   enigmaEncrypt(
@@ -271,30 +296,30 @@ export class KeplrWalletConnectV1 implements Keplr {
     // eslint-disable-next-line @typescript-eslint/ban-types
     _msg: object
   ): Promise<Uint8Array> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   experimentalSuggestChain(_chainInfo: ChainInfo): Promise<void> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   getEnigmaPubKey(_chainId: string): Promise<Uint8Array> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   getEnigmaTxEncryptionKey(
     _chainId: string,
     _nonce: Uint8Array
   ): Promise<Uint8Array> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   getEnigmaUtils(_chainId: string): SecretUtils {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   async getKey(chainId: string): Promise<Key> {
-    const lastSeenKey = await this.getLastSeenKey(chainId);
+    const lastSeenKey = await this.getLastSeenKey(chainId)
     if (lastSeenKey) {
       return {
         address: Buffer.from(lastSeenKey.address, "hex"),
@@ -303,7 +328,7 @@ export class KeplrWalletConnectV1 implements Keplr {
         isNanoLedger: lastSeenKey.isNanoLedger,
         name: lastSeenKey.name,
         pubKey: Buffer.from(lastSeenKey.pubKey, "hex"),
-      };
+      }
     }
 
     const response = (
@@ -313,9 +338,9 @@ export class KeplrWalletConnectV1 implements Keplr {
         method: "keplr_get_key_wallet_connect_v1",
         params: [chainId],
       })
-    )[0] as KeplrGetKeyWalletCoonectV1Response;
+    )[0] as KeplrGetKeyWalletCoonectV1Response
 
-    await this.saveLastSeenKey(chainId, response);
+    await this.saveLastSeenKey(chainId, response)
 
     return {
       address: Buffer.from(response.address, "hex"),
@@ -324,50 +349,39 @@ export class KeplrWalletConnectV1 implements Keplr {
       isNanoLedger: response.isNanoLedger,
       name: response.name,
       pubKey: Buffer.from(response.pubKey, "hex"),
-    };
+    }
   }
 
   protected getKeyLastSeenKey() {
-    return `${this.connector.session.handshakeTopic}-key`;
+    return `${this.connector.session.key}-key`
   }
 
   protected async getLastSeenKey(
     chainId: string
   ): Promise<KeplrGetKeyWalletCoonectV1Response | undefined> {
-    const saved = await this.getAllLastSeenKey();
-
-    if (!saved) {
-      return undefined;
-    }
-
-    return saved[chainId];
+    const saved = await this.getAllLastSeenKey()
+    return saved ? saved[chainId] : undefined
   }
 
   protected async getAllLastSeenKey() {
-    return await this.options.kvStore!.get<{
-      [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined;
-    }>(this.getKeyLastSeenKey());
+    return await this.kvStore.get<{
+      [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined
+    }>(this.getKeyLastSeenKey())
   }
 
   protected async saveAllLastSeenKey(data: {
-    [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined;
+    [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined
   }) {
-    await this.options.kvStore!.set(this.getKeyLastSeenKey(), data);
+    await this.kvStore.set(this.getKeyLastSeenKey(), data)
   }
 
   protected async saveLastSeenKey(
     chainId: string,
     response: KeplrGetKeyWalletCoonectV1Response
   ) {
-    let saved = await this.getAllLastSeenKey();
-
-    if (!saved) {
-      saved = {};
-    }
-
-    saved[chainId] = response;
-
-    await this.saveAllLastSeenKey(saved);
+    const saved = (await this.getAllLastSeenKey()) ?? {}
+    saved[chainId] = response
+    await this.saveAllLastSeenKey(saved)
   }
 
   signArbitrary(
@@ -375,7 +389,7 @@ export class KeplrWalletConnectV1 implements Keplr {
     _signer: string,
     _data: string | Uint8Array
   ): Promise<StdSignature> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   verifyArbitrary(
@@ -384,32 +398,31 @@ export class KeplrWalletConnectV1 implements Keplr {
     _data: string | Uint8Array,
     _signature: StdSignature
   ): Promise<boolean> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   getOfflineSigner(chainId: string): OfflineSigner & OfflineDirectSigner {
-    return new CosmJSOfflineSigner(chainId, this);
+    return new CosmJSOfflineSigner(chainId, this)
   }
 
   async getOfflineSignerAuto(
     chainId: string
   ): Promise<OfflineSigner | OfflineDirectSigner> {
-    const key = await this.getKey(chainId);
-    if (key.isNanoLedger) {
-      return new CosmJSOfflineSignerOnlyAmino(chainId, this);
-    }
-    return new CosmJSOfflineSigner(chainId, this);
+    const key = await this.getKey(chainId)
+    return key.isNanoLedger
+      ? new CosmJSOfflineSignerOnlyAmino(chainId, this)
+      : new CosmJSOfflineSigner(chainId, this)
   }
 
   getOfflineSignerOnlyAmino(chainId: string): OfflineSigner {
-    return new CosmJSOfflineSignerOnlyAmino(chainId, this);
+    return new CosmJSOfflineSignerOnlyAmino(chainId, this)
   }
 
   getSecret20ViewingKey(
     _chainId: string,
     _contractAddress: string
   ): Promise<string> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   async sendTx(
@@ -417,13 +430,16 @@ export class KeplrWalletConnectV1 implements Keplr {
     tx: StdTx | Uint8Array,
     mode: BroadcastMode
   ): Promise<Uint8Array> {
-    const restInstance = Axios.create({
-      baseURL: this.chainInfos.find(
-        (chainInfo) => chainInfo.chainId === chainId
-      )!.rest,
-    });
+    const chainInfo = this.chainInfos.find(
+      (chainInfo) => chainInfo.chainId === chainId
+    )
+    if (!chainInfo) throw new Error("No chain info found.")
 
-    const isProtoTx = Buffer.isBuffer(tx) || tx instanceof Uint8Array;
+    const restInstance = Axios.create({
+      baseURL: chainInfo.rest,
+    })
+
+    const isProtoTx = Buffer.isBuffer(tx) || tx instanceof Uint8Array
 
     const params = isProtoTx
       ? {
@@ -431,33 +447,33 @@ export class KeplrWalletConnectV1 implements Keplr {
           mode: (() => {
             switch (mode) {
               case "async":
-                return "BROADCAST_MODE_ASYNC";
+                return "BROADCAST_MODE_ASYNC"
               case "block":
-                return "BROADCAST_MODE_BLOCK";
+                return "BROADCAST_MODE_BLOCK"
               case "sync":
-                return "BROADCAST_MODE_SYNC";
+                return "BROADCAST_MODE_SYNC"
               default:
-                return "BROADCAST_MODE_UNSPECIFIED";
+                return "BROADCAST_MODE_UNSPECIFIED"
             }
           })(),
         }
       : {
           tx,
           mode: mode,
-        };
+        }
 
     const result = await restInstance.post(
       isProtoTx ? "/cosmos/tx/v1beta1/txs" : "/txs",
       params
-    );
+    )
 
-    const txResponse = isProtoTx ? result.data["tx_response"] : result.data;
+    const txResponse = isProtoTx ? result.data["tx_response"] : result.data
 
     if (txResponse.code != null && txResponse.code !== 0) {
-      throw new Error(txResponse["raw_log"]);
+      throw new Error(txResponse["raw_log"])
     }
 
-    return Buffer.from(txResponse.txhash, "hex");
+    return Buffer.from(txResponse.txhash, "hex")
   }
 
   async signAmino(
@@ -478,21 +494,21 @@ export class KeplrWalletConnectV1 implements Keplr {
           deepmerge(this.defaultOptions.sign ?? {}, signOptions),
         ],
       })
-    )[0];
+    )[0]
   }
 
   signDirect(
     _chainId: string,
     _signer: string,
     _signDoc: {
-      bodyBytes?: Uint8Array | null;
-      authInfoBytes?: Uint8Array | null;
-      chainId?: string | null;
-      accountNumber?: Long | null;
+      bodyBytes?: Uint8Array | null
+      authInfoBytes?: Uint8Array | null
+      chainId?: string | null
+      accountNumber?: Long | null
     },
     _signOptions: KeplrSignOptions = {}
   ): Promise<DirectSignResponse> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 
   suggestToken(
@@ -500,6 +516,6 @@ export class KeplrWalletConnectV1 implements Keplr {
     _contractAddress: string,
     _viewingKey?: string
   ): Promise<void> {
-    throw new Error("Not yet implemented");
+    throw new Error("Not yet implemented")
   }
 }
