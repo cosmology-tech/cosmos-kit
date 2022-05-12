@@ -23,6 +23,7 @@ export interface WalletInfo {
   description: string
   logoImgUrl: string
   getWallet: (connector?: WalletConnect) => Promise<WalletClient | undefined>
+  isWalletConnect: boolean
 }
 
 export const WalletManagerContext = createContext<{
@@ -37,17 +38,24 @@ export enum Event {
   QrModalClose = "qr_modal_close",
 }
 
-export const WalletManagerProvider: FunctionComponent<{
+interface WalletManagerProviderProps {
   walletInfoList: WalletInfo[]
   children: ReactNode
   classNames?: ModalClassNames
   closeIcon?: ReactNode
-}> = ({ walletInfoList, children, classNames, closeIcon }) => {
+}
+
+export const WalletManagerProvider: FunctionComponent<
+  WalletManagerProviderProps
+> = ({ walletInfoList, children, classNames, closeIcon }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [wcQrUri, setWcQrUri] = useState<string>()
 
   const lastUsedWalletRef = useRef<WalletClient>()
-  const defaultConnectionTypeRef = useRef<string>()
+  const defaultConnectionTypeRef = useRef<string | undefined>(
+    // If only one wallet is available, use it as default.
+    walletInfoList.length === 1 ? walletInfoList[0].id : undefined
+  )
   const [connectionType, setConnectionType] = useState<string>()
   const eventListener = useMemo(() => new EventEmitter(), [])
 
@@ -86,11 +94,27 @@ export const WalletManagerProvider: FunctionComponent<{
     })
 
     const resolveWallet = async (walletInfo: WalletInfo) => {
+      // Attempt WalletConnect connection if needed.
+      if (walletInfo.isWalletConnect && !wcConnector.connected) {
+        wcConnector.createSession()
+
+        await new Promise<void>((resolve, reject) => {
+          wcConnector.on("connect", (error) => {
+            if (error) {
+              reject(error)
+            } else {
+              resolve()
+            }
+          })
+        })
+      }
+
       const wallet = await walletInfo.getWallet(wcConnector)
       lastUsedWalletRef.current = wallet
       setConnectionType(walletInfo.id)
-      eventListener.off(Event.ModalClose)
-      eventListener.off(Event.QrModalClose)
+
+      cleanUp()
+
       return wallet
     }
 
@@ -115,29 +139,12 @@ export const WalletManagerProvider: FunctionComponent<{
         callbackClosed?.()
       })
 
-      walletInfoList.forEach((walletInfo) => {
-        eventListener.on(walletInfo.id, async () => {
+      walletInfoList.forEach((walletInfo) =>
+        eventListener.on(walletInfo.id, () => {
           setIsModalOpen(false)
-
-          if (walletInfo.id.startsWith("walletconnect")) {
-            if (!wcConnector.connected) {
-              wcConnector.createSession()
-
-              wcConnector.on("connect", (error) => {
-                if (error) {
-                  reject(error)
-                } else {
-                  resolve(resolveWallet(walletInfo))
-                }
-              })
-            } else {
-              resolve(resolveWallet(walletInfo))
-            }
-          } else {
-            resolve(resolveWallet(walletInfo))
-          }
+          resolve(resolveWallet(walletInfo))
         })
-      })
+      )
     })
   }, [])
 
@@ -150,6 +157,10 @@ export const WalletManagerProvider: FunctionComponent<{
           setConnectionType(undefined)
         }, []),
         setDefaultConnectionType: useCallback((type: string | undefined) => {
+          // Can only set connection type to given wallet info ID.
+          if (!walletInfoList.some((walletInfo) => walletInfo.id === type))
+            return
+
           defaultConnectionTypeRef.current = type
         }, []),
         connectionType,
