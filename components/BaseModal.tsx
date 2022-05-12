@@ -82,6 +82,7 @@ const ModalContent = styled.div<{ maxWidth: string }>`
   width: 100%;
   max-width: ${(props) => props.maxWidth};
   outline: none;
+  cursor: auto;
 
   @media (max-width: 768px) {
     width: calc(100% - 40px);
@@ -101,6 +102,7 @@ const ModalOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: cetner;
+  cursor: pointer;
 `
 
 const ModalHeader = styled.div`
