@@ -1,4 +1,5 @@
 import WalletConnect from "@walletconnect/client"
+import { IClientMeta } from "@walletconnect/types"
 import EventEmitter from "eventemitter3"
 import React, {
   createContext,
@@ -32,11 +33,19 @@ interface WalletManagerProviderProps {
   classNames?: ModalClassNames
   closeIcon?: ReactNode
   defaultWalletId?: string | undefined
+  clientMeta?: IClientMeta
 }
 
 export const WalletManagerProvider: FunctionComponent<
   WalletManagerProviderProps
-> = ({ wallets, children, classNames, closeIcon, defaultWalletId }) => {
+> = ({
+  wallets,
+  children,
+  classNames,
+  closeIcon,
+  defaultWalletId,
+  clientMeta,
+}) => {
   const eventListener = useMemo(() => new EventEmitter(), [])
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -98,6 +107,7 @@ export const WalletManagerProvider: FunctionComponent<
                   // On connect or disconnect, clean everything up.
                   close: cleanUpAndClose,
                 },
+                clientMeta,
               })
 
               // Handle manual close of QR code modal. This is an alternative

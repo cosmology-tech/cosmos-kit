@@ -83,6 +83,7 @@ export class KeplrWalletConnectV1 implements Keplr {
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
   ) => Promise<void> | void
+  lastDeepLinked = 0
 
   constructor(
     public readonly connector: IConnector,
@@ -197,16 +198,26 @@ export class KeplrWalletConnectV1 implements Keplr {
   ): Promise<any> {
     // If mobile, attempt to open app to approve request.
     if (isMobile()) {
-      const deepLink = isAndroid()
-        ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
-        : "keplrwallet://wcV1"
-
       console.log(request)
+
       switch (request.method) {
         case "keplr_enable_wallet_connect_v1":
-        case "keplr_sign_amino_wallet_connect_v1":
-          window.location.href = deepLink
+        case "keplr_sign_amino_wallet_connect_v1": {
+          const now = Date.now()
+          // Only prompt to deep link at most once every 3 seconds in case
+          // there are multiple requests that need approval (like enable
+          // and getKey). No need to spam the user once they've already
+          // opened the app.
+          if (now - this.lastDeepLinked >= 3000) {
+            window.location.href = isAndroid()
+              ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
+              : "keplrwallet://wcV1"
+
+            this.lastDeepLinked = now
+          }
+
           break
+        }
       }
     }
 
