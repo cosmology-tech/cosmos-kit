@@ -204,11 +204,11 @@ export class KeplrWalletConnectV1 implements Keplr {
         case "keplr_enable_wallet_connect_v1":
         case "keplr_sign_amino_wallet_connect_v1": {
           const now = Date.now()
-          // Only prompt to deep link at most once every 3 seconds in case
+          // Only prompt to deep link at most once every 7 seconds in case
           // there are multiple requests that need approval (like enable
           // and getKey). No need to spam the user once they've already
           // opened the app.
-          if (now - this.lastDeepLinked >= 3000) {
+          if (now - this.lastDeepLinked >= 7000) {
             window.location.href = isAndroid()
               ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
               : "keplrwallet://wcV1"
