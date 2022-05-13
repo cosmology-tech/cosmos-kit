@@ -12,7 +12,12 @@ import React, {
 } from "react"
 
 import { KeplrWalletConnectV1 } from "../providers"
-import { ModalClassNames, SelectWalletModal, WalletConnectQRCodeModal } from "."
+import {
+  EnablingKeplrModal,
+  ModalClassNames,
+  SelectWalletModal,
+  WalletConnectModal,
+} from "."
 import { Wallet, WalletClient } from "./common"
 
 interface ConnectedWallet {
@@ -64,6 +69,7 @@ interface WalletManagerProviderProps {
   preselectedWalletId?: string | undefined
   clientMeta?: IClientMeta
   attemptAutoConnect?: boolean
+  renderEnablingKeplrModalContent?: () => ReactNode
 }
 
 export const WalletManagerProvider: FunctionComponent<
@@ -77,11 +83,12 @@ export const WalletManagerProvider: FunctionComponent<
   preselectedWalletId,
   clientMeta,
   attemptAutoConnect,
+  renderEnablingKeplrModalContent,
 }) => {
-  // Modal state.
   const [pickerModalOpen, setPickerModalOpen] = useState(false)
   // If set, opens QR code modal.
   const [walletConnectUri, setWalletConnectUri] = useState<string>()
+  const [keplrEnableModalOpen, setKeplrEnableModalOpen] = useState(false)
   // Call when closing QR code modal manually.
   const onQrCloseCallback = useRef<() => void>()
   useEffect(() => {
@@ -142,18 +149,35 @@ export const WalletManagerProvider: FunctionComponent<
       setPickerModalOpen(false)
 
       try {
-        const get = async (connector?: WalletConnect) => {
+        const get = async (
+          connector?: WalletConnect,
+          newWcSession?: boolean
+        ) => {
           const walletClient = await wallet.getClient(connector)
           if (walletClient) {
+            // SETUP ENABLE
+            setKeplrEnableModalOpen(true)
             // Prevent double app open request.
-            if (walletClient instanceof KeplrWalletConnectV1)
+            if (newWcSession && walletClient instanceof KeplrWalletConnectV1) {
               walletClient.dontOpenAppOnEnable = true
+            }
 
-            await enableKeplr(wallet, walletClient)
+            try {
+              // ENABLE
+              await enableKeplr(wallet, walletClient)
+            } finally {
+              // CLEANUP ENABLE
 
-            // Allow future enable requests to open the app.
-            if (walletClient instanceof KeplrWalletConnectV1)
-              walletClient.dontOpenAppOnEnable = false
+              // Allow future enable requests to open the app.
+              if (
+                newWcSession &&
+                walletClient instanceof KeplrWalletConnectV1
+              ) {
+                walletClient.dontOpenAppOnEnable = false
+              }
+
+              setKeplrEnableModalOpen(false)
+            }
 
             setConnectedWallet({ wallet, client: walletClient })
           }
@@ -193,7 +217,7 @@ export const WalletManagerProvider: FunctionComponent<
                 if (error) {
                   reject(error)
                 } else {
-                  resolve(get(wcConnector))
+                  resolve(get(wcConnector, true))
                 }
               })
             })
@@ -261,12 +285,19 @@ export const WalletManagerProvider: FunctionComponent<
         selectWallet={selectWallet}
         wallets={wallets}
       />
-      <WalletConnectQRCodeModal
+      <WalletConnectModal
         classNames={classNames}
         closeIcon={closeIcon}
         isOpen={!!walletConnectUri}
         onClose={() => setWalletConnectUri(undefined)}
         uri={walletConnectUri}
+      />
+      <EnablingKeplrModal
+        classNames={classNames}
+        closeIcon={closeIcon}
+        isOpen={keplrEnableModalOpen}
+        onClose={() => setKeplrEnableModalOpen(false)}
+        renderContent={renderEnablingKeplrModalContent}
       />
     </WalletManagerContext.Provider>
   )

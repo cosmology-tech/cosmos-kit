@@ -9,7 +9,7 @@ import { BaseModal, BaseModalProps, ModalSubheader } from "./BaseModal"
 
 const IOS_KEPLR_MOBILE_URL = "itms-apps://itunes.apple.com/app/1567851089"
 
-export const WalletConnectQRCodeModal: FunctionComponent<
+export const WalletConnectModal: FunctionComponent<
   BaseModalProps & {
     uri?: string
   }
