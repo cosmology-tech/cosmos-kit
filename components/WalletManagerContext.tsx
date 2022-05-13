@@ -147,11 +147,10 @@ export const WalletManagerProvider: FunctionComponent<
 
   const selectWallet = useCallback(
     async (wallet: Wallet) => {
-      await wallet.onSelect?.()
-
-      setPickerModalOpen(false)
-
       try {
+        setPickerModalOpen(false)
+        await wallet.onSelect?.()
+
         const get = async (
           connector?: WalletConnect,
           newWcSession?: boolean
