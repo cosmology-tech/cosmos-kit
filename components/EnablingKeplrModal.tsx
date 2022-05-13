@@ -27,7 +27,7 @@ export const EnablingKeplrModal: FunctionComponent<
     >
       {showHelp && (
         <p className={classNames?.textContent}>
-          If nothing is showing up in your mobile wallet,{" "}
+          If nothing is showing up in your wallet,{" "}
           <button
             onClick={reset}
             style={{ textDecoration: "underline", display: "inline" }}
