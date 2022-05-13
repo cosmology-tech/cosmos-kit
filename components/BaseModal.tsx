@@ -8,6 +8,7 @@ export interface ModalClassNames {
   modalContent?: string
   modalOverlay?: string
   modalHeader?: string
+  modalSubheader?: string
   modalCloseButton?: string
   walletList?: string
   wallet?: string
@@ -15,6 +16,7 @@ export interface ModalClassNames {
   walletInfo?: string
   walletName?: string
   walletDescription?: string
+  textContent?: string
 }
 
 export interface BaseModalProps {
@@ -111,6 +113,13 @@ const ModalHeader = styled.div`
   font-weight: bold;
   line-height: 1.75rem;
   margin-bottom: 1rem;
+`
+
+export const ModalSubheader = styled.div`
+  color: rgb(31, 41, 55);
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.25rem;
 `
 
 const ModalCloseButton = styled.div`

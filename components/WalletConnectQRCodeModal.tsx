@@ -3,18 +3,21 @@ import {
   isMobile as checkIsMobile,
 } from "@walletconnect/browser-utils"
 import QRCode from "qrcode.react"
-import React, { FunctionComponent, useEffect, useMemo } from "react"
+import React, { FunctionComponent, useEffect, useMemo, useState } from "react"
 
-import { BaseModal, BaseModalProps } from "./BaseModal"
+import { BaseModal, BaseModalProps, ModalSubheader } from "./BaseModal"
+
+const IOS_KEPLR_MOBILE_URL = "itms-apps://itunes.apple.com/app/1567851089"
 
 export const WalletConnectQRCodeModal: FunctionComponent<
   BaseModalProps & {
     uri?: string
   }
-> = ({ isOpen, uri, ...props }) => {
+> = ({ isOpen, uri, classNames, ...props }) => {
   const isMobile = useMemo(() => checkIsMobile(), [])
   const isAndroid = useMemo(() => checkIsAndroid(), [])
 
+  // Defined if isMobile is true.
   const navigateToAppURL = useMemo(
     () =>
       isMobile
@@ -32,9 +35,89 @@ export const WalletConnectQRCodeModal: FunctionComponent<
     }
   }, [navigateToAppURL, isOpen])
 
+  const [qrShowing, setQrShowing] = useState(!isMobile)
+
+  // Show mobile help if timeout is reached.
+  const [showMobileHelp, setShowMobileHelp] = useState(false)
+  useEffect(() => {
+    if (!isMobile || !isOpen) return
+
+    const timeout = setTimeout(() => setShowMobileHelp(true), 10000)
+    return () => clearTimeout(timeout)
+  }, [isOpen, isMobile, setShowMobileHelp])
+
   return (
-    <BaseModal isOpen={isOpen} maxWidth="24rem" title="Scan QR code" {...props}>
-      {!!uri && (
+    <BaseModal
+      classNames={classNames}
+      isOpen={isOpen}
+      maxWidth="24rem"
+      title={isMobile ? "Connect to Mobile Wallet" : "Scan QR Code"}
+      {...props}
+    >
+      {!!navigateToAppURL && (
+        <>
+          <p
+            className={classNames?.textContent}
+            style={{ marginBottom: showMobileHelp ? "1rem" : "1.5rem" }}
+          >
+            Open your mobile wallet and accept the connection request. If you
+            don&apos;t have Keplr Mobile installed, click the link below. You
+            can also scan the QR code from another device with Keplr Mobile
+            installed.
+          </p>
+
+          {showMobileHelp && (
+            <p
+              className={classNames?.textContent}
+              style={{ marginBottom: "1.5rem" }}
+            >
+              If nothing is showing up in your mobile wallet,{" "}
+              <button
+                onClick={() => window.location.reload()}
+                style={{ textDecoration: "underline", display: "inline" }}
+              >
+                refresh the page
+              </button>{" "}
+              and try to connect again.
+            </p>
+          )}
+
+          <a href={navigateToAppURL}>
+            <ModalSubheader
+              className={classNames?.modalSubheader}
+              style={{ marginBottom: "1rem", textDecoration: "underline" }}
+            >
+              Open Keplr Mobile
+            </ModalSubheader>
+          </a>
+
+          <a href={isAndroid ? navigateToAppURL : IOS_KEPLR_MOBILE_URL}>
+            <ModalSubheader
+              className={classNames?.modalSubheader}
+              style={{ marginBottom: "1rem", textDecoration: "underline" }}
+            >
+              Install Keplr Mobile
+            </ModalSubheader>
+          </a>
+
+          <button
+            onClick={() => setQrShowing((s) => !s)}
+            style={{ textAlign: "left" }}
+          >
+            <ModalSubheader
+              className={classNames?.modalSubheader}
+              style={{
+                marginBottom: qrShowing ? "1rem" : 0,
+                textDecoration: "underline",
+              }}
+            >
+              {qrShowing ? "Hide" : "Show"} QR Code
+            </ModalSubheader>
+          </button>
+        </>
+      )}
+
+      {!!uri && qrShowing && (
         <QRCode
           size={500}
           style={{ width: "100%", height: "100%" }}

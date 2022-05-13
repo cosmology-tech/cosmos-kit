@@ -83,7 +83,17 @@ export class KeplrWalletConnectV1 implements Keplr {
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
   ) => Promise<void> | void
-  lastDeepLinked = 0
+  // When creating a new WalletConnect session, the user will be taken to
+  // Keplr Mobile via a deep link. The session is established immediately
+  // with no further interaction, and the next step is to enable the chain.
+  // Enabling the chain will prompt the user to approve the chain, which
+  // occurs in the background once the mobile app is opened. Then it will
+  // tell them to go back to the browser, and on returning to the browser,
+  // they will see a second deep link prompt, a result of the enable
+  // request that occurred in the background previously. When establishing
+  // a new WalletConnect session, let's make sure we don't prompt the user
+  // to open the app twice.
+  dontOpenAppOnEnable = false
 
   constructor(
     public readonly connector: IConnector,
@@ -201,23 +211,16 @@ export class KeplrWalletConnectV1 implements Keplr {
       console.log(request)
 
       switch (request.method) {
-        case "keplr_enable_wallet_connect_v1":
-        case "keplr_sign_amino_wallet_connect_v1": {
-          const now = Date.now()
-          // Only prompt to deep link at most once every 7 seconds in case
-          // there are multiple requests that need approval (like enable
-          // and getKey). No need to spam the user once they've already
-          // opened the app.
-          if (now - this.lastDeepLinked >= 7000) {
-            window.location.href = isAndroid()
-              ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
-              : "keplrwallet://wcV1"
-
-            this.lastDeepLinked = now
-          }
-
-          break
+        case "keplr_enable_wallet_connect_v1": {
+          if (this.dontOpenAppOnEnable) break
+          // Fall through to open the app.
         }
+        // eslint-disable-next-line no-fallthrough
+        case "keplr_sign_amino_wallet_connect_v1":
+          // Prompt to open the app.
+          window.location.href = isAndroid()
+            ? "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;"
+            : "keplrwallet://wcV1"
       }
     }
 
