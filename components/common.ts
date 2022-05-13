@@ -12,4 +12,6 @@ export interface Wallet {
   logoImgUrl: string
   getClient: (connector?: WalletConnect) => Promise<WalletClient | undefined>
   isWalletConnect: boolean
+  // Called when selected before anything attempts connection.
+  onSelect?: () => Promise<void>
 }
