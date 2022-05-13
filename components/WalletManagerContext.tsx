@@ -129,6 +129,7 @@ export const WalletManagerProvider: FunctionComponent<
     if (walletConnect?.connected) {
       walletConnect.killSession()
     }
+    setWalletConnect(undefined)
     setConnectedWallet(undefined)
   }, [walletConnect, setConnectedWallet])
 
@@ -207,24 +208,24 @@ export const WalletManagerProvider: FunctionComponent<
           setWalletConnect(wcConnector)
 
           if (wcConnector.connected) {
-            return get(wcConnector)
+            return await get(wcConnector)
           } else {
             // Attempt [re]connection of WalletConnect.
             await wcConnector.createSession()
 
-            return new Promise((resolve, reject) => {
+            return await new Promise((resolve, reject) => {
               wcConnector.on("connect", (error) => {
                 if (error) {
                   reject(error)
                 } else {
-                  resolve(get(wcConnector, true))
+                  get(wcConnector, true).then(resolve).catch(reject)
                 }
               })
             })
           }
         } else {
           // No WalletConnect needed.
-          return get()
+          return await get()
         }
       } catch (err) {
         console.error(err)
@@ -234,7 +235,17 @@ export const WalletManagerProvider: FunctionComponent<
         setWalletConnectUri(undefined)
       }
     },
-    [clientMeta, enableKeplr]
+    [
+      setPickerModalOpen,
+      clientMeta,
+      enableKeplr,
+      setWalletConnectUri,
+      setKeplrEnableModalOpen,
+      setConnectedWallet,
+      setWalletConnect,
+      setConnectionError,
+      onQrCloseCallback,
+    ]
   )
 
   const connect = useCallback(() => {
@@ -298,6 +309,12 @@ export const WalletManagerProvider: FunctionComponent<
         isOpen={keplrEnableModalOpen}
         onClose={() => setKeplrEnableModalOpen(false)}
         renderContent={renderEnablingKeplrModalContent}
+        // Sometimes it thinks WalletConnect is still connected, but it
+        // isn't. Forcibly disconnect here on reset to clear it.
+        reset={() => {
+          disconnect()
+          window.location.reload()
+        }}
       />
     </WalletManagerContext.Provider>
   )

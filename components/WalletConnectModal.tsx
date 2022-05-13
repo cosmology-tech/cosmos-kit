@@ -30,9 +30,14 @@ export const WalletConnectModal: FunctionComponent<
 
   // Open app if mobile URL is available.
   useEffect(() => {
-    if (isOpen && navigateToAppURL) {
+    if (!isOpen || !navigateToAppURL) return
+
+    // Slight delay so they can read the modal.
+    const timeout = setTimeout(() => {
       window.location.href = navigateToAppURL
-    }
+    }, 2000)
+
+    return () => clearTimeout(timeout)
   }, [navigateToAppURL, isOpen])
 
   const [qrShowing, setQrShowing] = useState(!isMobile)
@@ -40,7 +45,10 @@ export const WalletConnectModal: FunctionComponent<
   // Show mobile help if timeout is reached.
   const [showMobileHelp, setShowMobileHelp] = useState(false)
   useEffect(() => {
-    if (!isMobile || !isOpen) return
+    if (!isMobile || !isOpen) {
+      setShowMobileHelp(false)
+      return
+    }
 
     const timeout = setTimeout(() => setShowMobileHelp(true), 10000)
     return () => clearTimeout(timeout)
