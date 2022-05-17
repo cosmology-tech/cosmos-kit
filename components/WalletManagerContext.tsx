@@ -303,13 +303,13 @@ export const WalletManagerProvider: FunctionComponent<
     }
   }, [cleanupAfterConnection, connectingWallet, disconnect, setResetting])
 
-  // Attempt auto-connect if set.
+  // Attempt auto-connect if set or if in mobile web.
   useEffect(() => {
     if (state !== State.NeedAutoConnect) return
     setState(State.Ready)
 
-    if (attemptAutoConnect) connect()
-  }, [attemptAutoConnect, state, connect])
+    if (attemptAutoConnect || isMobileWeb) connect()
+  }, [attemptAutoConnect, state, connect, isMobileWeb])
 
   return (
     <WalletManagerContext.Provider
