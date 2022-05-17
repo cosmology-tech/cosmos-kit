@@ -3,8 +3,8 @@ import React, { FunctionComponent, ReactNode, useEffect, useState } from "react"
 import { BaseModal, BaseModalProps } from "./BaseModal"
 
 export const EnablingKeplrModal: FunctionComponent<
-  BaseModalProps & { renderContent?: () => ReactNode; reset: () => void }
-> = ({ isOpen, classNames, renderContent, reset, ...props }) => {
+  BaseModalProps & { renderLoader?: () => ReactNode; reset: () => void }
+> = ({ isOpen, classNames, renderLoader, reset, ...props }) => {
   const [showHelp, setShowHelp] = useState(false)
   // Show help if timeout is reached.
   useEffect(() => {
@@ -34,11 +34,11 @@ export const EnablingKeplrModal: FunctionComponent<
           >
             click here to reset
           </button>{" "}
-          and try to connect again.
+          and try connecting again.
         </p>
       )}
 
-      {renderContent?.()}
+      {renderLoader && <div className="mt-4">{renderLoader()}</div>}
     </BaseModal>
   )
 }

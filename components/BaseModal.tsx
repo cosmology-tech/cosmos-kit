@@ -21,7 +21,7 @@ export interface ModalClassNames {
 
 export interface BaseModalProps {
   isOpen: boolean
-  onClose: () => void
+  onClose?: () => void
 
   title?: ReactElement | string
   maxWidth?: string
@@ -49,7 +49,7 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
     isOpen={isOpen}
     onRequestClose={(e) => {
       e.preventDefault()
-      onClose()
+      onClose?.()
     }}
     overlayClassName={classNames?.modalOverlay ?? "_"}
     overlayElement={(props, children) => (
@@ -62,12 +62,14 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
       title
     )}
 
-    <ModalCloseButton
-      className={classNames?.modalCloseButton}
-      onClick={onClose}
-    >
-      {closeIcon ?? <DefaultCloseIcon height={26} width={26} />}
-    </ModalCloseButton>
+    {onClose && (
+      <ModalCloseButton
+        className={classNames?.modalCloseButton}
+        onClick={onClose}
+      >
+        {closeIcon ?? <DefaultCloseIcon height={26} width={26} />}
+      </ModalCloseButton>
+    )}
     {children}
   </ReactModal>
 )

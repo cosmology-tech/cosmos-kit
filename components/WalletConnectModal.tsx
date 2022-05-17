@@ -12,8 +12,9 @@ const IOS_KEPLR_MOBILE_URL = "itms-apps://itunes.apple.com/app/1567851089"
 export const WalletConnectModal: FunctionComponent<
   BaseModalProps & {
     uri?: string
+    reset: () => void
   }
-> = ({ isOpen, uri, classNames, ...props }) => {
+> = ({ isOpen, uri, classNames, reset, ...props }) => {
   const isMobile = useMemo(() => checkIsMobile(), [])
   const isAndroid = useMemo(() => checkIsAndroid(), [])
 
@@ -50,7 +51,7 @@ export const WalletConnectModal: FunctionComponent<
       return
     }
 
-    const timeout = setTimeout(() => setShowMobileHelp(true), 10000)
+    const timeout = setTimeout(() => setShowMobileHelp(true), 5000)
     return () => clearTimeout(timeout)
   }, [isOpen, isMobile, setShowMobileHelp])
 
@@ -81,12 +82,12 @@ export const WalletConnectModal: FunctionComponent<
             >
               If nothing is showing up in your mobile wallet,{" "}
               <button
-                onClick={() => window.location.reload()}
+                onClick={reset}
                 style={{ textDecoration: "underline", display: "inline" }}
               >
-                refresh the page
+                click here to reset
               </button>{" "}
-              and try to connect again.
+              and try connecting again.
             </p>
           )}
 

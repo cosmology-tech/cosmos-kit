@@ -13,6 +13,7 @@ import React, {
 
 import { KeplrWalletConnectV1 } from "../providers"
 import {
+  BaseModal,
   EnablingKeplrModal,
   ModalClassNames,
   SelectWalletModal,
@@ -33,7 +34,7 @@ enum State {
 
 export const WalletManagerContext = createContext<{
   connect: () => void
-  disconnect: () => void | Promise<void>
+  disconnect: () => Promise<void>
   connectedWallet?: ConnectedWallet
   connectionError?: unknown
   isMobileWeb: boolean
@@ -69,7 +70,7 @@ interface WalletManagerProviderProps {
   preselectedWalletId?: string | undefined
   clientMeta?: IClientMeta
   attemptAutoConnect?: boolean
-  renderEnablingKeplrModalContent?: () => ReactNode
+  renderLoader?: () => ReactNode
 }
 
 export const WalletManagerProvider: FunctionComponent<
@@ -83,7 +84,7 @@ export const WalletManagerProvider: FunctionComponent<
   preselectedWalletId,
   clientMeta,
   attemptAutoConnect,
-  renderEnablingKeplrModalContent,
+  renderLoader,
 }) => {
   const [pickerModalOpen, setPickerModalOpen] = useState(false)
   // If set, opens QR code modal.
@@ -107,6 +108,10 @@ export const WalletManagerProvider: FunctionComponent<
   const [walletConnect, setWalletConnect] = useState<WalletConnect>()
   // Once mobile web is checked, we are ready to auto-connect.
   const [state, setState] = useState<State>(State.NeedMobileWeb)
+  // In case WalletConnect fails to load, we need to be able to retry.
+  // This is done through clicking reset on the WalletConnectModal.
+  const [connectingWallet, setConnectingWallet] = useState<Wallet>()
+  const connectionAttemptRef = useRef(0)
 
   // Detect if is inside Keplr mobile web, and set ready once checked.
   const [isMobileWeb, setIsMobileWeb] = useState(false)
@@ -120,20 +125,20 @@ export const WalletManagerProvider: FunctionComponent<
       .finally(() => setState(State.NeedAutoConnect))
   }, [state])
 
-  const hideAllModals = useCallback(() => {
+  const cleanupAfterConnection = useCallback((walletClient?: WalletClient) => {
+    // Close modals.
     setPickerModalOpen(false)
     setWalletConnectUri(undefined)
-  }, [setPickerModalOpen, setWalletConnectUri])
-
-  const disconnect = useCallback(() => {
-    if (walletConnect?.connected) {
-      walletConnect.killSession()
+    setKeplrEnableModalOpen(false)
+    // Allow future enable requests to open the app.
+    if (walletClient instanceof KeplrWalletConnectV1) {
+      walletClient.dontOpenAppOnEnable = false
     }
-    setWalletConnect(undefined)
-    setConnectedWallet(undefined)
-  }, [walletConnect, setConnectedWallet])
+    // No longer connecting a wallet.
+    setConnectingWallet(undefined)
+  }, [])
 
-  // Wallet connect event listeners.
+  // Wallet connect disconnect listeners.
   useEffect(() => {
     if (!walletConnect) return
 
@@ -141,111 +146,113 @@ export const WalletManagerProvider: FunctionComponent<
     walletConnect.on("disconnect", () => {
       console.log("WalletConnect disconnected.")
       setConnectedWallet(undefined)
-      hideAllModals()
+      cleanupAfterConnection()
+      setWalletConnect(undefined)
     })
-  }, [hideAllModals, walletConnect])
+  }, [cleanupAfterConnection, walletConnect])
+
+  const disconnect = useCallback(async () => {
+    setConnectedWallet(undefined)
+    if (walletConnect?.connected) {
+      await walletConnect.killSession()
+    }
+    setWalletConnect(undefined)
+  }, [walletConnect, setConnectedWallet])
+
+  const handleConnectionError = useCallback((error: unknown) => {
+    console.error(error)
+    setConnectionError(error)
+  }, [])
+
+  const enableAndSaveWallet = useCallback(
+    async (
+      wallet: Wallet,
+      walletConnect?: WalletConnect,
+      newWcSession?: boolean
+    ) => {
+      let walletClient
+      try {
+        walletClient = await wallet.getClient(walletConnect)
+        if (walletClient) {
+          setKeplrEnableModalOpen(true)
+          // Prevent double app open request.
+          if (walletClient instanceof KeplrWalletConnectV1) {
+            walletClient.dontOpenAppOnEnable = !!newWcSession
+          }
+
+          await enableKeplr(wallet, walletClient)
+          // If enable succeeds, save.
+          setConnectedWallet({ wallet, client: walletClient })
+        }
+      } catch (err) {
+        handleConnectionError(err)
+      } finally {
+        cleanupAfterConnection(walletClient)
+      }
+    },
+    [cleanupAfterConnection, enableKeplr, handleConnectionError]
+  )
 
   const selectWallet = useCallback(
     async (wallet: Wallet) => {
       try {
+        setConnectingWallet(wallet)
         setPickerModalOpen(false)
         await wallet.onSelect?.()
 
-        const get = async (
-          connector?: WalletConnect,
-          newWcSession?: boolean
-        ) => {
-          const walletClient = await wallet.getClient(connector)
-          if (walletClient) {
-            // SETUP ENABLE
-            setKeplrEnableModalOpen(true)
-            // Prevent double app open request.
-            if (newWcSession && walletClient instanceof KeplrWalletConnectV1) {
-              walletClient.dontOpenAppOnEnable = true
-            }
-
-            try {
-              // ENABLE
-              await enableKeplr(wallet, walletClient)
-            } finally {
-              // CLEANUP ENABLE
-
-              // Allow future enable requests to open the app.
-              if (
-                newWcSession &&
-                walletClient instanceof KeplrWalletConnectV1
-              ) {
-                walletClient.dontOpenAppOnEnable = false
-              }
-
-              setKeplrEnableModalOpen(false)
-            }
-
-            setConnectedWallet({ wallet, client: walletClient })
+        if (wallet.isWalletConnect) {
+          // Connect to WalletConnect.
+          let _walletConnect = walletConnect
+          if (!_walletConnect) {
+            _walletConnect = new WalletConnect({
+              bridge: "https://bridge.walletconnect.org",
+              signingMethods: [
+                "keplr_enable_wallet_connect_v1",
+                "keplr_sign_amino_wallet_connect_v1",
+              ],
+              qrcodeModal: {
+                open: (uri: string, cb: () => void) => {
+                  // Open QR modal by setting URI.
+                  setWalletConnectUri(uri)
+                  onQrCloseCallback.current = cb
+                },
+                // Occurs on disconnect, which is handled elsewhere.
+                close: () => console.log("qrcodeModal.close"),
+              },
+              clientMeta,
+            })
+            setWalletConnect(_walletConnect)
           }
 
-          return walletClient
-        }
-
-        // Connect to WalletConnect.
-        if (wallet.isWalletConnect) {
-          const wcConnector = new WalletConnect({
-            bridge: "https://bridge.walletconnect.org",
-            signingMethods: [
-              "keplr_enable_wallet_connect_v1",
-              "keplr_sign_amino_wallet_connect_v1",
-            ],
-            qrcodeModal: {
-              open: (uri: string, cb: () => void) => {
-                // Open QR modal by setting URI.
-                setWalletConnectUri(uri)
-                onQrCloseCallback.current = cb
-              },
-              // Occurs on disconnect, which is handled elsewhere.
-              close: () => console.log("qrcodeModal.close"),
-            },
-            clientMeta,
-          })
-          setWalletConnect(wcConnector)
-
-          if (wcConnector.connected) {
-            return await get(wcConnector)
+          if (_walletConnect.connected) {
+            await enableAndSaveWallet(wallet, _walletConnect)
           } else {
-            // Attempt [re]connection of WalletConnect.
-            await wcConnector.createSession()
+            // Executes walletConnect's qrcodeModal.open.
+            const currConnectionAttempt = ++connectionAttemptRef.current
+            await _walletConnect.connect()
 
-            return await new Promise((resolve, reject) => {
-              wcConnector.on("connect", (error) => {
-                if (error) {
-                  reject(error)
-                } else {
-                  get(wcConnector, true).then(resolve).catch(reject)
-                }
-              })
-            })
+            // If another connection attempt is being made, don't try to
+            // enable if connect finishes. This prevents double requests.
+            if (connectionAttemptRef.current === currConnectionAttempt) {
+              await enableAndSaveWallet(wallet, _walletConnect, true)
+            }
           }
         } else {
           // No WalletConnect needed.
-          return await get()
+          await enableAndSaveWallet(wallet)
         }
       } catch (err) {
-        console.error(err)
-        setConnectionError(err)
+        handleConnectionError(err)
       } finally {
-        // Hide WC modal.
-        setWalletConnectUri(undefined)
+        cleanupAfterConnection()
       }
     },
     [
-      setPickerModalOpen,
       clientMeta,
-      enableKeplr,
-      setWalletConnectUri,
-      setKeplrEnableModalOpen,
-      setConnectedWallet,
-      setWalletConnect,
-      setConnectionError,
-      onQrCloseCallback,
+      enableAndSaveWallet,
+      handleConnectionError,
+      cleanupAfterConnection,
+      walletConnect,
     ]
   )
 
@@ -268,6 +275,33 @@ export const WalletManagerProvider: FunctionComponent<
     // If no default wallet, open modal to choose one.
     setPickerModalOpen(true)
   }, [preselectedWalletId, isMobileWeb, wallets, selectWallet])
+
+  // Reset connection when it gets stuck somewhere.
+  const [resetting, setResetting] = useState(false)
+  const [selectWalletUponReset, setSelectWalletUponReset] = useState<Wallet>()
+  // Reset once no longer connecting to a wallet but we have set a
+  // wallet to select.
+  useEffect(() => {
+    if (resetting && !connectingWallet && selectWalletUponReset) {
+      setResetting(false)
+      setSelectWalletUponReset(undefined)
+      setConnectionError(undefined)
+      selectWallet(selectWalletUponReset)
+    }
+  }, [connectingWallet, resetting, selectWallet, selectWalletUponReset])
+  // Initiate reset.
+  const reset = useCallback(async () => {
+    setResetting(true)
+    await disconnect().catch(console.error)
+    // Try resetting all wallet state and reconnecting.
+    if (connectingWallet) {
+      setSelectWalletUponReset(connectingWallet)
+      cleanupAfterConnection()
+    } else {
+      // If no wallet to reconnect to, just reload.
+      window.location.reload()
+    }
+  }, [cleanupAfterConnection, connectingWallet, disconnect, setResetting])
 
   // Attempt auto-connect if set.
   useEffect(() => {
@@ -292,7 +326,7 @@ export const WalletManagerProvider: FunctionComponent<
       <SelectWalletModal
         classNames={classNames}
         closeIcon={closeIcon}
-        isOpen={pickerModalOpen}
+        isOpen={!resetting && pickerModalOpen}
         onClose={() => setPickerModalOpen(false)}
         selectWallet={selectWallet}
         wallets={wallets}
@@ -300,23 +334,27 @@ export const WalletManagerProvider: FunctionComponent<
       <WalletConnectModal
         classNames={classNames}
         closeIcon={closeIcon}
-        isOpen={!!walletConnectUri}
-        onClose={() => setWalletConnectUri(undefined)}
+        isOpen={!resetting && !!walletConnectUri}
+        onClose={() => disconnect().finally(cleanupAfterConnection)}
+        reset={reset}
         uri={walletConnectUri}
       />
       <EnablingKeplrModal
         classNames={classNames}
         closeIcon={closeIcon}
-        isOpen={keplrEnableModalOpen}
+        isOpen={!resetting && keplrEnableModalOpen}
         onClose={() => setKeplrEnableModalOpen(false)}
-        renderContent={renderEnablingKeplrModalContent}
-        // Sometimes it thinks WalletConnect is still connected, but it
-        // isn't. Forcibly disconnect here on reset to clear it.
-        reset={() => {
-          disconnect()
-          window.location.reload()
-        }}
+        renderLoader={renderLoader}
+        reset={reset}
       />
+      <BaseModal
+        classNames={classNames}
+        isOpen={resetting}
+        maxWidth="24rem"
+        title="Resetting..."
+      >
+        {renderLoader?.()}
+      </BaseModal>
     </WalletManagerContext.Provider>
   )
 }
