@@ -67,7 +67,7 @@ export const WalletConnectModal: FunctionComponent<
         <>
           <p
             className={classNames?.textContent}
-            style={{ marginBottom: showMobileHelp ? "1rem" : "1.5rem" }}
+            style={{ marginBottom: "1rem" }}
           >
             <a href={navigateToAppURL} style={{ textDecoration: "underline" }}>
               Open your mobile wallet
