@@ -219,8 +219,13 @@ export const WalletManagerProvider: FunctionComponent<
                 // Occurs on disconnect, which is handled elsewhere.
                 close: () => console.log("qrcodeModal.close"),
               },
-              clientMeta,
+              // clientMeta,
             })
+            // clientMeta in constructor is ignored for some reason, so
+            // let's set it directly :)))))))))))))
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            _walletConnect._clientMeta = clientMeta
             setWalletConnect(_walletConnect)
           }
 
