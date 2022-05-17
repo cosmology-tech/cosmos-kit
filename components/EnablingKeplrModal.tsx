@@ -27,14 +27,14 @@ export const EnablingKeplrModal: FunctionComponent<
     >
       {showHelp && (
         <p className={classNames?.textContent}>
-          If nothing is showing up in your wallet,{" "}
+          If nothing shows up in your wallet,{" "}
           <button
             onClick={reset}
             style={{ textDecoration: "underline", display: "inline" }}
           >
             click here to reset
           </button>{" "}
-          and try connecting again.
+          and try connecting again. Refresh the page if the problem persists.
         </p>
       )}
 

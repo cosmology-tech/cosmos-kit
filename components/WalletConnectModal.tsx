@@ -69,10 +69,25 @@ export const WalletConnectModal: FunctionComponent<
             className={classNames?.textContent}
             style={{ marginBottom: showMobileHelp ? "1rem" : "1.5rem" }}
           >
-            Open your mobile wallet and accept the connection request. If you
-            don&apos;t have Keplr Mobile installed, click the link below. You
-            can also scan the QR code from another device with Keplr Mobile
-            installed.
+            <a href={navigateToAppURL} style={{ textDecoration: "underline" }}>
+              Open your mobile wallet
+            </a>{" "}
+            and accept the connection request.
+          </p>
+
+          <p
+            className={classNames?.textContent}
+            style={{ marginBottom: showMobileHelp ? "1rem" : "1.5rem" }}
+          >
+            If you don&apos;t have Keplr Mobile installed,{" "}
+            <a
+              href={isAndroid ? navigateToAppURL : IOS_KEPLR_MOBILE_URL}
+              style={{ textDecoration: "underline" }}
+            >
+              click here to install it
+            </a>
+            . You can also scan the QR code at the bottom from another device
+            with Keplr Mobile installed.
           </p>
 
           {showMobileHelp && (
@@ -80,34 +95,18 @@ export const WalletConnectModal: FunctionComponent<
               className={classNames?.textContent}
               style={{ marginBottom: "1.5rem" }}
             >
-              If nothing is showing up in your mobile wallet,{" "}
+              If nothing shows up in your mobile wallet, or nothing happened
+              once you accepted,{" "}
               <button
                 onClick={reset}
                 style={{ textDecoration: "underline", display: "inline" }}
               >
                 click here to reset
               </button>{" "}
-              and try connecting again.
+              and try connecting again. Refresh the page if the problem
+              persists.
             </p>
           )}
-
-          <a href={navigateToAppURL}>
-            <ModalSubheader
-              className={classNames?.modalSubheader}
-              style={{ marginBottom: "1rem", textDecoration: "underline" }}
-            >
-              Open Keplr Mobile
-            </ModalSubheader>
-          </a>
-
-          <a href={isAndroid ? navigateToAppURL : IOS_KEPLR_MOBILE_URL}>
-            <ModalSubheader
-              className={classNames?.modalSubheader}
-              style={{ marginBottom: "1rem", textDecoration: "underline" }}
-            >
-              Install Keplr Mobile
-            </ModalSubheader>
-          </a>
 
           <button
             onClick={() => setQrShowing((s) => !s)}
