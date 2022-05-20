@@ -12,7 +12,7 @@ export interface ModalClassNames {
   modalCloseButton?: string
   walletList?: string
   wallet?: string
-  walletIconImg?: string
+  walletImage?: string
   walletInfo?: string
   walletName?: string
   walletDescription?: string

@@ -2,7 +2,7 @@ import React, { FunctionComponent, ReactNode, useEffect, useState } from "react"
 
 import { BaseModal, BaseModalProps } from "./BaseModal"
 
-export const EnablingKeplrModal: FunctionComponent<
+export const EnablingWalletModal: FunctionComponent<
   BaseModalProps & { renderLoader?: () => ReactNode; reset: () => void }
 > = ({ isOpen, classNames, renderLoader, reset, ...props }) => {
   const [showHelp, setShowHelp] = useState(false)
@@ -22,7 +22,7 @@ export const EnablingKeplrModal: FunctionComponent<
       classNames={classNames}
       isOpen={isOpen}
       maxWidth="24rem"
-      title="Enabling Keplr..."
+      title="Enabling Wallet..."
       {...props}
     >
       {showHelp && (

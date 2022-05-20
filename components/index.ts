@@ -1,6 +1,6 @@
 export * from "./BaseModal"
 export * from "./common"
-export * from "./EnablingKeplrModal"
+export * from "./EnablingWalletModal"
 export * from "./SelectWalletModal"
 export * from "./WalletConnectModal"
 export * from "./WalletManagerContext"

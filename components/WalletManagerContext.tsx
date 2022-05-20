@@ -14,7 +14,7 @@ import React, {
 import { KeplrWalletConnectV1 } from "../providers"
 import {
   BaseModal,
-  EnablingKeplrModal,
+  EnablingWalletModal,
   ModalClassNames,
   SelectWalletModal,
   WalletConnectModal,
@@ -32,13 +32,21 @@ enum State {
   Ready,
 }
 
-export const WalletManagerContext = createContext<{
+interface WalletManagerContextInfo {
+  // Function to begin the connection process. This will either display the wallet picker modal or immediately attempt to connect to a wallet when `preselectedWalletId` is set.
   connect: () => void
+  // Function that disconnects from the connected wallet.
   disconnect: () => Promise<void>
+  // Connected wallet information and client.
   connectedWallet?: ConnectedWallet
+  // Error encountered during the connection process. Can be anything since the `enableWallet` function can throw anything.
   connectionError?: unknown
+  // If this app is running inside the Keplr Mobile web interface.
   isMobileWeb: boolean
-} | null>(null)
+}
+
+export const WalletManagerContext =
+  createContext<WalletManagerContextInfo | null>(null)
 
 export enum Event {
   WalletSelected = "wallet_selected",
@@ -52,24 +60,30 @@ const MobileWebWallet: Wallet = {
   id: "mobile-web",
   name: "",
   description: "",
-  logoImgUrl: "",
+  imageUrl: "",
   getClient: getKeplrFromWindow,
   isWalletConnect: false,
 }
 
 interface WalletManagerProviderProps {
+  // Wallets available for connection.
   wallets: Wallet[]
-  enableKeplr: (
+  // Function that enables the wallet once one is selected.
+  enableWallet: (
     wallet: Wallet,
     walletClient: WalletClient
   ) => Promise<void> | void
-  children: ReactNode
+  // Class names applied to various components for custom theming.
   classNames?: ModalClassNames
+  // Custom close icon.
   closeIcon?: ReactNode
-  // Will skip the modal and connect to the wallet directly.
+  // When set, the connect function will skip the selection modal and attempt to connect to this wallet immediately.
   preselectedWalletId?: string | undefined
-  clientMeta?: IClientMeta
+  // Descriptive info about the React app which gets displayed when enabling a WalletConnect wallet (e.g. name, image, etc.).
+  walletConnectClientMeta?: IClientMeta
+  // If set to true on initial mount, the connect function will be called as soon as possible. If `preselectedWalletId` is also set and a wallet has previously connected and enabled, this can be used to seamlessly reconnect a past session.
   attemptAutoConnect?: boolean
+  // A custom loader to display in a few modals, such as when enabling the wallet.
   renderLoader?: () => ReactNode
 }
 
@@ -77,19 +91,19 @@ export const WalletManagerProvider: FunctionComponent<
   WalletManagerProviderProps
 > = ({
   wallets,
-  enableKeplr,
+  enableWallet,
   children,
   classNames,
   closeIcon,
   preselectedWalletId,
-  clientMeta,
+  walletConnectClientMeta,
   attemptAutoConnect,
   renderLoader,
 }) => {
   const [pickerModalOpen, setPickerModalOpen] = useState(false)
   // If set, opens QR code modal.
   const [walletConnectUri, setWalletConnectUri] = useState<string>()
-  const [keplrEnableModalOpen, setKeplrEnableModalOpen] = useState(false)
+  const [walletEnableModalOpen, setWalletEnableModalOpen] = useState(false)
   // Call when closing QR code modal manually.
   const onQrCloseCallback = useRef<() => void>()
   useEffect(() => {
@@ -129,7 +143,7 @@ export const WalletManagerProvider: FunctionComponent<
     // Close modals.
     setPickerModalOpen(false)
     setWalletConnectUri(undefined)
-    setKeplrEnableModalOpen(false)
+    setWalletEnableModalOpen(false)
     // Allow future enable requests to open the app.
     if (walletClient instanceof KeplrWalletConnectV1) {
       walletClient.dontOpenAppOnEnable = false
@@ -174,13 +188,13 @@ export const WalletManagerProvider: FunctionComponent<
       try {
         walletClient = await wallet.getClient(walletConnect)
         if (walletClient) {
-          setKeplrEnableModalOpen(true)
+          setWalletEnableModalOpen(true)
           // Prevent double app open request.
           if (walletClient instanceof KeplrWalletConnectV1) {
             walletClient.dontOpenAppOnEnable = !!newWcSession
           }
 
-          await enableKeplr(wallet, walletClient)
+          await enableWallet(wallet, walletClient)
           // If enable succeeds, save.
           setConnectedWallet({ wallet, client: walletClient })
         }
@@ -190,7 +204,7 @@ export const WalletManagerProvider: FunctionComponent<
         cleanupAfterConnection(walletClient)
       }
     },
-    [cleanupAfterConnection, enableKeplr, handleConnectionError]
+    [cleanupAfterConnection, enableWallet, handleConnectionError]
   )
 
   const selectWallet = useCallback(
@@ -225,7 +239,7 @@ export const WalletManagerProvider: FunctionComponent<
             // let's set it directly :)))))))))))))
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            _walletConnect._clientMeta = clientMeta
+            _walletConnect._clientMeta = walletConnectClientMeta
             setWalletConnect(_walletConnect)
           }
 
@@ -253,7 +267,7 @@ export const WalletManagerProvider: FunctionComponent<
       }
     },
     [
-      clientMeta,
+      walletConnectClientMeta,
       enableAndSaveWallet,
       handleConnectionError,
       cleanupAfterConnection,
@@ -344,11 +358,11 @@ export const WalletManagerProvider: FunctionComponent<
         reset={reset}
         uri={walletConnectUri}
       />
-      <EnablingKeplrModal
+      <EnablingWalletModal
         classNames={classNames}
         closeIcon={closeIcon}
-        isOpen={!resetting && keplrEnableModalOpen}
-        onClose={() => setKeplrEnableModalOpen(false)}
+        isOpen={!resetting && walletEnableModalOpen}
+        onClose={() => setWalletEnableModalOpen(false)}
         renderLoader={renderLoader}
         reset={reset}
       />

@@ -23,8 +23,8 @@ export const SelectWalletModal: FunctionComponent<
         >
           <WalletIconImg
             alt="keplr logo"
-            className={classNames?.walletIconImg}
-            src={wallet.logoImgUrl}
+            className={classNames?.walletImage}
+            src={wallet.imageUrl}
           />
           <WalletInfo className={classNames?.walletInfo}>
             <WalletName className={classNames?.walletName}>
