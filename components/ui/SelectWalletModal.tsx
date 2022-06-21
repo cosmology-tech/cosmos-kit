@@ -1,15 +1,20 @@
 import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 
+import { Wallet } from "../../types"
 import { BaseModal, BaseModalProps } from "./BaseModal"
-import { Wallet } from "./common"
 
-export const SelectWalletModal: FunctionComponent<
-  BaseModalProps & {
-    wallets: Wallet[]
-    selectWallet: (wallet: Wallet) => void
-  }
-> = ({ wallets, selectWallet, classNames, ...props }) => (
+export interface SelectWalletModalProps extends BaseModalProps {
+  wallets: Wallet[]
+  selectWallet: (wallet: Wallet) => void
+}
+
+export const SelectWalletModal: FunctionComponent<SelectWalletModalProps> = ({
+  wallets,
+  selectWallet,
+  classNames,
+  ...props
+}) => (
   <BaseModal classNames={classNames} title="Select a wallet" {...props}>
     <WalletList className={classNames?.walletList}>
       {wallets.map((wallet) => (

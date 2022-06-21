@@ -9,12 +9,18 @@ import { BaseModal, BaseModalProps, ModalSubheader } from "./BaseModal"
 
 const IOS_KEPLR_MOBILE_URL = "itms-apps://itunes.apple.com/app/1567851089"
 
-export const WalletConnectModal: FunctionComponent<
-  BaseModalProps & {
-    uri?: string
-    reset: () => void
-  }
-> = ({ isOpen, uri, classNames, reset, ...props }) => {
+export interface WalletConnectModalProps extends BaseModalProps {
+  uri?: string
+  reset: () => void
+}
+
+export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
+  isOpen,
+  uri,
+  classNames,
+  reset,
+  ...props
+}) => {
   const isMobile = useMemo(() => checkIsMobile(), [])
   const isAndroid = useMemo(() => checkIsAndroid(), [])
 

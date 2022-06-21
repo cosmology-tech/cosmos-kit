@@ -1,7 +1,7 @@
 import { Keplr } from "@keplr-wallet/types"
 import WalletConnect from "@walletconnect/client"
 
-import { KeplrWalletConnectV1 } from "../providers"
+import { KeplrWalletConnectV1 } from "./connectors"
 
 export type WalletClient = Keplr | KeplrWalletConnectV1
 
@@ -22,4 +22,24 @@ export interface Wallet {
   ) => Promise<WalletClient | undefined>
   // A function whose response is awaited right after the wallet is picked. If this throws an error, the selection process is interrupted, `connectionError` is set to the thrown error, and all modals are closed.
   onSelect?: () => Promise<void>
+}
+
+export interface ConnectedWallet {
+  wallet: Wallet
+  client: WalletClient
+}
+
+export interface ModalClassNames {
+  modalContent?: string
+  modalOverlay?: string
+  modalHeader?: string
+  modalSubheader?: string
+  modalCloseButton?: string
+  walletList?: string
+  wallet?: string
+  walletImage?: string
+  walletInfo?: string
+  walletName?: string
+  walletDescription?: string
+  textContent?: string
 }

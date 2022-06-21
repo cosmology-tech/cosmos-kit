@@ -18,4 +18,5 @@ if (
 }
 
 export * from "./components"
-export * from "./providers"
+export * from "./connectors"
+export * from "./types"

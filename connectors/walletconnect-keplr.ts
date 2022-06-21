@@ -51,7 +51,7 @@ function parseChainId(chainId: string): {
   }
 }
 
-export type KeplrGetKeyWalletCoonectV1Response = {
+export type KeplrGetKeyWalletConnectV1Response = {
   address: string
   algo: string
   bech32Address: string
@@ -151,7 +151,7 @@ export class KeplrWalletConnectV1 implements Keplr {
 
       const mayChangedKeyMap: Record<
         string,
-        KeplrGetKeyWalletCoonectV1Response
+        KeplrGetKeyWalletConnectV1Response
       > = {}
       for (const mayChangedKey of param.keys) {
         mayChangedKeyMap[mayChangedKey.chainIdentifier] = {
@@ -339,7 +339,7 @@ export class KeplrWalletConnectV1 implements Keplr {
         method: "keplr_get_key_wallet_connect_v1",
         params: [chainId],
       })
-    )[0] as KeplrGetKeyWalletCoonectV1Response
+    )[0] as KeplrGetKeyWalletConnectV1Response
 
     await this.saveLastSeenKey(chainId, response)
 
@@ -359,26 +359,26 @@ export class KeplrWalletConnectV1 implements Keplr {
 
   protected async getLastSeenKey(
     chainId: string
-  ): Promise<KeplrGetKeyWalletCoonectV1Response | undefined> {
+  ): Promise<KeplrGetKeyWalletConnectV1Response | undefined> {
     const saved = await this.getAllLastSeenKey()
     return saved ? saved[chainId] : undefined
   }
 
   protected async getAllLastSeenKey() {
     return await this.kvStore.get<{
-      [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined
+      [chainId: string]: KeplrGetKeyWalletConnectV1Response | undefined
     }>(this.getKeyLastSeenKey())
   }
 
   protected async saveAllLastSeenKey(data: {
-    [chainId: string]: KeplrGetKeyWalletCoonectV1Response | undefined
+    [chainId: string]: KeplrGetKeyWalletConnectV1Response | undefined
   }) {
     await this.kvStore.set(this.getKeyLastSeenKey(), data)
   }
 
   protected async saveLastSeenKey(
     chainId: string,
-    response: KeplrGetKeyWalletCoonectV1Response
+    response: KeplrGetKeyWalletConnectV1Response
   ) {
     const saved = (await this.getAllLastSeenKey()) ?? {}
     saved[chainId] = response

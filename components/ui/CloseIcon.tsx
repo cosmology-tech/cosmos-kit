@@ -1,6 +1,8 @@
-import React, { SVGProps } from "react"
+import React, { FunctionComponent, SVGProps } from "react"
 
-export const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
+export const CloseIcon: FunctionComponent<SVGProps<SVGSVGElement>> = (
+  props
+) => (
   <svg
     fill="none"
     height={props.width || 16}

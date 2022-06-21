@@ -2,22 +2,8 @@ import React, { FunctionComponent, ReactElement, ReactNode } from "react"
 import ReactModal from "react-modal"
 import styled from "styled-components"
 
+import { ModalClassNames } from "../../types"
 import { CloseIcon as DefaultCloseIcon } from "./CloseIcon"
-
-export interface ModalClassNames {
-  modalContent?: string
-  modalOverlay?: string
-  modalHeader?: string
-  modalSubheader?: string
-  modalCloseButton?: string
-  walletList?: string
-  wallet?: string
-  walletImage?: string
-  walletInfo?: string
-  walletName?: string
-  walletDescription?: string
-  textContent?: string
-}
 
 export interface BaseModalProps {
   isOpen: boolean
