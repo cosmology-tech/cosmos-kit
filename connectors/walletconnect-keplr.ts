@@ -14,7 +14,6 @@ import {
 } from "@keplr-wallet/provider"
 import {
   ChainInfo,
-  Keplr,
   KeplrIntereactionOptions,
   KeplrMode,
   KeplrSignOptions,
@@ -31,6 +30,8 @@ import Axios from "axios"
 import { Buffer } from "buffer"
 import deepmerge from "deepmerge"
 import { SecretUtils } from "secretjs/types/enigmautils"
+
+import { IKeplrWalletConnectV1 } from "../types"
 
 // VersionFormatRegExp checks if a chainID is in the format required for parsing versions
 // The chainID should be in the form: `{identifier}-{version}`
@@ -72,7 +73,7 @@ export type KeplrKeystoreMayChangedEventParam = {
   }[]
 }
 
-export class KeplrWalletConnectV1 implements Keplr {
+export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
   kvStore: KVStore
   onBeforeSendRequest?: (
     request: Partial<IJsonRpcRequest>,

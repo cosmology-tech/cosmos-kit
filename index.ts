@@ -20,3 +20,4 @@ if (
 export * from "./components"
 export * from "./connectors"
 export * from "./types"
+export * from "./utils"

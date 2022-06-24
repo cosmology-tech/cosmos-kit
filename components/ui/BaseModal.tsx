@@ -1,11 +1,16 @@
-import React, { FunctionComponent, ReactElement, ReactNode } from "react"
+import React, {
+  FunctionComponent,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+} from "react"
 import ReactModal from "react-modal"
 import styled from "styled-components"
 
 import { ModalClassNames } from "../../types"
 import { CloseIcon as DefaultCloseIcon } from "./CloseIcon"
 
-export interface BaseModalProps {
+export type BaseModalProps = PropsWithChildren<{
   isOpen: boolean
   onClose?: () => void
 
@@ -14,7 +19,7 @@ export interface BaseModalProps {
 
   classNames?: ModalClassNames
   closeIcon?: ReactNode
-}
+}>
 
 export const BaseModal: FunctionComponent<BaseModalProps> = ({
   isOpen,

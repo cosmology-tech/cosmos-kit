@@ -18,8 +18,8 @@ export const SelectWalletModal: FunctionComponent<SelectWalletModalProps> = ({
   <BaseModal classNames={classNames} title="Select a wallet" {...props}>
     <WalletList className={classNames?.walletList}>
       {wallets.map((wallet) => (
-        <Wallet
-          key={wallet.id}
+        <WalletRow
+          key={wallet.type}
           className={classNames?.wallet}
           onClick={(e) => {
             e.preventDefault()
@@ -39,7 +39,7 @@ export const SelectWalletModal: FunctionComponent<SelectWalletModalProps> = ({
               {wallet.description}
             </WalletDescription>
           </WalletInfo>
-        </Wallet>
+        </WalletRow>
       ))}
     </WalletList>
   </BaseModal>
@@ -51,7 +51,7 @@ const WalletList = styled.div`
   gap: 1rem;
 `
 
-const Wallet = styled.div`
+const WalletRow = styled.div`
   border-radius: 1rem;
   padding: 1.25rem;
   display: flex;
