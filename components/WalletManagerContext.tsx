@@ -88,10 +88,11 @@ export const useWallet = (
   ])
 
   const status = chainId ? chainIdStatus : managerStatus
+  const connected = status === WalletConnectionStatus.Connected
   const error = chainId ? chainIdError : managerError
   const connectedWallet = chainId
     ? chainIdConnectedWallet
     : managerConnectedWallet
 
-  return { status, error, ...connectedWallet }
+  return { status, connected, error, ...connectedWallet }
 }

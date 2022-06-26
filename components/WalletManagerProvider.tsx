@@ -471,6 +471,7 @@ export const WalletManagerProvider: FunctionComponent<
         disconnect,
         connectedWallet,
         status,
+        connected: status === WalletConnectionStatus.Connected,
         error,
         isEmbeddedKeplrMobileWeb,
         chainInfoOverrides,

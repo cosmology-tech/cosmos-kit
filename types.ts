@@ -81,6 +81,8 @@ export interface IWalletManagerContext {
   connectedWallet?: ConnectedWallet
   // Status of cosmodal.
   status: WalletConnectionStatus
+  // If status is WalletConnectionStatus.Connected.
+  connected: boolean
   // Error encountered during the connection process.
   error?: unknown
   // If this app is running inside the Keplr Mobile web interface.
@@ -127,4 +129,4 @@ export enum WalletConnectionStatus {
 }
 
 export type UseWalletResponse = Partial<ConnectedWallet> &
-  Pick<IWalletManagerContext, "status" | "error">
+  Pick<IWalletManagerContext, "status" | "connected" | "error">
