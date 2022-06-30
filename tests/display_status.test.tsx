@@ -7,8 +7,7 @@ import {
   useWalletManager,
   WalletManagerProvider,
 } from "../components"
-import { WalletConnectionStatus, WalletType } from "../types"
-import { ChainInfoID } from "../utils"
+import { ChainInfoID, WalletConnectionStatus, WalletType } from "../types"
 
 const DisplayStatus = () => {
   const { status } = useWalletManager()

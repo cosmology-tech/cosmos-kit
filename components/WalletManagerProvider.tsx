@@ -1,6 +1,5 @@
 import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
 import { SigningStargateClientOptions } from "@cosmjs/stargate"
-import { getKeplrFromWindow } from "@keplr-wallet/stores"
 import WalletConnect from "@walletconnect/client"
 import { IClientMeta } from "@walletconnect/types"
 import React, {
@@ -220,7 +219,9 @@ export const WalletManagerProvider: FunctionComponent<
         if (wallet.type === WalletType.WalletConnectKeplr) {
           // Instantiate new WalletConnect instance if necessary.
           if (!_walletConnect) {
-            _walletConnect = new WalletConnect({
+            _walletConnect = new (
+              await import("@walletconnect/client")
+            ).default({
               bridge: "https://bridge.walletconnect.org",
               signingMethods: [
                 "keplr_enable_wallet_connect_v1",
@@ -367,7 +368,8 @@ export const WalletManagerProvider: FunctionComponent<
       return
     }
 
-    getKeplrFromWindow()
+    import("@keplr-wallet/stores")
+      .then(({ getKeplrFromWindow }) => getKeplrFromWindow())
       .then(
         (keplr) =>
           keplr &&
@@ -464,59 +466,77 @@ export const WalletManagerProvider: FunctionComponent<
     }
   }, [onKeplrKeystoreChangeEvent, connectedWallet, status, _connectToWallet])
 
+  // Memoize context data.
+  const value = useMemo(
+    () => ({
+      connect: beginConnection,
+      disconnect,
+      connectedWallet,
+      status,
+      connected: status === WalletConnectionStatus.Connected,
+      error,
+      isEmbeddedKeplrMobileWeb,
+      chainInfoOverrides,
+      getSigningCosmWasmClientOptions,
+      getSigningStargateClientOptions,
+    }),
+    [
+      beginConnection,
+      chainInfoOverrides,
+      connectedWallet,
+      disconnect,
+      error,
+      getSigningCosmWasmClientOptions,
+      getSigningStargateClientOptions,
+      isEmbeddedKeplrMobileWeb,
+      status,
+    ]
+  )
+
   return (
-    <WalletManagerContext.Provider
-      value={{
-        connect: beginConnection,
-        disconnect,
-        connectedWallet,
-        status,
-        connected: status === WalletConnectionStatus.Connected,
-        error,
-        isEmbeddedKeplrMobileWeb,
-        chainInfoOverrides,
-        getSigningCosmWasmClientOptions,
-        getSigningStargateClientOptions,
-      }}
-    >
+    <WalletManagerContext.Provider value={value}>
       {children}
 
-      <SelectWalletModal
-        classNames={classNames}
-        closeIcon={closeIcon}
-        isOpen={status !== WalletConnectionStatus.Resetting && pickerModalOpen}
-        onClose={() => setPickerModalOpen(false)}
-        selectWallet={_connectToWallet}
-        wallets={enabledWallets}
-      />
-      <WalletConnectModal
-        classNames={classNames}
-        closeIcon={closeIcon}
-        isOpen={
-          status !== WalletConnectionStatus.Resetting && !!walletConnectUri
-        }
-        onClose={() => disconnect().finally(_cleanupAfterConnection)}
-        reset={_reset}
-        uri={walletConnectUri}
-      />
-      <EnablingWalletModal
-        classNames={classNames}
-        closeIcon={closeIcon}
-        isOpen={
-          status !== WalletConnectionStatus.Resetting && walletEnableModalOpen
-        }
-        onClose={() => setWalletEnableModalOpen(false)}
-        renderLoader={renderLoader}
-        reset={_reset}
-      />
-      <BaseModal
-        classNames={classNames}
-        isOpen={status === WalletConnectionStatus.Resetting}
-        maxWidth="24rem"
-        title="Resetting..."
-      >
-        {renderLoader?.()}
-      </BaseModal>
+      {status !== WalletConnectionStatus.Resetting && pickerModalOpen && (
+        <SelectWalletModal
+          classNames={classNames}
+          closeIcon={closeIcon}
+          isOpen
+          onClose={() => setPickerModalOpen(false)}
+          selectWallet={_connectToWallet}
+          wallets={enabledWallets}
+        />
+      )}
+      {status !== WalletConnectionStatus.Resetting && !!walletConnectUri && (
+        <WalletConnectModal
+          classNames={classNames}
+          closeIcon={closeIcon}
+          isOpen
+          onClose={() => disconnect().finally(_cleanupAfterConnection)}
+          reset={_reset}
+          uri={walletConnectUri}
+        />
+      )}
+      {status !== WalletConnectionStatus.Resetting && walletEnableModalOpen && (
+        <EnablingWalletModal
+          classNames={classNames}
+          closeIcon={closeIcon}
+          isOpen
+          onClose={() => setWalletEnableModalOpen(false)}
+          renderLoader={renderLoader}
+          reset={_reset}
+        />
+      )}
+      {status === WalletConnectionStatus.Resetting && (
+        <BaseModal
+          classNames={classNames}
+          isOpen
+          maxWidth="24rem"
+          title="Resetting..."
+        >
+          {renderLoader?.()}
+        </BaseModal>
+      )}
     </WalletManagerContext.Provider>
   )
 }

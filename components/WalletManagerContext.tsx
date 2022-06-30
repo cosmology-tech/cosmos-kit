@@ -16,7 +16,7 @@ export const WalletManagerContext = createContext<IWalletManagerContext | null>(
 export const useWalletManager = () => {
   const context = useContext(WalletManagerContext)
   if (!context) {
-    throw new Error("You forgot to use WalletManagerProvider")
+    throw new Error("You forgot to use WalletManagerProvider.")
   }
 
   return context

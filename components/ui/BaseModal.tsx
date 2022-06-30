@@ -3,6 +3,7 @@ import React, {
   PropsWithChildren,
   ReactElement,
   ReactNode,
+  useEffect,
 } from "react"
 import ReactModal from "react-modal"
 import styled from "styled-components"
@@ -29,41 +30,50 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
   classNames,
   closeIcon,
   children,
-}) => (
-  <ReactModal
-    className={classNames?.modalContent ?? "_"}
-    contentElement={(props, children) => (
-      <ModalContent maxWidth={maxWidth} {...props}>
-        {children}
-      </ModalContent>
-    )}
-    isOpen={isOpen}
-    onRequestClose={(e) => {
-      e.preventDefault()
-      onClose?.()
-    }}
-    overlayClassName={classNames?.modalOverlay ?? "_"}
-    overlayElement={(props, children) => (
-      <ModalOverlay {...props}>{children}</ModalOverlay>
-    )}
-  >
-    {typeof title === "string" ? (
-      <ModalHeader className={classNames?.modalHeader}>{title}</ModalHeader>
-    ) : (
-      title
-    )}
+}) => {
+  // ReactModal accessibility.
+  useEffect(() => {
+    ReactModal.setAppElement("body")
+  }, [])
 
-    {onClose && (
-      <ModalCloseButton
-        className={classNames?.modalCloseButton}
-        onClick={onClose}
-      >
-        {closeIcon ?? <DefaultCloseIcon height={26} width={26} />}
-      </ModalCloseButton>
-    )}
-    {children}
-  </ReactModal>
-)
+  return (
+    <ReactModal
+      className={classNames?.modalContent ?? "_"}
+      contentElement={(props, children) => (
+        <ModalContent maxWidth={maxWidth} {...props}>
+          {children}
+        </ModalContent>
+      )}
+      isOpen={isOpen}
+      onRequestClose={(e) => {
+        e.preventDefault()
+        onClose?.()
+      }}
+      overlayClassName={classNames?.modalOverlay ?? "_"}
+      overlayElement={(props, children) => (
+        <ModalOverlay {...props}>{children}</ModalOverlay>
+      )}
+    >
+      <>
+        {typeof title === "string" ? (
+          <ModalHeader className={classNames?.modalHeader}>{title}</ModalHeader>
+        ) : (
+          title
+        )}
+
+        {onClose && (
+          <ModalCloseButton
+            className={classNames?.modalCloseButton}
+            onClick={onClose}
+          >
+            {closeIcon ?? <DefaultCloseIcon height={26} width={26} />}
+          </ModalCloseButton>
+        )}
+        {children}
+      </>
+    </ReactModal>
+  )
+}
 
 const ModalContent = styled.div<{ maxWidth: string }>`
   position: absolute;

@@ -1,11 +1,5 @@
-import {
-  SigningCosmWasmClient,
-  SigningCosmWasmClientOptions,
-} from "@cosmjs/cosmwasm-stargate"
-import {
-  SigningStargateClient,
-  SigningStargateClientOptions,
-} from "@cosmjs/stargate"
+import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
+import { SigningStargateClientOptions } from "@cosmjs/stargate"
 import { ChainInfo } from "@keplr-wallet/types"
 
 import { ConnectedWallet, Wallet, WalletClient, WalletType } from "../types"
@@ -35,13 +29,17 @@ export const getConnectedWalletInfo = async (
 
   const [signingCosmWasmClient, signingStargateClient] = await Promise.all([
     // Get CosmWasm client.
-    await SigningCosmWasmClient.connectWithSigner(
+    await (
+      await import("@cosmjs/cosmwasm-stargate")
+    ).SigningCosmWasmClient.connectWithSigner(
       chainInfo.rpc,
       offlineSigner,
       signingCosmWasmClientOptions
     ),
     // Get Stargate client.
-    await SigningStargateClient.connectWithSigner(
+    await (
+      await import("@cosmjs/stargate")
+    ).SigningStargateClient.connectWithSigner(
       chainInfo.rpc,
       offlineSigner,
       signingStargateClientOptions
