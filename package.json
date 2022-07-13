@@ -1,0 +1,39 @@
+{
+  "name": "cosmos-wallet",
+  "version": "0.0.1",
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "private": true,
+  "scripts": {
+    "commit": "git-cz",
+    "build": "lerna run prepare --parallel",
+    "bootstrap": "lerna bootstrap --use-workspaces",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore . --fix",
+    "pretest": "yarn lint",
+    "test:watch": "jest --watch",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.11.6",
+    "@babel/core": "7.11.6",
+    "@pyramation/babel-preset-env": "0.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "10.1.0",
+    "babel-jest": "^24.9.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "25.1.0",
+    "lerna": "3.22.1",
+    "prettier": "2.1.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DA0-DA0/cosmos-wallet"
+  }
+}
