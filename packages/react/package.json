@@ -25,7 +25,8 @@
     "prepublish": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
     "watch": "cross-env NODE_ENV=development babel-watch src/index",
-    "lint": "eslint src --fix",
+    "lint": "eslint .",
+    "format": "eslint --fix .",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
