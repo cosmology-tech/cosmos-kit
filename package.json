@@ -10,7 +10,7 @@
     "build": "lerna run prepare --parallel",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "lint": "eslint --ignore-path .gitignore .",
-    "lint:fix": "eslint --ignore-path .gitignore . --fix",
+    "format": "eslint --ignore-path .gitignore . --fix",
     "pretest": "yarn lint",
     "test:watch": "jest --watch",
     "test": "jest"
