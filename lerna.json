@@ -18,7 +18,7 @@
       "access": "restricted"
     },
     "publish": {
-      "allowBranch": "master",
+      "allowBranch": "main",
       "message": "chore(release): publish"
     }
   }
