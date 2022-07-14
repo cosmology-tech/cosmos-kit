@@ -1,20 +1,21 @@
-import { cleanup, render, screen } from "@testing-library/react"
-import React from "react"
-import { act } from "react-dom/test-utils"
+import "@testing-library/jest-dom";
+import { cleanup, render, screen } from "@testing-library/react";
+import React from "react";
+import { act } from "react-dom/test-utils";
 
 import {
   useWallet,
   useWalletManager,
   WalletManagerProvider,
-} from "../components"
-import { ChainInfoID, WalletConnectionStatus, WalletType } from "../types"
+} from "../components";
+import { ChainInfoID, WalletConnectionStatus, WalletType } from "../types";
 
 const DisplayStatus = () => {
-  const { status } = useWalletManager()
-  useWallet()
+  const { status } = useWalletManager();
+  useWallet();
 
-  return <p>{status}</p>
-}
+  return <p>{status}</p>;
+};
 
 describe("display status", () => {
   beforeAll(() =>
@@ -26,15 +27,15 @@ describe("display status", () => {
         >
           <DisplayStatus />
         </WalletManagerProvider>
-      )
+      );
     })
-  )
+  );
 
   it("should display the status in the DOM", () => {
     expect(
       screen.getByText(WalletConnectionStatus.ReadyForConnection)
-    ).toBeInTheDocument()
-  })
+    ).toBeInTheDocument();
+  });
 
-  afterAll(cleanup)
-})
+  afterAll(cleanup);
+});
