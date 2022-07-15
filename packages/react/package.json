@@ -65,6 +65,7 @@
     "@babel/preset-typescript": "^7.16.7",
     "@keplr-wallet/types": "0.10.12",
     "@testing-library/jest-dom": "5.16.4",
+    "@types/firefox-webext-browser": "94.0.1",
     "@types/jest": "^28.1.5",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "28.1.3",
