@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "@cosmos-wallet react adapter",
   "author": "Eliot Baker <430383+ebaker@users.noreply.github.com>",
   "homepage": "https://github.com/DA0-DA0/cosmos-wallet#readme",
@@ -99,5 +99,6 @@
     "react-dom": "18.2.0",
     "react-modal": "3.15.1",
     "styled-components": "5.3.5"
-  }
+  },
+  "gitHead": "1a05263b23fac1055f9c90ecc5dbd3efc20478b7"
 }
