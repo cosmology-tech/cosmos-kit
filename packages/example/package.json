@@ -1,6 +1,6 @@
 {
-  "name": "example",
-  "version": "0.4.17",
+  "name": "@cosmos-wallet/example",
+  "version": "0.6.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
