@@ -2,11 +2,11 @@
 
 ## Packages
 
-- [@cosmos-wallet/react](packages/react/README.md)
+#### [@cosmos-wallet/react](packages/react)
 
 A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.
 
-- [@cosmos-wallet/example](packages/example/README.md)
+#### [@cosmos-wallet/example](packages/example)
 
 An example Next.js project integrating `@cosmos-wallet/react` wallet adapter.
 
