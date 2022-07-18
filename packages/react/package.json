@@ -99,5 +99,6 @@
     "react-dom": "18.2.0",
     "react-modal": "3.15.1",
     "styled-components": "5.3.5"
-  }
+  },
+  "gitHead": "b2fff88a80f03af963d43cb264b949e1b9688d78"
 }
