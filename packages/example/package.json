@@ -1,0 +1,38 @@
+{
+  "name": "example",
+  "version": "0.4.15",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "eslint --fix ."
+  },
+  "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "0.28.10",
+    "@cosmjs/stargate": "0.28.10",
+    "@cosmos-wallet/react": "0.0.1",
+    "@keplr-wallet/cosmos": "^0.10.5",
+    "@keplr-wallet/stores": "^0.10.5",
+    "@keplr-wallet/types": "^0.10.5",
+    "@walletconnect/client": "^1.7.8",
+    "next": "12.1.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.0.0",
+    "@types/react": "18.0.14",
+    "@types/react-dom": "18.0.5",
+    "autoprefixer": "^10.4.7",
+    "eslint": "8.20.0",
+    "eslint-config-next": "^12.1.6",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "postcss": "^8.4.14",
+    "prettier": "2.7.1",
+    "tailwindcss": "^3.1.4",
+    "typescript": "4.7.4"
+  }
+}
