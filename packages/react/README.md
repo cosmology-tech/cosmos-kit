@@ -272,6 +272,50 @@ interface WalletManagerProviderProps {
 }
 ```
 
+## Local Testnet Configuration
+
+To test against a Juno testnet running on your localhost pass the following `chainInfoOverrides` prop to the `WalletManagagerProvider` component:
+
+```
+chainInfoOverrides={[
+  {
+    rpc: 'http://localhost:26657',
+    rest: 'http://localhost:26657',
+    chainId: ChainInfoID.Juno1,
+    chainName: 'Juno Testnet',
+    bip44: {
+      coinType: 118,
+    },
+    bech32Config: Bech32Address.defaultBech32Config('juno'),
+    currencies: [
+      {
+        coinDenom: 'junox',
+        coinMinimalDenom: 'ujunox',
+        coinDecimals: 6,
+      },
+    ],
+    feeCurrencies: [
+      {
+        coinDenom: 'junox',
+        coinMinimalDenom: 'ujunox',
+        coinDecimals: 6,
+      },
+    ],
+    stakeCurrency: {
+      coinDenom: 'junox',
+      coinMinimalDenom: 'ujunox',
+      coinDecimals: 6,
+    },
+    gasPriceStep: {
+      low: 0.03,
+      average: 0.04,
+      high: 0.05,
+    },
+    features: ['ibc-transfer', 'ibc-go'],
+  },
+]}
+```
+
 ## Credits
 
 Original work inspired by [cosmodal](https://github.com/chainapsis/cosmodal).
