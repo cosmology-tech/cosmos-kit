@@ -1,22 +1,12 @@
 # cosmos-wallet
 
-## Packages
-
-#### [@cosmos-wallet/react](packages/react)
-
-A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.
-
-#### [@cosmos-wallet/example](packages/example)
-
-An example Next.js project integrating `@cosmos-wallet/react` wallet adapter.
-
 ## Getting Started
 
 Checkout the repository and bootstrap the yarn workspace:
 
 ```sh
 # Clone the repo.
-git clone https://github.com/DA0-DA0/cosmoswallet
+git clone https://github.com/DA0-DA0/cosmos-wallet
 yarn
 yarn bootstrap
 ```
@@ -26,6 +16,16 @@ yarn bootstrap
 ```sh
 yarn build
 ```
+
+## Packages
+
+#### [@cosmos-wallet/react](packages/react)
+
+A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.
+
+#### [@cosmos-wallet/example](packages/example)
+
+An example Next.js project integrating `@cosmos-wallet/react` wallet adapter.
 
 ## Publishing
 
