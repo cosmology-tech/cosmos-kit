@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/example",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "0.28.10",
     "@cosmjs/stargate": "0.28.10",
-    "@cosmos-wallet/react": "^0.6.1",
+    "@cosmos-wallet/react": "^0.6.2",
     "@keplr-wallet/cosmos": "^0.10.5",
     "@keplr-wallet/stores": "^0.10.5",
     "@keplr-wallet/types": "^0.10.5",
