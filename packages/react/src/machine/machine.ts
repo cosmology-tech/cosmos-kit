@@ -256,9 +256,7 @@ export const walletMachine = createMachine(
     actions: {
       RESET: () => {},
       SELECT_WALLET: () => {},
-      CONNECT_WALLET: () => {},
       CANCEL_CONNECTION: () => {},
-      REQUEST_WALLET_CONNECT: () => {},
       NAVIGATE_TO_WALLET_CONNECT_APP: () => {},
       NAVIGATE_TO_INSTALL_APP: () => {},
       cleanUpWalletConnectURI,

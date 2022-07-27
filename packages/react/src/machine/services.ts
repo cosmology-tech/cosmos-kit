@@ -13,7 +13,7 @@ export function requestWalletConnect({
    * todo: when disconnected, do you want to connect to another wallet instead or keep the same keplr session?
    *       or you want the list of previously connected wallets?
    * */
-  return async function establishWalletConnection(sendEvent) {
+  return async function establishWalletConnection(send) {
     let walletConnect = walletConnectInContext;
 
     const shouldInstantiateWalletConnect = !walletConnect;
@@ -25,7 +25,7 @@ export function requestWalletConnect({
           cleanUpWalletConnectCallback: () => void
         ) => {
           // Open QR modal by setting URI.
-          sendEvent({
+          send({
             type: "RECEIVE_WALLET_CONNECT_URI",
             cleanUpWalletConnectCallback,
             walletConnectUri,
@@ -39,19 +39,23 @@ export function requestWalletConnect({
 
     if (walletConnect.connected) {
       // WalletConnect already connected, nothing to do.
-      sendEvent({
+      send({
         type: "REQUEST_WALLET_CONNECT_FULFILLED",
         walletConnect,
       });
     } else {
-      const handleConnect = () =>
-        sendEvent({
+      walletConnect.on("connect", function connect() {
+        send({
           type: "REQUEST_WALLET_CONNECT_FULFILLED",
           walletConnect,
           instantiateWebsocketConnection: true,
         });
 
-      walletConnect.on("connect", handleConnect);
+        walletConnect.on("disconnect", () => {
+          send("DISCONNECT");
+        });
+      });
+
       // Executes walletConnect's qrcodeModal.open.
       walletConnect.connect();
       /* don't need to clean up the connection if the state is out */
@@ -159,11 +163,8 @@ export function subscribeToKeplrWalletChange() {
 export function prepareInitialState({
   config: { localStorageKey },
 }: WalletMachineContextType) {
-  console.log("is this function being run even????");
   return async (send) => {
     // Try to fetch value from localStorage.
-    console.log("is this function being run even?");
-
     const cachedWalletType = localStorageKey
       ? (localStorage.getItem(localStorageKey) as WalletType | undefined)
       : undefined;
@@ -173,12 +174,6 @@ export function prepareInitialState({
     const automaticWalletType = cachedWalletType || undefined;
 
     const keplr = await fetchKeplrInstance();
-
-    console.log("sending event", {
-      type: "RECEIVED_INITIAL_STATE",
-      walletType: automaticWalletType,
-      isEmbeddedKeplrMobileWeb: keplr && keplr.mode === "mobile-web",
-    });
 
     send({
       type: "RECEIVED_INITIAL_STATE",

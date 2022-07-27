@@ -162,28 +162,6 @@ export const WalletManagerProvider: FunctionComponent<
     send("RESET");
   }, [send]);
 
-  // Execute onQrCloseCallback if WalletConnect URI is cleared, since it
-  // has now been closed.
-  useEffect(() => {
-    if (!walletConnectUri && onQrCloseCallback) {
-      onQrCloseCallback.current?.();
-      onQrCloseCallback.current = undefined;
-    }
-  }, [walletConnectUri, onQrCloseCallback]);
-
-  // WalletConnect disconnect listener.
-  useEffect(() => {
-    if (!walletConnect) {
-      return;
-    }
-
-    // Detect disconnected WC session and clear wallet state.
-    walletConnect.on("disconnect", () => {
-      console.log("WalletConnect disconnected.");
-      disconnect();
-    });
-  }, [disconnect, walletConnect]);
-
   // Memoize context data.
   const value = useMemo(
     () => ({
