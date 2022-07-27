@@ -35,6 +35,7 @@ export function requestWalletConnect({
         close: () => console.log("qrcodeModal.close"),
         clientMeta: walletConnectClientMeta,
       });
+      walletConnect.clientMeta = walletConnectClientMeta;
     }
 
     if (walletConnect.connected) {

@@ -18,6 +18,7 @@ import {
   updateWalletTypeInStorage,
   cleanUpWalletConnect,
   killWalletConnectSession,
+  navigateToWalletConnectApp,
 } from "./actions";
 import {
   isConnectedToWalletExtension,
@@ -169,13 +170,7 @@ export const walletMachine = createMachine(
                 },
               },
               approving: {
-                invoke: {
-                  src: "NAVIGATE_TO_WALLET_CONNECT_APP",
-                  onError: {
-                    target: "errored",
-                    actions: "assignErrorState",
-                  },
-                },
+                entry: "navigateToWalletConnectApp",
                 on: {
                   CONNECTED: "approved",
                 },
@@ -266,11 +261,6 @@ export const walletMachine = createMachine(
       subscribeToKeplrWalletChange,
     },
     actions: {
-      RESET: () => {},
-      SELECT_WALLET: () => {},
-      CANCEL_CONNECTION: () => {},
-      NAVIGATE_TO_WALLET_CONNECT_APP: () => {},
-      NAVIGATE_TO_INSTALL_APP: () => {},
       cleanUpWalletConnectURI,
       cleanUpConnectedWalletState,
       assignReceivedWalletConnectInstance,
@@ -282,6 +272,7 @@ export const walletMachine = createMachine(
       killWalletConnectSession,
       clearWalletTypeInStorage,
       updateWalletTypeInStorage,
+      navigateToWalletConnectApp,
     },
   }
 );

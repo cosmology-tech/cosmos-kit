@@ -6,9 +6,7 @@ import React, {
   PropsWithChildren,
   ReactNode,
   useCallback,
-  useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 
@@ -120,22 +118,14 @@ export const WalletManagerProvider: FunctionComponent<
     enabledWallets,
     isEmbeddedKeplrMobileWeb,
     walletConnectUri,
-    walletConnect,
     connectedWallet,
   } = state.context;
 
-  // console.log("**STATE**", state.value, "**CONTEXT**", state.context);
+  console.log("**STATE**", state.value, "**CONTEXT**", state.context);
 
   // Modal State
   const [pickerModalOpen, setPickerModalOpen] = useState(false);
   const [walletEnableModalOpen, setWalletEnableModalOpen] = useState(false);
-  // If set, opens QR code modal.
-
-  // WalletConnect State
-  // Call when closing QR code modal manually.
-  const onQrCloseCallback = useRef<() => void>();
-
-  //! CALLBACKS
 
   // Disconnect from connected wallet.
   const disconnect = useCallback(() => {
@@ -212,6 +202,8 @@ export const WalletManagerProvider: FunctionComponent<
           onClose={disconnect}
           reset={resetConnection}
           uri={walletConnectUri}
+          walletConnectAppDeepLink={state.context.walletConnectAppDeepLink}
+          appInstallationLink={state.context.walletConnectInstallationUri}
         />
       )}
       {state.matches("connecting") && walletEnableModalOpen && (

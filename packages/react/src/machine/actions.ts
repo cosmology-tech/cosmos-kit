@@ -1,9 +1,13 @@
 import { assign } from "xstate";
 import { WalletMachineContextType, WalletMachineEvent } from "./types";
 import { KeplrWalletConnectV1 } from "../connectors";
+import { isAndroid } from "@walletconnect/browser-utils";
+import { getWalletConnectAppLink } from "./util";
 
 export const cleanUpWalletConnectURI = assign<WalletMachineContextType>({
   walletConnectUri: undefined,
+  walletConnectAppDeepLink: undefined,
+  walletConnectInstallationUri: undefined,
 });
 
 export const cleanUpConnectedWalletState = assign<WalletMachineContextType>({
@@ -11,6 +15,7 @@ export const cleanUpConnectedWalletState = assign<WalletMachineContextType>({
   connectedWallet: undefined,
   walletConnect: undefined,
   walletConnectUri: undefined,
+  walletConnectAppDeepLink: undefined,
 });
 
 export const assignConnectedWallet = assign<
@@ -47,6 +52,7 @@ export const assignErrorState = assign({
   },
 });
 
+const IOS_KEPLR_MOBILE_URL = "itms-apps://itunes.apple.com/app/1567851089";
 export const assignReceivedWalletConnectURI = assign<
   WalletMachineContextType,
   WalletMachineEvent
@@ -56,9 +62,12 @@ export const assignReceivedWalletConnectURI = assign<
   const cleanUpWalletConnectCallback =
     "cleanUpWalletConnectCallback" in event &&
     event.cleanUpWalletConnectCallback;
+
   return {
     walletConnectUri,
     cleanUpWalletConnectCallback,
+    walletConnectAppDeepLink: getWalletConnectAppLink(walletConnectUri),
+    walletConnectInstallationUri: isAndroid() ? getWalletConnectAppLink(walletConnectUri) : IOS_KEPLR_MOBILE_URL;
   };
 });
 
@@ -112,4 +121,10 @@ export const clearWalletTypeInStorage = (context: WalletMachineContextType) => {
   if (context.config.localStorageKey) {
     localStorage.removeItem(context.config.localStorageKey);
   }
+};
+
+export const navigateToWalletConnectApp = ({
+  walletConnectUri,
+}: WalletMachineContextType) => {
+  window.location.assign(getWalletConnectAppLink(walletConnectUri));
 };
