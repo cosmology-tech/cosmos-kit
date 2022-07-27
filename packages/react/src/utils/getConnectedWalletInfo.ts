@@ -1,8 +1,8 @@
-import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
-import { SigningStargateClientOptions } from "@cosmjs/stargate"
-import { ChainInfo } from "@keplr-wallet/types"
+import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate";
+import { SigningStargateClientOptions } from "@cosmjs/stargate";
+import { ChainInfo } from "@keplr-wallet/types";
 
-import { ConnectedWallet, Wallet, WalletClient, WalletType } from "../types"
+import { ConnectedWallet, Wallet, WalletClient, WalletType } from "../types";
 
 export const getConnectedWalletInfo = async (
   wallet: Wallet,
@@ -14,10 +14,11 @@ export const getConnectedWalletInfo = async (
   // Only Keplr browser extension supports suggesting chain.
   // Not WalletConnect nor embedded Keplr Mobile web.
   if (wallet.type === WalletType.Keplr && client.mode !== "mobile-web") {
-    await client.experimentalSuggestChain(chainInfo)
+    await client.experimentalSuggestChain(chainInfo);
   }
 
-  await client.enable(chainInfo.chainId)
+  /* ...this will open wallet connect for approval... */
+  await client.enable(chainInfo.chainId);
 
   // Parallelize for efficiency.
   const [{ name, bech32Address: address }, offlineSigner] = await Promise.all([
@@ -25,7 +26,7 @@ export const getConnectedWalletInfo = async (
     client.getKey(chainInfo.chainId),
     // Get offline signer.
     wallet.getOfflineSignerFunction(client)(chainInfo.chainId),
-  ])
+  ]);
 
   const [signingCosmWasmClient, signingStargateClient] = await Promise.all([
     // Get CosmWasm client.
@@ -44,10 +45,10 @@ export const getConnectedWalletInfo = async (
       offlineSigner,
       signingStargateClientOptions
     ),
-  ])
+  ]);
 
   if (address === undefined) {
-    throw new Error("Failed to retrieve wallet address.")
+    throw new Error("Failed to retrieve wallet address.");
   }
 
   return {
@@ -59,5 +60,5 @@ export const getConnectedWalletInfo = async (
     address,
     signingCosmWasmClient,
     signingStargateClient,
-  }
-}
+  };
+};
