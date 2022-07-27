@@ -1,5 +1,6 @@
 import { assign } from "xstate";
 import { WalletMachineContextType, WalletMachineEvent } from "./types";
+import { KeplrWalletConnectV1 } from "../connectors";
 
 export const cleanUpWalletConnectURI = assign<WalletMachineContextType>({
   walletConnectUri: undefined,
@@ -75,3 +76,40 @@ export const assignReceivedWalletConnectInstance = assign<
     instantiateWebsocketConnection,
   };
 });
+
+export async function killWalletConnectSession(
+  context: WalletMachineContextType
+) {
+  // Disconnect WalletConnect.
+  if (context.walletConnect?.connected) {
+    await context.walletConnect.killSession();
+  }
+}
+
+/* todo: figure out a better spot for this */
+export function cleanUpWalletConnect({
+  walletClient,
+  cleanUpWalletConnectCallback,
+}: WalletMachineContextType) {
+  if (walletClient instanceof KeplrWalletConnectV1) {
+    walletClient.dontOpenAppOnEnable = false;
+  }
+  if (cleanUpWalletConnectCallback) {
+    cleanUpWalletConnectCallback();
+  }
+}
+
+export const updateWalletTypeInStorage = ({
+  config,
+  walletType,
+}: WalletMachineContextType) => {
+  if (config.localStorageKey) {
+    localStorage.setItem(config.localStorageKey, walletType);
+  }
+};
+
+export const clearWalletTypeInStorage = (context: WalletMachineContextType) => {
+  if (context.config.localStorageKey) {
+    localStorage.removeItem(context.config.localStorageKey);
+  }
+};

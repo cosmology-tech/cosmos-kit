@@ -56,9 +56,7 @@ export function requestWalletConnect({
         });
       });
 
-      // Executes walletConnect's qrcodeModal.open.
       walletConnect.connect();
-      /* don't need to clean up the connection if the state is out */
     }
   };
 }
@@ -117,31 +115,6 @@ export function enableWallet(
       connectedWallet,
     });
   };
-}
-
-export async function cleanUpOnDisconnect(context: WalletMachineContextType) {
-  // Remove localStorage value.
-  if (context.config.localStorageKey) {
-    localStorage.removeItem(context.config.localStorageKey);
-  }
-
-  // Disconnect WalletConnect.
-  if (context.walletConnect?.connected) {
-    await context.walletConnect.killSession();
-  }
-}
-
-/* is this a right thing to do? */
-export function cleanUpWalletConnect({
-  walletClient,
-  cleanUpWalletConnectCallback,
-}: WalletMachineContextType) {
-  if (walletClient instanceof KeplrWalletConnectV1) {
-    walletClient.dontOpenAppOnEnable = false;
-  }
-  if (cleanUpWalletConnectCallback) {
-    cleanUpWalletConnectCallback();
-  }
 }
 
 export function subscribeToKeplrWalletChange() {

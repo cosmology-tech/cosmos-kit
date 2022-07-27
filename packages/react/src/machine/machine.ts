@@ -1,9 +1,7 @@
 import {
   prepareInitialState,
-  cleanUpOnDisconnect,
   requestWalletConnect,
   enableWallet,
-  cleanUpWalletConnect,
   subscribeToKeplrWalletChange,
 } from "./services";
 import { walletMachineInitialContext } from "./context";
@@ -16,6 +14,10 @@ import {
   assignSelectedWallet,
   cleanUpConnectedWalletState,
   cleanUpWalletConnectURI,
+  clearWalletTypeInStorage,
+  updateWalletTypeInStorage,
+  cleanUpWalletConnect,
+  killWalletConnectSession,
 } from "./actions";
 import {
   isConnectedToWalletExtension,
@@ -43,7 +45,10 @@ export const walletMachine = createMachine(
         },
         invoke: {
           src: "prepareInitialState",
-          onError: "selecting",
+          onError: {
+            target: "selecting",
+            actions: "clearWalletTypeInStorage",
+          },
         },
         on: {
           RECEIVED_INITIAL_STATE: [
@@ -217,14 +222,22 @@ export const walletMachine = createMachine(
         },
       },
       connected: {
-        entry: ["cleanUpWalletConnectURI", "cleanUpWalletConnect"],
+        entry: [
+          "cleanUpWalletConnectURI",
+          "cleanUpWalletConnect",
+          "updateWalletTypeInStorage",
+        ],
         invoke: {
           src: "subscribeToKeplrWalletChange",
         },
         on: {
           DISCONNECT: {
             target: "selecting",
-            actions: ["cleanUpConnectedWalletState", "cleanUpOnDisconnect"],
+            actions: [
+              "cleanUpConnectedWalletState",
+              "killWalletConnectSession",
+              "clearWalletTypeInStorage",
+            ],
           },
           RECONNECT: [
             /* todo: add reconnect for other wallets */
@@ -248,7 +261,6 @@ export const walletMachine = createMachine(
     },
     services: {
       prepareInitialState,
-      cleanUpOnDisconnect,
       requestWalletConnect,
       enableWallet,
       subscribeToKeplrWalletChange,
@@ -267,6 +279,9 @@ export const walletMachine = createMachine(
       assignErrorState,
       assignReceivedWalletConnectURI,
       cleanUpWalletConnect,
+      killWalletConnectSession,
+      clearWalletTypeInStorage,
+      updateWalletTypeInStorage,
     },
   }
 );
