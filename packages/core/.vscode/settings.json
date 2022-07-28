@@ -11,6 +11,8 @@
     },
     "eslint.validate": [
         "javascript",
-        "javascriptreact"
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
     ]
   }
