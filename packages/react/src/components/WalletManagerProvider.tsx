@@ -1,6 +1,6 @@
-import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate";
-import { SigningStargateClientOptions } from "@cosmjs/stargate";
-import { IClientMeta } from "@walletconnect/types";
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
+import { SigningStargateClientOptions } from '@cosmjs/stargate'
+import { IClientMeta } from '@walletconnect/types'
 import React, {
   FunctionComponent,
   PropsWithChildren,
@@ -8,7 +8,7 @@ import React, {
   useCallback,
   useMemo,
   useState,
-} from "react";
+} from 'react'
 
 import {
   ChainInfoOverrides,
@@ -16,52 +16,52 @@ import {
   SigningClientGetter,
   Wallet,
   WalletType,
-} from "../types";
-import { Wallets } from "../utils";
+} from '../types'
+import { Wallets } from '../utils'
 import {
   BaseModal,
   EnablingWalletModal,
   SelectWalletModal,
   WalletConnectModal,
-} from "./ui";
-import { WalletManagerContext } from "./WalletManagerContext";
-import { useMachine } from "@xstate/react";
-import { walletMachine } from "../machine/machine";
-import { WalletMachineContextType } from "../machine/types";
-import { isMobile } from "@walletconnect/browser-utils";
+} from './ui'
+import { WalletManagerContext } from './WalletManagerContext'
+import { useMachine } from '@xstate/react'
+import { walletMachine } from '../machine/machine'
+import { WalletMachineContextType } from '../machine/types'
+import { isMobile } from '@walletconnect/browser-utils'
 
 export type WalletManagerProviderProps = PropsWithChildren<{
   // Wallet types available for connection.
-  enabledWalletTypes: WalletType[];
+  enabledWalletTypes: WalletType[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in
   // `chainInfoList`.
-  defaultChainId: string;
+  defaultChainId: string
   // List or getter of additional or replacement ChainInfo objects. These
   // will take precedent over internal definitions by comparing `chainId`.
-  chainInfoOverrides?: ChainInfoOverrides;
+  chainInfoOverrides?: ChainInfoOverrides
   // Class names applied to various components for custom theming.
-  classNames?: ModalClassNames;
+  classNames?: ModalClassNames
   // Custom close icon.
-  closeIcon?: ReactNode;
+  closeIcon?: ReactNode
   // Descriptive info about the webapp which gets displayed when enabling a
   // WalletConnect wallet (e.g. name, image, etc.).
-  walletConnectClientMeta?: IClientMeta;
+  walletConnectClientMeta?: IClientMeta
   // A custom loader to display in the modals, such as enabling the wallet.
-  renderLoader?: () => ReactNode;
+  renderLoader?: () => ReactNode
   // When set to a valid wallet type, the connect function will skip the
   // selection modal and attempt to connect to this wallet immediately.
-  preselectedWalletType?: WalletType;
+  preselectedWalletType?: WalletType
   // localStorage key for saving, loading, and auto connecting to a wallet.
-  localStorageKey?: string;
+  localStorageKey?: string
   // Callback that will be attached as a listener to the
   // `keplr_keystorechange` event on the window object.
-  onKeplrKeystoreChangeEvent?: (event: Event) => unknown;
+  onKeplrKeystoreChangeEvent?: (event: Event) => unknown
   // Getter for options passed to SigningCosmWasmClient on connection.
-  getSigningCosmWasmClientOptions?: SigningClientGetter<SigningCosmWasmClientOptions>;
+  getSigningCosmWasmClientOptions?: SigningClientGetter<SigningCosmWasmClientOptions>
   // Getter for options passed to SigningStargateClient on connection.
-  getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>;
-}>;
+  getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
+}>
 
 export const WalletManagerProvider: FunctionComponent<
   WalletManagerProviderProps
@@ -100,7 +100,7 @@ export const WalletManagerProvider: FunctionComponent<
         onKeplrKeystoreChangeEvent,
         preselectedWalletType,
       },
-    };
+    }
   }, [
     localStorageKey,
     defaultChainId,
@@ -108,29 +108,29 @@ export const WalletManagerProvider: FunctionComponent<
     getSigningCosmWasmClientOptions,
     getSigningStargateClientOptions,
     enabledWalletTypes,
-  ]);
+  ])
 
   const [state, send] = useMachine(walletMachine, {
     context: stateMachineContext,
-  });
+  })
 
   const {
     enabledWallets,
     isEmbeddedKeplrMobileWeb,
     walletConnectUri,
     connectedWallet,
-  } = state.context;
+  } = state.context
 
   // Modal State
-  const [pickerModalOpen, setPickerModalOpen] = useState(false);
-  const [walletEnableModalOpen, setWalletEnableModalOpen] = useState(false);
+  const [pickerModalOpen, setPickerModalOpen] = useState(false)
+  const [walletEnableModalOpen, setWalletEnableModalOpen] = useState(false)
 
   const connectToWallet = useCallback(
     (wallet: Wallet) => {
-      send("SELECT_WALLET", { walletType: wallet.type });
+      send('SELECT_WALLET', { walletType: wallet.type })
     },
     [send]
-  );
+  )
 
   // Begin connection process, either auto-selecting a wallet or opening
   // the selection modal.
@@ -139,26 +139,26 @@ export const WalletManagerProvider: FunctionComponent<
     if (isMobile()) {
       const walletConnectWallet = Wallets.find(
         (it) => it.type === WalletType.WalletConnectKeplr
-      );
+      )
 
       if (walletConnectWallet) {
-        return connectToWallet(walletConnectWallet);
+        return connectToWallet(walletConnectWallet)
       }
     }
 
     // If no default wallet, open modal to choose one.
-    setPickerModalOpen(true);
-  }, [setPickerModalOpen]);
+    setPickerModalOpen(true)
+  }, [setPickerModalOpen])
 
   // Initiate reset.
   const resetConnection = useCallback(async () => {
-    send("RESET");
-  }, [send]);
+    send('RESET')
+  }, [send])
 
   // Disconnect from connected wallet.
   const disconnect = useCallback(() => {
-    send("DISCONNECT");
-  }, [send]);
+    send('DISCONNECT')
+  }, [send])
 
   // Memoize context data.
   const value = useMemo(
@@ -167,8 +167,8 @@ export const WalletManagerProvider: FunctionComponent<
       connect: beginConnection,
       disconnect,
       connectedWallet,
-      connected: state.matches("connected"),
-      error: state.matches("errored") && state.context.error?.message,
+      connected: state.matches('connected'),
+      error: state.matches('errored') && state.context.error?.message,
     }),
     [
       state,
@@ -180,13 +180,13 @@ export const WalletManagerProvider: FunctionComponent<
       getSigningStargateClientOptions,
       isEmbeddedKeplrMobileWeb,
     ]
-  );
+  )
 
   return (
     <WalletManagerContext.Provider value={value}>
       {children}
 
-      {state.matches("selecting") && (
+      {state.matches('selecting') && (
         <SelectWalletModal
           classNames={classNames}
           closeIcon={closeIcon}
@@ -196,7 +196,7 @@ export const WalletManagerProvider: FunctionComponent<
           wallets={enabledWallets}
         />
       )}
-      {state.matches("connecting") && Boolean(walletConnectUri) && (
+      {state.matches('connecting') && Boolean(walletConnectUri) && (
         <WalletConnectModal
           classNames={classNames}
           closeIcon={closeIcon}
@@ -208,7 +208,7 @@ export const WalletManagerProvider: FunctionComponent<
           appInstallationLink={state.context.walletConnectInstallationUri}
         />
       )}
-      {state.matches("connecting") && walletEnableModalOpen && (
+      {state.matches('connecting') && walletEnableModalOpen && (
         <EnablingWalletModal
           classNames={classNames}
           closeIcon={closeIcon}
@@ -218,7 +218,7 @@ export const WalletManagerProvider: FunctionComponent<
           reset={resetConnection}
         />
       )}
-      {state.matches("enabling") && (
+      {state.matches('enabling') && (
         <BaseModal
           classNames={classNames}
           isOpen
@@ -229,5 +229,5 @@ export const WalletManagerProvider: FunctionComponent<
         </BaseModal>
       )}
     </WalletManagerContext.Provider>
-  );
-};
+  )
+}

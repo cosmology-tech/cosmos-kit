@@ -1,5 +1,5 @@
 function Component() {
-  return <div>component</div>;
+  return <div>component</div>
 }
 
-export default Component;
+export default Component

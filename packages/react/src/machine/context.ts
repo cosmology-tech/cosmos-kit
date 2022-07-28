@@ -6,12 +6,12 @@ import {
   Wallet,
   WalletClient,
   WalletType,
-} from "../types";
-import WalletConnect from "@walletconnect/client";
-import { ChainInfo } from "@keplr-wallet/types";
-import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate";
-import { SigningStargateClientOptions } from "@cosmjs/stargate";
-import { IClientMeta } from "@walletconnect/types";
+} from '../types'
+import WalletConnect from '@walletconnect/client'
+import { ChainInfo } from '@keplr-wallet/types'
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
+import { SigningStargateClientOptions } from '@cosmjs/stargate'
+import { IClientMeta } from '@walletconnect/types'
 
 export const walletMachineInitialContext = {
   connectedWallet: undefined as Maybe<ConnectedWallet>,
@@ -27,7 +27,7 @@ export const walletMachineInitialContext = {
   cleanUpWalletConnectCallback: undefined as Maybe<(...args: any) => any>,
 
   config: {
-    defaultChainId: undefined as Maybe<ChainInfo["chainId"]>,
+    defaultChainId: undefined as Maybe<ChainInfo['chainId']>,
     chainInfoOverrides: undefined as Maybe<ChainInfoOverrides>,
     localStorageKey: undefined as Maybe<string>,
     // Descriptive info about the webapp which gets displayed when enabling a
@@ -52,4 +52,4 @@ export const walletMachineInitialContext = {
     instance: undefined as Maybe<Error>,
     message: undefined as Maybe<string>,
   },
-};
+}

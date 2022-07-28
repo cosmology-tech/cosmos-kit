@@ -3,9 +3,9 @@ import {
   requestWalletConnect,
   enableWallet,
   subscribeToKeplrWalletChange,
-} from "./services";
-import { walletMachineInitialContext } from "./context";
-import { WalletMachineContextType, WalletMachineEvent } from "./types";
+} from './services'
+import { walletMachineInitialContext } from './context'
+import { WalletMachineContextType, WalletMachineEvent } from './types'
 import {
   assignConnectedWallet,
   assignErrorState,
@@ -19,7 +19,7 @@ import {
   cleanUpWalletConnect,
   killWalletConnectSession,
   navigateToWalletConnectApp,
-} from "./actions";
+} from './actions'
 import {
   isConnectedToWalletExtension,
   shouldHaveWalletConnectReadyForConnecting,
@@ -27,13 +27,13 @@ import {
   shouldSelectWalletConnect,
   shouldSelectWalletConnectMobile,
   shouldSelectWalletExtension,
-} from "./guards";
-import { createMachine } from "xstate";
+} from './guards'
+import { createMachine } from 'xstate'
 
 export const walletMachine = createMachine(
   {
-    id: "wallet-machine",
-    initial: "validatingIfCanAutoConnect",
+    id: 'wallet-machine',
+    initial: 'validatingIfCanAutoConnect',
     schema: {
       context: {} as WalletMachineContextType,
       events: {} as WalletMachineEvent,
@@ -42,34 +42,34 @@ export const walletMachine = createMachine(
     states: {
       validatingIfCanAutoConnect: {
         meta: {
-          description: "Validate if the wallet can be connected automatically",
+          description: 'Validate if the wallet can be connected automatically',
         },
         invoke: {
-          src: "prepareInitialState",
+          src: 'prepareInitialState',
           onError: {
-            target: "selecting",
-            actions: "clearWalletTypeInStorage",
+            target: 'selecting',
+            actions: 'clearWalletTypeInStorage',
           },
         },
         on: {
           RECEIVED_INITIAL_STATE: [
             {
-              target: "enabling",
-              actions: "assignSelectedWallet",
-              cond: "shouldSelectWalletExtension",
+              target: 'enabling',
+              actions: 'assignSelectedWallet',
+              cond: 'shouldSelectWalletExtension',
             },
             {
-              target: "connecting.walletConnectMobile",
-              actions: "assignSelectedWallet",
-              cond: "shouldSelectWalletConnectMobile",
+              target: 'connecting.walletConnectMobile',
+              actions: 'assignSelectedWallet',
+              cond: 'shouldSelectWalletConnectMobile',
             },
             {
-              target: "connecting.walletConnect",
-              actions: "assignSelectedWallet",
-              cond: "shouldSelectWalletConnect",
+              target: 'connecting.walletConnect',
+              actions: 'assignSelectedWallet',
+              cond: 'shouldSelectWalletConnect',
             },
             {
-              target: "selecting",
+              target: 'selecting',
             },
           ],
         },
@@ -78,18 +78,18 @@ export const walletMachine = createMachine(
         on: {
           SELECT_WALLET: [
             {
-              target: "connecting.walletConnectMobile",
-              actions: "assignSelectedWallet",
-              cond: "shouldSelectWalletConnectMobile",
+              target: 'connecting.walletConnectMobile',
+              actions: 'assignSelectedWallet',
+              cond: 'shouldSelectWalletConnectMobile',
             },
             {
-              target: "connecting.walletConnect",
-              actions: "assignSelectedWallet",
-              cond: "shouldSelectWalletConnect",
+              target: 'connecting.walletConnect',
+              actions: 'assignSelectedWallet',
+              cond: 'shouldSelectWalletConnect',
             },
             {
-              target: "connecting.extension",
-              actions: "assignSelectedWallet",
+              target: 'connecting.extension',
+              actions: 'assignSelectedWallet',
             },
           ],
         },
@@ -97,28 +97,28 @@ export const walletMachine = createMachine(
       connecting: {
         states: {
           walletConnect: {
-            initial: "requesting",
+            initial: 'requesting',
             on: {
               RESET: {
-                target: ".requesting",
+                target: '.requesting',
                 actions: [
-                  "cleanUpConnectedWalletState",
-                  "killWalletConnectSession",
+                  'cleanUpConnectedWalletState',
+                  'killWalletConnectSession',
                 ],
               },
             },
             states: {
               requesting: {
-                initial: "idle",
+                initial: 'idle',
                 invoke: {
-                  src: "requestWalletConnect",
+                  src: 'requestWalletConnect',
                   onDone: {
-                    target: "#wallet-machine.enabling",
-                    cond: "shouldHaveWalletConnectReadyForConnecting",
+                    target: '#wallet-machine.enabling',
+                    cond: 'shouldHaveWalletConnectReadyForConnecting',
                   },
                   onError: {
-                    target: "errored",
-                    actions: "assignErrorState",
+                    target: 'errored',
+                    actions: 'assignErrorState',
                   },
                 },
                 states: {
@@ -127,12 +127,12 @@ export const walletMachine = createMachine(
                 },
                 on: {
                   RECEIVE_WALLET_CONNECT_URI: {
-                    target: ".showsQrCode",
-                    actions: "assignReceivedWalletConnectURI",
+                    target: '.showsQrCode',
+                    actions: 'assignReceivedWalletConnectURI',
                   },
                   REQUEST_WALLET_CONNECT_FULFILLED: {
-                    target: "#wallet-machine.enabling",
-                    actions: "assignReceivedWalletConnectInstance",
+                    target: '#wallet-machine.enabling',
+                    actions: 'assignReceivedWalletConnectInstance',
                   },
                 },
               },
@@ -140,119 +140,119 @@ export const walletMachine = createMachine(
             },
           },
           walletConnectMobile: {
-            initial: "requesting",
+            initial: 'requesting',
             on: {
               NAVIGATE_TO_WALLET_CONNECT_APP: {
-                target: "walletConnectMobile.approving",
-                cond: "shouldHaveWalletConnectUri",
+                target: 'walletConnectMobile.approving',
+                cond: 'shouldHaveWalletConnectUri',
               },
               RECEIVE_WALLET_CONNECT_URI: {
-                target: ".approving",
-                actions: "assignReceivedWalletConnectURI",
+                target: '.approving',
+                actions: 'assignReceivedWalletConnectURI',
               },
               REQUEST_WALLET_CONNECT_FULFILLED: {
-                target: "#wallet-machine.enabling",
-                actions: "assignReceivedWalletConnectInstance",
+                target: '#wallet-machine.enabling',
+                actions: 'assignReceivedWalletConnectInstance',
               },
               RESET: {
-                target: ".requesting",
+                target: '.requesting',
                 actions: [
-                  "cleanUpConnectedWalletState",
-                  "killWalletConnectSession",
+                  'cleanUpConnectedWalletState',
+                  'killWalletConnectSession',
                 ],
               },
             },
             states: {
               requesting: {
                 invoke: {
-                  src: "requestWalletConnect",
+                  src: 'requestWalletConnect',
                   onDone: {
-                    target: "received",
-                    cond: "shouldHaveWalletConnectReadyForConnecting",
+                    target: 'received',
+                    cond: 'shouldHaveWalletConnectReadyForConnecting',
                   },
                   onError: {
-                    target: "errored",
-                    actions: "assignErrorState",
+                    target: 'errored',
+                    actions: 'assignErrorState',
                   },
                 },
               },
               received: {
                 after: {
-                  2000: "approving",
+                  2000: 'approving',
                 },
               },
               approving: {
-                entry: "navigateToWalletConnectApp",
+                entry: 'navigateToWalletConnectApp',
                 on: {
-                  CONNECTED: "approved",
+                  CONNECTED: 'approved',
                 },
               },
               approved: {
-                always: "#wallet-machine.enabling",
+                always: '#wallet-machine.enabling',
               },
               errored: {
                 on: {
-                  RESET: "requesting",
+                  RESET: 'requesting',
                 },
               },
             },
           },
           extension: {
-            always: "#wallet-machine.enabling",
+            always: '#wallet-machine.enabling',
           },
         },
       },
       enabling: {
         invoke: {
-          src: "enableWallet",
+          src: 'enableWallet',
           onError: {
-            target: "errored",
-            actions: "assignErrorState",
+            target: 'errored',
+            actions: 'assignErrorState',
           },
         },
         on: {
           WALLET_ENABLE: {
-            target: "connected",
-            actions: "assignConnectedWallet",
+            target: 'connected',
+            actions: 'assignConnectedWallet',
           },
         },
       },
       errored: {
-        entry: "cleanUpWalletConnect",
-        type: "final",
+        entry: 'cleanUpWalletConnect',
+        type: 'final',
         on: {
           RESET: {
-            target: "enabling",
+            target: 'enabling',
             actions: [
-              "cleanUpConnectedWalletState",
-              "killWalletConnectSession",
+              'cleanUpConnectedWalletState',
+              'killWalletConnectSession',
             ],
           },
         },
       },
       connected: {
         entry: [
-          "cleanUpWalletConnectURI",
-          "cleanUpWalletConnect",
-          "updateWalletTypeInStorage",
+          'cleanUpWalletConnectURI',
+          'cleanUpWalletConnect',
+          'updateWalletTypeInStorage',
         ],
         invoke: {
-          src: "subscribeToKeplrWalletChange",
+          src: 'subscribeToKeplrWalletChange',
         },
         on: {
           DISCONNECT: {
-            target: "selecting",
+            target: 'selecting',
             actions: [
-              "cleanUpConnectedWalletState",
-              "killWalletConnectSession",
-              "clearWalletTypeInStorage",
+              'cleanUpConnectedWalletState',
+              'killWalletConnectSession',
+              'clearWalletTypeInStorage',
             ],
           },
           RECONNECT: [
             /* todo: add reconnect for other wallets */
             {
-              target: "connecting.extension",
-              cond: "isConnectedToWalletExtension",
+              target: 'connecting.extension',
+              cond: 'isConnectedToWalletExtension',
             },
           ],
         },
@@ -289,4 +289,4 @@ export const walletMachine = createMachine(
       navigateToWalletConnectApp,
     },
   }
-);
+)

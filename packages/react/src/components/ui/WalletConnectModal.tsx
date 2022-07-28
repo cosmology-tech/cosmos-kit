@@ -1,14 +1,14 @@
-import { isMobile } from "@walletconnect/browser-utils";
-import QRCode from "qrcode.react";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import { isMobile } from '@walletconnect/browser-utils'
+import QRCode from 'qrcode.react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 
-import { BaseModal, BaseModalProps, ModalSubheader } from "./BaseModal";
+import { BaseModal, BaseModalProps, ModalSubheader } from './BaseModal'
 
 export interface WalletConnectModalProps extends BaseModalProps {
-  uri?: string;
-  reset: () => void;
-  walletConnectAppDeepLink?: string;
-  appInstallationLink?: string;
+  uri?: string
+  reset: () => void
+  walletConnectAppDeepLink?: string
+  appInstallationLink?: string
 }
 
 export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
@@ -20,51 +20,51 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
   appInstallationLink,
   ...props
 }) => {
-  const [qrShowing, setQrShowing] = useState(() => !isMobile());
+  const [qrShowing, setQrShowing] = useState(() => !isMobile())
 
   // Show mobile help if timeout is reached.
-  const [showMobileHelp, setShowMobileHelp] = useState(false);
+  const [showMobileHelp, setShowMobileHelp] = useState(false)
   useEffect(() => {
     if (!isMobile() || !isOpen) {
-      setShowMobileHelp(false);
-      return;
+      setShowMobileHelp(false)
+      return
     }
 
-    const timeout = setTimeout(() => setShowMobileHelp(true), 5000);
-    return () => clearTimeout(timeout);
-  }, [isOpen, isMobile, setShowMobileHelp]);
+    const timeout = setTimeout(() => setShowMobileHelp(true), 5000)
+    return () => clearTimeout(timeout)
+  }, [isOpen, isMobile, setShowMobileHelp])
 
   return (
     <BaseModal
       classNames={classNames}
       isOpen={isOpen}
       maxWidth="24rem"
-      title={isMobile ? "Connect to Mobile Wallet" : "Scan QR Code"}
+      title={isMobile ? 'Connect to Mobile Wallet' : 'Scan QR Code'}
       {...props}
     >
       {Boolean(walletConnectAppDeepLink) && (
         <>
           <p
             className={classNames?.textContent}
-            style={{ marginBottom: "1rem" }}
+            style={{ marginBottom: '1rem' }}
           >
             <a
               href={walletConnectAppDeepLink}
-              style={{ textDecoration: "underline" }}
+              style={{ textDecoration: 'underline' }}
             >
               Open your mobile wallet
-            </a>{" "}
+            </a>{' '}
             and accept the connection request.
           </p>
 
           <p
             className={classNames?.textContent}
-            style={{ marginBottom: showMobileHelp ? "1rem" : "1.5rem" }}
+            style={{ marginBottom: showMobileHelp ? '1rem' : '1.5rem' }}
           >
-            If you don&apos;t have Keplr Mobile installed,{" "}
+            If you don&apos;t have Keplr Mobile installed,{' '}
             <a
               href={appInstallationLink}
-              style={{ textDecoration: "underline" }}
+              style={{ textDecoration: 'underline' }}
             >
               click here to install it
             </a>
@@ -75,16 +75,16 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
           {showMobileHelp && (
             <p
               className={classNames?.textContent}
-              style={{ marginBottom: "1.5rem" }}
+              style={{ marginBottom: '1.5rem' }}
             >
               If nothing shows up in your mobile wallet, or nothing happened
-              once you accepted,{" "}
+              once you accepted,{' '}
               <button
                 onClick={reset}
-                style={{ textDecoration: "underline", display: "inline" }}
+                style={{ textDecoration: 'underline', display: 'inline' }}
               >
                 click here to reset
-              </button>{" "}
+              </button>{' '}
               and try connecting again. Refresh the page if the problem
               persists.
             </p>
@@ -92,16 +92,16 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
 
           <button
             onClick={() => setQrShowing((s) => !s)}
-            style={{ textAlign: "left" }}
+            style={{ textAlign: 'left' }}
           >
             <ModalSubheader
               className={classNames?.modalSubheader}
               style={{
-                marginBottom: qrShowing ? "1rem" : 0,
-                textDecoration: "underline",
+                marginBottom: qrShowing ? '1rem' : 0,
+                textDecoration: 'underline',
               }}
             >
-              {qrShowing ? "Hide" : "Show"} QR Code
+              {qrShowing ? 'Hide' : 'Show'} QR Code
             </ModalSubheader>
           </button>
         </>
@@ -110,10 +110,10 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
       {!!uri && qrShowing && (
         <QRCode
           size={500}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: '100%', height: '100%' }}
           value={uri}
         />
       )}
     </BaseModal>
-  );
-};
+  )
+}
