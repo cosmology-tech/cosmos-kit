@@ -19,15 +19,15 @@ export async function instantiateWalletConnect({
     ],
     qrcodeModal: {
       open,
-      // Occurs on disconnect, which is handled elsewhere.
       close,
     },
-    // clientMeta,
   });
+
   // clientMeta in constructor is ignored for some reason, so
   // let's set it directly :)))))))))))))
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   walletConnect._clientMeta = clientMeta;
+
   return walletConnect;
 }

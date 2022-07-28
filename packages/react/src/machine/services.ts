@@ -35,8 +35,11 @@ export function requestWalletConnect({
         close: () => console.log("qrcodeModal.close"),
         clientMeta: walletConnectClientMeta,
       });
-      walletConnect.clientMeta = walletConnectClientMeta;
     }
+
+    // todo: remove the debugging
+    // @ts-ignore
+    window.walletConnect = walletConnect;
 
     if (walletConnect.connected) {
       // WalletConnect already connected, nothing to do.

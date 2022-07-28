@@ -98,6 +98,15 @@ export const walletMachine = createMachine(
         states: {
           walletConnect: {
             initial: "requesting",
+            on: {
+              RESET: {
+                target: ".requesting",
+                actions: [
+                  "cleanUpConnectedWalletState",
+                  "killWalletConnectSession",
+                ],
+              },
+            },
             states: {
               requesting: {
                 initial: "idle",
@@ -127,11 +136,7 @@ export const walletMachine = createMachine(
                   },
                 },
               },
-              errored: {
-                on: {
-                  RESET: "requesting",
-                },
-              },
+              errored: {},
             },
           },
           walletConnectMobile: {
@@ -148,6 +153,13 @@ export const walletMachine = createMachine(
               REQUEST_WALLET_CONNECT_FULFILLED: {
                 target: "#wallet-machine.enabling",
                 actions: "assignReceivedWalletConnectInstance",
+              },
+              RESET: {
+                target: ".requesting",
+                actions: [
+                  "cleanUpConnectedWalletState",
+                  "killWalletConnectSession",
+                ],
               },
             },
             states: {
@@ -209,11 +221,13 @@ export const walletMachine = createMachine(
         entry: "cleanUpWalletConnect",
         type: "final",
         on: {
-          RESET: [
-            {
-              target: "enabling",
-            },
-          ],
+          RESET: {
+            target: "enabling",
+            actions: [
+              "cleanUpConnectedWalletState",
+              "killWalletConnectSession",
+            ],
+          },
         },
       },
       connected: {

@@ -121,7 +121,10 @@ export const WalletManagerProvider: FunctionComponent<
     connectedWallet,
   } = state.context;
 
+  // todo: remove the debugging
   console.log("**STATE**", state.value, "**CONTEXT**", state.context);
+  // @ts-ignore
+  if (typeof window !== "undefined") window.state = state;
 
   // Modal State
   const [pickerModalOpen, setPickerModalOpen] = useState(false);
@@ -216,12 +219,12 @@ export const WalletManagerProvider: FunctionComponent<
           reset={resetConnection}
         />
       )}
-      {false && (
+      {state.matches("enabling") && (
         <BaseModal
           classNames={classNames}
           isOpen
           maxWidth="24rem"
-          title="Resetting..."
+          title="Enabling..."
         >
           {renderLoader?.()}
         </BaseModal>
