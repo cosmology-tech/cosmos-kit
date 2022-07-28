@@ -51,7 +51,6 @@ module.exports = {
         allowTaggedTemplates: true,
       },
     ],
-    'no-console': 1,
     'comma-dangle': 0,
     'jsx-quotes': [2, 'prefer-double'],
     'linebreak-style': ['error', 'unix'],
