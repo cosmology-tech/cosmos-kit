@@ -1,13 +1,13 @@
-import { ChainInfo } from "@keplr-wallet/types"
-import { createContext, useContext, useEffect, useState } from "react"
+import { ChainInfo } from '@keplr-wallet/types'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 import {
   ConnectedWallet,
   IWalletManagerContext,
   UseWalletResponse,
   WalletConnectionStatus,
-} from "../types"
-import { getChainInfo, getConnectedWalletInfo } from "../utils"
+} from '../types'
+import { getChainInfo, getConnectedWalletInfo } from '../utils'
 
 export const WalletManagerContext = createContext<IWalletManagerContext | null>(
   null
@@ -16,14 +16,14 @@ export const WalletManagerContext = createContext<IWalletManagerContext | null>(
 export const useWalletManager = () => {
   const context = useContext(WalletManagerContext)
   if (!context) {
-    throw new Error("You forgot to use WalletManagerProvider.")
+    throw new Error('You forgot to use WalletManagerProvider.')
   }
 
   return context
 }
 
 export const useWallet = (
-  chainId?: ChainInfo["chainId"]
+  chainId?: ChainInfo['chainId']
 ): UseWalletResponse => {
   const {
     status: managerStatus,

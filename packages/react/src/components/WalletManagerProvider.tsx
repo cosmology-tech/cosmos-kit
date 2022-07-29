@@ -1,7 +1,7 @@
-import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate"
-import { SigningStargateClientOptions } from "@cosmjs/stargate"
-import WalletConnect from "@walletconnect/client"
-import { IClientMeta } from "@walletconnect/types"
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
+import { SigningStargateClientOptions } from '@cosmjs/stargate'
+import WalletConnect from '@walletconnect/client'
+import { IClientMeta } from '@walletconnect/types'
 import React, {
   FunctionComponent,
   PropsWithChildren,
@@ -11,9 +11,9 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from "react"
+} from 'react'
 
-import { KeplrWalletConnectV1 } from "../connectors"
+import { KeplrWalletConnectV1 } from '../connectors'
 import {
   ChainInfoOverrides,
   ConnectedWallet,
@@ -23,20 +23,20 @@ import {
   WalletClient,
   WalletConnectionStatus,
   WalletType,
-} from "../types"
+} from '../types'
 import {
   getChainInfo,
   getConnectedWalletInfo,
   KeplrWallet,
   Wallets,
-} from "../utils"
+} from '../utils'
 import {
   BaseModal,
   EnablingWalletModal,
   SelectWalletModal,
   WalletConnectModal,
-} from "./ui"
-import { WalletManagerContext } from "./WalletManagerContext"
+} from './ui'
+import { WalletManagerContext } from './WalletManagerContext'
 
 export type WalletManagerProviderProps = PropsWithChildren<{
   // Wallet types available for connection.
@@ -187,7 +187,7 @@ export const WalletManagerProvider: FunctionComponent<
 
         walletClient = await wallet.getClient(chainInfo, _walletConnect)
         if (!walletClient) {
-          throw new Error("Failed to retrieve wallet client.")
+          throw new Error('Failed to retrieve wallet client.')
         }
 
         // Prevent double app open request.
@@ -220,12 +220,12 @@ export const WalletManagerProvider: FunctionComponent<
           // Instantiate new WalletConnect instance if necessary.
           if (!_walletConnect) {
             _walletConnect = new (
-              await import("@walletconnect/client")
+              await import('@walletconnect/client')
             ).default({
-              bridge: "https://bridge.walletconnect.org",
+              bridge: 'https://bridge.walletconnect.org',
               signingMethods: [
-                "keplr_enable_wallet_connect_v1",
-                "keplr_sign_amino_wallet_connect_v1",
+                'keplr_enable_wallet_connect_v1',
+                'keplr_sign_amino_wallet_connect_v1',
               ],
               qrcodeModal: {
                 open: (uri: string, cb: () => void) => {
@@ -234,7 +234,7 @@ export const WalletManagerProvider: FunctionComponent<
                   onQrCloseCallback.current = cb
                 },
                 // Occurs on disconnect, which is handled elsewhere.
-                close: () => console.log("qrcodeModal.close"),
+                close: () => console.log('qrcodeModal.close'),
               },
               // clientMeta,
             })
@@ -300,7 +300,7 @@ export const WalletManagerProvider: FunctionComponent<
     // called once `state` reaches `State.ReadyForConnection`.
     // TODO: Add some docs about this.
     if (status === WalletConnectionStatus.Initializing) {
-      throw new Error("Cannot connect while initializing.")
+      throw new Error('Cannot connect while initializing.')
     }
 
     setStatus(WalletConnectionStatus.Connecting)
@@ -363,17 +363,17 @@ export const WalletManagerProvider: FunctionComponent<
     if (
       status !== WalletConnectionStatus.Initializing ||
       // Only run this on a browser.
-      typeof window === "undefined"
+      typeof window === 'undefined'
     ) {
       return
     }
 
-    import("@keplr-wallet/stores")
+    import('@keplr-wallet/stores')
       .then(({ getKeplrFromWindow }) => getKeplrFromWindow())
       .then(
         (keplr) =>
           keplr &&
-          keplr.mode === "mobile-web" &&
+          keplr.mode === 'mobile-web' &&
           setIsEmbeddedKeplrMobileWeb(true)
       )
       .finally(() => setStatus(WalletConnectionStatus.AttemptingAutoConnection))
@@ -384,7 +384,7 @@ export const WalletManagerProvider: FunctionComponent<
     if (
       status !== WalletConnectionStatus.AttemptingAutoConnection ||
       // Only run this on a browser.
-      typeof localStorage === "undefined"
+      typeof localStorage === 'undefined'
     ) {
       return
     }
@@ -431,8 +431,8 @@ export const WalletManagerProvider: FunctionComponent<
     }
 
     // Detect disconnected WC session and clear wallet state.
-    walletConnect.on("disconnect", () => {
-      console.log("WalletConnect disconnected.")
+    walletConnect.on('disconnect', () => {
+      console.log('WalletConnect disconnected.')
       disconnect(true)
       _cleanupAfterConnection()
     })
@@ -442,7 +442,7 @@ export const WalletManagerProvider: FunctionComponent<
   useEffect(() => {
     if (
       // Only run this on a browser.
-      typeof window === "undefined"
+      typeof window === 'undefined'
     ) {
       return
     }
@@ -458,11 +458,11 @@ export const WalletManagerProvider: FunctionComponent<
     }
 
     // Add event listener.
-    window.addEventListener("keplr_keystorechange", listener)
+    window.addEventListener('keplr_keystorechange', listener)
 
     // Remove event listener on clean up.
     return () => {
-      window.removeEventListener("keplr_keystorechange", listener)
+      window.removeEventListener('keplr_keystorechange', listener)
     }
   }, [onKeplrKeystoreChangeEvent, connectedWallet, status, _connectToWallet])
 

@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from "react"
-import styled from "styled-components"
+import React, { FunctionComponent } from 'react'
+import styled from 'styled-components'
 
-import { Wallet } from "../../types"
-import { BaseModal, BaseModalProps } from "./BaseModal"
+import { Wallet } from '../../types'
+import { BaseModal, BaseModalProps } from './BaseModal'
 
 export interface SelectWalletModalProps extends BaseModalProps {
   wallets: Wallet[]
