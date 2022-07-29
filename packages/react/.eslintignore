@@ -3,3 +3,5 @@ dist/
 main/
 module/
 coverage/
+types/
+setupTests.ts

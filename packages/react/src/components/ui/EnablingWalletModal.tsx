@@ -1,6 +1,6 @@
-import React, { FunctionComponent, ReactNode, useEffect, useState } from "react"
+import React, { FunctionComponent, ReactNode, useEffect, useState } from 'react'
 
-import { BaseModal, BaseModalProps } from "./BaseModal"
+import { BaseModal, BaseModalProps } from './BaseModal'
 
 export interface EnablingWalletModalProps extends BaseModalProps {
   renderLoader?: () => ReactNode
@@ -32,13 +32,13 @@ export const EnablingWalletModal: FunctionComponent<
     >
       {showHelp && (
         <p className={classNames?.textContent}>
-          If nothing shows up in your wallet,{" "}
+          If nothing shows up in your wallet,{' '}
           <button
             onClick={reset}
-            style={{ textDecoration: "underline", display: "inline" }}
+            style={{ textDecoration: 'underline', display: 'inline' }}
           >
             click here to reset
-          </button>{" "}
+          </button>{' '}
           and try connecting again. Refresh the page if the problem persists.
         </p>
       )}

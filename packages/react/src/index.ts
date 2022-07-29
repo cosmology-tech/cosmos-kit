@@ -2,21 +2,20 @@
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace browser.storage {
-  // eslint-disable-next-line unused-imports/no-unused-vars
   const local: {
-    get: undefined;
-    set: undefined;
-  };
+    get: undefined
+    set: undefined
+  }
 }
 
 if (
-  typeof window !== "undefined" &&
-  typeof browser !== "undefined" &&
-  typeof browser.storage === "undefined"
+  typeof window !== 'undefined' &&
+  typeof browser !== 'undefined' &&
+  typeof browser.storage === 'undefined'
 ) {
-  browser.storage = { local: { get: undefined, set: undefined } };
+  browser.storage = { local: { get: undefined, set: undefined } }
 }
 
-export * from "./components";
-export * from "./types";
-export * from "./utils";
+export * from './components'
+export * from './types'
+export * from './utils'

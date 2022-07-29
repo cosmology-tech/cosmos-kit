@@ -1,14 +1,11 @@
 module.exports = {
-  plugins: ['prettier'],
-  extends: ['eslint:recommended', 'prettier'],
-  parser: '@babel/eslint-parser',
+  plugins: ['@typescript-eslint', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 11,
-    requireConfigFile: false,
+    ecmaVersion: 2020,
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
+    project: 'tsconfig.json',
   },
   env: {
     es6: true,
@@ -28,13 +25,11 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
-    'no-unused-vars': [
-      0,
-      {
-        ignoreSiblings: true,
+    'no-unused-vars': 0,
+    '@typescript-eslint/no-unused-vars': ['warn',
+          {
         argsIgnorePattern: 'React|res|next|^_',
-      },
-    ],
+      }],
     'prefer-const': [
       'error',
       {

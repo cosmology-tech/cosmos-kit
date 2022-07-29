@@ -1,13 +1,13 @@
 import {
   isAndroid as checkIsAndroid,
   isMobile as checkIsMobile,
-} from "@walletconnect/browser-utils"
-import QRCode from "qrcode.react"
-import React, { FunctionComponent, useEffect, useMemo, useState } from "react"
+} from '@walletconnect/browser-utils'
+import QRCode from 'qrcode.react'
+import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
 
-import { BaseModal, BaseModalProps, ModalSubheader } from "./BaseModal"
+import { BaseModal, BaseModalProps, ModalSubheader } from './BaseModal'
 
-const IOS_KEPLR_MOBILE_URL = "itms-apps://itunes.apple.com/app/1567851089"
+const IOS_KEPLR_MOBILE_URL = 'itms-apps://itunes.apple.com/app/1567851089'
 
 export interface WalletConnectModalProps extends BaseModalProps {
   uri?: string
@@ -66,29 +66,29 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
       classNames={classNames}
       isOpen={isOpen}
       maxWidth="24rem"
-      title={isMobile ? "Connect to Mobile Wallet" : "Scan QR Code"}
+      title={isMobile ? 'Connect to Mobile Wallet' : 'Scan QR Code'}
       {...props}
     >
       {!!navigateToAppURL && (
         <>
           <p
             className={classNames?.textContent}
-            style={{ marginBottom: "1rem" }}
+            style={{ marginBottom: '1rem' }}
           >
-            <a href={navigateToAppURL} style={{ textDecoration: "underline" }}>
+            <a href={navigateToAppURL} style={{ textDecoration: 'underline' }}>
               Open your mobile wallet
-            </a>{" "}
+            </a>{' '}
             and accept the connection request.
           </p>
 
           <p
             className={classNames?.textContent}
-            style={{ marginBottom: showMobileHelp ? "1rem" : "1.5rem" }}
+            style={{ marginBottom: showMobileHelp ? '1rem' : '1.5rem' }}
           >
-            If you don&apos;t have Keplr Mobile installed,{" "}
+            If you don&apos;t have Keplr Mobile installed,{' '}
             <a
               href={isAndroid ? navigateToAppURL : IOS_KEPLR_MOBILE_URL}
-              style={{ textDecoration: "underline" }}
+              style={{ textDecoration: 'underline' }}
             >
               click here to install it
             </a>
@@ -99,16 +99,16 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
           {showMobileHelp && (
             <p
               className={classNames?.textContent}
-              style={{ marginBottom: "1.5rem" }}
+              style={{ marginBottom: '1.5rem' }}
             >
               If nothing shows up in your mobile wallet, or nothing happened
-              once you accepted,{" "}
+              once you accepted,{' '}
               <button
                 onClick={reset}
-                style={{ textDecoration: "underline", display: "inline" }}
+                style={{ textDecoration: 'underline', display: 'inline' }}
               >
                 click here to reset
-              </button>{" "}
+              </button>{' '}
               and try connecting again. Refresh the page if the problem
               persists.
             </p>
@@ -116,16 +116,16 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
 
           <button
             onClick={() => setQrShowing((s) => !s)}
-            style={{ textAlign: "left" }}
+            style={{ textAlign: 'left' }}
           >
             <ModalSubheader
               className={classNames?.modalSubheader}
               style={{
-                marginBottom: qrShowing ? "1rem" : 0,
-                textDecoration: "underline",
+                marginBottom: qrShowing ? '1rem' : 0,
+                textDecoration: 'underline',
               }}
             >
-              {qrShowing ? "Hide" : "Show"} QR Code
+              {qrShowing ? 'Hide' : 'Show'} QR Code
             </ModalSubheader>
           </button>
         </>
@@ -134,7 +134,7 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
       {!!uri && qrShowing && (
         <QRCode
           size={500}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: '100%', height: '100%' }}
           value={uri}
         />
       )}

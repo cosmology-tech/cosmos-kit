@@ -4,12 +4,12 @@ import React, {
   ReactElement,
   ReactNode,
   useEffect,
-} from "react"
-import ReactModal from "react-modal"
-import styled from "styled-components"
+} from 'react'
+import ReactModal from 'react-modal'
+import styled from 'styled-components'
 
-import { ModalClassNames } from "../../types"
-import { CloseIcon as DefaultCloseIcon } from "./CloseIcon"
+import { ModalClassNames } from '../../types'
+import { CloseIcon as DefaultCloseIcon } from './CloseIcon'
 
 export type BaseModalProps = PropsWithChildren<{
   isOpen: boolean
@@ -26,19 +26,19 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
   isOpen,
   onClose,
   title,
-  maxWidth = "36rem",
+  maxWidth = '36rem',
   classNames,
   closeIcon,
   children,
 }) => {
   // ReactModal accessibility.
   useEffect(() => {
-    ReactModal.setAppElement("body")
+    ReactModal.setAppElement('body')
   }, [])
 
   return (
     <ReactModal
-      className={classNames?.modalContent ?? "_"}
+      className={classNames?.modalContent ?? '_'}
       contentElement={(props, children) => (
         <ModalContent maxWidth={maxWidth} {...props}>
           {children}
@@ -49,13 +49,13 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
         e.preventDefault()
         onClose?.()
       }}
-      overlayClassName={classNames?.modalOverlay ?? "_"}
+      overlayClassName={classNames?.modalOverlay ?? '_'}
       overlayElement={(props, children) => (
         <ModalOverlay {...props}>{children}</ModalOverlay>
       )}
     >
       <>
-        {typeof title === "string" ? (
+        {typeof title === 'string' ? (
           <ModalHeader className={classNames?.modalHeader}>{title}</ModalHeader>
         ) : (
           title
