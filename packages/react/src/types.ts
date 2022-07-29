@@ -1,14 +1,10 @@
-import {
-  SigningCosmWasmClient,
-  SigningCosmWasmClientOptions,
-} from "@cosmjs/cosmwasm-stargate";
+import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { OfflineSigner } from "@cosmjs/proto-signing";
-import {
-  SigningStargateClient,
-  SigningStargateClientOptions,
-} from "@cosmjs/stargate";
+import { SigningStargateClient } from "@cosmjs/stargate";
 import { ChainInfo, Keplr } from "@keplr-wallet/types";
 import WalletConnect from "@walletconnect/client";
+import { StateFrom } from "xstate";
+import { walletMachine } from "./machine/machine";
 
 export interface IKeplrWalletConnectV1 extends Keplr {
   dontOpenAppOnEnable: boolean;
@@ -78,30 +74,15 @@ export interface IWalletManagerContext {
   // depending on the props passed to WalletManagerProvider.
   connect: () => void;
   // Function that disconnects from the connected wallet.
-  disconnect: () => Promise<void>;
+  disconnect: () => void;
   // Connected wallet info and clients for interacting with the chain.
   connectedWallet?: ConnectedWallet;
-  // Status of cosmodal.
-  status: WalletConnectionStatus;
+  // Status of the wallet machine.
+  state: StateFrom<typeof walletMachine>;
   // If status is WalletConnectionStatus.Connected.
   connected: boolean;
   // Error encountered during the connection process.
-  error?: unknown;
-  // If this app is running inside the Keplr Mobile web interface.
-  isEmbeddedKeplrMobileWeb: boolean;
-  // List or getter of additional or replacement ChainInfo objects. These
-  // will take precedent over internal definitions by comparing `chainId`.
-  // This is passed through from the provider props to allow composition
-  // of your own hooks, and for use in the built-in useWallet hook.
-  chainInfoOverrides?: ChainInfoOverrides;
-  // Getter for options passed to SigningCosmWasmClient on connection.
-  // This is passed through from the provider props to allow composition
-  // of your own hooks, and for use in the built-in useWallet hook.
-  getSigningCosmWasmClientOptions?: SigningClientGetter<SigningCosmWasmClientOptions>;
-  // Getter for options passed to SigningStargateClient on connection.
-  // This is passed through from the provider props to allow composition
-  // of your own hooks, and for use in the built-in useWallet hook.
-  getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>;
+  error?: string;
 }
 
 export interface ModalClassNames {
@@ -119,6 +100,7 @@ export interface ModalClassNames {
   textContent?: string;
 }
 
+/* todo: deprecate the status */
 export enum WalletConnectionStatus {
   Initializing,
   AttemptingAutoConnection,
@@ -131,8 +113,10 @@ export enum WalletConnectionStatus {
 }
 
 export type UseWalletResponse = Partial<ConnectedWallet> &
+  /* todo: there's no status on the context anymore */
   Pick<IWalletManagerContext, "status" | "connected" | "error">;
 
+/* todo: might want to support chain name for selecting a chain */
 export enum ChainInfoID {
   Osmosis1 = "osmosis-1",
   Cosmoshub4 = "cosmoshub-4",

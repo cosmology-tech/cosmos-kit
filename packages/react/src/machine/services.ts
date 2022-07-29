@@ -138,7 +138,7 @@ export function subscribeToKeplrWalletChange() {
 }
 
 export function prepareInitialState({
-  config: { localStorageKey },
+  config: { localStorageKey, preselectedWalletType },
 }: WalletMachineContextType) {
   return async (send) => {
     // Try to fetch value from localStorage.
@@ -148,7 +148,8 @@ export function prepareInitialState({
 
     /* todo: move preselection outside */
     // serialize preselected wallet type
-    const automaticWalletType = cachedWalletType || undefined;
+    const automaticWalletType =
+      cachedWalletType || preselectedWalletType || undefined;
 
     const keplr = await fetchKeplrInstance();
 

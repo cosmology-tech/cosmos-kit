@@ -15,7 +15,6 @@ import {
   ModalClassNames,
   SigningClientGetter,
   Wallet,
-  WalletConnectionStatus,
   WalletType,
 } from "../types";
 import { Wallets } from "../utils";
@@ -29,6 +28,7 @@ import { WalletManagerContext } from "./WalletManagerContext";
 import { useMachine } from "@xstate/react";
 import { walletMachine } from "../machine/machine";
 import { WalletMachineContextType } from "../machine/types";
+import { isMobile } from "@walletconnect/browser-utils";
 
 export type WalletManagerProviderProps = PropsWithChildren<{
   // Wallet types available for connection.
@@ -121,23 +121,12 @@ export const WalletManagerProvider: FunctionComponent<
     connectedWallet,
   } = state.context;
 
-  // todo: remove the debugging
-  console.log("**STATE**", state.value, "**CONTEXT**", state.context);
-  // @ts-ignore
-  if (typeof window !== "undefined") window.state = state;
-
   // Modal State
   const [pickerModalOpen, setPickerModalOpen] = useState(false);
   const [walletEnableModalOpen, setWalletEnableModalOpen] = useState(false);
 
-  // Disconnect from connected wallet.
-  const disconnect = useCallback(() => {
-    send("DISCONNECT");
-  }, [send]);
-
-  // Obtain WalletConnect if necessary, and connect to the wallet.
   const connectToWallet = useCallback(
-    async (wallet: Wallet) => {
+    (wallet: Wallet) => {
       send("SELECT_WALLET", { walletType: wallet.type });
     },
     [send]
@@ -146,6 +135,17 @@ export const WalletManagerProvider: FunctionComponent<
   // Begin connection process, either auto-selecting a wallet or opening
   // the selection modal.
   const beginConnection = useCallback(() => {
+    // Connect to wallet connect off the bat if on mobile
+    if (isMobile()) {
+      const walletConnectWallet = Wallets.find(
+        (it) => it.type === WalletType.WalletConnectKeplr
+      );
+
+      if (walletConnectWallet) {
+        return connectToWallet(walletConnectWallet);
+      }
+    }
+
     // If no default wallet, open modal to choose one.
     setPickerModalOpen(true);
   }, [setPickerModalOpen]);
@@ -155,38 +155,37 @@ export const WalletManagerProvider: FunctionComponent<
     send("RESET");
   }, [send]);
 
+  // Disconnect from connected wallet.
+  const disconnect = useCallback(() => {
+    send("DISCONNECT");
+  }, [send]);
+
   // Memoize context data.
   const value = useMemo(
     () => ({
+      state,
       connect: beginConnection,
       disconnect,
       connectedWallet,
-      status: state.matches("connected")
-        ? WalletConnectionStatus.Connected
-        : WalletConnectionStatus.Initializing,
       connected: state.matches("connected"),
-      error: state.context.error?.message,
-      isEmbeddedKeplrMobileWeb,
-      chainInfoOverrides,
-      getSigningCosmWasmClientOptions,
-      getSigningStargateClientOptions,
+      error: state.matches("errored") && state.context.error?.message,
     }),
     [
+      state,
       beginConnection,
       chainInfoOverrides,
       connectedWallet,
       disconnect,
-      // error,
       getSigningCosmWasmClientOptions,
       getSigningStargateClientOptions,
       isEmbeddedKeplrMobileWeb,
-      // status,
     ]
   );
 
   return (
     <WalletManagerContext.Provider value={value}>
       {children}
+
       {state.matches("selecting") && (
         <SelectWalletModal
           classNames={classNames}
@@ -229,9 +228,6 @@ export const WalletManagerProvider: FunctionComponent<
           {renderLoader?.()}
         </BaseModal>
       )}
-      {/*{JSON.stringify(state.value)} <br />*/}
-      {/*{JSON.stringify({ walletConnectUri })} <br /> <br /> <br /> <br />*/}
-      {/*{JSON.stringify(state.context, null, 2)}*/}
     </WalletManagerContext.Provider>
   );
 };
