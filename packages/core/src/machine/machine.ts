@@ -232,12 +232,24 @@ export const walletMachine = createMachine(
       },
       connected: {
         entry: [
+          'cleanUpError',
           'cleanUpWalletConnectURI',
           'cleanUpWalletConnect',
           'updateWalletTypeInStorage',
         ],
         invoke: {
           src: 'subscribeToKeplrWalletChange',
+        },
+        states: {
+          enabling: {
+            invoke: {
+              src: 'enableWallet',
+              onError: 'errored',
+            },
+            entry: 'cleanUpError',
+          },
+          errored: {},
+          enabled: {},
         },
         on: {
           DISCONNECT: {
@@ -246,6 +258,7 @@ export const walletMachine = createMachine(
               'cleanUpConnectedWalletState',
               'killWalletConnectSession',
               'clearWalletTypeInStorage',
+              'cleanUpError',
             ],
           },
           RECONNECT: [
@@ -255,6 +268,13 @@ export const walletMachine = createMachine(
               cond: 'isConnectedToWalletExtension',
             },
           ],
+          CONNECT_ADDITIONAL_CHAIN: {
+            target: '.enabling',
+          },
+          WALLET_ENABLE: {
+            target: '.enabled',
+            actions: 'assignConnectedWallet',
+          },
         },
       },
     },

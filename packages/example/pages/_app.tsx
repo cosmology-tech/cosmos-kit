@@ -1,10 +1,7 @@
 import '../styles/globals.css'
 
-import {
-  ChainInfoID,
-  WalletManagerProvider,
-  WalletType,
-} from '@cosmos-wallet/react'
+import { WalletManagerProvider } from '@cosmos-wallet/react'
+import { ChainInfoID, WalletType } from '@cosmos-wallet/core'
 import type { AppProps } from 'next/app'
 import { FunctionComponent } from 'react'
 import { GasPrice } from '@cosmjs/stargate'

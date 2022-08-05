@@ -1,5 +1,5 @@
 import { walletMachineInitialContext } from './context'
-import { ConnectedWallet, WalletType } from '../types'
+import { ChainInfoID, ConnectedWallet, WalletType } from '../types'
 import WalletConnect from '@walletconnect/client'
 
 export type WalletMachineContextType = typeof walletMachineInitialContext
@@ -27,7 +27,12 @@ export type WalletMachineEvent =
   | {
       type: 'NAVIGATE_TO_WALLET_CONNECT_APP'
     }
-  | { type: 'WALLET_ENABLE'; connectedWallet: ConnectedWallet }
+  | {
+      type: 'WALLET_ENABLE'
+      connectedWallet: ConnectedWallet
+      chainId: ChainInfoID
+    }
+  | { type: 'CONNECT_ADDITIONAL_CHAIN'; chainId: ChainInfoID }
   | { type: 'RESET' }
   | { type: 'CONNECTED' }
   | { type: 'RECONNECT' }

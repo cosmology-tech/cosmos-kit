@@ -1,12 +1,15 @@
-import { instantiateWalletConnect } from '../utils/instantiateWalletConnect'
-import { getChainInfo, getConnectedWalletInfo } from '../utils'
+import {
+  getChainInfo,
+  getConnectedWalletInfo,
+  fetchKeplrInstance,
+  instantiateWalletConnect,
+} from '../utils'
 import { KeplrWalletConnectV1 } from '../connectors'
 import { WalletMachineContextType, WalletMachineEvent } from './types'
 import { WalletType } from '../types'
-import { fetchKeplrInstance } from '../utils/fetchKeplrInstance'
 
 export function requestWalletConnect({
-  config: { walletConnectClientMeta },
+  walletConnectClientMeta,
   walletConnect: walletConnectInContext,
 }: WalletMachineContextType) {
   /*
@@ -65,17 +68,18 @@ export function enableWallet(
   {
     walletType,
     wallet,
-    utils,
-    config,
     walletConnect,
+    defaultChainId,
+    getSigningCosmWasmClientOptions,
+    getSigningStargateClientOptions,
+    chainInfoOverrides,
+    localStorageKey,
   }: WalletMachineContextType,
   data: WalletMachineEvent
 ) {
   return async (send) => {
-    const chainInfo = await getChainInfo(
-      config.defaultChainId,
-      config.chainInfoOverrides
-    )
+    const chainId = 'chainId' in data ? data.chainId : defaultChainId
+    const chainInfo = await getChainInfo(chainId, chainInfoOverrides)
 
     const walletClient = await wallet.getClient(chainInfo, walletConnect)
     if (!walletClient) {
@@ -92,8 +96,8 @@ export function enableWallet(
     }
 
     const signerOptions = await Promise.all([
-      utils.getSigningCosmWasmClientOptions?.(chainInfo),
-      utils.getSigningStargateClientOptions?.(chainInfo),
+      getSigningCosmWasmClientOptions?.(chainInfo),
+      getSigningStargateClientOptions?.(chainInfo),
     ])
 
     // Save connected wallet data.
@@ -106,13 +110,14 @@ export function enableWallet(
 
     /* todo: move side effects out of the action */
     // Save localStorage value.
-    if (config.localStorageKey) {
-      localStorage.setItem(config.localStorageKey, wallet.type)
+    if (localStorageKey) {
+      localStorage.setItem(localStorageKey, wallet.type)
     }
 
     send({
       type: 'WALLET_ENABLE',
       connectedWallet,
+      chainId,
     })
   }
 }
@@ -134,7 +139,8 @@ export function subscribeToKeplrWalletChange() {
 }
 
 export function prepareInitialState({
-  config: { localStorageKey, preselectedWalletType },
+  localStorageKey,
+  preselectedWalletType,
 }: WalletMachineContextType) {
   return async (send) => {
     // Try to fetch value from localStorage.

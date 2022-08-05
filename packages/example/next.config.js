@@ -3,6 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
 }
 
-const withTM = require('next-transpile-modules')(['@cosmos-wallet/react'])
+const withTM = require('next-transpile-modules')([
+  '@cosmos-wallet/react',
+  '@cosmos-wallet/core',
+])
 
 module.exports = withTM(nextConfig)

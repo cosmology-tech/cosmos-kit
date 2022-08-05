@@ -1,20 +1,10 @@
-import {
-  WalletConnectionStatus,
-  useWallet,
-  useWalletManager,
-} from '@cosmos-wallet/react'
+import { useWallet, useWalletManager } from '@cosmos-wallet/react'
 import type { NextPage } from 'next'
 import { useCallback, useState } from 'react'
 
 const Home: NextPage = () => {
   const { connect, disconnect } = useWalletManager()
-  const {
-    status: walletStatus,
-    error,
-    name,
-    address,
-    signingCosmWasmClient,
-  } = useWallet()
+  const { connected, error, name, address, signingCosmWasmClient } = useWallet()
 
   const [contractAddress, setContractAddress] = useState('')
   const [msg, setMsg] = useState('')
@@ -48,7 +38,7 @@ const Home: NextPage = () => {
   return (
     <div className="absolute top-0 right-0 left-0 bottom-0 flex justify-center items-center">
       <div className="flex flex-col items-stretch gap-2 max-w-[90vw] max-h-[90vh]">
-        {walletStatus === WalletConnectionStatus.Connected ? (
+        {connected ? (
           <>
             <p>
               Name: <b>{name}</b>
@@ -99,9 +89,7 @@ const Home: NextPage = () => {
             >
               Connect
             </button>
-            {error ? (
-              <p>{error instanceof Error ? error.message : `${error}`}</p>
-            ) : undefined}
+            {error ? <p>{error.message}</p> : undefined}
           </>
         )}
       </div>

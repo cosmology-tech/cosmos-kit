@@ -68,8 +68,8 @@
     "@testing-library/jest-dom": "5.16.4",
     "@types/firefox-webext-browser": "94.0.1",
     "@types/jest": "^28.1.5",
-    "@typescript-eslint/eslint-plugin": "5.31.0",
-    "@typescript-eslint/parser": "5.31.0",
+    "@typescript-eslint/eslint-plugin": "5.32.0",
+    "@typescript-eslint/parser": "5.32.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "28.1.3",
     "babel-watch": "^7.0.0",
@@ -99,13 +99,12 @@
     "@walletconnect/browser-utils": "1.7.8",
     "@walletconnect/client": "1.7.8",
     "@walletconnect/types": "1.7.8",
-    "@xstate/react": "3.0.0",
+    "@cosmos-wallet/core": "*",
     "qrcode.react": "3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal": "3.15.1",
-    "styled-components": "5.3.5",
-    "xstate": "4.32.1"
+    "styled-components": "5.3.5"
   },
   "gitHead": "b2fff88a80f03af963d43cb264b949e1b9688d78"
 }

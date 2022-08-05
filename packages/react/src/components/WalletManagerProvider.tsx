@@ -16,8 +16,8 @@ import {
   SigningClientGetter,
   Wallet,
   WalletType,
-} from '../types'
-import { Wallets } from '../utils'
+  Wallets,
+} from '@cosmos-wallet/core'
 import {
   BaseModal,
   EnablingWalletModal,
@@ -26,9 +26,9 @@ import {
 } from './ui'
 import { WalletManagerContext } from './WalletManagerContext'
 import { useMachine } from '@xstate/react'
-import { walletMachine } from '../machine/machine'
-import { WalletMachineContextType } from '../machine/types'
+import { walletMachine } from '@cosmos-wallet/core'
 import { isMobile } from '@walletconnect/browser-utils'
+import { createWalletMachineContext } from '@cosmos-wallet/core/src'
 
 export type WalletManagerProviderProps = PropsWithChildren<{
   // Wallet types available for connection.
@@ -81,45 +81,35 @@ export const WalletManagerProvider: FunctionComponent<
   getSigningStargateClientOptions,
 }) => {
   //! STATE
-  /* initialize context */
-  const stateMachineContext = useMemo((): WalletMachineContextType => {
-    return {
-      ...walletMachine.context,
-      enabledWallets: Wallets.filter(({ type }) =>
-        enabledWalletTypes.includes(type)
-      ),
-      utils: {
-        getSigningCosmWasmClientOptions,
-        getSigningStargateClientOptions,
-      },
-      config: {
+  /* initialize state machine */
+  const [state, send] = useMachine(walletMachine, {
+    context: useMemo(
+      () =>
+        createWalletMachineContext({
+          enabledWallets: enabledWalletTypes.map((walletType) =>
+            Wallets.find(({ type }) => walletType === type)
+          ),
+          getSigningCosmWasmClientOptions,
+          getSigningStargateClientOptions,
+          localStorageKey,
+          defaultChainId,
+          chainInfoOverrides,
+          walletConnectClientMeta,
+          onKeplrKeystoreChangeEvent,
+          preselectedWalletType,
+        }),
+      [
         localStorageKey,
         defaultChainId,
         chainInfoOverrides,
-        walletConnectClientMeta,
-        onKeplrKeystoreChangeEvent,
-        preselectedWalletType,
-      },
-    }
-  }, [
-    localStorageKey,
-    defaultChainId,
-    chainInfoOverrides,
-    getSigningCosmWasmClientOptions,
-    getSigningStargateClientOptions,
-    enabledWalletTypes,
-  ])
-
-  const [state, send] = useMachine(walletMachine, {
-    context: stateMachineContext,
+        getSigningCosmWasmClientOptions,
+        getSigningStargateClientOptions,
+        enabledWalletTypes,
+      ]
+    ),
   })
 
-  const {
-    enabledWallets,
-    isEmbeddedKeplrMobileWeb,
-    walletConnectUri,
-    connectedWallet,
-  } = state.context
+  const { enabledWallets, walletConnectUri } = state.context
 
   // Modal State
   const [pickerModalOpen, setPickerModalOpen] = useState(false)
@@ -164,22 +154,11 @@ export const WalletManagerProvider: FunctionComponent<
   const value = useMemo(
     () => ({
       state,
+      send,
       connect: beginConnection,
       disconnect,
-      connectedWallet,
-      connected: state.matches('connected'),
-      error: state.matches('errored') && state.context.error?.message,
     }),
-    [
-      state,
-      beginConnection,
-      chainInfoOverrides,
-      connectedWallet,
-      disconnect,
-      getSigningCosmWasmClientOptions,
-      getSigningStargateClientOptions,
-      isEmbeddedKeplrMobileWeb,
-    ]
+    [state, send, beginConnection, disconnect]
   )
 
   return (
