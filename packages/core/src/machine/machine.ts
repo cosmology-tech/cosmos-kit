@@ -266,6 +266,7 @@ export const walletMachine = createMachine(
             {
               target: 'connecting.extension',
               cond: 'isConnectedToWalletExtension',
+              actions: 'cleanUpError',
             },
           ],
           CONNECT_ADDITIONAL_CHAIN: {

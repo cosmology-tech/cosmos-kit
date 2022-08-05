@@ -107,6 +107,7 @@ export const WalletManagerProvider: FunctionComponent<
         enabledWalletTypes,
       ]
     ),
+    devTools: true,
   })
 
   const { enabledWallets, walletConnectUri } = state.context
