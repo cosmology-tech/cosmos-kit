@@ -8,7 +8,7 @@ const Home: NextPage = () => {
 
   const { connect, disconnect } = useWalletManager()
   const { connected, error, name, address, signingCosmWasmClient } = useWallet(
-    ChainInfoID[chainId]
+    chainId ? ChainInfoID[chainId] : undefined
   )
 
   const [contractAddress, setContractAddress] = useState('')
