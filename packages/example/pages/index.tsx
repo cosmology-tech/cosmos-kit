@@ -1,10 +1,15 @@
 import { useWallet, useWalletManager } from '@cosmos-wallet/react'
+import { ChainInfoID } from '@cosmos-wallet/core'
 import type { NextPage } from 'next'
 import { useCallback, useState } from 'react'
 
 const Home: NextPage = () => {
+  const [chainId, setChainId] = useState()
+
   const { connect, disconnect } = useWalletManager()
-  const { connected, error, name, address, signingCosmWasmClient } = useWallet()
+  const { connected, error, name, address, signingCosmWasmClient } = useWallet(
+    chainId ? ChainInfoID[chainId] : undefined
+  )
 
   const [contractAddress, setContractAddress] = useState('')
   const [msg, setMsg] = useState('')
@@ -38,6 +43,25 @@ const Home: NextPage = () => {
   return (
     <div className="absolute top-0 right-0 left-0 bottom-0 flex justify-center items-center">
       <div className="flex flex-col items-stretch gap-2 max-w-[90vw] max-h-[90vh]">
+        <p>
+          Chain id:{' '}
+          <select
+            value={chainId}
+            onChange={({ target: { value } }) => {
+              setChainId(ChainInfoID[value] ? value : undefined)
+            }}
+          >
+            <option value={undefined}>Default</option>
+            {Object.keys(ChainInfoID).map((id) => {
+              return (
+                <option key={id} value={id}>
+                  {id}
+                </option>
+              )
+            })}
+          </select>
+        </p>
+
         {connected ? (
           <>
             <p>
@@ -52,7 +76,6 @@ const Home: NextPage = () => {
             >
               Disconnect
             </button>
-
             <h1 className="text-lg mt-4">Execute Smart Contract</h1>
             <input
               type="text"
@@ -61,7 +84,6 @@ const Home: NextPage = () => {
               value={contractAddress}
               onChange={(event) => setContractAddress(event.target.value)}
             />
-
             <h2 className="text-lg mt-2">Message</h2>
             <textarea
               className="p-4 rounded-md outline font-mono"
@@ -69,14 +91,12 @@ const Home: NextPage = () => {
               value={msg}
               onChange={(event) => setMsg(event.target.value)}
             />
-
             <button
               onClick={execute}
               className="px-3 py-2 rounded-md border border-gray bg-gray-200 hover:opacity-70 mt-4"
             >
               Execute
             </button>
-
             {status && (
               <pre className="overflow-scroll text-xs mt-2">{status}</pre>
             )}

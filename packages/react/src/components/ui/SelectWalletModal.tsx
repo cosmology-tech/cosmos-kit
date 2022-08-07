@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-
-import { Wallet } from '../../types'
+import { Wallet } from '@cosmos-wallet/core'
 import { BaseModal, BaseModalProps } from './BaseModal'
 
 export interface SelectWalletModalProps extends BaseModalProps {

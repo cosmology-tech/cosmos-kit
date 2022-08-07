@@ -12,7 +12,6 @@ import React, {
 
 import {
   ChainInfoOverrides,
-  ModalClassNames,
   SigningClientGetter,
   Wallet,
   WalletType,
@@ -29,6 +28,7 @@ import { useMachine } from '@xstate/react'
 import { walletMachine } from '@cosmos-wallet/core'
 import { isMobile } from '@walletconnect/browser-utils'
 import { createWalletMachineContext } from '@cosmos-wallet/core/src'
+import { ModalClassNames } from '../types'
 
 export type WalletManagerProviderProps = PropsWithChildren<{
   // Wallet types available for connection.
@@ -107,6 +107,7 @@ export const WalletManagerProvider: FunctionComponent<
         enabledWalletTypes,
       ]
     ),
+    devTools: true,
   })
 
   const { enabledWallets, walletConnectUri } = state.context

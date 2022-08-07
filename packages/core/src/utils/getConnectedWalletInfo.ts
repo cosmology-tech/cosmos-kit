@@ -1,8 +1,9 @@
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
-import { SigningStargateClientOptions } from '@cosmjs/stargate'
-import { ChainInfo } from '@keplr-wallet/types'
+import type { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
+import type { SigningStargateClientOptions } from '@cosmjs/stargate'
+import type { ChainInfo } from '@keplr-wallet/types'
 
-import { ConnectedWallet, Wallet, WalletClient, WalletType } from '../types'
+import type { ConnectedWallet, Wallet, WalletClient } from '../types'
+import { WalletType } from '../types'
 
 export const getConnectedWalletInfo = async (
   wallet: Wallet,

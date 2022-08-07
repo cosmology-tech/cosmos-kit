@@ -1,5 +1,10 @@
 import '../styles/globals.css'
 
+import { inspect } from '@xstate/inspect'
+if (typeof window !== 'undefined') {
+  inspect({ iframe: false })
+}
+
 import { WalletManagerProvider } from '@cosmos-wallet/react'
 import { ChainInfoID, WalletType } from '@cosmos-wallet/core'
 import type { AppProps } from 'next/app'

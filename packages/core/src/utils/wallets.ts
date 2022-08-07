@@ -1,4 +1,5 @@
-import { Wallet, WalletType } from '../types'
+import type { Wallet } from '../types'
+import { WalletType } from '../types'
 
 // TODO: Move imageUrl, and maybe name/description, to user configuration somehow, or incorporate in planned configurable UI overhaul.
 

@@ -5,7 +5,7 @@ import {
   subscribeToKeplrWalletChange,
 } from './services'
 import { walletMachineInitialContext } from './context'
-import { WalletMachineContextType, WalletMachineEvent } from './types'
+import type { WalletMachineContextType, WalletMachineEvent } from './types'
 import {
   assignConnectedWallet,
   assignErrorState,
@@ -266,6 +266,7 @@ export const walletMachine = createMachine(
             {
               target: 'connecting.extension',
               cond: 'isConnectedToWalletExtension',
+              actions: 'cleanUpError',
             },
           ],
           CONNECT_ADDITIONAL_CHAIN: {

@@ -1,6 +1,7 @@
-import { walletMachineInitialContext } from './context'
-import { ChainInfoID, ConnectedWallet, WalletType } from '../types'
-import WalletConnect from '@walletconnect/client'
+import type { walletMachineInitialContext } from './context'
+import type { ChainInfoID, ConnectedWallet, WalletType } from '../types'
+import type WalletConnect from '@walletconnect/client'
+import type { Sender, State } from 'xstate'
 
 export type WalletMachineContextType = typeof walletMachineInitialContext
 
@@ -37,3 +38,10 @@ export type WalletMachineEvent =
   | { type: 'CONNECTED' }
   | { type: 'RECONNECT' }
   | { type: 'DISCONNECT' }
+
+export type WalletMachineState = State<
+  WalletMachineContextType,
+  WalletMachineEvent
+>
+
+export type WalletMachineEventSender = Sender<WalletMachineEvent>

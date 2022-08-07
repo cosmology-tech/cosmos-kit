@@ -1,8 +1,9 @@
 import { assign } from 'xstate'
-import { WalletMachineContextType, WalletMachineEvent } from './types'
+import type { WalletMachineContextType, WalletMachineEvent } from './types'
 import { KeplrWalletConnectV1 } from '../connectors'
 import { isAndroid } from '@walletconnect/browser-utils'
 import { getWalletConnectAppLink } from './util'
+import type { Maybe } from '../types'
 
 export const cleanUpError = assign<WalletMachineContextType>({
   error: { message: undefined, instance: undefined },
@@ -54,10 +55,11 @@ export const assignSelectedWallet = assign<
 })
 
 export const assignErrorState = assign({
-  error: (_, event: any) => {
+  error: (_, event: Maybe<{ data: Maybe<Error> }>) => {
+    const eventData = event && 'data' in event && event.data
     return {
-      instance: event.data as Error | undefined,
-      message: String(event.data) || 'Unknown error',
+      instance: eventData,
+      message: String(eventData) || 'Unknown error',
     }
   },
 })
