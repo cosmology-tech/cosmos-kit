@@ -1,4 +1,4 @@
-import {
+import type {
   AminoSignResponse,
   BroadcastMode,
   OfflineSigner,
@@ -6,13 +6,17 @@ import {
   StdSignDoc,
   StdTx,
 } from '@cosmjs/launchpad'
-import { DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing'
-import { IndexedDBKVStore, KVStore } from '@keplr-wallet/common'
+import type {
+  DirectSignResponse,
+  OfflineDirectSigner,
+} from '@cosmjs/proto-signing'
+import type { KVStore } from '@keplr-wallet/common'
+import { IndexedDBKVStore } from '@keplr-wallet/common'
 import {
   CosmJSOfflineSigner,
   CosmJSOfflineSignerOnlyAmino,
 } from '@keplr-wallet/provider'
-import {
+import type {
   ChainInfo,
   KeplrIntereactionOptions,
   KeplrMode,
@@ -20,7 +24,7 @@ import {
   Key,
 } from '@keplr-wallet/types'
 import { isAndroid, isMobile } from '@walletconnect/browser-utils'
-import {
+import type {
   IConnector,
   IJsonRpcRequest,
   IRequestOptions,
@@ -29,9 +33,9 @@ import { payloadId } from '@walletconnect/utils'
 import Axios from 'axios'
 import { Buffer } from 'buffer'
 import deepmerge from 'deepmerge'
-import { SecretUtils } from 'secretjs/types/enigmautils'
+import type { SecretUtils } from 'secretjs/types/enigmautils'
 
-import { IKeplrWalletConnectV1 } from '../types'
+import type { IKeplrWalletConnectV1 } from '../types'
 
 // VersionFormatRegExp checks if a chainID is in the format required for parsing versions
 // The chainID should be in the form: `{identifier}-{version}`

@@ -5,7 +5,7 @@ import {
   subscribeToKeplrWalletChange,
 } from './services'
 import { walletMachineInitialContext } from './context'
-import { WalletMachineContextType, WalletMachineEvent } from './types'
+import type { WalletMachineContextType, WalletMachineEvent } from './types'
 import {
   assignConnectedWallet,
   assignErrorState,

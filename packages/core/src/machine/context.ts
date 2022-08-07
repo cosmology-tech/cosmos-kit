@@ -1,4 +1,4 @@
-import {
+import type {
   ChainInfoID,
   ChainInfoOverrides,
   ConnectedWallet,
@@ -8,11 +8,10 @@ import {
   WalletClient,
   WalletType,
 } from '../types'
-import WalletConnect from '@walletconnect/client'
-import { ChainInfo } from '@keplr-wallet/types'
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
-import { SigningStargateClientOptions } from '@cosmjs/stargate'
-import { IClientMeta } from '@walletconnect/types'
+import type WalletConnect from '@walletconnect/client'
+import type { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
+import type { SigningStargateClientOptions } from '@cosmjs/stargate'
+import type { IClientMeta } from '@walletconnect/types'
 
 export const walletMachineInitialContext = {
   connectedWallets: {
@@ -35,8 +34,12 @@ export const walletMachineInitialContext = {
   isEmbeddedKeplrMobileWeb: false,
   /* enabled wallets and then enabled wallet types that we pass from props? */
   enabledWallets: undefined as Maybe<Array<Wallet>>,
-  cleanUpWalletConnectCallback: undefined as Maybe<(...args: any) => any>,
-  defaultChainId: undefined as Maybe<ChainInfo['chainId']>,
+  cleanUpWalletConnectCallback: undefined as Maybe<
+    (...args: Array<unknown>) => unknown
+  >,
+  defaultChainId: undefined as Maybe<
+    typeof ChainInfoID[keyof typeof ChainInfoID]
+  >,
   chainInfoOverrides: undefined as Maybe<ChainInfoOverrides>,
   localStorageKey: undefined as Maybe<string>,
   // Descriptive info about the webapp which gets displayed when enabling a

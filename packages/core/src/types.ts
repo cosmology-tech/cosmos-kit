@@ -1,8 +1,8 @@
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
-import { OfflineSigner } from '@cosmjs/proto-signing'
-import { SigningStargateClient } from '@cosmjs/stargate'
-import { ChainInfo, Keplr } from '@keplr-wallet/types'
-import WalletConnect from '@walletconnect/client'
+import type { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import type { OfflineSigner } from '@cosmjs/proto-signing'
+import type { SigningStargateClient } from '@cosmjs/stargate'
+import type { ChainInfo, Keplr } from '@keplr-wallet/types'
+import type WalletConnect from '@walletconnect/client'
 
 export interface IKeplrWalletConnectV1 extends Keplr {
   dontOpenAppOnEnable: boolean

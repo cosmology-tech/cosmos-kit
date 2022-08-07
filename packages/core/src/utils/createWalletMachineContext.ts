@@ -1,4 +1,5 @@
-import { walletMachine, WalletMachineContextType } from '../machine'
+import type { WalletMachineContextType } from '../machine'
+import { walletMachine } from '../machine'
 
 /* create wallet machine context with its default values */
 export function createWalletMachineContext(

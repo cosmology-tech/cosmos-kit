@@ -1,6 +1,6 @@
 import { isMobile } from '@walletconnect/browser-utils'
 import { WalletType } from '../types'
-import { WalletMachineContextType, WalletMachineEvent } from './types'
+import type { WalletMachineContextType, WalletMachineEvent } from './types'
 
 export const shouldSelectWalletConnectMobile = (
   _,

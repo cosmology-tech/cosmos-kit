@@ -5,8 +5,12 @@ import {
   instantiateWalletConnect,
 } from '../utils'
 import { KeplrWalletConnectV1 } from '../connectors'
-import { WalletMachineContextType, WalletMachineEvent } from './types'
-import { WalletType } from '../types'
+import type {
+  WalletMachineContextType,
+  WalletMachineEvent,
+  WalletMachineEventSender,
+} from './types'
+import type { WalletType } from '../types'
 
 export function requestWalletConnect({
   walletConnectClientMeta,
@@ -16,7 +20,9 @@ export function requestWalletConnect({
    * todo: when disconnected, do you want to connect to another wallet instead or keep the same keplr session?
    *       or you want the list of previously connected wallets?
    * */
-  return async function establishWalletConnection(send) {
+  return async function establishWalletConnection(
+    send: WalletMachineEventSender
+  ) {
     let walletConnect = walletConnectInContext
 
     const shouldInstantiateWalletConnect = !walletConnect
@@ -66,7 +72,6 @@ export function requestWalletConnect({
 
 export function enableWallet(
   {
-    walletType,
     wallet,
     walletConnect,
     defaultChainId,
@@ -77,7 +82,7 @@ export function enableWallet(
   }: WalletMachineContextType,
   data: WalletMachineEvent
 ) {
-  return async (send) => {
+  return async (send: WalletMachineEventSender) => {
     const chainId = 'chainId' in data ? data.chainId : defaultChainId
     const chainInfo = await getChainInfo(chainId, chainInfoOverrides)
 
@@ -123,7 +128,7 @@ export function enableWallet(
 }
 
 export function subscribeToKeplrWalletChange() {
-  return (send) => {
+  return (send: WalletMachineEventSender) => {
     if (typeof window !== 'undefined') {
       const listener = () => send('RECONNECT')
 
@@ -142,7 +147,7 @@ export function prepareInitialState({
   localStorageKey,
   preselectedWalletType,
 }: WalletMachineContextType) {
-  return async (send) => {
+  return async (send: WalletMachineEventSender) => {
     // Try to fetch value from localStorage.
     const cachedWalletType = localStorageKey
       ? (localStorage.getItem(localStorageKey) as WalletType | undefined)

@@ -1,6 +1,9 @@
-import { StateFrom, InterpreterFrom } from 'xstate'
-import { ConnectedWallet, walletMachine } from '@cosmos-wallet/core'
-import { WalletMachineContextType } from '@cosmos-wallet/core/src'
+import {
+  ConnectedWallet,
+  WalletMachineContextType,
+  WalletMachineEventSender,
+  WalletMachineState,
+} from '@cosmos-wallet/core'
 
 export interface IWalletManagerContext {
   // Function to begin the connection process. This will either display
@@ -10,9 +13,9 @@ export interface IWalletManagerContext {
   // Function that disconnects from the connected wallet.
   disconnect: () => void
   // Wallet machine state.
-  state: StateFrom<typeof walletMachine>
+  state: WalletMachineState
   // Wallet machine event sender.
-  send: InterpreterFrom<typeof walletMachine>['send']
+  send: WalletMachineEventSender
 }
 
 export interface ModalClassNames {
