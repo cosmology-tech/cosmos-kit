@@ -1,452 +1,363 @@
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
-import { SigningStargateClientOptions } from '@cosmjs/stargate'
 import WalletConnect from '@walletconnect/client'
-import { IClientMeta } from '@walletconnect/types'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
-  ChainInfoOverrides,
-  ConnectedWallet,
-  SigningClientGetter,
+  CosmosWalletInitializeConfig,
+  CosmosWalletState,
+  CosmosWalletStateObserver,
   Wallet,
-  WalletConnectionStatus,
+  WalletConnectionStatus as CosmosWalletStatus,
 } from './types'
 import { getChainInfo } from './chainInfo'
 import { getConnectedWalletInfo } from './wallet'
 
-// Wallets available for connection.
-const enabledWallets: Wallet[] = []
-// Chain ID to initially connect to and selected by default if nothing
-// is passed to the hook. Must be present in one of the objects in
-// `chainInfoList`.
-const defaultChainId = ''
-// List or getter of additional or replacement ChainInfo objects. These
-// will take precedent over internal definitions by comparing `chainId`.
-const chainInfoOverrides: ChainInfoOverrides | undefined = undefined
-// Descriptive info about the webapp which gets displayed when enabling a
-// WalletConnect wallet (e.g. name, image, etc.).
-const walletConnectClientMeta: IClientMeta | undefined = undefined
-// When set to a valid wallet ID, the connect function will skip the selection
-// modal and attempt to connect to this wallet immediately.
-const preselectedWalletId: string | undefined = undefined
-// localStorage key for saving, loading, and auto connecting to a wallet.
-const localStorageKey: string | undefined = undefined
-// Callback that will be attached as a listener to the
-// `keplr_keystorechange` event on the window object.
-const onKeplrKeystoreChangeEvent: (event: Event) => unknown | undefined =
-  undefined
-// Getter for options passed to SigningCosmWasmClient on connection.
-const getSigningCosmWasmClientOptions:
-  | SigningClientGetter<SigningCosmWasmClientOptions>
-  | undefined = undefined
-// Getter for options passed to SigningStargateClient on connection.
-const getSigningStargateClientOptions:
-  | SigningClientGetter<SigningStargateClientOptions>
-  | undefined = undefined
+//! INTERNAL
 
-const [isEmbeddedKeplrMobileWeb, setIsEmbeddedKeplrMobileWeb] = useState(false)
+let _config: CosmosWalletInitializeConfig
+let _state: CosmosWalletState = {
+  displayingPicker: false,
+  enablingWallet: false,
+  walletConnectQrUri: undefined,
+  connectedWallet: undefined,
+  status: CosmosWalletStatus.Uninitialized,
+  error: undefined,
+  chainInfoOverrides: undefined,
+  getSigningCosmWasmClientOptions: undefined,
+  getSigningStargateClientOptions: undefined,
+}
 
-// Modal State
-const [pickerModalOpen, setPickerModalOpen] = useState(false)
-const [walletEnableModalOpen, setWalletEnableModalOpen] = useState(false)
-// If set, opens QR code modal.
-const [walletConnectUri, setWalletConnectUri] = useState<string>()
-
-// WalletConnect State
-const [walletConnect, setWalletConnect] = useState<WalletConnect>()
+let _walletConnect: WalletConnect | undefined
 // Call when closing QR code modal manually.
-const onQrCloseCallback = useRef<() => void>()
+let _onQrCloseCallback: (() => void) | undefined
 
-// Wallet connection State
-const [connectedWallet, setConnectedWallet] = useState<ConnectedWallet>()
-const [error, setError] = useState<unknown>()
-// Once mobile web is checked, we are ready to auto-connect.
-const [status, setStatus] = useState<WalletConnectionStatus>(
-  WalletConnectionStatus.Initializing
-)
 // In case WalletConnect fails to load, we need to be able to retry.
 // This is done through clicking reset on the WalletConnectModal.
-const [connectingWallet, setConnectingWallet] = useState<Wallet>()
-const connectionAttemptRef = useRef(0)
-// Reset connection when it gets stuck somewhere.
-const [connectToWalletUponReset, setConnectToWalletUponReset] =
-  useState<Wallet>()
-
-//! CALLBACKS
-
-// Retrieve chain info for initial wallet connection, throwing error if
-// not found.
-const _getDefaultChainInfo = useCallback(
-  async () => await getChainInfo(defaultChainId, chainInfoOverrides),
-  [defaultChainId, chainInfoOverrides]
-)
+let _connectingWallet: Wallet | undefined
+let _connectionAttemptRef = 0
 
 // Closes modals and clears connection state.
-const _cleanupAfterConnection = useCallback(() => {
+const _cleanupAfterConnection = () => {
   // Close modals.
-  setPickerModalOpen(false)
-  setWalletConnectUri(undefined)
-  setWalletEnableModalOpen(false)
+  updateState({
+    displayingPicker: false,
+    enablingWallet: false,
+    walletConnectQrUri: undefined,
+  })
   // No longer connecting a wallet.
-  setConnectingWallet(undefined)
-}, [])
+  _connectingWallet = undefined
+  // Cleanup WalletConnect QR if necessary since modal is now closed (URI set to
+  // undefined).
+  _onQrCloseCallback?.()
+  _onQrCloseCallback = undefined
+}
 
-// Disconnect from connected wallet.
-const disconnect = useCallback(
-  async (dontKillWalletConnect?: boolean) => {
-    // Disconnect wallet.
-    setConnectedWallet(undefined)
-    setStatus(WalletConnectionStatus.ReadyForConnection)
-    // Remove localStorage value.
-    if (localStorageKey) {
-      localStorage.removeItem(localStorageKey)
+// Connect WalletConnect client if necessary, and then connect to the wallet.
+const _connectToWallet = async (wallet: Wallet) => {
+  _connectingWallet = wallet
+  updateState({
+    status: CosmosWalletStatus.Connecting,
+    error: undefined,
+    displayingPicker: false,
+  })
+
+  let walletClient: unknown
+
+  // The actual meat of enabling and getting the wallet clients.
+  const finalizeWalletConnection = async (newWcSession?: boolean) => {
+    // Cleared in `cleanupAfterConnection`.
+    updateState({
+      enablingWallet: true,
+    })
+
+    const chainInfo = await getChainInfo(
+      _config.defaultChainId,
+      _config.chainInfoOverrides
+    )
+
+    walletClient = await wallet.getClient(
+      chainInfo,
+      _walletConnect,
+      newWcSession
+    )
+    if (!walletClient) {
+      throw new Error('Failed to retrieve wallet client.')
     }
 
-    // Disconnect WalletConnect.
-    setWalletConnect(undefined)
-    if (walletConnect?.connected && !dontKillWalletConnect) {
-      await walletConnect.killSession()
-    }
-  },
-  [localStorageKey, walletConnect]
-)
+    // Enable and connect to wallet, and retrieve data.
+    const connectedWallet = await getConnectedWalletInfo(
+      wallet,
+      walletClient,
+      chainInfo,
+      await _config.getSigningCosmWasmClientOptions?.(chainInfo),
+      await _config.getSigningStargateClientOptions?.(chainInfo)
+    )
+    // Add refresh listener to update connected wallet info.
+    wallet.addRefreshListener?.(_refreshListener)
 
-// Obtain WalletConnect if necessary, and connect to the wallet.
-const _connectToWallet = useCallback(
-  async (wallet: Wallet) => {
-    setStatus(WalletConnectionStatus.Connecting)
-    setError(undefined)
-    setConnectingWallet(wallet)
-    setPickerModalOpen(false)
-
-    let walletClient: unknown
-    let _walletConnect = walletConnect
-
-    // The actual meat of enabling and getting the wallet clients.
-    const finalizeWalletConnection = async (newWcSession?: boolean) => {
-      // Cleared in `cleanupAfterConnection`.
-      setWalletEnableModalOpen(true)
-
-      const chainInfo = await _getDefaultChainInfo()
-
-      walletClient = await wallet.getClient(
-        chainInfo,
-        _walletConnect,
-        newWcSession
-      )
-      if (!walletClient) {
-        throw new Error('Failed to retrieve wallet client.')
-      }
-
-      // Save connected wallet data.
-      setConnectedWallet(
-        await getConnectedWalletInfo(
-          wallet,
-          walletClient,
-          chainInfo,
-          await getSigningCosmWasmClientOptions?.(chainInfo),
-          await getSigningStargateClientOptions?.(chainInfo)
-        )
-      )
-
-      // Save localStorage value.
-      if (localStorageKey) {
-        localStorage.setItem(localStorageKey, wallet.id)
-      }
-
-      setStatus(WalletConnectionStatus.Connected)
-
-      // Allow cleanup to fail silently.
-      await wallet.cleanupClient?.(walletClient).catch(console.error)
-    }
-
+    // Allow to fail silently.
     try {
-      // Connect to WalletConnect if necessary.
-      if (wallet.isWalletConnect) {
-        // Instantiate new WalletConnect instance if necessary.
-        if (!_walletConnect) {
-          _walletConnect = new (await import('@walletconnect/client')).default({
-            bridge: 'https://bridge.walletconnect.org',
-            signingMethods: [
-              'keplr_enable_wallet_connect_v1',
-              'keplr_sign_amino_wallet_connect_v1',
-            ],
-            qrcodeModal: {
-              open: (uri: string, cb: () => void) => {
-                // Open QR modal by setting URI.
-                setWalletConnectUri(uri)
-                onQrCloseCallback.current = cb
-              },
-              // Occurs on disconnect, which is handled elsewhere.
-              close: () => console.log('qrcodeModal.close'),
-            },
-            // clientMeta,
-          })
-          // clientMeta in constructor is ignored for some reason, so
-          // let's set it directly :)))))))))))))
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          _walletConnect._clientMeta = walletConnectClientMeta
-          setWalletConnect(_walletConnect)
-        }
+      await wallet.cleanupClient?.(walletClient)
 
-        if (_walletConnect.connected) {
-          // WalletConnect already connected, nothing to do.
-          await finalizeWalletConnection(false)
-        } else {
-          // Prevent double requests by checking which connection attempt
-          // we're on before and after starting the connection attempt.
-          const currConnectionAttempt = ++connectionAttemptRef.current
-
-          // Executes walletConnect's qrcodeModal.open.
-          await _walletConnect.connect()
-
-          // If another connection attempt is being made, don't try to
-          // enable if connect finishes. This prevents double requests.
-          if (connectionAttemptRef.current !== currConnectionAttempt) {
-            return
-          }
-
-          // Connect with new WalletConnect session.
-          await finalizeWalletConnection(true)
-        }
-      } else {
-        // No WalletConnect needed.
-        await finalizeWalletConnection()
+      // Save localStorage value for future autoconnection.
+      if (_config.localStorageKey) {
+        localStorage.setItem(_config.localStorageKey, wallet.id)
       }
     } catch (err) {
       console.error(err)
-      setError(err)
-      setStatus(WalletConnectionStatus.Errored)
-    } finally {
-      _cleanupAfterConnection()
     }
-  },
-  [
-    walletConnect,
-    _getDefaultChainInfo,
-    getSigningCosmWasmClientOptions,
-    getSigningStargateClientOptions,
-    localStorageKey,
-    walletConnectClientMeta,
-    _cleanupAfterConnection,
-  ]
-)
 
-// Begin connection process, either auto-selecting a wallet or opening
-// the selection modal.
-const beginConnection = useCallback(async () => {
-  // We need to check if we are in the embedded Keplr Mobile web before
-  // connecting, since we will force the embedded Keplr wallet if
-  // possible. This will only happen if `connect` is called very quickly
-  // without waiting for `state` to reach at least
-  // `State.AttemptingAutoConnection`, though ideally `connect` is only
-  // called once `state` reaches `State.ReadyForConnection`.
-  // TODO: Add some docs about this.
-  if (status === WalletConnectionStatus.Initializing) {
-    throw new Error('Cannot connect while initializing.')
+    updateState({
+      status: CosmosWalletStatus.Connected,
+      connectedWallet,
+    })
   }
 
-  setStatus(WalletConnectionStatus.Connecting)
-  setError(undefined)
+  try {
+    // Connect to WalletConnect if necessary.
+    if (wallet.isWalletConnect) {
+      if (!wallet.walletConnectSigningMethods) {
+        throw new Error(
+          'Wallet definition missing WalletConnect signing methods.'
+        )
+      }
 
-  // TODO: Add some docs about the various ways wallets get auto/pre-selected
-  // and the difference between autoselect and preselect.
-  // Check if any wallet should be autoselected.
-  const autoselectedWalletIndex = (
-    await Promise.all(
-      enabledWallets.map(
-        ({ shouldAutoselect }) => shouldAutoselect?.() ?? false
-      )
-    )
-  ).findIndex((value) => value)
+      // Instantiate new WalletConnect instance if necessary.
+      if (!_walletConnect) {
+        _walletConnect = new (await import('@walletconnect/client')).default({
+          bridge: 'https://bridge.walletconnect.org',
+          signingMethods: wallet.walletConnectSigningMethods,
+          qrcodeModal: {
+            open: (walletConnectQrUri, closeCallback) => {
+              _onQrCloseCallback = closeCallback
+              updateState({
+                walletConnectQrUri,
+              })
+            },
+            // Occurs on disconnect, which is handled elsewhere.
+            close: () => console.log('qrcodeModal.close'),
+          },
+          // clientMeta,
+        })
+        // clientMeta in constructor is ignored for some reason, so
+        // let's set it directly :)))))))))))))
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        _walletConnect._clientMeta = walletConnectClientMeta
+        // Detect disconnected WalletConnect session and clear wallet state.
+        _walletConnect.on('disconnect', () => {
+          console.log('WalletConnect disconnected.')
+          disconnect(true)
+          _cleanupAfterConnection()
+        })
+      }
 
-  const automaticWalletId =
-    // Connect to autoselected wallet automatically.
-    autoselectedWalletIndex > -1
-      ? enabledWallets[autoselectedWalletIndex]
-      : // Connect to preselected wallet automatically.
-        preselectedWalletId ||
-        // Try to fetch value from localStorage.
-        (localStorageKey && localStorage.getItem(localStorageKey)) ||
-        undefined
+      if (_walletConnect.connected) {
+        // WalletConnect already connected, nothing to do.
+        await finalizeWalletConnection(false)
+      } else {
+        // Prevent double requests by checking which connection attempt
+        // we're on before and after starting the connection attempt.
+        const currConnectionAttempt = ++_connectionAttemptRef
 
-  const skipModalWallet =
-    // If only one wallet is available, skip the modal and use it.
-    enabledWallets.length === 1
-      ? enabledWallets[0]
-      : // Try to find the wallet to automatically connect to if present.
-      automaticWalletId
-      ? enabledWallets.find(({ id }) => id === automaticWalletId)
-      : undefined
+        // Executes walletConnect's qrcodeModal.open.
+        await _walletConnect.connect()
 
-  if (skipModalWallet) {
-    _connectToWallet(skipModalWallet)
+        // If another connection attempt is being made, don't try to
+        // enable if connect finishes. This prevents double requests.
+        if (_connectionAttemptRef !== currConnectionAttempt) {
+          return
+        }
+
+        // Connect with new WalletConnect session.
+        await finalizeWalletConnection(true)
+      }
+    } else {
+      // No WalletConnect needed.
+      await finalizeWalletConnection()
+    }
+  } catch (error) {
+    console.error(error)
+
+    updateState({
+      status: CosmosWalletStatus.Errored,
+      error,
+    })
+  } finally {
+    _cleanupAfterConnection()
+  }
+}
+
+const _refreshListener = async () => {
+  // Reconnect to wallet, since name/address may have changed.
+  if (
+    _state.status === CosmosWalletStatus.Connected &&
+    _state.connectedWallet
+  ) {
+    // Remove refresh listener because it will be readded after connection.
+    _state.connectedWallet.wallet.removeRefreshListener?.(_refreshListener)
+
+    _connectToWallet(_state.connectedWallet.wallet)
+  }
+}
+
+//! API
+
+const _stateObservers: CosmosWalletStateObserver[] = []
+
+export const addStateObserver = (observer: CosmosWalletStateObserver) => {
+  if (_stateObservers.includes(observer)) {
     return
   }
 
-  // If no default wallet, open modal to choose one.
-  setPickerModalOpen(true)
-}, [
-  status,
-  localStorageKey,
-  isEmbeddedKeplrMobileWeb,
-  enabledWallets,
-  _connectToWallet,
-])
+  _stateObservers.push(observer)
+}
 
-// Initiate reset.
-const _reset = useCallback(async () => {
+export const removeStateObserver = (observer: CosmosWalletStateObserver) => {
+  if (!_stateObservers.includes(observer)) {
+    return
+  }
+
+  // Remove observer at index.
+  _stateObservers.splice(
+    _stateObservers.findIndex((existing) => existing === observer),
+    1
+  )
+}
+
+const updateState = (state: Partial<CosmosWalletState>) => {
+  _state = {
+    ..._state,
+    // Override current state.
+    ...state,
+  }
+
+  // Notify observers.
+  _stateObservers.forEach((observer) => observer(_state))
+}
+
+export const initialize = (
+  config: CosmosWalletInitializeConfig,
+  observers: CosmosWalletStateObserver[]
+) => {
+  // Setup internal state.
+  _config = config
+  _stateObservers.push(...observers)
+
+  // Set status.
+  updateState({
+    status: CosmosWalletStatus.Disconnected,
+    // Pass through from initialization config.
+    chainInfoOverrides: _config.chainInfoOverrides,
+    getSigningCosmWasmClientOptions: _config.getSigningCosmWasmClientOptions,
+    getSigningStargateClientOptions: _config.getSigningStargateClientOptions,
+  })
+
+  const maybeAutoConnect = async () => {
+    // TODO: Add docs about autoconnect vs. preselect.
+    // Check if any wallet should be autoconnected.
+    const autoconnectWalletIndex = (
+      await Promise.all(
+        _config.enabledWallets.map(
+          ({ shouldAutoconnect }) => shouldAutoconnect?.() ?? false
+        )
+      )
+    ).findIndex((value) => value)
+    // Autoconnect to wallet if exists.
+    if (autoconnectWalletIndex > -1) {
+      return connect(_config.enabledWallets[autoconnectWalletIndex])
+    }
+
+    // Check local storage.
+    const localStorageValue = _config.localStorageKey
+      ? localStorage.getItem(_config.localStorageKey)
+      : null
+    const localStorageWallet =
+      localStorageValue &&
+      _config.enabledWallets.find(({ id }) => id === localStorageValue)
+
+    // If wallet found from localStorage value, auto connect.
+    if (localStorageWallet) {
+      return connect(localStorageWallet)
+    }
+  }
+
+  maybeAutoConnect()
+}
+
+// Begin connection process, either auto-selecting a wallet or opening
+// the selection modal.
+const connect = async (wallet?: Wallet) => {
+  // TODO: Add some docs about this.
+  if (_state.status === CosmosWalletStatus.Uninitialized) {
+    throw new Error('Cannot connect before initialization.')
+  }
+
+  updateState({
+    status: CosmosWalletStatus.Connecting,
+    error: undefined,
+  })
+
+  // If wallet passed, connect to it.
+  if (wallet) {
+    _connectToWallet(wallet)
+    return
+  }
+
+  // Check if modal should be displayed or skipped with a wallet preselected.
+  const preselectedWallet =
+    // If only one wallet is available, preselect it, no need to show modal.
+    _config.enabledWallets.length === 1
+      ? _config.enabledWallets[0]
+      : // Connect to preselected wallet if present.
+      _config.preselectedWalletId
+      ? _config.enabledWallets.find(
+          ({ id }) => id === _config.preselectedWalletId
+        )
+      : undefined
+
+  if (preselectedWallet) {
+    _connectToWallet(preselectedWallet)
+    return
+  }
+
+  // If no preselected wallet, open modal to choose one.
+  updateState({
+    displayingPicker: true,
+  })
+}
+
+// Disconnect from connected wallet.
+export const disconnect = async (dontKillWalletConnect?: boolean) => {
+  if (_state.connectedWallet) {
+    // Remove refresh listener.
+    _state.connectedWallet.wallet.removeRefreshListener?.(_refreshListener)
+  }
+  // Disconnect wallet.
+  updateState({
+    status: CosmosWalletStatus.Disconnected,
+    connectedWallet: undefined,
+  })
+  // Remove localStorage value.
+  if (_config.localStorageKey) {
+    localStorage.removeItem(_config.localStorageKey)
+  }
+
+  // Disconnect WalletConnect.
+  if (_walletConnect?.connected && !dontKillWalletConnect) {
+    await _walletConnect.killSession()
+  }
+  _walletConnect = undefined
+}
+
+// Reset.
+export const reset = async () => {
   await disconnect().catch(console.error)
-  // Set after disconnect, since disconnect sets state to
-  // ReadyForConnection.
-  setStatus(WalletConnectionStatus.Resetting)
   // Try resetting all wallet state and reconnecting.
-  if (connectingWallet) {
-    setConnectToWalletUponReset(connectingWallet)
+  if (_connectingWallet) {
     _cleanupAfterConnection()
+    // Updates state to Connecting.
+    _connectToWallet(_connectingWallet)
   } else {
     // If no wallet to reconnect to, just reload.
     window.location.reload()
   }
-}, [_cleanupAfterConnection, connectingWallet, disconnect])
-
-//! EFFECTS
-
-// Detect if in embedded Keplr Mobile browser, and set ready after.
-useEffect(() => {
-  if (
-    status !== WalletConnectionStatus.Initializing ||
-    // Only run this on a browser.
-    typeof window === 'undefined'
-  ) {
-    return
-  }
-
-  import('@keplr-wallet/stores')
-    .then(({ getKeplrFromWindow }) => getKeplrFromWindow())
-    .then(
-      (keplr) =>
-        keplr &&
-        keplr.mode === 'mobile-web' &&
-        setIsEmbeddedKeplrMobileWeb(true)
-    )
-    .finally(() => setStatus(WalletConnectionStatus.AttemptingAutoConnection))
-}, [status])
-
-// Auto connect on mount handler, after the above mobile web check.
-useEffect(() => {
-  if (
-    status !== WalletConnectionStatus.AttemptingAutoConnection ||
-    // Only run this on a browser.
-    typeof localStorage === 'undefined'
-  ) {
-    return
-  }
-
-  setStatus(WalletConnectionStatus.ReadyForConnection)
-
-  if (
-    // If inside Keplr mobile web, auto connect.
-    isEmbeddedKeplrMobileWeb ||
-    // If localStorage value present, auto connect.
-    (localStorageKey && !!localStorage.getItem(localStorageKey))
-  ) {
-    beginConnection()
-  }
-}, [status, beginConnection, isEmbeddedKeplrMobileWeb, localStorageKey])
-
-// Execute onQrCloseCallback if WalletConnect URI is cleared, since it
-// has now been closed.
-useEffect(() => {
-  if (!walletConnectUri && onQrCloseCallback) {
-    onQrCloseCallback.current?.()
-    onQrCloseCallback.current = undefined
-  }
-}, [walletConnectUri, onQrCloseCallback])
-
-// Attempt reconnecting to a wallet after resetting if we have set a
-// wallet to select after resetting.
-useEffect(() => {
-  if (
-    status === WalletConnectionStatus.Resetting &&
-    !connectingWallet &&
-    connectToWalletUponReset
-  ) {
-    setConnectToWalletUponReset(undefined)
-    // Updates state to Connecting.
-    _connectToWallet(connectToWalletUponReset)
-  }
-}, [connectingWallet, status, _connectToWallet, connectToWalletUponReset])
-
-// WalletConnect disconnect listener.
-useEffect(() => {
-  if (!walletConnect) {
-    return
-  }
-
-  // Detect disconnected WC session and clear wallet state.
-  walletConnect.on('disconnect', () => {
-    console.log('WalletConnect disconnected.')
-    disconnect(true)
-    _cleanupAfterConnection()
-  })
-
-  // Clean up
-  return () => walletConnect.off('disconnect')
-}, [_cleanupAfterConnection, disconnect, walletConnect])
-
-// keplr_keystorechange event listener.
-useEffect(() => {
-  if (
-    // Only run this on a browser.
-    typeof window === 'undefined'
-  ) {
-    return
-  }
-
-  const listener = async (event: Event) => {
-    // Reconnect to wallet, since name/address may have changed.
-    if (status === WalletConnectionStatus.Connected && connectedWallet) {
-      _connectToWallet(connectedWallet.wallet)
-    }
-
-    // Execute callback if passed.
-    onKeplrKeystoreChangeEvent?.(event)
-  }
-
-  // Add event listener.
-  window.addEventListener('keplr_keystorechange', listener)
-
-  // Remove event listener on clean up.
-  return () => {
-    window.removeEventListener('keplr_keystorechange', listener)
-  }
-}, [onKeplrKeystoreChangeEvent, connectedWallet, status, _connectToWallet])
-
-// Memoize context data.
-const value = useMemo(
-  () => ({
-    connect: beginConnection,
-    disconnect,
-    connectedWallet,
-    status,
-    connected: status === WalletConnectionStatus.Connected,
-    error,
-    isEmbeddedKeplrMobileWeb,
-    chainInfoOverrides,
-    getSigningCosmWasmClientOptions,
-    getSigningStargateClientOptions,
-  }),
-  [
-    beginConnection,
-    chainInfoOverrides,
-    connectedWallet,
-    disconnect,
-    error,
-    getSigningCosmWasmClientOptions,
-    getSigningStargateClientOptions,
-    isEmbeddedKeplrMobileWeb,
-    status,
-  ]
-)
+}

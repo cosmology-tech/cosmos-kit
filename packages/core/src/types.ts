@@ -1,8 +1,71 @@
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import {
+  SigningCosmWasmClient,
+  SigningCosmWasmClientOptions,
+} from '@cosmjs/cosmwasm-stargate'
 import { OfflineSigner } from '@cosmjs/proto-signing'
-import { SigningStargateClient } from '@cosmjs/stargate'
+import {
+  SigningStargateClient,
+  SigningStargateClientOptions,
+} from '@cosmjs/stargate'
 import { ChainInfo, Keplr } from '@keplr-wallet/types'
 import WalletConnect from '@walletconnect/client'
+import { IClientMeta } from '@walletconnect/types'
+
+export interface CosmosWalletInitializeConfig {
+  // State update callback.
+  onStateUpdate: (state: CosmosWalletState) => void
+  // Wallets available for connection.
+  enabledWallets: Wallet[]
+  // Chain ID to initially connect to and selected by default if nothing
+  // is passed to the hook. Must be present in one of the objects in
+  // `chainInfoList`.
+  defaultChainId: string
+  // List or getter of additional or replacement ChainInfo objects. These
+  // will take precedent over internal definitions by comparing `chainId`.
+  chainInfoOverrides?: ChainInfoOverrides
+  // Descriptive info about the webapp which gets displayed when enabling a
+  // WalletConnect wallet (e.g. name, image, etc.).
+  walletConnectClientMeta?: IClientMeta
+  // When set to a valid wallet ID, the connect function will skip the
+  // selection modal and attempt to connect to this wallet immediately.
+  preselectedWalletId?: string
+  // localStorage key for saving, loading, and auto connecting to a wallet.
+  localStorageKey?: string
+  // Getter for options passed to SigningCosmWasmClient on connection.
+  getSigningCosmWasmClientOptions?: SigningClientGetter<SigningCosmWasmClientOptions>
+  // Getter for options passed to SigningStargateClient on connection.
+  getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
+}
+
+export interface CosmosWalletState {
+  // If the picker should be displayed.
+  displayingPicker: boolean
+  // If the wallet is being enabled.
+  enablingWallet: boolean
+  // URI to display the WalletConnect QR Code. If present, should be displayed.
+  walletConnectQrUri?: string
+  // Connected wallet info and clients for interacting with the chain.
+  connectedWallet?: ConnectedWallet
+  // Status of cosmodal.
+  status: WalletConnectionStatus
+  // Error encountered during the connection process.
+  error?: unknown
+  // List or getter of additional or replacement ChainInfo objects. These
+  // will take precedent over internal definitions by comparing `chainId`.
+  // This is passed through from the provider props to allow composition
+  // of your own hooks, and for use in the built-in useWallet hook.
+  chainInfoOverrides?: ChainInfoOverrides
+  // Getter for options passed to SigningCosmWasmClient on connection.
+  // This is passed through from the provider props to allow composition
+  // of your own hooks, and for use in the built-in useWallet hook.
+  getSigningCosmWasmClientOptions?: SigningClientGetter<SigningCosmWasmClientOptions>
+  // Getter for options passed to SigningStargateClient on connection.
+  // This is passed through from the provider props to allow composition
+  // of your own hooks, and for use in the built-in useWallet hook.
+  getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
+}
+
+export type CosmosWalletStateObserver = (state: CosmosWalletState) => void
 
 export interface IKeplrWalletConnectV1 extends Keplr {
   dontOpenAppOnEnable: boolean
@@ -25,6 +88,8 @@ export interface Wallet<Client = unknown> {
     ios: string
     android: string
   }
+  // WalletConnect client signing methods.
+  walletConnectSigningMethods?: string[]
   // A function that returns an instantiated wallet client, with `walletConnect`
   // and `newWalletConnectSession` passed if `isWalletConnect === true`.
   getClient: (
@@ -47,9 +112,17 @@ export interface Wallet<Client = unknown> {
     client: Client,
     chainInfo: ChainInfo
   ) => Promise<{ name: string; address: string }>
-  // A function that determines if this wallet should automatically be selected,
-  // skipping the prompt. Called on connect, before displaying the prompt.
-  shouldAutoselect?: () => boolean | Promise<boolean>
+  // A function that determines if this wallet should automatically be connected
+  // on initialization.
+  shouldAutoconnect?: () => boolean | Promise<boolean>
+  // A function that will execute the passed listener when the wallet connection
+  // data needs to be refreshed. This will likely be used when the user switches
+  // accounts in the wallet, and the name and address need to be updated. Called
+  // on successful wallet connection.
+  addRefreshListener?: (listener: () => void) => void
+  // A function that will remove the refresh listener added previously. Called
+  // on wallet disconnect.
+  removeRefreshListener?: (listener: () => void) => void
 }
 
 export interface ConnectedWallet<Client = unknown> {
@@ -80,13 +153,11 @@ export type ChainInfoOverrides =
   | (() => undefined | ChainInfo[] | Promise<undefined | ChainInfo[]>)
 
 export enum WalletConnectionStatus {
-  Initializing,
-  AttemptingAutoConnection,
+  Uninitialized,
   // Don't call connect until this state is reached.
-  ReadyForConnection,
+  Disconnected,
   Connecting,
   Connected,
-  Resetting,
   Errored,
 }
 

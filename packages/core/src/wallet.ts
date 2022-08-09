@@ -29,13 +29,18 @@ export const KeplrWallet: Wallet<Keplr> = {
       name: key.name,
       address: key.bech32Address,
     })),
-  // Autoselect this wallet if in Keplr's in-app browser interface, since the
-  // Keplr client is already provided/connected.
-  shouldAutoselect: async () =>
+  // Autoconnect to this wallet if in Keplr's in-app browser interface, since
+  // the Keplr client is already provided/connected.
+  shouldAutoconnect: async () =>
     import('@keplr-wallet/stores')
       .then(({ getKeplrFromWindow }) => getKeplrFromWindow())
       .then((keplr) => !!keplr && keplr.mode === 'mobile-web')
       .catch(() => false),
+  // Refresh listener controls.
+  addRefreshListener: (listener) =>
+    window.addEventListener('keplr_keystorechange', listener),
+  removeRefreshListener: (listener) =>
+    window.removeEventListener('keplr_keystorechange', listener),
 }
 
 export const WalletConnectKeplrWallet: Wallet<IKeplrWalletConnectV1> = {
@@ -49,6 +54,10 @@ export const WalletConnectKeplrWallet: Wallet<IKeplrWalletConnectV1> = {
     android:
       'intent://wcV1?{{uri}}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
   },
+  walletConnectSigningMethods: [
+    'keplr_enable_wallet_connect_v1',
+    'keplr_sign_amino_wallet_connect_v1',
+  ],
   getClient: async (chainInfo, walletConnect, newWalletConnectSession) => {
     if (walletConnect?.connected) {
       const client = new (
@@ -76,11 +85,16 @@ export const WalletConnectKeplrWallet: Wallet<IKeplrWalletConnectV1> = {
       name: key.name,
       address: key.bech32Address,
     })),
+  // Refresh listener controls.
+  addRefreshListener: (listener) =>
+    window.addEventListener('keplr_keystorechange', listener),
+  removeRefreshListener: (listener) =>
+    window.removeEventListener('keplr_keystorechange', listener),
 }
 
 export const Wallets: Wallet[] = [KeplrWallet, WalletConnectKeplrWallet]
 
-export const getConnectedWalletInfo = async <Client = any>(
+export const getConnectedWalletInfo = async <Client = unknown>(
   wallet: Wallet<Client>,
   client: Client,
   chainInfo: ChainInfo,
