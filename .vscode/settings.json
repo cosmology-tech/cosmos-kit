@@ -20,5 +20,15 @@
     "javascriptreact",
     "typescript",
     "typescriptreact"
+  ],
+  "eslint.codeActionsOnSave.mode": "problems",
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.onIgnoredFiles": "warn",
+  "eslint.workingDirectories": [
+    {
+      "pattern": "packages/*",
+      "!cwd": false
+    }
   ]
 }
