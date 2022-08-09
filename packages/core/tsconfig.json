@@ -4,7 +4,8 @@
     "declarationDir": "./types",
     "emitDeclarationOnly": true,
     "isolatedModules": true,
-    "allowJs": true
+    "allowJs": true,
+    "esModuleInterop": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

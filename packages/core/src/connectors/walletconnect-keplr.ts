@@ -80,7 +80,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
     options?: IRequestOptions
   ) => Promise<void> | void
   onAfterSendRequest?: (
-    response: any,
+    response: unknown,
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
   ) => Promise<void> | void
@@ -130,6 +130,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
 
   protected readonly onCallReqeust = async (
     error: Error | null,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payload: any | null
   ) => {
     if (error) {
@@ -137,7 +138,11 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
       return
     }
 
-    if (!payload) {
+    if (
+      !payload ||
+      typeof payload !== 'object' ||
+      !('method' in payload && 'params' in payload)
+    ) {
       return
     }
 
@@ -212,7 +217,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
   protected async sendCustomRequest(
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
-  ): Promise<any> {
+  ): Promise<unknown> {
     // If mobile, attempt to open app to approve request.
     if (isMobile()) {
       console.log(request)
@@ -451,7 +456,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
 
     const params = isProtoTx
       ? {
-          tx_bytes: Buffer.from(tx as any).toString('base64'),
+          tx_bytes: Buffer.from(tx).toString('base64'),
           mode: (() => {
             switch (mode) {
               case 'async':
