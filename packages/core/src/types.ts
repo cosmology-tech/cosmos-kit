@@ -12,8 +12,6 @@ import WalletConnect from '@walletconnect/client'
 import { IClientMeta } from '@walletconnect/types'
 
 export interface CosmosWalletInitializeConfig {
-  // State update callback.
-  onStateUpdate: (state: CosmosWalletState) => void
   // Wallets available for connection.
   enabledWallets: Wallet[]
   // Chain ID to initially connect to and selected by default if nothing
@@ -47,7 +45,7 @@ export interface CosmosWalletState {
   // Connected wallet info and clients for interacting with the chain.
   connectedWallet?: ConnectedWallet
   // Status of cosmodal.
-  status: WalletConnectionStatus
+  status: CosmosWalletStatus
   // Error encountered during the connection process.
   error?: unknown
   // List or getter of additional or replacement ChainInfo objects. These
@@ -152,7 +150,7 @@ export type ChainInfoOverrides =
   | ChainInfo[]
   | (() => undefined | ChainInfo[] | Promise<undefined | ChainInfo[]>)
 
-export enum WalletConnectionStatus {
+export enum CosmosWalletStatus {
   Uninitialized,
   // Don't call connect until this state is reached.
   Disconnected,

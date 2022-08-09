@@ -5,10 +5,14 @@ import {
   CosmosWalletState,
   CosmosWalletStateObserver,
   Wallet,
-  WalletConnectionStatus as CosmosWalletStatus,
+  CosmosWalletStatus,
 } from './types'
 import { getChainInfo } from './chainInfo'
 import { getConnectedWalletInfo } from './wallet'
+
+export * from './chainInfo'
+export * from './types'
+export * from './wallet'
 
 //! INTERNAL
 
@@ -25,6 +29,18 @@ let _state: CosmosWalletState = {
   getSigningStargateClientOptions: undefined,
 }
 
+const _stateObservers: CosmosWalletStateObserver[] = []
+const updateState = (state: Partial<CosmosWalletState>) => {
+  _state = {
+    ..._state,
+    // Override current state.
+    ...state,
+  }
+
+  // Notify observers.
+  _stateObservers.forEach((observer) => observer(_state))
+}
+
 let _walletConnect: WalletConnect | undefined
 // Call when closing QR code modal manually.
 let _onQrCloseCallback: (() => void) | undefined
@@ -34,8 +50,94 @@ let _onQrCloseCallback: (() => void) | undefined
 let _connectingWallet: Wallet | undefined
 let _connectionAttemptRef = 0
 
+const _refreshListener = async () => {
+  // Reconnect to wallet, since name/address may have changed.
+  if (
+    _state.status === CosmosWalletStatus.Connected &&
+    _state.connectedWallet
+  ) {
+    // Remove refresh listener because it will be readded after connection.
+    _state.connectedWallet.wallet.removeRefreshListener?.(_refreshListener)
+
+    connectToWallet(_state.connectedWallet.wallet)
+  }
+}
+
+//! API
+
+export const addStateObserver = (observer: CosmosWalletStateObserver) => {
+  if (_stateObservers.includes(observer)) {
+    return
+  }
+
+  _stateObservers.push(observer)
+}
+
+export const removeStateObserver = (observer: CosmosWalletStateObserver) => {
+  if (!_stateObservers.includes(observer)) {
+    return
+  }
+
+  // Remove observer at index.
+  _stateObservers.splice(
+    _stateObservers.findIndex((existing) => existing === observer),
+    1
+  )
+}
+
+export const initialize = (
+  config: CosmosWalletInitializeConfig,
+  observers?: CosmosWalletStateObserver[]
+) => {
+  // Setup internal state.
+  _config = config
+  if (observers?.length) {
+    _stateObservers.push(...observers)
+  }
+
+  // Set status.
+  updateState({
+    status: CosmosWalletStatus.Disconnected,
+    // Pass through from initialization config.
+    chainInfoOverrides: _config.chainInfoOverrides,
+    getSigningCosmWasmClientOptions: _config.getSigningCosmWasmClientOptions,
+    getSigningStargateClientOptions: _config.getSigningStargateClientOptions,
+  })
+
+  const maybeAutoConnect = async () => {
+    // TODO: Add docs about autoconnect vs. preselect.
+    // Check if any wallet should be autoconnected.
+    const autoconnectWalletIndex = (
+      await Promise.all(
+        _config.enabledWallets.map(
+          ({ shouldAutoconnect }) => shouldAutoconnect?.() ?? false
+        )
+      )
+    ).findIndex((value) => value)
+    // Autoconnect to wallet if exists.
+    if (autoconnectWalletIndex > -1) {
+      return beginConnection(_config.enabledWallets[autoconnectWalletIndex])
+    }
+
+    // Check local storage.
+    const localStorageValue = _config.localStorageKey
+      ? localStorage.getItem(_config.localStorageKey)
+      : null
+    const localStorageWallet =
+      localStorageValue &&
+      _config.enabledWallets.find(({ id }) => id === localStorageValue)
+
+    // If wallet found from localStorage value, auto connect.
+    if (localStorageWallet) {
+      return beginConnection(localStorageWallet)
+    }
+  }
+
+  maybeAutoConnect()
+}
+
 // Closes modals and clears connection state.
-const _cleanupAfterConnection = () => {
+export const cleanupAfterConnection = () => {
   // Close modals.
   updateState({
     displayingPicker: false,
@@ -51,7 +153,7 @@ const _cleanupAfterConnection = () => {
 }
 
 // Connect WalletConnect client if necessary, and then connect to the wallet.
-const _connectToWallet = async (wallet: Wallet) => {
+export const connectToWallet = async (wallet: Wallet) => {
   _connectingWallet = wallet
   updateState({
     status: CosmosWalletStatus.Connecting,
@@ -146,7 +248,7 @@ const _connectToWallet = async (wallet: Wallet) => {
         _walletConnect.on('disconnect', () => {
           console.log('WalletConnect disconnected.')
           disconnect(true)
-          _cleanupAfterConnection()
+          cleanupAfterConnection()
         })
       }
 
@@ -182,110 +284,13 @@ const _connectToWallet = async (wallet: Wallet) => {
       error,
     })
   } finally {
-    _cleanupAfterConnection()
+    cleanupAfterConnection()
   }
-}
-
-const _refreshListener = async () => {
-  // Reconnect to wallet, since name/address may have changed.
-  if (
-    _state.status === CosmosWalletStatus.Connected &&
-    _state.connectedWallet
-  ) {
-    // Remove refresh listener because it will be readded after connection.
-    _state.connectedWallet.wallet.removeRefreshListener?.(_refreshListener)
-
-    _connectToWallet(_state.connectedWallet.wallet)
-  }
-}
-
-//! API
-
-const _stateObservers: CosmosWalletStateObserver[] = []
-
-export const addStateObserver = (observer: CosmosWalletStateObserver) => {
-  if (_stateObservers.includes(observer)) {
-    return
-  }
-
-  _stateObservers.push(observer)
-}
-
-export const removeStateObserver = (observer: CosmosWalletStateObserver) => {
-  if (!_stateObservers.includes(observer)) {
-    return
-  }
-
-  // Remove observer at index.
-  _stateObservers.splice(
-    _stateObservers.findIndex((existing) => existing === observer),
-    1
-  )
-}
-
-const updateState = (state: Partial<CosmosWalletState>) => {
-  _state = {
-    ..._state,
-    // Override current state.
-    ...state,
-  }
-
-  // Notify observers.
-  _stateObservers.forEach((observer) => observer(_state))
-}
-
-export const initialize = (
-  config: CosmosWalletInitializeConfig,
-  observers: CosmosWalletStateObserver[]
-) => {
-  // Setup internal state.
-  _config = config
-  _stateObservers.push(...observers)
-
-  // Set status.
-  updateState({
-    status: CosmosWalletStatus.Disconnected,
-    // Pass through from initialization config.
-    chainInfoOverrides: _config.chainInfoOverrides,
-    getSigningCosmWasmClientOptions: _config.getSigningCosmWasmClientOptions,
-    getSigningStargateClientOptions: _config.getSigningStargateClientOptions,
-  })
-
-  const maybeAutoConnect = async () => {
-    // TODO: Add docs about autoconnect vs. preselect.
-    // Check if any wallet should be autoconnected.
-    const autoconnectWalletIndex = (
-      await Promise.all(
-        _config.enabledWallets.map(
-          ({ shouldAutoconnect }) => shouldAutoconnect?.() ?? false
-        )
-      )
-    ).findIndex((value) => value)
-    // Autoconnect to wallet if exists.
-    if (autoconnectWalletIndex > -1) {
-      return connect(_config.enabledWallets[autoconnectWalletIndex])
-    }
-
-    // Check local storage.
-    const localStorageValue = _config.localStorageKey
-      ? localStorage.getItem(_config.localStorageKey)
-      : null
-    const localStorageWallet =
-      localStorageValue &&
-      _config.enabledWallets.find(({ id }) => id === localStorageValue)
-
-    // If wallet found from localStorage value, auto connect.
-    if (localStorageWallet) {
-      return connect(localStorageWallet)
-    }
-  }
-
-  maybeAutoConnect()
 }
 
 // Begin connection process, either auto-selecting a wallet or opening
 // the selection modal.
-const connect = async (wallet?: Wallet) => {
+export const beginConnection = async (wallet?: Wallet) => {
   // TODO: Add some docs about this.
   if (_state.status === CosmosWalletStatus.Uninitialized) {
     throw new Error('Cannot connect before initialization.')
@@ -298,7 +303,7 @@ const connect = async (wallet?: Wallet) => {
 
   // If wallet passed, connect to it.
   if (wallet) {
-    _connectToWallet(wallet)
+    connectToWallet(wallet)
     return
   }
 
@@ -315,7 +320,7 @@ const connect = async (wallet?: Wallet) => {
       : undefined
 
   if (preselectedWallet) {
-    _connectToWallet(preselectedWallet)
+    connectToWallet(preselectedWallet)
     return
   }
 
@@ -353,11 +358,23 @@ export const reset = async () => {
   await disconnect().catch(console.error)
   // Try resetting all wallet state and reconnecting.
   if (_connectingWallet) {
-    _cleanupAfterConnection()
+    cleanupAfterConnection()
     // Updates state to Connecting.
-    _connectToWallet(_connectingWallet)
+    connectToWallet(_connectingWallet)
   } else {
     // If no wallet to reconnect to, just reload.
     window.location.reload()
   }
+}
+
+// Interrupt connection process, such as if the user closes a connection modal.
+export const stopConnecting = () => {
+  updateState({
+    status: CosmosWalletStatus.Disconnected,
+    displayingPicker: false,
+    enablingWallet: false,
+    walletConnectQrUri: undefined,
+    connectedWallet: undefined,
+  })
+  _connectingWallet = undefined
 }
