@@ -7,7 +7,12 @@ import {
   useWalletManager,
   WalletManagerProvider,
 } from '../components'
-import { ChainInfoID, WalletConnectionStatus, WalletType } from '../types'
+import {
+  ChainInfoID,
+  CosmosWalletStatus,
+  KeplrWallet,
+  WalletConnectKeplrWallet,
+} from '@cosmos-wallet/core'
 
 const DisplayStatus = () => {
   const { status } = useWalletManager()
@@ -22,7 +27,7 @@ describe('display status', () => {
       render(
         <WalletManagerProvider
           defaultChainId={ChainInfoID.Juno1}
-          enabledWalletTypes={[WalletType.Keplr, WalletType.WalletConnectKeplr]}
+          enabledWallets={[KeplrWallet, WalletConnectKeplrWallet]}
         >
           <DisplayStatus />
         </WalletManagerProvider>
@@ -32,7 +37,7 @@ describe('display status', () => {
 
   it('should display the status in the DOM', () => {
     expect(
-      screen.getByText(WalletConnectionStatus.ReadyForConnection)
+      screen.getByText(CosmosWalletStatus.Disconnected)
     ).toBeInTheDocument()
   })
 

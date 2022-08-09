@@ -20,7 +20,7 @@
   "scripts": {
     "build:main": "cross-env BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
     "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
-    "build": "npm run build:module && npm run build:main && npm run build:ts",
+    "build": "npm run build:ts && npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
     "prepare": "npm run build",
     "lint": "eslint --ext .ts,.tsx .",
@@ -101,7 +101,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal": "3.15.1",
-    "styled-components": "5.3.5"
+    "styled-components": "5.3.5",
+    "@cosmos-wallet/core": "*"
   },
   "gitHead": "b2fff88a80f03af963d43cb264b949e1b9688d78"
 }
