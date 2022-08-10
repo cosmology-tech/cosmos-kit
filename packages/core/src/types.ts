@@ -45,6 +45,9 @@ export interface CosmosWalletState {
   walletConnectQrUri?: string
   // Connected wallet info and clients for interacting with the chain.
   connectedWallet?: ConnectedWallet
+  // Wallet currently being connected to (selected in picker but has not yet
+  // been fully enabled).
+  connectingWallet?: Wallet
   // Status of cosmodal.
   status: CosmosWalletStatus
   // Error encountered during the connection process.
@@ -84,10 +87,7 @@ export interface Wallet<Client = unknown> {
   isWalletConnect: boolean
   // WalletConnect app deeplink formats, with {{uri}} replaced with the
   // connection URI.
-  walletConnectDeeplinkFormat?: {
-    ios: string
-    android: string
-  }
+  walletConnectDeeplinkFormats?: DeeplinkFormats
   // WalletConnect client signing methods.
   walletConnectSigningMethods?: string[]
   // A function that returns an instantiated wallet client, with `walletConnect`
@@ -159,6 +159,11 @@ export enum CosmosWalletStatus {
   Connecting,
   Connected,
   Errored,
+}
+
+export interface DeeplinkFormats {
+  ios: string
+  android: string
 }
 
 export enum ChainInfoID {

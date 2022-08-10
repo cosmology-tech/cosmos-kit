@@ -41,6 +41,7 @@ let _state: CosmosWalletState = {
   enablingWallet: false,
   walletConnectQrUri: undefined,
   connectedWallet: undefined,
+  connectingWallet: undefined,
   status: CosmosWalletStatus.Uninitialized,
   error: undefined,
   chainInfoOverrides: undefined,
@@ -64,9 +65,6 @@ let _walletConnect: WalletConnect | undefined
 // Call when closing QR code modal manually.
 let _onQrCloseCallback: (() => void) | undefined
 
-// In case WalletConnect fails to load, we need to be able to retry.
-// This is done through clicking reset on the WalletConnectModal.
-let _connectingWallet: Wallet | undefined
 let _connectionAttemptRef = 0
 
 const _refreshListener = async () => {
@@ -162,9 +160,8 @@ export const cleanupAfterConnection = () => {
     displayingPicker: false,
     enablingWallet: false,
     walletConnectQrUri: undefined,
+    connectingWallet: undefined,
   })
-  // No longer connecting a wallet.
-  _connectingWallet = undefined
   // Cleanup WalletConnect QR if necessary since modal is now closed (URI set to
   // undefined).
   _onQrCloseCallback?.()
@@ -173,11 +170,11 @@ export const cleanupAfterConnection = () => {
 
 // Connect WalletConnect client if necessary, and then connect to the wallet.
 export const connectToWallet = async (wallet: Wallet) => {
-  _connectingWallet = wallet
   updateState({
     status: CosmosWalletStatus.Connecting,
     error: undefined,
     displayingPicker: false,
+    connectingWallet: wallet,
   })
 
   let walletClient: unknown
@@ -381,10 +378,10 @@ export const reset = async () => {
   // eslint-disable-next-line no-console
   await disconnect().catch(console.error)
   // Try resetting all wallet state and reconnecting.
-  if (_connectingWallet) {
+  if (_state.connectingWallet) {
     cleanupAfterConnection()
     // Updates state to Connecting.
-    connectToWallet(_connectingWallet)
+    connectToWallet(_state.connectingWallet)
   } else {
     // If no wallet to reconnect to, just reload.
     window.location.reload()
@@ -399,6 +396,6 @@ export const stopConnecting = () => {
     enablingWallet: false,
     walletConnectQrUri: undefined,
     connectedWallet: undefined,
+    connectingWallet: undefined,
   })
-  _connectingWallet = undefined
 }

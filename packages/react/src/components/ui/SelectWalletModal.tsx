@@ -1,5 +1,5 @@
 import { Wallet } from '@cosmos-wallet/core'
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { BaseModal, BaseModalProps } from './BaseModal'
@@ -9,12 +9,12 @@ export interface SelectWalletModalProps extends BaseModalProps {
   selectWallet: (wallet: Wallet) => void
 }
 
-export const SelectWalletModal: FunctionComponent<SelectWalletModalProps> = ({
+export const SelectWalletModal = ({
   wallets,
   selectWallet,
   classNames,
   ...props
-}) => (
+}: SelectWalletModalProps) => (
   <BaseModal classNames={classNames} title="Select a wallet" {...props}>
     <WalletList className={classNames?.walletList}>
       {wallets.map((wallet) => (

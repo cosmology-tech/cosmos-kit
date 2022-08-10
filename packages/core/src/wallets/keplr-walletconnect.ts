@@ -6,7 +6,7 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
   description: 'Keplr Mobile',
   imageUrl: '/walletconnect-keplr.png',
   isWalletConnect: true,
-  walletConnectDeeplinkFormat: {
+  walletConnectDeeplinkFormats: {
     ios: 'keplrwallet://wcV1?{{uri}}',
     android:
       'intent://wcV1?{{uri}}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',

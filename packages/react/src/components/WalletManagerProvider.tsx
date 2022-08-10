@@ -72,6 +72,9 @@ export const WalletManagerProvider = ({
           onClose={() => disconnect().finally(cleanupAfterConnection)}
           reset={reset}
           uri={coreState.walletConnectQrUri}
+          deeplinkFormats={
+            coreState.connectingWallet?.walletConnectDeeplinkFormats
+          }
         />
       )}
       {coreState.enablingWallet && (
