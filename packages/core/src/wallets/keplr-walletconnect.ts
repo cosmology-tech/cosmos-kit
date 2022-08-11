@@ -4,7 +4,7 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
   id: 'keplr-walletconnect',
   name: 'WalletConnect',
   description: 'Keplr Mobile',
-  imageUrl: '/walletconnect-keplr.png',
+  imageUrl: '/keplr-walletconnect.png',
   isWalletConnect: true,
   walletConnectDeeplinkFormats: {
     ios: 'keplrwallet://wcV1?{{uri}}',
@@ -18,10 +18,10 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
   getClient: async (chainInfo, walletConnect, newWalletConnectSession) => {
     if (walletConnect?.connected) {
       const client = new (
-        await import('../connectors/walletconnect-keplr')
+        await import('../connectors/keplr-walletconnect')
       ).KeplrWalletConnectV1(walletConnect, [chainInfo])
       // Prevent double app open request. See comment in
-      // `walletconnect-keplr.ts` for more details.
+      // `keplr-walletconnect.ts` for more details.
       client.dontOpenAppOnEnable = !!newWalletConnectSession
       return client
     }
@@ -29,7 +29,7 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
   },
   cleanupClient: async (client) => {
     // Allow future enable requests to open the app. See comment in
-    // `walletconnect-keplr.ts` for more details.
+    // `keplr-walletconnect.ts` for more details.
     client.dontOpenAppOnEnable = false
   },
   // WalletConnect only supports Amino signing.

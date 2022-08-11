@@ -5,7 +5,7 @@ ecosystem.
 
 ## Setup
 
-1. Install the Cosmodal package in your React project
+1. Install the package in your React project.
 
 ```sh
 npm install --save @cosmos-wallet/react
@@ -26,8 +26,8 @@ const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
   <WalletManagerProvider
     defaultChainId={ChainInfoID.Juno1}
     walletConnectClientMeta={{
-      name: 'CosmodalExampleDAPP',
-      description: 'A dapp using the cosmodal library.',
+      name: 'CosmosWalletExampleDApp',
+      description: 'A dApp using the @cosmos-wallet/react library.',
       url: 'https://github.com/cosmology-tech/cosmos-wallet/tree/main/packages/react',
       // @cosmology-tech's GitHub avatar
       icons: ['https://avatars.githubusercontent.com/u/101243801?s=200&v=4'],
@@ -184,7 +184,7 @@ interface IWalletManagerContext {
   // Wallet currently being connected to (selected in picker but has not yet
   // been fully enabled).
   connectingWallet?: Wallet
-  // Status of cosmodal.
+  // Status.
   status: CosmosWalletStatus
   // Error encountered during the connection process.
   error?: unknown

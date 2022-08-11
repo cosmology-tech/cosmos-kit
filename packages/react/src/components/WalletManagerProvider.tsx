@@ -63,7 +63,7 @@ export const WalletManagerProvider = ({
           isOpen
           onClose={stopConnecting}
           selectWallet={connectToWallet}
-          wallets={config.enabledWallets}
+          wallets={coreState.enabledWallets}
         />
       )}
       {coreState.status === CosmosWalletStatus.PendingWalletConnect &&

@@ -51,7 +51,7 @@ export interface CosmosWalletState {
   // Wallet currently being connected to (selected in picker but has not yet
   // been fully enabled).
   connectingWallet?: Wallet
-  // Status of cosmodal.
+  // Status.
   status: CosmosWalletStatus
   // Error encountered during the connection process.
   error?: unknown
@@ -68,6 +68,8 @@ export interface CosmosWalletState {
   // This is passed through from the provider props to allow composition
   // of your own hooks, and for use in the built-in useWallet hook.
   getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
+  // Wallets available for connection.
+  enabledWallets: Wallet[]
 }
 
 export type CosmosWalletStateObserver = (state: CosmosWalletState) => void
