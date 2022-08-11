@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/react",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "@cosmos-wallet react adapter",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
@@ -91,7 +91,7 @@
     "@cosmjs/cosmwasm-stargate": "0.28.11",
     "@cosmjs/proto-signing": "0.28.11",
     "@cosmjs/stargate": "0.28.11",
-    "@cosmos-wallet/core": "0.7.0",
+    "@cosmos-wallet/core": "^0.8.0",
     "@keplr-wallet/common": "0.10.12",
     "@keplr-wallet/cosmos": "0.10.12",
     "@keplr-wallet/provider": "0.10.12",
