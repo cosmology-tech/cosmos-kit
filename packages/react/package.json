@@ -2,8 +2,8 @@
   "name": "@cosmos-wallet/react",
   "version": "0.7.0",
   "description": "@cosmos-wallet react adapter",
-  "author": "Eliot Baker <430383+ebaker@users.noreply.github.com>",
-  "homepage": "https://github.com/DA0-DA0/cosmos-wallet#readme",
+  "author": "Noah Saso <noahsaso@gmail.com>",
+  "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DA0-DA0/cosmos-wallet"
+    "url": "https://github.com/cosmology-tech/cosmos-wallet"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/DA0-DA0/cosmos-wallet/issues"
+    "url": "https://github.com/cosmology-tech/cosmos-wallet/issues"
   },
   "jest": {
     "testPathIgnorePatterns": [

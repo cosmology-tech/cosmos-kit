@@ -7,17 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @cosmos-wallet/example
 
-
-
-
-
-## [0.4.17](https://github.com/DA0-DA0/cosmos-wallet/compare/example@0.4.16...example@0.4.17) (2022-07-18)
+## [0.4.17](https://github.com/cosmology-tech/cosmos-wallet/compare/example@0.4.16...example@0.4.17) (2022-07-18)
 
 **Note:** Version bump only for package example
-
-
-
-
 
 ## 0.4.16 (2022-07-18)
 
