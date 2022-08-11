@@ -1,3 +1,4 @@
+import { ChainInfoID, CosmosWalletStatus } from '@cosmos-wallet/core'
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
@@ -7,7 +8,6 @@ import {
   useWalletManager,
   WalletManagerProvider,
 } from '../components'
-import { ChainInfoID, WalletConnectionStatus, WalletType } from '../types'
 
 const DisplayStatus = () => {
   const { status } = useWalletManager()
@@ -20,10 +20,7 @@ describe('display status', () => {
   beforeAll(() =>
     act(() => {
       render(
-        <WalletManagerProvider
-          defaultChainId={ChainInfoID.Juno1}
-          enabledWalletTypes={[WalletType.Keplr, WalletType.WalletConnectKeplr]}
-        >
+        <WalletManagerProvider defaultChainId={ChainInfoID.Juno1}>
           <DisplayStatus />
         </WalletManagerProvider>
       )
@@ -32,7 +29,7 @@ describe('display status', () => {
 
   it('should display the status in the DOM', () => {
     expect(
-      screen.getByText(WalletConnectionStatus.ReadyForConnection)
+      screen.getByText(CosmosWalletStatus.Disconnected)
     ).toBeInTheDocument()
   })
 

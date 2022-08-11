@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "commit": "git-cz",
-    "build": "lerna run prepare --parallel",
+    "build": "lerna run prepare --stream",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "lint": "lerna run lint",
     "format": "lerna run format",

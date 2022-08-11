@@ -9,7 +9,7 @@ import { KeplrWalletConnectWallet } from './keplr-walletconnect'
 // Re-export wallets so they can be modified.
 export { KeplrWallet, KeplrWalletConnectWallet }
 
-export const Wallets: Wallet[] = [KeplrWallet, KeplrWalletConnectWallet]
+export const AllWallets: Wallet[] = [KeplrWallet, KeplrWalletConnectWallet]
 
 export const getConnectedWalletInfo = async <Client = unknown>(
   wallet: Wallet<Client>,
