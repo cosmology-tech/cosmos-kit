@@ -161,6 +161,9 @@ enum CosmosWalletStatus {
   // Don't call connect until this state is reached.
   Disconnected,
   Connecting,
+  ChoosingWallet,
+  PendingWalletConnect,
+  EnablingWallet,
   Connected,
   Errored,
 }
@@ -174,11 +177,7 @@ type ChainInfoOverrides =
   | (() => undefined | ChainInfo[] | Promise<undefined | ChainInfo[]>)
 
 interface IWalletManagerContext {
-  // If the picker should be displayed.
-  displayingPicker: boolean
-  // If the wallet is being enabled.
-  enablingWallet: boolean
-  // URI to display the WalletConnect QR Code. If present, should be displayed.
+  // URI to display the WalletConnect QR Code.
   walletConnectQrUri?: string
   // Connected wallet info and clients for interacting with the chain.
   connectedWallet?: ConnectedWallet

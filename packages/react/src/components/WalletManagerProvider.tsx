@@ -56,7 +56,7 @@ export const WalletManagerProvider = ({
     <WalletManagerContext.Provider value={value}>
       {children}
 
-      {coreState.displayingPicker && (
+      {coreState.status === CosmosWalletStatus.ChoosingWallet && (
         <SelectWalletModal
           classNames={classNames}
           closeIcon={closeIcon}
@@ -66,20 +66,21 @@ export const WalletManagerProvider = ({
           wallets={config.enabledWallets}
         />
       )}
-      {coreState.walletConnectQrUri && (
-        <WalletConnectModal
-          classNames={classNames}
-          closeIcon={closeIcon}
-          isOpen
-          onClose={() => disconnect().finally(cleanupAfterConnection)}
-          reset={reset}
-          uri={coreState.walletConnectQrUri}
-          deeplinkFormats={
-            coreState.connectingWallet?.walletConnectDeeplinkFormats
-          }
-        />
-      )}
-      {coreState.enablingWallet && (
+      {coreState.status === CosmosWalletStatus.PendingWalletConnect &&
+        coreState.walletConnectQrUri && (
+          <WalletConnectModal
+            classNames={classNames}
+            closeIcon={closeIcon}
+            isOpen
+            onClose={() => disconnect().finally(cleanupAfterConnection)}
+            reset={reset}
+            uri={coreState.walletConnectQrUri}
+            deeplinkFormats={
+              coreState.connectingWallet?.walletConnectDeeplinkFormats
+            }
+          />
+        )}
+      {coreState.status === CosmosWalletStatus.EnablingWallet && (
         <EnablingWalletModal
           classNames={classNames}
           closeIcon={closeIcon}

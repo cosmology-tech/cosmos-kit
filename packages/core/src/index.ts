@@ -38,8 +38,6 @@ if (
 
 let _config: CosmosWalletConfig
 let _state: CosmosWalletState = {
-  displayingPicker: false,
-  enablingWallet: false,
   walletConnectQrUri: undefined,
   connectedWallet: undefined,
   connectingWallet: undefined,
@@ -160,10 +158,7 @@ export const initialize = (
 
 // Closes modals and clears connection state.
 export const cleanupAfterConnection = () => {
-  // Close modals.
   updateState({
-    displayingPicker: false,
-    enablingWallet: false,
     walletConnectQrUri: undefined,
     connectingWallet: undefined,
   })
@@ -178,7 +173,6 @@ export const connectToWallet = async (wallet: Wallet) => {
   updateState({
     status: CosmosWalletStatus.Connecting,
     error: undefined,
-    displayingPicker: false,
     connectingWallet: wallet,
   })
 
@@ -186,9 +180,8 @@ export const connectToWallet = async (wallet: Wallet) => {
 
   // The actual meat of enabling and getting the wallet clients.
   const finalizeWalletConnection = async (newWcSession?: boolean) => {
-    // Cleared in `cleanupAfterConnection`.
     updateState({
-      enablingWallet: true,
+      status: CosmosWalletStatus.EnablingWallet,
     })
 
     const chainInfo = await getChainInfo(
@@ -253,12 +246,13 @@ export const connectToWallet = async (wallet: Wallet) => {
             open: (walletConnectQrUri, closeCallback) => {
               _onQrCloseCallback = closeCallback
               updateState({
+                status: CosmosWalletStatus.PendingWalletConnect,
                 walletConnectQrUri,
               })
             },
             // Occurs on disconnect, which is handled elsewhere.
-            // eslint-disable-next-line no-console
-            close: () => console.log('qrcodeModal.close'),
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            close: () => {},
           },
           // clientMeta,
         })
@@ -348,23 +342,27 @@ export const beginConnection = async (wallet?: Wallet) => {
     return
   }
 
-  // If no preselected wallet, open modal to choose one.
+  // If no preselected wallet, set status to choosing wallet to inform UI that a
+  // wallet needs to be chosen and `connectToWallet` needs to be called
+  // manually.
   updateState({
-    displayingPicker: true,
+    status: CosmosWalletStatus.ChoosingWallet,
   })
 }
 
 // Disconnect from connected wallet.
 export const disconnect = async (dontKillWalletConnect?: boolean) => {
+  // Remove refresh listener.
   if (_state.connectedWallet) {
-    // Remove refresh listener.
     _state.connectedWallet.wallet.removeRefreshListener?.(_refreshListener)
   }
+
   // Disconnect wallet.
   updateState({
     status: CosmosWalletStatus.Disconnected,
     connectedWallet: undefined,
   })
+
   // Remove localStorage value.
   if (_config.localStorageKey) {
     localStorage.removeItem(_config.localStorageKey)
@@ -384,7 +382,6 @@ export const reset = async () => {
   // Try resetting all wallet state and reconnecting.
   if (_state.connectingWallet) {
     cleanupAfterConnection()
-    // Updates state to Connecting.
     connectToWallet(_state.connectingWallet)
   } else {
     // If no wallet to reconnect to, just reload.
@@ -396,8 +393,6 @@ export const reset = async () => {
 export const stopConnecting = () => {
   updateState({
     status: CosmosWalletStatus.Disconnected,
-    displayingPicker: false,
-    enablingWallet: false,
     walletConnectQrUri: undefined,
     connectedWallet: undefined,
     connectingWallet: undefined,
