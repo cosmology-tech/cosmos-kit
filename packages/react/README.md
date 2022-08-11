@@ -19,21 +19,18 @@ yarn add @cosmos-wallet/react
    example code to see how to define wallets.
 
 ```tsx
-import {
-  WalletManagerProvider,
-  ChainInfoID,
-  AllWallets,
-} from '@cosmos-wallet/react'
+import { ChainInfoID } from '@cosmos-wallet/core'
+import { WalletManagerProvider } from '@cosmos-wallet/react'
 
 const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
   <WalletManagerProvider
     defaultChainId={ChainInfoID.Juno1}
-    enabledWallets={AllWallets}
     walletConnectClientMeta={{
       name: 'CosmodalExampleDAPP',
       description: 'A dapp using the cosmodal library.',
-      url: 'https://cosmodal.example.app',
-      icons: ['https://cosmodal.example.app/walletconnect.png'],
+      url: 'https://github.com/cosmology-tech/cosmos-wallet/tree/main/packages/react',
+      // @cosmology-tech's GitHub avatar
+      icons: ['https://avatars.githubusercontent.com/u/101243801?s=200&v=4'],
     }}
   >
     <Component {...pageProps} />
@@ -47,11 +44,8 @@ export default MyApp
    your pages and components.
 
 ```tsx
-import {
-  useWalletManager,
-  useWallet,
-  CosmosWalletStatus,
-} from '@cosmos-wallet/react'
+import { CosmosWalletStatus } from '@cosmos-wallet/core'
+import { useWallet, useWalletManager } from '@cosmos-wallet/react'
 
 const Home: NextPage = () => {
   const { connect, disconnect } = useWalletManager()
@@ -219,8 +213,9 @@ interface IWalletManagerContext {
 }
 
 interface WalletManagerProviderProps {
-  // Wallets available for connection.
-  enabledWallets: Wallet[]
+  // Wallets available for connection. If undefined, uses `AllWallets` from
+  // @cosmos-wallet/core.
+  enabledWallets?: Wallet[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in
   // `chainInfoList`.

@@ -1,11 +1,8 @@
 import '../styles/globals.css'
 
 import { GasPrice } from '@cosmjs/stargate'
-import {
-  AllWallets,
-  ChainInfoID,
-  WalletManagerProvider,
-} from '@cosmos-wallet/react'
+import { AllWallets, ChainInfoID } from '@cosmos-wallet/core'
+import { WalletManagerProvider } from '@cosmos-wallet/react'
 import type { AppProps } from 'next/app'
 import React from 'react'
 

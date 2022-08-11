@@ -23,6 +23,7 @@
     "simple-import-sort/exports": 2,
     "prettier/prettier": 2,
     "unused-imports/no-unused-imports": 2,
+    "no-console": 1,
     "no-debugger": 2,
     "no-alert": 2,
     "no-await-in-loop": 0,

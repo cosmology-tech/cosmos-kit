@@ -2,13 +2,14 @@ import WalletConnect from '@walletconnect/client'
 
 import { getChainInfo } from './chainInfo'
 import {
+  CosmosWalletConfig,
   CosmosWalletInitializeConfig,
   CosmosWalletState,
   CosmosWalletStateObserver,
   CosmosWalletStatus,
   Wallet,
 } from './types'
-import { getConnectedWalletInfo } from './wallets'
+import { AllWallets, getConnectedWalletInfo } from './wallets'
 
 export * from './chainInfo'
 export * from './types'
@@ -35,7 +36,7 @@ if (
 
 //! INTERNAL
 
-let _config: CosmosWalletInitializeConfig
+let _config: CosmosWalletConfig
 let _state: CosmosWalletState = {
   displayingPicker: false,
   enablingWallet: false,
@@ -107,7 +108,11 @@ export const initialize = (
   observers?: CosmosWalletStateObserver[]
 ) => {
   // Setup internal state.
-  _config = config
+  _config = {
+    ...config,
+    // Fallback to all wallets.
+    enabledWallets: config.enabledWallets ?? AllWallets,
+  }
   if (observers?.length) {
     _stateObservers.push(...observers)
   }

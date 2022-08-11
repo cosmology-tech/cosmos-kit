@@ -74,6 +74,7 @@ export const useWallet = (
     }
 
     connect().catch((error) => {
+      // eslint-disable-next-line no-console
       console.error(error)
       setChainIdError(error)
       setChainIdStatus(CosmosWalletStatus.Errored)
