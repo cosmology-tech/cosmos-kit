@@ -1,5 +1,4 @@
 import React, {
-  FunctionComponent,
   PropsWithChildren,
   ReactElement,
   ReactNode,
@@ -22,7 +21,7 @@ export type BaseModalProps = PropsWithChildren<{
   closeIcon?: ReactNode
 }>
 
-export const BaseModal: FunctionComponent<BaseModalProps> = ({
+export const BaseModal = ({
   isOpen,
   onClose,
   title,
@@ -30,7 +29,7 @@ export const BaseModal: FunctionComponent<BaseModalProps> = ({
   classNames,
   closeIcon,
   children,
-}) => {
+}: BaseModalProps) => {
   // ReactModal accessibility.
   useEffect(() => {
     ReactModal.setAppElement('body')

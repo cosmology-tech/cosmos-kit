@@ -80,20 +80,21 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
     options?: IRequestOptions
   ) => Promise<void> | void
   onAfterSendRequest?: (
-    response: any,
+    response: unknown,
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
   ) => Promise<void> | void
-  // When creating a new WalletConnect session, the user will be taken to
-  // Keplr Mobile via a deep link. The session is established immediately
-  // with no further interaction, and the next step is to enable the chain.
-  // Enabling the chain will prompt the user to approve the chain, which
-  // occurs in the background once the mobile app is opened. Then it will
-  // tell them to go back to the browser, and on returning to the browser,
-  // they will see a second deep link prompt, a result of the enable
-  // request that occurred in the background previously. When establishing
-  // a new WalletConnect session, let's make sure we don't prompt the user
-  // to open the app twice.
+  // When creating a new WalletConnect session, the user will be taken to Keplr
+  // Mobile via a deep link prompt. The session is established immediately with
+  // no further interaction, and the next step is to enable the chain. Enabling
+  // the chain will prompt the user to approve the chain in the app, which is
+  // triggered in the background by Safari once the mobile app is opened and the
+  // WalletConnect session is established. After enabling via the mobile app
+  // prompt, it will tell them to go back to the browser; on returning to the
+  // browser, they will see another deep link prompt, a result of the enable
+  // request that occurred in the background previously. When establishing a new
+  // WalletConnect session, let's make sure we don't prompt the user to open the
+  // app twice.
   dontOpenAppOnEnable = false
 
   public readonly connector: IConnector
@@ -129,14 +130,20 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
 
   protected readonly onCallReqeust = async (
     error: Error | null,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payload: any | null
   ) => {
     if (error) {
+      // eslint-disable-next-line no-console
       console.log(error)
       return
     }
 
-    if (!payload) {
+    if (
+      !payload ||
+      typeof payload !== 'object' ||
+      !('method' in payload && 'params' in payload)
+    ) {
       return
     }
 
@@ -211,11 +218,9 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
   protected async sendCustomRequest(
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
-  ): Promise<any> {
+  ): Promise<unknown> {
     // If mobile, attempt to open app to approve request.
     if (isMobile()) {
-      console.log(request)
-
       switch (request.method) {
         case 'keplr_enable_wallet_connect_v1': {
           if (this.dontOpenAppOnEnable) break
@@ -450,7 +455,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
 
     const params = isProtoTx
       ? {
-          tx_bytes: Buffer.from(tx as any).toString('base64'),
+          tx_bytes: Buffer.from(tx).toString('base64'),
           mode: (() => {
             switch (mode) {
               case 'async':

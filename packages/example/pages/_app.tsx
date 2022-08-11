@@ -1,25 +1,22 @@
 import '../styles/globals.css'
 
-import {
-  ChainInfoID,
-  WalletManagerProvider,
-  WalletType,
-} from '@cosmos-wallet/react'
-import type { AppProps } from 'next/app'
-import { FunctionComponent } from 'react'
 import { GasPrice } from '@cosmjs/stargate'
+import { ChainInfoID } from '@cosmos-wallet/core'
+import { WalletManagerProvider } from '@cosmos-wallet/react'
+import type { AppProps } from 'next/app'
+import React from 'react'
 
 const LOCAL_STORAGE_KEY = 'connectedWalletId'
 
-const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
+const MyApp = ({ Component, pageProps }: AppProps) => (
   <WalletManagerProvider
     walletConnectClientMeta={{
-      name: 'CosmodalExampleDApp',
-      description: 'A dApp using the @noahsaso/cosmodal library.',
-      url: 'https://noahsaso-cosmodal.vercel.app',
-      icons: ['https://moonphase.is/image.svg'],
+      name: 'CosmosWalletExampleDApp',
+      description: 'A dApp using the @cosmos-wallet/react library.',
+      url: 'https://github.com/cosmology-tech/cosmos-wallet/tree/main/packages/react',
+      // @cosmology-tech's GitHub avatar
+      icons: ['https://avatars.githubusercontent.com/u/101243801?s=200&v=4'],
     }}
-    enabledWalletTypes={[WalletType.Keplr, WalletType.WalletConnectKeplr]}
     renderLoader={() => <p>Loading...</p>}
     localStorageKey={LOCAL_STORAGE_KEY}
     defaultChainId={ChainInfoID.Juno1}

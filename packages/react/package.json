@@ -1,9 +1,9 @@
 {
   "name": "@cosmos-wallet/react",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "@cosmos-wallet react adapter",
-  "author": "Eliot Baker <430383+ebaker@users.noreply.github.com>",
-  "homepage": "https://github.com/DA0-DA0/cosmos-wallet#readme",
+  "author": "Noah Saso <noahsaso@gmail.com>",
+  "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -20,7 +20,7 @@
   "scripts": {
     "build:main": "cross-env BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
     "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
-    "build": "npm run build:module && npm run build:main && npm run build:ts",
+    "build": "npm run build:ts && npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
     "prepare": "npm run build",
     "lint": "eslint --ext .ts,.tsx .",
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DA0-DA0/cosmos-wallet"
+    "url": "https://github.com/cosmology-tech/cosmos-wallet"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/DA0-DA0/cosmos-wallet/issues"
+    "url": "https://github.com/cosmology-tech/cosmos-wallet/issues"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -76,6 +76,9 @@
     "eslint": "8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "eslint-plugin-unused-imports": "2.0.0",
     "jest": "^28.1.3",
     "jest-environment-jsdom": "28.1.3",
     "jest-in-case": "^1.0.2",
@@ -88,6 +91,7 @@
     "@cosmjs/cosmwasm-stargate": "0.28.11",
     "@cosmjs/proto-signing": "0.28.11",
     "@cosmjs/stargate": "0.28.11",
+    "@cosmos-wallet/core": "0.7.0",
     "@keplr-wallet/common": "0.10.12",
     "@keplr-wallet/cosmos": "0.10.12",
     "@keplr-wallet/provider": "0.10.12",

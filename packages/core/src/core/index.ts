@@ -17,7 +17,5 @@ if (
   browser.storage = { local: { get: undefined, set: undefined } }
 }
 
-export * from './chainInfo'
-export * from './core'
-export * from './types'
-export * from './wallets'
+export * from './api'
+export { addStateObservers, removeStateObserver, updateState } from './state'

@@ -6,7 +6,7 @@ Checkout the repository and bootstrap the yarn workspace:
 
 ```sh
 # Clone the repo.
-git clone https://github.com/DA0-DA0/cosmos-wallet
+git clone https://github.com/cosmology-tech/cosmos-wallet
 yarn
 yarn bootstrap
 ```

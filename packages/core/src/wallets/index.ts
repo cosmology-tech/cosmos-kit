@@ -2,27 +2,28 @@ import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
 import { SigningStargateClientOptions } from '@cosmjs/stargate'
 import { ChainInfo } from '@keplr-wallet/types'
 
-import { ConnectedWallet, Wallet, WalletClient, WalletType } from '../types'
+import { ConnectedWallet, Wallet } from '../types'
+import { KeplrWallet } from './keplr'
+import { KeplrWalletConnectWallet } from './keplr-walletconnect'
 
-export const getConnectedWalletInfo = async (
-  wallet: Wallet,
-  client: WalletClient,
+// Re-export wallets so they can be modified.
+export { KeplrWallet, KeplrWalletConnectWallet }
+
+export const AllWallets: Wallet[] = [KeplrWallet, KeplrWalletConnectWallet]
+
+export const getConnectedWalletInfo = async <Client = unknown>(
+  wallet: Wallet<Client>,
+  client: Client,
   chainInfo: ChainInfo,
   signingCosmWasmClientOptions?: SigningCosmWasmClientOptions,
   signingStargateClientOptions?: SigningStargateClientOptions
 ): Promise<ConnectedWallet> => {
-  // Only Keplr browser extension supports suggesting chain.
-  // Not WalletConnect nor embedded Keplr Mobile web.
-  if (wallet.type === WalletType.Keplr && client.mode !== 'mobile-web') {
-    await client.experimentalSuggestChain(chainInfo)
-  }
-
-  await client.enable(chainInfo.chainId)
+  await wallet.enableClient(client, chainInfo)
 
   // Parallelize for efficiency.
-  const [{ name, bech32Address: address }, offlineSigner] = await Promise.all([
-    // Get name.
-    client.getKey(chainInfo.chainId),
+  const [{ name, address }, offlineSigner] = await Promise.all([
+    // Get name and address.
+    wallet.getNameAddress(client, chainInfo),
     // Get offline signer.
     wallet.getOfflineSignerFunction(client)(chainInfo.chainId),
   ])

@@ -6,7 +6,7 @@
 import { Bech32Address } from '@keplr-wallet/cosmos'
 import { AppCurrency, ChainInfo } from '@keplr-wallet/types'
 
-import { ChainInfoID, ChainInfoOverrides } from '../types'
+import { ChainInfoID, ChainInfoOverrides } from './types'
 
 /** All currency attributes (stake and fee) are defined once in the `currencies` list.
  *  Maintains the option to skip this conversion and keep the verbose `ChainInfo` type.

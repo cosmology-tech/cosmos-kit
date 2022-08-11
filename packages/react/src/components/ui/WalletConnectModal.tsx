@@ -1,9 +1,10 @@
+import { DeeplinkFormats } from '@cosmos-wallet/core'
 import {
   isAndroid as checkIsAndroid,
   isMobile as checkIsMobile,
 } from '@walletconnect/browser-utils'
 import QRCode from 'qrcode.react'
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { BaseModal, BaseModalProps, ModalSubheader } from './BaseModal'
 
@@ -12,40 +13,41 @@ const IOS_KEPLR_MOBILE_URL = 'itms-apps://itunes.apple.com/app/1567851089'
 export interface WalletConnectModalProps extends BaseModalProps {
   uri?: string
   reset: () => void
+  deeplinkFormats?: DeeplinkFormats
 }
 
-export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
+export const WalletConnectModal = ({
   isOpen,
   uri,
   classNames,
   reset,
+  deeplinkFormats,
   ...props
-}) => {
+}: WalletConnectModalProps) => {
   const isMobile = useMemo(() => checkIsMobile(), [])
   const isAndroid = useMemo(() => checkIsAndroid(), [])
 
   // Defined if isMobile is true.
-  const navigateToAppURL = useMemo(
+  const deeplinkUrl = useMemo(
     () =>
-      isMobile
+      isMobile && deeplinkFormats
         ? isAndroid
-          ? `intent://wcV1?${uri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`
-          : `keplrwallet://wcV1?${uri}`
+          ? deeplinkFormats.android.replace('{{uri}}', uri)
+          : deeplinkFormats.ios.replace('{{uri}}', uri)
         : undefined,
-    [isMobile, isAndroid, uri]
+    [isMobile, deeplinkFormats, isAndroid, uri]
   )
 
   // Open app if mobile URL is available.
   useEffect(() => {
-    if (!isOpen || !navigateToAppURL) return
+    if (!isOpen || !deeplinkUrl) return
 
-    // Slight delay so they can read the modal.
     const timeout = setTimeout(() => {
-      window.location.href = navigateToAppURL
-    }, 2000)
+      window.location.href = deeplinkUrl
+    }, 100)
 
     return () => clearTimeout(timeout)
-  }, [navigateToAppURL, isOpen])
+  }, [deeplinkUrl, isOpen])
 
   const [qrShowing, setQrShowing] = useState(!isMobile)
 
@@ -69,13 +71,13 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
       title={isMobile ? 'Connect to Mobile Wallet' : 'Scan QR Code'}
       {...props}
     >
-      {!!navigateToAppURL && (
+      {!!deeplinkUrl && (
         <>
           <p
             className={classNames?.textContent}
             style={{ marginBottom: '1rem' }}
           >
-            <a href={navigateToAppURL} style={{ textDecoration: 'underline' }}>
+            <a href={deeplinkUrl} style={{ textDecoration: 'underline' }}>
               Open your mobile wallet
             </a>{' '}
             and accept the connection request.
@@ -87,7 +89,7 @@ export const WalletConnectModal: FunctionComponent<WalletConnectModalProps> = ({
           >
             If you don&apos;t have Keplr Mobile installed,{' '}
             <a
-              href={isAndroid ? navigateToAppURL : IOS_KEPLR_MOBILE_URL}
+              href={isAndroid ? deeplinkUrl : IOS_KEPLR_MOBILE_URL}
               style={{ textDecoration: 'underline' }}
             >
               click here to install it
