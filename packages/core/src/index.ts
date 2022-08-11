@@ -1,13 +1,13 @@
 import WalletConnect from '@walletconnect/client'
 
+import { getChainInfo } from './chainInfo'
 import {
   CosmosWalletInitializeConfig,
   CosmosWalletState,
   CosmosWalletStateObserver,
-  Wallet,
   CosmosWalletStatus,
+  Wallet,
 } from './types'
-import { getChainInfo } from './chainInfo'
 import { getConnectedWalletInfo } from './wallets'
 
 export * from './chainInfo'
@@ -18,7 +18,7 @@ export * from './wallets'
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace browser.storage {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const local: {
     get: undefined
     set: undefined

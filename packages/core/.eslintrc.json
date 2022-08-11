@@ -1,14 +1,8 @@
 {
-  "plugins": [
-    "@typescript-eslint",
-    "simple-import-sort",
-    "unused-imports",
-    "react-hooks"
-  ],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "unused-imports"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
     // configures both eslint-plugin-prettier and eslint-config-prettier
     "plugin:prettier/recommended"
   ],
@@ -25,8 +19,6 @@
     "jest": true
   },
   "rules": {
-    "react-hooks/rules-of-hooks": 2,
-    "react-hooks/exhaustive-deps": 1,
     "simple-import-sort/imports": 2,
     "simple-import-sort/exports": 2,
     "prettier/prettier": 2,
