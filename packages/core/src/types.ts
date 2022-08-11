@@ -13,7 +13,8 @@ import { IClientMeta } from '@walletconnect/types'
 
 export interface CosmosWalletConfig {
   // Wallets available for connection. If undefined, uses `AllWallets`.
-  enabledWallets: Wallet[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  enabledWallets: Wallet<any>[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in
   // `chainInfoList`.
