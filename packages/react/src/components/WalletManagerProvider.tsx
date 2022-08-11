@@ -1,17 +1,17 @@
+import {
+  beginConnection,
+  cleanupAfterConnection,
+  connectToWallet,
+  CosmosWalletState,
+  CosmosWalletStatus,
+  disconnect,
+  initialize,
+  reset,
+  stopConnecting,
+} from '@cosmos-wallet/core'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { WalletManagerProviderProps } from '../types'
-import {
-  CosmosWalletState,
-  initialize,
-  CosmosWalletStatus,
-  beginConnection,
-  disconnect,
-  reset,
-  connectToWallet,
-  cleanupAfterConnection,
-  stopConnecting,
-} from '@cosmos-wallet/core'
 import {
   EnablingWalletModal,
   SelectWalletModal,
@@ -31,6 +31,8 @@ export const WalletManagerProvider = ({
   // Initialize on mount.
   useEffect(() => {
     initialize(config, [setCoreState])
+    // Only initialize once, on mount. Not everytime the config props change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Memoize context data.
@@ -54,7 +56,7 @@ export const WalletManagerProvider = ({
     <WalletManagerContext.Provider value={value}>
       {children}
 
-      {coreState.displayingPicker && (
+      {coreState.status === CosmosWalletStatus.ChoosingWallet && (
         <SelectWalletModal
           classNames={classNames}
           closeIcon={closeIcon}
@@ -64,20 +66,21 @@ export const WalletManagerProvider = ({
           wallets={config.enabledWallets}
         />
       )}
-      {coreState.walletConnectQrUri && (
-        <WalletConnectModal
-          classNames={classNames}
-          closeIcon={closeIcon}
-          isOpen
-          onClose={() => disconnect().finally(cleanupAfterConnection)}
-          reset={reset}
-          uri={coreState.walletConnectQrUri}
-          deeplinkFormats={
-            coreState.connectingWallet?.walletConnectDeeplinkFormats
-          }
-        />
-      )}
-      {coreState.enablingWallet && (
+      {coreState.status === CosmosWalletStatus.PendingWalletConnect &&
+        coreState.walletConnectQrUri && (
+          <WalletConnectModal
+            classNames={classNames}
+            closeIcon={closeIcon}
+            isOpen
+            onClose={() => disconnect().finally(cleanupAfterConnection)}
+            reset={reset}
+            uri={coreState.walletConnectQrUri}
+            deeplinkFormats={
+              coreState.connectingWallet?.walletConnectDeeplinkFormats
+            }
+          />
+        )}
+      {coreState.status === CosmosWalletStatus.EnablingWallet && (
         <EnablingWalletModal
           classNames={classNames}
           closeIcon={closeIcon}

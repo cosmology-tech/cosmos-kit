@@ -11,8 +11,8 @@ import { ChainInfo, Keplr } from '@keplr-wallet/types'
 import WalletConnect from '@walletconnect/client'
 import { IClientMeta } from '@walletconnect/types'
 
-export interface CosmosWalletInitializeConfig {
-  // Wallets available for connection.
+export interface CosmosWalletConfig {
+  // Wallets available for connection. If undefined, uses `AllWallets`.
   enabledWallets: Wallet[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in
@@ -36,12 +36,15 @@ export interface CosmosWalletInitializeConfig {
   getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
 }
 
+// Make `enabledWallets` optional and default to `AllWallets`.
+export type CosmosWalletInitializeConfig = Omit<
+  CosmosWalletConfig,
+  'enabledWallets'
+> &
+  Partial<Pick<CosmosWalletConfig, 'enabledWallets'>>
+
 export interface CosmosWalletState {
-  // If the picker should be displayed.
-  displayingPicker: boolean
-  // If the wallet is being enabled.
-  enablingWallet: boolean
-  // URI to display the WalletConnect QR Code. If present, should be displayed.
+  // URI to display the WalletConnect QR Code.
   walletConnectQrUri?: string
   // Connected wallet info and clients for interacting with the chain.
   connectedWallet?: ConnectedWallet
@@ -157,6 +160,9 @@ export enum CosmosWalletStatus {
   // Don't call connect until this state is reached.
   Disconnected,
   Connecting,
+  ChoosingWallet,
+  PendingWalletConnect,
+  EnablingWallet,
   Connected,
   Errored,
 }

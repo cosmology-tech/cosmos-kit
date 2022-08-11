@@ -35,7 +35,7 @@ export const WalletConnectModal = ({
           ? deeplinkFormats.android.replace('{{uri}}', uri)
           : deeplinkFormats.ios.replace('{{uri}}', uri)
         : undefined,
-    [isMobile, isAndroid, uri]
+    [isMobile, deeplinkFormats, isAndroid, uri]
   )
 
   // Open app if mobile URL is available.

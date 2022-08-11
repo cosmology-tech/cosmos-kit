@@ -1,3 +1,4 @@
+import { ChainInfoID, CosmosWalletStatus } from '@cosmos-wallet/core'
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
@@ -7,12 +8,6 @@ import {
   useWalletManager,
   WalletManagerProvider,
 } from '../components'
-import {
-  ChainInfoID,
-  CosmosWalletStatus,
-  KeplrWallet,
-  KeplrWalletConnectWallet,
-} from '@cosmos-wallet/core'
 
 const DisplayStatus = () => {
   const { status } = useWalletManager()
@@ -25,10 +20,7 @@ describe('display status', () => {
   beforeAll(() =>
     act(() => {
       render(
-        <WalletManagerProvider
-          defaultChainId={ChainInfoID.Juno1}
-          enabledWallets={[KeplrWallet, KeplrWalletConnectWallet]}
-        >
+        <WalletManagerProvider defaultChainId={ChainInfoID.Juno1}>
           <DisplayStatus />
         </WalletManagerProvider>
       )

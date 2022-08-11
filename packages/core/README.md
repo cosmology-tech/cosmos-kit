@@ -1,3 +1,3 @@
 # core
 
-@cosmos-wallet finite state machine api for adapters
+@cosmos-wallet core API for UI adapters

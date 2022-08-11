@@ -134,6 +134,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
     payload: any | null
   ) => {
     if (error) {
+      // eslint-disable-next-line no-console
       console.log(error)
       return
     }
@@ -220,8 +221,6 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
   ): Promise<unknown> {
     // If mobile, attempt to open app to approve request.
     if (isMobile()) {
-      console.log(request)
-
       switch (request.method) {
         case 'keplr_enable_wallet_connect_v1': {
           if (this.dontOpenAppOnEnable) break

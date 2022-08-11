@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/example",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,9 +10,9 @@
     "format": "eslint --ext .tsx,.ts --fix ."
   },
   "dependencies": {
-    "@cosmjs/cosmwasm-stargate": "0.28.10",
-    "@cosmjs/stargate": "0.28.10",
-    "@cosmos-wallet/react": "^0.6.2",
+    "@cosmjs/cosmwasm-stargate": "0.28.11",
+    "@cosmjs/stargate": "0.28.11",
+    "@cosmos-wallet/react": "^0.7.0",
     "@keplr-wallet/cosmos": "^0.10.5",
     "@keplr-wallet/stores": "^0.10.5",
     "@keplr-wallet/types": "^0.10.5",
@@ -32,6 +32,8 @@
     "eslint-config-next": "^12.1.6",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-simple-import-sort": "7.0.0",
+    "eslint-plugin-unused-imports": "2.0.0",
     "postcss": "^8.4.14",
     "prettier": "2.7.1",
     "tailwindcss": "^3.1.4",

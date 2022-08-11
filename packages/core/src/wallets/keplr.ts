@@ -1,4 +1,5 @@
 import { Keplr } from '@keplr-wallet/types'
+
 import { Wallet } from '../types'
 
 export const KeplrWallet: Wallet<Keplr> = {

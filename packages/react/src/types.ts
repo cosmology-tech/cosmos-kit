@@ -2,6 +2,7 @@ import {
   ConnectedWallet,
   CosmosWalletInitializeConfig,
   CosmosWalletState,
+  Wallet,
 } from '@cosmos-wallet/core'
 import { ReactNode } from 'react'
 
@@ -9,7 +10,7 @@ export interface IWalletManagerContext extends CosmosWalletState {
   // Function to begin the connection process. This will either display
   // the wallet picker modal or immediately attempt to connect to a wallet
   // depending on the props passed to WalletManagerProvider.
-  connect: () => void
+  connect: (wallet?: Wallet) => void
   // Function that disconnects from the connected wallet.
   disconnect: () => Promise<void>
   // If status is Connected.
