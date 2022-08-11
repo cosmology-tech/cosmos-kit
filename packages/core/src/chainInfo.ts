@@ -24,13 +24,25 @@ export type SimplifiedChainInfo = Omit<
 }
 
 /** Convert a less redundant chain info schema into one that is accepted by Keplr's suggestChain: `ChainInfo`. */
-export function createKeplrChainInfo(
-  chainInfo: SimplifiedChainInfo
-): ChainInfo {
+export function createKeplrChainInfo({
+  currencies: _currencies,
+  ...chainInfo
+}: SimplifiedChainInfo): ChainInfo {
+  const currencies: AppCurrency[] = []
   const feeCurrencies: AppCurrency[] = []
   let stakeCurrency: AppCurrency | undefined
 
-  for (const currency of chainInfo.currencies) {
+  for (const _currency of _currencies) {
+    const currency = {
+      ..._currency,
+      // Convert into valid URI.
+      ...(_currency.coinImageUrl && {
+        coinImageUrl: 'https://app.osmosis.zone' + _currency.coinImageUrl,
+      }),
+    }
+
+    currencies.push(currency)
+
     if (currency.isFeeCurrency) {
       feeCurrencies.push(currency)
     }
@@ -42,6 +54,10 @@ export function createKeplrChainInfo(
         `There cannot be more than one stake currency for ${chainInfo.chainName}`
       )
     }
+
+    // Keplr does type-checking, so remove excess properties.
+    delete currency.isFeeCurrency
+    delete currency.isStakeCurrency
   }
 
   if (stakeCurrency === undefined) {
@@ -58,6 +74,7 @@ export function createKeplrChainInfo(
 
   return {
     ...chainInfo,
+    currencies,
     stakeCurrency,
     feeCurrencies,
   }
