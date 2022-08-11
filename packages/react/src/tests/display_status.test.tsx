@@ -11,7 +11,7 @@ import {
   ChainInfoID,
   CosmosWalletStatus,
   KeplrWallet,
-  WalletConnectKeplrWallet,
+  KeplrWalletConnectWallet,
 } from '@cosmos-wallet/core'
 
 const DisplayStatus = () => {
@@ -27,7 +27,7 @@ describe('display status', () => {
       render(
         <WalletManagerProvider
           defaultChainId={ChainInfoID.Juno1}
-          enabledWallets={[KeplrWallet, WalletConnectKeplrWallet]}
+          enabledWallets={[KeplrWallet, KeplrWalletConnectWallet]}
         >
           <DisplayStatus />
         </WalletManagerProvider>
