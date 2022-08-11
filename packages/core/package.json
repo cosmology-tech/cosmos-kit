@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/core",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "@cosmos-wallet core wallet state api",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
