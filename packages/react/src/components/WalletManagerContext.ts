@@ -1,13 +1,13 @@
-import { ChainInfo } from '@keplr-wallet/types'
-import { createContext, useContext, useEffect, useState } from 'react'
-
-import { IWalletManagerContext, UseWalletResponse } from '../types'
 import {
   ConnectedWallet,
   CosmosWalletStatus,
   getChainInfo,
   getConnectedWalletInfo,
 } from '@cosmos-wallet/core'
+import { ChainInfo } from '@keplr-wallet/types'
+import { createContext, useContext, useEffect, useState } from 'react'
+
+import { IWalletManagerContext, UseWalletResponse } from '../types'
 
 export const WalletManagerContext = createContext<IWalletManagerContext | null>(
   null
