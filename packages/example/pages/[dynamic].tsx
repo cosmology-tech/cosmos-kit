@@ -1,10 +1,10 @@
 import {
-  WalletConnectionStatus,
+  CosmosWalletStatus,
   useWallet,
   useWalletManager,
 } from '@cosmos-wallet/react'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 const Dynamic: NextPage = () => {
   const { connect, disconnect } = useWalletManager()
@@ -48,7 +48,7 @@ const Dynamic: NextPage = () => {
   return (
     <div className="absolute top-0 right-0 left-0 bottom-0 flex justify-center items-center">
       <div className="flex flex-col items-stretch gap-2 max-w-[90vw] max-h-[90vh]">
-        {walletStatus === WalletConnectionStatus.Connected ? (
+        {walletStatus === CosmosWalletStatus.Connected ? (
           <>
             <p>
               Name: <b>{name}</b>
@@ -94,7 +94,7 @@ const Dynamic: NextPage = () => {
         ) : (
           <>
             <button
-              onClick={connect}
+              onClick={() => connect()}
               className="px-3 py-2 rounded-md border border-gray bg-gray-200 hover:opacity-70"
             >
               Connect

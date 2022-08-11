@@ -261,7 +261,7 @@ export const connectToWallet = async (wallet: Wallet) => {
         // let's set it directly :)))))))))))))
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        _walletConnect._clientMeta = walletConnectClientMeta
+        _walletConnect._clientMeta = _config.walletConnectClientMeta
         // Detect disconnected WalletConnect session and clear wallet state.
         _walletConnect.on('disconnect', () => {
           // eslint-disable-next-line no-console
@@ -311,7 +311,6 @@ export const connectToWallet = async (wallet: Wallet) => {
 // Begin connection process, either auto-selecting a wallet or opening
 // the selection modal.
 export const beginConnection = async (wallet?: Wallet) => {
-  // TODO: Add some docs about this.
   if (_state.status === CosmosWalletStatus.Uninitialized) {
     throw new Error('Cannot connect before initialization.')
   }
