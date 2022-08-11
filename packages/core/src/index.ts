@@ -8,11 +8,11 @@ import {
   CosmosWalletStatus,
 } from './types'
 import { getChainInfo } from './chainInfo'
-import { getConnectedWalletInfo } from './wallet'
+import { getConnectedWalletInfo } from './wallets'
 
 export * from './chainInfo'
 export * from './types'
-export * from './wallet'
+export * from './wallets'
 
 // Fix Safari's nonexistent browser.storage that is used in @keplr-wallet/common https://github.com/chainapsis/keplr-wallet/blob/4726a96b9663f17b91c5d6b0448bf85ebb4a678a/packages/common/src/kv-store/extension.ts
 
@@ -223,6 +223,7 @@ export const connectToWallet = async (wallet: Wallet) => {
         localStorage.setItem(_config.localStorageKey, wallet.id)
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err)
     }
 
@@ -254,6 +255,7 @@ export const connectToWallet = async (wallet: Wallet) => {
               })
             },
             // Occurs on disconnect, which is handled elsewhere.
+            // eslint-disable-next-line no-console
             close: () => console.log('qrcodeModal.close'),
           },
           // clientMeta,
@@ -265,6 +267,7 @@ export const connectToWallet = async (wallet: Wallet) => {
         _walletConnect._clientMeta = walletConnectClientMeta
         // Detect disconnected WalletConnect session and clear wallet state.
         _walletConnect.on('disconnect', () => {
+          // eslint-disable-next-line no-console
           console.log('WalletConnect disconnected.')
           disconnect(true)
           cleanupAfterConnection()
@@ -296,6 +299,7 @@ export const connectToWallet = async (wallet: Wallet) => {
       await finalizeWalletConnection()
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error)
 
     updateState({
@@ -374,6 +378,7 @@ export const disconnect = async (dontKillWalletConnect?: boolean) => {
 
 // Reset.
 export const reset = async () => {
+  // eslint-disable-next-line no-console
   await disconnect().catch(console.error)
   // Try resetting all wallet state and reconnecting.
   if (_connectingWallet) {

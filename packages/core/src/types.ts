@@ -24,8 +24,9 @@ export interface CosmosWalletInitializeConfig {
   // Descriptive info about the webapp which gets displayed when enabling a
   // WalletConnect wallet (e.g. name, image, etc.).
   walletConnectClientMeta?: IClientMeta
-  // When set to a valid wallet ID, the connect function will skip the
-  // selection modal and attempt to connect to this wallet immediately.
+  // When set to a valid wallet ID (from the `id` field of wallets in the
+  // `enabledWallets` prop), the connect function will skip the selection modal
+  // and attempt to connect to this wallet immediately.
   preselectedWalletId?: string
   // localStorage key for saving, loading, and auto connecting to a wallet.
   localStorageKey?: string
@@ -69,6 +70,7 @@ export interface IKeplrWalletConnectV1 extends Keplr {
   dontOpenAppOnEnable: boolean
 }
 
+// TODO: Move imageUrl, and maybe name/description, to user configuration somehow, or incorporate in planned configurable UI overhaul.
 export interface Wallet<Client = unknown> {
   // A unique identifier among all wallets.
   id: string
