@@ -1,12 +1,13 @@
 import { Keplr } from '@keplr-wallet/types'
 
 import { Wallet } from '../types'
+import imageUrl from './images/keplr-extension.png'
 
 export const KeplrWallet: Wallet<Keplr> = {
   id: 'keplr',
   name: 'Keplr Wallet',
   description: 'Keplr Chrome Extension',
-  imageUrl: '/keplr-extension.png',
+  imageUrl,
   isWalletConnect: false,
   getClient: async () =>
     (await import('@keplr-wallet/stores')).getKeplrFromWindow(),
