@@ -1,11 +1,9 @@
+import { walletConnect } from '@cosmos-wallet/registry'
+
 import { IKeplrWalletConnectV1, Wallet } from '../types'
 
 export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
-  id: 'keplr-walletconnect',
-  name: 'WalletConnect',
-  description: 'Keplr Mobile',
-  imageUrl: '/keplr-walletconnect.png',
-  isWalletConnect: true,
+  ...walletConnect,
   walletConnectDeeplinkFormats: {
     ios: 'keplrwallet://wcV1?{{uri}}',
     android:

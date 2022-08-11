@@ -1,13 +1,10 @@
+import { keplr } from '@cosmos-wallet/registry'
 import { Keplr } from '@keplr-wallet/types'
 
 import { Wallet } from '../types'
 
 export const KeplrWallet: Wallet<Keplr> = {
-  id: 'keplr',
-  name: 'Keplr Wallet',
-  description: 'Keplr Chrome Extension',
-  imageUrl: '/keplr-extension.png',
-  isWalletConnect: false,
+  ...keplr,
   getClient: async () =>
     (await import('@keplr-wallet/stores')).getKeplrFromWindow(),
   getOfflineSignerFunction: (client) =>
