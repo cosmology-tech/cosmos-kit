@@ -82,11 +82,14 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@cosmjs/cosmwasm-stargate": "^0.28",
+    "@cosmjs/launchpad": "^0.27",
     "@cosmjs/proto-signing": "^0.28",
-    "@keplr-wallet/common": "^0.10.12",
-    "@keplr-wallet/cosmos": "^0.10.12",
-    "@keplr-wallet/provider": "^0.10.12",
-    "@keplr-wallet/stores": "^0.10.12",
+    "@cosmjs/stargate": "^0.28",
+    "@keplr-wallet/common": "^0.10",
+    "@keplr-wallet/cosmos": "^0.10",
+    "@keplr-wallet/provider": "^0.10",
+    "@keplr-wallet/stores": "^0.10",
+    "@keplr-wallet/types": "^0.10",
     "@walletconnect/browser-utils": "1.7.8",
     "@walletconnect/client": "1.7.8",
     "@walletconnect/types": "1.7.8",
@@ -95,10 +98,5 @@
     "buffer": "6.0.3",
     "deepmerge": "4.2.2",
     "secretjs": "0.17.5"
-  },
-  "peerDependencies": {
-    "@cosmjs/launchpad": "^0.27",
-    "@cosmjs/stargate": "^0.27 || ^0.28",
-    "@keplr-wallet/types": "^0.10"
   }
 }
