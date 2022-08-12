@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/react",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "@cosmos-wallet react adapter",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
@@ -90,7 +90,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-wallet/core": "^0.9.3",
+    "@cosmos-wallet/core": "^0.9.4",
     "@testing-library/react": "13.3.0",
     "@walletconnect/browser-utils": "1.7.8",
     "qrcode.react": "3.1.0",

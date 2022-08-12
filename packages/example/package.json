@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/example",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@cosmjs/stargate": "0.28.11",
-    "@cosmos-wallet/react": "^0.9.3",
+    "@cosmos-wallet/react": "^0.9.4",
     "next": "12.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
