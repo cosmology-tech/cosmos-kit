@@ -1,10 +1,11 @@
 import { IKeplrWalletConnectV1, Wallet } from '../types'
+import imageUrl from './images/keplr-walletconnect.png'
 
 export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
   id: 'keplr-walletconnect',
   name: 'WalletConnect',
   description: 'Keplr Mobile',
-  imageUrl: '/keplr-walletconnect.png',
+  imageUrl,
   isWalletConnect: true,
   walletConnectDeeplinkFormats: {
     ios: 'keplrwallet://wcV1?{{uri}}',
