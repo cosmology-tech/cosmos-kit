@@ -74,6 +74,8 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "28.1.3",
     "babel-watch": "^7.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "cross-env": "^7.0.2",
     "eslint": "8.20.0",
     "eslint-config-prettier": "^8.5.0",
@@ -101,6 +103,5 @@
     "@keplr-wallet/types": "^0.10",
     "react": "^16 || ^17 || ^18",
     "react-dom": "^16 || ^17 || ^18"
-  },
-  "gitHead": "b2fff88a80f03af963d43cb264b949e1b9688d78"
+  }
 }
