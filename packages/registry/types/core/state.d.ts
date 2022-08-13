@@ -1,0 +1,14 @@
+import { CosmosWalletConfig, CosmosWalletState, CosmosWalletStateObserver } from '@cosmos-wallet/types';
+import WalletConnect from '@walletconnect/client';
+export declare let config: CosmosWalletConfig;
+export declare const setConfig: (value: typeof config) => void;
+export declare let walletConnectConnectionAttempt: number;
+export declare const nextWalletConnectConnectionAttempt: () => number;
+export declare let walletConnect: WalletConnect | undefined;
+export declare const setWalletConnect: (value: typeof walletConnect) => void;
+export declare let onQrCloseCallback: (() => void) | undefined;
+export declare const setOnQrCloseCallback: (value: typeof onQrCloseCallback) => void;
+export declare let state: CosmosWalletState;
+export declare const addStateObservers: (...observers: CosmosWalletStateObserver[]) => number;
+export declare const removeStateObserver: (observer: CosmosWalletStateObserver) => void;
+export declare const updateState: (newState: Partial<CosmosWalletState>) => void;

@@ -1,3 +1,4 @@
+import { AllWallets } from '@cosmos-wallet/registry'
 import {
   CosmosWalletInitializeConfig,
   CosmosWalletStateObserver,
@@ -6,7 +7,7 @@ import {
 } from '@cosmos-wallet/types'
 
 import { getChainInfo } from '../chainInfo'
-import { AllWallets, getConnectedWalletInfo } from '../wallets'
+import { getConnectedWalletInfo } from '../wallets'
 import {
   addStateObservers,
   config,
