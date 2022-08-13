@@ -1,5 +1,5 @@
+import { CosmosWalletConfig, CosmosWalletState, CosmosWalletStateObserver } from '@cosmos-wallet/types';
 import WalletConnect from '@walletconnect/client';
-import { CosmosWalletConfig, CosmosWalletState, CosmosWalletStateObserver } from '../types';
 export declare let config: CosmosWalletConfig;
 export declare const setConfig: (value: typeof config) => void;
 export declare let walletConnectConnectionAttempt: number;

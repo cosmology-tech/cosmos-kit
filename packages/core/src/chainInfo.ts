@@ -3,10 +3,9 @@
  * https://github.com/osmosis-labs/osmosis-frontend/blob/11bfa1f07f0dda8c8aab1048bd04270a23641783/packages/web/config/chain-infos.ts
  */
 
+import { ChainInfoID, ChainInfoOverrides } from '@cosmos-wallet/types'
 import { Bech32Address } from '@keplr-wallet/cosmos'
 import { AppCurrency, ChainInfo } from '@keplr-wallet/types'
-
-import { ChainInfoID, ChainInfoOverrides } from './types'
 
 /** All currency attributes (stake and fee) are defined once in the `currencies` list.
  *  Maintains the option to skip this conversion and keep the verbose `ChainInfo` type.

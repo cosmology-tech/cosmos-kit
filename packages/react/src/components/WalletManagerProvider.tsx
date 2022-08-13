@@ -2,13 +2,12 @@ import {
   beginConnection,
   cleanupAfterConnection,
   connectToWallet,
-  CosmosWalletState,
-  CosmosWalletStatus,
   disconnect,
   initialize,
   reset,
   stopConnecting,
 } from '@cosmos-wallet/core'
+import { CosmosWalletState, CosmosWalletStatus } from '@cosmos-wallet/types'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { WalletManagerProviderProps } from '../types'

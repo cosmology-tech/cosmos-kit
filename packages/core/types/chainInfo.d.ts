@@ -1,5 +1,5 @@
+import { ChainInfoOverrides } from '@cosmos-wallet/types';
 import { AppCurrency, ChainInfo } from '@keplr-wallet/types';
-import { ChainInfoOverrides } from './types';
 /** All currency attributes (stake and fee) are defined once in the `currencies` list.
  *  Maintains the option to skip this conversion and keep the verbose `ChainInfo` type.
  */

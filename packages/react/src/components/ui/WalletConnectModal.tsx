@@ -1,4 +1,4 @@
-import { DeeplinkFormats } from '@cosmos-wallet/core'
+import { DeeplinkFormats } from '@cosmos-wallet/types'
 import {
   isAndroid as checkIsAndroid,
   isMobile as checkIsMobile,

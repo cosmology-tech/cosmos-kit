@@ -1,4 +1,4 @@
-import { CosmosWalletInitializeConfig, CosmosWalletStateObserver, Wallet } from '../types';
+import { CosmosWalletInitializeConfig, CosmosWalletStateObserver, Wallet } from '@cosmos-wallet/types';
 export declare const initialize: (initialConfig: CosmosWalletInitializeConfig, observers?: CosmosWalletStateObserver[]) => void;
 export declare const cleanupAfterConnection: () => void;
 export declare const connectToWallet: (wallet: Wallet) => Promise<void>;

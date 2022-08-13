@@ -1,10 +1,11 @@
-import { getChainInfo } from '../chainInfo'
 import {
   CosmosWalletInitializeConfig,
   CosmosWalletStateObserver,
   CosmosWalletStatus,
   Wallet,
-} from '../types'
+} from '@cosmos-wallet/types'
+
+import { getChainInfo } from '../chainInfo'
 import { AllWallets, getConnectedWalletInfo } from '../wallets'
 import {
   addStateObservers,
