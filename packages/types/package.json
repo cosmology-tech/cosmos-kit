@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/types",
-  "version": "0.9.4",
+  "version": "0.10.0",
   "description": "@cosmos-wallet types",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",

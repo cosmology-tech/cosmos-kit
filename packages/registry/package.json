@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/registry",
-  "version": "0.9.4",
+  "version": "0.10.0",
   "description": "@cosmos-wallet registry",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-wallet/keplr": "0.9.4",
-    "@cosmos-wallet/types": "0.9.4"
+    "@cosmos-wallet/keplr": "^0.10.0",
+    "@cosmos-wallet/types": "^0.10.0"
   }
 }

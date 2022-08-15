@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-wallet/core",
-  "version": "0.9.4",
+  "version": "0.10.0",
   "description": "@cosmos-wallet core wallet state api",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
@@ -83,8 +83,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-wallet/registry": "0.9.4",
-    "@cosmos-wallet/types": "0.9.4",
+    "@cosmos-wallet/registry": "^0.10.0",
+    "@cosmos-wallet/types": "^0.10.0",
     "@keplr-wallet/cosmos": "^0.10.12",
     "@walletconnect/client": "1.7.8"
   },
