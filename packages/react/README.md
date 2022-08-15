@@ -33,7 +33,7 @@ yarn add @cosmos-wallet/react
    example code to see how to define wallets.
 
 ```tsx
-import { ChainInfoID } from '@cosmos-wallet/core'
+import { ChainInfoID } from '@cosmos-wallet/types'
 import { WalletManagerProvider } from '@cosmos-wallet/react'
 
 const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
@@ -58,7 +58,7 @@ export default MyApp
    your pages and components.
 
 ```tsx
-import { CosmosWalletStatus } from '@cosmos-wallet/core'
+import { CosmosWalletStatus } from '@cosmos-wallet/types'
 import { useWallet, useWalletManager } from '@cosmos-wallet/react'
 
 const Home: NextPage = () => {
