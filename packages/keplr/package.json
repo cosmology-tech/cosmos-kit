@@ -92,7 +92,6 @@
     "@keplr-wallet/provider": "^0.10.12",
     "@keplr-wallet/stores": "^0.10.12",
     "@walletconnect/browser-utils": "1.7.8",
-    "@walletconnect/client": "1.7.8",
     "@walletconnect/types": "1.7.8",
     "@walletconnect/utils": "1.7.8",
     "axios": "0.27.2",

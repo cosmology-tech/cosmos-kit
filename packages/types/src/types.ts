@@ -7,12 +7,12 @@ import {
   SigningStargateClient,
   SigningStargateClientOptions,
 } from '@cosmjs/stargate'
-import { ChainInfo, Keplr } from '@keplr-wallet/types'
+import { ChainInfo } from '@keplr-wallet/types'
 import WalletConnect from '@walletconnect/client'
 import { IClientMeta } from '@walletconnect/types'
 
 export interface CosmosWalletConfig {
-  // Wallets available for connection. If undefined, uses `AllWallets`.
+  // Wallets available for connection. If undefined, uses `Wallets`.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   enabledWallets: Wallet<any>[]
   // Chain ID to initially connect to and selected by default if nothing
@@ -37,7 +37,7 @@ export interface CosmosWalletConfig {
   getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
 }
 
-// Make `enabledWallets` optional and default to `AllWallets`.
+// Make `enabledWallets` optional and default to `Wallets`.
 export type CosmosWalletInitializeConfig = Omit<
   CosmosWalletConfig,
   'enabledWallets'
@@ -74,10 +74,6 @@ export interface CosmosWalletState {
 }
 
 export type CosmosWalletStateObserver = (state: CosmosWalletState) => void
-
-export interface IKeplrWalletConnectV1 extends Keplr {
-  dontOpenAppOnEnable: boolean
-}
 
 // TODO: Move imageUrl, and maybe name/description, to user configuration somehow, or incorporate in planned configurable UI overhaul.
 export interface Wallet<Client = unknown> {

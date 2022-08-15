@@ -226,8 +226,8 @@ interface IWalletManagerContext {
 }
 
 interface WalletManagerProviderProps {
-  // Wallets available for connection. If undefined, uses `AllWallets` from
-  // @cosmos-wallet/core.
+  // Wallets available for connection. If undefined, uses `Wallets` from
+  // @cosmos-wallet/registry.
   enabledWallets?: Wallet[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in

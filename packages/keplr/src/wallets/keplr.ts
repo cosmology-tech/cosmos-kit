@@ -1,6 +1,6 @@
+import { Wallet } from '@cosmos-wallet/types'
 import { Keplr } from '@keplr-wallet/types'
 
-import { Wallet } from '@cosmos-wallet/types'
 import imageUrl from './images/keplr-extension.png'
 
 export const KeplrWallet: Wallet<Keplr> = {
