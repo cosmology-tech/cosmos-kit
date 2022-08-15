@@ -8,8 +8,7 @@
   <a href="https://github.com/cosmology-tech/cosmos-wallet/actions/workflows/run-tests.yml">
     <img height="20" src="https://github.com/cosmology-tech/cosmos-wallet/actions/workflows/run-tests.yml/badge.svg" />
   </a>
-   <a href="https://github.com/cosmology-tech/cosmos-wallet/blob/main/LICENSE-MIT"><img height="20" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-   <a href="https://github.com/cosmology-tech/cosmos-wallet/blob/main/LICENSE-Apache"><img height="20" src="https://img.shields.io/badge/license-Apache-blue.svg"></a>
+   <a href="https://github.com/cosmology-tech/cosmos-wallet/blob/main/packages/types/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
    <a href="https://www.npmjs.com/package/@cosmos-wallet/types"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-wallet?filename=packages%2Ftypes%2Fpackage.json"></a>
 </p>
 
