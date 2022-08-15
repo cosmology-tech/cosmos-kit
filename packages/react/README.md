@@ -33,7 +33,7 @@ yarn add @cosmos-wallet/react
    example code to see how to define wallets.
 
 ```tsx
-import { ChainInfoID } from '@cosmos-wallet/core'
+import { ChainInfoID } from '@cosmos-wallet/types'
 import { WalletManagerProvider } from '@cosmos-wallet/react'
 
 const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
@@ -58,7 +58,7 @@ export default MyApp
    your pages and components.
 
 ```tsx
-import { CosmosWalletStatus } from '@cosmos-wallet/core'
+import { CosmosWalletStatus } from '@cosmos-wallet/types'
 import { useWallet, useWalletManager } from '@cosmos-wallet/react'
 
 const Home: NextPage = () => {
@@ -226,8 +226,8 @@ interface IWalletManagerContext {
 }
 
 interface WalletManagerProviderProps {
-  // Wallets available for connection. If undefined, uses `AllWallets` from
-  // @cosmos-wallet/core.
+  // Wallets available for connection. If undefined, uses `Wallets` from
+  // @cosmos-wallet/registry.
   enabledWallets?: Wallet[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in

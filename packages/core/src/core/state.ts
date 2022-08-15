@@ -1,11 +1,10 @@
-import WalletConnect from '@walletconnect/client'
-
 import {
   CosmosWalletConfig,
   CosmosWalletState,
   CosmosWalletStateObserver,
   CosmosWalletStatus,
-} from '../types'
+} from '@cosmos-wallet/types'
+import WalletConnect from '@walletconnect/client'
 
 //! INTERNAL
 

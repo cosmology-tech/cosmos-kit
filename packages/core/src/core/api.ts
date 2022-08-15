@@ -1,11 +1,13 @@
-import { getChainInfo } from '../chainInfo'
+import { Wallets } from '@cosmos-wallet/registry'
 import {
   CosmosWalletInitializeConfig,
   CosmosWalletStateObserver,
   CosmosWalletStatus,
   Wallet,
-} from '../types'
-import { AllWallets, getConnectedWalletInfo } from '../wallets'
+} from '@cosmos-wallet/types'
+
+import { getChainInfo } from '../chainInfo'
+import { getConnectedWalletInfo } from '../walletInfo'
 import {
   addStateObservers,
   config,
@@ -40,7 +42,7 @@ export const initialize = (
   setConfig({
     ...initialConfig,
     // Fallback to all wallets.
-    enabledWallets: initialConfig.enabledWallets ?? AllWallets,
+    enabledWallets: initialConfig.enabledWallets ?? Wallets,
   })
   if (observers?.length) {
     addStateObservers(...observers)

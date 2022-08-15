@@ -1,5 +1,5 @@
-import { CosmosWalletStatus } from '@cosmos-wallet/core'
 import { useWallet, useWalletManager } from '@cosmos-wallet/react'
+import { CosmosWalletStatus } from '@cosmos-wallet/types'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import React, { useCallback, useState } from 'react'
 

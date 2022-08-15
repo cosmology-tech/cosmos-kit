@@ -1,15 +1,7 @@
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
 import { SigningStargateClientOptions } from '@cosmjs/stargate'
+import { ConnectedWallet, Wallet } from '@cosmos-wallet/types'
 import { ChainInfo } from '@keplr-wallet/types'
-
-import { ConnectedWallet, Wallet } from '../types'
-import { KeplrWallet } from './keplr'
-import { KeplrWalletConnectWallet } from './keplr-walletconnect'
-
-// Re-export wallets so they can be modified.
-export { KeplrWallet, KeplrWalletConnectWallet }
-
-export const AllWallets: Wallet[] = [KeplrWallet, KeplrWalletConnectWallet]
 
 export const getConnectedWalletInfo = async <Client = unknown>(
   wallet: Wallet<Client>,
