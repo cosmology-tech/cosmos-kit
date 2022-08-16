@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "@cosmos-kit react adapter",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -90,7 +90,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-kit/core": "^0.10.1",
+    "@cosmos-kit/core": "^0.10.2",
     "@testing-library/react": "13.3.0",
     "@walletconnect/browser-utils": "1.7.8",
     "qrcode.react": "3.1.0",
