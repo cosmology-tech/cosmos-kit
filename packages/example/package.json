@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/example",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@cosmjs/stargate": "0.28.11",
-    "@cosmos-kit/react": "^0.10.2",
+    "@cosmos-kit/react": "^0.11.0",
     "next": "12.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
