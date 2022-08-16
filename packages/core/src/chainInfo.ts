@@ -3,7 +3,7 @@
  * https://github.com/osmosis-labs/osmosis-frontend/blob/11bfa1f07f0dda8c8aab1048bd04270a23641783/packages/web/config/chain-infos.ts
  */
 
-import { ChainInfoID, ChainInfoOverrides } from '@cosmos-wallet/types'
+import { ChainInfoID, ChainInfoOverrides } from '@cosmos-kit/types'
 import { Bech32Address } from '@keplr-wallet/cosmos'
 import { AppCurrency, ChainInfo } from '@keplr-wallet/types'
 

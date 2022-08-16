@@ -1,9 +1,9 @@
 {
-  "name": "@cosmos-wallet/core",
+  "name": "@cosmos-kit/core",
   "version": "0.10.0",
-  "description": "@cosmos-wallet core wallet state api",
+  "description": "@cosmos-kit core wallet state api",
   "author": "Noah Saso <noahsaso@gmail.com>",
-  "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
+  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -36,11 +36,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmos-wallet"
+    "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/cosmology-tech/cosmos-wallet/issues"
+    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -83,8 +83,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-wallet/registry": "^0.10.0",
-    "@cosmos-wallet/types": "^0.10.0",
+    "@cosmos-kit/registry": "^0.10.0",
+    "@cosmos-kit/types": "^0.10.0",
     "@keplr-wallet/cosmos": "^0.10.12",
     "@walletconnect/client": "1.7.8"
   },

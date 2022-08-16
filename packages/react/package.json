@@ -1,9 +1,9 @@
 {
-  "name": "@cosmos-wallet/react",
+  "name": "@cosmos-kit/react",
   "version": "0.10.0",
-  "description": "@cosmos-wallet react adapter",
+  "description": "@cosmos-kit react adapter",
   "author": "Noah Saso <noahsaso@gmail.com>",
-  "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
+  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -34,11 +34,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmos-wallet"
+    "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/cosmology-tech/cosmos-wallet/issues"
+    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -90,7 +90,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-wallet/core": "^0.10.0",
+    "@cosmos-kit/core": "^0.10.0",
     "@testing-library/react": "13.3.0",
     "@walletconnect/browser-utils": "1.7.8",
     "qrcode.react": "3.1.0",

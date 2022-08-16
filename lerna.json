@@ -3,13 +3,17 @@
   "useWorkspaces": true,
   "conventionalCommits": true,
   "npmClient": "yarn",
-  "npmClientArgs": ["--no-lockfile"],
-  "packages": ["packages/*"],
+  "npmClientArgs": [
+    "--no-lockfile"
+  ],
+  "packages": [
+    "packages/*"
+  ],
   "version": "independent",
   "registry": "https://registry.npmjs.org",
   "command": {
     "create": {
-      "homepage": "https://github.com/cosmology-tech/cosmos-wallet",
+      "homepage": "https://github.com/cosmology-tech/cosmos-kit",
       "license": "SEE LICENSE IN LICENSE",
       "access": "restricted"
     },

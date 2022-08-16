@@ -1,8 +1,8 @@
 import '../styles/globals.css'
 
 import { GasPrice } from '@cosmjs/stargate'
-import { WalletManagerProvider } from '@cosmos-wallet/react'
-import { ChainInfoID } from '@cosmos-wallet/types'
+import { WalletManagerProvider } from '@cosmos-kit/react'
+import { ChainInfoID } from '@cosmos-kit/types'
 import type { AppProps } from 'next/app'
 import React from 'react'
 
@@ -12,8 +12,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
   <WalletManagerProvider
     walletConnectClientMeta={{
       name: 'CosmosWalletExampleDApp',
-      description: 'A dApp using the @cosmos-wallet/react library.',
-      url: 'https://github.com/cosmology-tech/cosmos-wallet/tree/main/packages/react',
+      description: 'A dApp using the @cosmos-kit/react library.',
+      url: 'https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react',
       // @cosmology-tech's GitHub avatar
       icons: ['https://avatars.githubusercontent.com/u/101243801?s=200&v=4'],
     }}
