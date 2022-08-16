@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/registry",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "@cosmos-kit registry",
   "author": "Noah Saso <noahsaso@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-kit/keplr": "^0.10.0",
-    "@cosmos-kit/types": "^0.10.0"
+    "@cosmos-kit/keplr": "^0.10.1",
+    "@cosmos-kit/types": "^0.10.1"
   }
 }

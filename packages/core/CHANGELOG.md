@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.10.1 (2022-08-16)
+
+
+### Reverts
+
+* Revert "Changed peer deps more." ([aa351ba](https://github.com/cosmology-tech/cosmos-kit/commit/aa351baf8eb5b8e5deb871ab2ee91667bae2a0d0))
+* Revert "No more peer deps." ([5b6738c](https://github.com/cosmology-tech/cosmos-kit/commit/5b6738c3c41a774a84c52b7ed2605a162a2e0601))
+
+
+
+
+
 # [0.10.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@0.9.4...@cosmos-kit/core@0.10.0) (2022-08-15)
 
 **Note:** Version bump only for package @cosmos-kit/core
