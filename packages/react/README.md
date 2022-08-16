@@ -1,4 +1,4 @@
-# @cosmos-wallet/react
+# @cosmos-kit/react
 
 <p align="center" width="100%">
     <img height="90" src="https://user-images.githubusercontent.com/545047/184277736-69fef40f-1991-4c0e-b979-da125cf7fd8f.svg" />
@@ -6,11 +6,11 @@
 
 
 <p align="center" width="100%">
-  <a href="https://github.com/cosmology-tech/cosmos-wallet/actions/workflows/run-tests.yml">
-    <img height="20" src="https://github.com/cosmology-tech/cosmos-wallet/actions/workflows/run-tests.yml/badge.svg" />
+  <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
+    <img height="20" src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg" />
   </a>
-   <a href="https://github.com/cosmology-tech/cosmos-wallet/blob/main/packages/react/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
-   <a href="https://www.npmjs.com/package/@cosmos-wallet/react"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-wallet?filename=packages%2Fcore%2Fpackage.json"></a>
+   <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/react/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
+   <a href="https://www.npmjs.com/package/@cosmos-kit/react"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fcore%2Fpackage.json"></a>
 </p>
 
 A wallet adapter for react with mobile WalletConnect support for the Cosmos
@@ -21,9 +21,9 @@ ecosystem.
 1. Install the package in your React project.
 
 ```sh
-npm install --save @cosmos-wallet/react
+npm install --save @cosmos-kit/react
 # OR
-yarn add @cosmos-wallet/react
+yarn add @cosmos-kit/react
 ```
 
 2. Import `WalletManagerProvider` and wrap it around your whole app. Only
@@ -32,16 +32,16 @@ yarn add @cosmos-wallet/react
    example code to see how to define wallets.
 
 ```tsx
-import { ChainInfoID } from '@cosmos-wallet/types'
-import { WalletManagerProvider } from '@cosmos-wallet/react'
+import { ChainInfoID } from '@cosmos-kit/types'
+import { WalletManagerProvider } from '@cosmos-kit/react'
 
 const MyApp: FunctionComponent<AppProps> = ({ Component, pageProps }) => (
   <WalletManagerProvider
     defaultChainId={ChainInfoID.Juno1}
     walletConnectClientMeta={{
       name: 'CosmosWalletExampleDApp',
-      description: 'A dApp using the @cosmos-wallet/react library.',
-      url: 'https://github.com/cosmology-tech/cosmos-wallet/tree/main/packages/react',
+      description: 'A dApp using the @cosmos-kit/react library.',
+      url: 'https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react',
       // @cosmology-tech's GitHub avatar
       icons: ['https://avatars.githubusercontent.com/u/101243801?s=200&v=4'],
     }}
@@ -57,8 +57,8 @@ export default MyApp
    your pages and components.
 
 ```tsx
-import { CosmosWalletStatus } from '@cosmos-wallet/types'
-import { useWallet, useWalletManager } from '@cosmos-wallet/react'
+import { CosmosWalletStatus } from '@cosmos-kit/types'
+import { useWallet, useWalletManager } from '@cosmos-kit/react'
 
 const Home: NextPage = () => {
   const { connect, disconnect } = useWalletManager()
@@ -226,7 +226,7 @@ interface IWalletManagerContext {
 
 interface WalletManagerProviderProps {
   // Wallets available for connection. If undefined, uses `Wallets` from
-  // @cosmos-wallet/registry.
+  // @cosmos-kit/registry.
   enabledWallets?: Wallet[]
   // Chain ID to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in

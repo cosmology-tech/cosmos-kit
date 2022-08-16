@@ -1,4 +1,4 @@
-import { Wallet } from '@cosmos-wallet/types'
+import { Wallet } from '@cosmos-kit/types'
 import React from 'react'
 import styled from 'styled-components'
 

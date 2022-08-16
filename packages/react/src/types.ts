@@ -3,7 +3,7 @@ import {
   CosmosWalletInitializeConfig,
   CosmosWalletState,
   Wallet,
-} from '@cosmos-wallet/types'
+} from '@cosmos-kit/types'
 import { ReactNode } from 'react'
 
 export interface IWalletManagerContext extends CosmosWalletState {

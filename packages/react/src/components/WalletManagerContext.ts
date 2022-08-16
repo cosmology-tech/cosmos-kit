@@ -1,5 +1,5 @@
-import { getChainInfo, getConnectedWalletInfo } from '@cosmos-wallet/core'
-import { ConnectedWallet, CosmosWalletStatus } from '@cosmos-wallet/types'
+import { getChainInfo, getConnectedWalletInfo } from '@cosmos-kit/core'
+import { ConnectedWallet, CosmosWalletStatus } from '@cosmos-kit/types'
 import { ChainInfo } from '@keplr-wallet/types'
 import { createContext, useContext, useEffect, useState } from 'react'
 

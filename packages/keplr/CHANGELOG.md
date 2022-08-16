@@ -5,4 +5,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # 0.10.0 (2022-08-15)
 
-**Note:** Version bump only for package @cosmos-wallet/keplr
+**Note:** Version bump only for package @cosmos-kit/keplr

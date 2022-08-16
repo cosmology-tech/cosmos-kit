@@ -1,5 +1,5 @@
-import { useWallet, useWalletManager } from '@cosmos-wallet/react'
-import { CosmosWalletStatus } from '@cosmos-wallet/types'
+import { useWallet, useWalletManager } from '@cosmos-kit/react'
+import { CosmosWalletStatus } from '@cosmos-kit/types'
 import type { NextPage } from 'next'
 import React, { useCallback, useState } from 'react'
 

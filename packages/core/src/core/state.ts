@@ -3,7 +3,7 @@ import {
   CosmosWalletState,
   CosmosWalletStateObserver,
   CosmosWalletStatus,
-} from '@cosmos-wallet/types'
+} from '@cosmos-kit/types'
 import WalletConnect from '@walletconnect/client'
 
 //! INTERNAL

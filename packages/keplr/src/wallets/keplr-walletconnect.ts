@@ -1,4 +1,4 @@
-import { Wallet } from '@cosmos-wallet/types'
+import { Wallet } from '@cosmos-kit/types'
 
 import { IKeplrWalletConnectV1 } from '../types'
 import imageUrl from './images/keplr-walletconnect.png'

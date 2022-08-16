@@ -1,9 +1,9 @@
 {
-  "name": "@cosmos-wallet/keplr",
+  "name": "@cosmos-kit/keplr",
   "version": "0.10.0",
-  "description": "@cosmos-wallet keplr integration",
+  "description": "@cosmos-kit keplr integration",
   "author": "Noah Saso <noahsaso@gmail.com>",
-  "homepage": "https://github.com/cosmology-tech/cosmos-wallet#readme",
+  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
   "module": "module/index.js",
@@ -36,11 +36,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmos-wallet"
+    "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/cosmology-tech/cosmos-wallet/issues"
+    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "jest": {
     "testPathIgnorePatterns": [
@@ -86,7 +86,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@cosmos-wallet/types": "^0.10.0",
+    "@cosmos-kit/types": "^0.10.0",
     "@keplr-wallet/common": "^0.10.12",
     "@keplr-wallet/cosmos": "^0.10.12",
     "@keplr-wallet/provider": "^0.10.12",

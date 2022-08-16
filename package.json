@@ -1,5 +1,5 @@
 {
-  "name": "cosmos-wallet",
+  "name": "cosmos-kit",
   "version": "0.7.0",
   "publishConfig": {
     "access": "restricted"
@@ -33,6 +33,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmos-wallet#readme"
+    "url": "https://github.com/cosmology-tech/cosmos-kit#readme"
   }
 }

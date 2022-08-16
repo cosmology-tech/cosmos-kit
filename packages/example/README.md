@@ -1,7 +1,7 @@
-# @cosmos-wallet/example
+# @cosmos-kit/example
 
 An example [Next.js](https://nextjs.org/) project integrating the
-`@cosmos-wallet/react` wallet adapter.
+`@cosmos-kit/react` wallet adapter.
 
 ## Development
 
