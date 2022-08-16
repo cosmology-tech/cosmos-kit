@@ -22,7 +22,7 @@
     "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
     "build": "npm run build:ts && npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
-    "aprepare": "npm run build",
+    "prepare": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
     "watch": "cross-env NODE_ENV=development babel-watch src/index",
     "lint": "eslint --ext .tsx,.ts .",

@@ -14,6 +14,7 @@ import {
 } from '@keplr-wallet/provider'
 import {
   ChainInfo,
+  EthSignType,
   KeplrIntereactionOptions,
   KeplrMode,
   KeplrSignOptions,
@@ -75,6 +76,15 @@ export type KeplrKeystoreMayChangedEventParam = {
 
 export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
   kvStore: KVStore
+  signEthereum(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array,
+    type: EthSignType
+  ): Promise<Uint8Array> {
+    // noop
+    return null
+  }
   onBeforeSendRequest?: (
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
