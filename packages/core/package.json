@@ -22,7 +22,7 @@
     "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
     "build": "npm run build:ts && npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
-    "prepare": "npm run build",
+    "aprepare": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
     "watch": "cross-env NODE_ENV=development babel-watch src/index",
     "lint": "eslint --ext .tsx,.ts .",
@@ -92,5 +92,6 @@
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/stargate": "^0.28",
     "@keplr-wallet/types": "^0.10"
-  }
+  },
+  "gitHead": "8d7f69e976a5df6a9921241e3528f1d6b12d8adc"
 }

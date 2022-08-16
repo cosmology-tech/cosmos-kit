@@ -22,7 +22,7 @@
     "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
     "build": "npm run build:ts && npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
-    "prepare": "npm run build",
+    "aprepare": "npm run build",
     "lint": "eslint --ext .ts,.tsx .",
     "format": "eslint --fix . --ext .ts,.tsx",
     "test": "jest",
@@ -102,5 +102,5 @@
     "react": "^16 || ^17 || ^18",
     "react-dom": "^16 || ^17 || ^18"
   },
-  "gitHead": "b2fff88a80f03af963d43cb264b949e1b9688d78"
+  "gitHead": "8d7f69e976a5df6a9921241e3528f1d6b12d8adc"
 }
