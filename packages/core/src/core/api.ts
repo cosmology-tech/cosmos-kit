@@ -6,7 +6,7 @@ import {
   Wallet,
 } from '@cosmos-kit/types'
 
-import { getKeplrChainInfo } from '../chainInfo'
+import { getKeplrChainInfoLegacy } from '../keplrChainInfo'
 import { getConnectedWalletInfo } from '../walletInfo'
 import {
   addStateObservers,
@@ -117,7 +117,7 @@ export const connectToWallet = async (wallet: Wallet) => {
       status: CosmosWalletStatus.EnablingWallet,
     })
 
-    const chainInfo = await getKeplrChainInfo(
+    const chainInfo = await getKeplrChainInfoLegacy(
       config.defaultChainId,
       config.chainInfoOverrides
     )
