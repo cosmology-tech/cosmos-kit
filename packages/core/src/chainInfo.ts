@@ -1414,7 +1414,7 @@ export const ChainInfoMap = Object.entries(SimpleChainInfoList).reduce(
 export const getChainInfo = async (
   chainId: ChainInfo['chainId'],
   chainInfoOverrides?: ChainInfoOverrides
-) => {
+): Promise<ChainInfo> => {
   const overrides =
     typeof chainInfoOverrides === 'function'
       ? await chainInfoOverrides()
