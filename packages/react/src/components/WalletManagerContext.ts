@@ -1,4 +1,4 @@
-import { getChainInfo, getConnectedWalletInfo } from '@cosmos-kit/core'
+import { getKeplrChainInfo, getConnectedWalletInfo } from '@cosmos-kit/core'
 import { ConnectedWallet, CosmosWalletStatus } from '@cosmos-kit/types'
 import { ChainInfo } from '@keplr-wallet/types'
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -54,7 +54,7 @@ export const useWallet = (
       setChainIdStatus(CosmosWalletStatus.Connecting)
       setChainIdError(undefined)
 
-      const chainInfo = await getChainInfo(chainId, chainInfoOverrides)
+      const chainInfo = await getKeplrChainInfo(chainId, chainInfoOverrides)
 
       setChainIdConnectedWallet(
         // TODO: Cache

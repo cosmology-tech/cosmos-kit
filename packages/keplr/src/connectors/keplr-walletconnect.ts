@@ -14,7 +14,6 @@ import {
 } from '@keplr-wallet/provider'
 import {
   ChainInfo,
-  EthSignType,
   KeplrIntereactionOptions,
   KeplrMode,
   KeplrSignOptions,
@@ -80,7 +79,7 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
     chainId: string,
     signer: string,
     data: string | Uint8Array,
-    type: EthSignType
+    type: any
   ): Promise<Uint8Array> {
     // noop
     return null
