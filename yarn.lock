@@ -1216,7 +1216,7 @@
     core-js-pure "^3.20.2"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.18.9", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.18.3", "@babel/runtime@^7.18.9", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.18.9"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
   integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
@@ -1261,6 +1261,25 @@
   version "0.2.3"
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
+
+"@chain-registry/keplr@0.4.4":
+  version "0.4.4"
+  resolved "https://registry.npmjs.org/@chain-registry/keplr/-/keplr-0.4.4.tgz#241a305bfe5401e713119f7c68bc35085adf70ab"
+  integrity sha512-df/Ry6q0hTVyplsUB629WSljTCjhk9Y4XQDjUXRVQZYKzxVDwlHY6ARlmqZyd+2NQbDld/g/V+48h42bT1aYHw==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    "@chain-registry/types" "^0.4.0"
+    "@keplr-wallet/cosmos" "^0.10.3"
+    "@keplr-wallet/crypto" "^0.10.11"
+
+"@chain-registry/types@0.4.0", "@chain-registry/types@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.4.0.tgz#43feeee568f751b86069ba3ce3294b0bea4481ce"
+  integrity sha512-PMF0QPCZhv6NapH72fMqsQASWnx7sgjsZ/QLXB74nENr17atCRrKM9vzr/CWY5IFrHfz7VZj/4J+k8rpbq+PpQ==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    "@keplr-wallet/cosmos" "^0.10.3"
+    "@keplr-wallet/crypto" "^0.10.11"
 
 "@confio/ics23@^0.6.8":
   version "0.6.8"
@@ -2336,10 +2355,39 @@
     long "^4.0.0"
     protobufjs "^6.11.2"
 
+"@keplr-wallet/cosmos@^0.10.3":
+  version "0.10.17"
+  resolved "https://registry.npmjs.org/@keplr-wallet/cosmos/-/cosmos-0.10.17.tgz#042badd0483a9f3396a71ca279696493b5ec9dec"
+  integrity sha512-InQiFxvPhdzPkaFOHbctpcFDCPVq7YNH7Fxtfs5VdB/Wu4yPf9Vf78MkBFQtkHgRvq8jjj3/22Ljo9KRkCmP2A==
+  dependencies:
+    "@cosmjs/launchpad" "^0.24.0-alpha.25"
+    "@keplr-wallet/crypto" "0.10.17"
+    "@keplr-wallet/proto-types" "0.10.17"
+    "@keplr-wallet/types" "0.10.17"
+    "@keplr-wallet/unit" "0.10.17"
+    axios "^0.21.4"
+    bech32 "^1.1.4"
+    buffer "^6.0.3"
+    long "^4.0.0"
+    protobufjs "^6.11.2"
+
 "@keplr-wallet/crypto@0.10.16":
   version "0.10.16"
   resolved "https://registry.npmjs.org/@keplr-wallet/crypto/-/crypto-0.10.16.tgz#3ac6bd1d067ea9edf66727a902d952b1411711ed"
   integrity sha512-djH3buPHo52TFWXz40z7HKTy54ox4diZVK32RM5U4b6lsudnSgcM3+PuQfCtN4Q29+mg9NagbHkMfcVaTbtUBA==
+  dependencies:
+    bip32 "^2.0.6"
+    bip39 "^3.0.3"
+    bs58check "^2.1.2"
+    buffer "^6.0.3"
+    crypto-js "^4.0.0"
+    elliptic "^6.5.3"
+    sha.js "^2.4.11"
+
+"@keplr-wallet/crypto@0.10.17", "@keplr-wallet/crypto@^0.10.11":
+  version "0.10.17"
+  resolved "https://registry.npmjs.org/@keplr-wallet/crypto/-/crypto-0.10.17.tgz#2c0376e307fef4b46528c24b22ab9027562abca2"
+  integrity sha512-Ary7oCDOHUUiPJf8ORB9kKQ73ddv6wMZ5h+acuNU5ffr4nRTPORqA/n6Cdhy2+hDLahdHr9nSaH83ulfLZuJ/Q==
   dependencies:
     bip32 "^2.0.6"
     bip39 "^3.0.3"
@@ -2358,6 +2406,14 @@
   version "0.10.16"
   resolved "https://registry.npmjs.org/@keplr-wallet/proto-types/-/proto-types-0.10.16.tgz#db48d63b73ba2422ac83bda8cf576d00d8f6682e"
   integrity sha512-SpiCsjVH9nO6Hbi3mogw0bjj8MAuhSoPC3JCmm4ooMcCd+/29VeoNbCm/5RQ8GcoX0ZR9dQLK89G+W39MyUyVw==
+  dependencies:
+    long "^4.0.0"
+    protobufjs "^6.11.2"
+
+"@keplr-wallet/proto-types@0.10.17":
+  version "0.10.17"
+  resolved "https://registry.npmjs.org/@keplr-wallet/proto-types/-/proto-types-0.10.17.tgz#8066abfe225b659454bf8c0c1e633a8d26483c97"
+  integrity sha512-zaMROMaj49f5eYvoBxiyw6+XJ7FVj8+jTBrCwyz2wZKDa+8zMKKXwPThQq/eAzUVYTcAQd/MWaSexk1uEjggXQ==
   dependencies:
     long "^4.0.0"
     protobufjs "^6.11.2"
@@ -2430,12 +2486,32 @@
     long "^4.0.0"
     secretjs "^0.17.0"
 
+"@keplr-wallet/types@0.10.17":
+  version "0.10.17"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.10.17.tgz#c8cfa7034735bc62572f3a8d9b16c22ab774d7f7"
+  integrity sha512-22YVPUjCsaHcxfiMMzmBvP58mh2ms56refegxAvk6XJnzuZ89GUlgPdMoJGgux210P+Frj4Bd2wJgU+V5tL/Ug==
+  dependencies:
+    "@cosmjs/launchpad" "^0.24.0-alpha.25"
+    "@cosmjs/proto-signing" "^0.24.0-alpha.25"
+    axios "^0.21.4"
+    long "^4.0.0"
+    secretjs "^0.17.0"
+
 "@keplr-wallet/unit@0.10.16":
   version "0.10.16"
   resolved "https://registry.npmjs.org/@keplr-wallet/unit/-/unit-0.10.16.tgz#0881647fe1e6716cf23972496e7a8a0da66b48e6"
   integrity sha512-zX7sGPK2Q7tDlqDfSsjMa/pP4i7XcnjVMVOG0pe5yEohXJ1j7jeRg6ptE+A2FffO0bD+ICc9xRz59lFMAEvHrA==
   dependencies:
     "@keplr-wallet/types" "0.10.16"
+    big-integer "^1.6.48"
+    utility-types "^3.10.0"
+
+"@keplr-wallet/unit@0.10.17":
+  version "0.10.17"
+  resolved "https://registry.npmjs.org/@keplr-wallet/unit/-/unit-0.10.17.tgz#eb0cd676f3ec5a9d29539df01df3d7e89ffc3ec9"
+  integrity sha512-jM7lqkZ/AVJPjp66vJGCljHiYo0G5pVCyJVa1/ZablmyZemu9cNvTYNzFtOAsV4mGRvHglst9LMmFJ4ucPYeng==
+  dependencies:
+    "@keplr-wallet/types" "0.10.17"
     big-integer "^1.6.48"
     utility-types "^3.10.0"
 
@@ -5072,6 +5148,14 @@ caseless@~0.12.0:
   version "0.12.0"
   resolved "https://registry.npmjs.org/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==
+
+chain-registry@0.6.3:
+  version "0.6.3"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-0.6.3.tgz#e4b8304c1aa225bbd3df8150acbb265b1ad6dda8"
+  integrity sha512-Nj9TODp4r20NZjZHkbyN/GIjUmArQIeyyYcQ3Vh401l8BNxzTMpyOzucCCoGVXJ57t+CtvLvIQn2+Y2xFp9rLQ==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    "@chain-registry/types" "^0.4.0"
 
 chalk@^2.0.0, chalk@^2.3.1, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
