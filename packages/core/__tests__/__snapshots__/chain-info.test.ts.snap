@@ -101,6 +101,61 @@ Object {
 }
 `;
 
+exports[`gravity 2`] = `
+Object {
+  "bech32Config": Object {
+    "bech32PrefixAccAddr": "gravity",
+    "bech32PrefixAccPub": "gravitypub",
+    "bech32PrefixConsAddr": "gravityvalcons",
+    "bech32PrefixConsPub": "gravityvalconspub",
+    "bech32PrefixValAddr": "gravityvaloper",
+    "bech32PrefixValPub": "gravityvaloperpub",
+  },
+  "bip44": Object {
+    "coinType": 118,
+  },
+  "chainId": "gravity-bridge-3",
+  "chainName": "Gravity Bridge",
+  "currencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "GRAV",
+      "coinGeckoId": "graviton",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/gravitybridge/images/grav.svg",
+      "coinMinimalDenom": "ugraviton",
+    },
+  ],
+  "features": Array [
+    "stargate",
+    "ibc-transfer",
+    "no-legacy-stdTx",
+  ],
+  "feeCurrencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "GRAV",
+      "coinGeckoId": "graviton",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/gravitybridge/images/grav.svg",
+      "coinMinimalDenom": "ugraviton",
+    },
+  ],
+  "gasPriceStep": Object {
+    "average": 0.025,
+    "high": 0.04,
+    "low": 0.01,
+  },
+  "rest": "https://gravitychain.io:1317",
+  "rpc": "https://gravitychain.io:26657",
+  "stakeCurrency": Object {
+    "coinDecimals": 6,
+    "coinDenom": "GRAV",
+    "coinGeckoId": "graviton",
+    "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/gravitybridge/images/grav.svg",
+    "coinMinimalDenom": "ugraviton",
+  },
+}
+`;
+
 exports[`kava 1`] = `
 Object {
   "bech32Config": Object {
@@ -161,6 +216,103 @@ Object {
     "coinDenom": "KAVA",
     "coinGeckoId": "kava",
     "coinImageUrl": "https://app.osmosis.zone/tokens/kava.png",
+    "coinMinimalDenom": "ukava",
+  },
+}
+`;
+
+exports[`kava 2`] = `
+Object {
+  "bech32Config": Object {
+    "bech32PrefixAccAddr": "kava",
+    "bech32PrefixAccPub": "kavapub",
+    "bech32PrefixConsAddr": "kavavalcons",
+    "bech32PrefixConsPub": "kavavalconspub",
+    "bech32PrefixValAddr": "kavavaloper",
+    "bech32PrefixValPub": "kavavaloperpub",
+  },
+  "bip44": Object {
+    "coinType": 459,
+  },
+  "chainId": "kava_2222-10",
+  "chainName": "Kava",
+  "currencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "KAVA",
+      "coinGeckoId": "kava",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/kava.png",
+      "coinMinimalDenom": "ukava",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "HARD",
+      "coinGeckoId": "kava-lend",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/hard.svg",
+      "coinMinimalDenom": "hard",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "SWP",
+      "coinGeckoId": "kava-swap",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/swp.svg",
+      "coinMinimalDenom": "swp",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "USDX",
+      "coinGeckoId": "usdx",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/usdx.png",
+      "coinMinimalDenom": "usdx",
+    },
+  ],
+  "features": Array [
+    "stargate",
+    "ibc-transfer",
+    "no-legacy-stdTx",
+  ],
+  "feeCurrencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "KAVA",
+      "coinGeckoId": "kava",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/kava.png",
+      "coinMinimalDenom": "ukava",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "HARD",
+      "coinGeckoId": "kava-lend",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/hard.svg",
+      "coinMinimalDenom": "hard",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "SWP",
+      "coinGeckoId": "kava-swap",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/swp.svg",
+      "coinMinimalDenom": "swp",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "USDX",
+      "coinGeckoId": "usdx",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/usdx.png",
+      "coinMinimalDenom": "usdx",
+    },
+  ],
+  "gasPriceStep": Object {
+    "average": 0.025,
+    "high": 0.04,
+    "low": 0.01,
+  },
+  "rest": "https://lcd-kava.keplr.app",
+  "rpc": "https://rpc-kava.keplr.app",
+  "stakeCurrency": Object {
+    "coinDecimals": 6,
+    "coinDenom": "KAVA",
+    "coinGeckoId": "kava",
+    "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/kava/images/kava.png",
     "coinMinimalDenom": "ukava",
   },
 }
@@ -229,6 +381,77 @@ Object {
 }
 `;
 
+exports[`osmosis 2`] = `
+Object {
+  "bech32Config": Object {
+    "bech32PrefixAccAddr": "osmo",
+    "bech32PrefixAccPub": "osmopub",
+    "bech32PrefixConsAddr": "osmovalcons",
+    "bech32PrefixConsPub": "osmovalconspub",
+    "bech32PrefixValAddr": "osmovaloper",
+    "bech32PrefixValPub": "osmovaloperpub",
+  },
+  "bip44": Object {
+    "coinType": 118,
+  },
+  "chainId": "osmosis-1",
+  "chainName": "Osmosis",
+  "currencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "OSMO",
+      "coinGeckoId": "osmosis",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
+      "coinMinimalDenom": "uosmo",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "ION",
+      "coinGeckoId": "ion",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/ion.svg",
+      "coinMinimalDenom": "uion",
+    },
+  ],
+  "features": Array [
+    "stargate",
+    "ibc-transfer",
+    "no-legacy-stdTx",
+    "cosmwasm",
+    "wasmd_0.24+",
+  ],
+  "feeCurrencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "OSMO",
+      "coinGeckoId": "osmosis",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
+      "coinMinimalDenom": "uosmo",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "ION",
+      "coinGeckoId": "ion",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/ion.svg",
+      "coinMinimalDenom": "uion",
+    },
+  ],
+  "gasPriceStep": Object {
+    "average": 0.025,
+    "high": 0.04,
+    "low": 0,
+  },
+  "rest": "https://lcd-osmosis.keplr.app/",
+  "rpc": "https://rpc-osmosis.keplr.app/",
+  "stakeCurrency": Object {
+    "coinDecimals": 6,
+    "coinDenom": "OSMO",
+    "coinGeckoId": "osmosis",
+    "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/osmosis/images/osmo.svg",
+    "coinMinimalDenom": "uosmo",
+  },
+}
+`;
+
 exports[`persistence 1`] = `
 Object {
   "bech32Config": Object {
@@ -282,6 +505,75 @@ Object {
     "coinDenom": "XPRT",
     "coinGeckoId": "persistence",
     "coinImageUrl": "https://app.osmosis.zone/tokens/xprt.png",
+    "coinMinimalDenom": "uxprt",
+  },
+}
+`;
+
+exports[`persistence 2`] = `
+Object {
+  "bech32Config": Object {
+    "bech32PrefixAccAddr": "persistence",
+    "bech32PrefixAccPub": "persistencepub",
+    "bech32PrefixConsAddr": "persistencevalcons",
+    "bech32PrefixConsPub": "persistencevalconspub",
+    "bech32PrefixValAddr": "persistencevaloper",
+    "bech32PrefixValPub": "persistencevaloperpub",
+  },
+  "bip44": Object {
+    "coinType": 750,
+  },
+  "chainId": "core-1",
+  "chainName": "Persistence",
+  "currencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "XPRT",
+      "coinGeckoId": "persistence",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/persistence/images/xprt.svg",
+      "coinMinimalDenom": "uxprt",
+    },
+    Object {
+      "coinDecimals": 18,
+      "coinDenom": "PSTAKE",
+      "coinGeckoId": "pstake-finance",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/persistence/images/pstake.svg",
+      "coinMinimalDenom": "ibc/A6E3AF63B3C906416A9AF7A556C59EA4BD50E617EFFE6299B99700CCB780E444",
+    },
+  ],
+  "features": Array [
+    "stargate",
+    "ibc-transfer",
+    "no-legacy-stdTx",
+  ],
+  "feeCurrencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "XPRT",
+      "coinGeckoId": "persistence",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/persistence/images/xprt.svg",
+      "coinMinimalDenom": "uxprt",
+    },
+    Object {
+      "coinDecimals": 18,
+      "coinDenom": "PSTAKE",
+      "coinGeckoId": "pstake-finance",
+      "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/persistence/images/pstake.svg",
+      "coinMinimalDenom": "ibc/A6E3AF63B3C906416A9AF7A556C59EA4BD50E617EFFE6299B99700CCB780E444",
+    },
+  ],
+  "gasPriceStep": Object {
+    "average": 0.025,
+    "high": 0.04,
+    "low": 0.01,
+  },
+  "rest": "https://lcd-persistence.keplr.app",
+  "rpc": "https://rpc-persistence.keplr.app",
+  "stakeCurrency": Object {
+    "coinDecimals": 6,
+    "coinDenom": "XPRT",
+    "coinGeckoId": "persistence",
+    "coinImageUrl": "https://raw.githubusercontent.com/cosmos/chain-registry/master/persistence/images/xprt.svg",
     "coinMinimalDenom": "uxprt",
   },
 }
