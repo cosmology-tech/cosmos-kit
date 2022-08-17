@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`works 1`] = `
+Object {
+  "bech32Config": Object {
+    "bech32PrefixAccAddr": "osmo",
+    "bech32PrefixAccPub": "osmopub",
+    "bech32PrefixConsAddr": "osmovalcons",
+    "bech32PrefixConsPub": "osmovalconspub",
+    "bech32PrefixValAddr": "osmovaloper",
+    "bech32PrefixValPub": "osmovaloperpub",
+  },
+  "bip44": Object {
+    "coinType": 118,
+  },
+  "chainId": "osmosis-1",
+  "chainName": "Osmosis",
+  "currencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "OSMO",
+      "coinGeckoId": "osmosis",
+      "coinImageUrl": "https://app.osmosis.zone/tokens/osmo.svg",
+      "coinMinimalDenom": "uosmo",
+    },
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "ION",
+      "coinGeckoId": "ion",
+      "coinImageUrl": "https://app.osmosis.zone/tokens/ion.png",
+      "coinMinimalDenom": "uion",
+    },
+  ],
+  "features": Array [
+    "stargate",
+    "ibc-transfer",
+    "no-legacy-stdTx",
+    "ibc-go",
+  ],
+  "feeCurrencies": Array [
+    Object {
+      "coinDecimals": 6,
+      "coinDenom": "OSMO",
+      "coinGeckoId": "osmosis",
+      "coinImageUrl": "https://app.osmosis.zone/tokens/osmo.svg",
+      "coinMinimalDenom": "uosmo",
+    },
+  ],
+  "gasPriceStep": Object {
+    "average": 0,
+    "high": 0.025,
+    "low": 0,
+  },
+  "rest": "https://lcd-osmosis.keplr.app/",
+  "rpc": "https://rpc-osmosis.keplr.app/",
+  "stakeCurrency": Object {
+    "coinDecimals": 6,
+    "coinDenom": "OSMO",
+    "coinGeckoId": "osmosis",
+    "coinImageUrl": "https://app.osmosis.zone/tokens/osmo.svg",
+    "coinMinimalDenom": "uosmo",
+  },
+}
+`;
