@@ -129,7 +129,7 @@ export const connectToWallet = async (wallet: Wallet) => {
       throw new Error('Failed to retrieve wallet client.')
     }
 
-    const adapter = wallet.getAdapter(chainName, config.chainInfo)
+    const adapter = wallet.getAdapter(walletClient, chainName, config.chainInfo)
     const chainInfo = getChainInfo(config.defaultChainName, config.chainInfo)
 
     // Enable and connect to wallet, and retrieve data.
@@ -146,7 +146,7 @@ export const connectToWallet = async (wallet: Wallet) => {
 
     // Allow to fail silently.
     try {
-      await wallet.cleanupClient?.(walletClient)
+      await adapter.cleanupClient?.()
 
       // Save localStorage value for future autoconnection.
       if (config.localStorageKey) {

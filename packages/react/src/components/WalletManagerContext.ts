@@ -52,6 +52,7 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
       setChainIdError(undefined)
 
       const adapter = managerConnectedWallet.wallet.getAdapter(
+        managerConnectedWallet.walletClient,
         chainName,
         chainInfo
       )

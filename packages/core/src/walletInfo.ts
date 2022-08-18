@@ -20,9 +20,9 @@ export const getConnectedWalletInfo = async <Client = unknown>(
   // Parallelize for efficiency.
   const [{ name, address }, offlineSigner] = await Promise.all([
     // Get name and address.
-    wallet.getNameAddress(client, chainInfo),
+    adapter.getNameAddress(),
     // Get offline signer.
-    wallet.getOfflineSignerFunction(client)(chainInfo.chain.chain_id),
+    adapter.getOfflineSigner(),
   ])
 
   const [signingCosmWasmClient, signingStargateClient] = await Promise.all([

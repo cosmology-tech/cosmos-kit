@@ -110,20 +110,11 @@ export interface Wallet<Client = unknown> {
     newWalletConnectSession?: boolean
   ) => Promise<Client | undefined>
   // getAdapter for the wallet
-  getAdapter: (chainName: string, info: ChainRegistryInfo) => WalletAdapter
-  // A function that returns the function to retrieve the `OfflineSigner` for
-  // this wallet.
-  getOfflineSignerFunction: (
-    client: Client
-  ) => (chainId: string) => OfflineSigner | Promise<OfflineSigner>
-  // A function that is called after a connection attempt completes. Will fail
-  // silently if an error is thrown.
-  cleanupClient?: (client: Client) => Promise<void>
-  // A function that returns the wallet name and address from the client.
-  getNameAddress: (
+  getAdapter: (
     client: Client,
-    chainInfo: ChainInfo
-  ) => Promise<{ name: string; address: string }>
+    chainName: string,
+    info: ChainRegistryInfo
+  ) => WalletAdapter<Client>
   // A function that determines if this wallet should automatically be connected
   // on initialization.
   shouldAutoconnect?: () => boolean | Promise<boolean>
@@ -171,6 +162,21 @@ export class WalletAdapter<Client = unknown> {
   }
 
   enableClient(_client: Client) {
+    throw new Error('WalletAdapter: not implemented')
+  }
+
+  // A function that returns the function to retrieve the `OfflineSigner` for
+  // this wallet.
+  getOfflineSigner(): OfflineSigner {
+    throw new Error('WalletAdapter: not implemented')
+  }
+  // A function that is called after a connection attempt completes. Will fail
+  // silently if an error is thrown.
+  async cleanupClient(): Promise<void> {
+    //
+  }
+  // A function that returns the wallet name and address from the client.
+  async getNameAddress(): Promise<{ name: string; address: string }> {
     throw new Error('WalletAdapter: not implemented')
   }
 

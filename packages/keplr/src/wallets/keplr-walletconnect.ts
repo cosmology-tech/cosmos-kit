@@ -5,12 +5,18 @@ import { getKeplrChainInfo } from '../chainInfo'
 import { IKeplrWalletConnectV1 } from '../types'
 import imageUrl from './images/keplr-walletconnect.png'
 
-export class KeplrWalletConnectAdapter extends WalletAdapter {
+export class KeplrWalletConnectAdapter extends WalletAdapter<IKeplrWalletConnectV1> {
+  client: IKeplrWalletConnectV1
   wallet: Wallet<IKeplrWalletConnectV1>
   keplrChainInfo: KeplrChainInfo
 
-  constructor(chainName: string, info: ChainRegistryInfo) {
+  constructor(
+    client: IKeplrWalletConnectV1,
+    chainName: string,
+    info: ChainRegistryInfo
+  ) {
     super()
+    this.client = client
     this.wallet = KeplrWalletConnectWallet
     this.keplrChainInfo = getKeplrChainInfo(chainName, info)
   }
@@ -23,8 +29,29 @@ export class KeplrWalletConnectAdapter extends WalletAdapter {
     return this.keplrChainInfo.rpc
   }
 
-  async enableClient(client) {
-    client.enable(this.keplrChainInfo.chainId)
+  async enableClient() {
+    this.client.enable(this.keplrChainInfo.chainId)
+  }
+
+  async cleanupClient() {
+    // Allow future enable requests to open the app. See comment in
+    // `keplr-walletconnect.ts` for more details.
+    this.client.dontOpenAppOnEnable = false
+  }
+
+  getOfflineSigner() {
+    // WalletConnect only supports Amino signing.
+    // This function expects to be bound to the `client` instance.
+    return this.client.getOfflineSignerOnlyAmino.bind(this.client)(
+      this.keplrChainInfo.chainId
+    )
+  }
+
+  getNameAddress() {
+    return this.client.getKey(this.keplrChainInfo.chainId).then((key) => ({
+      name: key.name,
+      address: key.bech32Address,
+    }))
   }
 }
 
@@ -44,8 +71,12 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
     'keplr_enable_wallet_connect_v1',
     'keplr_sign_amino_wallet_connect_v1',
   ],
-  getAdapter: (chainName: string, info: ChainRegistryInfo) => {
-    return new KeplrWalletConnectAdapter(chainName, info)
+  getAdapter: (
+    client: IKeplrWalletConnectV1,
+    chainName: string,
+    info: ChainRegistryInfo
+  ) => {
+    return new KeplrWalletConnectAdapter(client, chainName, info)
   },
   getClient: async (
     chainName: string,
@@ -65,20 +96,6 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
     }
     throw new Error('Mobile wallet not connected.')
   },
-  cleanupClient: async (client) => {
-    // Allow future enable requests to open the app. See comment in
-    // `keplr-walletconnect.ts` for more details.
-    client.dontOpenAppOnEnable = false
-  },
-  // WalletConnect only supports Amino signing.
-  getOfflineSignerFunction: (client) =>
-    // This function expects to be bound to the `client` instance.
-    client.getOfflineSignerOnlyAmino.bind(client),
-  getNameAddress: (client, chainInfo) =>
-    client.getKey(chainInfo.chain.chain_id).then((key) => ({
-      name: key.name,
-      address: key.bech32Address,
-    })),
   // Refresh listener controls.
   addRefreshListener: (listener) =>
     window.addEventListener('keplr_keystorechange', listener),

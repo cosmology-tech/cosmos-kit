@@ -4,12 +4,14 @@ import { ChainInfo as KeplrChainInfo, Keplr } from '@keplr-wallet/types'
 import { getKeplrChainInfo } from '../chainInfo'
 import imageUrl from './images/keplr-extension.png'
 
-export class KeplrWalletAdapter extends WalletAdapter {
+export class KeplrWalletAdapter extends WalletAdapter<Keplr> {
+  client: Keplr
   wallet: Wallet<Keplr>
   keplrChainInfo: KeplrChainInfo
 
-  constructor(chainName: string, info: ChainRegistryInfo) {
+  constructor(client: Keplr, chainName: string, info: ChainRegistryInfo) {
     super()
+    this.client = client
     this.wallet = KeplrWallet
     this.keplrChainInfo = getKeplrChainInfo(chainName, info)
   }
@@ -29,6 +31,20 @@ export class KeplrWalletAdapter extends WalletAdapter {
     }
     return await client.enable(this.keplrChainInfo.chainId)
   }
+
+  getOfflineSigner() {
+    // This function expects to be bound to the `client` instance.
+    return this.client.getOfflineSignerAuto.bind(this.client)(
+      this.keplrChainInfo.chainId
+    )
+  }
+
+  getNameAddress() {
+    return this.client.getKey(this.keplrChainInfo.chainId).then((key) => ({
+      name: key.name,
+      address: key.bech32Address,
+    }))
+  }
 }
 
 export const KeplrWallet: Wallet<Keplr> = {
@@ -38,19 +54,11 @@ export const KeplrWallet: Wallet<Keplr> = {
   description: 'Keplr Chrome Extension',
   imageUrl,
   isWalletConnect: false,
-  getAdapter: (chainName: string, info: ChainRegistryInfo) => {
-    return new KeplrWalletAdapter(chainName, info)
+  getAdapter: (client: Keplr, chainName: string, info: ChainRegistryInfo) => {
+    return new KeplrWalletAdapter(client, chainName, info)
   },
   getClient: async () =>
     (await import('@keplr-wallet/stores')).getKeplrFromWindow(),
-  getOfflineSignerFunction: (client) =>
-    // This function expects to be bound to the `client` instance.
-    client.getOfflineSignerAuto.bind(client),
-  getNameAddress: (client, chainInfo) =>
-    client.getKey(chainInfo.chain.chain_id).then((key) => ({
-      name: key.name,
-      address: key.bech32Address,
-    })),
   // Autoconnect to this wallet if in Keplr's in-app browser interface, since
   // the Keplr client is already provided/connected.
   shouldAutoconnect: async () =>
