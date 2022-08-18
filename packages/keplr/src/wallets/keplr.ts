@@ -48,7 +48,6 @@ export class KeplrWalletAdapter extends WalletAdapter<Keplr> {
 }
 
 export const KeplrWallet: Wallet<Keplr> = {
-  // adapterClass: KeplrWalletAdapter,
   id: 'keplr',
   name: 'Keplr Wallet',
   description: 'Keplr Chrome Extension',

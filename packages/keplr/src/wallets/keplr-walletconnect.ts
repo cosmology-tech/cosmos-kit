@@ -56,7 +56,6 @@ export class KeplrWalletConnectAdapter extends WalletAdapter<IKeplrWalletConnect
 }
 
 export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
-  // adapterClass: KeplrWalletConnectAdapter,
   id: 'keplr-walletconnect',
   name: 'WalletConnect',
   description: 'Keplr Mobile',
