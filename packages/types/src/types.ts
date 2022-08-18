@@ -152,10 +152,6 @@ export type SigningClientGetter<T> = (
   chainInfo: ChainInfo
 ) => T | Promise<T | undefined> | undefined
 
-export type ChainInfoOverrides =
-  | ChainInfo[]
-  | (() => undefined | ChainInfo[] | Promise<undefined | ChainInfo[]>)
-
 export enum CosmosWalletStatus {
   Uninitialized,
   // Don't call connect until this state is reached.

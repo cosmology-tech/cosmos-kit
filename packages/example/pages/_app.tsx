@@ -34,13 +34,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
       assets,
       chains,
     }}
-
-    // chainInfoOverrides={[
-    //   {
-    //     ...ChainInfoMap[ChainInfoID.Juno1],
-    //     rpc: "https://another.rpc.com",
-    //   }
-    // ]}
   >
     <Component {...pageProps} />
   </WalletManagerProvider>
