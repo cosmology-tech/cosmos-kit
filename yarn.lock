@@ -1272,6 +1272,16 @@
     "@keplr-wallet/cosmos" "^0.10.3"
     "@keplr-wallet/crypto" "^0.10.11"
 
+"@chain-registry/keplr@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.npmjs.org/@chain-registry/keplr/-/keplr-0.4.5.tgz#a0c55c03484187444b47746a31a5ca148503ac58"
+  integrity sha512-iYrxcrzkLaMCqREG3p+vXJIAGmdGnWRN+sa23gf6PZ8a/kuSJliDhxH5WzUdXBWIAbQG7XAzzAU8uoslM6xbfg==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    "@chain-registry/types" "^0.4.0"
+    "@keplr-wallet/cosmos" "^0.10.3"
+    "@keplr-wallet/crypto" "^0.10.11"
+
 "@chain-registry/types@0.4.0", "@chain-registry/types@^0.4.0":
   version "0.4.0"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.4.0.tgz#43feeee568f751b86069ba3ce3294b0bea4481ce"

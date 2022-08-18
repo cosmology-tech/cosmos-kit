@@ -8,7 +8,7 @@ import {
   SigningStargateClient,
   SigningStargateClientOptions,
 } from '@cosmjs/stargate'
-import { ChainInfo } from '@keplr-wallet/types'
+import { ChainInfo as KeplrChainInfo } from '@keplr-wallet/types'
 import WalletConnect from '@walletconnect/client'
 import { IClientMeta } from '@walletconnect/types'
 
@@ -97,7 +97,7 @@ export interface Wallet<Client = unknown> {
   // A function that returns an instantiated wallet client, with `walletConnect`
   // and `newWalletConnectSession` passed if `isWalletConnect === true`.
   getClient: (
-    chainInfo: ChainInfo,
+    chainInfo: KeplrChainInfo,
     walletConnect?: WalletConnect,
     newWalletConnectSession?: boolean
   ) => Promise<Client | undefined>
@@ -107,14 +107,14 @@ export interface Wallet<Client = unknown> {
     client: Client
   ) => (chainId: string) => OfflineSigner | Promise<OfflineSigner>
   // A function that enables the client.
-  enableClient: (client: Client, chainInfo: ChainInfo) => Promise<void>
+  enableClient: (client: Client, chainInfo: KeplrChainInfo) => Promise<void>
   // A function that is called after a connection attempt completes. Will fail
   // silently if an error is thrown.
   cleanupClient?: (client: Client) => Promise<void>
   // A function that returns the wallet name and address from the client.
   getNameAddress: (
     client: Client,
-    chainInfo: ChainInfo
+    chainInfo: KeplrChainInfo
   ) => Promise<{ name: string; address: string }>
   // A function that determines if this wallet should automatically be connected
   // on initialization.
@@ -135,7 +135,7 @@ export interface ConnectedWallet<Client = unknown> {
   // Wallet client.
   walletClient: Client
   // Chain info the clients are connected to.
-  chainInfo: ChainInfo
+  chainInfo: KeplrChainInfo
   // Offline signer for the wallet client.
   offlineSigner: OfflineSigner
   // User's name for their wallet.
@@ -149,7 +149,7 @@ export interface ConnectedWallet<Client = unknown> {
 }
 
 export type SigningClientGetter<T> = (
-  chainInfo: ChainInfo
+  chainInfo: KeplrChainInfo
 ) => T | Promise<T | undefined> | undefined
 
 export enum CosmosWalletStatus {

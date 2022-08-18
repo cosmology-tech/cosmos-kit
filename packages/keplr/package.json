@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "@chain-registry/keplr": "0.4.5",
     "@cosmos-kit/types": "^0.11.0",
     "@keplr-wallet/common": "^0.10.12",
     "@keplr-wallet/cosmos": "^0.10.12",
@@ -105,6 +106,5 @@
     "@cosmjs/proto-signing": "^0.28",
     "@cosmjs/stargate": "^0.28",
     "@keplr-wallet/types": "^0.10"
-  },
-  "gitHead": "8d7f69e976a5df6a9921241e3528f1d6b12d8adc"
+  }
 }

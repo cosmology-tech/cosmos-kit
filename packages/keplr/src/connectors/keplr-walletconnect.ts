@@ -73,17 +73,14 @@ export type KeplrKeystoreMayChangedEventParam = {
   }[]
 }
 
+enum EthSignType {
+  MESSAGE = 'message',
+  TRANSACTION = 'transaction',
+  BYTE64 = 'byte64',
+}
+
 export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
   kvStore: KVStore
-  signEthereum(
-    chainId: string,
-    signer: string,
-    data: string | Uint8Array,
-    type: any
-  ): Promise<Uint8Array> {
-    // noop
-    return null
-  }
   onBeforeSendRequest?: (
     request: Partial<IJsonRpcRequest>,
     options?: IRequestOptions
@@ -301,6 +298,15 @@ export class KeplrWalletConnectV1 implements IKeplrWalletConnectV1 {
       }
     }
     await this.kvStore.set(this.getKeyHasEnabled(), hasEnabledChainIds)
+  }
+
+  signEthereum(
+    _chainId: string,
+    _signer: string,
+    _data: string | Uint8Array,
+    _type: EthSignType
+  ): Promise<Uint8Array> {
+    throw new Error('Not yet implemented')
   }
 
   enigmaDecrypt(
