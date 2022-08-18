@@ -117,13 +117,7 @@ export const connectToWallet = async (wallet: Wallet) => {
       status: CosmosKitStatus.EnablingWallet,
     })
 
-    // TODO where is the actual name (vs default?)
     const chainName = config.defaultChainName
-
-    const chainInfo = getChainInfo(config.defaultChainName, config.chainInfo)
-
-    // const ClassName = wallet.adapterClass
-    // const adapter = new ClassName(config.defaultChainName, config.chainInfo)
 
     walletClient = await wallet.getClient(
       chainName,
@@ -136,6 +130,7 @@ export const connectToWallet = async (wallet: Wallet) => {
     }
 
     const adapter = wallet.getAdapter(chainName, config.chainInfo)
+    const chainInfo = getChainInfo(config.defaultChainName, config.chainInfo)
 
     // Enable and connect to wallet, and retrieve data.
     const connectedWallet = await getConnectedWalletInfo(

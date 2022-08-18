@@ -105,7 +105,7 @@ export interface Wallet<Client = unknown> {
   // and `newWalletConnectSession` passed if `isWalletConnect === true`.
   getClient: (
     chainName: string,
-    chainInfo: ChainRegistryInfo,
+    info: ChainRegistryInfo,
     walletConnect?: WalletConnect,
     newWalletConnectSession?: boolean
   ) => Promise<Client | undefined>

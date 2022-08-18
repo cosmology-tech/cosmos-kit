@@ -55,7 +55,6 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
         chainName,
         chainInfo
       )
-
       const info = getChainInfo(chainName, chainInfo)
 
       setChainIdConnectedWallet(
