@@ -7,7 +7,7 @@ import {
   reset,
   stopConnecting,
 } from '@cosmos-kit/core'
-import { CosmosWalletState, CosmosWalletStatus } from '@cosmos-kit/types'
+import { CosmosKitState, CosmosKitStatus } from '@cosmos-kit/types'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import { WalletManagerProviderProps } from '../types'
@@ -25,7 +25,7 @@ export const WalletManagerProvider = ({
   renderLoader,
   ...config
 }: WalletManagerProviderProps) => {
-  const [coreState, setCoreState] = useState<CosmosWalletState>()
+  const [coreState, setCoreState] = useState<CosmosKitState>()
 
   // Initialize on mount.
   useEffect(() => {
@@ -41,7 +41,7 @@ export const WalletManagerProvider = ({
         ...coreState,
         connect: beginConnection,
         disconnect,
-        connected: coreState.status === CosmosWalletStatus.Connected,
+        connected: coreState.status === CosmosKitStatus.Connected,
       },
     [coreState]
   )
@@ -55,7 +55,7 @@ export const WalletManagerProvider = ({
     <WalletManagerContext.Provider value={value}>
       {children}
 
-      {coreState.status === CosmosWalletStatus.ChoosingWallet && (
+      {coreState.status === CosmosKitStatus.ChoosingWallet && (
         <SelectWalletModal
           classNames={classNames}
           closeIcon={closeIcon}
@@ -65,7 +65,7 @@ export const WalletManagerProvider = ({
           wallets={coreState.enabledWallets}
         />
       )}
-      {coreState.status === CosmosWalletStatus.PendingWalletConnect &&
+      {coreState.status === CosmosKitStatus.PendingWalletConnect &&
         coreState.walletConnectQrUri && (
           <WalletConnectModal
             classNames={classNames}
@@ -79,7 +79,7 @@ export const WalletManagerProvider = ({
             }
           />
         )}
-      {coreState.status === CosmosWalletStatus.EnablingWallet && (
+      {coreState.status === CosmosKitStatus.EnablingWallet && (
         <EnablingWalletModal
           classNames={classNames}
           closeIcon={closeIcon}

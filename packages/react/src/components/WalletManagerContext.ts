@@ -1,5 +1,5 @@
 import { getConnectedWalletInfo, getKeplrChainInfo } from '@cosmos-kit/core'
-import { ConnectedWallet, CosmosWalletStatus } from '@cosmos-kit/types'
+import { ConnectedWallet, CosmosKitStatus } from '@cosmos-kit/types'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 import { IWalletManagerContext, UseWalletResponse } from '../types'
@@ -27,28 +27,28 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
     getSigningStargateClientOptions,
   } = useWalletManager()
 
-  const [chainIdStatus, setChainIdStatus] = useState<CosmosWalletStatus>(
-    CosmosWalletStatus.Uninitialized
+  const [chainIdStatus, setChainIdStatus] = useState<CosmosKitStatus>(
+    CosmosKitStatus.Uninitialized
   )
   const [chainIdError, setChainIdError] = useState<unknown>()
   const [chainIdConnectedWallet, setChainIdConnectedWallet] =
     useState<ConnectedWallet>()
   useEffect(() => {
     if (
-      managerStatus !== CosmosWalletStatus.Connected ||
+      managerStatus !== CosmosKitStatus.Connected ||
       !managerConnectedWallet ||
       !chainName
     ) {
       // If the initial wallet client is not yet connected, this chainId
       // cannot be connected to yet and is thus still initializing.
-      setChainIdStatus(CosmosWalletStatus.Uninitialized)
+      setChainIdStatus(CosmosKitStatus.Uninitialized)
       setChainIdConnectedWallet(undefined)
       setChainIdError(undefined)
       return
     }
 
     const connect = async () => {
-      setChainIdStatus(CosmosWalletStatus.Connecting)
+      setChainIdStatus(CosmosKitStatus.Connecting)
       setChainIdError(undefined)
 
       const keplrChainInfo = await getKeplrChainInfo(chainName, chainInfo)
@@ -63,14 +63,14 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
           await getSigningStargateClientOptions?.(keplrChainInfo)
         )
       )
-      setChainIdStatus(CosmosWalletStatus.Connected)
+      setChainIdStatus(CosmosKitStatus.Connected)
     }
 
     connect().catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
       setChainIdError(error)
-      setChainIdStatus(CosmosWalletStatus.Errored)
+      setChainIdStatus(CosmosKitStatus.Errored)
     })
   }, [
     managerStatus,
@@ -82,7 +82,7 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
   ])
 
   const status = chainName ? chainIdStatus : managerStatus
-  const connected = status === CosmosWalletStatus.Connected
+  const connected = status === CosmosKitStatus.Connected
   const error = chainName ? chainIdError : managerError
   const connectedWallet = chainName
     ? chainIdConnectedWallet

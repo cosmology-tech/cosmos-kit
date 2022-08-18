@@ -16,7 +16,7 @@ export interface ChainRegistryInfo {
   chains: Chain[]
   assets: AssetList[]
 }
-export interface CosmosWalletConfig {
+export interface CosmosKitConfig {
   // Wallets available for connection. If undefined, uses `Wallets`.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   enabledWallets: Wallet<any>[]
@@ -42,13 +42,13 @@ export interface CosmosWalletConfig {
 }
 
 // Make `enabledWallets` optional and default to `Wallets`.
-export type CosmosWalletInitializeConfig = Omit<
-  CosmosWalletConfig,
+export type CosmosKitInitializeConfig = Omit<
+  CosmosKitConfig,
   'enabledWallets'
 > &
-  Partial<Pick<CosmosWalletConfig, 'enabledWallets'>>
+  Partial<Pick<CosmosKitConfig, 'enabledWallets'>>
 
-export interface CosmosWalletState {
+export interface CosmosKitState {
   // URI to display the WalletConnect QR Code.
   walletConnectQrUri?: string
   // Connected wallet info and clients for interacting with the chain.
@@ -57,7 +57,7 @@ export interface CosmosWalletState {
   // been fully enabled).
   connectingWallet?: Wallet
   // Status.
-  status: CosmosWalletStatus
+  status: CosmosKitStatus
   // Error encountered during the connection process.
   error?: unknown
 
@@ -75,7 +75,7 @@ export interface CosmosWalletState {
   enabledWallets: Wallet[]
 }
 
-export type CosmosWalletStateObserver = (state: CosmosWalletState) => void
+export type CosmosKitStateObserver = (state: CosmosKitState) => void
 
 // TODO: Move imageUrl, and maybe name/description, to user configuration somehow, or incorporate in planned configurable UI overhaul.
 export interface Wallet<Client = unknown> {
@@ -152,7 +152,7 @@ export type SigningClientGetter<T> = (
   chainInfo: KeplrChainInfo
 ) => T | Promise<T | undefined> | undefined
 
-export enum CosmosWalletStatus {
+export enum CosmosKitStatus {
   Uninitialized,
   // Don't call connect until this state is reached.
   Disconnected,

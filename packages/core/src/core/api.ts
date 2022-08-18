@@ -1,8 +1,8 @@
 import { Wallets } from '@cosmos-kit/registry'
 import {
-  CosmosWalletInitializeConfig,
-  CosmosWalletStateObserver,
-  CosmosWalletStatus,
+  CosmosKitInitializeConfig,
+  CosmosKitStateObserver,
+  CosmosKitStatus,
   Wallet,
 } from '@cosmos-kit/types'
 
@@ -24,7 +24,7 @@ import {
 
 const refreshListener = async () => {
   // Reconnect to wallet, since name/address may have changed.
-  if (state.status === CosmosWalletStatus.Connected && state.connectedWallet) {
+  if (state.status === CosmosKitStatus.Connected && state.connectedWallet) {
     // Remove refresh listener because it will be readded after connection.
     state.connectedWallet.wallet.removeRefreshListener?.(refreshListener)
 
@@ -35,8 +35,8 @@ const refreshListener = async () => {
 //! API
 
 export const initialize = (
-  initialConfig: CosmosWalletInitializeConfig,
-  observers?: CosmosWalletStateObserver[]
+  initialConfig: CosmosKitInitializeConfig,
+  observers?: CosmosKitStateObserver[]
 ) => {
   // Setup internal state.
   setConfig({
@@ -50,7 +50,7 @@ export const initialize = (
 
   // Initialize state.
   updateState({
-    status: CosmosWalletStatus.Disconnected,
+    status: CosmosKitStatus.Disconnected,
     // Pass through from initialization config.
     chainInfo: initialConfig.chainInfo,
     getSigningCosmWasmClientOptions: config.getSigningCosmWasmClientOptions,
@@ -104,7 +104,7 @@ export const cleanupAfterConnection = () => {
 // Connect WalletConnect client if necessary, and then connect to the wallet.
 export const connectToWallet = async (wallet: Wallet) => {
   updateState({
-    status: CosmosWalletStatus.Connecting,
+    status: CosmosKitStatus.Connecting,
     error: undefined,
     connectingWallet: wallet,
   })
@@ -114,7 +114,7 @@ export const connectToWallet = async (wallet: Wallet) => {
   // The actual meat of enabling and getting the wallet clients.
   const finalizeWalletConnection = async (newWcSession?: boolean) => {
     updateState({
-      status: CosmosWalletStatus.EnablingWallet,
+      status: CosmosKitStatus.EnablingWallet,
     })
 
     const chainInfo = await getKeplrChainInfo(
@@ -156,7 +156,7 @@ export const connectToWallet = async (wallet: Wallet) => {
     }
 
     updateState({
-      status: CosmosWalletStatus.Connected,
+      status: CosmosKitStatus.Connected,
       connectedWallet,
     })
   }
@@ -180,7 +180,7 @@ export const connectToWallet = async (wallet: Wallet) => {
               open: (walletConnectQrUri, closeCallback) => {
                 setOnQrCloseCallback(closeCallback)
                 updateState({
-                  status: CosmosWalletStatus.PendingWalletConnect,
+                  status: CosmosKitStatus.PendingWalletConnect,
                   walletConnectQrUri,
                 })
               },
@@ -234,7 +234,7 @@ export const connectToWallet = async (wallet: Wallet) => {
     console.error(error)
 
     updateState({
-      status: CosmosWalletStatus.Errored,
+      status: CosmosKitStatus.Errored,
       error,
     })
   } finally {
@@ -245,12 +245,12 @@ export const connectToWallet = async (wallet: Wallet) => {
 // Begin connection process, either auto-selecting a wallet or opening
 // the selection modal.
 export const beginConnection = async (wallet?: Wallet) => {
-  if (state.status === CosmosWalletStatus.Uninitialized) {
+  if (state.status === CosmosKitStatus.Uninitialized) {
     throw new Error('Cannot connect before initialization.')
   }
 
   updateState({
-    status: CosmosWalletStatus.Connecting,
+    status: CosmosKitStatus.Connecting,
     error: undefined,
   })
 
@@ -281,7 +281,7 @@ export const beginConnection = async (wallet?: Wallet) => {
   // wallet needs to be chosen and `connectToWallet` needs to be called
   // manually.
   updateState({
-    status: CosmosWalletStatus.ChoosingWallet,
+    status: CosmosKitStatus.ChoosingWallet,
   })
 }
 
@@ -294,7 +294,7 @@ export const disconnect = async (dontKillWalletConnect?: boolean) => {
 
   // Disconnect wallet.
   updateState({
-    status: CosmosWalletStatus.Disconnected,
+    status: CosmosKitStatus.Disconnected,
     connectedWallet: undefined,
   })
 
@@ -327,7 +327,7 @@ export const reset = async () => {
 // Interrupt connection process, such as if the user closes a connection modal.
 export const stopConnecting = () => {
   updateState({
-    status: CosmosWalletStatus.Disconnected,
+    status: CosmosKitStatus.Disconnected,
     walletConnectQrUri: undefined,
     connectedWallet: undefined,
     connectingWallet: undefined,

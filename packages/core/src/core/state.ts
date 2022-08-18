@@ -1,14 +1,14 @@
 import {
-  CosmosWalletConfig,
-  CosmosWalletState,
-  CosmosWalletStateObserver,
-  CosmosWalletStatus,
+  CosmosKitConfig,
+  CosmosKitState,
+  CosmosKitStateObserver,
+  CosmosKitStatus,
 } from '@cosmos-kit/types'
 import WalletConnect from '@walletconnect/client'
 
 //! INTERNAL
 
-export let config: CosmosWalletConfig
+export let config: CosmosKitConfig
 export const setConfig = (value: typeof config) => {
   config = value
 }
@@ -30,11 +30,11 @@ export const setOnQrCloseCallback = (value: typeof onQrCloseCallback) => {
 
 //! EXTERNAL
 
-export let state: CosmosWalletState = {
+export let state: CosmosKitState = {
   walletConnectQrUri: undefined,
   connectedWallet: undefined,
   connectingWallet: undefined,
-  status: CosmosWalletStatus.Uninitialized,
+  status: CosmosKitStatus.Uninitialized,
   error: undefined,
   chainInfo: {
     assets: [],
@@ -45,15 +45,15 @@ export let state: CosmosWalletState = {
   enabledWallets: [],
 }
 
-const stateObservers: CosmosWalletStateObserver[] = []
+const stateObservers: CosmosKitStateObserver[] = []
 
-export const addStateObservers = (...observers: CosmosWalletStateObserver[]) =>
+export const addStateObservers = (...observers: CosmosKitStateObserver[]) =>
   stateObservers.push(
     // Filter out duplicates.
     ...observers.filter((observer) => !stateObservers.includes(observer))
   )
 
-export const removeStateObserver = (observer: CosmosWalletStateObserver) => {
+export const removeStateObserver = (observer: CosmosKitStateObserver) => {
   if (!stateObservers.includes(observer)) {
     return
   }
@@ -65,7 +65,7 @@ export const removeStateObserver = (observer: CosmosWalletStateObserver) => {
   )
 }
 
-export const updateState = (newState: Partial<CosmosWalletState>) => {
+export const updateState = (newState: Partial<CosmosKitState>) => {
   state = {
     ...state,
     // Override current state.

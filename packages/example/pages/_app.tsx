@@ -11,7 +11,7 @@ const LOCAL_STORAGE_KEY = 'connectedWalletId'
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <WalletManagerProvider
     walletConnectClientMeta={{
-      name: 'CosmosWalletExampleDApp',
+      name: 'CosmosKitExampleDApp',
       description: 'A dApp using the @cosmos-kit/react library.',
       url: 'https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react',
       // @cosmology-tech's GitHub avatar

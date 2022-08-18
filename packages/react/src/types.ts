@@ -1,13 +1,13 @@
 import {
   ChainRegistryInfo,
   ConnectedWallet,
-  CosmosWalletInitializeConfig,
-  CosmosWalletState,
+  CosmosKitInitializeConfig,
+  CosmosKitState,
   Wallet,
 } from '@cosmos-kit/types'
 import { ReactNode } from 'react'
 
-export interface IWalletManagerContext extends CosmosWalletState {
+export interface IWalletManagerContext extends CosmosKitState {
   // Function to begin the connection process. This will either display
   // the wallet picker modal or immediately attempt to connect to a wallet
   // depending on the props passed to WalletManagerProvider.
@@ -37,7 +37,7 @@ export type UseWalletResponse = Partial<ConnectedWallet> &
   Pick<IWalletManagerContext, 'status' | 'connected' | 'error'>
 
 export interface WalletManagerProviderProps
-  extends CosmosWalletInitializeConfig {
+  extends CosmosKitInitializeConfig {
   children: ReactNode | ReactNode[]
   // Class names applied to various components for custom theming.
   classNames?: ModalClassNames

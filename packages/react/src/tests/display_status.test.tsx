@@ -1,4 +1,4 @@
-import { CosmosWalletStatus } from '@cosmos-kit/types'
+import { CosmosKitStatus } from '@cosmos-kit/types'
 import { cleanup, render, screen } from '@testing-library/react'
 import { assets, chains } from 'chain-registry'
 import React from 'react'
@@ -36,7 +36,7 @@ describe('display status', () => {
 
   it('should display the status in the DOM', () => {
     expect(
-      screen.getByText(CosmosWalletStatus.Disconnected)
+      screen.getByText(CosmosKitStatus.Disconnected)
     ).toBeInTheDocument()
   })
 
