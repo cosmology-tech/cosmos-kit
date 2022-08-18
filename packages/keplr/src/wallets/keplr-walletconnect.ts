@@ -1,9 +1,31 @@
-import { Wallet } from '@cosmos-kit/types'
+import { ChainRegistryInfo, Wallet, WalletAdapter } from '@cosmos-kit/types'
+import { ChainInfo as KeplrChainInfo } from '@keplr-wallet/types'
 
+import { getKeplrChainInfo } from '../chainInfo'
 import { IKeplrWalletConnectV1 } from '../types'
 import imageUrl from './images/keplr-walletconnect.png'
 
+export class KeplrWalletConnectAdapter extends WalletAdapter {
+  wallet: Wallet<IKeplrWalletConnectV1>
+  keplrChainInfo: KeplrChainInfo
+
+  constructor(chainName: string, info: ChainRegistryInfo) {
+    super()
+    this.wallet = KeplrWalletConnectWallet
+    this.keplrChainInfo = getKeplrChainInfo(chainName, info)
+  }
+
+  getRestEndpoint(): string {
+    return this.keplrChainInfo.rest
+  }
+
+  getRpcEndpoint(): string {
+    return this.keplrChainInfo.rpc
+  }
+}
+
 export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
+  adapterClass: KeplrWalletConnectAdapter,
   id: 'keplr-walletconnect',
   name: 'WalletConnect',
   description: 'Keplr Mobile',

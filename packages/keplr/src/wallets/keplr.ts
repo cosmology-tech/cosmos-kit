@@ -1,9 +1,30 @@
-import { Wallet } from '@cosmos-kit/types'
-import { Keplr } from '@keplr-wallet/types'
+import { ChainRegistryInfo, Wallet, WalletAdapter } from '@cosmos-kit/types'
+import { ChainInfo as KeplrChainInfo, Keplr } from '@keplr-wallet/types'
 
+import { getKeplrChainInfo } from '../chainInfo'
 import imageUrl from './images/keplr-extension.png'
 
+export class KeplrWalletAdapter extends WalletAdapter {
+  wallet: Wallet<Keplr>
+  keplrChainInfo: KeplrChainInfo
+
+  constructor(chainName: string, info: ChainRegistryInfo) {
+    super()
+    this.wallet = KeplrWallet
+    this.keplrChainInfo = getKeplrChainInfo(chainName, info)
+  }
+
+  getRestEndpoint(): string {
+    return this.keplrChainInfo.rest
+  }
+
+  getRpcEndpoint(): string {
+    return this.keplrChainInfo.rpc
+  }
+}
+
 export const KeplrWallet: Wallet<Keplr> = {
+  adapterClass: KeplrWalletAdapter,
   id: 'keplr',
   name: 'Keplr Wallet',
   description: 'Keplr Chrome Extension',

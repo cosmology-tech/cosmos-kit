@@ -16,6 +16,12 @@ export interface ChainRegistryInfo {
   chains: Chain[]
   assets: AssetList[]
 }
+
+export interface ChainInfo {
+  chain: Chain
+  assets: AssetList
+}
+
 export interface CosmosKitConfig {
   // Wallets available for connection. If undefined, uses `Wallets`.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,6 +85,8 @@ export type CosmosKitStateObserver = (state: CosmosKitState) => void
 
 // TODO: Move imageUrl, and maybe name/description, to user configuration somehow, or incorporate in planned configurable UI overhaul.
 export interface Wallet<Client = unknown> {
+  adapterClass: unknown //typeof WalletAdapter
+
   // A unique identifier among all wallets.
   id: string
   // The name of the wallet.
@@ -146,6 +154,21 @@ export interface ConnectedWallet<Client = unknown> {
   signingCosmWasmClient: SigningCosmWasmClient
   // Signing client for interacting with Stargate chain APIs.
   signingStargateClient: SigningStargateClient
+}
+
+export class WalletAdapter {
+  wallet: unknown
+
+  getRpcEndpoint(): string {
+    throw new Error('WalletAdapter: not implemented')
+  }
+  getRestEndpoint(): string {
+    throw new Error('WalletAdapter: not implemented')
+  }
+
+  constructor() {
+    //
+  }
 }
 
 export type SigningClientGetter<T> = (
