@@ -84,6 +84,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "@chain-registry/types": "0.4.0",
     "@walletconnect/client": "1.7.8",
     "@walletconnect/types": "1.7.8"
   },

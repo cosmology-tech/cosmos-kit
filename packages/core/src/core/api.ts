@@ -6,7 +6,7 @@ import {
   Wallet,
 } from '@cosmos-kit/types'
 
-import { getKeplrChainInfoLegacy } from '../keplrChainInfo'
+import { getKeplrChainInfo } from '../chainInfo'
 import { getConnectedWalletInfo } from '../walletInfo'
 import {
   addStateObservers,
@@ -52,7 +52,7 @@ export const initialize = (
   updateState({
     status: CosmosWalletStatus.Disconnected,
     // Pass through from initialization config.
-    chainInfoOverrides: config.chainInfoOverrides,
+    chainInfo: initialConfig.chainInfo,
     getSigningCosmWasmClientOptions: config.getSigningCosmWasmClientOptions,
     getSigningStargateClientOptions: config.getSigningStargateClientOptions,
     enabledWallets: config.enabledWallets,
@@ -117,9 +117,9 @@ export const connectToWallet = async (wallet: Wallet) => {
       status: CosmosWalletStatus.EnablingWallet,
     })
 
-    const chainInfo = await getKeplrChainInfoLegacy(
-      config.defaultChainId,
-      config.chainInfoOverrides
+    const chainInfo = await getKeplrChainInfo(
+      config.defaultChainName,
+      config.chainInfo
     )
 
     walletClient = await wallet.getClient(

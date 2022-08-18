@@ -1,5 +1,6 @@
-import { ChainInfoID, CosmosWalletStatus } from '@cosmos-kit/types'
+import { CosmosWalletStatus } from '@cosmos-kit/types'
 import { cleanup, render, screen } from '@testing-library/react'
+import { assets, chains } from 'chain-registry'
 import React from 'react'
 import { act } from 'react-dom/test-utils'
 
@@ -20,7 +21,13 @@ describe('display status', () => {
   beforeAll(() =>
     act(() => {
       render(
-        <WalletManagerProvider defaultChainId={ChainInfoID.Juno1}>
+        <WalletManagerProvider
+          defaultChainName={'cosmoshub'}
+          chainInfo={{
+            assets,
+            chains,
+          }}
+        >
           <DisplayStatus />
         </WalletManagerProvider>
       )

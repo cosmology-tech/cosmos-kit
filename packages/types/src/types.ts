@@ -1,3 +1,4 @@
+import { AssetList, Chain } from '@chain-registry/types'
 import {
   SigningCosmWasmClient,
   SigningCosmWasmClientOptions,
@@ -11,17 +12,20 @@ import { ChainInfo } from '@keplr-wallet/types'
 import WalletConnect from '@walletconnect/client'
 import { IClientMeta } from '@walletconnect/types'
 
+export interface ChainRegistryInfo {
+  chains: Chain[]
+  assets: AssetList[]
+}
 export interface CosmosWalletConfig {
   // Wallets available for connection. If undefined, uses `Wallets`.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   enabledWallets: Wallet<any>[]
-  // Chain ID to initially connect to and selected by default if nothing
+  // Chain Name to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in
   // `chainInfoList`.
-  defaultChainId: string
-  // List or getter of additional or replacement ChainInfo objects. These
-  // will take precedent over internal definitions by comparing `chainId`.
-  chainInfoOverrides?: ChainInfoOverrides
+  defaultChainName: string
+  // chain-registry info
+  chainInfo: ChainRegistryInfo
   // Descriptive info about the webapp which gets displayed when enabling a
   // WalletConnect wallet (e.g. name, image, etc.).
   walletConnectClientMeta?: IClientMeta
@@ -56,11 +60,9 @@ export interface CosmosWalletState {
   status: CosmosWalletStatus
   // Error encountered during the connection process.
   error?: unknown
-  // List or getter of additional or replacement ChainInfo objects. These
-  // will take precedent over internal definitions by comparing `chainId`.
-  // This is passed through from the provider props to allow composition
-  // of your own hooks, and for use in the built-in useWallet hook.
-  chainInfoOverrides?: ChainInfoOverrides
+
+  // chain-registry info
+  chainInfo: ChainRegistryInfo
   // Getter for options passed to SigningCosmWasmClient on connection.
   // This is passed through from the provider props to allow composition
   // of your own hooks, and for use in the built-in useWallet hook.
@@ -169,58 +171,4 @@ export enum CosmosWalletStatus {
 export interface DeeplinkFormats {
   ios: string
   android: string
-}
-
-export enum ChainInfoID {
-  Osmosis1 = 'osmosis-1',
-  Cosmoshub4 = 'cosmoshub-4',
-  Columbus5 = 'columbus-5',
-  Secret4 = 'secret-4',
-  Akashnet2 = 'akashnet-2',
-  Regen1 = 'regen-1',
-  Sentinelhub2 = 'sentinelhub-2',
-  Core1 = 'core-1',
-  Irishub1 = 'irishub-1',
-  CryptoOrgChainMainnet1 = 'crypto-org-chain-mainnet-1',
-  IovMainnetIbc = 'iov-mainnet-ibc',
-  Emoney3 = 'emoney-3',
-  Juno1 = 'juno-1',
-  Uni3 = 'uni-3',
-  Microtick1 = 'microtick-1',
-  LikecoinMainnet2 = 'likecoin-mainnet-2',
-  Impacthub3 = 'impacthub-3',
-  Bitcanna1 = 'bitcanna-1',
-  Bitsong2b = 'bitsong-2b',
-  Kichain2 = 'kichain-2',
-  Panacea3 = 'panacea-3',
-  Bostrom = 'bostrom',
-  Comdex1 = 'comdex-1',
-  CheqdMainnet1 = 'cheqd-mainnet-1',
-  Stargaze1 = 'stargaze-1',
-  Chihuahua1 = 'chihuahua-1',
-  LumNetwork1 = 'lum-network-1',
-  Vidulum1 = 'vidulum-1',
-  DesmosMainnet = 'desmos-mainnet',
-  Dig1 = 'dig-1',
-  Sommelier3 = 'sommelier-3',
-  Sifchain1 = 'sifchain-1',
-  LaoziMainnet = 'laozi-mainnet',
-  Darchub = 'darchub',
-  Umee1 = 'umee-1',
-  GravityBridge3 = 'gravity-bridge-3',
-  Mainnet3 = 'mainnet-3',
-  Shentu22 = 'shentu-2.2',
-  Carbon1 = 'carbon-1',
-  Injective1 = 'injective-1',
-  CerberusChain1 = 'cerberus-chain-1',
-  Fetchhub4 = 'fetchhub-4',
-  Mantle1 = 'mantle-1',
-  PioMainnet1 = 'pio-mainnet-1',
-  Galaxy1 = 'galaxy-1',
-  Meme1 = 'meme-1',
-  Evmos_9001_2 = 'evmos_9001-2',
-  Phoenix1 = 'phoenix-1',
-  Titan1 = 'titan-1',
-  Kava_2222_10 = 'kava_2222-10',
-  Genesis_29_2 = 'genesis_29-2',
 }

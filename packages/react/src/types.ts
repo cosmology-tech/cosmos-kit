@@ -1,4 +1,5 @@
 import {
+  ChainRegistryInfo,
   ConnectedWallet,
   CosmosWalletInitializeConfig,
   CosmosWalletState,
@@ -44,4 +45,6 @@ export interface WalletManagerProviderProps
   closeIcon?: ReactNode
   // A custom loader to display in the modals, such as enabling the wallet.
   renderLoader?: () => ReactNode
+  // chainInfo
+  chainInfo: ChainRegistryInfo
 }

@@ -2,7 +2,7 @@ import '../styles/globals.css'
 
 import { GasPrice } from '@cosmjs/stargate'
 import { WalletManagerProvider } from '@cosmos-kit/react'
-import { ChainInfoID } from '@cosmos-kit/types'
+import { assets, chains } from 'chain-registry'
 import type { AppProps } from 'next/app'
 import React from 'react'
 
@@ -19,7 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
     }}
     renderLoader={() => <p>Loading...</p>}
     localStorageKey={LOCAL_STORAGE_KEY}
-    defaultChainId={ChainInfoID.Juno1}
+    defaultChainName={'juno'}
     getSigningCosmWasmClientOptions={(chainInfo) => ({
       gasPrice: GasPrice.fromString(
         '0.0025' + chainInfo.feeCurrencies[0].coinMinimalDenom
@@ -30,7 +30,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
         '0.0025' + chainInfo.feeCurrencies[0].coinMinimalDenom
       ),
     })}
-    // Choose a different RPC node for the desired chain.
+    chainInfo={{
+      assets,
+      chains,
+    }}
+
     // chainInfoOverrides={[
     //   {
     //     ...ChainInfoMap[ChainInfoID.Juno1],

@@ -1,12 +1,14 @@
-interface PreferredChainInfo {
-  rpc: string
-  rest: string
-}
+export interface PreferredEndpoints {
+    rpc: string
+    rest: string
+};
 
-export const preferredChainInfo: Record<string, PreferredChainInfo> = {
+export type PreferredEndpointHash = Record<string, PreferredEndpoints>
+  
+export const preferredChainInfo: PreferredEndpointHash = {
   osmosis: {
-    rpc: 'https://rpc-osmosis.keplr.app/', // test: "http://rpc-test.osmosis.zone/"
-    rest: 'https://lcd-osmosis.keplr.app/', // test: "http://lcd-test.osmosis.zone/"
+    rpc: 'https://rpc-osmosis.keplr.app/', 
+    rest: 'https://lcd-osmosis.keplr.app/',
   },
   cosmoshub: {
     rpc: 'https://rpc-cosmoshub.keplr.app',

@@ -36,7 +36,10 @@ export let state: CosmosWalletState = {
   connectingWallet: undefined,
   status: CosmosWalletStatus.Uninitialized,
   error: undefined,
-  chainInfoOverrides: undefined,
+  chainInfo: {
+    assets: [],
+    chains: [],
+  },
   getSigningCosmWasmClientOptions: undefined,
   getSigningStargateClientOptions: undefined,
   enabledWallets: [],

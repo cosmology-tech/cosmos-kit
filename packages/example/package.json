@@ -10,8 +10,10 @@
     "format": "eslint --ext .tsx,.ts --fix ."
   },
   "dependencies": {
+    "@chain-registry/types": "0.4.0",
     "@cosmjs/stargate": "0.28.11",
     "@cosmos-kit/react": "^0.11.0",
+    "chain-registry": "0.6.3",
     "next": "12.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
