@@ -1,23 +1,28 @@
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
 import { SigningStargateClientOptions } from '@cosmjs/stargate'
-import { ConnectedWallet, Wallet } from '@cosmos-kit/types'
-import { ChainInfo } from '@keplr-wallet/types'
+import {
+  ChainInfo,
+  ConnectedWallet,
+  Wallet,
+  WalletAdapter,
+} from '@cosmos-kit/types'
 
 export const getConnectedWalletInfo = async <Client = unknown>(
   wallet: Wallet<Client>,
+  adapter: WalletAdapter<Client>,
   client: Client,
   chainInfo: ChainInfo,
   signingCosmWasmClientOptions?: SigningCosmWasmClientOptions,
   signingStargateClientOptions?: SigningStargateClientOptions
 ): Promise<ConnectedWallet> => {
-  await wallet.enableClient(client, chainInfo)
+  await adapter.enableClient(client)
 
   // Parallelize for efficiency.
   const [{ name, address }, offlineSigner] = await Promise.all([
     // Get name and address.
     wallet.getNameAddress(client, chainInfo),
     // Get offline signer.
-    wallet.getOfflineSignerFunction(client)(chainInfo.chainId),
+    wallet.getOfflineSignerFunction(client)(chainInfo.chain.chain_id),
   ])
 
   const [signingCosmWasmClient, signingStargateClient] = await Promise.all([
@@ -25,7 +30,7 @@ export const getConnectedWalletInfo = async <Client = unknown>(
     await (
       await import('@cosmjs/cosmwasm-stargate')
     ).SigningCosmWasmClient.connectWithSigner(
-      chainInfo.rpc,
+      adapter.getRpcEndpoint(),
       offlineSigner,
       signingCosmWasmClientOptions
     ),
@@ -33,7 +38,7 @@ export const getConnectedWalletInfo = async <Client = unknown>(
     await (
       await import('@cosmjs/stargate')
     ).SigningStargateClient.connectWithSigner(
-      chainInfo.rpc,
+      adapter.getRpcEndpoint(),
       offlineSigner,
       signingStargateClientOptions
     ),
@@ -45,6 +50,7 @@ export const getConnectedWalletInfo = async <Client = unknown>(
 
   return {
     wallet,
+    adapter,
     walletClient: client,
     chainInfo,
     offlineSigner,

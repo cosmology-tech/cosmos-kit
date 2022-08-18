@@ -21,29 +21,33 @@ export class KeplrWalletAdapter extends WalletAdapter {
   getRpcEndpoint(): string {
     return this.keplrChainInfo.rpc
   }
+
+  async enableClient(client) {
+    // Only Keplr browser extension supports suggesting chain.
+    if (client.mode === 'extension') {
+      await client.experimentalSuggestChain(this.keplrChainInfo)
+    }
+    return await client.enable(this.keplrChainInfo.chainId)
+  }
 }
 
 export const KeplrWallet: Wallet<Keplr> = {
-  adapterClass: KeplrWalletAdapter,
+  // adapterClass: KeplrWalletAdapter,
   id: 'keplr',
   name: 'Keplr Wallet',
   description: 'Keplr Chrome Extension',
   imageUrl,
   isWalletConnect: false,
+  getAdapter: (chainName: string, info: ChainRegistryInfo) => {
+    return new KeplrWalletAdapter(chainName, info)
+  },
   getClient: async () =>
     (await import('@keplr-wallet/stores')).getKeplrFromWindow(),
   getOfflineSignerFunction: (client) =>
     // This function expects to be bound to the `client` instance.
     client.getOfflineSignerAuto.bind(client),
-  enableClient: async (client, chainInfo) => {
-    // Only Keplr browser extension supports suggesting chain.
-    if (client.mode === 'extension') {
-      await client.experimentalSuggestChain(chainInfo)
-    }
-    return await client.enable(chainInfo.chainId)
-  },
   getNameAddress: (client, chainInfo) =>
-    client.getKey(chainInfo.chainId).then((key) => ({
+    client.getKey(chainInfo.chain.chain_id).then((key) => ({
       name: key.name,
       address: key.bech32Address,
     })),

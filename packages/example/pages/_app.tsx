@@ -22,12 +22,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
     defaultChainName={'juno'}
     getSigningCosmWasmClientOptions={(chainInfo) => ({
       gasPrice: GasPrice.fromString(
-        '0.0025' + chainInfo.feeCurrencies[0].coinMinimalDenom
+        '0.0025' + chainInfo.chain.fees?.fee_tokens?.[0]?.denom
       ),
     })}
     getSigningStargateClientOptions={(chainInfo) => ({
       gasPrice: GasPrice.fromString(
-        '0.0025' + chainInfo.feeCurrencies[0].coinMinimalDenom
+        '0.0025' + chainInfo.chain.fees?.fee_tokens?.[0]?.denom
       ),
     })}
     chainInfo={{

@@ -22,10 +22,14 @@ export class KeplrWalletConnectAdapter extends WalletAdapter {
   getRpcEndpoint(): string {
     return this.keplrChainInfo.rpc
   }
+
+  async enableClient(client) {
+    client.enable(this.keplrChainInfo.chainId)
+  }
 }
 
 export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
-  adapterClass: KeplrWalletConnectAdapter,
+  // adapterClass: KeplrWalletConnectAdapter,
   id: 'keplr-walletconnect',
   name: 'WalletConnect',
   description: 'Keplr Mobile',
@@ -40,11 +44,20 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
     'keplr_enable_wallet_connect_v1',
     'keplr_sign_amino_wallet_connect_v1',
   ],
-  getClient: async (chainInfo, walletConnect, newWalletConnectSession) => {
+  getAdapter: (chainName: string, info: ChainRegistryInfo) => {
+    return new KeplrWalletConnectAdapter(chainName, info)
+  },
+  getClient: async (
+    chainName: string,
+    chainInfo: ChainRegistryInfo,
+    walletConnect,
+    newWalletConnectSession
+  ) => {
     if (walletConnect?.connected) {
+      const keplrChainInfo = getKeplrChainInfo(chainName, chainInfo)
       const client = new (
         await import('../connectors/keplr-walletconnect')
-      ).KeplrWalletConnectV1(walletConnect, [chainInfo])
+      ).KeplrWalletConnectV1(walletConnect, [keplrChainInfo])
       // Prevent double app open request. See comment in
       // `keplr-walletconnect.ts` for more details.
       client.dontOpenAppOnEnable = !!newWalletConnectSession
@@ -61,9 +74,8 @@ export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
   getOfflineSignerFunction: (client) =>
     // This function expects to be bound to the `client` instance.
     client.getOfflineSignerOnlyAmino.bind(client),
-  enableClient: (client, chainInfo) => client.enable(chainInfo.chainId),
   getNameAddress: (client, chainInfo) =>
-    client.getKey(chainInfo.chainId).then((key) => ({
+    client.getKey(chainInfo.chain.chain_id).then((key) => ({
       name: key.name,
       address: key.bech32Address,
     })),

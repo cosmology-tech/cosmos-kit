@@ -6,8 +6,8 @@ import {
   Wallet,
 } from '@cosmos-kit/types'
 
-import { getKeplrChainInfo } from '../chainInfo'
 import { getConnectedWalletInfo } from '../walletInfo'
+import { getChainInfo } from './info'
 import {
   addStateObservers,
   config,
@@ -117,13 +117,17 @@ export const connectToWallet = async (wallet: Wallet) => {
       status: CosmosKitStatus.EnablingWallet,
     })
 
-    const chainInfo = await getKeplrChainInfo(
-      config.defaultChainName,
-      config.chainInfo
-    )
+    // TODO where is the actual name (vs default?)
+    const chainName = config.defaultChainName
+
+    const chainInfo = getChainInfo(config.defaultChainName, config.chainInfo)
+
+    // const ClassName = wallet.adapterClass
+    // const adapter = new ClassName(config.defaultChainName, config.chainInfo)
 
     walletClient = await wallet.getClient(
-      chainInfo,
+      chainName,
+      config.chainInfo,
       walletConnect,
       newWcSession
     )
@@ -131,9 +135,12 @@ export const connectToWallet = async (wallet: Wallet) => {
       throw new Error('Failed to retrieve wallet client.')
     }
 
+    const adapter = wallet.getAdapter(chainName, config.chainInfo)
+
     // Enable and connect to wallet, and retrieve data.
     const connectedWallet = await getConnectedWalletInfo(
       wallet,
+      adapter,
       walletClient,
       chainInfo,
       await config.getSigningCosmWasmClientOptions?.(chainInfo),

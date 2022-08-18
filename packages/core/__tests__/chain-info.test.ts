@@ -2,7 +2,7 @@ import { getKeplrChainInfo } from '../src/chainInfo';
 import { chains, assets } from 'chain-registry'
 
 const testChainData = async (chainName) => {
-    const chain = await getKeplrChainInfo(chainName, chains, assets);
+    const chain = getKeplrChainInfo(chainName, chains, assets);
     expect(chain).toMatchSnapshot();
 };
 
