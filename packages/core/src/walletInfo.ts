@@ -15,7 +15,7 @@ export const getConnectedWalletInfo = async <Client = unknown>(
   signingCosmWasmClientOptions?: SigningCosmWasmClientOptions,
   signingStargateClientOptions?: SigningStargateClientOptions
 ): Promise<ConnectedWallet> => {
-  await adapter.enableClient(client)
+  await adapter.enableClient()
 
   // Parallelize for efficiency.
   const [{ name, address }, offlineSigner] = await Promise.all([

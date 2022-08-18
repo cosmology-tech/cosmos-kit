@@ -152,6 +152,7 @@ export interface ConnectedWallet<Client = unknown> {
 }
 
 export class WalletAdapter<Client = unknown> {
+  client: Client
   wallet: unknown
 
   getRpcEndpoint(): string {
@@ -161,7 +162,7 @@ export class WalletAdapter<Client = unknown> {
     throw new Error('WalletAdapter: not implemented')
   }
 
-  enableClient(_client: Client) {
+  enableClient() {
     throw new Error('WalletAdapter: not implemented')
   }
 

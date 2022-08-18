@@ -24,12 +24,12 @@ export class KeplrWalletAdapter extends WalletAdapter<Keplr> {
     return this.keplrChainInfo.rpc
   }
 
-  async enableClient(client) {
+  async enableClient() {
     // Only Keplr browser extension supports suggesting chain.
-    if (client.mode === 'extension') {
-      await client.experimentalSuggestChain(this.keplrChainInfo)
+    if (this.client.mode === 'extension') {
+      await this.client.experimentalSuggestChain(this.keplrChainInfo)
     }
-    return await client.enable(this.keplrChainInfo.chainId)
+    return await this.client.enable(this.keplrChainInfo.chainId)
   }
 
   getOfflineSigner() {
