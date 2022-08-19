@@ -30,7 +30,7 @@ export class KeplrWalletConnectAdapter extends WalletAdapter<IKeplrWalletConnect
   }
 
   async enableClient() {
-    this.client.enable(this.keplrChainInfo.chainId)
+    await this.client.enable(this.keplrChainInfo.chainId)
   }
 
   async cleanupClient() {
