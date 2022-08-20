@@ -24,7 +24,7 @@ export interface ChainInfo {
 export interface CosmosKitConfig {
   // Wallets available for connection. If undefined, uses `Wallets`.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  enabledWallets: Wallet<any>[]
+  enabledWallets: typeof WalletAdapter<any>[]
   // Chain Name to initially connect to and selected by default if nothing
   // is passed to the hook. Must be present in one of the objects in
   // `chainInfoList`.
@@ -60,7 +60,7 @@ export interface CosmosKitState {
   connectedWallet?: ConnectedWallet
   // Wallet currently being connected to (selected in picker but has not yet
   // been fully enabled).
-  connectingWallet?: Wallet
+  connectingWallet?: typeof WalletAdapter<unknown>
   // Status.
   status: CosmosKitStatus
   // Error encountered during the connection process.
@@ -77,60 +77,12 @@ export interface CosmosKitState {
   // of your own hooks, and for use in the built-in useWallet hook.
   getSigningStargateClientOptions?: SigningClientGetter<SigningStargateClientOptions>
   // Wallets available for connection.
-  enabledWallets: Wallet[]
+  enabledWallets: WalletAdapter[]
 }
 
 export type CosmosKitStateObserver = (state: CosmosKitState) => void
 
-// TODO: Move imageUrl, and maybe name/description, to user configuration somehow, or incorporate in planned configurable UI overhaul.
-export interface Wallet<Client = unknown> {
-  // adapterClass: unknown //typeof WalletAdapter
-
-  // A unique identifier among all wallets.
-  id: string
-  // The name of the wallet.
-  name: string
-  // A description of the wallet.
-  description: string
-  // The URL of the wallet logo.
-  imageUrl: string
-  // If this wallet needs WalletConnect to establish client connection.
-  isWalletConnect: boolean
-  // WalletConnect app deeplink formats, with {{uri}} replaced with the
-  // connection URI.
-  walletConnectDeeplinkFormats?: DeeplinkFormats
-  // WalletConnect client signing methods.
-  walletConnectSigningMethods?: string[]
-  // A function that returns an instantiated wallet client, with `walletConnect`
-  // and `newWalletConnectSession` passed if `isWalletConnect === true`.
-  getClient: (
-    chainName: string,
-    info: ChainRegistryInfo,
-    walletConnect?: WalletConnect,
-    newWalletConnectSession?: boolean
-  ) => Promise<Client | undefined>
-  // getAdapter for the wallet
-  getAdapter: (
-    client: Client,
-    chainName: string,
-    info: ChainRegistryInfo
-  ) => WalletAdapter<Client>
-  // A function that determines if this wallet should automatically be connected
-  // on initialization.
-  shouldAutoconnect?: () => boolean | Promise<boolean>
-  // A function that will execute the passed listener when the wallet connection
-  // data needs to be refreshed. This will likely be used when the user switches
-  // accounts in the wallet, and the name and address need to be updated. Called
-  // on successful wallet connection.
-  addRefreshListener?: (listener: () => void) => void
-  // A function that will remove the refresh listener added previously. Called
-  // on wallet disconnect.
-  removeRefreshListener?: (listener: () => void) => void
-}
-
 export interface ConnectedWallet<Client = unknown> {
-  // Wallet.
-  wallet: Wallet<Client>
   // Wallet client.
   walletClient: Client
 
@@ -151,39 +103,55 @@ export interface ConnectedWallet<Client = unknown> {
   signingStargateClient: SigningStargateClient
 }
 
-export class WalletAdapter<Client = unknown> {
-  client: Client
-  wallet: unknown
+export abstract class WalletAdapter<Client = unknown> {
+  // A unique identifier among all wallets.
+  static id: string
+  static displayName: string
+  static description: string
+  static logoUrl: string
+  // If this wallet needs WalletConnect to establish client connection.
+  static isWalletConnect: boolean
+  // WalletConnect app deeplink formats, with {{uri}} replaced with the
+  // connection URI.
+  static walletConnectDeeplinkFormats?: DeeplinkFormats
+  // WalletConnect client signing methods.
+  static walletConnectSigningMethods?: string[]
+  // A function that returns an instantiated wallet client, with `walletConnect`
+  // and `newWalletConnectSession` passed if `isWalletConnect === true`.
+  static getClient: (
+    chainName: string,
+    info: ChainRegistryInfo,
+    walletConnect?: WalletConnect,
+    newWalletConnectSession?: boolean
+  ) => Promise<unknown | undefined>
 
-  getRpcEndpoint(): string {
-    throw new Error('WalletAdapter: not implemented')
-  }
-  getRestEndpoint(): string {
-    throw new Error('WalletAdapter: not implemented')
-  }
+  // A function that determines if this wallet should automatically be connected
+  // on initialization.
+  static shouldAutoconnect?: () => boolean | Promise<boolean>
+  // A function that will execute the passed listener when the wallet connection
+  // data needs to be refreshed. This will likely be used when the user switches
+  // accounts in the wallet, and the name and address need to be updated. Called
+  // on successful wallet connection.
+  static addRefreshListener?: (listener: () => void) => void
+  // A function that will remove the refresh listener added previously. Called
+  // on wallet disconnect.
+  static removeRefreshListener?: (listener: () => void) => void
 
-  enableClient() {
-    throw new Error('WalletAdapter: not implemented')
-  }
+  /////// abstract props/methods below:
 
+  abstract client: Client
+  abstract getRpcEndpoint(): string
+  abstract getRestEndpoint(): string
+
+  abstract enableClient()
   // A function that returns the function to retrieve the `OfflineSigner` for
   // this wallet.
-  getOfflineSigner(): OfflineSigner {
-    throw new Error('WalletAdapter: not implemented')
-  }
+  abstract getOfflineSigner(): OfflineSigner
   // A function that is called after a connection attempt completes. Will fail
   // silently if an error is thrown.
-  async cleanupClient(): Promise<void> {
-    //
-  }
+  abstract cleanupClient(): Promise<void>
   // A function that returns the wallet name and address from the client.
-  async getNameAddress(): Promise<{ name: string; address: string }> {
-    throw new Error('WalletAdapter: not implemented')
-  }
-
-  constructor() {
-    //
-  }
+  abstract getNameAddress(): Promise<{ name: string; address: string }>
 }
 
 export type SigningClientGetter<T> = (

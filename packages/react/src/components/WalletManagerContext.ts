@@ -22,6 +22,7 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
     status: managerStatus,
     error: managerError,
     connectedWallet: managerConnectedWallet,
+    connectingWallet: managerConnectingWallet,
     chainInfo,
     getSigningCosmWasmClientOptions,
     getSigningStargateClientOptions,
@@ -51,7 +52,8 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
       setChainIdStatus(CosmosKitStatus.Connecting)
       setChainIdError(undefined)
 
-      const adapter = managerConnectedWallet.wallet.getAdapter(
+      const AdapterClass = managerConnectingWallet
+      const adapter = new AdapterClass(
         managerConnectedWallet.walletClient,
         chainName,
         chainInfo
@@ -61,7 +63,6 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
       setChainIdConnectedWallet(
         // TODO: Cache
         await getConnectedWalletInfo(
-          managerConnectedWallet.wallet,
           adapter,
           managerConnectedWallet.walletClient,
           info,
@@ -80,6 +81,7 @@ export const useWallet = (chainName?: string): UseWalletResponse => {
     })
   }, [
     managerStatus,
+    managerConnectingWallet,
     managerConnectedWallet,
     chainName,
     getSigningCosmWasmClientOptions,

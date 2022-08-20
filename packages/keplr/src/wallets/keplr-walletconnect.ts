@@ -1,13 +1,55 @@
-import { ChainRegistryInfo, Wallet, WalletAdapter } from '@cosmos-kit/types'
+import { ChainRegistryInfo, WalletAdapter } from '@cosmos-kit/types'
 import { ChainInfo as KeplrChainInfo } from '@keplr-wallet/types'
 
 import { getKeplrChainInfo } from '../chainInfo'
 import { IKeplrWalletConnectV1 } from '../types'
 import imageUrl from './images/keplr-walletconnect.png'
 
-export class KeplrWalletConnectAdapter extends WalletAdapter<IKeplrWalletConnectV1> {
+export class KeplrWalletConnectAdapter
+  implements WalletAdapter<IKeplrWalletConnectV1>
+{
+  static id = 'keplr-walletconnect'
+  static displayName = 'WalletConnect'
+  static description = 'Keplr Mobile'
+  static logoUrl: string = imageUrl
+  static isWalletConnect = true
+  static walletConnectDeeplinkFormats = {
+    ios: 'keplrwallet://wcV1?{{uri}}',
+    android:
+      'intent://wcV1?{{uri}}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
+  }
+  static walletConnectSigningMethods = [
+    'keplr_enable_wallet_connect_v1',
+    'keplr_sign_amino_wallet_connect_v1',
+  ]
+
+  static getClient = async (
+    chainName: string,
+    chainInfo: ChainRegistryInfo,
+    walletConnect,
+    newWalletConnectSession
+  ) => {
+    if (walletConnect?.connected) {
+      const keplrChainInfo = getKeplrChainInfo(chainName, chainInfo)
+      const client = new (
+        await import('../connectors/keplr-walletconnect')
+      ).KeplrWalletConnectV1(walletConnect, [keplrChainInfo])
+      // Prevent double app open request. See comment in
+      // `keplr-walletconnect.ts` for more details.
+      client.dontOpenAppOnEnable = !!newWalletConnectSession
+      return client
+    }
+    throw new Error('Mobile wallet not connected.')
+  }
+
+  // Refresh listener controls.
+  static addRefreshListener = (listener) =>
+    window.addEventListener('keplr_keystorechange', listener)
+
+  static removeRefreshListener = (listener) =>
+    window.removeEventListener('keplr_keystorechange', listener)
+
   client: IKeplrWalletConnectV1
-  wallet: Wallet<IKeplrWalletConnectV1>
   keplrChainInfo: KeplrChainInfo
 
   constructor(
@@ -15,9 +57,7 @@ export class KeplrWalletConnectAdapter extends WalletAdapter<IKeplrWalletConnect
     chainName: string,
     info: ChainRegistryInfo
   ) {
-    super()
     this.client = client
-    this.wallet = KeplrWalletConnectWallet
     this.keplrChainInfo = getKeplrChainInfo(chainName, info)
   }
 
@@ -53,51 +93,4 @@ export class KeplrWalletConnectAdapter extends WalletAdapter<IKeplrWalletConnect
       address: key.bech32Address,
     }))
   }
-}
-
-export const KeplrWalletConnectWallet: Wallet<IKeplrWalletConnectV1> = {
-  id: 'keplr-walletconnect',
-  name: 'WalletConnect',
-  description: 'Keplr Mobile',
-  imageUrl,
-  isWalletConnect: true,
-  walletConnectDeeplinkFormats: {
-    ios: 'keplrwallet://wcV1?{{uri}}',
-    android:
-      'intent://wcV1?{{uri}}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
-  },
-  walletConnectSigningMethods: [
-    'keplr_enable_wallet_connect_v1',
-    'keplr_sign_amino_wallet_connect_v1',
-  ],
-  getAdapter: (
-    client: IKeplrWalletConnectV1,
-    chainName: string,
-    info: ChainRegistryInfo
-  ) => {
-    return new KeplrWalletConnectAdapter(client, chainName, info)
-  },
-  getClient: async (
-    chainName: string,
-    chainInfo: ChainRegistryInfo,
-    walletConnect,
-    newWalletConnectSession
-  ) => {
-    if (walletConnect?.connected) {
-      const keplrChainInfo = getKeplrChainInfo(chainName, chainInfo)
-      const client = new (
-        await import('../connectors/keplr-walletconnect')
-      ).KeplrWalletConnectV1(walletConnect, [keplrChainInfo])
-      // Prevent double app open request. See comment in
-      // `keplr-walletconnect.ts` for more details.
-      client.dontOpenAppOnEnable = !!newWalletConnectSession
-      return client
-    }
-    throw new Error('Mobile wallet not connected.')
-  },
-  // Refresh listener controls.
-  addRefreshListener: (listener) =>
-    window.addEventListener('keplr_keystorechange', listener),
-  removeRefreshListener: (listener) =>
-    window.removeEventListener('keplr_keystorechange', listener),
 }

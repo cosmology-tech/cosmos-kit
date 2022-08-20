@@ -1,2 +1,2 @@
-export { KeplrWallet } from './keplr'
-export { KeplrWalletConnectWallet } from './keplr-walletconnect'
+export * from './keplr'
+export * from './keplr-walletconnect'

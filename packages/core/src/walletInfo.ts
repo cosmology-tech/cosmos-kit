@@ -1,14 +1,8 @@
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate'
 import { SigningStargateClientOptions } from '@cosmjs/stargate'
-import {
-  ChainInfo,
-  ConnectedWallet,
-  Wallet,
-  WalletAdapter,
-} from '@cosmos-kit/types'
+import { ChainInfo, ConnectedWallet, WalletAdapter } from '@cosmos-kit/types'
 
 export const getConnectedWalletInfo = async <Client = unknown>(
-  wallet: Wallet<Client>,
   adapter: WalletAdapter<Client>,
   client: Client,
   chainInfo: ChainInfo,

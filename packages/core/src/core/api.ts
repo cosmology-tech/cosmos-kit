@@ -1,9 +1,9 @@
-import { Wallets } from '@cosmos-kit/registry'
+import { WalletAdapters,WalletAdapterType } from '@cosmos-kit/registry'
 import {
   CosmosKitInitializeConfig,
   CosmosKitStateObserver,
   CosmosKitStatus,
-  Wallet,
+  WalletAdapter,
 } from '@cosmos-kit/types'
 
 import { getConnectedWalletInfo } from '../walletInfo'
@@ -26,9 +26,9 @@ const refreshListener = async () => {
   // Reconnect to wallet, since name/address may have changed.
   if (state.status === CosmosKitStatus.Connected && state.connectedWallet) {
     // Remove refresh listener because it will be readded after connection.
-    state.connectedWallet.wallet.removeRefreshListener?.(refreshListener)
+    state.connectingWallet.removeRefreshListener?.(refreshListener)
 
-    connectToWallet(state.connectedWallet.wallet)
+    connectToWallet(state.connectingWallet)
   }
 }
 
@@ -42,7 +42,7 @@ export const initialize = (
   setConfig({
     ...initialConfig,
     // Fallback to all wallets.
-    enabledWallets: initialConfig.enabledWallets ?? Wallets,
+    enabledWallets: initialConfig.enabledWallets ?? WalletAdapters,
   })
   if (observers?.length) {
     addStateObservers(...observers)
@@ -102,7 +102,7 @@ export const cleanupAfterConnection = () => {
 }
 
 // Connect WalletConnect client if necessary, and then connect to the wallet.
-export const connectToWallet = async (wallet: Wallet) => {
+export const connectToWallet = async (wallet: WalletAdapterType) => {
   updateState({
     status: CosmosKitStatus.Connecting,
     error: undefined,
@@ -129,7 +129,11 @@ export const connectToWallet = async (wallet: Wallet) => {
       throw new Error('Failed to retrieve wallet client.')
     }
 
-    const adapter = wallet.getAdapter(walletClient, chainName, config.chainInfo)
+    const adapter = new WalletAdapterType(
+      walletClient,
+      chainName,
+      config.chainInfo
+    )
     const chainInfo = getChainInfo(config.defaultChainName, config.chainInfo)
 
     // Enable and connect to wallet, and retrieve data.
@@ -246,7 +250,9 @@ export const connectToWallet = async (wallet: Wallet) => {
 
 // Begin connection process, either auto-selecting a wallet or opening
 // the selection modal.
-export const beginConnection = async (wallet?: Wallet) => {
+export const beginConnection = async (
+  wallet?: typeof WalletAdapter<unknown>
+) => {
   if (state.status === CosmosKitStatus.Uninitialized) {
     throw new Error('Cannot connect before initialization.')
   }
@@ -290,8 +296,8 @@ export const beginConnection = async (wallet?: Wallet) => {
 // Disconnect from connected wallet.
 export const disconnect = async (dontKillWalletConnect?: boolean) => {
   // Remove refresh listener.
-  if (state.connectedWallet) {
-    state.connectedWallet.wallet.removeRefreshListener?.(refreshListener)
+  if (state.connectingWallet) {
+    state.connectingWallet.removeRefreshListener?.(refreshListener)
   }
 
   // Disconnect wallet.
