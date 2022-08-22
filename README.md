@@ -32,6 +32,7 @@ Checkout the repository and bootstrap the yarn workspace:
 ```sh
 # Clone the repo.
 git clone https://github.com/cosmology-tech/cosmos-kit
+cd cosmos-kit
 yarn
 yarn bootstrap
 ```
