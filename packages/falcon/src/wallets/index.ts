@@ -1,2 +1,1 @@
-export { KeplrWallet } from './keplr'
-export { KeplrWalletConnectWallet } from './keplr-walletconnect'
+export { FalconWallet } from './falcon'
