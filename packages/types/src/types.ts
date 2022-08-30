@@ -177,6 +177,7 @@ export enum ChainInfoID {
   Columbus5 = 'columbus-5',
   Secret4 = 'secret-4',
   Akashnet2 = 'akashnet-2',
+  Morocco1 = 'morocco-1',
   Regen1 = 'regen-1',
   Sentinelhub2 = 'sentinelhub-2',
   Core1 = 'core-1',
