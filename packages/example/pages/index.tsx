@@ -1,6 +1,6 @@
 import { useWallet } from "@cosmos-kit/react";
-import { getWalletStatusFromState } from "@/utils";
-import { chainInfos } from "@/config";
+import { getWalletStatusFromState } from "../utils";
+import { chainInfos } from "../config";
 import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
 import { MouseEventHandler, useState } from "react";
 import { FiAlertTriangle } from "react-icons/fi";

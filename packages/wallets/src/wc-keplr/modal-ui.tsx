@@ -1,19 +1,18 @@
+import {
+  isAndroid,
+  isMobile,
+  saveMobileLinkInfo,
+} from '@walletconnect/browser-utils';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import QRCode from 'qrcode.react';
 import React, {
   CSSProperties,
   FunctionComponent,
   useEffect,
   useMemo,
   useState,
-} from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import QRCode from "qrcode.react";
-import {
-  isMobile,
-  isAndroid,
-  saveMobileLinkInfo,
-} from "@walletconnect/browser-utils";
-import { Box, Center } from "@chakra-ui/react";
+} from 'react';
 
 export type ModalUIOptions = {
   backdrop?: {
@@ -53,14 +52,16 @@ export const Modal: FunctionComponent<{
   close: () => void;
 }> = ({ uiOptions, uri, close }) => {
   return (
-    <div style={{
-      padding: 50,
-      borderRadius: 10,
-      backgroundColor: "#ffffff",
-    }}>
+    <div
+      style={{
+        padding: 50,
+        borderRadius: 10,
+        backgroundColor: '#ffffff',
+      }}
+    >
       <QRCode size={uiOptions?.qrCodeSize || 300} value={uri} />
     </div>
-  )
+  );
   const [checkMobile] = useState(() => isMobile());
   const [checkAndroid] = useState(() => isAndroid());
 
@@ -69,17 +70,16 @@ export const Modal: FunctionComponent<{
       if (checkAndroid) {
         // Save the mobile link.
         saveMobileLinkInfo({
-          name: "Keplr",
-          href:
-            "intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;",
+          name: 'Keplr',
+          href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
         });
 
         return `intent://wcV1?${uri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
       } else {
         // Save the mobile link.
         saveMobileLinkInfo({
-          name: "Keplr",
-          href: "keplrwallet://wcV1",
+          name: 'Keplr',
+          href: 'keplrwallet://wcV1',
         });
 
         return `keplrwallet://wcV1?${uri}`;
@@ -102,17 +102,17 @@ export const Modal: FunctionComponent<{
           ...(uiOptions?.backdrop?.disableDefaultStyle
             ? {}
             : {
-              position: "fixed",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: "rgba(0,0,0,0.1)",
+                position: 'fixed',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                backgroundColor: 'rgba(0,0,0,0.1)',
 
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }),
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }),
           ...uiOptions?.backdrop?.style,
         }}
         onClick={(e) => {
@@ -128,10 +128,10 @@ export const Modal: FunctionComponent<{
             ...(uiOptions?.modalContainer?.disableDefaultStyle
               ? {}
               : {
-                padding: 20,
-                borderRadius: 10,
-                backgroundColor: "#DDDDDD",
-              }),
+                  padding: 20,
+                  borderRadius: 10,
+                  backgroundColor: '#DDDDDD',
+                }),
             ...uiOptions?.modalContainer?.style,
           }}
           onClick={(e) => {
@@ -147,10 +147,10 @@ export const Modal: FunctionComponent<{
                   ...(uiOptions?.modalHeader?.disableDefaultStyle
                     ? {}
                     : {
-                      fontSize: 20,
-                      margin: 0,
-                      marginBottom: 10,
-                    }),
+                        fontSize: 20,
+                        margin: 0,
+                        marginBottom: 10,
+                      }),
                   ...uiOptions?.modalHeader?.style,
                 }}
               >
@@ -171,10 +171,10 @@ export const Modal: FunctionComponent<{
                   ...(uiOptions?.modalHeader?.disableDefaultStyle
                     ? {}
                     : {
-                      fontSize: 20,
-                      margin: 0,
-                      marginBottom: 10,
-                    }),
+                        fontSize: 20,
+                        margin: 0,
+                        marginBottom: 10,
+                      }),
                   ...uiOptions?.modalHeader?.style,
                 }}
               >

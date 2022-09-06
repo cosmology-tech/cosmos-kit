@@ -1,6 +1,6 @@
-import { createRepo } from "./bases";
-import { ChainRegistry, WalletRegistry } from "./types";
-import { Repo } from "./bases";
+import { createRepo } from './bases';
+import { Repo } from './bases';
+import { ChainRegistry, WalletRegistry } from './types';
 
 export type WalletRepo = Repo<WalletRegistry>;
 export type ChainRepo = Repo<ChainRegistry>;

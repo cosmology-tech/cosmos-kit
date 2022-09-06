@@ -1,27 +1,41 @@
-import { ChainName, State, WalletName, Dispatch, Actions } from "./types";
-import { ChainWalletBase, MainWalletBase } from "./bases";
-import { WalletRepo, ChainRepo, createWalletRepo, createChainRepo } from "./repositories";
-import { wallets, chains } from "./config";
+import { ChainWalletBase, MainWalletBase } from './bases';
+import {
+  ChainRepo,
+  createChainRepo,
+  createWalletRepo,
+  WalletRepo,
+} from './repositories';
+import {
+  Actions,
+  ChainName,
+  ChainRegistry,
+  State,
+  WalletName,
+  WalletRegistry,
+} from './types';
 
 export class WalletManager {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
-  protected _useModal: boolean = true;
+  protected _useModal = true;
   actions?: Actions;
   walletRepo: WalletRepo;
   chainRepo: ChainRepo;
-  autoConnect: boolean = true;
+  autoConnect = true;
+
   protected _concurrency?: number;
 
   constructor(
+    chains?: ChainRegistry[],
+    wallets?: WalletRegistry[],
     _concurrency?: number
   ) {
     this._concurrency = _concurrency;
     this.walletRepo = createWalletRepo(wallets, true);
     this.chainRepo = createChainRepo(chains, true);
-    this.walletRepo.registeredItemMap.forEach(
-      item => { item.wallet.setSupportedChains(this.chainRepo.activeNames) }
-    );
+    this.walletRepo.registeredItemMap.forEach((item) => {
+      item.wallet.setSupportedChains(this.chainRepo.activeNames);
+    });
   }
 
   private get walletActions() {
@@ -29,7 +43,7 @@ export class WalletManager {
       state: this.emitWalletState,
       data: this.emitWalletData,
       qrUri: this.emitQrUri,
-      openModal: this.emitOpenModal
+      openModal: this.emitOpenModal,
     };
   }
 
@@ -38,7 +52,7 @@ export class WalletManager {
       state: this.emitChainWalletState,
       data: this.emitChainWalletData,
       qrUri: this.emitQrUri,
-      openModal: this.emitOpenModal
+      openModal: this.emitOpenModal,
     };
   }
 
@@ -123,7 +137,7 @@ export class WalletManager {
   }
 
   get walletNames() {
-    return this.walletRepo.activeItems.map(item => item.name);
+    return this.walletRepo.activeItems.map((item) => item.name);
   }
 
   get walletCount() {
@@ -131,7 +145,9 @@ export class WalletManager {
   }
 
   get state() {
-    return this.currentChainName ? this.currentChainWallet?.state : this.currentWallet?.state;
+    return this.currentChainName
+      ? this.currentChainWallet?.state
+      : this.currentWallet?.state;
   }
 
   get isConnected() {
@@ -141,7 +157,9 @@ export class WalletManager {
   useWallets(walletNameInfo: WalletName[] | WalletName) {
     this.walletRepo.inactivateAll();
     if (Array.isArray(walletNameInfo)) {
-      walletNameInfo.forEach(name => { this.walletRepo.activate(name) });
+      walletNameInfo.forEach((name) => {
+        this.walletRepo.activate(name);
+      });
       this._useModal = true;
     } else {
       this.walletRepo.activate(walletNameInfo);
@@ -155,7 +173,7 @@ export class WalletManager {
   }
 
   get chainNames() {
-    return this.chainRepo.activeItems.map(item => item.name);
+    return this.chainRepo.activeItems.map((item) => item.name);
   }
 
   get chainCount() {
@@ -164,10 +182,12 @@ export class WalletManager {
 
   useChains(chainNames: ChainName[]) {
     this.chainRepo.inactivateAll();
-    chainNames.forEach(name => { this.chainRepo.activate(name) });
-    this.walletRepo.registeredItemMap.forEach(
-      item => { item.wallet.setSupportedChains(chainNames) }
-    );
+    chainNames.forEach((name) => {
+      this.chainRepo.activate(name);
+    });
+    this.walletRepo.registeredItemMap.forEach((item) => {
+      item.wallet.setSupportedChains(chainNames);
+    });
   }
 
   getWallet(walletName: WalletName): MainWalletBase<any, any, any> {
@@ -175,18 +195,18 @@ export class WalletManager {
   }
 
   get currentWallet() {
-    return this.currentWalletName ? this.getWallet(this.currentWalletName) : undefined;
+    return this.currentWalletName
+      ? this.getWallet(this.currentWalletName)
+      : undefined;
   }
 
   get currentChainWallet(): ChainWalletBase<any, any> | undefined {
-    return (
-      this.currentChainName
-        ? this.currentWallet?.getChain(this.currentChainName)
-        : undefined
-    );
+    return this.currentChainName
+      ? this.currentWallet?.getChain(this.currentChainName)
+      : undefined;
   }
 
-  getChainConnect(walletName: WalletName, chainName: ChainName, emit: boolean = true) {
+  getChainConnect(walletName: WalletName, chainName: ChainName, emit = true) {
     return async () => {
       const chainWallet = this.getWallet(walletName).getChain(chainName);
       chainWallet.actions = this.chainWalletActions;
@@ -205,12 +225,15 @@ export class WalletManager {
   get connect() {
     return async () => {
       if (!this.currentWalletName) {
-        throw new Error('Wallet not selected!')
+        throw new Error('Wallet not selected!');
       }
       try {
         await this.getConnect(this.currentWalletName)();
         if (this.currentChainName) {
-          await this.getChainConnect(this.currentWalletName, this.currentChainName)();
+          await this.getChainConnect(
+            this.currentWalletName,
+            this.currentChainName
+          )();
         }
       } catch (error) {
         console.error(error);
@@ -239,12 +262,15 @@ export class WalletManager {
   get disconnect() {
     return async () => {
       if (!this.currentWalletName) {
-        throw new Error('Wallet not selected!')
+        throw new Error('Wallet not selected!');
       }
 
       try {
         if (this.currentChainName) {
-          await this.getChainDisconnect(this.currentWalletName, this.currentChainName)();
+          await this.getChainDisconnect(
+            this.currentWalletName,
+            this.currentChainName
+          )();
         }
         await this.getDisconnect(this.currentWalletName)();
       } catch (error) {
@@ -260,11 +286,4 @@ export class WalletManager {
   get concurrency() {
     return this._concurrency;
   }
-}
-
-export function createWalletManager(
-  concurrency?: number
-) {
-  const walletManager = new WalletManager(concurrency);
-  return walletManager;
 }

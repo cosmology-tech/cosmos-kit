@@ -1,81 +1,81 @@
-import { Dispatch, Mutable, State } from "../types";
+import { Dispatch, Mutable, State } from '../types';
 
 interface StateActions<D> {
-    state?: Dispatch<State>;
-    data?: Dispatch<D | undefined>;
+  state?: Dispatch<State>;
+  data?: Dispatch<D | undefined>;
 }
 
 interface Actions<D> extends StateActions<D> {
-    [k: string]: Dispatch<any> | undefined;
+  [k: string]: Dispatch<any> | undefined;
 }
 
 export abstract class WalletCommonBase<D> {
-    protected _mutable: Mutable<D>;
-    actions?: Actions<D>;
+  protected _mutable: Mutable<D>;
+  actions?: Actions<D>;
 
-    constructor() {
-        this._mutable = { state: State.Init };
-    };
+  constructor() {
+    this._mutable = { state: State.Init };
+  }
 
-    get emitState() {
-        return this.actions?.state;
-    }
+  get emitState() {
+    return this.actions?.state;
+  }
 
-    get emitData() {
-        return this.actions?.data;
-    }
+  get emitData() {
+    return this.actions?.data;
+  }
 
-    get mutable() {
-        return this._mutable;
-    }
+  get mutable() {
+    return this._mutable;
+  }
 
-    get state() {
-        return this.mutable.state;
-    };
+  get state() {
+    return this.mutable.state;
+  }
 
-    get data() {
-        return this.mutable.data;
-    }
+  get data() {
+    return this.mutable.data;
+  }
 
-    get isInit() {
-        return this.state === State.Init;
-    }
+  get isInit() {
+    return this.state === State.Init;
+  }
 
-    get isNotInit() {
-        return !this.isInit;
-    }
+  get isNotInit() {
+    return !this.isInit;
+  }
 
-    get isReady() {
-        return this.state === State.Done;
-    }
+  get isReady() {
+    return this.state === State.Done;
+  }
 
-    get isFailed() {
-        return this.state === State.Error;
-    }
+  get isFailed() {
+    return this.state === State.Error;
+  }
 
-    get isLoading() {
-        return this.state === State.Pending;
-    }
+  get isLoading() {
+    return this.state === State.Pending;
+  }
 
-    setState(state: State) {
-        this._mutable.state = state;
-        this.emitState?.(state);
-    }
+  setState(state: State) {
+    this._mutable.state = state;
+    this.emitState?.(state);
+  }
 
-    setData(data: D | undefined) {
-        this._mutable.data = data;
-        this.emitData?.(data);
-    }
+  setData(data: D | undefined) {
+    this._mutable.data = data;
+    this.emitData?.(data);
+  }
 
-    clear() {
-        this.setData(undefined);
-        this.setState(State.Init);
-    }
+  clear() {
+    this.setData(undefined);
+    this.setState(State.Init);
+  }
 
-    connect() {
-        this.update();
-    }
+  connect() {
+    this.update();
+  }
 
-    abstract update(): void;
-    abstract disconnect(): void;
-};
+  abstract update(): void;
+  abstract disconnect(): void;
+}

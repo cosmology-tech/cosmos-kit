@@ -2,12 +2,28 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { WalletProvider } from '@cosmos-kit/react'
 import { Button, ChakraProvider, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
-import { defaultTheme } from '@/config';
-import { ChainSelectorProps, WalletModalProps } from '@cosmos-kit/core/types';
-import { createWalletManager } from '@cosmos-kit/core';
-import { useState } from 'react';
-import { ChainOption, ChooseChain, handleSelectChainDropdown } from '@/components';
-import { useQRCode } from 'next-qrcode';
+import { defaultTheme } from '../config';
+import { WalletManager, WalletModalProps, ChainRegistry } from '@cosmos-kit/core';
+import { AllWallets } from '@cosmos-kit/registry';
+import { chains as rawChains } from 'chain-registry';
+import { Chain } from '@chain-registry/types';
+
+export function convert(chain: Chain): ChainRegistry {
+  return {
+    name: chain.chain_name,
+    active: true,
+    raw: chain,
+  };
+}
+
+export const chains: ChainRegistry[] = rawChains
+  .filter((chain) => chain.network_type !== 'testnet')
+  .map((chain) => convert(chain));
+
+
+// import { useState } from 'react';
+// import { ChainOption, ChooseChain, handleSelectChainDropdown } from '../components';
+// import { useQRCode } from 'next-qrcode';
 import QRCode from 'qrcode.react';
 
 // const MyChainSelector = ({ name, setName, chainOptions }: ChainSelectorProps) => {
@@ -61,7 +77,10 @@ const MyWalletModal = ({ open, setOpen, walletOptions, qrUri }: WalletModalProps
 
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const walletManager = createWalletManager();
+  const walletManager = new WalletManager(
+    chains,
+    AllWallets
+  )
   // walletManager.useWallets('keplr-extension');
   // walletManager.useChains();
   // walletManager.autoConnect = true;

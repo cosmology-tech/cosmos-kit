@@ -1,44 +1,44 @@
-import React, { useEffect } from "react";
 import {
-  Stack,
-  Flex,
   Box,
-  Heading,
   CloseButton,
   Container,
-  useColorModeValue,
+  Flex,
+  Heading,
   Image,
-  Text,
-  useDisclosure,
-  useBreakpointValue,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
-} from "@chakra-ui/react";
-import { useQRCode } from "next-qrcode";
-import { WalletModalProps } from "@cosmos-kit/core";
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { WalletModalProps } from '@cosmos-kit/core';
+import { useQRCode } from 'next-qrcode';
+import React, { useEffect } from 'react';
 
 const QRCode = () => {
   const { Canvas } = useQRCode();
-  const color = useColorModeValue("#000000eb", "#ffffff");
+  const color = useColorModeValue('#000000eb', '#ffffff');
   const width = useBreakpointValue({ base: 300, md: 400, lg: 500 });
 
   return (
     <Canvas
-      text={"https://app.osmosis.zone/?from=ATOM&to=OSMO"}
+      text={'https://app.osmosis.zone/?from=ATOM&to=OSMO'}
       options={{
-        type: "image/jpeg",
+        type: 'image/jpeg',
         quality: 0.3,
         margin: 0,
-        level: "M",
+        level: 'M',
         scale: 4,
         width: width,
         color: {
           dark: color,
-          light: "#00000000",
+          light: '#00000000',
         },
       }}
     />
@@ -48,7 +48,7 @@ const QRCode = () => {
 export function WalletModal({
   open,
   setOpen,
-  walletOptions
+  walletOptions,
 }: WalletModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -76,12 +76,12 @@ export function WalletModal({
         isOpen={defaultModalIsOpen}
         onClose={() => {
           defaultModalOnClose();
-          setOpen && setOpen(false);
+          if (setOpen) setOpen(false);
         }}
         autoFocus={false}
       >
         <ModalOverlay />
-        <ModalContent borderRadius="2xl" maxW={{ base: "xs", md: "2xl" }} p={6}>
+        <ModalContent borderRadius="2xl" maxW={{ base: 'xs', md: '2xl' }} p={6}>
           <Flex justify="space-between" mb={6}>
             <Heading as="h3" fontSize="2xl">
               Select a wallet
@@ -89,7 +89,7 @@ export function WalletModal({
             <CloseButton
               onClick={() => {
                 defaultModalOnClose();
-                setOpen && setOpen(false);
+                if (setOpen) setOpen(false);
               }}
             />
           </Flex>
@@ -100,15 +100,15 @@ export function WalletModal({
                   as="button"
                   id={id}
                   key={id}
-                  align={{ md: "center" }}
+                  align={{ md: 'center' }}
                   borderRadius="2xl"
                   border="1px solid"
                   borderColor={useColorModeValue(
-                    "blackAlpha.500",
-                    "whiteAlpha.500"
+                    'blackAlpha.500',
+                    'whiteAlpha.500'
                   )}
-                  bg={useColorModeValue("blackAlpha.50", "whiteAlpha.50")}
-                  flexDirection={{ base: "column", md: "row" }}
+                  bg={useColorModeValue('blackAlpha.50', 'whiteAlpha.50')}
+                  flexDirection={{ base: 'column', md: 'row' }}
                   p={6}
                   onClick={onClick}
                 >
@@ -130,8 +130,8 @@ export function WalletModal({
                     <Text
                       fontWeight="bold"
                       color={useColorModeValue(
-                        "blackAlpha.600",
-                        "whiteAlpha.600"
+                        'blackAlpha.600',
+                        'whiteAlpha.600'
                       )}
                     >
                       {describe}
@@ -147,7 +147,7 @@ export function WalletModal({
             <ModalContent maxW="fit-content">
               <ModalHeader>Scan QR Code</ModalHeader>
               <ModalCloseButton
-                _focus={{ outline: "none" }}
+                _focus={{ outline: 'none' }}
                 top={4}
                 right={6}
               />
