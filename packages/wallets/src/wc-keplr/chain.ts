@@ -1,5 +1,4 @@
-import { ChainWalletBase } from '@cosmos-kit/core';
-import { ChainName, State } from '@cosmos-kit/core';
+import { ChainName, ChainWalletBase, State } from '@cosmos-kit/core';
 
 import { ChainWCKeplrData } from './types';
 import { WCKeplrWallet } from './wc-keplr';

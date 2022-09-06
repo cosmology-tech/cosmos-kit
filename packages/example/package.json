@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.9",
+    "@cosmos-kit/core": "0.11.0-beta",
+    "@cosmos-kit/react": "0.11.0-beta",
+    "@cosmos-kit/registry": "0.11.0-beta",
+    "@cosmos-kit/wallets": "0.11.0-beta",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "^0.10.19",
@@ -17,11 +21,7 @@
     "@keplr-wallet/wc-qrcode-modal": "^0.10.20",
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/qrcode-modal": "^1.8.0",
-    "chain-registry": "^0.8.1",
-    "@cosmos-kit/core": "0.11.0-beta",
-    "@cosmos-kit/react": "0.11.0-beta",
-    "@cosmos-kit/wallets": "0.11.0-beta",
-    "@cosmos-kit/registry": "0.11.0-beta",
+    "chain-registry": "^0.10.0",
     "chakra-react-select": "^4.1.4",
     "fast-fuzzy": "^1.11.2",
     "framer-motion": "^6",
@@ -35,9 +35,9 @@
   },
   "devDependencies": {
     "@types/node": "18.7.13",
-    "@types/react": "18.0.17",
+    "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
-    "eslint": "8.23.0",
+    "eslint": "8.20.0",
     "eslint-config-next": "12.2.5",
     "typescript": "4.8.2"
   }

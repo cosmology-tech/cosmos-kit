@@ -14,8 +14,8 @@ export const AllWallets: WalletRegistry[] = [
     name: 'wc-keplr',
     active: true,
     wallet: new WCKeplrWallet(),
-    prettyName: 'Keplr QR Code',
-    describe: 'Keplr connect with QR Code',
+    prettyName: 'Keplr Mobile',
+    describe: 'Keplr Mobile with wallet connect',
     logo: 'ttps://dummyimage.com/200x200/1624b5/fff.jpg&text=mobile',
   },
   // {
