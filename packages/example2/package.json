@@ -1,0 +1,43 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.2.9",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@keplr-wallet/types": "^0.10.19",
+    "@keplr-wallet/wc-client": "^0.10.20",
+    "@keplr-wallet/wc-qrcode-modal": "^0.10.20",
+    "@walletconnect/client": "^1.8.0",
+    "@walletconnect/qrcode-modal": "^1.8.0",
+    "chain-registry": "^0.8.1",
+    "@cosmos-kit/core": "^0.11.0",
+    "@cosmos-kit/react": "^0.11.0",
+    "@cosmos-kit/wallets": "^0.11.0",
+    "chakra-react-select": "^4.1.4",
+    "fast-fuzzy": "^1.11.2",
+    "framer-motion": "^6",
+    "next": "12.2.5",
+    "next-qrcode": "^2.2.0",
+    "p-queue": "^7.3.0",
+    "qrcode.react": "^3.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.13",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
+    "typescript": "4.8.2"
+  }
+}
