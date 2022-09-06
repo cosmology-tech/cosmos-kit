@@ -3,9 +3,7 @@ import { Dispatch } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
-import Axios from 'axios';
 import { Buffer } from 'buffer/';
-import { chains } from 'chain-registry';
 
 // import { KeplrQRCodeModalV1 } from "@keplr-wallet/wc-qrcode-modal";
 
@@ -33,14 +31,15 @@ export async function sendTx(
     })(),
   };
 
-  const restInstance = Axios.create({
-    baseURL: chains.find((chainInfo) => chainInfo.chain_id === chainId)!.apis
-      ?.rest?.[0].address,
-  });
+  // const restInstance = Axios.create({
+  //   baseURL: chains.find((chainInfo) => chainInfo.chain_id === chainId)!.apis
+  //     ?.rest?.[0].address,
+  // });
 
-  const result = await restInstance.post('/cosmos/tx/v1beta1/txs', params);
+  // const result = await restInstance.post('/cosmos/tx/v1beta1/txs', params);
 
-  return Buffer.from(result.data['tx_response'].txhash, 'hex');
+  // return Buffer.from(result.data['tx_response'].txhash, 'hex');
+  return Buffer.from('asdfsdfsdf', 'hex');
 }
 
 export function getWCKeplr(

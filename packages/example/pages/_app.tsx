@@ -8,6 +8,8 @@ import { AllWallets } from '@cosmos-kit/registry';
 import { chains as rawChains } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
 
+// TODO discuss Chain 
+// maybe simplify so we can use `Chain` throughout the app
 export function convert(chain: Chain): ChainRegistry {
   return {
     name: chain.chain_name,
@@ -15,6 +17,7 @@ export function convert(chain: Chain): ChainRegistry {
     raw: chain,
   };
 }
+
 
 export const chains: ChainRegistry[] = rawChains
   .filter((chain) => chain.network_type !== 'testnet')
