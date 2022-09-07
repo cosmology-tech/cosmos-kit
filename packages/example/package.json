@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.12.0",
-    "@cosmos-kit/react": "^0.12.0",
-    "@cosmos-kit/registry": "^0.12.0",
-    "@cosmos-kit/wallets": "^0.12.0",
+    "@cosmos-kit/core": "^0.12.1",
+    "@cosmos-kit/react": "^0.12.1",
+    "@cosmos-kit/registry": "^0.12.1",
+    "@cosmos-kit/wallets": "^0.12.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "^0.10.19",
