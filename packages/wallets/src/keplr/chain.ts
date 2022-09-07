@@ -4,18 +4,14 @@ import { KeplrWallet } from './keplr';
 import { ChainKeplrData } from './types';
 
 export class ChainKeplr extends ChainWalletBase<ChainKeplrData, KeplrWallet> {
-  protected _chainName: ChainName;
-  protected keplrWallet: KeplrWallet;
 
   constructor(_chainName: ChainName, keplrWallet: KeplrWallet) {
     super(_chainName, keplrWallet);
-    this._chainName = _chainName;
-    this.keplrWallet = keplrWallet;
   }
 
   get client() {
     return (async () => {
-      const client = await this.keplrWallet.client;
+      const client = await this.mainWallet.client;
       if (!client) {
         throw new Error('No Keplr installed!');
       }

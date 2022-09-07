@@ -7,18 +7,14 @@ export class ChainWCKeplr extends ChainWalletBase<
   ChainWCKeplrData,
   WCKeplrWallet
 > {
-  protected _chainName: ChainName;
-  protected keplrWallet: WCKeplrWallet;
 
   constructor(_chainName: ChainName, keplrWallet: WCKeplrWallet) {
     super(_chainName, keplrWallet);
-    this._chainName = _chainName;
-    this.keplrWallet = keplrWallet;
   }
 
   get client() {
     return (async () => {
-      const client = await this.keplrWallet.client;
+      const client = await this.mainWallet.client;
       if (!client) {
         throw new Error('No WCKeplr installed!');
       }
