@@ -22,10 +22,10 @@ import { useWallet } from "../hooks";
 
 export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalProps) => {
 
-    const { walletManager, disconnect, walletStatus, username, address } = useWallet(chainName);
+    const { walletManager: wm, disconnect, walletStatus, username, address, message } = useWallet(chainName);
     // console.log('%cindex.tsx line:26 address', 'color: #007acc;', address);
-    const { activeWallets, currentWalletName } = walletManager;
-    // console.log('%cindex.tsx line:26 walletManager.address', 'color: #007acc;', walletManager.address);
+    const { activeWallets, currentWalletName } = wm;
+    // console.log('%cindex.tsx line:26 wm.address', 'color: #007acc;', wm.address);
 
     const walletsData: WalletInfoType[] = activeWallets.map(({
         name, logo, prettyName, isQRCode, downloads
@@ -48,20 +48,28 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
         UserDeviceInfoType | undefined
     >();
 
-    async function handleWalletClick(select: WalletInfoType) {
+    async function onWalletClicked(select: WalletInfoType) {
         console.info('Connecting ' + select.id)
-        walletManager.setCurrentWallet(select.id);
-        await walletManager.connect();
+        wm.setCurrentWallet(select.id);
+        if (!wm.autoConnect) {
+            await wm.connect();
+        }
     }
+
+    async function onDisconnect() {
+        console.info('Disconnecting')
+        await wm.disconnect();
+    }
+
     function handleClearSelect() {
-        walletManager.setCurrentWallet(undefined);
+        wm.setCurrentWallet(undefined);
     }
     function handleClose() {
         setOpen(false);
     }
     async function handleConnectButtonClick() {
         console.log("reconnect wallet");
-        await walletManager.connect();
+        await wm.connect();
     }
 
     useEffect(() => {
@@ -84,7 +92,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
             setModalContent(
                 <DisplayWalletList
                     walletsData={walletsData}
-                    onClick={handleWalletClick}
+                    onClick={onWalletClicked}
                 />
             );
         }
@@ -105,7 +113,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
             if (currentWalletData.walletType === 'extension') {
                 if (installedWallet) {
                     switch (walletStatus) {
-                        case WalletStatus.Init:
+                        case WalletStatus.Disconnected:
                             setModalContent(
                                 <ExtensionContent
                                     selectedWallet={currentWalletData}
@@ -142,9 +150,8 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                             setModalContent(
                                 <ExtensionContent
                                     selectedWallet={currentWalletData}
-                                    stateHeader="Request Cancelled"
-                                    stateDesc={`You cancelled the request. 
-                          Click above to try again.`}
+                                    stateHeader="Error"
+                                    stateDesc={message}
                                     isReconnect={true}
                                     connectWalletButton={
                                         <ConnectWalletButton
@@ -155,7 +162,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                                 />
                             );
                             break;
-                        case WalletStatus.Loading:
+                        case WalletStatus.Connecting:
                             setModalContent(
                                 <ExtensionContent
                                     selectedWallet={currentWalletData}
@@ -165,7 +172,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                                 />
                             );
                             break;
-                        case WalletStatus.Loaded:
+                        case WalletStatus.Connected:
                             setModalContent(
                                 <ConnectedContent
                                     userInfo={
@@ -180,6 +187,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                                         <ConnectWalletButton
                                             buttonText="Disconnect"
                                             icon={IoExitOutline}
+                                            onClickConnectBtn={onDisconnect}
                                         />
                                     }
                                 />
@@ -253,7 +261,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
             setModalContent(
                 <DisplayWalletList
                     walletsData={walletsData}
-                    onClick={handleWalletClick}
+                    onClick={onWalletClicked}
                 />
             );
         }

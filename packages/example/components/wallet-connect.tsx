@@ -121,11 +121,11 @@ export const WalletConnectComponent = ({
   notExist: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Init:
+    case WalletStatus.Disconnected:
       return <>{disconnect}</>;
-    case WalletStatus.Loading:
+    case WalletStatus.Connecting:
       return <>{connecting}</>;
-    case WalletStatus.Loaded:
+    case WalletStatus.Connected:
       return <>{connected}</>;
     case WalletStatus.Rejected:
       return <>{rejected}</>;

@@ -101,7 +101,7 @@ export class WCKeplrWallet extends MainWalletBase<
       }
     }
     this.setState(State.Error);
-    console.error(`Fail to update any chain.`);
+    this.setMessage(`Failed to connect keplr.`);
   }
 }
 

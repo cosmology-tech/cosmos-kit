@@ -9,8 +9,16 @@ export interface ChainWalletData {
   address: string;
 }
 
+export interface ExtendedChainWalletData extends ChainWalletData {
+  [k: string]: unknown;
+}
+
 export interface WalletData {
   username: string;
+}
+
+export interface ExtendedWalletData extends WalletData {
+  [k: string]: unknown;
 }
 
 export enum State {
@@ -21,9 +29,9 @@ export enum State {
 }
 
 export enum WalletStatus {
-  Init = "Init",
-  Loading = "Loading",
-  Loaded = "Loaded",
+  Disconnected = "Disconnected",
+  Connecting = "Connecting",
+  Connected = "Connected",
   NotExist = "NotExist",
   Rejected = "Rejected"
 }
@@ -31,6 +39,7 @@ export enum WalletStatus {
 export interface Mutable<T> {
   state: State;
   data?: T;
+  message?: string;
 }
 
 export type ChainName = string;
@@ -90,8 +99,16 @@ export interface DefinedActions {
   chainName?: Dispatch<ChainName | undefined>,
   modalOpen?: Dispatch<boolean>;
   qrUri?: Dispatch<string | undefined>;
+  message?: Dispatch<string | undefined>;
 }
 
 export interface Actions extends DefinedActions {
   [k: string]: Dispatch<any> | undefined;
+}
+
+export interface Autos {
+  connectWhenCurrentChanges?: boolean;
+  closeModalWhenWalletIsConnected?: boolean;
+  closeModalWhenWalletIsDisconnected?: boolean;
+  closeModalWhenWalletIsRejected?: boolean;
 }

@@ -3,6 +3,7 @@ import { Dispatch, Mutable, State } from '../types';
 interface StateActions<D> {
   state?: Dispatch<State>;
   data?: Dispatch<D | undefined>;
+  message?: Dispatch<string | undefined>;
 }
 
 interface Actions<D> extends StateActions<D> {
@@ -25,6 +26,10 @@ export abstract class WalletCommonBase<D> {
     return this.actions?.data;
   }
 
+  get emitMessage() {
+    return this.actions?.message;
+  }
+
   get mutable() {
     return this._mutable;
   }
@@ -35,6 +40,10 @@ export abstract class WalletCommonBase<D> {
 
   get data() {
     return this.mutable.data;
+  }
+
+  get message() {
+    return this.mutable.message;
   }
 
   get isInit() {
@@ -65,6 +74,11 @@ export abstract class WalletCommonBase<D> {
   setData(data: D | undefined) {
     this._mutable.data = data;
     this.emitData?.(data);
+  }
+
+  setMessage(message: string) {
+    this._mutable.message = message;
+    this.emitMessage?.(message);
   }
 
   clear() {

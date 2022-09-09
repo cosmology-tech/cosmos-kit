@@ -34,9 +34,8 @@ export class ChainKeplr extends ChainWalletBase<ChainKeplrData, KeplrWallet> {
       this.setState(State.Done);
     } catch (e) {
       this.setState(State.Error);
-      console.info(`Fail to update chain ${this.chainName}.`);
-      throw e;
+      this.setMessage((e as Error).message);
     }
-    this.actions?.modalOpen?.(false);
+    // this.actions?.modalOpen?.(false);
   }
 }

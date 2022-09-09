@@ -37,7 +37,7 @@ export class ChainWCKeplr extends ChainWalletBase<
       this.setState(State.Done);
     } catch (e) {
       this.setState(State.Error);
-      console.info(`Fail to update chain ${this.chainName}.`);
+      this.setMessage((e as Error).message);
       throw e;
     }
   }

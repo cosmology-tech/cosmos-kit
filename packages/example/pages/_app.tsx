@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { WalletProvider } from '@cosmos-kit/react'
+import { useWallet, WalletProvider } from '@cosmos-kit/react'
 import { Button, ChakraProvider, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
 import { WalletManager, WalletModalProps, ChainRegistry } from '@cosmos-kit/core';
@@ -47,12 +47,13 @@ import QRCode from 'qrcode.react';
 //   )
 // }
 
-const MyWalletModal = ({ isOpen: open, setOpen, walletManager, qrUri }: WalletModalProps) => {
+const MyWalletModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalProps) => {
   // const { Canvas } = useQRCode();
+  const { walletManager, disconnect, walletStatus, username, address } = useWallet(chainName);
   const onClose = () => setOpen(false);
   console.log(222, qrUri)
   return (
-    <Modal isOpen={open} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Choose Wallet</ModalHeader>
@@ -90,7 +91,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
   // walletManager.useWallets('keplr-extension');
   // walletManager.useChains();
-  // walletManager.autoConnect = true;
+
+  walletManager.setAutos({
+    connectWhenCurrentChanges: false,
+    closeModalWhenWalletIsConnected: true,
+    closeModalWhenWalletIsDisconnected: true,
+    closeModalWhenWalletIsRejected: false,
+  })
 
   return (
     <ChakraProvider theme={defaultTheme}>

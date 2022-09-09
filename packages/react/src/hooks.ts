@@ -9,6 +9,7 @@ export const useWallet = (chainName?: ChainName): {
   walletStatus: WalletStatus;
   username?: string;
   address?: string;
+  message?: string;
   walletManager: WalletManager
 } => {
   const wallet = React.useContext(walletContext);
@@ -17,54 +18,36 @@ export const useWallet = (chainName?: ChainName): {
     throw new Error('You have forgot to use WalletProvider');
   }
 
-  const { walletManager, setModalOpen } = wallet;
+  const { 
+    walletManager, 
+    setModalOpen,
+    walletData,
+    chainWalletData,
+    walletState,
+    chainWalletState,
+    message
+  } = wallet;
+
+  const {
+    connect,
+    disconnect,
+    useModal,
+    currentWalletName
+  } = walletManager;
 
   if (walletManager.currentChainName !== chainName) {
     walletManager.setCurrentChain(chainName);
   }
 
-  const {
-    currentWallet,
-    currentChainWallet,
-    connect,
-    disconnect,
-    useModal,
-    autoConnect,
-    currentWalletName
-  } = walletManager;
-
-  const [walletData, setWalletData] = useState<any>();
-  const [chainWalletData, setChainWalletData] = useState<any>();
-  const [walletState, setWalletState] = useState(currentWallet?.state);
-  const [chainWalletState, setChainWalletState] = useState(
-    currentChainWallet?.state
-  );
-  const [walletName, setWalletName] = useState<WalletName | undefined>(
-    currentWalletName
-  );
-
-  walletManager.updateAction({
-    walletData: setWalletData,
-    chainWalletData: setChainWalletData,
-    walletState: setWalletState,
-    walletName: setWalletName,
-    chainWalletState: setChainWalletState,
-    modalOpen: setModalOpen,
-  });
-
-  useEffect(() => {
-    if (autoConnect && !useModal) {
-      connect();
-    }
-  }, []);
-
   return {
     connect:
-      useModal && !currentWalletName ? () => setModalOpen(true) : connect,
-    disconnect,
+      useModal ? () => setModalOpen(true) : connect,
+    disconnect:
+      useModal ? () => setModalOpen(true) : disconnect,
     walletStatus: getWalletStatusFromState(chainName ? chainWalletState : walletState),
-    username: walletData?.username,
+    username: walletData?.username || chainWalletData?.username as string,
     address: chainWalletData?.address,
+    message,
     walletManager
   };
 };

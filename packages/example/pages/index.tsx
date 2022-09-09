@@ -8,7 +8,7 @@ import { Astronaut, ChainOption, ChooseChain, Connected, ConnectedShowAddress, C
 
 const Home = () => {
   const [chainName, setChainName] = useState<string | undefined>();
-  const { connect, disconnect, walletStatus, username, address } = useWallet(chainName);
+  const { connect, disconnect, walletStatus, username, address, message } = useWallet(chainName);
   
   console.log(chainName, walletStatus)
 
@@ -20,7 +20,7 @@ const Home = () => {
 
   const onClickDisconnect: MouseEventHandler = (e) => {
     e.preventDefault();
-    // disconnect();
+    disconnect();
   };
 
   const onChainChange: handleSelectChainDropdown = (
@@ -38,7 +38,11 @@ const Home = () => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={address ? `${address.slice(0, 7)}....${address.slice(-5, 0)}` : "Disconnect"} onClick={onClickDisconnect} />
+        <Connected buttonText={
+          address 
+          ? `${address.slice(0, 7)}....${address.slice(-4)}` 
+          : "Disconnect"
+        } onClick={onClickDisconnect} />
       }
       rejected={
         <Rejected
@@ -55,7 +59,7 @@ const Home = () => {
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning="Warning: There is not enough chain information to connect to this chain."
+          wordOfWarning={`${message}`}
         />
       }
     />

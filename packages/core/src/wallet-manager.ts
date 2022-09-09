@@ -7,6 +7,7 @@ import {
 } from './repositories';
 import {
   Actions,
+  Autos,
   ChainName,
   ChainRegistry,
   State,
@@ -22,7 +23,7 @@ export class WalletManager {
   actions?: Actions;
   walletRepo: WalletRepo;
   chainRepo: ChainRepo;
-  autoConnect = true;
+  autos?: Autos;
 
   protected _concurrency?: number;
 
@@ -39,12 +40,19 @@ export class WalletManager {
     });
   }
 
+  private get sharedActions() {
+    return {
+      qrUri: this.emitQrUri,
+      modalOpen: this.emitModalOpen,
+      message: this.emitMessage
+    }
+  }
+
   private get walletActions() {
     return {
       state: this.emitWalletState,
       data: this.emitWalletData,
-      qrUri: this.emitQrUri,
-      modalOpen: this.emitModalOpen,
+      ...this.sharedActions
     };
   }
 
@@ -52,13 +60,20 @@ export class WalletManager {
     return {
       state: this.emitChainWalletState,
       data: this.emitChainWalletData,
-      qrUri: this.emitQrUri,
-      modalOpen: this.emitModalOpen,
+      ...this.sharedActions
     };
   }
 
-  updateAction(actions: Actions) {
-    this.actions = { ...this.actions, ...actions };
+  setAction(actions: Actions) {
+    this.actions = actions;
+  }
+
+  setAutos(autos: Autos) {
+    this.autos = autos;
+  }
+
+  get autoConnect() {
+    return Boolean(this.autos?.connectWhenCurrentChanges);
   }
 
   get currentWalletName() {
@@ -69,6 +84,9 @@ export class WalletManager {
     this.emitWalletDisconnect();
     this._currentWalletName = walletName;
     this.emitWalletName?.(walletName);
+    if (this.autoConnect) {
+      this.connect();
+    }
   }
 
   get currentChainName() {
@@ -79,7 +97,7 @@ export class WalletManager {
     this.emitChainWalletDisconnect();
     this._currentChainName = chainName;
     this.emitChainName?.(chainName);
-    if (this.currentWalletName && this.autoConnect) {
+    if (this.autoConnect) {
       this.connect();
     }
   }
@@ -120,13 +138,19 @@ export class WalletManager {
     return this.actions?.qrUri;
   }
 
+  get emitMessage() {
+    return this.actions?.message;
+  }
+
   emitWalletDisconnect() {
     this.emitWalletData?.(undefined);
+    this.emitMessage?.(undefined);
     this.emitWalletState?.(State.Init);
   }
 
   emitChainWalletDisconnect() {
     this.emitChainWalletData?.(undefined);
+    this.emitMessage?.(undefined);
     this.emitChainWalletState?.(State.Init);
   }
 
@@ -156,8 +180,14 @@ export class WalletManager {
       : this.currentWallet?.state;
   }
 
+  get message() {
+    return this.currentChainName
+      ? this.currentChainWallet?.message
+      : this.currentWallet?.message;
+  }
+
   get walletStatus() {
-    return getWalletStatusFromState(this.state);
+    return getWalletStatusFromState(this.state, this.message);
   }
 
   get isConnected() {
@@ -235,7 +265,8 @@ export class WalletManager {
   get connect() {
     return async () => {
       if (!this.currentWalletName) {
-        throw new Error('Wallet not selected!');
+        console.info('Cannot connect with undefined currentWalletName');
+        return
       }
       try {
         if (this.currentChainName) {
@@ -246,11 +277,15 @@ export class WalletManager {
         } else {
           await this.getConnect(this.currentWalletName)();
         }
+        if (this.autos?.closeModalWhenWalletIsConnected) {
+          this.emitModalOpen(false);
+        }
       } catch (error) {
         console.error(error);
+        if (this.autos?.closeModalWhenWalletIsRejected) {
+          this.emitModalOpen(false);
+        }
       }
-
-      // this.emitModalOpen && this.emitModalOpen(false);
     };
   }
 
@@ -282,10 +317,18 @@ export class WalletManager {
             this.currentWalletName,
             this.currentChainName
           )();
+        } else {
+          await this.getDisconnect(this.currentWalletName)();
         }
-        await this.getDisconnect(this.currentWalletName)();
+
+        if (this.autos?.closeModalWhenWalletIsDisconnected) {
+          this.emitModalOpen(false);
+        }
       } catch (error) {
         console.error(error);
+        if (this.autos?.closeModalWhenWalletIsRejected) {
+          this.emitModalOpen(false);
+        }
       }
 
       if (this.useModal) {

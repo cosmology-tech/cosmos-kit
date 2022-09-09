@@ -70,7 +70,7 @@ export const CopyAddressBtn = ({
   connected: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Loaded:
+    case WalletStatus.Connected:
       return <>{connected}</>;
     default:
       return <></>;
