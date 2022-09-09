@@ -33,18 +33,21 @@ export class KeplrWallet extends MainWalletBase<Keplr, KeplrData, ChainKeplr> {
     for (const chainName of this.chainNames) {
       try {
         const chainWallet = this.chains.get(chainName)!;
+        delete chainWallet.actions?.modalOpen;
         await chainWallet.update();
         this.setData({
           username: chainWallet.username!,
         });
         this.setState(State.Done);
-        return;
+        break;
       } catch (error) {
         console.error(`chain ${chainName}: ${(error as Error).message}`);
       }
     }
-    this.setState(State.Error);
-    console.error(`Fail to update any chain.`);
-    this.actions?.openModal?.(false);
+    if (!this.isReady) {
+      console.error(`Fail to connect keplr.`);
+      this.setState(State.Error);
+    }
+    // this.actions?.modalOpen?.(false);
   }
 }

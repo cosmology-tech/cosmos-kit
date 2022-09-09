@@ -8,10 +8,9 @@ import { Astronaut, ChainOption, ChooseChain, Connected, ConnectedShowAddress, C
 
 const Home = () => {
   const [chainName, setChainName] = useState<string | undefined>();
-  const { connect, disconnect, state, username, address } = useWallet(chainName);
-
-  const walletStatus = getWalletStatusFromState(state);
-  // console.log(chainName, state, walletStatus)
+  const { connect, disconnect, walletStatus, username, address } = useWallet(chainName);
+  
+  console.log(chainName, walletStatus)
 
   // Events
   const onClickConnect: MouseEventHandler = (e) => {
@@ -21,7 +20,7 @@ const Home = () => {
 
   const onClickDisconnect: MouseEventHandler = (e) => {
     e.preventDefault();
-    disconnect();
+    // disconnect();
   };
 
   const onChainChange: handleSelectChainDropdown = (
@@ -39,7 +38,7 @@ const Home = () => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText="Disconnect" onClick={onClickDisconnect} />
+        <Connected buttonText={address ? `${address.slice(0, 7)}....${address.slice(-5, 0)}` : "Disconnect"} onClick={onClickDisconnect} />
       }
       rejected={
         <Rejected

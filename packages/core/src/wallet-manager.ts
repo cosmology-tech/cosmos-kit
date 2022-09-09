@@ -13,6 +13,7 @@ import {
   WalletName,
   WalletRegistry,
 } from './types';
+import { getWalletStatusFromState } from './utils';
 
 export class WalletManager {
   protected _currentWalletName?: WalletName;
@@ -43,7 +44,7 @@ export class WalletManager {
       state: this.emitWalletState,
       data: this.emitWalletData,
       qrUri: this.emitQrUri,
-      openModal: this.emitOpenModal,
+      modalOpen: this.emitModalOpen,
     };
   }
 
@@ -52,7 +53,7 @@ export class WalletManager {
       state: this.emitChainWalletState,
       data: this.emitChainWalletData,
       qrUri: this.emitQrUri,
-      openModal: this.emitOpenModal,
+      modalOpen: this.emitModalOpen,
     };
   }
 
@@ -77,6 +78,7 @@ export class WalletManager {
   setCurrentChain(chainName?: ChainName) {
     this.emitChainWalletDisconnect();
     this._currentChainName = chainName;
+    this.emitChainName?.(chainName);
     if (this.currentWalletName && this.autoConnect) {
       this.connect();
     }
@@ -84,6 +86,10 @@ export class WalletManager {
 
   get useModal() {
     return this._useModal;
+  }
+
+  get emitChainName() {
+    return this.actions?.chainName;
   }
 
   get emitWalletName() {
@@ -106,8 +112,8 @@ export class WalletManager {
     return this.actions?.chainWalletData;
   }
 
-  get emitOpenModal() {
-    return this.actions?.openModal;
+  get emitModalOpen() {
+    return this.actions?.modalOpen;
   }
 
   get emitQrUri() {
@@ -132,7 +138,7 @@ export class WalletManager {
     return this.currentChainWallet?.address;
   }
 
-  get walletInfos() {
+  get activeWallets() {
     return this.walletRepo.activeItems;
   }
 
@@ -148,6 +154,10 @@ export class WalletManager {
     return this.currentChainName
       ? this.currentChainWallet?.state
       : this.currentWallet?.state;
+  }
+
+  get walletStatus() {
+    return getWalletStatusFromState(this.state);
   }
 
   get isConnected() {
@@ -168,7 +178,7 @@ export class WalletManager {
     }
   }
 
-  get chainInfos() {
+  get activeChains() {
     return this.chainRepo.activeItems;
   }
 
@@ -228,18 +238,19 @@ export class WalletManager {
         throw new Error('Wallet not selected!');
       }
       try {
-        await this.getConnect(this.currentWalletName)();
         if (this.currentChainName) {
           await this.getChainConnect(
             this.currentWalletName,
             this.currentChainName
           )();
+        } else {
+          await this.getConnect(this.currentWalletName)();
         }
       } catch (error) {
         console.error(error);
       }
 
-      // this.emitOpenModal && this.emitOpenModal(false);
+      // this.emitModalOpen && this.emitModalOpen(false);
     };
   }
 

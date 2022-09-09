@@ -3,7 +3,7 @@
     "target": "es2022",
     "declaration": true,
     "declarationDir": "./types",
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "isolatedModules": true,
     "allowJs": true,
     "esModuleInterop": true,

@@ -3,13 +3,18 @@
     "target": "es2022",
     "declaration": true,
     "declarationDir": "./types",
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "isolatedModules": true,
     "allowJs": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist/lib",
+    "composite": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"

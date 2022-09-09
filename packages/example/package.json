@@ -21,6 +21,7 @@
     "@keplr-wallet/wc-qrcode-modal": "^0.10.20",
     "@walletconnect/client": "^1.8.0",
     "@walletconnect/qrcode-modal": "^1.8.0",
+    "bowser": "2.11.0",
     "chain-registry": "^0.10.0",
     "chakra-react-select": "^4.1.4",
     "fast-fuzzy": "^1.11.2",
@@ -34,11 +35,16 @@
     "react-icons": "^4.4.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.19.0",
+    "@babel/preset-react": "7.18.6",
+    "@babel/preset-typescript": "7.18.6",
     "@types/node": "18.7.13",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
+    "babel-loader": "8.2.5",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.5",
+    "ts-loader": "9.3.1",
     "typescript": "4.8.2"
   }
 }

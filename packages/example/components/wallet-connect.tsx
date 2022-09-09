@@ -1,9 +1,9 @@
 import React, { MouseEventHandler, ReactNode } from "react";
 import { Button, Icon, Stack, Text, useColorModeValue } from "@chakra-ui/react";
-import { WalletStatus } from "./types";
 import { IoWallet } from "react-icons/io5";
 import { ConnectWalletType } from "./types";
 import { FiAlertTriangle } from "react-icons/fi";
+import { WalletStatus } from "@cosmos-kit/core";
 
 export const ConnectWalletButton = ({
   buttonText,
@@ -121,7 +121,7 @@ export const WalletConnectComponent = ({
   notExist: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Unloaded:
+    case WalletStatus.Init:
       return <>{disconnect}</>;
     case WalletStatus.Loading:
       return <>{connecting}</>;

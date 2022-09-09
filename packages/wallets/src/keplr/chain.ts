@@ -37,6 +37,6 @@ export class ChainKeplr extends ChainWalletBase<ChainKeplrData, KeplrWallet> {
       console.info(`Fail to update chain ${this.chainName}.`);
       throw e;
     }
-    this.actions?.openModal?.(false);
+    this.actions?.modalOpen?.(false);
   }
 }

@@ -7,7 +7,7 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { FaRegCopy } from "react-icons/fa";
-import { WalletStatus } from "./types";
+import { WalletStatus } from "@cosmos-kit/core";
 
 export const ConnectedShowAddress = ({
   address,

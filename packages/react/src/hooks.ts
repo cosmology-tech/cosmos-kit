@@ -1,16 +1,23 @@
-import { ChainName, WalletName } from '@cosmos-kit/core';
+import { ChainName, getWalletStatusFromState, WalletManager, WalletName, WalletStatus } from '@cosmos-kit/core';
 import React, { useEffect, useState } from 'react';
 
 import { walletContext } from './provider';
 
-export const useWallet = (chainName?: ChainName) => {
+export const useWallet = (chainName?: ChainName): {
+  connect: () => void;
+  disconnect: () => void;
+  walletStatus: WalletStatus;
+  username?: string;
+  address?: string;
+  walletManager: WalletManager
+} => {
   const wallet = React.useContext(walletContext);
 
   if (!wallet) {
     throw new Error('You have forgot to use WalletProvider');
   }
 
-  const { walletManager, setOpenModal } = wallet;
+  const { walletManager, setModalOpen } = wallet;
 
   if (walletManager.currentChainName !== chainName) {
     walletManager.setCurrentChain(chainName);
@@ -23,8 +30,7 @@ export const useWallet = (chainName?: ChainName) => {
     disconnect,
     useModal,
     autoConnect,
-    currentWalletName,
-    currentChainName,
+    currentWalletName
   } = walletManager;
 
   const [walletData, setWalletData] = useState<any>();
@@ -36,7 +42,6 @@ export const useWallet = (chainName?: ChainName) => {
   const [walletName, setWalletName] = useState<WalletName | undefined>(
     currentWalletName
   );
-  // const [, setChainName] = useState<ChainName | undefined>(currentChainName);
 
   walletManager.updateAction({
     walletData: setWalletData,
@@ -44,8 +49,7 @@ export const useWallet = (chainName?: ChainName) => {
     walletState: setWalletState,
     walletName: setWalletName,
     chainWalletState: setChainWalletState,
-    // chainName: setChainName,
-    openModal: setOpenModal,
+    modalOpen: setModalOpen,
   });
 
   useEffect(() => {
@@ -56,10 +60,11 @@ export const useWallet = (chainName?: ChainName) => {
 
   return {
     connect:
-      useModal && !currentWalletName ? () => setOpenModal(true) : connect,
+      useModal && !currentWalletName ? () => setModalOpen(true) : connect,
     disconnect,
-    state: chainName ? chainWalletState : walletState,
+    walletStatus: getWalletStatusFromState(chainName ? chainWalletState : walletState),
     username: walletData?.username,
     address: chainWalletData?.address,
+    walletManager
   };
 };

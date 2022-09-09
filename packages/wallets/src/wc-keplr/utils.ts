@@ -44,7 +44,7 @@ export async function sendTx(
 
 export function getWCKeplr(
   emitQrUri?: Dispatch<string | undefined>,
-  emitOpenModal?: Dispatch<boolean>
+  emitModalOpen?: Dispatch<boolean>
 ): Promise<Keplr> {
   if (keplr) {
     return Promise.resolve(keplr);

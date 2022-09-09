@@ -1,14 +1,6 @@
 import { MouseEventHandler, ReactNode, RefObject } from "react";
 import { IconType } from "react-icons";
 
-export enum WalletStatus {
-  Unloaded = "Unloaded",
-  Loading = "Loading",
-  Loaded = "Loaded",
-  NotExist = "NotExist",
-  Rejected = "Rejected"
-}
-
 export interface ConnectWalletType {
   buttonText?: string;
   isLoading?: boolean;

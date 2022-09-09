@@ -47,7 +47,7 @@ import QRCode from 'qrcode.react';
 //   )
 // }
 
-const MyWalletModal = ({ open, setOpen, walletOptions, qrUri }: WalletModalProps) => {
+const MyWalletModal = ({ isOpen: open, setOpen, walletManager, qrUri }: WalletModalProps) => {
   // const { Canvas } = useQRCode();
   const onClose = () => setOpen(false);
   console.log(222, qrUri)
@@ -58,9 +58,13 @@ const MyWalletModal = ({ open, setOpen, walletOptions, qrUri }: WalletModalProps
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletOptions.map(({ id, title, onClick }) => (
-            <Button key={id} colorScheme='blue' variant='ghost' onClick={onClick}>{title}</Button>
-          ))}
+          {walletManager.activeWallets.map(({ name, prettyName }) => {
+            const onClick = async () => {
+              walletManager.setCurrentWallet(name);
+              await walletManager.connect();      
+            }
+            return <Button key={name} colorScheme='blue' variant='ghost' onClick={onClick}>{prettyName}</Button>
+          })}
         </ModalBody>
         <ModalFooter>
           {(qrUri) && (
@@ -92,7 +96,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
         // chainSelector={MyChainSelector}
-        walletModal={MyWalletModal}
+        // walletModal={MyWalletModal}
         walletManager={walletManager}
       >
         <Component {...pageProps} />

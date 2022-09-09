@@ -1,9 +1,4 @@
-import { Keplr } from '@keplr-wallet/types';
-// import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
-
-declare global {
-  //   type Window = KeplrWindow;
-}
+import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 const error = new Error('No keplr extension installed!');
 
@@ -12,15 +7,17 @@ export const getKeplrFromExtension: () => Promise<Keplr> = async () => {
     throw error;
   }
 
-  if (window.keplr) {
-    return window.keplr;
+  const keplr = (window as KeplrWindow).keplr;
+
+  if (keplr) {
+    return keplr;
   }
 
   if (document.readyState === 'complete') {
-    if (!window.keplr) {
+    if (!keplr) {
       throw error;
     } else {
-      return window.keplr;
+      return keplr;
     }
   }
 
@@ -30,10 +27,10 @@ export const getKeplrFromExtension: () => Promise<Keplr> = async () => {
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        if (!window.keplr) {
+        if (!keplr) {
           reject(error.message);
         } else {
-          resolve(window.keplr);
+          resolve(keplr);
         }
         document.removeEventListener('readystatechange', documentStateChange);
       }

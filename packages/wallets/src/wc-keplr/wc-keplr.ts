@@ -23,8 +23,8 @@ export class WCKeplrWallet extends MainWalletBase<
     return this.actions?.qrUri;
   }
 
-  private get emitOpenModal(): Dispatch<boolean> | undefined {
-    return this.actions?.openModal;
+  private get emitModalOpen(): Dispatch<boolean> | undefined {
+    return this.actions?.modalOpen;
   }
 
   private async getWCKeplr(): Promise<Keplr> {
@@ -38,7 +38,7 @@ export class WCKeplrWallet extends MainWalletBase<
         },
         close: () => {
           // this.emitQrUri?.(undefined);
-          this.emitOpenModal?.(false);
+          this.emitModalOpen?.(false);
         },
       },
       // qrcodeModal: new KeplrQRCodeModalV1()
@@ -57,7 +57,7 @@ export class WCKeplrWallet extends MainWalletBase<
             keplr = new KeplrWalletConnectV1(connector, {
               sendTx,
             });
-            // this.emitOpenModal?.(false);
+            // this.emitModalOpen?.(false);
             resolve(keplr);
           }
         });
