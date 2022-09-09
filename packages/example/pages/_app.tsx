@@ -13,7 +13,7 @@ import { Chain } from '@chain-registry/types';
 export function convert(chain: Chain): ChainRegistry {
   return {
     name: chain.chain_name,
-    active: true,
+    active: false,
     raw: chain,
   };
 }

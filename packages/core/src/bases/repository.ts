@@ -99,11 +99,15 @@ export class Repo<ItemRegistry extends Registry<Name>> {
 
 export function createRepo<ItemRegistry extends Registry<Name>>(
   itemPool: ItemRegistry[],
-  registerAll = false
+  registerAll: boolean = false,
+  activateAll: boolean = false
 ) {
   const repo = new Repo<ItemRegistry>(itemPool);
   if (registerAll) {
     repo.registerAll();
+  }
+  if (activateAll) {
+    repo.activateAll();
   }
   return repo;
 }

@@ -1,5 +1,5 @@
 import { ChainName, getWalletStatusFromState, WalletManager, WalletName, WalletStatus } from '@cosmos-kit/core';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { walletContext } from './provider';
 
@@ -21,10 +21,8 @@ export const useWallet = (chainName?: ChainName): {
   const { 
     walletManager, 
     setModalOpen,
-    walletData,
-    chainWalletData,
-    walletState,
-    chainWalletState,
+    data,
+    state,
     message
   } = wallet;
 
@@ -44,9 +42,9 @@ export const useWallet = (chainName?: ChainName): {
       useModal ? () => setModalOpen(true) : connect,
     disconnect:
       useModal ? () => setModalOpen(true) : disconnect,
-    walletStatus: getWalletStatusFromState(chainName ? chainWalletState : walletState),
-    username: walletData?.username || chainWalletData?.username as string,
-    address: chainWalletData?.address,
+    walletStatus: getWalletStatusFromState(state),
+    username: data?.username as string,
+    address: data?.address as string,
     message,
     walletManager
   };

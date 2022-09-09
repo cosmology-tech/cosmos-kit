@@ -7,10 +7,8 @@ import { DefaultModal } from './modal';
 export const walletContext = createContext<{
   walletManager: WalletManager;
   setModalOpen: Dispatch<boolean>;
-  walletData: ExtendedWalletData;
-  chainWalletData: ExtendedChainWalletData;
-  walletState: State;
-  chainWalletState: State;
+  data?: ExtendedWalletData | ExtendedChainWalletData;
+  state: State;
   message?: string
 } | null>(null);
 
@@ -32,8 +30,7 @@ export const WalletProvider = ({
 }) => {
   
   const {
-    currentWallet,
-    currentChainWallet,
+    state,
     connect,
     useModal,
     autoConnect,
@@ -41,11 +38,8 @@ export const WalletProvider = ({
   } = walletManager;
 
   const [walletData, setWalletData] = useState<ExtendedWalletData>();
-  const [chainWalletData, setChainWalletData] = useState<ExtendedChainWalletData>();
-  const [walletState, setWalletState] = useState(currentWallet?.state);
-  const [chainWalletState, setChainWalletState] = useState(
-    currentChainWallet?.state
-  );
+  const [walletState, setWalletState] = useState(state);
+  const [walletMsg, setWalletMsg] = useState<string | undefined>();
   const [walletName, setWalletName] = useState<WalletName | undefined>(
     currentWalletName
   );
@@ -53,18 +47,15 @@ export const WalletProvider = ({
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [chainName, setChainName] = useState<ChainName | undefined>();
   const [qrUri, setQRUri] = useState<string | undefined>();
-  const [message, setMessage] = useState<string | undefined>();
 
   walletManager.setAction({
-    walletData: setWalletData,
-    chainWalletData: setChainWalletData,
-    walletState: setWalletState,
+    data: setWalletData,
+    state: setWalletState,
+    message: setWalletMsg,
     walletName: setWalletName,
-    chainWalletState: setChainWalletState,
     modalOpen: setModalOpen,
     chainName: setChainName,
     qrUri: setQRUri,
-    message: setMessage,
   });
 
   // walletManager.connect = () => setModalOpen(true);
@@ -81,11 +72,9 @@ export const WalletProvider = ({
       value={{
         walletManager,
         setModalOpen: setModalOpen,
-        walletData,
-        chainWalletData,
-        walletState,
-        chainWalletState,
-        message
+        data: walletData,
+        state: walletState,
+        message: walletMsg
       }}
     >
       {children}

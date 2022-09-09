@@ -91,15 +91,13 @@ export interface WalletModalProps {
 }
 
 export interface DefinedActions {
-  walletState?: Dispatch<State>;
-  walletData?: Dispatch<any | undefined>;
-  chainWalletState?: Dispatch<State>;
-  chainWalletData?: Dispatch<Object | undefined>;
+  state?: Dispatch<State>;
+  data?: Dispatch<Object | undefined>;
+  message?: Dispatch<string | undefined>;
   walletName?: Dispatch<WalletName | undefined>;
   chainName?: Dispatch<ChainName | undefined>,
   modalOpen?: Dispatch<boolean>;
   qrUri?: Dispatch<string | undefined>;
-  message?: Dispatch<string | undefined>;
 }
 
 export interface Actions extends DefinedActions {

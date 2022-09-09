@@ -7,7 +7,7 @@ import { FaAndroid } from "react-icons/fa";
 export const AllWallets: WalletRegistry[] = [
   {
     name: "keplr",
-    active: true,
+    active: false,
     logo: "https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png",
     prettyName: "Keplr Wallet",
     wallet: new KeplrWallet(),
@@ -54,7 +54,7 @@ export const AllWallets: WalletRegistry[] = [
   },
   {
     name: 'wc-keplr',
-    active: true,
+    active: false,
     wallet: new WCKeplrWallet(),
     prettyName: 'Wallet Connect',
     logo: "https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png",
