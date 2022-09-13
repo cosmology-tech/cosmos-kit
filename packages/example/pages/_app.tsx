@@ -6,20 +6,9 @@ import { defaultTheme } from '../config';
 import { WalletManager, WalletModalProps, ChainRegistry } from '@cosmos-kit/core';
 import { AllWallets } from '@cosmos-kit/registry';
 import { chains as rawChains } from 'chain-registry';
-import { Chain } from '@chain-registry/types';
-
-// TODO discuss Chain 
-// maybe simplify so we can use `Chain` throughout the app
-export function convert(chain: Chain): ChainRegistry {
-  return {
-    name: chain.chain_name,
-    active: false,
-    raw: chain,
-  };
-}
 
 
-export const chains: ChainRegistry[] = rawChains
+const chains: ChainRegistry[] = rawChains
   .filter((chain) => chain.network_type !== 'testnet')
   .map((chain) => convert(chain));
 
@@ -28,6 +17,7 @@ export const chains: ChainRegistry[] = rawChains
 // import { ChainOption, ChooseChain, handleSelectChainDropdown } from '../components';
 // import { useQRCode } from 'next-qrcode';
 import QRCode from 'qrcode.react';
+import { convert } from '../utils';
 
 // const MyChainSelector = ({ name, setName, chainOptions }: ChainSelectorProps) => {
 //   const onChainChange: handleSelectChainDropdown = (
@@ -47,41 +37,41 @@ import QRCode from 'qrcode.react';
 //   )
 // }
 
-const MyWalletModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalProps) => {
-  // const { Canvas } = useQRCode();
-  const { walletManager, disconnect, walletStatus, username, address } = useWallet(chainName);
-  const onClose = () => setOpen(false);
-  console.log(222, qrUri)
-  return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Choose Wallet</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {walletManager.activeWallets.map(({ name, prettyName }) => {
-            const onClick = async () => {
-              walletManager.setCurrentWallet(name);
-              await walletManager.connect();      
-            }
-            return <Button key={name} colorScheme='blue' variant='ghost' onClick={onClick}>{prettyName}</Button>
-          })}
-        </ModalBody>
-        <ModalFooter>
-          {(qrUri) && (
-            <div style={{
-              padding: 50,
-              borderRadius: 10,
-              backgroundColor: "#ffffff",
-            }}>
-              <QRCode size={300} value={qrUri} />
-            </div>
-          )}
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  )
-}
+// const MyWalletModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalProps) => {
+//   // const { Canvas } = useQRCode();
+//   const { walletManager, disconnect, walletStatus, username, address } = useWallet(chainName);
+//   const onClose = () => setOpen(false);
+//   console.log(222, qrUri)
+//   return (
+//     <Modal isOpen={isOpen} onClose={onClose}>
+//       <ModalOverlay />
+//       <ModalContent>
+//         <ModalHeader>Choose Wallet</ModalHeader>
+//         <ModalCloseButton />
+//         <ModalBody>
+//           {walletManager.activeWallets.map(({ name, prettyName }) => {
+//             const onClick = async () => {
+//               walletManager.setCurrentWallet(name);
+//               await walletManager.connect();      
+//             }
+//             return <Button key={name} colorScheme='blue' variant='ghost' onClick={onClick}>{prettyName}</Button>
+//           })}
+//         </ModalBody>
+//         <ModalFooter>
+//           {(qrUri) && (
+//             <div style={{
+//               padding: 50,
+//               borderRadius: 10,
+//               backgroundColor: "#ffffff",
+//             }}>
+//               <QRCode size={300} value={qrUri} />
+//             </div>
+//           )}
+//         </ModalFooter>
+//       </ModalContent>
+//     </Modal>
+//   )
+// }
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -93,10 +83,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   // walletManager.useChains();
 
   walletManager.setAutos({
-    connectWhenCurrentChanges: false,
+    connectWhenInit: false,
+    connectWhenCurrentChanges: true,
     closeModalWhenWalletIsConnected: true,
     closeModalWhenWalletIsDisconnected: true,
-    closeModalWhenWalletIsRejected: false,
+    closeModalWhenWalletIsRejected: true,
   })
 
   return (

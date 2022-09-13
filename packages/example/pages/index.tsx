@@ -1,17 +1,14 @@
 import { useWallet } from "@cosmos-kit/react";
-import { getWalletStatusFromState } from "../utils";
 import { chainInfos } from "../config";
 import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Astronaut, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
 
 const Home = () => {
-  const [chainName, setChainName] = useState<string | undefined>();
-  const { connect, disconnect, walletStatus, username, address, message } = useWallet(chainName);
+  const walletManager = useWallet();
+  const { connect, disconnect, openModal, walletStatus, username, address, message, currentChainName: chainName } = walletManager;
   
-  console.log(chainName, walletStatus)
-
   // Events
   const onClickConnect: MouseEventHandler = (e) => {
     e.preventDefault();
@@ -20,13 +17,17 @@ const Home = () => {
 
   const onClickDisconnect: MouseEventHandler = (e) => {
     e.preventDefault();
-    disconnect();
+    if (address) {
+      openModal();
+    } else {
+      disconnect();
+    }
   };
 
   const onChainChange: handleSelectChainDropdown = (
     selectedValue: ChainOption | null
   ) => {
-    setChainName(selectedValue?.chainName);
+    walletManager.setCurrentChain(selectedValue?.chainName);
   };
 
   // Components
@@ -49,7 +50,7 @@ const Home = () => {
           buttonText="Chain Rejected"
         />
       }
-      notExist={<NotExist buttonText="Not Exist" />}
+      notExist={<NotExist buttonText="Wallet Not Exist" />}
     />
   );
 

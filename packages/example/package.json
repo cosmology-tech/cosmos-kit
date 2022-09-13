@@ -13,7 +13,7 @@
     "@cosmos-kit/core": "^0.12.1",
     "@cosmos-kit/react": "^0.12.1",
     "@cosmos-kit/registry": "^0.12.1",
-    "@cosmos-kit/wallets": "^0.12.1",
+    "@cosmos-kit/keplr": "^0.12.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "^0.10.19",
