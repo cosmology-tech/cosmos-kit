@@ -10,7 +10,7 @@ interface Actions<D> extends StateActions<D> {
   [k: string]: Dispatch<any> | undefined;
 }
 
-export abstract class WalletCommonBase<D> {
+export abstract class WalletCommonBase<C, D> {
   protected _mutable: Mutable<D>;
   actions?: Actions<D>;
 
@@ -54,15 +54,15 @@ export abstract class WalletCommonBase<D> {
     return !this.isInit;
   }
 
-  get isReady() {
+  get isDone() {
     return this.state === State.Done;
   }
 
-  get isFailed() {
+  get isError() {
     return this.state === State.Error;
   }
 
-  get isLoading() {
+  get isPending() {
     return this.state === State.Pending;
   }
 
@@ -86,10 +86,16 @@ export abstract class WalletCommonBase<D> {
     this.setState(State.Init);
   }
 
-  connect() {
+  async connect() {
+    if (!await this.client) {
+      this.setState(State.Error);
+      this.setMessage("Client Not Exist!");
+      return
+    }
     this.update();
   }
 
+  abstract get client(): Promise<C> | undefined | C;
   abstract update(): void;
   abstract disconnect(): void;
 }

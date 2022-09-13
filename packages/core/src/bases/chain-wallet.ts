@@ -1,21 +1,26 @@
-import { ChainName, ChainWalletData } from '../types';
+import { ChainRegistry, ChainWalletData } from '../types';
 import { WalletCommonBase } from './wallet-common';
 
 export abstract class ChainWalletBase<
+  C,
   T extends ChainWalletData,
   MainWallet
-> extends WalletCommonBase<T> {
-  protected _chainName: ChainName;
+> extends WalletCommonBase<C, T> {
+  protected _chainRegistry: ChainRegistry;
   protected mainWallet?: MainWallet;
 
-  constructor(_chainName: ChainName, mainWallet?: MainWallet) {
+  constructor(_chainRegistry: ChainRegistry, mainWallet?: MainWallet) {
     super();
-    this._chainName = _chainName;
+    this._chainRegistry = _chainRegistry;
     this.mainWallet = mainWallet;
   }
 
+  get chainRegistry() {
+    return this._chainRegistry;
+  }
+
   get chainName() {
-    return this._chainName;
+    return this.chainRegistry.name;
   }
 
   get address(): string | undefined {

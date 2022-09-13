@@ -7,7 +7,12 @@ export const getWalletStatusFromState = (state?: State, message?: string): Walle
         case State.Done:
             return WalletStatus.Connected;
         case State.Error:
-            return WalletStatus.Rejected;
+            switch (message) {
+                case "Client Not Exist!":              
+                    return WalletStatus.NotExist;      
+                default:
+                    return WalletStatus.Rejected;
+            }
         case State.Init:
             return WalletStatus.Disconnected;
         default:

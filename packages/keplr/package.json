@@ -1,5 +1,5 @@
 {
-  "name": "@cosmos-kit/wallets",
+  "name": "@cosmos-kit/keplr",
   "version": "0.12.1",
   "description": "cosmos-kit wallet connector",
   "author": "Dan Lynch <pyramation@gmail.com>",
@@ -94,6 +94,7 @@
     "@keplr-wallet/cosmos": "^0.10.12",
     "@keplr-wallet/types": "^0.10",
     "@walletconnect/client": "1.8.0",
+    "@walletconnect/node": "1.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0"

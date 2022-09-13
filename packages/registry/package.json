@@ -85,7 +85,7 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
-    "@cosmos-kit/wallets": "^0.12.1",
+    "@cosmos-kit/keplr": "^0.12.1",
     "@keplr-wallet/cosmos": "^0.10.12",
     "@keplr-wallet/types": "^0.10",
     "@walletconnect/client": "1.8.0"

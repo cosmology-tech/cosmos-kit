@@ -3,9 +3,9 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.12.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/wallets@0.12.0...@cosmos-kit/wallets@0.12.1) (2022-09-07)
+## [0.12.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr@0.12.0...@cosmos-kit/keplr@0.12.1) (2022-09-07)
 
-**Note:** Version bump only for package @cosmos-kit/wallets
+**Note:** Version bump only for package @cosmos-kit/keplr
 
 
 
@@ -13,7 +13,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # 0.12.0 (2022-09-06)
 
-**Note:** Version bump only for package @cosmos-kit/wallets
+**Note:** Version bump only for package @cosmos-kit/keplr
 
 
 

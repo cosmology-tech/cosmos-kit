@@ -20,38 +20,36 @@ import { UserDeviceInfoType, WalletInfoType } from "./types";
 import { ReactNode, useEffect, useState } from "react";
 import { useWallet } from "../hooks";
 
-export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalProps) => {
+export const DefaultModal = ({ isOpen, setOpen, chainName }: WalletModalProps) => {
 
-    const { walletManager: wm, disconnect, walletStatus, username, address, message } = useWallet(chainName);
-    // console.log('%cindex.tsx line:26 address', 'color: #007acc;', address);
-    const { activeWallets, currentWalletName } = wm;
-    // console.log('%cindex.tsx line:26 wm.address', 'color: #007acc;', wm.address);
-
-    const walletsData: WalletInfoType[] = activeWallets.map(({
-        name, logo, prettyName, isQRCode, downloads
-    }) => ({
-        id: name,
-        logo,
-        walletName: prettyName,
-        walletType: isQRCode ? 'qrcode' : 'extension',
-        extensionLink: {...downloads, websiteDownload: downloads?.default},
-        websiteDownload: downloads?.default,
-    }))
-
-    const currentWalletData = walletsData.find(data => data.id === currentWalletName);
-
-    const installedWallet = walletStatus !== WalletStatus.NotExist;
-
+    const wm = useWallet(chainName);
     const [modalHead, setModalHead] = useState<ReactNode>();
     const [modalContent, setModalContent] = useState<ReactNode>();
     const [userBrowserInfo, setUserBrowserInfo] = useState<
         UserDeviceInfoType | undefined
     >();
 
+    console.log(wm.currentWallet?.qrUri)
+
+    const walletsData: WalletInfoType[] = wm.activeWallets.map(({
+        name, logo, prettyName, isQRCode, downloads
+    }) => ({
+        id: name,
+        logo,
+        walletName: prettyName,
+        walletType: isQRCode ? 'qrcode' : 'extension',
+        extensionLink: { ...downloads, websiteDownload: downloads?.default },
+        websiteDownload: downloads?.default,
+    }))
+
+    const currentWalletData = walletsData.find(data => data.id === wm.currentWalletName);
+
+    const installedWallet = wm.walletStatus !== WalletStatus.NotExist;
+
     async function onWalletClicked(select: WalletInfoType) {
         console.info('Connecting ' + select.id)
-        wm.setCurrentWallet(select.id);
-        if (!wm.autoConnect) {
+        await wm.setCurrentWallet(select.id);
+        if (!wm.autos?.connectWhenCurrentChanges) {
             await wm.connect();
         }
     }
@@ -66,6 +64,9 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
     }
     function handleClose() {
         setOpen(false);
+        if (wm.walletStatus === 'Connecting') {
+            wm.disconnect();
+        }
     }
     async function handleConnectButtonClick() {
         console.log("reconnect wallet");
@@ -98,10 +99,8 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
         }
     }, []);
 
-    console.log('%cindex.tsx line:89 walletStatus', 'color: #007acc;', walletStatus);
     useEffect(() => {
-        console.log('%cindex.tsx line:91 walletStatus', 'color: white; background-color: #007acc;', walletStatus);
-        if (currentWalletName) {
+        if (wm.currentWalletName) {
             setModalHead(
                 <ModalHead
                     title={currentWalletData.walletName}
@@ -112,13 +111,13 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
             );
             if (currentWalletData.walletType === 'extension') {
                 if (installedWallet) {
-                    switch (walletStatus) {
+                    switch (wm.walletStatus) {
                         case WalletStatus.Disconnected:
                             setModalContent(
                                 <ExtensionContent
                                     selectedWallet={currentWalletData}
-                                    stateHeader="Wallet Not Init"
-                                    stateDesc="Please check out your wallet."
+                                    stateHeader="Wallet Not Connected"
+                                    stateDesc="Please connect to your wallet."
                                     isReconnect={true}
                                     isWarning={true}
                                     connectWalletButton={
@@ -151,7 +150,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                                 <ExtensionContent
                                     selectedWallet={currentWalletData}
                                     stateHeader="Error"
-                                    stateDesc={message}
+                                    stateDesc={wm.message}
                                     isReconnect={true}
                                     connectWalletButton={
                                         <ConnectWalletButton
@@ -177,12 +176,12 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                                 <ConnectedContent
                                     userInfo={
                                         <SimpleAvatarWithName
-                                            username={username}
+                                            username={wm.username}
                                             icon={<Astronaut />}
                                             walletIcon={currentWalletData.logo}
                                         />
                                     }
-                                    addressBtn={<SimpleCopyAddressButton address={address} />}
+                                    addressBtn={<SimpleCopyAddressButton address={wm.address} />}
                                     connectWalletButton={
                                         <ConnectWalletButton
                                             buttonText="Disconnect"
@@ -247,10 +246,10 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                 }
             }
             if (currentWalletData.walletType === "qrcode") {
-                setModalContent(<QRCode link={qrUri} />);
+                setModalContent(<QRCode link={wm.currentWallet.qrUri as string} />);
             }
         }
-        if (!currentWalletName) {
+        if (!wm.currentWalletName) {
             setModalHead(
                 <ModalHead
                     title="Select a Wallet"
@@ -265,7 +264,7 @@ export const DefaultModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalP
                 />
             );
         }
-    }, [installedWallet, walletStatus, currentWalletName]);
+    }, [wm.currentWalletName, wm.walletStatus]);
 
     return (
         <ConnectModal

@@ -4,20 +4,20 @@ const error = new Error('No keplr extension installed!');
 
 export const getKeplrFromExtension: () => Promise<Keplr> = async () => {
   if (typeof window === 'undefined') {
-    throw error;
+    return undefined;
   }
 
   const keplr = (window as KeplrWindow).keplr;
 
-  if (keplr) {
+  if (keplr && keplr.mode === 'extension') {
     return keplr;
   }
 
   if (document.readyState === 'complete') {
-    if (!keplr) {
-      throw error;
-    } else {
+    if (keplr && keplr.mode === 'extension') {
       return keplr;
+    } else {
+      throw error;
     }
   }
 
@@ -27,10 +27,10 @@ export const getKeplrFromExtension: () => Promise<Keplr> = async () => {
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        if (!keplr) {
-          reject(error.message);
-        } else {
+        if (keplr && keplr.mode === 'extension') {
           resolve(keplr);
+        } else {
+          reject(error.message);
         }
         document.removeEventListener('readystatechange', documentStateChange);
       }

@@ -1,7 +1,7 @@
 import { Chain } from '@chain-registry/types';
 import { IconType } from 'react-icons';
 
-import { MainWalletBase } from './bases';
+import { ChainWalletBase, MainWalletBase } from './bases';
 import { WalletManager } from './wallet-manager';
 // import { ChainOption } from "@/components";
 
@@ -20,6 +20,14 @@ export interface WalletData {
 export interface ExtendedWalletData extends WalletData {
   [k: string]: unknown;
 }
+
+export interface ExtendedMainWallet extends MainWalletBase<unknown, ExtendedWalletData, any> {
+  [k: string]: unknown;
+}
+export interface ExtendedChainWallet extends ChainWalletBase<unknown, ExtendedChainWalletData, unknown> {
+  [k: string]: unknown;
+}
+export type ExtendedWallet = ExtendedMainWallet | ExtendedChainWallet;
 
 export enum State {
   Init = 'Init',
@@ -60,7 +68,7 @@ interface Icon {
 }
 
 export interface WalletRegistry extends Registry<WalletName> {
-  wallet: MainWalletBase<any, any, any>;
+  wallet: ExtendedMainWallet;
   prettyName: string;
   isQRCode: boolean;
   downloads?: {
@@ -87,7 +95,6 @@ export interface WalletModalProps {
   isOpen: boolean;
   setOpen: Dispatch<boolean>;
   chainName?: string;
-  qrUri?: string;
 }
 
 export interface DefinedActions {
@@ -105,6 +112,7 @@ export interface Actions extends DefinedActions {
 }
 
 export interface Autos {
+  connectWhenInit?: boolean;
   connectWhenCurrentChanges?: boolean;
   closeModalWhenWalletIsConnected?: boolean;
   closeModalWhenWalletIsDisconnected?: boolean;

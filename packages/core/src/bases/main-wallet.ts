@@ -1,4 +1,4 @@
-import { ChainName } from '../types';
+import { ChainName, ChainRegistry } from '../types';
 import { WalletData } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletCommonBase } from './wallet-common';
@@ -6,12 +6,13 @@ import { WalletCommonBase } from './wallet-common';
 export abstract class MainWalletBase<
   C,
   D extends WalletData,
-  T extends ChainWalletBase<any, any>
-> extends WalletCommonBase<D> {
+  T extends ChainWalletBase<C, any, any>
+> extends WalletCommonBase<C, D> {
   protected abstract _chains: Map<ChainName, T>;
+  protected abstract _client: Promise<C | undefined> | C | undefined;
   // protected queue: PQueue;
 
-  protected _supportedChains: ChainName[] = [];
+  protected _supportedChains: ChainRegistry[] = [];
   protected _concurrency: number;
 
   constructor(_concurrency?: number) {
@@ -21,8 +22,12 @@ export abstract class MainWalletBase<
     this.setChains(this._supportedChains);
   }
 
-  setSupportedChains(chainNames: ChainName[]) {
-    this._supportedChains = chainNames;
+  get client() {
+    return this._client;
+  }
+
+  setSupportedChains(chains: ChainRegistry[]) {
+    this._supportedChains = chains;
     this.setChains(this._supportedChains);
   }
 
@@ -79,7 +84,5 @@ export abstract class MainWalletBase<
     this.clear();
   }
 
-  abstract get client(): Promise<C | undefined> | C | undefined;
-
-  abstract setChains(supportedChains?: ChainName[]): void;
+  protected abstract setChains(supportedChains?: ChainRegistry[]): void;
 }

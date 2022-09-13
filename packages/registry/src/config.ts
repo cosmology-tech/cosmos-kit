@@ -1,5 +1,5 @@
 import { WalletRegistry } from '@cosmos-kit/core';
-import { KeplrWallet, WCKeplrWallet } from '@cosmos-kit/wallets';
+import { ExtKeplrWallet, WCKeplrWallet } from '@cosmos-kit/keplr';
 import { RiChromeFill, RiAppStoreFill } from "react-icons/ri";
 import { GrFirefox } from "react-icons/gr";
 import { FaAndroid } from "react-icons/fa";
@@ -10,7 +10,7 @@ export const AllWallets: WalletRegistry[] = [
     active: false,
     logo: "https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png",
     prettyName: "Keplr Wallet",
-    wallet: new KeplrWallet(),
+    wallet: new ExtKeplrWallet(),
     isQRCode: false,
     downloads: {
       desktop: [

@@ -1,16 +1,10 @@
-import { ChainName, ExtendedChainWalletData, ExtendedWalletData, State, WalletManager, WalletName } from '@cosmos-kit/core';
-import { Dispatch, WalletModalProps } from '@cosmos-kit/core';
+import { ChainName, ExtendedWalletData, WalletManager, WalletName } from '@cosmos-kit/core';
+import { WalletModalProps } from '@cosmos-kit/core';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { DefaultModal } from './modal';
 
-export const walletContext = createContext<{
-  walletManager: WalletManager;
-  setModalOpen: Dispatch<boolean>;
-  data?: ExtendedWalletData | ExtendedChainWalletData;
-  state: State;
-  message?: string
-} | null>(null);
+export const walletContext = createContext<{ walletManager: WalletManager } | null>(null);
 
 export const WalletProvider = ({
   // chainSelector,
@@ -23,7 +17,6 @@ export const WalletProvider = ({
     isOpen,
     setOpen,
     chainName,
-    qrUri,
   }: WalletModalProps) => JSX.Element;
   walletManager: WalletManager;
   children: ReactNode;
@@ -32,8 +25,6 @@ export const WalletProvider = ({
   const {
     state,
     connect,
-    useModal,
-    autoConnect,
     currentWalletName
   } = walletManager;
 
@@ -62,19 +53,15 @@ export const WalletProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
-    if (autoConnect && !useModal) {
+    if (walletManager.autos?.connectWhenInit) {
       connect();
     }
   }, []);
-
+  
   return (
     <walletContext.Provider
       value={{
-        walletManager,
-        setModalOpen: setModalOpen,
-        data: walletData,
-        state: walletState,
-        message: walletMsg
+        walletManager
       }}
     >
       {children}
@@ -82,7 +69,6 @@ export const WalletProvider = ({
         isOpen={isModalOpen}
         setOpen={setModalOpen}
         chainName={chainName}
-        qrUri={qrUri}
       />
     </walletContext.Provider>
   );

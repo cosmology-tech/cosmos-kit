@@ -1,4 +1,4 @@
-import { ChainName, Dispatch, State } from '@cosmos-kit/core';
+import { ChainName, ChainRegistry, Dispatch, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
@@ -9,14 +9,32 @@ import { WCKeplrData } from './types';
 import { sendTx } from './utils';
 
 export class WCKeplrWallet extends MainWalletBase<
-  Keplr,
+  KeplrWalletConnectV1,
   WCKeplrData,
   ChainWCKeplr
 > {
-  protected _chains!: Map<ChainName, ChainWCKeplr>;
+  protected _chains: Map<ChainName, ChainWCKeplr>;
+  protected _client: Promise<KeplrWalletConnectV1> | KeplrWalletConnectV1;
+  protected _qrUri?: string;
 
   constructor(_concurrency?: number) {
     super(_concurrency);
+    this._client = (async () => {
+      try {
+        return await this.getWCKeplr();
+      } catch (e) {
+        return undefined;
+      }
+    })();
+  }
+
+  get qrUri() {
+    return this._qrUri;
+  }
+
+  setQrUri(qrUri: string) {
+    this._qrUri = qrUri;
+    this.emitQrUri?.(qrUri);
   }
 
   private get emitQrUri(): Dispatch<string | undefined> | undefined {
@@ -27,21 +45,20 @@ export class WCKeplrWallet extends MainWalletBase<
     return this.actions?.modalOpen;
   }
 
-  private async getWCKeplr(): Promise<Keplr> {
-    let keplr: Keplr | undefined = undefined;
+  private async getWCKeplr(): Promise<KeplrWalletConnectV1> {
+    let keplr: KeplrWalletConnectV1 | undefined = undefined;
 
     const connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org', // Required
       qrcodeModal: {
         open: (uri: string, cb: any) => {
-          this.emitQrUri?.(uri);
+          this.setQrUri(uri);
         },
         close: () => {
           // this.emitQrUri?.(undefined);
           this.emitModalOpen?.(false);
         },
       },
-      // qrcodeModal: new KeplrQRCodeModalV1()
     });
 
     // Check if connection is already established
@@ -49,7 +66,7 @@ export class WCKeplrWallet extends MainWalletBase<
       // create new session
       connector.createSession();
 
-      return new Promise<Keplr>((resolve, reject) => {
+      return new Promise<KeplrWalletConnectV1>((resolve, reject) => {
         connector.on('connect', (error) => {
           if (error) {
             reject(error);
@@ -70,17 +87,11 @@ export class WCKeplrWallet extends MainWalletBase<
     }
   }
 
-  get client(): Promise<Keplr | undefined> {
-    return (async () => {
-      return await this.getWCKeplr();
-    })();
-  }
-
-  setChains(supportedChains: ChainName[]): void {
+  protected setChains(supportedChains: ChainRegistry[]): void {
     this._chains = new Map(
-      supportedChains.map((chainName) => [
-        chainName,
-        new ChainWCKeplr(chainName, this),
+      supportedChains.map((chainRegistry) => [
+        chainRegistry.name,
+        new ChainWCKeplr(chainRegistry, this),
       ])
     );
   }
@@ -104,5 +115,3 @@ export class WCKeplrWallet extends MainWalletBase<
     this.setMessage(`Failed to connect keplr.`);
   }
 }
-
-export * from './chain';

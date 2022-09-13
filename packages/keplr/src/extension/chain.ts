@@ -1,22 +1,17 @@
-import { ChainName, ChainWalletBase, State } from '@cosmos-kit/core';
+import { ChainRegistry, ChainWalletBase, State } from '@cosmos-kit/core';
+import { Keplr } from '@keplr-wallet/types';
 
-import { KeplrWallet } from './keplr';
+import { ExtKeplrWallet } from './keplr';
 import { ChainKeplrData } from './types';
 
-export class ChainKeplr extends ChainWalletBase<ChainKeplrData, KeplrWallet> {
+export class ChainKeplr extends ChainWalletBase<Keplr, ChainKeplrData, ExtKeplrWallet> {
 
-  constructor(_chainName: ChainName, keplrWallet: KeplrWallet) {
-    super(_chainName, keplrWallet);
+  constructor(_chainRegistry: ChainRegistry, keplrWallet: ExtKeplrWallet) {
+    super(_chainRegistry, keplrWallet);
   }
 
   get client() {
-    return (async () => {
-      const client = await this.mainWallet.client;
-      if (!client) {
-        throw new Error('No Keplr installed!');
-      }
-      return client;
-    })();
+    return this.mainWallet.client;
   }
 
   get username(): string | undefined {
@@ -36,6 +31,5 @@ export class ChainKeplr extends ChainWalletBase<ChainKeplrData, KeplrWallet> {
       this.setState(State.Error);
       this.setMessage((e as Error).message);
     }
-    // this.actions?.modalOpen?.(false);
   }
 }

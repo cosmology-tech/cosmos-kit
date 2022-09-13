@@ -1,4 +1,4 @@
-import { ChainWalletBase, MainWalletBase } from './bases';
+import { ExtendedWallet, WalletStatus } from './types';
 import {
   ChainRepo,
   createChainRepo,
@@ -39,7 +39,7 @@ export class WalletManager {
     this.chainRepo = createChainRepo(chains, true, true);
     console.info(`${this.walletCount} wallets and ${this.chainCount} chains are used!`)
     this.walletRepo.registeredItemMap.forEach((item) => {
-      item.wallet.setSupportedChains(this.chainRepo.activeNames);
+      item.wallet.setSupportedChains(this.chainRepo.activeItems);
     });
   }
 
@@ -51,19 +51,15 @@ export class WalletManager {
     this.autos = autos;
   }
 
-  get autoConnect() {
-    return Boolean(this.autos?.connectWhenCurrentChanges);
-  }
-
   get currentWalletName() {
     return this._currentWalletName;
   }
 
-  setCurrentWallet(walletName?: WalletName) {
+  setCurrentWallet(walletName?: WalletName, autoConnect: boolean = true) {
     this.emitDisconnect();
     this._currentWalletName = walletName;
     this.emit('walletName')?.(walletName);
-    if (this.autoConnect) {
+    if (autoConnect && this.autos?.connectWhenCurrentChanges) {
       this.connect();
     }
   }
@@ -72,11 +68,11 @@ export class WalletManager {
     return this._currentChainName;
   }
 
-  setCurrentChain(chainName?: ChainName) {
+  setCurrentChain(chainName?: ChainName, autoConnect: boolean = true) {
     this.emitDisconnect();
     this._currentChainName = chainName;
     this.emit('chainName')?.(chainName);
-    if (this.autoConnect) {
+    if (autoConnect && this.autos?.connectWhenCurrentChanges) {
       this.connect();
     }
   }
@@ -100,11 +96,11 @@ export class WalletManager {
   }
 
   get username() {
-    return this.data?.username;
+    return this.data?.username as string;
   }
 
   get address() {
-    return this.data?.address;
+    return this.data?.address as string;
   }
 
   get state() {
@@ -138,6 +134,9 @@ export class WalletManager {
   useWallets(walletNameInfo: WalletName[] | WalletName) {
     this.walletRepo.inactivateAll();
     if (Array.isArray(walletNameInfo)) {
+      if (walletNameInfo.length === 0) {
+        throw new Error('No wallet provided!');
+      }
       walletNameInfo.forEach((name) => {
         this.walletRepo.activate(name);
       });
@@ -168,13 +167,12 @@ export class WalletManager {
       this.chainRepo.activate(name);
     });
     this.walletRepo.registeredItemMap.forEach((item) => {
-      item.wallet.setSupportedChains(chainNames);
+      item.wallet.setSupportedChains(this.chainRepo.activeItems);
     });
     console.info(`${this.chainCount} chains are used!`)
   }
 
-  getWallet(walletName?: WalletName, chainName?: ChainName):
-    MainWalletBase<unknown, ExtendedWalletData, any> | ChainWalletBase<ExtendedChainWalletData, unknown> | undefined {
+  getWallet(walletName?: WalletName, chainName?: ChainName): ExtendedWallet | undefined {
 
     if (!walletName) {
       return undefined;
@@ -196,18 +194,26 @@ export class WalletManager {
   get connect() {
     return async () => {
       if (!this.currentWalletName) {
-        console.info('Cannot connect an undefined wallet');
+        if (this.useModal) {
+          this.emit('modalOpen')?.(true);
+        }
         return
       }
       try {
         await this.getWallet(this.currentWalletName, this.currentChainName).connect();
 
-        if (this.autos?.closeModalWhenWalletIsConnected) {
+        if (
+          this.walletStatus === WalletStatus.Connected
+          && this.autos?.closeModalWhenWalletIsConnected
+        ) {
           this.emit('modalOpen')?.(false);
         }
       } catch (error) {
         console.error(error);
-        if (this.autos?.closeModalWhenWalletIsRejected) {
+        if (
+          this.walletStatus === WalletStatus.Rejected
+          && this.autos?.closeModalWhenWalletIsRejected
+        ) {
           this.emit('modalOpen')?.(false);
         }
       }
@@ -217,26 +223,39 @@ export class WalletManager {
   get disconnect() {
     return async () => {
       if (!this.currentWalletName) {
-        this.emit('message')?.('Cannot disconnect an undefined wallet!')
+        this.emit('message')?.('Current Wallet not defined.')
+        return
       }
 
       try {
         await this.getWallet(this.currentWalletName, this.currentChainName).disconnect();
 
-        if (this.autos?.closeModalWhenWalletIsDisconnected) {
+        if (
+          this.walletStatus === WalletStatus.Disconnected
+          && this.autos?.closeModalWhenWalletIsDisconnected
+        ) {
           this.emit('modalOpen')?.(false);
         }
       } catch (e) {
         this.emit('message')?.((e as Error).message)
-        if (this.autos?.closeModalWhenWalletIsRejected) {
+        if (
+          this.walletStatus === WalletStatus.Rejected
+          && this.autos?.closeModalWhenWalletIsRejected
+        ) {
           this.emit('modalOpen')?.(false);
         }
       }
 
       if (this.useModal) {
-        this.setCurrentWallet(undefined);
+        this.setCurrentWallet(undefined, false);
       }
     };
+  }
+
+  get openModal() {
+    return () => {
+      this.emit('modalOpen')?.(true);
+    }
   }
 
   get concurrency() {
