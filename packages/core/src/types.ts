@@ -6,7 +6,7 @@ import { WalletManager } from './wallet-manager';
 // import { ChainOption } from "@/components";
 
 export interface ChainWalletData {
-  address: string;
+  address?: string;
 }
 
 export interface ExtendedChainWalletData extends ChainWalletData {
@@ -14,7 +14,7 @@ export interface ExtendedChainWalletData extends ChainWalletData {
 }
 
 export interface WalletData {
-  username: string;
+  username?: string;
 }
 
 export interface ExtendedWalletData extends WalletData {

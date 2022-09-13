@@ -1,8 +1,5 @@
 import { BroadcastMode } from '@cosmjs/launchpad';
-import { Dispatch } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
-import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
-import WalletConnect from '@walletconnect/client';
 import { Buffer } from 'buffer/';
 
 // import { KeplrQRCodeModalV1 } from "@keplr-wallet/wc-qrcode-modal";
@@ -40,58 +37,4 @@ export async function sendTx(
 
   // return Buffer.from(result.data['tx_response'].txhash, 'hex');
   return Buffer.from('asdfsdfsdf', 'hex');
-}
-
-export function getWCKeplr(
-  emitQrUri?: Dispatch<string | undefined>,
-  emitModalOpen?: Dispatch<boolean>
-): Promise<Keplr> {
-  if (keplr) {
-    return Promise.resolve(keplr);
-  }
-
-  const fn = () => {
-    const connector = new WalletConnect({
-      bridge: 'https://bridge.walletconnect.org', // Required
-      qrcodeModal: {
-        open: (uri: string, cb: any) => {
-          emitQrUri?.(uri);
-        },
-        close: () => {
-          emitQrUri?.(undefined);
-        },
-      },
-      // qrcodeModal: new KeplrQRCodeModalV1()
-    });
-
-    // Check if connection is already established
-    if (!connector.connected) {
-      // create new session
-      connector.createSession();
-
-      return new Promise<Keplr>((resolve, reject) => {
-        connector.on('connect', (error) => {
-          if (error) {
-            reject(error);
-          } else {
-            keplr = new KeplrWalletConnectV1(connector, {
-              sendTx,
-            });
-            resolve(keplr);
-          }
-        });
-      });
-    } else {
-      keplr = new KeplrWalletConnectV1(connector, {
-        sendTx,
-      });
-      return Promise.resolve(keplr);
-    }
-  };
-
-  if (!promise) {
-    promise = fn();
-  }
-
-  return promise;
 }

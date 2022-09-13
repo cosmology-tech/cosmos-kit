@@ -29,8 +29,6 @@ export const DefaultModal = ({ isOpen, setOpen, chainName }: WalletModalProps) =
         UserDeviceInfoType | undefined
     >();
 
-    console.log(wm.currentWallet?.qrUri)
-
     const walletsData: WalletInfoType[] = wm.activeWallets.map(({
         name, logo, prettyName, isQRCode, downloads
     }) => ({
@@ -47,8 +45,8 @@ export const DefaultModal = ({ isOpen, setOpen, chainName }: WalletModalProps) =
     const installedWallet = wm.walletStatus !== WalletStatus.NotExist;
 
     async function onWalletClicked(select: WalletInfoType) {
-        console.info('Connecting ' + select.id)
-        await wm.setCurrentWallet(select.id);
+        console.info('Connecting ' + select.id);
+        wm.setCurrentWallet(select.id);
         if (!wm.autos?.connectWhenCurrentChanges) {
             await wm.connect();
         }

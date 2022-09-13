@@ -1,7 +1,7 @@
 import { ChainRegistry, ChainWalletBase, State } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
-import { ExtKeplrWallet } from './keplr';
+import { ExtKeplrWallet } from './main-wallet';
 import { ChainKeplrData } from './types';
 
 export class ChainKeplr extends ChainWalletBase<Keplr, ChainKeplrData, ExtKeplrWallet> {

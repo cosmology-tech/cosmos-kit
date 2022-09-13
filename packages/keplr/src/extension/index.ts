@@ -1,2 +1,3 @@
-export * from './chain';
-export * from './keplr';
+export * from './chain-wallet';
+export * from './main-wallet';
+export * from './types';
