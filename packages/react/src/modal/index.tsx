@@ -15,6 +15,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     const [userBrowserInfo, setUserBrowserInfo] = useState<
         UserDeviceInfoType | undefined
     >();
+    let [modalReset, setModalReset] = useState(false);
 
     const walletsData: WalletInfoType[] = walletManager.activeWallets.map(({
         name, logo, prettyName, isQRCode, downloads
@@ -47,13 +48,18 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     }, []);
 
     useEffect(() => {
+        console.log(444, modalReset)
         setModalHead(
-            getModalHead(walletManager, currentWalletData, handleClose)
+            getModalHead(walletManager, currentWalletData, handleClose, modalReset, setModalReset)
         );
         setModalContent(
-            getModalContent(walletManager, currentWalletData, userBrowserInfo, walletsData)
+            getModalContent(walletManager, currentWalletData, userBrowserInfo, walletsData, modalReset)
         );
-    }, [walletManager.walletStatus, walletManager.currentChainName, walletManager.currentWalletName])
+        if (!isOpen) {
+            setModalReset(false);
+        }
+    }, [walletManager.walletStatus, walletManager.currentChainName, walletManager.currentWalletName,
+    modalReset, isOpen])
 
     return (
         <ConnectModal

@@ -5,20 +5,22 @@ import { WalletInfoType } from "../types";
 export const getModalHead = (
     walletManager: WalletManager,
     currentWalletData: WalletInfoType,
-    handleClose: () => void
+    handleClose: () => void,
+    modalReset: boolean,
+    setModalReset: (v: boolean) => void
 ) => {
 
-    function handleClearSelect() {
-        walletManager.setCurrentWallet(undefined);
+    function onBack() {
+        setModalReset(true);
     }
 
-    if (walletManager.currentWalletName) {
+    if (walletManager.currentWalletName && !modalReset) {
         return (
             <ModalHead
                 title={currentWalletData.walletName}
                 backButton={true}
                 onClose={handleClose}
-                onBack={handleClearSelect}
+                onBack={onBack}
             />
         );
     } else {

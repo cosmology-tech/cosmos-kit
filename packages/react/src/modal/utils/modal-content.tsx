@@ -8,7 +8,8 @@ export const getModalContent = (
     walletManager: WalletManager,
     currentWalletData: WalletInfoType,
     userBrowserInfo: UserDeviceInfoType | undefined,
-    walletsData: WalletInfoType[]
+    walletsData: WalletInfoType[],
+    modalReset: boolean
 ) => {
     async function onWalletClicked(select: WalletInfoType) {
         console.info('Connecting ' + select.id);
@@ -29,7 +30,7 @@ export const getModalContent = (
         await walletManager.connect();
     }
 
-    if (walletManager.currentWalletName && !walletManager.ignoreCurrentWallet) {
+    if (walletManager.currentWalletName && !modalReset) {
         console.log('%cmodal-content.tsx line:33 walletManager.walletStatus', 'color: #007acc;', walletManager.walletStatus);
         switch (walletManager.walletStatus) {
             case WalletStatus.Disconnected:

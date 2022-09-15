@@ -10,8 +10,6 @@ import {
   Autos,
   ChainName,
   ChainRegistry,
-  ExtendedChainWalletData,
-  ExtendedWalletData,
   State,
   WalletName,
   WalletRegistry,
@@ -22,7 +20,6 @@ export class WalletManager {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
   protected _useModal = true;
-  ignoreCurrentWallet = false;
   actions?: Actions;
   walletRepo: WalletRepo;
   chainRepo: ChainRepo;
@@ -192,20 +189,11 @@ export class WalletManager {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
-  get changeWallet() {
-    return async () => {
-      this.ignoreCurrentWallet = true;
-      await this.connect();
-      this.ignoreCurrentWallet = false;
-    }    
-  }
-
   get connect() {
     return async () => {
-      if (this.ignoreCurrentWallet || !this.currentWalletName) {
-        if (this.useModal) {
-          this.emit('modalOpen')?.(true);
-        }
+      console.log(11111, this.currentWalletName)
+      if (!this.currentWalletName) {
+          this.openModal();
         return
       }
       try {
