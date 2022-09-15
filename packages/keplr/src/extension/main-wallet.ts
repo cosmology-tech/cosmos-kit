@@ -32,10 +32,9 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExt
 
   async update() {
     this.setState(State.Pending);
-    let message;
+    // let message;
     for (const chainName of this.chainNames) {
       const chainWallet = this.chains.get(chainName)!;
-      // delete chainWallet.actions?.modalOpen;
       await chainWallet.update();
       if (chainWallet.isDone) {
         this.setData({
@@ -44,11 +43,12 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExt
         this.setState(State.Done);
         return;
       } else {
-        message = chainWallet.message;
+        this.setMessage(chainWallet.message);
+        this.setState(chainWallet.state);
       }
       break
     }
-    this.setState(State.Error);
-    this.setMessage(message);
+    // this.setState(State.Error);
+    // this.setMessage(message);
   }
 }

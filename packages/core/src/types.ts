@@ -2,30 +2,25 @@ import { Chain } from '@chain-registry/types';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from './bases';
-// import { ChainOption } from "@/components";
 
-export interface ChainWalletData {
+export interface WalletData {
+  [k: string]: any | undefined;
+}
+export interface ChainWalletData extends WalletData {
   address?: string;
 }
 
-export interface ExtendedChainWalletData extends ChainWalletData {
-  [k: string]: any | undefined;
-}
-
-export interface WalletData {
+export interface MainWalletData extends WalletData {
   username?: string;
 }
 
-export interface ExtendedWalletData extends WalletData {
+export interface ExtendedMainWallet extends MainWalletBase<any, MainWalletData, any> {
+  [k: string]: any | undefined;
+}
+export interface ExtendedChainWallet extends ChainWalletBase<any, ChainWalletData, any> {
   [k: string]: any | undefined;
 }
 
-export interface ExtendedMainWallet extends MainWalletBase<any, ExtendedWalletData, any> {
-  [k: string]: any | undefined;
-}
-export interface ExtendedChainWallet extends ChainWalletBase<any, ExtendedChainWalletData, any> {
-  [k: string]: any | undefined;
-}
 export type ExtendedWallet = ExtendedMainWallet | ExtendedChainWallet;
 
 export enum State {
@@ -97,18 +92,20 @@ export interface WalletModalProps {
   setOpen: Dispatch<boolean>;
 }
 
-export interface DefinedActions {
+export interface Actions {
+  [k: string]: Dispatch<any> | undefined;
+}
+
+export interface StateActions<T> extends Actions {
   state?: Dispatch<State>;
-  data?: Dispatch<Object | undefined>;
+  data?: Dispatch<T | undefined>;
   message?: Dispatch<string | undefined>;
+}
+
+export interface ManagerActions<T> extends StateActions<T> {
   walletName?: Dispatch<WalletName | undefined>;
   chainName?: Dispatch<ChainName | undefined>,
   modalOpen?: Dispatch<boolean>;
-  qrUri?: Dispatch<string | undefined>;
-}
-
-export interface Actions extends DefinedActions {
-  [k: string]: Dispatch<any> | undefined;
 }
 
 export interface Autos {

@@ -4,14 +4,21 @@ import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue, Text, Link
 import { MouseEventHandler } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Astronaut, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
+import { getWalletPrettyName } from "@cosmos-kit/registry";
 
 const Home = () => {
   const walletManager = useWallet();
   const { connect, disconnect, openModal,
     walletStatus, username, address, message,
-    currentChainName: chainName } = walletManager;
+    currentChainName: chainName, currentWalletName } = walletManager;
 
   // Events
+  const onClickReconnect: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    openModal();
+    await connect();
+  };
+
   const onClickOpenModal: MouseEventHandler = (e) => {
     e.preventDefault();
     openModal();
@@ -55,7 +62,7 @@ const Home = () => {
       rejected={
         <Rejected
           buttonText="Reconnect"
-          onClick={onClickOpenModal}
+          onClick={onClickReconnect}
         />
       }
       notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenModal} />}
@@ -68,7 +75,7 @@ const Home = () => {
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${message}`}
+          wordOfWarning={`${getWalletPrettyName(currentWalletName)}: ${message}`}
         />
       }
     />

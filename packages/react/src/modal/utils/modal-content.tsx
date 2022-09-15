@@ -9,9 +9,11 @@ export const getModalContent = (
     currentWalletData: WalletInfoType,
     userBrowserInfo: UserDeviceInfoType | undefined,
     walletsData: WalletInfoType[],
-    modalReset: boolean
+    modalReset: boolean,
+    setModalReset: (v: boolean) => void
 ) => {
     async function onWalletClicked(select: WalletInfoType) {
+        setModalReset(false);
         console.info('Connecting ' + select.id);
         walletManager.setCurrentWallet(select.id);
         if (!walletManager.autos?.connectWhenCurrentChanges) {

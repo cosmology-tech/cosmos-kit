@@ -1,4 +1,4 @@
-import { ExtendedWallet, WalletStatus } from './types';
+import { ExtendedWallet, ManagerActions, WalletData, WalletStatus } from './types';
 import {
   ChainRepo,
   createChainRepo,
@@ -10,28 +10,27 @@ import {
   Autos,
   ChainName,
   ChainRegistry,
-  State,
   WalletName,
   WalletRegistry,
 } from './types';
-import { getWalletStatusFromState } from './utils';
+import { StateBase } from './bases';
 
-export class WalletManager {
+export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
   protected _useModal = true;
-  actions?: Actions;
+  protected _concurrency?: number;
+  declare actions?: ManagerActions<WalletData>;
   walletRepo: WalletRepo;
   chainRepo: ChainRepo;
   autos?: Autos;
-
-  protected _concurrency?: number;
 
   constructor(
     chains?: ChainRegistry[],
     wallets?: WalletRegistry[],
     _concurrency?: number
   ) {
+    super();
     this._concurrency = _concurrency;
     this.walletRepo = createWalletRepo(wallets, true, true);
     this.chainRepo = createChainRepo(chains, true, true);
@@ -39,6 +38,18 @@ export class WalletManager {
     this.walletRepo.registeredItemMap.forEach((item) => {
       item.wallet.setSupportedChains(this.chainRepo.activeItems);
     });
+  }
+
+  get emitWalletName() {
+    return this.actions?.walletName;
+  }
+
+  get emitChainName() {
+    return this.actions?.chainName;
+  }
+
+  get emitModalOpen() {
+    return this.actions?.modalOpen;
   }
 
   setAction(actions: Actions) {
@@ -54,9 +65,9 @@ export class WalletManager {
   }
 
   setCurrentWallet(walletName?: WalletName, autoConnect: boolean = true) {
-    this.emitDisconnect();
+    this.reset();
     this._currentWalletName = walletName;
-    this.emit('walletName')?.(walletName);
+    this.emitWalletName?.(walletName);
     if (autoConnect && this.autos?.connectWhenCurrentChanges) {
       this.connect();
     }
@@ -67,9 +78,10 @@ export class WalletManager {
   }
 
   setCurrentChain(chainName?: ChainName, autoConnect: boolean = true) {
-    this.emitDisconnect();
+    this.reset();
+    console.log(12, this.state)
     this._currentChainName = chainName;
-    this.emit('chainName')?.(chainName);
+    this.emitChainName?.(chainName);
     if (autoConnect && this.autos?.connectWhenCurrentChanges) {
       this.connect();
     }
@@ -83,30 +95,12 @@ export class WalletManager {
     return this.actions?.[type];
   }
 
-  emitDisconnect() {
-    this.emit('data')?.(undefined);
-    this.emit('message')?.(undefined);
-    this.emit('state')?.(State.Init);
-  }
-
-  get data() {
-    return this.currentWallet?.data;
-  }
-
   get username() {
     return this.data?.username as string;
   }
 
   get address() {
     return this.data?.address as string;
-  }
-
-  get state() {
-    return this.currentWallet?.state;
-  }
-
-  get message() {
-    return this.currentWallet?.message;
   }
 
   get activeWallets() {
@@ -119,14 +113,6 @@ export class WalletManager {
 
   get walletCount() {
     return this.walletNames.length;
-  }
-
-  get walletStatus() {
-    return getWalletStatusFromState(this.state, this.message);
-  }
-
-  get isConnected() {
-    return this.state === State.Done;
   }
 
   useWallets(walletNameInfo: WalletName[] | WalletName) {
@@ -171,7 +157,6 @@ export class WalletManager {
   }
 
   getWallet(walletName?: WalletName, chainName?: ChainName): ExtendedWallet | undefined {
-
     if (!walletName) {
       return undefined;
     }
@@ -181,29 +166,34 @@ export class WalletManager {
       wallet = wallet.getChain(chainName);
     }
     wallet.actions = this.actions;
-
     return wallet;
   }
 
-  get currentWallet() {
+  get currentWallet(): ExtendedWallet | undefined {
     return this.getWallet(this.currentWalletName, this.currentChainName);
+  }
+
+  update(emit: boolean = true) {
+    this.setData(this.currentWallet.data, emit);
+    this.setMessage(this.currentWallet.message, emit);
+    this.setState(this.currentWallet.state, emit);
   }
 
   get connect() {
     return async () => {
-      console.log(11111, this.currentWalletName)
       if (!this.currentWalletName) {
-          this.openModal();
+        this.openModal();
         return
       }
       try {
-        await this.getWallet(this.currentWalletName, this.currentChainName).connect();
+        await this.currentWallet.connect();
+        this.update(false);
 
         if (
           this.walletStatus === WalletStatus.Connected
           && this.autos?.closeModalWhenWalletIsConnected
         ) {
-          this.emit('modalOpen')?.(false);
+          this.emitModalOpen?.(false);
         }
       } catch (error) {
         console.error(error);
@@ -211,7 +201,7 @@ export class WalletManager {
           this.walletStatus === WalletStatus.Rejected
           && this.autos?.closeModalWhenWalletIsRejected
         ) {
-          this.emit('modalOpen')?.(false);
+          this.emitModalOpen?.(false);
         }
       }
     };
@@ -220,26 +210,27 @@ export class WalletManager {
   get disconnect() {
     return async () => {
       if (!this.currentWalletName) {
-        this.emit('message')?.('Current Wallet not defined.')
+        this.setMessage('Current Wallet not defined.')
         return
       }
 
       try {
-        await this.getWallet(this.currentWalletName, this.currentChainName).disconnect();
+        await this.currentWallet.disconnect();
+        this.update(false);
 
         if (
           this.walletStatus === WalletStatus.Disconnected
           && this.autos?.closeModalWhenWalletIsDisconnected
         ) {
-          this.emit('modalOpen')?.(false);
+          this.emitModalOpen?.(false);
         }
       } catch (e) {
-        this.emit('message')?.((e as Error).message)
+        this.setMessage((e as Error).message)
         if (
           this.walletStatus === WalletStatus.Rejected
           && this.autos?.closeModalWhenWalletIsRejected
         ) {
-          this.emit('modalOpen')?.(false);
+          this.emitModalOpen?.(false);
         }
       }
 
@@ -251,7 +242,7 @@ export class WalletManager {
 
   get openModal() {
     return () => {
-      this.emit('modalOpen')?.(true);
+      this.emitModalOpen?.(true);
     }
   }
 

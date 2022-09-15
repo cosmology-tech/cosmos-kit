@@ -48,12 +48,11 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     }, []);
 
     useEffect(() => {
-        console.log(444, modalReset)
         setModalHead(
             getModalHead(walletManager, currentWalletData, handleClose, modalReset, setModalReset)
         );
         setModalContent(
-            getModalContent(walletManager, currentWalletData, userBrowserInfo, walletsData, modalReset)
+            getModalContent(walletManager, currentWalletData, userBrowserInfo, walletsData, modalReset, setModalReset)
         );
         if (!isOpen) {
             setModalReset(false);

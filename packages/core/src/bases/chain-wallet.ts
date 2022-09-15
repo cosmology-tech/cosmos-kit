@@ -1,11 +1,11 @@
-import { ChainRegistry, ChainWalletData } from '../types';
-import { WalletCommonBase } from './wallet-common';
+import { ChainRegistry, ChainWalletData, State } from '../types';
+import { StateBase } from './state';
 
 export abstract class ChainWalletBase<
   A,
   B extends ChainWalletData,
   C
-> extends WalletCommonBase<A, B> {
+> extends StateBase<B> {
   protected _chainRegistry: ChainRegistry;
   protected mainWallet?: C;
 
@@ -28,6 +28,17 @@ export abstract class ChainWalletBase<
   }
 
   disconnect() {
-    this.clear();
+    this.reset();
   }
+
+  async connect() {
+    if (!await this.client) {
+      this.setState(State.Error);
+      this.setMessage("Client Not Exist!");
+      return
+    }
+    await this.update();
+  }
+
+  abstract get client(): Promise<A> | undefined | A;
 }

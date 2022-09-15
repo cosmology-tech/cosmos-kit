@@ -10,7 +10,7 @@ module.exports = (api) => {
       '@babel/proposal-export-default-from'
     ],
     presets: useESModules
-      ? ["@babel/typescript"]
-      : ["@babel/typescript", "@babel/env"],
+      ? [["@babel/typescript", { allowDeclareFields: true }]]
+      : [["@babel/typescript", { allowDeclareFields: true }], "@babel/env"],
   };
 };

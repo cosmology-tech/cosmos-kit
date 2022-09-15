@@ -1,4 +1,4 @@
-import { ChainName, ExtendedWalletData, WalletManager, WalletName } from '@cosmos-kit/core';
+import { ChainName, MainWalletData, WalletManager, WalletName } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 
@@ -25,7 +25,7 @@ export const WalletProvider = ({
     currentWalletName
   } = walletManager;
 
-  const [walletData, setWalletData] = useState<ExtendedWalletData>();
+  const [walletData, setWalletData] = useState<MainWalletData>();
   const [walletState, setWalletState] = useState(state);
   const [walletMsg, setWalletMsg] = useState<string | undefined>();
   const [walletName, setWalletName] = useState<WalletName | undefined>(

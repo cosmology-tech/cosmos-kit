@@ -1,13 +1,13 @@
-import { ChainName, ChainRegistry } from '../types';
-import { WalletData } from '../types';
+import { ChainName, ChainRegistry, State } from '../types';
+import { MainWalletData } from '../types';
 import { ChainWalletBase } from './chain-wallet';
-import { WalletCommonBase } from './wallet-common';
+import { StateBase } from './state';
 
 export abstract class MainWalletBase<
   A,
-  B extends WalletData,
+  B extends MainWalletData,
   C extends ChainWalletBase<A, any, any>
-> extends WalletCommonBase<A, B> {
+> extends StateBase<B> {
   protected abstract _chains: Map<ChainName, C>;
   protected abstract _client: Promise<A | undefined> | A | undefined;
   // protected queue: PQueue;
@@ -81,7 +81,16 @@ export abstract class MainWalletBase<
     this.chains.forEach((chain) => {
       chain.disconnect();
     });
-    this.clear();
+    this.reset();
+  }
+
+  async connect() {
+    if (!await this.client) {
+      this.setState(State.Error);
+      this.setMessage("Client Not Exist!");
+      return
+    }
+    await this.update();
   }
 
   protected abstract setChains(supportedChains?: ChainRegistry[]): void;
