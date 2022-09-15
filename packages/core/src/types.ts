@@ -2,7 +2,6 @@ import { Chain } from '@chain-registry/types';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from './bases';
-import { WalletManager } from './wallet-manager';
 // import { ChainOption } from "@/components";
 
 export interface ChainWalletData {
@@ -10,7 +9,7 @@ export interface ChainWalletData {
 }
 
 export interface ExtendedChainWalletData extends ChainWalletData {
-  [k: string]: unknown;
+  [k: string]: any | undefined;
 }
 
 export interface WalletData {
@@ -18,14 +17,14 @@ export interface WalletData {
 }
 
 export interface ExtendedWalletData extends WalletData {
-  [k: string]: unknown;
+  [k: string]: any | undefined;
 }
 
-export interface ExtendedMainWallet extends MainWalletBase<unknown, ExtendedWalletData, any> {
-  [k: string]: unknown;
+export interface ExtendedMainWallet extends MainWalletBase<any, ExtendedWalletData, any> {
+  [k: string]: any | undefined;
 }
-export interface ExtendedChainWallet extends ChainWalletBase<unknown, ExtendedChainWalletData, unknown> {
-  [k: string]: unknown;
+export interface ExtendedChainWallet extends ChainWalletBase<any, ExtendedChainWalletData, any> {
+  [k: string]: any | undefined;
 }
 export type ExtendedWallet = ExtendedMainWallet | ExtendedChainWallet;
 
@@ -41,7 +40,8 @@ export enum WalletStatus {
   Connecting = "Connecting",
   Connected = "Connected",
   NotExist = "NotExist",
-  Rejected = "Rejected"
+  Rejected = "Rejected",
+  Error = "Error"
 }
 
 export interface Mutable<T> {
@@ -83,6 +83,7 @@ export interface WalletRegistry extends Registry<WalletName> {
 
 export interface ChainRegistry extends Registry<ChainName> {
   raw?: Chain;
+  // options
 }
 
 // export interface ChainSelectorProps {
@@ -94,7 +95,6 @@ export interface ChainRegistry extends Registry<ChainName> {
 export interface WalletModalProps {
   isOpen: boolean;
   setOpen: Dispatch<boolean>;
-  chainName?: string;
 }
 
 export interface DefinedActions {
