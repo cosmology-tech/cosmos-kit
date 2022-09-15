@@ -7,16 +7,13 @@ import { DefaultModal } from './modal';
 export const walletContext = createContext<{ walletManager: WalletManager } | null>(null);
 
 export const WalletProvider = ({
-  // chainSelector,
   walletModal,
   walletManager,
   children,
 }: {
-  // chainSelector?: ({ name, setName, chainOptions }: ChainSelectorProps) => JSX.Element;
   walletModal?: ({
     isOpen,
     setOpen,
-    chainName,
   }: WalletModalProps) => JSX.Element;
   walletManager: WalletManager;
   children: ReactNode;
@@ -49,7 +46,6 @@ export const WalletProvider = ({
     qrUri: setQRUri,
   });
 
-  // walletManager.connect = () => setModalOpen(true);
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
@@ -68,7 +64,6 @@ export const WalletProvider = ({
       <Modal
         isOpen={isModalOpen}
         setOpen={setModalOpen}
-        chainName={chainName}
       />
     </walletContext.Provider>
   );
