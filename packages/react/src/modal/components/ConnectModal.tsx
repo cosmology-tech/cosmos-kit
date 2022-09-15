@@ -28,7 +28,7 @@ import {
   ConnectModalContentType,
   DownloadWalletButtonType,
   ConnectWalletCardType,
-} from "./types";
+} from "../types";
 
 export const ConnectedContent = ({
   userInfo,
