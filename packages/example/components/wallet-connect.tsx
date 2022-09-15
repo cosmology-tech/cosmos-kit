@@ -72,6 +72,40 @@ export const Connecting = () => {
 export const Rejected = ({
   buttonText,
   wordOfWarning,
+  onClick
+}: {
+  buttonText: string;
+  wordOfWarning?: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+}) => {
+  return (
+    <Stack>
+      <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />
+      {wordOfWarning && (
+        <Stack
+          isInline={true}
+          borderRadius="md"
+          bg={useColorModeValue("orange.200", "orange.300")}
+          color="blackAlpha.900"
+          p={4}
+          spacing={1}
+        >
+          <Icon as={FiAlertTriangle} mt={1} />
+          <Text>
+            <Text fontWeight="semibold" as="span">
+              Warning:&ensp;
+            </Text>
+            {wordOfWarning}
+          </Text>
+        </Stack>
+      )}
+    </Stack>
+  );
+};
+
+export const Error = ({
+  buttonText,
+  wordOfWarning,
 }: {
   buttonText: string;
   wordOfWarning?: string;
@@ -101,8 +135,14 @@ export const Rejected = ({
   );
 };
 
-export const NotExist = ({ buttonText }: { buttonText: string }) => {
-  return <ConnectWalletButton buttonText={buttonText} isDisabled={true} />;
+export const NotExist = ({ 
+  buttonText, 
+  onClick 
+}: { 
+  buttonText: string; 
+  onClick: MouseEventHandler<HTMLButtonElement>; 
+}) => {
+  return <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />;
 };
 
 export const WalletConnectComponent = ({

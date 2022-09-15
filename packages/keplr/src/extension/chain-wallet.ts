@@ -2,12 +2,12 @@ import { ChainRegistry, ChainWalletBase, State } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
 import { ExtKeplrWallet } from './main-wallet';
-import { ChainKeplrData } from './types';
+import { ChainExtKeplrData } from './types';
 
-export class ChainKeplr extends ChainWalletBase<Keplr, ChainKeplrData, ExtKeplrWallet> {
+export class ChainExtKeplr extends ChainWalletBase<Keplr, ChainExtKeplrData, ExtKeplrWallet> {
 
-  constructor(_chainRegistry: ChainRegistry, keplrWallet: ExtKeplrWallet) {
-    super(_chainRegistry, keplrWallet);
+  constructor(_chainRegistry: ChainRegistry, mainWallet: ExtKeplrWallet) {
+    super(_chainRegistry, mainWallet);
   }
 
   get client() {
@@ -28,6 +28,7 @@ export class ChainKeplr extends ChainWalletBase<Keplr, ChainKeplrData, ExtKeplrW
       });
       this.setState(State.Done);
     } catch (e) {
+      console.error(`Chain ${this.chainName} keplr-extension connection failed! \n ${e}`);
       this.setState(State.Error);
       this.setMessage((e as Error).message);
     }

@@ -1,18 +1,18 @@
 import { Dispatch, Mutable, State } from '../types';
 
-interface StateActions<D> {
+interface StateActions<T> {
   state?: Dispatch<State>;
-  data?: Dispatch<D | undefined>;
+  data?: Dispatch<T | undefined>;
   message?: Dispatch<string | undefined>;
 }
 
-interface Actions<D> extends StateActions<D> {
+interface Actions<T> extends StateActions<T> {
   [k: string]: Dispatch<any> | undefined;
 }
 
-export abstract class WalletCommonBase<C, D> {
-  protected _mutable: Mutable<D>;
-  actions?: Actions<D>;
+export abstract class WalletCommonBase<A, B> {
+  protected _mutable: Mutable<B>;
+  actions?: Actions<B>;
 
   constructor() {
     this._mutable = { state: State.Init };
@@ -71,7 +71,7 @@ export abstract class WalletCommonBase<C, D> {
     this.emitState?.(state);
   }
 
-  setData(data: D | undefined) {
+  setData(data: B | undefined) {
     this._mutable.data = data;
     this.emitData?.(data);
   }
@@ -95,7 +95,7 @@ export abstract class WalletCommonBase<C, D> {
     this.update();
   }
 
-  abstract get client(): Promise<C> | undefined | C;
+  abstract get client(): Promise<A> | undefined | A;
   abstract update(): void;
   abstract disconnect(): void;
 }

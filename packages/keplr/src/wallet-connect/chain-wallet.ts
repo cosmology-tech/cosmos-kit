@@ -1,17 +1,17 @@
-import { ChainRegistry, ChainWalletBase, Dispatch, State } from '@cosmos-kit/core';
+import { ChainRegistry, ChainWalletBase, State } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 
 import { ChainWCKeplrData } from './types';
-import { WCKeplrWallet } from './main-wallet';
+// import { WCKeplrWallet } from './main-wallet';
 
 
 export class ChainWCKeplr extends ChainWalletBase<
   KeplrWalletConnectV1,
   ChainWCKeplrData,
-  WCKeplrWallet
+  any
 > {
 
-  constructor(_chainRegistry: ChainRegistry, keplrWallet: WCKeplrWallet) {
+  constructor(_chainRegistry: ChainRegistry, keplrWallet: any) {
     super(_chainRegistry, keplrWallet);
   }
 
@@ -23,38 +23,20 @@ export class ChainWCKeplr extends ChainWalletBase<
     return this.client.connector;
   }
 
-  get qrUri() {
-    return this.mainWallet.qrUri;
-  }
-
   get username(): string | undefined {
     return this.data?.username;
-  }
-
-  private get emitModalOpen(): Dispatch<boolean> | undefined {
-    return this.actions?.modalOpen;
   }
 
   async connect(): Promise<void> {
     if (!this.connector.connected) {
       await this.connector.createSession();
-
-      this.connector.on("connect", async (error, payload) => {
-        if (error) {
-          throw error;
-        }
-        this.mainWallet.setClient(new KeplrWalletConnectV1(this.connector));
-        await this.update();
-        this.emitModalOpen?.(false);
-      });
-
       this.setData({
-        qrUri: this.qrUri
+        qrUri: this.mainWallet.qrUri
       })
-
-    } else {
-      await this.update();
     }
+    this.mainWallet.ee.on('update', async () => {
+      await this.update();
+    })
   }
 
   async update() {
@@ -64,6 +46,7 @@ export class ChainWCKeplr extends ChainWalletBase<
       this.setData({
         address: key.bech32Address,
         username: key.name,
+        qrUri: this.mainWallet.qrUri
       });
       this.setState(State.Done);
     } catch (e) {

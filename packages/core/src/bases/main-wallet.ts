@@ -4,12 +4,12 @@ import { ChainWalletBase } from './chain-wallet';
 import { WalletCommonBase } from './wallet-common';
 
 export abstract class MainWalletBase<
-  C,
-  D extends WalletData,
-  T extends ChainWalletBase<C, any, any>
-> extends WalletCommonBase<C, D> {
-  protected abstract _chains: Map<ChainName, T>;
-  protected abstract _client: Promise<C | undefined> | C | undefined;
+  A,
+  B extends WalletData,
+  C extends ChainWalletBase<A, any, any>
+> extends WalletCommonBase<A, B> {
+  protected abstract _chains: Map<ChainName, C>;
+  protected abstract _client: Promise<A | undefined> | A | undefined;
   // protected queue: PQueue;
 
   protected _supportedChains: ChainRegistry[] = [];
@@ -55,7 +55,7 @@ export abstract class MainWalletBase<
     return Array.from(this.chains.keys());
   }
 
-  get chainList(): T[] {
+  get chainList(): C[] {
     return Array.from(this.chains.values());
   }
 

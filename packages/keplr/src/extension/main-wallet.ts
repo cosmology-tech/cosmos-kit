@@ -2,12 +2,12 @@ import { ChainName, ChainRegistry, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
-import { ChainKeplr } from './chain-wallet';
-import { KeplrData } from './types';
+import { ChainExtKeplr } from './chain-wallet';
+import { ExtKeplrData } from './types';
 import { getKeplrFromExtension } from './utils';
 
-export class ExtKeplrWallet extends MainWalletBase<Keplr, KeplrData, ChainKeplr> {
-  protected _chains: Map<ChainName, ChainKeplr>;
+export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExtKeplr> {
+  protected _chains: Map<ChainName, ChainExtKeplr>;
   protected _client: Promise<Keplr | undefined> | undefined;
 
   constructor(_concurrency?: number) {
@@ -25,13 +25,14 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, KeplrData, ChainKeplr>
     this._chains = new Map(
       supportedChains.map((chainRegistry) => [
         chainRegistry.name,
-        new ChainKeplr(chainRegistry, this),
+        new ChainExtKeplr(chainRegistry, this),
       ])
     );
   }
 
   async update() {
     this.setState(State.Pending);
+    let message;
     for (const chainName of this.chainNames) {
       const chainWallet = this.chains.get(chainName)!;
       // delete chainWallet.actions?.modalOpen;
@@ -43,10 +44,11 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, KeplrData, ChainKeplr>
         this.setState(State.Done);
         return;
       } else {
-        console.error(`chain ${chainName} connection failed!`);
+        message = chainWallet.message;
       }
+      break
     }
     this.setState(State.Error);
-    this.setMessage(`Failed to connect keplr.`);
+    this.setMessage(message);
   }
 }

@@ -1,18 +1,28 @@
 import { useWallet } from "@cosmos-kit/react";
 import { chainInfos } from "../config";
-import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
+import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue, Text, Link } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Astronaut, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
+import { getWalletPrettyName } from "@cosmos-kit/registry";
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, disconnect, openModal, walletStatus, username, address, message, currentChainName: chainName } = walletManager;
-  
+  const { connect, disconnect, openModal, changeWallet,
+    walletStatus, username, address, message,
+    currentChainName: chainName, currentWalletName } = walletManager;
+
+  const walletPrettyName = getWalletPrettyName(currentWalletName);
+
   // Events
   const onClickConnect: MouseEventHandler = (e) => {
     e.preventDefault();
     connect();
+  };
+
+  const onClickChangeWallet: MouseEventHandler = (e) => {
+    e.preventDefault();
+    changeWallet();
   };
 
   const onClickDisconnect: MouseEventHandler = (e) => {
@@ -40,17 +50,18 @@ const Home = () => {
       connecting={<Connecting />}
       connected={
         <Connected buttonText={
-          address 
-          ? `${address.slice(0, 7)}....${address.slice(-4)}` 
-          : "Disconnect"
+          address
+            ? `${address.slice(0, 7)}....${address.slice(-4)}`
+            : "Disconnect"
         } onClick={onClickDisconnect} />
       }
       rejected={
         <Rejected
-          buttonText="Chain Rejected"
+          buttonText="Reconnect"
+          onClick={onClickConnect}
         />
       }
-      notExist={<NotExist buttonText="Wallet Not Exist" />}
+      notExist={<NotExist buttonText="Install Wallet" onClick={onClickConnect} />}
     />
   );
 
@@ -94,6 +105,13 @@ const Home = () => {
         <GridItem>{chooseChain}</GridItem>
         <GridItem>{connectWalletWarn}</GridItem>
         <GridItem px={6}>
+          {currentWalletName && (
+            <Box>
+              <Text fontSize='lg'>
+                current wallet: {walletPrettyName}
+              </Text>
+            </Box>
+          )}
           <Stack
             justifyContent="center"
             alignItems="center"
@@ -112,6 +130,15 @@ const Home = () => {
             <Box w="full" maxW={{ base: 52, md: 64 }}>
               {connectWalletButton}
             </Box>
+            {currentWalletName && (
+              <Box>
+                <Link onClick={onClickChangeWallet}>
+                  <Text fontSize='sm'>
+                    change wallet
+                  </Text>
+                </Link>
+              </Box>
+            )}
           </Stack>
         </GridItem>
       </Grid>

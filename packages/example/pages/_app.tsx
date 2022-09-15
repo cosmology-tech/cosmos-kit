@@ -4,38 +4,15 @@ import { useWallet, WalletProvider } from '@cosmos-kit/react'
 import { Button, ChakraProvider, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
 import { WalletManager, WalletModalProps, ChainRegistry } from '@cosmos-kit/core';
-import { AllWallets } from '@cosmos-kit/registry';
+import { allWallets } from '@cosmos-kit/registry';
 import { chains as rawChains } from 'chain-registry';
+import QRCode from 'qrcode.react';
+import { convert } from '../utils';
 
 
 const chains: ChainRegistry[] = rawChains
   .filter((chain) => chain.network_type !== 'testnet')
   .map((chain) => convert(chain));
-
-
-// import { useState } from 'react';
-// import { ChainOption, ChooseChain, handleSelectChainDropdown } from '../components';
-// import { useQRCode } from 'next-qrcode';
-import QRCode from 'qrcode.react';
-import { convert } from '../utils';
-
-// const MyChainSelector = ({ name, setName, chainOptions }: ChainSelectorProps) => {
-//   const onChainChange: handleSelectChainDropdown = (
-//     selectedValue: ChainOption | null
-//   ) => {
-//     if (selectedValue) {
-//       setName(selectedValue.chainName);
-//     }
-//   };
-
-//   return (
-//     <ChooseChain
-//       chainName={name}
-//       chainInfos={chainOptions}
-//       onChange={onChainChange}
-//     />
-//   )
-// }
 
 // const MyWalletModal = ({ isOpen, setOpen, chainName, qrUri }: WalletModalProps) => {
 //   // const { Canvas } = useQRCode();
@@ -77,17 +54,17 @@ import { convert } from '../utils';
 function MyApp({ Component, pageProps }: AppProps) {
   const walletManager = new WalletManager(
     chains,
-    AllWallets
+    allWallets
   )
   // walletManager.useWallets('keplr-extension');
   // walletManager.useChains();
 
   walletManager.setAutos({
     connectWhenInit: false,
-    connectWhenCurrentChanges: true,
-    closeModalWhenWalletIsConnected: true,
-    closeModalWhenWalletIsDisconnected: true,
-    closeModalWhenWalletIsRejected: true,
+    connectWhenCurrentChanges: false,
+    closeModalWhenWalletIsConnected: false,
+    closeModalWhenWalletIsDisconnected: false,
+    closeModalWhenWalletIsRejected: false,
   })
 
   return (

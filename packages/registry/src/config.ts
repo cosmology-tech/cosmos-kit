@@ -4,7 +4,7 @@ import { RiChromeFill, RiAppStoreFill } from "react-icons/ri";
 import { GrFirefox } from "react-icons/gr";
 import { FaAndroid } from "react-icons/fa";
 
-export const AllWallets: WalletRegistry[] = [
+export const allWallets: WalletRegistry[] = [
   {
     name: "keplr",
     active: false,

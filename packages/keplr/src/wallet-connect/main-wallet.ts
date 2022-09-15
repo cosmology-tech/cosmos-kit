@@ -2,6 +2,7 @@ import { ChainName, ChainRegistry, Dispatch, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
+import EventEmitter from 'events';
 
 import { ChainWCKeplr } from './chain-wallet';
 import { WCKeplrData } from './types';
@@ -14,6 +15,7 @@ export class WCKeplrWallet extends MainWalletBase<
   protected _chains: Map<ChainName, ChainWCKeplr>;
   protected _client: KeplrWalletConnectV1;
   connector: WalletConnect;
+  ee: EventEmitter;
 
   constructor(_concurrency?: number) {
     super(_concurrency);
@@ -22,7 +24,17 @@ export class WCKeplrWallet extends MainWalletBase<
       bridge: 'https://bridge.walletconnect.org'
     });
 
+    this.connector.on("connect", (error) => {
+      if (error) {
+        throw error;
+      }
+      this.setClient(new KeplrWalletConnectV1(this.connector));
+      this.ee.emit('update');
+      this.emitModalOpen?.(false);
+    });
+
     this._client = new KeplrWalletConnectV1(this.connector);
+    this.ee = new EventEmitter();
   }
 
   get qrUri() {
@@ -53,22 +65,14 @@ export class WCKeplrWallet extends MainWalletBase<
   async connect(): Promise<void> {
     if (!this.connector.connected) {
       await this.connector.createSession();
-
-      this.connector.on("connect", async (error, payload) => {
-        if (error) {
-          throw error;
-        }
-        this.setClient(new KeplrWalletConnectV1(this.connector));
-        await this.update();
-        this.emitModalOpen?.(false);
-      });
-      
       this.setData({
         qrUri: this.qrUri
       })
-    } else {
-      await this.update();
+      console.log('%cmain-wallet.ts line:71 this.qrUri', 'color: #007acc;', this.qrUri);
     }
+    this.ee.on('update', async () => {
+      await this.update();
+    })
   }
 
   async update() {
