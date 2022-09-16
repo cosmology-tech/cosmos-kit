@@ -30,11 +30,21 @@ export class WCKeplrWallet extends MainWalletBase<
       }
       this.setClient(new KeplrWalletConnectV1(this.connector));
       this.ee.emit('update');
-      this.emitModalOpen?.(false);
+    });
+
+    this.connector.on("disconnect", (error) => {
+      if (error) {
+        throw error;
+      }
+      this.ee.emit('disconnect');
     });
 
     this._client = new KeplrWalletConnectV1(this.connector);
     this.ee = new EventEmitter();
+  }
+
+  get isInSession() {
+    return this.connector.connected;
   }
 
   get qrUri() {
@@ -49,10 +59,6 @@ export class WCKeplrWallet extends MainWalletBase<
     this._client = client;
   }
 
-  private get emitModalOpen(): Dispatch<boolean> | undefined {
-    return this.actions?.modalOpen;
-  }
-
   protected setChains(supportedChains: ChainRegistry[]): void {
     this._chains = new Map(
       supportedChains.map((chainRegistry) => [
@@ -63,16 +69,17 @@ export class WCKeplrWallet extends MainWalletBase<
   }
 
   async connect(): Promise<void> {
-    if (!this.connector.connected) {
+    if (!this.isInSession) {
       await this.connector.createSession();
-      this.setData({
-        qrUri: this.qrUri
+      this.ee.on('update', async () => {
+        await this.update();
       })
-      console.log('%cmain-wallet.ts line:71 this.qrUri', 'color: #007acc;', this.qrUri);
-    }
-    this.ee.on('update', async () => {
+      this.ee.on('disconnect', async () => {
+        await this.disconnect();
+      })
+    } else {
       await this.update();
-    })
+    }
   }
 
   async update() {
@@ -80,19 +87,23 @@ export class WCKeplrWallet extends MainWalletBase<
     for (const chainName of this.chainNames) {
       const chainWallet = this.chains.get(chainName)!;
       await chainWallet.update();
-      if (chainWallet.isError) {
-        console.error(`chain ${chainName} connection failed!`);
-      } else {
+      if (chainWallet.isDone) {
         this.setData({
-          qrUri: this.qrUri,
-          username: chainWallet.username!,
+          username: chainWallet.username,
+          qrUri: this.qrUri
         });
         this.setState(State.Done);
         return;
+      } else {
+        this.setMessage(chainWallet.message);
+        this.setState(chainWallet.state);
       }
+      break
     }
+  }
 
-    this.setState(State.Error);
-    this.setMessage(`Failed to connect keplr via wallet connect.`);
+  async disconnect() {
+    // await this.connector.killSession();
+    this.reset();
   }
 }

@@ -106,13 +106,15 @@ export const Rejected = ({
 export const Error = ({
   buttonText,
   wordOfWarning,
+  onClick
 }: {
   buttonText: string;
   wordOfWarning?: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <Stack>
-      <ConnectWalletButton buttonText={buttonText} isDisabled={true} />
+      <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />
       {wordOfWarning && (
         <Stack
           isInline={true}
@@ -151,6 +153,7 @@ export const WalletConnectComponent = ({
   connecting,
   connected,
   rejected,
+  error,
   notExist,
 }: {
   walletStatus: WalletStatus;
@@ -158,6 +161,7 @@ export const WalletConnectComponent = ({
   connecting: ReactNode;
   connected: ReactNode;
   rejected: ReactNode;
+  error: ReactNode;
   notExist: ReactNode;
 }) => {
   switch (walletStatus) {
@@ -169,6 +173,8 @@ export const WalletConnectComponent = ({
       return <>{connected}</>;
     case WalletStatus.Rejected:
       return <>{rejected}</>;
+    case WalletStatus.Error:
+      return <>{error}</>;
     case WalletStatus.NotExist:
       return <>{notExist}</>;
     default:

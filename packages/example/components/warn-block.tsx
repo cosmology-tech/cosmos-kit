@@ -73,13 +73,17 @@ export const RejectedWarn = ({
 export const ConnectStatusWarn = ({
   walletStatus,
   rejected,
+  error,
 }: {
   walletStatus: WalletStatus;
   rejected: ReactNode;
+  error: ReactNode;
 }) => {
   switch (walletStatus) {
     case WalletStatus.Rejected:
       return <>{rejected}</>;
+    case WalletStatus.Error:
+      return <>{error}</>;
     default:
       return <></>;
   }

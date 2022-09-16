@@ -109,8 +109,6 @@ export interface ManagerActions<T> extends StateActions<T> {
 }
 
 export interface Autos {
-  connectWhenInit?: boolean;
-  connectWhenCurrentChanges?: boolean;
   closeModalWhenWalletIsConnected?: boolean;
   closeModalWhenWalletIsDisconnected?: boolean;
   closeModalWhenWalletIsRejected?: boolean;

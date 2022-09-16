@@ -26,6 +26,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
         walletType: isQRCode ? 'qrcode' : 'extension',
         extensionLink: { ...downloads, websiteDownload: downloads?.default },
         websiteDownload: downloads?.default,
+        qrCodeLink: walletManager.currentWallet?.qrUri
     }))
 
     const currentWalletData = walletsData.find(data => data.id === walletManager.currentWalletName);
@@ -58,7 +59,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
             setModalReset(false);
         }
     }, [walletManager.walletStatus, walletManager.currentChainName, walletManager.currentWalletName,
-    modalReset, isOpen])
+    modalReset, isOpen, walletManager.currentWallet?.qrUri])
 
     return (
         <ConnectModal

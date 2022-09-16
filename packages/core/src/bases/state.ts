@@ -54,28 +54,25 @@ export abstract class StateBase<T> {
     return this.mutable.message;
   }
 
-  setState(state: State, emit: boolean = true) {
+  setState(state: State) {
     this._mutable.state = state;
-    if (emit) {
-      console.log(123, state, this.emitState)
-      this.emitState?.(state);
-    };
+    this.emitState?.(state);
   }
 
-  setData(data: T | undefined, emit: boolean = true) {
+  setData(data: T | undefined) {
     this._mutable.data = data;
-    if (emit) this.emitData?.(data);
+    this.emitData?.(data);
   }
 
-  setMessage(message: string, emit: boolean = true) {
+  setMessage(message: string) {
     this._mutable.message = message;
-    if (emit) this.emitMessage?.(message);
+    this.emitMessage?.(message);
   }
 
-  reset(emit: boolean = true) {
-    this.setData(undefined, emit);
-    this.setMessage(undefined, emit);
-    this.setState(State.Init, emit);
+  reset() {
+    this.setData(undefined);
+    this.setMessage(undefined);
+    this.setState(State.Init);
   }
 
   get walletStatus() {
@@ -102,5 +99,5 @@ export abstract class StateBase<T> {
     return this.walletStatus === WalletStatus.Error;
   }
 
-  abstract update(emit?: boolean): void | Promise<void>;
+  abstract update(): void | Promise<void>;
 }

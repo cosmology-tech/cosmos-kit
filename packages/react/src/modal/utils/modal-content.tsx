@@ -1,4 +1,5 @@
 import { WalletManager, WalletStatus } from "@cosmos-kit/core";
+import WalletConnect from "@walletconnect/client";
 import { GoDesktopDownload } from "react-icons/go";
 import { IoExitOutline } from "react-icons/io5";
 import { Astronaut, ConnectedContent, ConnectWalletButton, DefaultLink, DisplayWalletList, ExtensionContent, InstallWalletButton, QRCode, SimpleAvatarWithName, SimpleCopyAddressButton } from "../components";
@@ -16,9 +17,7 @@ export const getModalContent = (
         setModalReset(false);
         console.info('Connecting ' + select.id);
         walletManager.setCurrentWallet(select.id);
-        if (!walletManager.autos?.connectWhenCurrentChanges) {
-            await walletManager.connect();
-        }
+        await walletManager.connect();
     }
 
     async function onDisconnect() {
@@ -26,14 +25,16 @@ export const getModalContent = (
         await walletManager.disconnect();
     }
 
-
     async function handleConnectButtonClick() {
         console.log("reconnect wallet");
         await walletManager.connect();
     }
 
+    function onChangeWallet() {
+        setModalReset(true);
+    }
+
     if (walletManager.currentWalletName && !modalReset) {
-        console.log('%cmodal-content.tsx line:33 walletManager.walletStatus', 'color: #007acc;', walletManager.walletStatus);
         switch (walletManager.walletStatus) {
             case WalletStatus.Disconnected:
                 if (currentWalletData.walletType === 'extension') {
@@ -54,7 +55,25 @@ export const getModalContent = (
                     );
                 }
                 else if (currentWalletData.walletType === "qrcode") {
-                    return (<QRCode link={walletManager.currentWallet.qrUri as string} />);
+                    if (walletManager.currentWallet.isInSession) {
+                        return (
+                            <ExtensionContent
+                                selectedWallet={currentWalletData}
+                                stateHeader="Wallet Not Connected"
+                                stateDesc="Please connect to your wallet."
+                                isReconnect={true}
+                                isWarning={true}
+                                connectWalletButton={
+                                    <ConnectWalletButton
+                                        buttonText="Connect Wallet"
+                                        onClickConnectBtn={handleConnectButtonClick}
+                                    />
+                                }
+                            />
+                        );
+                    } else {
+                        return (<QRCode link={currentWalletData.qrCodeLink} />);
+                    }
                 }
             case WalletStatus.NotExist:
                 return (
@@ -113,19 +132,25 @@ export const getModalContent = (
                         isReconnect={true}
                         connectWalletButton={
                             <ConnectWalletButton
-                                disabled
-                                buttonText="Reconnect"
-                                onClickConnectBtn={handleConnectButtonClick}
+                                isDisabled={false}
+                                buttonText="Change Wallet"
+                                onClickConnectBtn={onChangeWallet}
                             />
                         }
                     />
                 );
             case WalletStatus.Connecting:
+                let stateDesc: string;
+                if (currentWalletData.walletType === 'extension') {
+                    stateDesc = `Open the ${currentWalletData.walletName} browser extension to connect your wallet.`
+                } else if (currentWalletData.walletType === "qrcode") {
+                    stateDesc = `Approve ${currentWalletData.walletName} connection request on your mobile.`
+                }
                 return (
                     <ExtensionContent
                         selectedWallet={currentWalletData}
                         stateHeader="Requesting Connection"
-                        stateDesc={`Open the ${currentWalletData.walletName} browser extension to connect your wallet.`}
+                        stateDesc={stateDesc}
                         isLoading={true}
                     />
                 );

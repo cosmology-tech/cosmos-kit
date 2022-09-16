@@ -1,22 +1,28 @@
 import { useWallet } from "@cosmos-kit/react";
 import { chainInfos } from "../config";
-import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue, Text, Link } from "@chakra-ui/react";
+import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
-import { Astronaut, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
+import { Astronaut, Error, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
 import { getWalletPrettyName } from "@cosmos-kit/registry";
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, disconnect, openModal,
+  const { connect, disconnect, openModal, setCurrentChain,
     walletStatus, username, address, message,
     currentChainName: chainName, currentWalletName } = walletManager;
 
   // Events
-  const onClickReconnect: MouseEventHandler = async (e) => {
+  const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
     openModal();
     await connect();
+  };
+
+  const onClickDisconnect: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    openModal();
+    // await disconnect();
   };
 
   const onClickOpenModal: MouseEventHandler = (e) => {
@@ -24,24 +30,14 @@ const Home = () => {
     openModal();
   };
 
-  const onClickConnect: MouseEventHandler = (e) => {
-    e.preventDefault();
-    connect();
-  };
-
-  const onClickDisconnect: MouseEventHandler = (e) => {
-    e.preventDefault();
-    if (address) {
-      openModal();
-    } else {
-      disconnect();
-    }
-  };
-
-  const onChainChange: handleSelectChainDropdown = (
+  const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
-    walletManager.setCurrentChain(selectedValue?.chainName);
+    setCurrentChain(selectedValue?.chainName);
+    openModal();
+    if (currentWalletName) {
+      await connect();
+    }
   };
 
   // Components
@@ -49,20 +45,34 @@ const Home = () => {
     <WalletConnectComponent
       walletStatus={walletStatus}
       disconnect={
-        <Disconnected buttonText="Connect Wallet" onClick={onClickOpenModal} />
+        <Disconnected buttonText="Connect Wallet" onClick={
+          currentWalletName
+            ? onClickConnect
+            : onClickOpenModal
+        } />
       }
       connecting={<Connecting />}
       connected={
         <Connected buttonText={
           address
-            ? `${address.slice(0, 7)}....${address.slice(-4)}`
+            ? `${address.slice(0, 7)}...${address.slice(-4)}`
             : "Disconnect"
-        } onClick={onClickOpenModal} />
+        } onClick={
+          address
+            ? onClickOpenModal
+            : onClickDisconnect
+        } />
       }
       rejected={
         <Rejected
           buttonText="Reconnect"
-          onClick={onClickReconnect}
+          onClick={onClickConnect}
+        />
+      }
+      error={
+        <Error
+          buttonText="Change Wallet"
+          onClick={onClickOpenModal}
         />
       }
       notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenModal} />}
@@ -73,6 +83,12 @@ const Home = () => {
     <ConnectStatusWarn
       walletStatus={walletStatus}
       rejected={
+        <RejectedWarn
+          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          wordOfWarning={`${getWalletPrettyName(currentWalletName)}: ${message}`}
+        />
+      }
+      error={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
           wordOfWarning={`${getWalletPrettyName(currentWalletName)}: ${message}`}

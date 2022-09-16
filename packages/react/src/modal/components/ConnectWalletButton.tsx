@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Icon } from "@chakra-ui/react";
 import { IoWallet } from "react-icons/io5";
-import { ConnectWalletType } from "./types";
+import { ConnectWalletType } from "../types";
 
 export const ConnectWalletButton = ({
   buttonText,
