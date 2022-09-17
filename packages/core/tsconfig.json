@@ -2,8 +2,8 @@
   "compilerOptions": {
     "target": "es2022",
     "declaration": true,
-    "declarationDir": "./types",
-    "emitDeclarationOnly": false,
+    "declarationDir": "./main",
+    "emitDeclarationOnly": true,
     "isolatedModules": true,
     "allowJs": true,
     "esModuleInterop": true,

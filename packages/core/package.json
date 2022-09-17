@@ -8,7 +8,6 @@
   "main": "main/index.js",
   "module": "module/index.js",
   "typings": "types/index.d.ts",
-  "type": "module",
   "directories": {
     "lib": "src",
     "test": "__tests__"
@@ -59,6 +58,7 @@
     "@babel/plugin-proposal-export-default-from": "7.18.10",
     "@babel/plugin-proposal-object-rest-spread": "7.18.9",
     "@babel/plugin-transform-runtime": "7.18.10",
+    "@babel/plugin-transform-typescript": "7.19.0",
     "@babel/preset-env": "7.19.0",
     "@babel/preset-typescript": "^7.16.7",
     "@cosmjs/cosmwasm-stargate": "^0.28",
@@ -95,5 +95,6 @@
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/stargate": "^0.28",
     "@keplr-wallet/types": "^0.10"
-  }
+  },
+  "gitHead": "5ac059680544db18d75f39f005a2887bd4716b9b"
 }

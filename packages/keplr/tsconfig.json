@@ -3,7 +3,7 @@
     "target": "es2022",
     "declaration": true,
     "declarationDir": "./types",
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": true,
     "isolatedModules": true,
     "allowJs": true,
     "jsx": "react-jsx",
