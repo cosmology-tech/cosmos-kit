@@ -1,3 +1,4 @@
+import React from 'react';
 import { WalletModalProps } from "@cosmos-kit/core";
 import Bowser from "bowser";
 import { ConnectModal } from "./components/ConnectModal";

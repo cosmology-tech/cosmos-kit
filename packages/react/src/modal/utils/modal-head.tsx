@@ -1,3 +1,4 @@
+import React from 'react';
 import { WalletManager } from "@cosmos-kit/core";
 import { ModalHead } from "../components";
 import { WalletInfoType } from "../types";

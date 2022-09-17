@@ -1,13 +1,9 @@
 const useESModules = !!process.env.MODULE;
-// var webpack = require('webpack');
 
 module.exports = (api) => {
   api.cache(() => process.env.MODULE);
   return {
     plugins: [
-      // new webpack.ProvidePlugin({
-      //   "React": "_react",
-      // }),
       ['@babel/transform-runtime', { useESModules }],
       '@babel/proposal-object-rest-spread',
       '@babel/proposal-class-properties',

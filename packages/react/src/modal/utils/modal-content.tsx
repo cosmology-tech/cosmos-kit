@@ -1,3 +1,4 @@
+import React from 'react';
 import { WalletManager, WalletStatus } from "@cosmos-kit/core";
 import { GoDesktopDownload } from "react-icons/go";
 import { IoExitOutline } from "react-icons/io5";
