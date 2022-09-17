@@ -47,12 +47,6 @@ export const WalletProvider = ({
   });
 
   const Modal = walletModal || DefaultModal;
-
-  useEffect(() => {
-    if (walletManager.autos?.connectWhenInit) {
-      connect();
-    }
-  }, []);
   
   return (
     <walletContext.Provider

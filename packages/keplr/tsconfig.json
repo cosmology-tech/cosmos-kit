@@ -12,7 +12,6 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "rootDir": "src",
-    "outDir": "dist/lib",
     "composite": true,
     "skipLibCheck": true
   },

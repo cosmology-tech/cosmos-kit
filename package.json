@@ -14,7 +14,7 @@
     "format": "lerna run format",
     "pretest": "yarn lint",
     "test": "lerna run test",
-    "publish": "lerna publish --allowBranch=beta-cosmos-kit"
+    "pub": "lerna publish --allowBranch=beta-cosmos-kit"
   },
   "devDependencies": {
     "@babel/cli": "7.18.10",
