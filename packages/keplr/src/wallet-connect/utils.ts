@@ -1,11 +1,6 @@
 import { BroadcastMode } from '@cosmjs/launchpad';
-import { Keplr } from '@keplr-wallet/types';
 import { Buffer } from 'buffer/';
 
-// import { KeplrQRCodeModalV1 } from "@keplr-wallet/wc-qrcode-modal";
-
-let keplr: Keplr | undefined = undefined;
-let promise: Promise<Keplr> | undefined = undefined;
 
 export async function sendTx(
   chainId: string,

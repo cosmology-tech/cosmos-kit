@@ -86,15 +86,11 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
-    "@keplr-wallet/cosmos": "^0.10.12",
-    "@keplr-wallet/types": "^0.10",
-    "@walletconnect/client": "1.8.0",
     "chain-registry": "^0.10.0"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.28",
-    "@cosmjs/stargate": "^0.28",
-    "@keplr-wallet/types": "^0.10"
+    "@cosmjs/stargate": "^0.28"
   },
   "gitHead": "5ac059680544db18d75f39f005a2887bd4716b9b"
 }

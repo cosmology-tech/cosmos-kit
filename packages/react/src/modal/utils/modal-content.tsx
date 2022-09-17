@@ -1,5 +1,4 @@
 import { WalletManager, WalletStatus } from "@cosmos-kit/core";
-import WalletConnect from "@walletconnect/client";
 import { GoDesktopDownload } from "react-icons/go";
 import { IoExitOutline } from "react-icons/io5";
 import { Astronaut, ConnectedContent, ConnectWalletButton, DefaultLink, DisplayWalletList, ExtensionContent, InstallWalletButton, QRCode, SimpleAvatarWithName, SimpleCopyAddressButton } from "../components";

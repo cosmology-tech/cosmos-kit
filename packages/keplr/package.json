@@ -91,18 +91,18 @@
     "@cosmos-kit/core": "^0.12.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@keplr-wallet/cosmos": "^0.10.12",
     "@keplr-wallet/types": "^0.10",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/node": "1.0.0",
+    "@keplr-wallet/wc-client": "^0.10.20",
+    "events": "3.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.28",
-    "@cosmjs/stargate": "^0.28",
-    "@keplr-wallet/types": "^0.10"
+    "@cosmjs/stargate": "^0.28"
   },
   "gitHead": "5ac059680544db18d75f39f005a2887bd4716b9b"
 }
