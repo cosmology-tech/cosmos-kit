@@ -47,9 +47,26 @@ export abstract class ChainWalletBase<
     return this.chainRaw?.codebase?.cosmwasm_enabled;
   }
 
-  get rpcEndpoint(): string | undefined {
-    return `https://rpc.cosmos.directory/${this.chainName}`;
-    return this.chainRegistry.raw?.apis.rpc[0].address;
+  get rpcEndpoint(): Promise<string | undefined> {
+    const fn = async () => {
+      const rpcs = [
+        { address: `https://rpc.cosmos.directory/${this.chainName}` }
+      ];
+      rpcs.push(...this.chainRegistry.raw?.apis?.rpc);
+
+      for (const rpc of rpcs) {      
+        try {
+          const response = await fetch(rpc.address)
+          if (response.status == 200) {
+            return rpc.address;
+          } 
+        } catch (err) {
+          console.error(err)
+        }        
+      }      
+      return undefined;
+    }
+    return fn();
   }
 
   get address(): string | undefined {
@@ -73,24 +90,34 @@ export abstract class ChainWalletBase<
     await this.update();
   }
 
-  get stargateClient(): Promise<SigningStargateClient> | undefined {
-    if (this.offlineSigner && this.rpcEndpoint) {
-      return SigningStargateClient.connectWithSigner(
-        this.rpcEndpoint,
-        this.offlineSigner,
-        this.stargateOptions
-    )}
-    return undefined; 
+  get stargateClient(): Promise<SigningStargateClient | undefined> {
+    const fn = async () => {
+      const rpcEndpoint = await this.rpcEndpoint;
+      console.info('Using RPC: ' + rpcEndpoint);
+      if (this.offlineSigner && rpcEndpoint) {
+        return SigningStargateClient.connectWithSigner(
+          rpcEndpoint,
+          this.offlineSigner,
+          this.stargateOptions
+      )}
+      return undefined; 
+    }
+    return fn();
   }
 
-  get cosmwasmClient(): Promise<SigningCosmWasmClient> | undefined {
-    if (this.cosmwasmEnabled && this.offlineSigner && this.rpcEndpoint) {
-      return SigningCosmWasmClient.connectWithSigner(
-        this.rpcEndpoint,
-        this.offlineSigner,
-        this.cosmwasmOptions
-    )}
-    return  undefined; 
+  get cosmwasmClient(): Promise<SigningCosmWasmClient | undefined> {
+    const fn = async () => {
+      const rpcEndpoint = await this.rpcEndpoint;
+      console.info('Using RPC: ' + rpcEndpoint);
+      if (this.offlineSigner && rpcEndpoint) {
+        return SigningCosmWasmClient.connectWithSigner(
+          rpcEndpoint,
+          this.offlineSigner,
+          this.stargateOptions
+      )}
+      return undefined; 
+    }
+    return fn();
   };
 
   abstract get client(): Promise<A> | undefined | A;

@@ -84,11 +84,11 @@ export class WalletManager extends StateBase<WalletData> {
     return this.data?.offlineSigner;
   }
 
-  get stargateClient(): Promise<SigningStargateClient> | undefined {
+  get stargateClient(): Promise<SigningStargateClient | undefined> {
     return this.currentWallet?.stargateClient;
   }
 
-  get cosmwasmClient(): Promise<SigningCosmWasmClient> | undefined {
+  get cosmwasmClient(): Promise<SigningCosmWasmClient | undefined> {
     return this.currentWallet?.cosmwasmClient;
   }
 

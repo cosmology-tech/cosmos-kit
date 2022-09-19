@@ -30,8 +30,6 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
         qrCodeLink: walletManager.currentWallet?.qrUri
     }))
 
-    const currentWalletData = walletsData.find(data => data.id === walletManager.currentWalletName);
-
     function handleClose() {
         setOpen(false);
         if (walletManager.walletStatus === 'Connecting') {
@@ -50,6 +48,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     }, []);
 
     useEffect(() => {
+        const currentWalletData = walletsData.find(data => data.id === walletManager.currentWalletName);
         setModalHead(
             getModalHead(walletManager, currentWalletData, handleClose, modalReset, setModalReset)
         );
