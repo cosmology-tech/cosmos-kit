@@ -100,6 +100,7 @@ export abstract class ChainWalletBase<
           this.offlineSigner,
           this.stargateOptions
       )}
+      console.error('Undefined offlineSigner or rpcEndpoint.');
       return undefined; 
     }
     return fn();
@@ -115,6 +116,7 @@ export abstract class ChainWalletBase<
           this.offlineSigner,
           this.stargateOptions
       )}
+      console.error('Undefined offlineSigner or rpcEndpoint.');
       return undefined; 
     }
     return fn();
