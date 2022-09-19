@@ -3,16 +3,16 @@ import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
 import { ChainWCKeplrData } from './types';
-// import { WCKeplrWallet } from './main-wallet';
+import { WCKeplrWallet } from './main-wallet';
 
 
 export class ChainWCKeplr extends ChainWalletBase<
   KeplrWalletConnectV1,
   ChainWCKeplrData,
-  any
+  WCKeplrWallet
 > {
 
-  constructor(_chainRegistry: ChainRegistry, keplrWallet: any) {
+  constructor(_chainRegistry: ChainRegistry, keplrWallet: WCKeplrWallet) {
     super(_chainRegistry, keplrWallet);
   }
 
@@ -21,7 +21,7 @@ export class ChainWCKeplr extends ChainWalletBase<
   }
 
   get connector(): WalletConnect {
-    return this.client.connector;
+    return this.client.connector as WalletConnect;
   }
 
   get isInSession() {
@@ -61,6 +61,7 @@ export class ChainWCKeplr extends ChainWalletBase<
       this.setData({
         address: key.bech32Address,
         username: key.name,
+        offlineSigner: this.chainId && this.client.getOfflineSigner(this.chainId),
       });
       this.setState(State.Done);
     } catch (e) {
