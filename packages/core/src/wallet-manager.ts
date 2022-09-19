@@ -1,3 +1,7 @@
+import { OfflineSigner } from '@cosmjs/proto-signing';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import { SigningStargateClient } from '@cosmjs/stargate';
+
 import { ExtendedWallet, ManagerActions, WalletData, WalletStatus } from './types';
 import {
   ChainRepo,
@@ -68,12 +72,24 @@ export class WalletManager extends StateBase<WalletData> {
     return this.currentWallet?.message;
   }
 
-  get username() {
-    return this.data?.username as string;
+  get username(): string | undefined {
+    return this.data?.username;
   }
 
-  get address() {
-    return this.data?.address as string;
+  get address(): string | undefined {
+    return this.data?.address;
+  }
+
+  get offlineSigner(): OfflineSigner | undefined {
+    return this.data?.offlineSigner;
+  }
+
+  get stargateClient(): Promise<SigningStargateClient> | undefined {
+    return this.currentWallet?.stargateClient;
+  }
+
+  get cosmwasmClient(): Promise<SigningCosmWasmClient> | undefined {
+    return this.currentWallet?.cosmwasmClient;
   }
 
   get activeWallets() {

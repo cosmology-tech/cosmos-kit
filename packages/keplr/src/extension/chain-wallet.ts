@@ -21,10 +21,12 @@ export class ChainExtKeplr extends ChainWalletBase<Keplr, ChainExtKeplrData, Ext
   async update() {
     this.setState(State.Pending);
     try {
-      const key = await (await this.client).getKey(this.chainName);
+      const keplr = await this.client;
+      const key = await keplr.getKey(this.chainName);
       this.setData({
         address: key.bech32Address,
         username: key.name,
+        offlineSigner: this.chainId && keplr.getOfflineSigner(this.chainId),
       });
       this.setState(State.Done);
     } catch (e) {

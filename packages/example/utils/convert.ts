@@ -8,5 +8,9 @@ export function convert(chain: Chain): ChainRegistry {
       name: chain.chain_name,
       active: false,
       raw: chain,
+      options: {
+        stargate: (chainInfo) => undefined,
+        cosmwasm: (chainInfo) => undefined,
+      }
     };
   }

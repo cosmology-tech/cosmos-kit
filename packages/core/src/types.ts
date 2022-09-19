@@ -1,5 +1,8 @@
 import { Chain } from '@chain-registry/types';
 import { IconType } from 'react-icons';
+import { OfflineSigner } from '@cosmjs/proto-signing';
+import { SigningStargateClientOptions } from '@cosmjs/stargate';
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 
 import { ChainWalletBase, MainWalletBase } from './bases';
 
@@ -8,6 +11,7 @@ export interface WalletData {
 }
 export interface ChainWalletData extends WalletData {
   address?: string;
+  offlineSigner?: OfflineSigner;
 }
 
 export interface MainWalletData extends WalletData {
@@ -78,7 +82,10 @@ export interface WalletRegistry extends Registry<WalletName> {
 
 export interface ChainRegistry extends Registry<ChainName> {
   raw?: Chain;
-  // options
+  options?: {
+    stargate?: (chainInfo: Chain) => SigningStargateClientOptions | undefined;
+    cosmwasm?: (chainInfo: Chain) => SigningCosmWasmClientOptions | undefined;
+  }
 }
 
 // export interface ChainSelectorProps {
