@@ -1,1 +1,2 @@
-export * from './wallets'
+export * from './config';
+export * from './utils';

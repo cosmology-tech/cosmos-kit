@@ -24,5 +24,3 @@ jobs:
         run: yarn bootstrap
       - name: build
         run: yarn build
-      - name: react
-        run: cd ./packages/react && yarn test

@@ -1,12 +1,24 @@
 {
   "compilerOptions": {
+    "target": "es2022",
     "declaration": true,
     "declarationDir": "./types",
     "emitDeclarationOnly": true,
     "isolatedModules": true,
     "allowJs": true,
-    "esModuleInterop": true
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "rootDir": "src",
+    "composite": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

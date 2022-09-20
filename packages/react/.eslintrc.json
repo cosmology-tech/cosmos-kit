@@ -2,13 +2,11 @@
   "plugins": [
     "@typescript-eslint",
     "simple-import-sort",
-    "unused-imports",
-    "react-hooks"
+    "unused-imports"
   ],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
     // configures both eslint-plugin-prettier and eslint-config-prettier
     "plugin:prettier/recommended"
   ],
@@ -25,8 +23,6 @@
     "jest": true
   },
   "rules": {
-    "react-hooks/rules-of-hooks": 2,
-    "react-hooks/exhaustive-deps": 1,
     "simple-import-sort/imports": 2,
     "simple-import-sort/exports": 2,
     "prettier/prettier": 2,
@@ -36,7 +32,10 @@
     "no-alert": 2,
     "no-await-in-loop": 0,
     "no-prototype-builtins": 0,
-    "no-return-assign": ["error", "except-parens"],
+    "no-return-assign": [
+      "error",
+      "except-parens"
+    ],
     "no-restricted-syntax": [
       2,
       "ForInStatement",
@@ -63,8 +62,14 @@
       }
     ],
     "comma-dangle": 0,
-    "jsx-quotes": [2, "prefer-double"],
-    "linebreak-style": ["error", "unix"],
+    "jsx-quotes": [
+      2,
+      "prefer-double"
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
     "quotes": [
       2,
       "single",

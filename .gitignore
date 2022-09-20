@@ -6,3 +6,5 @@ coverage
 packages/**/build
 packages/**/main
 packages/**/module
+packages/example/pages/tmp.tsx
+packages/example/utils/tmp.ts

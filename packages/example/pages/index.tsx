@@ -1,109 +1,156 @@
-import { useWallet, useWalletManager } from '@cosmos-kit/react'
-import { CosmosWalletStatus } from '@cosmos-kit/types'
-import type { NextPage } from 'next'
-import React, { useCallback, useState } from 'react'
+import { useWallet } from "@cosmos-kit/react";
+import { chainInfos } from "../config";
+import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
+import { MouseEventHandler } from "react";
+import { FiAlertTriangle } from "react-icons/fi";
+import { Astronaut, Error, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
+import { getWalletPrettyName } from "@cosmos-kit/registry";
 
-const Home: NextPage = () => {
-  const { connect, disconnect } = useWalletManager()
-  const {
-    status: walletStatus,
-    error,
-    name,
-    address,
-    signingCosmWasmClient,
-  } = useWallet()
+const Home = () => {
+  const walletManager = useWallet();
+  const { connect, disconnect, openView, setCurrentChain,
+    walletStatus, username, address, message,
+    currentChainName: chainName, currentWalletName } = walletManager;
+  
+  const walletPrettyName = getWalletPrettyName(currentWalletName);
 
-  const [contractAddress, setContractAddress] = useState('')
-  const [msg, setMsg] = useState('')
-  const [status, setStatus] = useState('')
+  // Events
+  const onClickConnect: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    openView();
+    await connect();
+  };
 
-  const execute = useCallback(async () => {
-    if (!address || !signingCosmWasmClient) return
+  const onClickDisconnect: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    openView();
+    // await disconnect();
+  };
 
-    setStatus('Loading...')
+  const onClickOpenView: MouseEventHandler = (e) => {
+    e.preventDefault();
+    openView();
+  };
 
-    try {
-      // Parse message.
-      const msgObject = JSON.parse(msg)
-
-      // Execute message.
-      const result = await signingCosmWasmClient.execute(
-        address,
-        contractAddress,
-        msgObject,
-        'auto'
-      )
-
-      console.log(result)
-      setStatus(`Executed. TX: ${result.transactionHash}`)
-    } catch (err) {
-      console.error(err)
-      setStatus(`Error: ${err instanceof Error ? err.message : `${err}`}`)
+  const onChainChange: handleSelectChainDropdown = async (
+    selectedValue: ChainOption | null
+  ) => {
+    setCurrentChain(selectedValue?.chainName);
+    openView();
+    if (currentWalletName) {
+      await connect();
     }
-  }, [address, contractAddress, msg, signingCosmWasmClient])
+  };
+
+  // Components
+  const connectWalletButton = (
+    <WalletConnectComponent
+      walletStatus={walletStatus}
+      disconnect={
+        <Disconnected buttonText="Connect Wallet" onClick={
+          currentWalletName
+            ? onClickConnect
+            : onClickOpenView
+        } />
+      }
+      connecting={<Connecting />}
+      connected={
+        <Connected buttonText={
+          address
+            // ? `${address.slice(0, 7)}...${address.slice(-4)}`
+            ? `${walletPrettyName}`
+            : "Disconnect"
+        } onClick={
+          address
+            ? onClickOpenView
+            : onClickDisconnect
+        } />
+      }
+      rejected={
+        <Rejected
+          buttonText="Reconnect"
+          onClick={onClickConnect}
+        />
+      }
+      error={
+        <Error
+          buttonText="Change Wallet"
+          onClick={onClickOpenView}
+        />
+      }
+      notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenView} />}
+    />
+  );
+
+  const connectWalletWarn = (
+    <ConnectStatusWarn
+      walletStatus={walletStatus}
+      rejected={
+        <RejectedWarn
+          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          wordOfWarning={`${walletPrettyName}: ${message}`}
+        />
+      }
+      error={
+        <RejectedWarn
+          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          wordOfWarning={`${walletPrettyName}: ${message}`}
+        />
+      }
+    />
+  );
+  const chooseChain = (
+    <ChooseChain
+      chainName={chainName}
+      chainInfos={chainInfos}
+      onChange={onChainChange}
+    />
+  );
+
+  const userInfo = <ConnectedUserInfo username={username} icon={<Astronaut />} />;
+  const addressBtn = chainName && (
+    <CopyAddressBtn
+      walletStatus={walletStatus}
+      connected={<ConnectedShowAddress address={address} isLoading={false} />}
+    />
+  );
 
   return (
-    <div className="absolute top-0 right-0 left-0 bottom-0 flex justify-center items-center">
-      <div className="flex flex-col items-stretch gap-2 max-w-[90vw] max-h-[90vh]">
-        {walletStatus === CosmosWalletStatus.Connected ? (
-          <>
-            <p>
-              Name: <b>{name}</b>
-            </p>
-            <p>
-              Address: <b>{address}</b>
-            </p>
-            <button
-              onClick={disconnect}
-              className="px-3 py-2 rounded-md border border-gray bg-gray-200 hover:opacity-70"
-            >
-              Disconnect
-            </button>
-
-            <h1 className="text-lg mt-4">Execute Smart Contract</h1>
-            <input
-              type="text"
-              placeholder="Contract Address"
-              className="px-4 py-2 rounded-md outline"
-              value={contractAddress}
-              onChange={(event) => setContractAddress(event.target.value)}
-            />
-
-            <h2 className="text-lg mt-2">Message</h2>
-            <textarea
-              className="p-4 rounded-md outline font-mono"
-              rows={10}
-              value={msg}
-              onChange={(event) => setMsg(event.target.value)}
-            />
-
-            <button
-              onClick={execute}
-              className="px-3 py-2 rounded-md border border-gray bg-gray-200 hover:opacity-70 mt-4"
-            >
-              Execute
-            </button>
-
-            {status && (
-              <pre className="overflow-scroll text-xs mt-2">{status}</pre>
+    <Center py={16}>
+      <Grid
+        w="full"
+        maxW="sm"
+        templateColumns="1fr"
+        rowGap={4}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <GridItem>{chooseChain}</GridItem>
+        <GridItem>{connectWalletWarn}</GridItem>
+        <GridItem px={6}>
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="lg"
+            bg={useColorModeValue("white", "blackAlpha.400")}
+            boxShadow={useColorModeValue(
+              "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+              "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
             )}
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => connect()}
-              className="px-3 py-2 rounded-md border border-gray bg-gray-200 hover:opacity-70"
-            >
-              Connect
-            </button>
-            {error ? (
-              <p>{error instanceof Error ? error.message : `${error}`}</p>
-            ) : undefined}
-          </>
-        )}
-      </div>
-    </div>
-  )
+            spacing={4}
+            px={4}
+            py={{ base: 6, md: 12 }}
+          >
+            {userInfo}
+            {addressBtn}
+            <Box w="full" maxW={{ base: 52, md: 64 }}>
+              {connectWalletButton}
+            </Box>
+          </Stack>
+        </GridItem>
+      </Grid>
+    </Center>
+  );
 }
 
-export default Home
+export default Home;
