@@ -262,4 +262,8 @@ export class WalletManager extends StateBase<WalletData> {
   openView = () => {
     this.emitViewOpen?.(true);
   }
+
+  closeView = () => {
+    this.emitViewOpen?.(false);
+  }
 }
