@@ -69,6 +69,28 @@ export abstract class ChainWalletBase<
     return fn();
   }
 
+  get restEndpoint(): Promise<string | undefined> {
+    const fn = async () => {
+      const rests = [
+        { address: `https://rest.cosmos.directory/${this.chainName}` }
+      ];
+      rests.push(...this.chainInfo.registry?.apis?.rest);
+
+      for (const rest of rests) {      
+        try {
+          const response = await fetch(rest.address)
+          if (response.status == 200) {
+            return rest.address;
+          } 
+        } catch (err) {
+          console.error(err)
+        }        
+      }      
+      return undefined;
+    }
+    return fn();
+  }
+
   get address(): string | undefined {
     return this.data?.address;
   }
