@@ -37,7 +37,7 @@ export class ChainWCKeplr extends ChainWalletBase<
   }
 
   private get ee() {
-    return this.mainWallet.ee;
+    return this.mainWallet.emitter;
   }
 
   async connect(): Promise<void> {

@@ -16,7 +16,7 @@ export class WCKeplrWallet extends MainWalletBase<
   protected _chains: Map<ChainName, ChainWCKeplr>;
   protected _client: KeplrWalletConnectV1;
   connector: WalletConnect;
-  ee: EventEmitter;
+  emitter: EventEmitter;
 
   constructor(_concurrency?: number) {
     super(_concurrency);
@@ -30,18 +30,18 @@ export class WCKeplrWallet extends MainWalletBase<
         throw error;
       }
       this.setClient(new KeplrWalletConnectV1(this.connector));
-      this.ee.emit('update');
+      this.emitter.emit('update');
     });
 
     this.connector.on("disconnect", (error) => {
       if (error) {
         throw error;
       }
-      this.ee.emit('disconnect');
+      this.emitter.emit('disconnect');
     });
 
     this._client = new KeplrWalletConnectV1(this.connector);
-    this.ee = new EventEmitter();
+    this.emitter = new EventEmitter();
   }
 
   get isInSession() {
@@ -72,10 +72,10 @@ export class WCKeplrWallet extends MainWalletBase<
   async connect(): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
-      this.ee.on('update', async () => {
+      this.emitter.on('update', async () => {
         await this.update();
       })
-      this.ee.on('disconnect', async () => {
+      this.emitter.on('disconnect', async () => {
         await this.disconnect();
       })
     } else {
