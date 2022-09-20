@@ -2,7 +2,7 @@ import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClient } from '@cosmjs/stargate';
 
-import { Wallet, ManagerActions, WalletDataBase, WalletStatus } from './types';
+import { Wallet, ManagerActions, WalletData, WalletStatus } from './types';
 import {
   ChainRepo,
   createChainRepo,
@@ -19,12 +19,12 @@ import {
 } from './types';
 import { StateBase } from './bases';
 
-export class WalletManager extends StateBase<WalletDataBase> {
+export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
   protected _useModal = true;
   protected _concurrency?: number;
-  declare actions?: ManagerActions<WalletDataBase>;
+  declare actions?: ManagerActions<WalletData>;
   walletRepo: WalletRepo;
   chainRepo: ChainRepo;
   autos?: Autos;
@@ -60,7 +60,7 @@ export class WalletManager extends StateBase<WalletDataBase> {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
-  get data() {
+  get data(): WalletData {
     return this.currentWallet?.data;
   }
 
@@ -194,7 +194,7 @@ export class WalletManager extends StateBase<WalletDataBase> {
       return undefined;
     }
 
-    let wallet = this.walletRepo.getItem(walletName).wallet;
+    let wallet: Wallet | undefined = this.walletRepo.getItem(walletName).wallet;
     if (chainName) {
       wallet = wallet.getChain(chainName);
     }

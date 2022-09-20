@@ -15,10 +15,20 @@ export interface MainWalletDataBase {
   username?: string;
 }
 
-export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletDataBase, unknown> {
+export interface ChainWalletData extends ChainWalletDataBase {
   [k: string]: any | undefined;
 }
-export interface MainWallet extends MainWalletBase<unknown, MainWalletDataBase, ChainWalletDataBase, ChainWallet> {
+
+export interface MainWalletData extends MainWalletDataBase {
+  [k: string]: any | undefined;
+}
+
+export type WalletData = ChainWalletData | MainWalletData;
+
+export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData, unknown> {
+  [k: string]: any | undefined;
+}
+export interface MainWallet extends MainWalletBase<unknown, MainWalletData, ChainWalletData, ChainWallet> {
   [k: string]: any | undefined;
 }
 
