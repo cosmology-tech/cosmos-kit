@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr",
-  "version": "0.12.7",
+  "version": "0.12.8",
   "description": "cosmos-kit wallet connector",
   "author": "Dan Lynch <pyramation@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -88,7 +88,7 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.12.3",
+    "@cosmos-kit/core": "^0.12.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "^0.10",
