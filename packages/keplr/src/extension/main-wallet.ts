@@ -1,4 +1,4 @@
-import { ChainName, ChainRegistry, State } from '@cosmos-kit/core';
+import { ChainName, ChainInfo, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
@@ -21,11 +21,11 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExt
     })();
   }
 
-  protected setChains(supportedChains: ChainRegistry[]): void {
+  protected setChains(supportedChains: ChainInfo[]): void {
     this._chains = new Map(
-      supportedChains.map((chainRegistry) => [
-        chainRegistry.name,
-        new ChainExtKeplr(chainRegistry, this),
+      supportedChains.map((chainInfo) => [
+        chainInfo.name,
+        new ChainExtKeplr(chainInfo, this),
       ])
     );
   }

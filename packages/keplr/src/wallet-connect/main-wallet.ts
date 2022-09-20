@@ -1,4 +1,4 @@
-import { ChainName, ChainRegistry, Dispatch, State } from '@cosmos-kit/core';
+import { ChainName, ChainInfo, Dispatch, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
@@ -59,11 +59,11 @@ export class WCKeplrWallet extends MainWalletBase<
     this._client = client;
   }
 
-  protected setChains(supportedChains: ChainRegistry[]): void {
+  protected setChains(supportedChains: ChainInfo[]): void {
     this._chains = new Map(
-      supportedChains.map((chainRegistry) => [
-        chainRegistry.name,
-        new ChainWCKeplr(chainRegistry, this),
+      supportedChains.map((chainInfo) => [
+        chainInfo.name,
+        new ChainWCKeplr(chainInfo, this),
       ])
     );
   }

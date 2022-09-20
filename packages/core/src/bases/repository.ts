@@ -1,12 +1,12 @@
-import { Registry } from '../types';
+import { Info } from '../types';
 
 type Name = string;
 
-export class Repo<ItemRegistry extends Registry<Name>> {
-  readonly registeredItemMap: Map<Name, ItemRegistry> = new Map();
-  public itemPool: ItemRegistry[];
+export class Repo<ItemInfo extends Info<Name>> {
+  readonly registeredItemMap: Map<Name, ItemInfo> = new Map();
+  public itemPool: ItemInfo[];
 
-  constructor(itemPool: ItemRegistry[]) {
+  constructor(itemPool: ItemInfo[]) {
     this.itemPool = itemPool;
   }
 
@@ -24,7 +24,7 @@ export class Repo<ItemRegistry extends Registry<Name>> {
     return this.registeredItemMap.get(name)!;
   }
 
-  register(itemInfo: Name | ItemRegistry) {
+  register(itemInfo: Name | ItemInfo) {
     const name = typeof itemInfo === 'string' ? itemInfo : itemInfo.name;
     if (this.registeredItemMap.has(name)) {
       console.info(
@@ -57,7 +57,7 @@ export class Repo<ItemRegistry extends Registry<Name>> {
   }
 
   get activeItems() {
-    const items: ItemRegistry[] = [];
+    const items: ItemInfo[] = [];
     this.registeredItemMap.forEach((item) => {
       item.active && items.push(item);
     });
@@ -97,12 +97,12 @@ export class Repo<ItemRegistry extends Registry<Name>> {
   }
 }
 
-export function createRepo<ItemRegistry extends Registry<Name>>(
-  itemPool: ItemRegistry[],
+export function createRepo<ItemInfo extends Info<Name>>(
+  itemPool: ItemInfo[],
   registerAll: boolean = false,
   activateAll: boolean = false
 ) {
-  const repo = new Repo<ItemRegistry>(itemPool);
+  const repo = new Repo<ItemInfo>(itemPool);
   if (registerAll) {
     repo.registerAll();
   }

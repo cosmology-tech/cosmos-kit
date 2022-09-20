@@ -54,7 +54,7 @@ export type WalletName = string;
 
 export type Dispatch<T> = (value: T) => void;
 
-export interface Registry<Name> {
+export interface Info<Name> {
   name: Name;
   active: boolean;
 }
@@ -66,7 +66,7 @@ interface Icon {
   link: string;
 }
 
-export interface WalletRegistry extends Registry<WalletName> {
+export interface WalletInfo extends Info<WalletName> {
   wallet: ExtendedMainWallet;
   prettyName: string;
   isQRCode: boolean;
@@ -80,8 +80,8 @@ export interface WalletRegistry extends Registry<WalletName> {
   qrCodeLink?: string;
 }
 
-export interface ChainRegistry extends Registry<ChainName> {
-  raw?: Chain;
+export interface ChainInfo extends Info<ChainName> {
+  registry?: Chain;
   options?: {
     stargate?: (chainInfo: Chain) => SigningStargateClientOptions | undefined;
     cosmwasm?: (chainInfo: Chain) => SigningCosmWasmClientOptions | undefined;

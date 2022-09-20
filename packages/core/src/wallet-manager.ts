@@ -13,9 +13,9 @@ import {
   Actions,
   Autos,
   ChainName,
-  ChainRegistry,
+  ChainInfo,
   WalletName,
-  WalletRegistry,
+  WalletInfo,
 } from './types';
 import { StateBase } from './bases';
 
@@ -30,8 +30,8 @@ export class WalletManager extends StateBase<WalletData> {
   autos?: Autos;
 
   constructor(
-    chains?: ChainRegistry[],
-    wallets?: WalletRegistry[],
+    chains?: ChainInfo[],
+    wallets?: WalletInfo[],
     _concurrency?: number
   ) {
     super();

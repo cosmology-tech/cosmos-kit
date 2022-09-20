@@ -2,7 +2,7 @@ import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cos
 import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 
-import { ChainRegistry, ChainWalletData, State } from '../types';
+import { ChainInfo, ChainWalletData, State } from '../types';
 import { StateBase } from './state';
 
 export abstract class ChainWalletBase<
@@ -10,41 +10,41 @@ export abstract class ChainWalletBase<
   B extends ChainWalletData,
   C
 > extends StateBase<B> {
-  protected _chainRegistry: ChainRegistry;
+  protected _chainInfo: ChainInfo;
   protected mainWallet?: C;
 
-  constructor(_chainRegistry: ChainRegistry, mainWallet?: C) {
+  constructor(_chainInfo: ChainInfo, mainWallet?: C) {
     super();
-    this._chainRegistry = _chainRegistry;
+    this._chainInfo = _chainInfo;
     this.mainWallet = mainWallet;
   }
 
-  get chainRegistry() {
-    return this._chainRegistry;
+  get chainInfo() {
+    return this._chainInfo;
   }
 
   get chainName() {
-    return this.chainRegistry.name;
+    return this.chainInfo.name;
   }
 
   get stargateOptions(): SigningStargateClientOptions | undefined {
-    return this.chainRegistry.options?.stargate(this.chainRaw);
+    return this.chainInfo.options?.stargate(this.chainRegistry);
   }
 
   get cosmwasmOptions(): SigningCosmWasmClientOptions | undefined {
-    return this.chainRegistry.options?.cosmwasm(this.chainRaw);
+    return this.chainInfo.options?.cosmwasm(this.chainRegistry);
   }
 
-  get chainRaw() {
-    return this.chainRegistry.raw;
+  get chainRegistry() {
+    return this.chainInfo.registry;
   }
 
   get chainId() {
-    return this.chainRaw?.chain_id;
+    return this.chainRegistry?.chain_id;
   }
 
   get cosmwasmEnabled() {
-    return this.chainRaw?.codebase?.cosmwasm_enabled;
+    return this.chainRegistry?.codebase?.cosmwasm_enabled;
   }
 
   get rpcEndpoint(): Promise<string | undefined> {
@@ -52,7 +52,7 @@ export abstract class ChainWalletBase<
       const rpcs = [
         { address: `https://rpc.cosmos.directory/${this.chainName}` }
       ];
-      rpcs.push(...this.chainRegistry.raw?.apis?.rpc);
+      rpcs.push(...this.chainInfo.registry?.apis?.rpc);
 
       for (const rpc of rpcs) {      
         try {

@@ -11,6 +11,8 @@ const Home = () => {
   const { connect, disconnect, openModal, setCurrentChain,
     walletStatus, username, address, message,
     currentChainName: chainName, currentWalletName } = walletManager;
+  
+  const walletPrettyName = getWalletPrettyName(currentWalletName);
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -55,7 +57,8 @@ const Home = () => {
       connected={
         <Connected buttonText={
           address
-            ? `${address.slice(0, 7)}...${address.slice(-4)}`
+            // ? `${address.slice(0, 7)}...${address.slice(-4)}`
+            ? `${walletPrettyName}`
             : "Disconnect"
         } onClick={
           address
@@ -85,13 +88,13 @@ const Home = () => {
       rejected={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${getWalletPrettyName(currentWalletName)}: ${message}`}
+          wordOfWarning={`${walletPrettyName}: ${message}`}
         />
       }
       error={
         <RejectedWarn
           icon={<Icon as={FiAlertTriangle} mt={1} />}
-          wordOfWarning={`${getWalletPrettyName(currentWalletName)}: ${message}`}
+          wordOfWarning={`${walletPrettyName}: ${message}`}
         />
       }
     />

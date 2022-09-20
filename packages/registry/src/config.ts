@@ -1,10 +1,10 @@
-import { WalletRegistry } from '@cosmos-kit/core';
+import { WalletInfo } from '@cosmos-kit/core';
 import { ExtKeplrWallet, WCKeplrWallet } from '@cosmos-kit/keplr';
 import { RiChromeFill, RiAppStoreFill } from "react-icons/ri";
 import { GrFirefox } from "react-icons/gr";
 import { FaAndroid } from "react-icons/fa";
 
-export const allWallets: WalletRegistry[] = [
+export const allWallets: WalletInfo[] = [
   {
     name: "keplr",
     active: false,
