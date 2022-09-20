@@ -5,11 +5,12 @@ import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
 import { ChainWCKeplr } from './chain-wallet';
-import { WCKeplrData } from './types';
+import { ChainWCKeplrData, WCKeplrData } from './types';
 
 export class WCKeplrWallet extends MainWalletBase<
   KeplrWalletConnectV1,
   WCKeplrData,
+  ChainWCKeplrData,
   ChainWCKeplr
 > {
   protected _chains: Map<ChainName, ChainWCKeplr>;

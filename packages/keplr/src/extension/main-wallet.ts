@@ -3,10 +3,10 @@ import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
 import { ChainExtKeplr } from './chain-wallet';
-import { ExtKeplrData } from './types';
+import { ChainExtKeplrData, ExtKeplrData } from './types';
 import { getKeplrFromExtension } from './utils';
 
-export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExtKeplr> {
+export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExtKeplrData, ChainExtKeplr> {
   protected _chains: Map<ChainName, ChainExtKeplr>;
   protected _client: Promise<Keplr | undefined> | undefined;
 

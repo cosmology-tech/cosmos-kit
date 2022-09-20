@@ -1,15 +1,16 @@
 import { ChainName, ChainInfo, State } from '../types';
-import { MainWalletData } from '../types';
+import { MainWalletDataBase, ChainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
 
 export abstract class MainWalletBase<
-  A,
-  B extends MainWalletData,
-  C extends ChainWalletBase<A, any, any>
-> extends StateBase<B> {
-  protected abstract _chains: Map<ChainName, C>;
-  protected abstract _client: Promise<A | undefined> | A | undefined;
+  WalletClient,
+  MainWalletData extends MainWalletDataBase,
+  ChainWalletData extends ChainWalletDataBase,
+  ChainWallet extends ChainWalletBase<WalletClient, ChainWalletData, unknown>
+> extends StateBase<MainWalletData> {
+  protected abstract _chains: Map<ChainName, ChainWallet>;
+  protected abstract _client: Promise<WalletClient | undefined> | WalletClient | undefined;
   // protected queue: PQueue;
 
   protected _supportedChains: ChainInfo[] = [];
@@ -55,7 +56,7 @@ export abstract class MainWalletBase<
     return Array.from(this.chains.keys());
   }
 
-  get chainList(): C[] {
+  get chainList(): ChainWallet[] {
     return Array.from(this.chains.values());
   }
 

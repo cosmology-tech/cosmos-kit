@@ -2,18 +2,18 @@ import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cos
 import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 
-import { ChainInfo, ChainWalletData, State } from '../types';
+import { ChainInfo, ChainWalletDataBase, State } from '../types';
 import { StateBase } from './state';
 
 export abstract class ChainWalletBase<
-  A,
-  B extends ChainWalletData,
-  C
-> extends StateBase<B> {
+  WalletClient,
+  ChainWalletData extends ChainWalletDataBase,
+  MainWallet
+> extends StateBase<ChainWalletData> {
   protected _chainInfo: ChainInfo;
-  protected mainWallet?: C;
+  protected mainWallet?: MainWallet;
 
-  constructor(_chainInfo: ChainInfo, mainWallet?: C) {
+  constructor(_chainInfo: ChainInfo, mainWallet?: MainWallet) {
     super();
     this._chainInfo = _chainInfo;
     this.mainWallet = mainWallet;
@@ -122,5 +122,5 @@ export abstract class ChainWalletBase<
     return fn();
   };
 
-  abstract get client(): Promise<A> | undefined | A;
+  abstract get client(): Promise<WalletClient> | undefined | WalletClient;
 }

@@ -6,26 +6,23 @@ import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 
 import { ChainWalletBase, MainWalletBase } from './bases';
 
-export interface WalletData {
-  [k: string]: any | undefined;
-}
-export interface ChainWalletData extends WalletData {
+export interface ChainWalletDataBase {
   address?: string;
   offlineSigner?: OfflineSigner;
 }
 
-export interface MainWalletData extends WalletData {
+export interface MainWalletDataBase {
   username?: string;
 }
 
-export interface ExtendedMainWallet extends MainWalletBase<any, MainWalletData, any> {
+export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletDataBase, unknown> {
   [k: string]: any | undefined;
 }
-export interface ExtendedChainWallet extends ChainWalletBase<any, ChainWalletData, any> {
+export interface MainWallet extends MainWalletBase<unknown, MainWalletDataBase, ChainWalletDataBase, ChainWallet> {
   [k: string]: any | undefined;
 }
 
-export type ExtendedWallet = ExtendedMainWallet | ExtendedChainWallet;
+export type Wallet = ChainWallet | MainWallet;
 
 export enum State {
   Init = 'Init',
@@ -67,7 +64,7 @@ interface Icon {
 }
 
 export interface WalletInfo extends Info<WalletName> {
-  wallet: ExtendedMainWallet;
+  wallet: MainWallet;
   prettyName: string;
   isQRCode: boolean;
   downloads?: {
@@ -100,7 +97,7 @@ export interface WalletModalProps {
 }
 
 export interface Actions {
-  [k: string]: Dispatch<any> | undefined;
+  [k: string]: Dispatch<unknown> | undefined;
 }
 
 export interface StateActions<T> extends Actions {

@@ -2,7 +2,7 @@ import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClient } from '@cosmjs/stargate';
 
-import { ExtendedWallet, ManagerActions, WalletData, WalletStatus } from './types';
+import { Wallet, ManagerActions, WalletDataBase, WalletStatus } from './types';
 import {
   ChainRepo,
   createChainRepo,
@@ -19,12 +19,12 @@ import {
 } from './types';
 import { StateBase } from './bases';
 
-export class WalletManager extends StateBase<WalletData> {
+export class WalletManager extends StateBase<WalletDataBase> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
   protected _useModal = true;
   protected _concurrency?: number;
-  declare actions?: ManagerActions<WalletData>;
+  declare actions?: ManagerActions<WalletDataBase>;
   walletRepo: WalletRepo;
   chainRepo: ChainRepo;
   autos?: Autos;
@@ -56,7 +56,7 @@ export class WalletManager extends StateBase<WalletData> {
     return this._currentChainName;
   }
 
-  get currentWallet(): ExtendedWallet | undefined {
+  get currentWallet(): Wallet | undefined {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
@@ -189,7 +189,7 @@ export class WalletManager extends StateBase<WalletData> {
     console.info(`${this.chainCount} chains are used!`)
   }
 
-  private getWallet(walletName?: WalletName, chainName?: ChainName): ExtendedWallet | undefined {
+  private getWallet(walletName?: WalletName, chainName?: ChainName): Wallet | undefined {
     if (!walletName) {
       return undefined;
     }

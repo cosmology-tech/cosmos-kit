@@ -1,10 +1,10 @@
-import { ChainWalletData, MainWalletData } from '@cosmos-kit/core';
+import { ChainWalletDataBase, MainWalletDataBase } from '@cosmos-kit/core';
 
-export interface ChainWCKeplrData extends ChainWalletData {
+export interface ChainWCKeplrData extends ChainWalletDataBase {
   username?: string;
   qrUri?: string;
 }
 
-export interface WCKeplrData extends MainWalletData {
+export interface WCKeplrData extends MainWalletDataBase {
   qrUri?: string;
 };
