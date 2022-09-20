@@ -32,7 +32,7 @@ export const WalletProvider = ({
     currentWalletName
   );
 
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [chainName, setChainName] = useState<ChainName | undefined>();
   const [qrUri, setQRUri] = useState<string | undefined>();
 
@@ -41,7 +41,7 @@ export const WalletProvider = ({
     state: setWalletState,
     message: setWalletMsg,
     walletName: setWalletName,
-    modalOpen: setModalOpen,
+    viewOpen: setViewOpen,
     chainName: setChainName,
     qrUri: setQRUri,
   });
@@ -56,8 +56,8 @@ export const WalletProvider = ({
     >
       {children}
       <Modal
-        isOpen={isModalOpen}
-        setOpen={setModalOpen}
+        isOpen={isViewOpen}
+        setOpen={setViewOpen}
       />
     </walletContext.Provider>
   );

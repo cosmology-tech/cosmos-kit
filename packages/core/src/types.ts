@@ -119,11 +119,11 @@ export interface StateActions<T> extends Actions {
 export interface ManagerActions<T> extends StateActions<T> {
   walletName?: Dispatch<WalletName | undefined>;
   chainName?: Dispatch<ChainName | undefined>,
-  modalOpen?: Dispatch<boolean>;
+  viewOpen?: Dispatch<boolean>;
 }
 
 export interface Autos {
-  closeModalWhenWalletIsConnected?: boolean;
-  closeModalWhenWalletIsDisconnected?: boolean;
-  closeModalWhenWalletIsRejected?: boolean;
+  closeViewWhenWalletIsConnected?: boolean;
+  closeViewWhenWalletIsDisconnected?: boolean;
+  closeViewWhenWalletIsRejected?: boolean;
 }

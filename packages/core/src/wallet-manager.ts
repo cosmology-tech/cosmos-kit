@@ -132,8 +132,8 @@ export class WalletManager extends StateBase<WalletData> {
     return this.actions?.chainName;
   }
 
-  get emitModalOpen() {
-    return this.actions?.modalOpen;
+  get emitViewOpen() {
+    return this.actions?.viewOpen;
   }
 
   setAction(actions: Actions) {
@@ -206,7 +206,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   connect = async () => {
     if (!this.currentWalletName) {
-      this.openModal();
+      this.openView();
       return
     }
     try {
@@ -214,17 +214,17 @@ export class WalletManager extends StateBase<WalletData> {
 
       if (
         this.walletStatus === WalletStatus.Connected
-        && this.autos?.closeModalWhenWalletIsConnected
+        && this.autos?.closeViewWhenWalletIsConnected
       ) {
-        this.emitModalOpen?.(false);
+        this.emitViewOpen?.(false);
       }
     } catch (error) {
       console.error(error);
       if (
         this.walletStatus === WalletStatus.Rejected
-        && this.autos?.closeModalWhenWalletIsRejected
+        && this.autos?.closeViewWhenWalletIsRejected
       ) {
-        this.emitModalOpen?.(false);
+        this.emitViewOpen?.(false);
       }
     }
   }
@@ -240,17 +240,17 @@ export class WalletManager extends StateBase<WalletData> {
 
       if (
         this.walletStatus === WalletStatus.Disconnected
-        && this.autos?.closeModalWhenWalletIsDisconnected
+        && this.autos?.closeViewWhenWalletIsDisconnected
       ) {
-        this.emitModalOpen?.(false);
+        this.emitViewOpen?.(false);
       }
     } catch (e) {
       this.setMessage((e as Error).message)
       if (
         this.walletStatus === WalletStatus.Rejected
-        && this.autos?.closeModalWhenWalletIsRejected
+        && this.autos?.closeViewWhenWalletIsRejected
       ) {
-        this.emitModalOpen?.(false);
+        this.emitViewOpen?.(false);
       }
     }
 
@@ -259,7 +259,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
   };
 
-  openModal = () => {
-    this.emitModalOpen?.(true);
+  openView = () => {
+    this.emitViewOpen?.(true);
   }
 }
