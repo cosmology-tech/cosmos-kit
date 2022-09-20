@@ -22,7 +22,7 @@ import { StateBase } from './bases';
 export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
-  protected _useModal = true;
+  protected _useView = true;
   protected _concurrency?: number;
   declare actions?: ManagerActions<WalletData>;
   walletRepo: WalletRepo;
@@ -44,8 +44,8 @@ export class WalletManager extends StateBase<WalletData> {
     });
   }
 
-  get useModal() {
-    return this._useModal;
+  get useView() {
+    return this._useView;
   }
 
   get currentWalletName() {
@@ -169,11 +169,11 @@ export class WalletManager extends StateBase<WalletData> {
       walletNameInfo.forEach((name) => {
         this.walletRepo.activate(name);
       });
-      this._useModal = true;
+      this._useView = true;
     } else {
       this.walletRepo.activate(walletNameInfo);
       this.setCurrentWallet(walletNameInfo);
-      this._useModal = false;
+      this._useView = false;
     }
     console.info(`${this.walletCount} wallets are used!`)
   }
@@ -254,7 +254,7 @@ export class WalletManager extends StateBase<WalletData> {
       }
     }
 
-    if (this.useModal) {
+    if (this.useView) {
       this.setCurrentWallet(undefined);
     }
   };

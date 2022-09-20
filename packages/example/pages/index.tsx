@@ -8,7 +8,7 @@ import { getWalletPrettyName } from "@cosmos-kit/registry";
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, disconnect, openModal, setCurrentChain,
+  const { connect, disconnect, openView, setCurrentChain,
     walletStatus, username, address, message,
     currentChainName: chainName, currentWalletName } = walletManager;
   
@@ -17,26 +17,26 @@ const Home = () => {
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
-    openModal();
+    openView();
     await connect();
   };
 
   const onClickDisconnect: MouseEventHandler = async (e) => {
     e.preventDefault();
-    openModal();
+    openView();
     // await disconnect();
   };
 
-  const onClickOpenModal: MouseEventHandler = (e) => {
+  const onClickOpenView: MouseEventHandler = (e) => {
     e.preventDefault();
-    openModal();
+    openView();
   };
 
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
     setCurrentChain(selectedValue?.chainName);
-    openModal();
+    openView();
     if (currentWalletName) {
       await connect();
     }
@@ -50,7 +50,7 @@ const Home = () => {
         <Disconnected buttonText="Connect Wallet" onClick={
           currentWalletName
             ? onClickConnect
-            : onClickOpenModal
+            : onClickOpenView
         } />
       }
       connecting={<Connecting />}
@@ -62,7 +62,7 @@ const Home = () => {
             : "Disconnect"
         } onClick={
           address
-            ? onClickOpenModal
+            ? onClickOpenView
             : onClickDisconnect
         } />
       }
@@ -75,10 +75,10 @@ const Home = () => {
       error={
         <Error
           buttonText="Change Wallet"
-          onClick={onClickOpenModal}
+          onClick={onClickOpenView}
         />
       }
-      notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenModal} />}
+      notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenView} />}
     />
   );
 
