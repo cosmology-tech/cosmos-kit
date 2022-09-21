@@ -22,11 +22,13 @@ cosmos-kit wallet connector
 ## 1. Installation
 
 ```cli
-npm i @cosmos-kit/react @cosmos-kit/registry @cosmos-kit/core chain-registry
+npm i @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core
 ```
 ```cli
-yarn add @cosmos-kit/react @cosmos-kit/registry @cosmos-kit/core chain-registry
+yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core
 ```
+
+`types` are included in `@cosmos-kit/core`
 
 ## 2. Connection
 ### 2.1 Quick Start
@@ -129,7 +131,7 @@ import { DefaultModal } from '@cosmos-kit/react';
 
 To define your own modal, you can input you modal component in `WalletProvider` props.
 
-required ModalProps in your modal component are as below.
+Required properties in your modal component:
 
 ```ts
 import { WalletModalProps } from '@cosmos-kit/core';
@@ -141,7 +143,7 @@ export interface WalletModalProps {
 }
 ```
 
-A simple example to define your own modal
+A simple example to define your own modal:
 
 ```tsx
 import * as React from 'react';
@@ -195,7 +197,9 @@ function WalletApp() {
 
 ## 3. Signing Client
 
-There two signing clients available in `walletManager`: `stargateClient` and `cosmwasmClient`. A example using signing client in react components is as below.
+There two signing clients available in `walletManager`: `stargateClient` and `cosmwasmClient`.
+
+Using signing client in react component:
 
 ```tsx
 import * as React from 'react';
@@ -225,8 +229,6 @@ function Component () => {
 
 The default options are `undefined`. To define your own signing client options in each chain, your can modify `options` in customized `chainInfos`.
 
-[How to customize chainInfos](#22-customized-chains-and-wallets)
-
 ```ts
 // in '@cosmos-kit/core'
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
@@ -240,3 +242,5 @@ export interface ChainInfo extends Info<ChainName> {
   }
 }
 ```
+
+[How to customize chainInfos](#22-customized-chains-and-wallets)
