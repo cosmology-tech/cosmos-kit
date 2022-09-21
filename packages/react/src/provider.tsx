@@ -1,6 +1,7 @@
 import { ChainName, MainWalletData, WalletManager, WalletName } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
+import { chainInfos, walletInfos } from '@cosmos-kit/config';
 
 import { DefaultModal } from './modal';
 
@@ -15,13 +16,26 @@ export const WalletProvider = ({
     isOpen,
     setOpen,
   }: WalletModalProps) => JSX.Element;
-  walletManager: WalletManager;
+  walletManager?: WalletManager;
   children: ReactNode;
 }) => {
-  
+
+  if (!walletManager) {
+
+    walletManager = new WalletManager(
+      chainInfos,
+      walletInfos
+    )
+
+    walletManager.setAutos({
+      closeViewWhenWalletIsConnected: false,
+      closeViewWhenWalletIsDisconnected: true,
+      closeViewWhenWalletIsRejected: false,
+    });
+  }
+
   const {
     state,
-    connect,
     currentWalletName
   } = walletManager;
 
@@ -36,7 +50,7 @@ export const WalletProvider = ({
   const [chainName, setChainName] = useState<ChainName | undefined>();
   const [qrUri, setQRUri] = useState<string | undefined>();
 
-  walletManager.setAction({
+  walletManager.setActions({
     data: setWalletData,
     state: setWalletState,
     message: setWalletMsg,
@@ -47,7 +61,7 @@ export const WalletProvider = ({
   });
 
   const Modal = walletModal || DefaultModal;
-  
+
   return (
     <walletContext.Provider
       value={{

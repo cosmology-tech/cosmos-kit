@@ -4,7 +4,7 @@ import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@ch
 import { MouseEventHandler } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Astronaut, Error, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
-import { getWalletPrettyName } from "@cosmos-kit/registry";
+import { getWalletPrettyName } from "@cosmos-kit/config";
 
 const Home = () => {
   const walletManager = useWallet();

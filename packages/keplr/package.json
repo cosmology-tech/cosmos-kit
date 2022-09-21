@@ -1,8 +1,8 @@
 {
   "name": "@cosmos-kit/keplr",
-  "version": "0.12.7",
+  "version": "0.12.8",
   "description": "cosmos-kit wallet connector",
-  "author": "Dan Lynch <pyramation@gmail.com>",
+  "author": "Jun Liu <ljun8575@gmail.com>",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",

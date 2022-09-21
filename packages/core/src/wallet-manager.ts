@@ -136,12 +136,20 @@ export class WalletManager extends StateBase<WalletData> {
     return this.actions?.viewOpen;
   }
 
-  setAction(actions: Actions) {
+  setActions(actions: Actions) {
     this.actions = actions;
+  }
+
+  updateActions(actions: Actions) {
+    this.actions = {...this.actions, ...actions};
   }
 
   setAutos(autos: Autos) {
     this.autos = autos;
+  }
+
+  updateAutos(autos: Autos) {
+    this.autos = {...this.autos, ...autos};
   }
 
   reset() {
