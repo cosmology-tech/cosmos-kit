@@ -56,8 +56,8 @@ export const walletInfos: WalletInfo[] = [
     name: 'wc-keplr',
     active: false,
     wallet: new WCKeplrWallet(),
-    prettyName: 'Wallet Connect',
-    logo: "https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png",
+    prettyName: 'Keplr Mobile',
+    logo: "https://user-images.githubusercontent.com/545047/191616515-eee176d0-9e50-4325-9529-6c0019d5c71a.png",
     isQRCode: true
   }
 ];
