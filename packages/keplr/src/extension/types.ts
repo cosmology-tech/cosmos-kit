@@ -1,7 +1,7 @@
 import { ChainWalletDataBase, MainWalletDataBase } from '@cosmos-kit/core';
 
-export interface ChainExtKeplrData extends ChainWalletDataBase {
+export interface ChainKeplrExtensionData extends ChainWalletDataBase {
   username: string;
 }
 
-export interface ExtKeplrData extends MainWalletDataBase {};
+export interface KeplrExtensionData extends MainWalletDataBase {};

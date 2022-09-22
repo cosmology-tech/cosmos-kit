@@ -219,6 +219,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
     try {
       await this.currentWallet.connect();
+      // console.log('%cwallet-manager.ts line:222 object', 'color: #007acc;', this.currentWallet.username);
       if (
         this.walletStatus === WalletStatus.Connected
         && this.viewOptions?.closeViewWhenWalletIsConnected

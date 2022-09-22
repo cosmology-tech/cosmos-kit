@@ -4,16 +4,16 @@ import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
-import { ChainWCKeplr } from './chain-wallet';
-import { ChainWCKeplrData, WCKeplrData } from './types';
+import { ChainKeplrMobile } from './chain-wallet';
+import { ChainKeplrMobileData, KeplrMobileData } from './types';
 
-export class WCKeplrWallet extends MainWalletBase<
+export class KeplrMobileWallet extends MainWalletBase<
   KeplrWalletConnectV1,
-  WCKeplrData,
-  ChainWCKeplrData,
-  ChainWCKeplr
+  KeplrMobileData,
+  ChainKeplrMobileData,
+  ChainKeplrMobile
 > {
-  protected _chains: Map<ChainName, ChainWCKeplr>;
+  protected _chains: Map<ChainName, ChainKeplrMobile>;
   protected _client: KeplrWalletConnectV1;
   connector: WalletConnect;
   emitter: EventEmitter;
@@ -64,7 +64,7 @@ export class WCKeplrWallet extends MainWalletBase<
     this._chains = new Map(
       supportedChains.map((chainRecord) => [
         chainRecord.name,
-        new ChainWCKeplr(chainRecord, this),
+        new ChainKeplrMobile(chainRecord, this),
       ])
     );
   }

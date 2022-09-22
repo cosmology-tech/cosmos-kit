@@ -1,6 +1,6 @@
 import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, WalletRecord } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
-import React, { createContext, ReactNode, useState } from 'react';
+import React, { createContext, ReactNode, useMemo, useState } from 'react';
 
 import { DefaultModal } from './modal';
 import { Chain } from '@chain-registry/types';
@@ -26,12 +26,14 @@ export const WalletProvider = ({
   children: ReactNode;
 }) => {
 
-  const walletManager = new WalletManager(
-    chains,
-    wallets,
-    signerOptions,
-    viewOptions
-  );
+  const walletManager = useMemo(() => (
+    new WalletManager(
+      chains,
+      wallets,
+      signerOptions,
+      viewOptions
+    )
+  ), []);
 
   const [walletData, setWalletData] = useState<MainWalletData>();
   const [walletState, setWalletState] = useState(walletManager.state);

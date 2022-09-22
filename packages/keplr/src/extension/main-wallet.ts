@@ -2,12 +2,12 @@ import { ChainName, ChainRecord, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
-import { ChainExtKeplr } from './chain-wallet';
-import { ChainExtKeplrData, ExtKeplrData } from './types';
+import { ChainKeplrExtension } from './chain-wallet';
+import { ChainKeplrExtensionData, KeplrExtensionData } from './types';
 import { getKeplrFromExtension } from './utils';
 
-export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExtKeplrData, ChainExtKeplr> {
-  protected _chains: Map<ChainName, ChainExtKeplr>;
+export class KeplrExtensionWallet extends MainWalletBase<Keplr, KeplrExtensionData, ChainKeplrExtensionData, ChainKeplrExtension> {
+  protected _chains: Map<ChainName, ChainKeplrExtension>;
   protected _client: Promise<Keplr | undefined> | undefined;
 
   constructor(_concurrency?: number) {
@@ -25,7 +25,7 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExt
     this._chains = new Map(
       supportedChains.map((chainRecord) => [
         chainRecord.name,
-        new ChainExtKeplr(chainRecord, this),
+        new ChainKeplrExtension(chainRecord, this),
       ])
     );
   }

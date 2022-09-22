@@ -2,17 +2,17 @@ import { ChainRecord, ChainWalletBase, State } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
-import { ChainWCKeplrData } from './types';
-import { WCKeplrWallet } from './main-wallet';
+import { ChainKeplrMobileData } from './types';
+import { KeplrMobileWallet } from './main-wallet';
 
 
-export class ChainWCKeplr extends ChainWalletBase<
+export class ChainKeplrMobile extends ChainWalletBase<
   KeplrWalletConnectV1,
-  ChainWCKeplrData,
-  WCKeplrWallet
+  ChainKeplrMobileData,
+  KeplrMobileWallet
 > {
 
-  constructor(_chainRecord: ChainRecord, keplrWallet: WCKeplrWallet) {
+  constructor(_chainRecord: ChainRecord, keplrWallet: KeplrMobileWallet) {
     super(_chainRecord, keplrWallet);
   }
 
