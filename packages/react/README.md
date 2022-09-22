@@ -22,10 +22,10 @@ cosmos-kit wallet connector
 ## 1. Installation
 
 ```cli
-npm i @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core
+npm i @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core chain-registry
 ```
 ```cli
-yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core
+yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core chain-registry
 ```
 
 `types` are included in `@cosmos-kit/core`
@@ -35,16 +35,23 @@ yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core
 
 `Provider`
 
+Supported chains info and supported wallets info are required when using `WalletProvider`.
+
 ```tsx
 import * as React from 'react';
 
-// 1. Import `ChakraProvider` component
+// 1. Import `ChakraProvider` component, chains and wallets
 import { WalletProvider } from '@cosmos-kit/react';
+import { chains } from 'chain-registry';
+import { wallets } from '@cosmos-kit/config';
 
 function WalletApp() {
-  // 2. Wrap `WalletProvider` at the top level of your wallet related components.
   return (
-    <WalletProvider>
+    // 2. Wrap `WalletProvider` at the top level of your wallet related components.
+      <WalletProvider
+        chains={chains} // 3. Provide supported chains
+        wallets={wallets} // 4. Provide supported wallets
+      >
       <YourWalletRelatedComponents />
     </WalletProvider>
   )
@@ -87,41 +94,7 @@ function Component ({ chainName }: { chainName?: string }) => {
 }
 ```
 
-### 2.2 Customized chains and wallets
-
-By default `WalletProvider` support all wallets and chains from `@cosmos-kit/config`.
-
-```ts
-import { walletRecords, chainRecords } from '@cosmos-kit/config';
-```
-
-To modify supported wallets and chains, you can construct your own `walletManager` instance with customized `chainRecords` and `walletRecords` when wrapping `WalletProvider`.
-
-```tsx
-import * as React from 'react';
-
-import { WalletProvider } from '@cosmos-kit/react';
-import { WalletManager } from '@cosmos-kit/core';
-import { ChainRecord, WalletRecord } from '@cosmos-kit/core';
-
-// 1. Construct `walletManager` instance with `chainRecords` and `walletRecords`
-const chainRecords: ChainRecord[] = ...
-const walletRecords: WalletRecord[] = ...
-const walletManager = new WalletManager(chainRecords, walletRecords);
-
-function WalletApp() {
-  return (
-    // 2. Input `walletManager` as value of prop `walletManager` in `WalletProvider`
-    <WalletProvider 
-        walletManager={walletManager}
-    >
-      <YourWalletRelatedComponents />
-    </WalletProvider>
-  )
-}
-```
-
-### 2.3 Customized modal
+### 2.2 Customized modal
 
 `WalletProvider` provide a default modal for connection in `@cosmos-kit/react`.
 
@@ -185,9 +158,10 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
 function WalletApp() {
   return (
-    // 2. Input `MyModal` as value of prop `walletModal` in `WalletProvider`
     <WalletProvider 
-        walletModal={MyModal}
+        chains={chains}
+        wallets={wallets}
+        walletModal={MyModal} // 2. Provide walletModal
     >
       <YourWalletRelatedComponents />
     </WalletProvider>
@@ -214,33 +188,63 @@ function Component () => {
       } = walletManager;
 
     const onSignAndBroadcast = async () => {
-      const _stargateClient = await getStargateClient();
-      if (!_stargateClient || !address) {
+      const stargateClient = await getStargateClient();
+      if (!stargateClient || !address) {
           console.error('stargateClient undefined or address undefined.')
           return;
       }
 
-      await _stargateClient.signAndBroadcast(address, voteMessages, fee, memo);
+      await stargateClient.signAndBroadcast(address, voteMessages, fee, memo);
     }
 }
 ```
 
 ### 3.1 Customized signing client options
 
-The default options are `undefined`. To define your own signing client options in each chain, your can modify `options` in customized `chainRecords`.
+The default options are `undefined`. You can provide your own options in `WalletProvider`.
+
+```ts
+import * as React from 'react';
+
+import { WalletProvider } from '@cosmos-kit/react';
+import { chains } from 'chain-registry';
+import { wallets } from '@cosmos-kit/config';
+
+// 1. Import options type
+import { SignerOptions } from '@cosmos-kit/core';
+
+// 2. construct signer options
+const signerOptions: SignerOptions = {
+  stargate: (chain: Chain) => {
+    ... // return corresponding stargate options or undefined
+  },
+  cosmwasm: (chain: Chain) => {
+    ... // return corresponding cosmwasm options or undefined
+  }
+}
+
+function WalletApp() {
+  return (
+      <WalletProvider
+        chains={chains}
+        wallets={wallets}
+        signerOptions={signerOptions} // 3. Provide signerOptions
+      >
+      <YourWalletRelatedComponents />
+    </WalletProvider>
+  )
+}
+```
+
+About `SignerOptions`
 
 ```ts
 // in '@cosmos-kit/core'
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 
-export interface ChainRecord extends Info<ChainName> {
-  registry?: Chain;
-  options?: {
-    stargate?: (chainRecord: Chain) => SigningStargateClientOptions | undefined;
-    cosmwasm?: (chainRecord: Chain) => SigningCosmWasmClientOptions | undefined;
-  }
+export interface SignerOptions {
+  stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
+  cosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
 }
 ```
-
-[How to customize chainRecords](#22-customized-chains-and-wallets)

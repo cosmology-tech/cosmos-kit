@@ -1,14 +1,14 @@
-import { WalletRecord } from '@cosmos-kit/core';
+import { Wallet } from '@cosmos-kit/core';
 import { KeplrExtensionWallet, KeplrMobileWallet } from '@cosmos-kit/keplr';
 import { RiChromeFill, RiAppStoreFill } from "react-icons/ri";
 import { GrFirefox } from "react-icons/gr";
 import { FaAndroid } from "react-icons/fa";
 
-export const walletRecords: WalletRecord[] = [
+export const wallets: Wallet[] = [
   {
     name: "keplr-extension",
     logo: "https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png",
-    prettyName: "Keplr Wallet",
+    prettyName: "Keplr Extension",
     wallet: new KeplrExtensionWallet(),
     isQRCode: false,
     downloads: {

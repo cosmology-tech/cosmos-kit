@@ -2,11 +2,9 @@ import type { AppProps } from 'next/app'
 import { WalletProvider } from '@cosmos-kit/react'
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
-import { walletRecords } from '@cosmos-kit/config';
+import { wallets } from '@cosmos-kit/config';
 import { chains } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
-import { SigningStargateClientOptions } from '@cosmjs/stargate';
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -14,10 +12,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
         chains={chains}
-        wallets={walletRecords}
+        wallets={wallets}
         signerOptions={{
-          stargate: (chain: Chain): SigningStargateClientOptions | undefined => undefined,
-          cosmwasm: (chain: Chain): SigningCosmWasmClientOptions | undefined => undefined,
+          stargate: (chain: Chain) => undefined,
+          cosmwasm: (chain: Chain) => undefined,
         }}
         >
         <Component {...pageProps} />

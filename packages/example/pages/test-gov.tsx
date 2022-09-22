@@ -2,12 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { cosmos } from 'interchain';
 import { useWallet } from "@cosmos-kit/react";
-// import { gasEstimation } from "../utils/tmp";
-// import { signAndBroadcast } from 'cosmjs-utils';
 
-const {
-    vote: createVoteMsg
-} = cosmos.gov.v1beta1.MessageComposer.fromPartial;
 
 export default () => {
     const walletManager = useWallet();
