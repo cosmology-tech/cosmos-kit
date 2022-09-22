@@ -1,0 +1,9 @@
+export declare const Logo: (props: any) => JSX.Element;
+export declare const LogoBrandName: (props: any) => JSX.Element;
+export declare const Astronaut: (props: any) => JSX.Element;
+export declare const SpaceBackground1: (props: any) => JSX.Element;
+export declare const SpaceBackground2: (props: any) => JSX.Element;
+export declare const SpaceBackground3: (props: any) => JSX.Element;
+export declare const SpaceBackground4: (props: any) => JSX.Element;
+export declare const SpaceBackground5: (props: any) => JSX.Element;
+export declare const SpaceBackground6: (props: any) => JSX.Element;
