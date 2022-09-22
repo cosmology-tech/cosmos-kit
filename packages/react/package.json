@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -107,7 +107,7 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/config": "^0.13.1",
+    "@cosmos-kit/config": "^0.13.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bowser": "2.11.0",
