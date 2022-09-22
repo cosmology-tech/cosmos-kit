@@ -32,7 +32,7 @@ export interface MainWallet extends MainWalletBase<unknown, MainWalletData, Chai
   [k: string]: any | undefined;
 }
 
-export type Wallet = ChainWallet | MainWallet;
+export type WalletAdapter = ChainWallet | MainWallet;
 
 export enum State {
   Init = 'Init',
@@ -61,11 +61,6 @@ export type WalletName = string;
 
 export type Dispatch<T> = (value: T) => void;
 
-export interface Record<Name> {
-  name: Name;
-  active: boolean;
-}
-
 interface Icon {
   browser?: string;
   os?: string;
@@ -73,7 +68,8 @@ interface Icon {
   link: string;
 }
 
-export interface WalletRecord extends Record<WalletName> {
+export interface Wallet {
+  name: WalletName;
   wallet: MainWallet;
   prettyName: string;
   isQRCode: boolean;
@@ -87,19 +83,15 @@ export interface WalletRecord extends Record<WalletName> {
   qrCodeLink?: string;
 }
 
-export interface ChainRecord extends Record<ChainName> {
+export interface ChainRecord {
+  name: ChainName;
   chain?: Chain;
   signerOptions?: {
     stargate?: SigningStargateClientOptions;
     cosmwasm?: SigningCosmWasmClientOptions;
-  }
+  };
+  preferredEndpoints: Endpoints;
 }
-
-// export interface ChainSelectorProps {
-//     name: ChainName;
-//     setName: Dispatch<ChainName>;
-//     chainOptions: ChainOption[];
-// }
 
 export interface WalletModalProps {
   isOpen: boolean;
@@ -132,3 +124,10 @@ export interface ViewOptions {
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;
 }
+
+export interface Endpoints {
+  rpc: string[];
+  rest: string[];
+}
+
+export type EndpointOptions = Record<string, Endpoints>;

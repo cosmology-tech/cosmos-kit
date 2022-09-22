@@ -7,7 +7,6 @@ import { FaAndroid } from "react-icons/fa";
 export const walletRecords: WalletRecord[] = [
   {
     name: "keplr-extension",
-    active: false,
     logo: "https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png",
     prettyName: "Keplr Wallet",
     wallet: new KeplrExtensionWallet(),
@@ -54,7 +53,6 @@ export const walletRecords: WalletRecord[] = [
   },
   {
     name: 'keplr-mobile',
-    active: false,
     wallet: new KeplrMobileWallet(),
     prettyName: 'Keplr Mobile',
     logo: "https://user-images.githubusercontent.com/545047/191616515-eee176d0-9e50-4325-9529-6c0019d5c71a.png",

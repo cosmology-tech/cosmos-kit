@@ -84,23 +84,7 @@ export class KeplrMobileWallet extends MainWalletBase<
   }
 
   async update() {
-    this.setState(State.Pending);
-    for (const chainName of this.chainNames) {
-      const chainWallet = this.chains.get(chainName)!;
-      await chainWallet.update();
-      if (chainWallet.isDone) {
-        this.setData({
-          username: chainWallet.username,
-          qrUri: this.qrUri
-        });
-        this.setState(State.Done);
-        return;
-      } else {
-        this.setMessage(chainWallet.message);
-        this.setState(chainWallet.state);
-      }
-      break
-    }
+    this.setState(State.Done);
   }
 
   async disconnect() {

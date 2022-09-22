@@ -172,7 +172,7 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletManager.activeWallets.map(({ name, prettyName }) => (
+          {walletManager.wallets.map(({ name, prettyName }) => (
             <Button key={name} colorScheme='blue' variant='ghost' onClick={onWalletClicked(name)}>
               {prettyName}
             </Button>

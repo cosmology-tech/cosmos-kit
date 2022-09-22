@@ -18,7 +18,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     >();
     let [modalReset, setModalReset] = useState(false);
 
-    const walletsData: WalletRecordType[] = walletManager.activeWallets.map(({
+    const walletsData: WalletRecordType[] = walletManager.wallets.map(({
         name, logo, prettyName, isQRCode, downloads
     }) => ({
         id: name,
