@@ -19,7 +19,7 @@ import {
   DefaultCardType,
   DefaultLinkItemType,
   DefaultIconButtonType,
-} from "./types";
+} from "../types";
 
 // 🔧 use forwardRef to fix ref-warnings =>
 // https://github.com/vercel/next.js/issues/7915#issuecomment-745117649

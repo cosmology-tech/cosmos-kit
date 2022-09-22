@@ -4,21 +4,21 @@
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
-      {
-          "name": "Jun Liu"
-      },
-      {
-          "name": "Dan Lynch"
-      },
-      {
-          "name": "Noah Saso"
-      },
-      {
-          "name": "Eliot Baker"
-      },
-      {
-          "name": "Delivan Jeonghyeok Yoo"
-      }
+    {
+      "name": "Jun Liu"
+    },
+    {
+      "name": "Dan Lynch"
+    },
+    {
+      "name": "Noah Saso"
+    },
+    {
+      "name": "Eliot Baker"
+    },
+    {
+      "name": "Delivan Jeonghyeok Yoo"
+    }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
@@ -81,7 +81,7 @@
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/stargate": "^0.28",
     "@types/jest": "^29.0.0",
-    "@types/react": "18.0.18",
+    "@types/react": "18.0.20",
     "@typescript-eslint/eslint-plugin": "5.36.2",
     "@typescript-eslint/parser": "5.36.2",
     "babel-core": "7.0.0-bridge.0",
@@ -107,7 +107,7 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/config": "^0.12.3",
+    "@cosmos-kit/config": "^0.13.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bowser": "2.11.0",

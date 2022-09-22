@@ -102,8 +102,8 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
-    "@cosmos-kit/keplr": "^0.12.3",
-    "@cosmos-kit/core": "^0.12.3"
+    "@cosmos-kit/keplr": "^0.13.1",
+    "@cosmos-kit/core": "^0.13.1"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.28",
