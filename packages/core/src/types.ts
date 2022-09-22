@@ -32,7 +32,7 @@ export interface MainWallet extends MainWalletBase<unknown, MainWalletData, Chai
   [k: string]: any | undefined;
 }
 
-export type Wallet = ChainWallet | MainWallet;
+export type WalletAdapter = ChainWallet | MainWallet;
 
 export enum State {
   Init = 'Init',
@@ -61,11 +61,6 @@ export type WalletName = string;
 
 export type Dispatch<T> = (value: T) => void;
 
-export interface Info<Name> {
-  name: Name;
-  active: boolean;
-}
-
 interface Icon {
   browser?: string;
   os?: string;
@@ -73,7 +68,8 @@ interface Icon {
   link: string;
 }
 
-export interface WalletInfo extends Info<WalletName> {
+export interface Wallet {
+  name: WalletName;
   wallet: MainWallet;
   prettyName: string;
   isQRCode: boolean;
@@ -87,19 +83,15 @@ export interface WalletInfo extends Info<WalletName> {
   qrCodeLink?: string;
 }
 
-export interface ChainInfo extends Info<ChainName> {
-  registry?: Chain;
-  options?: {
-    stargate?: (chainInfo: Chain) => SigningStargateClientOptions | undefined;
-    cosmwasm?: (chainInfo: Chain) => SigningCosmWasmClientOptions | undefined;
-  }
+export interface ChainRecord {
+  name: ChainName;
+  chain?: Chain;
+  signerOptions?: {
+    stargate?: SigningStargateClientOptions;
+    cosmwasm?: SigningCosmWasmClientOptions;
+  };
+  preferredEndpoints: Endpoints;
 }
-
-// export interface ChainSelectorProps {
-//     name: ChainName;
-//     setName: Dispatch<ChainName>;
-//     chainOptions: ChainOption[];
-// }
 
 export interface WalletModalProps {
   isOpen: boolean;
@@ -122,8 +114,20 @@ export interface ManagerActions<T> extends StateActions<T> {
   viewOpen?: Dispatch<boolean>;
 }
 
-export interface Autos {
+export interface SignerOptions {
+  stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
+  cosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
+}
+
+export interface ViewOptions {
   closeViewWhenWalletIsConnected?: boolean;
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;
 }
+
+export interface Endpoints {
+  rpc: string[];
+  rest: string[];
+}
+
+export type EndpointOptions = Record<string, Endpoints>;

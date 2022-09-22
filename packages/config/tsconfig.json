@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "es2015",
     "declaration": true,
     "declarationDir": "./types",
     "emitDeclarationOnly": true,

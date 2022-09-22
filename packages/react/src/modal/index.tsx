@@ -2,7 +2,7 @@ import React from 'react';
 import { WalletModalProps } from "@cosmos-kit/core";
 import Bowser from "bowser";
 import { ConnectModal } from "./components/ConnectModal";
-import { UserDeviceInfoType, WalletInfoType } from "./types";
+import { UserDeviceInfoType, WalletRecordType } from "./types";
 import { ReactNode, useEffect, useState } from "react";
 import { useWallet } from "../hooks";
 import { getModalHead } from "./utils/modal-head";
@@ -18,7 +18,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     >();
     let [modalReset, setModalReset] = useState(false);
 
-    const walletsData: WalletInfoType[] = walletManager.activeWallets.map(({
+    const walletsData: WalletRecordType[] = walletManager.wallets.map(({
         name, logo, prettyName, isQRCode, downloads
     }) => ({
         id: name,

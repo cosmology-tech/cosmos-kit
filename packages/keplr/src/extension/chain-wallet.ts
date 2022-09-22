@@ -1,13 +1,13 @@
-import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
+import { ChainRecord, ChainWalletBase, State } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
-import { ExtKeplrWallet } from './main-wallet';
-import { ChainExtKeplrData } from './types';
+import { KeplrExtensionWallet } from './main-wallet';
+import { ChainKeplrExtensionData } from './types';
 
-export class ChainExtKeplr extends ChainWalletBase<Keplr, ChainExtKeplrData, ExtKeplrWallet> {
+export class ChainKeplrExtension extends ChainWalletBase<Keplr, ChainKeplrExtensionData, KeplrExtensionWallet> {
 
-  constructor(_chainInfo: ChainInfo, mainWallet: ExtKeplrWallet) {
-    super(_chainInfo, mainWallet);
+  constructor(_chainRecord: ChainRecord, mainWallet: KeplrExtensionWallet) {
+    super(_chainRecord, mainWallet);
   }
 
   get client() {

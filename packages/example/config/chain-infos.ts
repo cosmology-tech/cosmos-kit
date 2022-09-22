@@ -1,7 +1,7 @@
-import { ChooseChainInfo } from "../components";
+import { ChooseChainRecord } from "../components";
 import { chains as chainsBase, assets as chainAssets } from 'chain-registry';
 
-export const chainInfos: ChooseChainInfo[] = chainsBase
+export const chainRecords: ChooseChainRecord[] = chainsBase
     .filter(chain => chain.network_type !== 'testnet')
     .map(chain => {
         const assets = chainAssets.find(

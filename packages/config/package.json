@@ -1,8 +1,25 @@
 {
-  "name": "@cosmos-kit/registry",
-  "version": "0.12.7",
+  "name": "@cosmos-kit/config",
+  "version": "0.13.2",
   "description": "cosmos-kit wallet connector",
-  "author": "Dan Lynch <pyramation@gmail.com>",
+  "author": "developers@cosmology.tech",
+  "contributors": [
+    {
+      "name": "Jun Liu"
+    },
+    {
+      "name": "Dan Lynch"
+    },
+    {
+      "name": "Noah Saso"
+    },
+    {
+      "name": "Eliot Baker"
+    },
+    {
+      "name": "Delivan Jeonghyeok Yoo"
+    }
+  ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
@@ -85,11 +102,11 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
-    "@cosmos-kit/keplr": "^0.12.8"
+    "@cosmos-kit/core": "^0.13.2",
+    "@cosmos-kit/keplr": "^0.13.2"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/stargate": "^0.28"
-  },
-  "gitHead": "5ac059680544db18d75f39f005a2887bd4716b9b"
+  }
 }

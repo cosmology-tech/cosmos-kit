@@ -1,8 +1,25 @@
 {
   "name": "@cosmos-kit/keplr",
-  "version": "0.12.8",
+  "version": "0.13.2",
   "description": "cosmos-kit wallet connector",
-  "author": "Dan Lynch <pyramation@gmail.com>",
+  "author": "developers@cosmology.tech",
+  "contributors": [
+    {
+      "name": "Jun Liu"
+    },
+    {
+      "name": "Dan Lynch"
+    },
+    {
+      "name": "Noah Saso"
+    },
+    {
+      "name": "Eliot Baker"
+    },
+    {
+      "name": "Delivan Jeonghyeok Yoo"
+    }
+  ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",
@@ -88,7 +105,7 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.7.0",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.12.4",
+    "@cosmos-kit/core": "^0.13.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "^0.10",

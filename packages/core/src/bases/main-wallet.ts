@@ -1,4 +1,4 @@
-import { ChainName, ChainInfo, State } from '../types';
+import { ChainName, ChainRecord, State } from '../types';
 import { MainWalletDataBase, ChainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
@@ -13,7 +13,7 @@ export abstract class MainWalletBase<
   protected abstract _client: Promise<WalletClient | undefined> | WalletClient | undefined;
   // protected queue: PQueue;
 
-  protected _supportedChains: ChainInfo[] = [];
+  protected _supportedChains: ChainRecord[] = [];
   protected _concurrency: number;
 
   constructor(_concurrency?: number) {
@@ -27,7 +27,7 @@ export abstract class MainWalletBase<
     return this._client;
   }
 
-  setSupportedChains(chains: ChainInfo[]) {
+  setSupportedChains(chains: ChainRecord[]) {
     this._supportedChains = chains;
     this.setChains(this._supportedChains);
   }
@@ -94,5 +94,5 @@ export abstract class MainWalletBase<
     await this.update();
   }
 
-  protected abstract setChains(supportedChains?: ChainInfo[]): void;
+  protected abstract setChains(supportedChains?: ChainRecord[]): void;
 }

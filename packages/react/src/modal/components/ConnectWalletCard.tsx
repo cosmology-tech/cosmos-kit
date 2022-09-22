@@ -8,7 +8,7 @@ import {
   Center,
   Icon,
 } from "@chakra-ui/react";
-import { ConnectedUserCardType, ConnectWalletCardType } from "./types";
+import { ConnectedUserCardType, ConnectWalletCardType } from "../types";
 import { IoMdWallet } from "react-icons/io";
 
 export const SimpleAvatarWithName = ({

@@ -1,16 +1,15 @@
-import { WalletInfo } from '@cosmos-kit/core';
-import { ExtKeplrWallet, WCKeplrWallet } from '@cosmos-kit/keplr';
+import { Wallet } from '@cosmos-kit/core';
+import { KeplrExtensionWallet, KeplrMobileWallet } from '@cosmos-kit/keplr';
 import { RiChromeFill, RiAppStoreFill } from "react-icons/ri";
 import { GrFirefox } from "react-icons/gr";
 import { FaAndroid } from "react-icons/fa";
 
-export const allWallets: WalletInfo[] = [
+export const wallets: Wallet[] = [
   {
-    name: "keplr",
-    active: false,
+    name: "keplr-extension",
     logo: "https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png",
-    prettyName: "Keplr Wallet",
-    wallet: new ExtKeplrWallet(),
+    prettyName: "Keplr Extension",
+    wallet: new KeplrExtensionWallet(),
     isQRCode: false,
     downloads: {
       desktop: [
@@ -53,11 +52,10 @@ export const allWallets: WalletInfo[] = [
     },
   },
   {
-    name: 'wc-keplr',
-    active: false,
-    wallet: new WCKeplrWallet(),
-    prettyName: 'Wallet Connect',
-    logo: "https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png",
+    name: 'keplr-mobile',
+    wallet: new KeplrMobileWallet(),
+    prettyName: 'Keplr Mobile',
+    logo: "https://user-images.githubusercontent.com/545047/191616515-eee176d0-9e50-4325-9529-6c0019d5c71a.png",
     isQRCode: true
   }
 ];
