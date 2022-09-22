@@ -15,7 +15,7 @@ export const getModalContent = (
 ) => {
     async function onWalletClicked(select: WalletInfoType) {
         setModalReset(false);
-        console.info('Connecting ' + select.id);
+        console.info('Connecting to' + select.id);
         walletManager.setCurrentWallet(select.id);
         await walletManager.connect();
     }

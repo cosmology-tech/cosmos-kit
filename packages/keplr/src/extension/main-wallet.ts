@@ -32,7 +32,6 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExt
 
   async update() {
     this.setState(State.Pending);
-    // let message;
     for (const chainName of this.chainNames) {
       const chainWallet = this.chains.get(chainName)!;
       await chainWallet.update();
@@ -48,7 +47,5 @@ export class ExtKeplrWallet extends MainWalletBase<Keplr, ExtKeplrData, ChainExt
       }
       break
     }
-    // this.setState(State.Error);
-    // this.setMessage(message);
   }
 }

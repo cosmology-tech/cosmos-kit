@@ -15,7 +15,7 @@ export default () => {
 
     useEffect(() => {
         const fn = async () => {
-            setCurrentWallet('keplr');
+            setCurrentWallet('keplr-extension');
             setCurrentChain('osmosis');
             await connect();
         }

@@ -5,11 +5,22 @@ import { chainInfos, walletInfos } from '@cosmos-kit/config';
 
 import { DefaultModal } from './modal';
 
+const defaultWalletManager = new WalletManager(
+  chainInfos,
+  walletInfos
+)
+
+defaultWalletManager.setAutos({
+  closeViewWhenWalletIsConnected: false,
+  closeViewWhenWalletIsDisconnected: true,
+  closeViewWhenWalletIsRejected: false,
+});
+
 export const walletContext = createContext<{ walletManager: WalletManager } | null>(null);
 
 export const WalletProvider = ({
   walletModal,
-  walletManager,
+  walletManager: _walletManager,
   children,
 }: {
   walletModal?: ({
@@ -20,18 +31,11 @@ export const WalletProvider = ({
   children: ReactNode;
 }) => {
 
+  let walletManager: WalletManager;
   if (!walletManager) {
-
-    walletManager = new WalletManager(
-      chainInfos,
-      walletInfos
-    )
-
-    walletManager.setAutos({
-      closeViewWhenWalletIsConnected: false,
-      closeViewWhenWalletIsDisconnected: true,
-      closeViewWhenWalletIsRejected: false,
-    });
+    walletManager = defaultWalletManager;
+  } else {
+    walletManager = _walletManager;
   }
 
   const {

@@ -8,10 +8,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ChakraProvider theme={defaultTheme}>
-      <WalletProvider
-        // walletModal={MyWalletModal}  // import { WalletModalProps } from '@cosmos-kit/core';
-        // walletManager={walletManager}
-      >
+      <WalletProvider>
         <Component {...pageProps} />
       </WalletProvider>
     </ChakraProvider>

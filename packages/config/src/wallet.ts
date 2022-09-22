@@ -6,7 +6,7 @@ import { FaAndroid } from "react-icons/fa";
 
 export const walletInfos: WalletInfo[] = [
   {
-    name: "keplr",
+    name: "keplr-extension",
     active: false,
     logo: "https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png",
     prettyName: "Keplr Wallet",
@@ -53,7 +53,7 @@ export const walletInfos: WalletInfo[] = [
     },
   },
   {
-    name: 'wc-keplr',
+    name: 'keplr-wallet-connect',
     active: false,
     wallet: new WCKeplrWallet(),
     prettyName: 'Wallet Connect',

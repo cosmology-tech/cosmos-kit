@@ -215,11 +215,10 @@ export class WalletManager extends StateBase<WalletData> {
   connect = async () => {
     if (!this.currentWalletName) {
       this.openView();
-      return
+      return;
     }
     try {
       await this.currentWallet.connect();
-
       if (
         this.walletStatus === WalletStatus.Connected
         && this.autos?.closeViewWhenWalletIsConnected
