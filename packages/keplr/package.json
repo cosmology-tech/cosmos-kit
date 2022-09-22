@@ -111,7 +111,6 @@
     "@keplr-wallet/types": "^0.10",
     "@keplr-wallet/wc-client": "^0.10.20",
     "@walletconnect/client": "1.8.0",
-    "@walletconnect/node": "1.0.0",
     "events": "3.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
