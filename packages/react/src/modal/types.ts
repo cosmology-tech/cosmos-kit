@@ -117,7 +117,7 @@ export type ExtensionLinkType = {
   mobile?: DeviceDataType[];
   websiteDownload?: string;
 };
-export type WalletInfoType = {
+export type WalletRecordType = {
   id: string;
   logo?: string;
   walletName?: string;
@@ -127,11 +127,11 @@ export type WalletInfoType = {
   qrCodeLink?: string;
 };
 export type DisplayWalletListType = {
-  walletsData: WalletInfoType[];
-  onClick: (select: WalletInfoType) => void;
+  walletsData: WalletRecordType[];
+  onClick: (select: WalletRecordType) => void;
 };
 export type ConnectModalContentType = {
-  selectedWallet: WalletInfoType;
+  selectedWallet: WalletRecordType;
   stateHeader?: string;
   stateDesc?: string;
   downloadWalletButton?: ReactNode;
@@ -143,7 +143,7 @@ export type ConnectModalContentType = {
 export type WalletModalType = {
   modalHead: ReactNode;
   modalContent: ReactNode;
-  walletsData: WalletInfoType[];
+  walletsData: WalletRecordType[];
   modalIsOpen: boolean;
   modalOnClose: () => void;
 };

@@ -2,20 +2,15 @@ import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { cosmos } from 'interchain';
 import { useWallet } from "@cosmos-kit/react";
-// import { gasEstimation } from "../utils/tmp";
-// import { signAndBroadcast } from 'cosmjs-utils';
 
-const {
-    vote: createVoteMsg
-} = cosmos.gov.v1beta1.MessageComposer.fromPartial;
 
 export default () => {
     const walletManager = useWallet();
-    const { stargateClient, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
+    const { getStargateClient, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
 
     useEffect(() => {
         const fn = async () => {
-            setCurrentWallet('keplr');
+            setCurrentWallet('keplr-extension');
             setCurrentChain('osmosis');
             await connect();
         }
@@ -23,8 +18,8 @@ export default () => {
     }, [])
 
     const onClick = async () => {
-        const _stargateClient = await stargateClient;
-        if (!_stargateClient || !address) {
+        const stargateClient = await getStargateClient();
+        if (!stargateClient || !address) {
             console.error('stargateClient undefined or address undefined.')
             return;
         }
@@ -48,7 +43,7 @@ export default () => {
             gas: '200000',
         }
 
-        const res = await _stargateClient.signAndBroadcast(address, voteMessages, fee, '');
+        const res = await stargateClient.signAndBroadcast(address, voteMessages, fee, '');
         console.log(111, res)
     }
 

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "es2015",
     "declaration": true,
-    "declarationDir": "./main",
+    "declarationDir": "./types",
     "emitDeclarationOnly": true,
     "isolatedModules": true,
     "allowJs": true,

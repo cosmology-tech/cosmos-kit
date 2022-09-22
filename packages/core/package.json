@@ -1,8 +1,25 @@
 {
   "name": "@cosmos-kit/core",
-  "version": "0.12.4",
+  "version": "0.13.2",
   "description": "cosmos-kit wallet connector",
-  "author": "Dan Lynch <pyramation@gmail.com>",
+  "author": "developers@cosmology.tech",
+  "contributors": [
+    {
+      "name": "Jun Liu"
+    },
+    {
+      "name": "Dan Lynch"
+    },
+    {
+      "name": "Noah Saso"
+    },
+    {
+      "name": "Eliot Baker"
+    },
+    {
+      "name": "Delivan Jeonghyeok Yoo"
+    }
+  ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",

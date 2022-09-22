@@ -2,22 +2,17 @@ import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClient } from '@cosmjs/stargate';
 
-import { Wallet, ManagerActions, WalletData, WalletStatus } from './types';
-import {
-  ChainRepo,
-  createChainRepo,
-  createWalletRepo,
-  WalletRepo,
-} from './repositories';
+import { Wallet, ManagerActions, WalletData, WalletStatus, SignerOptions, ChainRecord, EndpointOptions } from './types';
 import {
   Actions,
-  Autos,
+  ViewOptions,
   ChainName,
-  ChainInfo,
   WalletName,
-  WalletInfo,
+  WalletAdapter,
 } from './types';
 import { StateBase } from './bases';
+import { Chain } from '@chain-registry/types';
+import { convertChain } from '..';
 
 export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
@@ -25,23 +20,31 @@ export class WalletManager extends StateBase<WalletData> {
   protected _useView = true;
   protected _concurrency?: number;
   declare actions?: ManagerActions<WalletData>;
-  walletRepo: WalletRepo;
-  chainRepo: ChainRepo;
-  autos?: Autos;
+  wallets: Wallet[];
+  chains: ChainRecord[];
+  viewOptions: ViewOptions = {
+    closeViewWhenWalletIsConnected: false,
+    closeViewWhenWalletIsDisconnected: true,
+    closeViewWhenWalletIsRejected: false,
+  };
 
   constructor(
-    chains?: ChainInfo[],
-    wallets?: WalletInfo[],
+    chains?: Chain[],
+    wallets?: Wallet[],
+    signerOptions?: SignerOptions,
+    viewOptions?: ViewOptions,
+    endpointOptions?: EndpointOptions,
     _concurrency?: number
   ) {
     super();
     this._concurrency = _concurrency;
-    this.walletRepo = createWalletRepo(wallets, true, true);
-    this.chainRepo = createChainRepo(chains, true, true);
+    this.wallets = wallets;
+    this.chains = chains.map(chain => convertChain(chain, signerOptions, endpointOptions?.[chain.chain_name]));
     console.info(`${this.walletCount} wallets and ${this.chainCount} chains are used!`)
-    this.walletRepo.registeredItemMap.forEach((item) => {
-      item.wallet.setSupportedChains(this.chainRepo.activeItems);
+    this.wallets.forEach((item) => {
+      item.wallet.setSupportedChains(this.chains);
     });
+    this.viewOptions = { ...this.viewOptions, ...viewOptions };
   }
 
   get useView() {
@@ -56,7 +59,7 @@ export class WalletManager extends StateBase<WalletData> {
     return this._currentChainName;
   }
 
-  get currentWallet(): Wallet | undefined {
+  get currentWallet(): WalletAdapter | undefined {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
@@ -84,32 +87,16 @@ export class WalletManager extends StateBase<WalletData> {
     return this.data?.offlineSigner;
   }
 
-  get stargateClient(): Promise<SigningStargateClient | undefined> {
-    return this.currentWallet?.stargateClient;
-  }
-
-  get cosmwasmClient(): Promise<SigningCosmWasmClient | undefined> {
-    return this.currentWallet?.cosmwasmClient;
-  }
-
-  get activeWallets() {
-    return this.walletRepo.activeItems;
-  }
-
   get walletNames() {
-    return this.activeWallets.map((item) => item.name);
+    return this.wallets.map((item) => item.name);
   }
 
   get walletCount() {
     return this.walletNames.length;
   }
 
-  get activeChains() {
-    return this.chainRepo.activeItems;
-  }
-
   get chainNames() {
-    return this.activeChains.map((item) => item.name);
+    return this.chains.map((item) => item.name);
   }
 
   get chainCount() {
@@ -136,12 +123,20 @@ export class WalletManager extends StateBase<WalletData> {
     return this.actions?.viewOpen;
   }
 
-  setAction(actions: Actions) {
+  getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
+    return await this.currentWallet?.getStargateClient();
+  }
+
+  getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
+    return await this.currentWallet?.getCosmWasmClient();
+  }
+
+  setActions(actions: Actions) {
     this.actions = actions;
   }
 
-  setAutos(autos: Autos) {
-    this.autos = autos;
+  setViewOptions(viewOptions: ViewOptions) {
+    this.viewOptions = viewOptions;
   }
 
   reset() {
@@ -160,41 +155,12 @@ export class WalletManager extends StateBase<WalletData> {
     this.emitChainName?.(chainName);
   }
 
-  useWallets = (walletNameInfo: WalletName[] | WalletName) => {
-    this.walletRepo.inactivateAll();
-    if (Array.isArray(walletNameInfo)) {
-      if (walletNameInfo.length === 0) {
-        throw new Error('No wallet provided!');
-      }
-      walletNameInfo.forEach((name) => {
-        this.walletRepo.activate(name);
-      });
-      this._useView = true;
-    } else {
-      this.walletRepo.activate(walletNameInfo);
-      this.setCurrentWallet(walletNameInfo);
-      this._useView = false;
-    }
-    console.info(`${this.walletCount} wallets are used!`)
-  }
-
-  useChains = (chainNames: ChainName[]) => {
-    this.chainRepo.inactivateAll();
-    chainNames.forEach((name) => {
-      this.chainRepo.activate(name);
-    });
-    this.walletRepo.registeredItemMap.forEach((item) => {
-      item.wallet.setSupportedChains(this.chainRepo.activeItems);
-    });
-    console.info(`${this.chainCount} chains are used!`)
-  }
-
-  private getWallet(walletName?: WalletName, chainName?: ChainName): Wallet | undefined {
+  private getWallet(walletName?: WalletName, chainName?: ChainName): WalletAdapter | undefined {
     if (!walletName) {
       return undefined;
     }
 
-    let wallet: Wallet | undefined = this.walletRepo.getItem(walletName).wallet;
+    let wallet: WalletAdapter | undefined = this.wallets.find(w => w.name === walletName)?.wallet;
     if (chainName) {
       wallet = wallet.getChain(chainName);
     }
@@ -207,14 +173,14 @@ export class WalletManager extends StateBase<WalletData> {
   connect = async () => {
     if (!this.currentWalletName) {
       this.openView();
-      return
+      return;
     }
     try {
       await this.currentWallet.connect();
-
+      // console.log('%cwallet-manager.ts line:222 object', 'color: #007acc;', this.currentWallet.username);
       if (
         this.walletStatus === WalletStatus.Connected
-        && this.autos?.closeViewWhenWalletIsConnected
+        && this.viewOptions?.closeViewWhenWalletIsConnected
       ) {
         this.emitViewOpen?.(false);
       }
@@ -222,7 +188,7 @@ export class WalletManager extends StateBase<WalletData> {
       console.error(error);
       if (
         this.walletStatus === WalletStatus.Rejected
-        && this.autos?.closeViewWhenWalletIsRejected
+        && this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
         this.emitViewOpen?.(false);
       }
@@ -240,7 +206,7 @@ export class WalletManager extends StateBase<WalletData> {
 
       if (
         this.walletStatus === WalletStatus.Disconnected
-        && this.autos?.closeViewWhenWalletIsDisconnected
+        && this.viewOptions?.closeViewWhenWalletIsDisconnected
       ) {
         this.emitViewOpen?.(false);
       }
@@ -248,7 +214,7 @@ export class WalletManager extends StateBase<WalletData> {
       this.setMessage((e as Error).message)
       if (
         this.walletStatus === WalletStatus.Rejected
-        && this.autos?.closeViewWhenWalletIsRejected
+        && this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
         this.emitViewOpen?.(false);
       }

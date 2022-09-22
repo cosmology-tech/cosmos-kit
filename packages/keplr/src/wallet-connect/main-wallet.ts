@@ -1,19 +1,19 @@
-import { ChainName, ChainInfo, Dispatch, State } from '@cosmos-kit/core';
+import { ChainName, ChainRecord, Dispatch, State } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
-import { ChainWCKeplr } from './chain-wallet';
-import { ChainWCKeplrData, WCKeplrData } from './types';
+import { ChainKeplrMobile } from './chain-wallet';
+import { ChainKeplrMobileData, KeplrMobileData } from './types';
 
-export class WCKeplrWallet extends MainWalletBase<
+export class KeplrMobileWallet extends MainWalletBase<
   KeplrWalletConnectV1,
-  WCKeplrData,
-  ChainWCKeplrData,
-  ChainWCKeplr
+  KeplrMobileData,
+  ChainKeplrMobileData,
+  ChainKeplrMobile
 > {
-  protected _chains: Map<ChainName, ChainWCKeplr>;
+  protected _chains: Map<ChainName, ChainKeplrMobile>;
   protected _client: KeplrWalletConnectV1;
   connector: WalletConnect;
   emitter: EventEmitter;
@@ -60,11 +60,11 @@ export class WCKeplrWallet extends MainWalletBase<
     this._client = client;
   }
 
-  protected setChains(supportedChains: ChainInfo[]): void {
+  protected setChains(supportedChains: ChainRecord[]): void {
     this._chains = new Map(
-      supportedChains.map((chainInfo) => [
-        chainInfo.name,
-        new ChainWCKeplr(chainInfo, this),
+      supportedChains.map((chainRecord) => [
+        chainRecord.name,
+        new ChainKeplrMobile(chainRecord, this),
       ])
     );
   }
@@ -84,23 +84,7 @@ export class WCKeplrWallet extends MainWalletBase<
   }
 
   async update() {
-    this.setState(State.Pending);
-    for (const chainName of this.chainNames) {
-      const chainWallet = this.chains.get(chainName)!;
-      await chainWallet.update();
-      if (chainWallet.isDone) {
-        this.setData({
-          username: chainWallet.username,
-          qrUri: this.qrUri
-        });
-        this.setState(State.Done);
-        return;
-      } else {
-        this.setMessage(chainWallet.message);
-        this.setState(chainWallet.state);
-      }
-      break
-    }
+    this.setState(State.Done);
   }
 
   async disconnect() {
