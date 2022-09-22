@@ -9,7 +9,7 @@ export interface ConnectWalletType {
   onClickConnectBtn?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export interface ChooseChainInfo {
+export interface ChooseChainRecord {
   chainName: string;
   chainRoute?: string;
   label: string;

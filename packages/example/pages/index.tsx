@@ -1,5 +1,5 @@
 import { useWallet } from "@cosmos-kit/react";
-import { chainInfos } from "../config";
+import { chainRecords } from "../config";
 import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
 import { MouseEventHandler } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -11,7 +11,7 @@ const Home = () => {
   const { connect, disconnect, openView, setCurrentChain,
     walletStatus, username, address, message,
     currentChainName: chainName, currentWalletName } = walletManager;
-  
+
   const walletPrettyName = getWalletPrettyName(currentWalletName);
 
   // Events
@@ -55,16 +55,13 @@ const Home = () => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={
-          address
-            // ? `${address.slice(0, 7)}...${address.slice(-4)}`
-            ? `${walletPrettyName}`
-            : "Disconnect"
-        } onClick={
-          address
-            ? onClickOpenView
-            : onClickDisconnect
-        } />
+        <Connected
+          buttonText={"My Wallet"}
+          onClick={
+            address
+              ? onClickOpenView
+              : onClickDisconnect
+          } />
       }
       rejected={
         <Rejected
@@ -102,7 +99,7 @@ const Home = () => {
   const chooseChain = (
     <ChooseChain
       chainName={chainName}
-      chainInfos={chainInfos}
+      chainRecords={chainRecords}
       onChange={onChainChange}
     />
   );

@@ -1,9 +1,9 @@
 import { createRepo } from './bases';
 import { Repo } from './bases';
-import { ChainInfo, WalletInfo } from './types';
+import { ChainRecord, WalletRecord } from './types';
 
-export type WalletRepo = Repo<WalletInfo>;
-export type ChainRepo = Repo<ChainInfo>;
+export type WalletRepo = Repo<WalletRecord>;
+export type ChainRepo = Repo<ChainRecord>;
 
-export const createWalletRepo = createRepo<WalletInfo>;
-export const createChainRepo = createRepo<ChainInfo>;
+export const createWalletRepo = createRepo<WalletRecord>;
+export const createChainRepo = createRepo<ChainRecord>;

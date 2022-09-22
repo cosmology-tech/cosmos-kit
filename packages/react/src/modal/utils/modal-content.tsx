@@ -3,17 +3,17 @@ import { WalletManager, WalletStatus } from "@cosmos-kit/core";
 import { GoDesktopDownload } from "react-icons/go";
 import { IoExitOutline } from "react-icons/io5";
 import { Astronaut, ConnectedContent, ConnectWalletButton, DefaultLink, DisplayWalletList, ExtensionContent, InstallWalletButton, QRCode, SimpleAvatarWithName, SimpleCopyAddressButton } from "../components";
-import { UserDeviceInfoType, WalletInfoType } from "../types";
+import { UserDeviceInfoType, WalletRecordType } from "../types";
 
 export const getModalContent = (
     walletManager: WalletManager,
-    currentWalletData: WalletInfoType,
+    currentWalletData: WalletRecordType,
     userBrowserInfo: UserDeviceInfoType | undefined,
-    walletsData: WalletInfoType[],
+    walletsData: WalletRecordType[],
     modalReset: boolean,
     setModalReset: (v: boolean) => void
 ) => {
-    async function onWalletClicked(select: WalletInfoType) {
+    async function onWalletClicked(select: WalletRecordType) {
         setModalReset(false);
         console.info('Connecting to' + select.id);
         walletManager.setCurrentWallet(select.id);

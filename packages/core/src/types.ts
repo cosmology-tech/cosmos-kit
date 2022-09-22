@@ -61,7 +61,7 @@ export type WalletName = string;
 
 export type Dispatch<T> = (value: T) => void;
 
-export interface Info<Name> {
+export interface Record<Name> {
   name: Name;
   active: boolean;
 }
@@ -73,7 +73,7 @@ interface Icon {
   link: string;
 }
 
-export interface WalletInfo extends Info<WalletName> {
+export interface WalletRecord extends Record<WalletName> {
   wallet: MainWallet;
   prettyName: string;
   isQRCode: boolean;
@@ -87,11 +87,11 @@ export interface WalletInfo extends Info<WalletName> {
   qrCodeLink?: string;
 }
 
-export interface ChainInfo extends Info<ChainName> {
-  registry?: Chain;
-  options?: {
-    stargate?: (chainInfo: Chain) => SigningStargateClientOptions | undefined;
-    cosmwasm?: (chainInfo: Chain) => SigningCosmWasmClientOptions | undefined;
+export interface ChainRecord extends Record<ChainName> {
+  chain?: Chain;
+  signerOptions?: {
+    stargate?: SigningStargateClientOptions;
+    cosmwasm?: SigningCosmWasmClientOptions;
   }
 }
 
@@ -122,7 +122,12 @@ export interface ManagerActions<T> extends StateActions<T> {
   viewOpen?: Dispatch<boolean>;
 }
 
-export interface Autos {
+export interface SignerOptions {
+  stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
+  cosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
+}
+
+export interface ViewOptions {
   closeViewWhenWalletIsConnected?: boolean;
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;

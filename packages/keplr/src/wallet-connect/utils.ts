@@ -24,7 +24,7 @@ export async function sendTx(
   };
 
   // const restInstance = Axios.create({
-  //   baseURL: chains.find((chainInfo) => chainInfo.chain_id === chainId)!.apis
+  //   baseURL: chains.find((chainRecord) => chainRecord.chain_id === chainId)!.apis
   //     ?.rest?.[0].address,
   // });
 

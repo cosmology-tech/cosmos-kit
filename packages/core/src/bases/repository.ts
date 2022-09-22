@@ -1,12 +1,12 @@
-import { Info } from '../types';
+import { Record } from '../types';
 
 type Name = string;
 
-export class Repo<ItemInfo extends Info<Name>> {
-  readonly registeredItemMap: Map<Name, ItemInfo> = new Map();
-  public itemPool: ItemInfo[];
+export class Repo<ItemRecord extends Record<Name>> {
+  readonly registeredItemMap: Map<Name, ItemRecord> = new Map();
+  public itemPool: ItemRecord[];
 
-  constructor(itemPool: ItemInfo[]) {
+  constructor(itemPool: ItemRecord[]) {
     this.itemPool = itemPool;
   }
 
@@ -24,7 +24,7 @@ export class Repo<ItemInfo extends Info<Name>> {
     return this.registeredItemMap.get(name)!;
   }
 
-  register(itemInfo: Name | ItemInfo) {
+  register(itemInfo: Name | ItemRecord) {
     const name = typeof itemInfo === 'string' ? itemInfo : itemInfo.name;
     if (this.registeredItemMap.has(name)) {
       console.info(
@@ -57,7 +57,7 @@ export class Repo<ItemInfo extends Info<Name>> {
   }
 
   get activeItems() {
-    const items: ItemInfo[] = [];
+    const items: ItemRecord[] = [];
     this.registeredItemMap.forEach((item) => {
       item.active && items.push(item);
     });
@@ -97,7 +97,7 @@ export class Repo<ItemInfo extends Info<Name>> {
   }
 }
 
-export function createRepo<ItemInfo extends Info<Name>>(
+export function createRepo<ItemInfo extends Record<Name>>(
   itemPool: ItemInfo[],
   registerAll: boolean = false,
   activateAll: boolean = false

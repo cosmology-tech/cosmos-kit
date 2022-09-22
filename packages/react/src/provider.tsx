@@ -1,53 +1,43 @@
-import { ChainName, MainWalletData, WalletManager, WalletName } from '@cosmos-kit/core';
+import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, WalletRecord } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, { createContext, ReactNode, useState } from 'react';
-import { chainInfos, walletInfos } from '@cosmos-kit/config';
 
 import { DefaultModal } from './modal';
-
-const defaultWalletManager = new WalletManager(
-  chainInfos,
-  walletInfos
-)
-
-defaultWalletManager.setAutos({
-  closeViewWhenWalletIsConnected: false,
-  closeViewWhenWalletIsDisconnected: true,
-  closeViewWhenWalletIsRejected: false,
-});
+import { Chain } from '@chain-registry/types';
 
 export const walletContext = createContext<{ walletManager: WalletManager } | null>(null);
 
 export const WalletProvider = ({
+  chains,
+  wallets,
   walletModal,
-  walletManager: _walletManager,
+  signerOptions,
+  viewOptions,
   children,
 }: {
+  chains: Chain[],
+  wallets: WalletRecord[],
   walletModal?: ({
     isOpen,
     setOpen,
   }: WalletModalProps) => JSX.Element;
-  walletManager?: WalletManager;
+  signerOptions?: SignerOptions,
+  viewOptions?: ViewOptions;
   children: ReactNode;
 }) => {
 
-  let walletManager: WalletManager;
-  if (!walletManager) {
-    walletManager = defaultWalletManager;
-  } else {
-    walletManager = _walletManager;
-  }
-
-  const {
-    state,
-    currentWalletName
-  } = walletManager;
+  const walletManager = new WalletManager(
+    chains,
+    wallets,
+    signerOptions,
+    viewOptions
+  );
 
   const [walletData, setWalletData] = useState<MainWalletData>();
-  const [walletState, setWalletState] = useState(state);
+  const [walletState, setWalletState] = useState(walletManager.state);
   const [walletMsg, setWalletMsg] = useState<string | undefined>();
   const [walletName, setWalletName] = useState<WalletName | undefined>(
-    currentWalletName
+    walletManager.currentWalletName
   );
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);

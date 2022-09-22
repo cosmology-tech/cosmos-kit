@@ -11,7 +11,7 @@ const {
 
 export default () => {
     const walletManager = useWallet();
-    const { stargateClient, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
+    const { getStargateClient, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
 
     useEffect(() => {
         const fn = async () => {
@@ -23,8 +23,8 @@ export default () => {
     }, [])
 
     const onClick = async () => {
-        const _stargateClient = await stargateClient;
-        if (!_stargateClient || !address) {
+        const stargateClient = await getStargateClient();
+        if (!stargateClient || !address) {
             console.error('stargateClient undefined or address undefined.')
             return;
         }
@@ -48,7 +48,7 @@ export default () => {
             gas: '200000',
         }
 
-        const res = await _stargateClient.signAndBroadcast(address, voteMessages, fee, '');
+        const res = await stargateClient.signAndBroadcast(address, voteMessages, fee, '');
         console.log(111, res)
     }
 

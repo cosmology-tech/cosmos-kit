@@ -2,7 +2,24 @@
   "name": "@cosmos-kit/react",
   "version": "0.12.7",
   "description": "cosmos-kit wallet connector",
-  "author": "Jun Liu <ljun8575@gmail.com>",
+  "author": "developers@cosmology.tech",
+  "contributors": [
+      {
+          "name": "Jun Liu"
+      },
+      {
+          "name": "Dan Lynch"
+      },
+      {
+          "name": "Noah Saso"
+      },
+      {
+          "name": "Eliot Baker"
+      },
+      {
+          "name": "Delivan Jeonghyeok Yoo"
+      }
+  ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "main/index.js",

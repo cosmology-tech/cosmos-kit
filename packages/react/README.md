@@ -92,22 +92,22 @@ function Component ({ chainName }: { chainName?: string }) => {
 By default `WalletProvider` support all wallets and chains from `@cosmos-kit/config`.
 
 ```ts
-import { walletInfos, chainInfos } from '@cosmos-kit/config';
+import { walletRecords, chainRecords } from '@cosmos-kit/config';
 ```
 
-To modify supported wallets and chains, you can construct your own `walletManager` instance with customized `chainInfos` and `walletInfos` when wrapping `WalletProvider`.
+To modify supported wallets and chains, you can construct your own `walletManager` instance with customized `chainRecords` and `walletRecords` when wrapping `WalletProvider`.
 
 ```tsx
 import * as React from 'react';
 
 import { WalletProvider } from '@cosmos-kit/react';
 import { WalletManager } from '@cosmos-kit/core';
-import { ChainInfo, WalletInfo } from '@cosmos-kit/core';
+import { ChainRecord, WalletRecord } from '@cosmos-kit/core';
 
-// 1. Construct `walletManager` instance with `chainInfos` and `walletInfos`
-const chainInfos: ChainInfo[] = ...
-const walletInfos: WalletInfo[] = ...
-const walletManager = new WalletManager(chainInfos, walletInfos);
+// 1. Construct `walletManager` instance with `chainRecords` and `walletRecords`
+const chainRecords: ChainRecord[] = ...
+const walletRecords: WalletRecord[] = ...
+const walletManager = new WalletManager(chainRecords, walletRecords);
 
 function WalletApp() {
   return (
@@ -208,13 +208,13 @@ import { useWallet } from "@cosmos-kit/react";
 function Component () => {
     const walletManager = useWallet();
     const {
-        stargateClient,
-        cosmwasmClient,
+        getStargateClient,
+        getCosmWasmClient,
         address,
       } = walletManager;
 
     const onSignAndBroadcast = async () => {
-      const _stargateClient = await stargateClient;
+      const _stargateClient = await getStargateClient();
       if (!_stargateClient || !address) {
           console.error('stargateClient undefined or address undefined.')
           return;
@@ -227,20 +227,20 @@ function Component () => {
 
 ### 3.1 Customized signing client options
 
-The default options are `undefined`. To define your own signing client options in each chain, your can modify `options` in customized `chainInfos`.
+The default options are `undefined`. To define your own signing client options in each chain, your can modify `options` in customized `chainRecords`.
 
 ```ts
 // in '@cosmos-kit/core'
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 
-export interface ChainInfo extends Info<ChainName> {
+export interface ChainRecord extends Info<ChainName> {
   registry?: Chain;
   options?: {
-    stargate?: (chainInfo: Chain) => SigningStargateClientOptions | undefined;
-    cosmwasm?: (chainInfo: Chain) => SigningCosmWasmClientOptions | undefined;
+    stargate?: (chainRecord: Chain) => SigningStargateClientOptions | undefined;
+    cosmwasm?: (chainRecord: Chain) => SigningCosmWasmClientOptions | undefined;
   }
 }
 ```
 
-[How to customize chainInfos](#22-customized-chains-and-wallets)
+[How to customize chainRecords](#22-customized-chains-and-wallets)

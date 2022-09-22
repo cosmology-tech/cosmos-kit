@@ -1,10 +1,10 @@
-import { WalletInfo } from '@cosmos-kit/core';
+import { WalletRecord } from '@cosmos-kit/core';
 import { ExtKeplrWallet, WCKeplrWallet } from '@cosmos-kit/keplr';
 import { RiChromeFill, RiAppStoreFill } from "react-icons/ri";
 import { GrFirefox } from "react-icons/gr";
 import { FaAndroid } from "react-icons/fa";
 
-export const walletInfos: WalletInfo[] = [
+export const walletRecords: WalletRecord[] = [
   {
     name: "keplr-extension",
     active: false,
@@ -56,8 +56,8 @@ export const walletInfos: WalletInfo[] = [
     name: 'keplr-wallet-connect',
     active: false,
     wallet: new WCKeplrWallet(),
-    prettyName: 'Wallet Connect',
-    logo: "https://raw.githubusercontent.com/WalletConnect/walletconnect-assets/master/Icon/Blue%20(Default)/Icon.png",
+    prettyName: 'Keplr Mobile',
+    logo: "https://user-images.githubusercontent.com/545047/191616515-eee176d0-9e50-4325-9529-6c0019d5c71a.png",
     isQRCode: true
   }
 ];
