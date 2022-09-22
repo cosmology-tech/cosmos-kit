@@ -8,7 +8,7 @@ import { getWalletPrettyName } from "@cosmos-kit/config";
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, disconnect, openView, setCurrentChain,
+  const { connect, openView, setCurrentChain,
     walletStatus, username, address, message,
     currentChainName: chainName, currentWalletName } = walletManager;
 
@@ -18,13 +18,9 @@ const Home = () => {
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
     openView();
-    await connect();
-  };
-
-  const onClickDisconnect: MouseEventHandler = async (e) => {
-    e.preventDefault();
-    openView();
-    // await disconnect();
+    if (currentWalletName) {
+      await connect();
+    }
   };
 
   const onClickOpenView: MouseEventHandler = (e) => {
@@ -46,35 +42,11 @@ const Home = () => {
   const connectWalletButton = (
     <WalletConnectComponent
       walletStatus={walletStatus}
-      disconnect={
-        <Disconnected buttonText="Connect Wallet" onClick={
-          currentWalletName
-            ? onClickConnect
-            : onClickOpenView
-        } />
-      }
+      disconnect={<Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />}
       connecting={<Connecting />}
-      connected={
-        <Connected
-          buttonText={"My Wallet"}
-          onClick={
-            address
-              ? onClickOpenView
-              : onClickDisconnect
-          } />
-      }
-      rejected={
-        <Rejected
-          buttonText="Reconnect"
-          onClick={onClickConnect}
-        />
-      }
-      error={
-        <Error
-          buttonText="Change Wallet"
-          onClick={onClickOpenView}
-        />
-      }
+      connected={<Connected buttonText={"My Wallet"} onClick={onClickOpenView} />}
+      rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
+      error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
       notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenView} />}
     />
   );
