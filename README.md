@@ -64,4 +64,6 @@ lerna publish
 
 ## Credits
 
-Original work inspired by [cosmodal](https://github.com/chainapsis/cosmodal).
+Original work inspired by [cosmodal](https://github.com/chainapsis/cosmodal)
+
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
