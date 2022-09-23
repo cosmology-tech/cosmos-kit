@@ -18,13 +18,21 @@ Cosmos Kit is a wallet adapter for developers to build apps that quickly and eas
 
 Get started quickly by using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) to help you build high-quality Cosmos apps fast!
 
-## Getting Started
+## Configuration
 
-#### [@cosmos-kit/react](packages/react/README.md)
+If you're not using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app), check out [our docs here](packages/react/README.md) to configure Cosmos Kit from scratch.
+
+## Packages
+
+#### [@cosmos-kit/react](packages/react)
 
 A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.
 
-#### [@cosmos-kit/example](packages/example/README.md)
+#### [@cosmos-kit/keplr](packages/keplr)
+
+Keplr Wallet integration with Mobile support.
+
+#### [@cosmos-kit/example](packages/example)
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
