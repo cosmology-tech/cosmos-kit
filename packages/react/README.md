@@ -93,7 +93,7 @@ function Component ({ chainName }: { chainName?: string }) => {
 ```
 ## 2. Signing Clients
 
-There two signing clients available in `walletManager`: `stargateClient` and `cosmwasmClient`.
+There two signing clients available via `walletManager` functions: `getStargateClient()` and `getCosmWasmClient()`.
 
 Using signing client in react component:
 
