@@ -16,3 +16,7 @@ A wallet adapter for react with mobile WalletConnect support for the Cosmos
 ecosystem.
 
 cosmos-kit wallet connector
+
+## Credits
+
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
