@@ -13,7 +13,9 @@
 </p>
 
 A wallet adapter for react with mobile WalletConnect support for the Cosmos
-ecosystem.
+ecosystem
+
+Cosmos Kit is used in [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) to help you build high-quality Cosmos apps fast!
 
 ## Getting Started
 
