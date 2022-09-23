@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/example",
-  "version": "0.14.0",
+  "version": "0.16.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,32 +10,32 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/config": "^0.14.0",
-    "@cosmos-kit/core": "^0.14.0",
-    "@cosmos-kit/react": "^0.14.0",
+    "@cosmos-kit/config": "^0.16.0",
+    "@cosmos-kit/core": "^0.16.0",
+    "@cosmos-kit/react": "^0.16.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "chain-registry": "^0.10.3",
+    "chain-registry": "^0.14.0",
     "chakra-react-select": "^4.1.4",
     "cosmjs-utils": "0.0.7",
     "fast-fuzzy": "^1.11.2",
-    "framer-motion": "^6",
-    "next": "12.2.5",
+    "framer-motion": "^7.3.6",
+    "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.19.0",
+    "@babel/preset-env": "7.19.1",
     "@babel/preset-react": "7.18.6",
     "@babel/preset-typescript": "7.18.6",
-    "@types/node": "18.7.13",
-    "@types/react": "18.0.18",
+    "@types/node": "18.7.18",
+    "@types/react": "18.0.20",
     "@types/react-dom": "18.0.6",
     "babel-loader": "8.2.5",
-    "eslint": "8.20.0",
-    "eslint-config-next": "12.2.5",
-    "ts-loader": "9.3.1",
-    "typescript": "4.8.2"
+    "eslint": "8.23.1",
+    "eslint-config-next": "12.3.1",
+    "ts-loader": "9.4.1",
+    "typescript": "4.8.3"
   }
 }
