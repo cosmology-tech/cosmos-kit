@@ -33,43 +33,41 @@ yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core chain-registry
 ## 2. Connection
 ### 2.1 Quick Start
 
-`Provider`
-
-Supported chains info and supported wallets info are required when using `WalletProvider`.
+First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
 ```tsx
 import * as React from 'react';
 
-// 1. Import `ChakraProvider` component, chains and wallets
+import { ChakraProvider } from '@chakra-ui/react';
 import { WalletProvider } from '@cosmos-kit/react';
 import { chains } from 'chain-registry';
 import { wallets } from '@cosmos-kit/config';
 
 function WalletApp() {
   return (
-    // 2. Wrap `WalletProvider` at the top level of your wallet related components.
+    <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains} // 3. Provide supported chains
-        wallets={wallets} // 4. Provide supported wallets
+        chains={chains} // supported chains
+        wallets={wallets} // supported wallets
       >
-      <YourWalletRelatedComponents />
-    </WalletProvider>
+        <YourWalletRelatedComponents />
+      </WalletProvider>
+    </ChakraProvider>
   )
 }
 ```
 
-`Hook`
+Get wallet properties and functions using the `useWallet` hook:
 
 ```tsx
 import * as React from 'react';
 
-// 1. Import `useWallet` hook
 import { useWallet } from "@cosmos-kit/react";
 
 function Component ({ chainName }: { chainName?: string }) => {
     const walletManager = useWallet();
 
-    // 2. Get wallet properties
+    // Get wallet properties
     const {
         currentChainName, 
         currentWalletName, 
@@ -79,7 +77,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         message,
       } = walletManager;
 
-    // 3. Get wallet functions
+    // Get wallet functions
     const { 
         connect, 
         disconnect, 
@@ -87,89 +85,13 @@ function Component ({ chainName }: { chainName?: string }) => {
         setCurrentChain,
     } = walletManager;
 
-    // 4. if `chainName` in component props, `setCurrentChain` in `useEffect`
+    // if `chainName` in component props, `setCurrentChain` in `useEffect`
     React.useEffect(() => {
         setCurrentChain(chainName);
     }, [chainName]);
 }
 ```
-
-### 2.2 Customized modal
-
-`WalletProvider` provide a default modal for connection in `@cosmos-kit/react`.
-
-```ts
-import { DefaultModal } from '@cosmos-kit/react';
-```
-
-To define your own modal, you can input you modal component in `WalletProvider` props.
-
-Required properties in your modal component:
-
-```ts
-import { WalletModalProps } from '@cosmos-kit/core';
-
-// in `@cosmos-kit/core`
-export interface WalletModalProps {
-  isOpen: boolean;
-  setOpen: Dispatch<boolean>;
-}
-```
-
-A simple example to define your own modal:
-
-```tsx
-import * as React from 'react';
-
-import { WalletProvider, useWallet } from '@cosmos-kit/react';
-
-// 1. Define Modal Component
-const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const walletManager = useWallet();
-
-  function onCloseModal () {
-    setOpen(false);
-  };
-
-  function onWalletClicked(name: string) {
-    return async () => {
-      console.info('Connecting ' + name);
-      walletManager.setCurrentWallet(name);
-      await walletManager.connect();
-    }
-  }
-
-  return (
-    <Modal isOpen={open} onClose={onCloseModal}>
-      <ModalContent>
-        <ModalHeader>Choose Wallet</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>
-          {walletManager.wallets.map(({ name, prettyName }) => (
-            <Button key={name} colorScheme='blue' variant='ghost' onClick={onWalletClicked(name)}>
-              {prettyName}
-            </Button>
-          ))}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
-  )
-}
-
-function WalletApp() {
-  return (
-    <WalletProvider 
-        chains={chains}
-        wallets={wallets}
-        walletModal={MyModal} // 2. Provide walletModal
-    >
-      <YourWalletRelatedComponents />
-    </WalletProvider>
-  )
-}
-```
-
-## 3. Signing Client
+## 2. Signing Clients
 
 There two signing clients available in `walletManager`: `stargateClient` and `cosmwasmClient`.
 
@@ -199,7 +121,7 @@ function Component () => {
 }
 ```
 
-### 3.1 Customized signing client options
+### 2.1 Customized signing client options
 
 The default options are `undefined`. You can provide your own options in `WalletProvider`.
 
@@ -248,6 +170,82 @@ export interface SignerOptions {
   cosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
 }
 ```
+
+### 3 Customized modal
+
+You can bring your own UI. The `WalletProvider` provides a default modal for connection in `@cosmos-kit/react`.
+
+```ts
+import { DefaultModal } from '@cosmos-kit/react';
+```
+
+To define your own modal, you can input you modal component in `WalletProvider` props.
+
+Required properties in your modal component:
+
+```ts
+import { WalletModalProps } from '@cosmos-kit/core';
+
+// in `@cosmos-kit/core`
+export interface WalletModalProps {
+  isOpen: boolean;
+  setOpen: Dispatch<boolean>;
+}
+```
+
+A simple example to define your own modal:
+
+```tsx
+import * as React from 'react';
+
+import { WalletProvider, useWallet } from '@cosmos-kit/react';
+
+// Define Modal Component
+const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
+  const walletManager = useWallet();
+
+  function onCloseModal () {
+    setOpen(false);
+  };
+
+  function onWalletClicked(name: string) {
+    return async () => {
+      console.info('Connecting ' + name);
+      walletManager.setCurrentWallet(name);
+      await walletManager.connect();
+    }
+  }
+
+  return (
+    <Modal isOpen={open} onClose={onCloseModal}>
+      <ModalContent>
+        <ModalHeader>Choose Wallet</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {walletManager.wallets.map(({ name, prettyName }) => (
+            <Button key={name} colorScheme='blue' variant='ghost' onClick={onWalletClicked(name)}>
+              {prettyName}
+            </Button>
+          ))}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  )
+}
+
+function WalletApp() {
+  return (
+    <WalletProvider 
+        chains={chains}
+        wallets={wallets}
+        walletModal={MyModal} // Provide walletModal
+    >
+      <YourWalletRelatedComponents />
+    </WalletProvider>
+  )
+}
+```
+
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
