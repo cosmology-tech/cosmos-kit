@@ -1,6 +1,6 @@
 import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
+import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
 import { ChainRecord, ChainWalletDataBase } from '../types';
 import { StateBase } from './state';
 export declare abstract class ChainWalletBase<WalletClient, ChainWalletData extends ChainWalletDataBase, MainWallet> extends StateBase<ChainWalletData> {
@@ -15,7 +15,7 @@ export declare abstract class ChainWalletBase<WalletClient, ChainWalletData exte
     get chainId(): string;
     get cosmwasmEnabled(): boolean;
     getRpcEndpoint: () => Promise<string | undefined>;
-    get restEndpoint(): Promise<string | undefined>;
+    getRestEndpoint: () => Promise<string | undefined>;
     get address(): string | undefined;
     get offlineSigner(): OfflineSigner | undefined;
     disconnect(): void;

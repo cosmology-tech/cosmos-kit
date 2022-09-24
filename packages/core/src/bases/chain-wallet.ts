@@ -1,6 +1,12 @@
-import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
+import {
+  SigningCosmWasmClient,
+  SigningCosmWasmClientOptions,
+} from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
+import {
+  SigningStargateClient,
+  SigningStargateClientOptions,
+} from '@cosmjs/stargate';
 
 import { ChainRecord, ChainWalletDataBase, State } from '../types';
 import { StateBase } from './state';
@@ -49,44 +55,44 @@ export abstract class ChainWalletBase<
 
   getRpcEndpoint = async (): Promise<string | undefined> => {
     const rpcs = [
-      { address: `https://rpc.cosmos.directory/${this.chainName}` }
+      { address: `https://rpc.cosmos.directory/${this.chainName}` },
     ];
     rpcs.push(...this.chainRecord.chain?.apis?.rpc);
 
-    for (const rpc of rpcs) {      
+    for (const rpc of rpcs) {
       try {
-        const response = await fetch(rpc.address)
+        const response = await fetch(rpc.address);
         if (response.status == 200) {
           return rpc.address;
-        } 
+        }
       } catch (err) {
-        console.error(err)
-      }        
-    }      
+        console.error(err);
+      }
+    }
     return undefined;
-  }
+  };
 
-  get restEndpoint(): Promise<string | undefined> {
+  getRestEndpoint = async (): Promise<string | undefined> => {
     const fn = async () => {
       const rests = [
-        { address: `https://rest.cosmos.directory/${this.chainName}` }
+        { address: `https://rest.cosmos.directory/${this.chainName}` },
       ];
       rests.push(...this.chainRecord.chain?.apis?.rest);
 
-      for (const rest of rests) {      
+      for (const rest of rests) {
         try {
-          const response = await fetch(rest.address)
+          const response = await fetch(rest.address);
           if (response.status == 200) {
             return rest.address;
-          } 
+          }
         } catch (err) {
-          console.error(err)
-        }        
-      }      
+          console.error(err);
+        }
+      }
       return undefined;
-    }
+    };
     return fn();
-  }
+  };
 
   get address(): string | undefined {
     return this.data?.address;
@@ -101,39 +107,39 @@ export abstract class ChainWalletBase<
   }
 
   async connect() {
-    if (!await this.client) {
+    if (!(await this.client)) {
       this.setState(State.Error);
-      this.setMessage("Client Not Exist!");
-      return
+      this.setMessage('Client Not Exist!');
+      return;
     }
     await this.update();
   }
 
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
-    console.info('Using RPC: ' + rpcEndpoint);
     if (this.offlineSigner && rpcEndpoint) {
       return SigningStargateClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
         this.stargateOptions
-    )}
+      );
+    }
     console.error('Undefined offlineSigner or rpcEndpoint.');
-    return undefined; 
-  }
+    return undefined;
+  };
 
   getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
-    console.info('Using RPC: ' + rpcEndpoint);
     if (this.offlineSigner && rpcEndpoint) {
       return SigningCosmWasmClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
         this.stargateOptions
-    )}
+      );
+    }
     console.error('Undefined offlineSigner or rpcEndpoint.');
-    return undefined; 
-  }
+    return undefined;
+  };
 
   abstract get client(): Promise<WalletClient> | undefined | WalletClient;
 }

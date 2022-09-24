@@ -1,8 +1,8 @@
 import { Chain } from '@chain-registry/types';
-import { IconType } from 'react-icons';
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
+import { IconType } from 'react-icons';
 import { ChainWalletBase, MainWalletBase } from './bases';
 export interface ChainWalletDataBase {
     address?: string;

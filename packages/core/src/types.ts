@@ -1,8 +1,8 @@
 import { Chain } from '@chain-registry/types';
-import { IconType } from 'react-icons';
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
+import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from './bases';
 
@@ -25,10 +25,17 @@ export interface MainWalletData extends MainWalletDataBase {
 
 export type WalletData = ChainWalletData | MainWalletData;
 
-export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData, unknown> {
+export interface ChainWallet
+  extends ChainWalletBase<unknown, ChainWalletData, unknown> {
   [k: string]: any | undefined;
 }
-export interface MainWallet extends MainWalletBase<unknown, MainWalletData, ChainWalletData, ChainWallet> {
+export interface MainWallet
+  extends MainWalletBase<
+    unknown,
+    MainWalletData,
+    ChainWalletData,
+    ChainWallet
+  > {
   [k: string]: any | undefined;
 }
 
@@ -42,12 +49,12 @@ export enum State {
 }
 
 export enum WalletStatus {
-  Disconnected = "Disconnected",
-  Connecting = "Connecting",
-  Connected = "Connected",
-  NotExist = "NotExist",
-  Rejected = "Rejected",
-  Error = "Error"
+  Disconnected = 'Disconnected',
+  Connecting = 'Connecting',
+  Connected = 'Connected',
+  NotExist = 'NotExist',
+  Rejected = 'Rejected',
+  Error = 'Error',
 }
 
 export interface Mutable<T> {
@@ -78,7 +85,7 @@ export interface Wallet {
     desktop?: Icon[];
     tablet?: Icon[];
     mobile?: Icon[];
-  },
+  };
   logo?: string;
   qrCodeLink?: string;
 }
@@ -110,7 +117,7 @@ export interface StateActions<T> extends Actions {
 
 export interface ManagerActions<T> extends StateActions<T> {
   walletName?: Dispatch<WalletName | undefined>;
-  chainName?: Dispatch<ChainName | undefined>,
+  chainName?: Dispatch<ChainName | undefined>;
   viewOpen?: Dispatch<boolean>;
 }
 
