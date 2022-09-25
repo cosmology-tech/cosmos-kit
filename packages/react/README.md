@@ -92,8 +92,9 @@ Using signing client in react component:
 
 ```tsx
 import * as React from 'react';
+import { cosmos } from 'interchain'; 
+import { StdFee } from '@cosmjs/amino';
 import { useWallet } from "@cosmos-kit/react";
-import { cosmos } from 'interchain';
 
 function Component () => {
     const walletManager = useWallet();
