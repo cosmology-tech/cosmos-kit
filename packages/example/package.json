@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/example",
-  "version": "0.16.2",
+  "version": "0.16.3",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,7 @@
     "@chakra-ui/react": "^2.2.9",
     "@cosmos-kit/config": "^0.16.2",
     "@cosmos-kit/core": "^0.16.2",
-    "@cosmos-kit/react": "^0.16.2",
+    "@cosmos-kit/react": "^0.16.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "chain-registry": "^0.14.0",
