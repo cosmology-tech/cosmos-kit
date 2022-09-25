@@ -20,7 +20,11 @@ Get started quickly by using [create-cosmos-app](https://github.com/cosmology-te
 
 ## Configuration
 
-If you're not using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app), check out [our docs here](packages/react/README.md) to configure Cosmos Kit from scratch.
+Check out [our docs here](packages/react/README.md) to configure Cosmos Kit.
+
+## CosmJS Signers
+
+If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/react/README.md#2-signing-clients)
 
 ## Packages
 

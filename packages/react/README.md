@@ -20,17 +20,11 @@ Cosmos Kit is a wallet adapter for developers to build apps that quickly and eas
 
 ## 1. Installation
 
-```cli
-npm i @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core chain-registry
-```
-```cli
+```sh
 yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core chain-registry
 ```
 
-`types` are included in `@cosmos-kit/core`
-
 ## 2. Connection
-### 2.1 Quick Start
 
 First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
@@ -99,6 +93,7 @@ Using signing client in react component:
 ```tsx
 import * as React from 'react';
 import { useWallet } from "@cosmos-kit/react";
+import { cosmos } from 'interchain';
 
 function Component () => {
     const walletManager = useWallet();
@@ -108,14 +103,23 @@ function Component () => {
         address,
       } = walletManager;
 
-    const onSignAndBroadcast = async () => {
+    const sendTokens = async () => {
       const stargateClient = await getStargateClient();
       if (!stargateClient || !address) {
           console.error('stargateClient undefined or address undefined.')
           return;
       }
 
-      await stargateClient.signAndBroadcast(address, voteMessages, fee, memo);
+      const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+
+      const msg = send({
+        amount: [ { denom: 'uatom', amount: '1000' } ],
+        toAddress: address, fromAddress: address
+      });
+
+      const fee: StdFee = { amount: [ { denom: 'uatom', amount: '864' } ], gas: '86364' };
+
+      await stargateClient.signAndBroadcast(address, [msg], fee, memo);
     }
 }
 ```
@@ -127,20 +131,32 @@ The default options are `undefined`. You can provide your own options in `Wallet
 ```ts
 import * as React from 'react';
 
-import { WalletProvider } from '@cosmos-kit/react';
+import { Chain } from '@chain-registry/types';
 import { chains } from 'chain-registry';
+import { GasPrice } from '@cosmjs/stargate';
+import { getSigningCosmosClientOptions } from 'interchain';
+import { SignerOptions } from '@cosmos-kit/core';
+import { WalletProvider } from '@cosmos-kit/react';
 import { wallets } from '@cosmos-kit/config';
 
-// 1. Import options type
-import { SignerOptions } from '@cosmos-kit/core';
-
-// 2. construct signer options
+// construct signer options
 const signerOptions: SignerOptions = {
   stargate: (chain: Chain) => {
-    ... // return corresponding stargate options or undefined
+     // return corresponding stargate options or undefined
+    return getSigningCosmosClientOptions();
   },
   cosmwasm: (chain: Chain) => {
-    ... // return corresponding cosmwasm options or undefined
+     // return corresponding cosmwasm options or undefined
+    switch (chain.chain_name) {
+      case 'osmosis':
+        return {
+          gasPrice: GasPrice.fromString('0.0025uosmo')
+        };
+      case 'juno':
+        return {
+          gasPrice: GasPrice.fromString('0.0025ujuno')
+        };
+    }
   }
 }
 
@@ -149,7 +165,7 @@ function WalletApp() {
       <WalletProvider
         chains={chains}
         wallets={wallets}
-        signerOptions={signerOptions} // 3. Provide signerOptions
+        signerOptions={signerOptions} // Provide signerOptions
       >
       <YourWalletRelatedComponents />
     </WalletProvider>
@@ -157,7 +173,7 @@ function WalletApp() {
 }
 ```
 
-About `SignerOptions`
+The `SignerOptions` object has `stargate` and `cosmwasm` properties which are functions that return client options:
 
 ```ts
 // in '@cosmos-kit/core'
