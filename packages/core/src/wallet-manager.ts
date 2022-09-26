@@ -12,7 +12,7 @@ import {
 } from './types';
 import { StateBase } from './bases';
 import { Chain } from '@chain-registry/types';
-import { convertChain } from '..';
+import { convertChain } from './utils';
 
 export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;

@@ -1,5 +1,5 @@
 import { Chain } from '@chain-registry/types';
-import { ChainRecord, Endpoints, SignerOptions } from '@cosmos-kit/core';
+import { ChainRecord, Endpoints, SignerOptions } from '../types';
 
 export function convertChain(chain: Chain, signerOptions?: SignerOptions, preferredEndpoints?: Endpoints): ChainRecord {
     return {

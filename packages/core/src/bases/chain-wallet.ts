@@ -12,11 +12,23 @@ export abstract class ChainWalletBase<
 > extends StateBase<ChainWalletData> {
   protected _chainRecord: ChainRecord;
   protected mainWallet?: MainWallet;
+  rpcEndpoints: string[];
+  restEndpoints: string[];
 
   constructor(_chainRecord: ChainRecord, mainWallet?: MainWallet) {
     super();
     this._chainRecord = _chainRecord;
     this.mainWallet = mainWallet;
+    this.rpcEndpoints = [
+      ..._chainRecord.preferredEndpoints?.rpc || [],
+      `https://rpc.cosmos.directory/${this.chainName}`, 
+      ..._chainRecord.chain?.apis?.rpc.map(e => e.address) || []
+    ];
+    this.restEndpoints = [
+      ..._chainRecord.preferredEndpoints?.rest || [],
+      `https://rest.cosmos.directory/${this.chainName}`,
+      ..._chainRecord.chain?.apis?.rest.map(e => e.address) || []
+    ];
   }
 
   get chainRecord() {
@@ -48,44 +60,31 @@ export abstract class ChainWalletBase<
   }
 
   getRpcEndpoint = async (): Promise<string | undefined> => {
-    const rpcs = [
-      { address: `https://rpc.cosmos.directory/${this.chainName}` }
-    ];
-    rpcs.push(...this.chainRecord.chain?.apis?.rpc);
-
-    for (const rpc of rpcs) {      
+    for (const endpoint of this.rpcEndpoints) {   
       try {
-        const response = await fetch(rpc.address)
+        const response = await fetch(endpoint)
         if (response.status == 200) {
-          return rpc.address;
+          return endpoint;
         } 
       } catch (err) {
-        console.error(err)
+        console.error(`Failed to fetch RPC ${endpoint}`)
       }        
     }      
     return undefined;
   }
 
-  get restEndpoint(): Promise<string | undefined> {
-    const fn = async () => {
-      const rests = [
-        { address: `https://rest.cosmos.directory/${this.chainName}` }
-      ];
-      rests.push(...this.chainRecord.chain?.apis?.rest);
-
-      for (const rest of rests) {      
-        try {
-          const response = await fetch(rest.address)
-          if (response.status == 200) {
-            return rest.address;
-          } 
-        } catch (err) {
-          console.error(err)
-        }        
-      }      
-      return undefined;
-    }
-    return fn();
+  getRestEndpoint = async (): Promise<string | undefined> => {
+    for (const endpoint of this.restEndpoints) { 
+      try {
+        const response = await fetch(endpoint);
+        if (response.status == 200) {
+          return endpoint;
+        }
+      } catch (err) {
+        console.error(`Failed to fetch REST ${endpoint}`)
+      }        
+    }      
+    return undefined;
   }
 
   get address(): string | undefined {

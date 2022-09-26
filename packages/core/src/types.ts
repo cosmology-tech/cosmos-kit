@@ -85,12 +85,12 @@ export interface Wallet {
 
 export interface ChainRecord {
   name: ChainName;
-  chain?: Chain;
+  chain: Chain;
   signerOptions?: {
     stargate?: SigningStargateClientOptions;
     cosmwasm?: SigningCosmWasmClientOptions;
   };
-  preferredEndpoints: Endpoints;
+  preferredEndpoints?: Endpoints;
 }
 
 export interface WalletModalProps {
@@ -126,8 +126,8 @@ export interface ViewOptions {
 }
 
 export interface Endpoints {
-  rpc: string[];
-  rest: string[];
+  rpc?: string[];
+  rest?: string[];
 }
 
 export type EndpointOptions = Record<string, Endpoints>;

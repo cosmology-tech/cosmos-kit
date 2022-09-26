@@ -3,6 +3,7 @@ import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
+import { preferredEndpoints } from '../config';
 
 import { ChainKeplrMobile } from './chain-wallet';
 import { ChainKeplrMobileData, KeplrMobileData } from './types';
@@ -62,10 +63,24 @@ export class KeplrMobileWallet extends MainWalletBase<
 
   protected setChains(supportedChains: ChainRecord[]): void {
     this._chains = new Map(
-      supportedChains.map((chainRecord) => [
-        chainRecord.name,
-        new ChainKeplrMobile(chainRecord, this),
-      ])
+      supportedChains.map((chainRecord) => {
+
+        chainRecord.preferredEndpoints = {
+          rpc: [
+            ...chainRecord.preferredEndpoints?.rpc || [],
+            ...preferredEndpoints[chainRecord.name]?.rpc || []
+          ],
+          rest: [
+            ...chainRecord.preferredEndpoints?.rest || [],
+            ...preferredEndpoints[chainRecord.name]?.rest || []
+          ]
+        }
+
+        return [
+          chainRecord.name,
+          new ChainKeplrMobile(chainRecord, this),
+        ];
+      })
     );
   }
 
