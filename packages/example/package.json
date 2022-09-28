@@ -15,7 +15,6 @@
     "@cosmos-kit/react": "^0.16.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "big-integer": "1.6.51",
     "chain-registry": "^0.14.0",
     "chakra-react-select": "^4.1.4",
     "cosmjs-utils": "0.0.7",
