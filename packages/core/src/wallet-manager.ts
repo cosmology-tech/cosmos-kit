@@ -183,7 +183,6 @@ export class WalletManager extends StateBase<WalletData> {
     if (!wallet) {
       throw new Error(`${walletName} is not provided!`);
     }
-
     if (chainName) {
       wallet = wallet.getChain(chainName);
     }
@@ -191,7 +190,7 @@ export class WalletManager extends StateBase<WalletData> {
     return wallet;
   }
 
-  update = () => {};
+  update = () => { };
 
   connect = async () => {
     if (!this.currentWalletName) {

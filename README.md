@@ -12,16 +12,31 @@
    <a href="https://www.npmjs.com/package/@cosmos-kit/core"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fcore%2Fpackage.json"></a>
 </p>
 
-A wallet adapter for react with mobile WalletConnect support for the Cosmos
-ecosystem.
+Cosmos Kit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-## Getting Started
+## Quickstart
 
-#### [@cosmos-kit/react](packages/react/README.md)
+Get started quickly by using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) to help you build high-quality Cosmos apps fast!
+
+## Configuration
+
+Check out [our docs here](packages/react/README.md) to configure Cosmos Kit.
+
+## CosmJS Signers
+
+If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/react/README.md#2-signing-clients)
+
+## Packages
+
+#### [@cosmos-kit/react](packages/react)
 
 A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.
 
-#### [@cosmos-kit/example](packages/example/README.md)
+#### [@cosmos-kit/keplr](packages/keplr)
+
+Keplr Wallet integration with Mobile support.
+
+#### [@cosmos-kit/example](packages/example)
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
@@ -53,4 +68,6 @@ lerna publish
 
 ## Credits
 
-Original work inspired by [cosmodal](https://github.com/chainapsis/cosmodal).
+Original work inspired by [cosmodal](https://github.com/chainapsis/cosmodal)
+
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)

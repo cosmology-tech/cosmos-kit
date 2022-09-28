@@ -12,5 +12,9 @@
    <a href="https://www.npmjs.com/package/@cosmos-kit/keplr"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fkeplr%2Fpackage.json"></a>
 </p>
 
-A wallet adapter for react with mobile WalletConnect support for the Cosmos
-ecosystem.
+Cosmos Kit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
+
+@cosmos-kit/keplr is the Keplr integration for Cosmos Kit.
+## Credits
+
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
