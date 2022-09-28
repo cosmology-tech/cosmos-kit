@@ -5,21 +5,19 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 
 import { StateBase } from './bases';
 import {
-  ChainRecord,
+  ChainInfo,
   EndpointOptions,
   ManagerActions,
   SignerOptions,
   State,
-  Wallet,
+  WalletOption,
   WalletData,
   WalletStatus,
-} from './types';
-import {
   Actions,
   ChainName,
   ViewOptions,
-  WalletAdapter,
   WalletName,
+  WalletAdapter,
 } from './types';
 import { convertChain } from './utils';
 
@@ -29,8 +27,8 @@ export class WalletManager extends StateBase<WalletData> {
   protected _useView = true;
   protected _concurrency?: number;
   declare actions?: ManagerActions<WalletData>;
-  wallets: Wallet[];
-  chains: ChainRecord[];
+  wallets: WalletOption[];
+  chains: ChainInfo[];
   viewOptions: ViewOptions = {
     closeViewWhenWalletIsConnected: false,
     closeViewWhenWalletIsDisconnected: true,
@@ -39,7 +37,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   constructor(
     chains: Chain[],
-    wallets: Wallet[],
+    wallets: WalletOption[],
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
@@ -54,9 +52,7 @@ export class WalletManager extends StateBase<WalletData> {
     console.info(
       `${this.walletCount} wallets and ${this.chainCount} chains are used!`
     );
-    this.wallets.forEach((item) => {
-      item.wallet.setSupportedChains(this.chains);
-    });
+    this.wallets.forEach((wallet) => { wallet.setChains(this.chains) });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
   }
 
@@ -101,7 +97,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this.wallets.map((item) => item.name);
+    return this.wallets.map((wallet) => wallet.walletName);
   }
 
   get walletCount() {
@@ -109,7 +105,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get chainNames() {
-    return this.chains.map((item) => item.name);
+    return this.chains.map((chain) => chain.name);
   }
 
   get chainCount() {
@@ -177,8 +173,8 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let wallet: WalletAdapter | undefined = this.wallets.find(
-      (w) => w.name === walletName
-    )?.wallet;
+      (w) => w.walletName === walletName
+    );
 
     if (!wallet) {
       throw new Error(`${walletName} is not provided!`);

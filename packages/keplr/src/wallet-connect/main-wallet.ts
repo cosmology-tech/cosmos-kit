@@ -1,4 +1,4 @@
-import { ChainName, ChainRecord, Dispatch, State } from '@cosmos-kit/core';
+import { ChainName, ChainInfo, Dispatch, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
@@ -6,6 +6,7 @@ import EventEmitter from 'events';
 import { preferredEndpoints } from '../config';
 
 import { ChainKeplrMobile } from './chain-wallet';
+import { walletInfo } from './registry';
 import { ChainKeplrMobileData, KeplrMobileData } from './types';
 
 export class KeplrMobileWallet extends MainWalletBase<
@@ -19,8 +20,8 @@ export class KeplrMobileWallet extends MainWalletBase<
   connector: WalletConnect;
   emitter: EventEmitter;
 
-  constructor(_concurrency?: number) {
-    super(_concurrency);
+  constructor(_walletInfo: Wallet = walletInfo, _chainsInfo?: ChainInfo[]) {
+    super(_walletInfo, _chainsInfo);
 
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org'
@@ -61,7 +62,7 @@ export class KeplrMobileWallet extends MainWalletBase<
     this._client = client;
   }
 
-  protected setChains(supportedChains: ChainRecord[]): void {
+  setChains(supportedChains: ChainInfo[]): void {
     this._chains = new Map(
       supportedChains.map((chainRecord) => {
 

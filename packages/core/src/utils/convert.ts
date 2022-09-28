@@ -1,12 +1,12 @@
 import { Chain } from '@chain-registry/types';
 
-import { ChainRecord, Endpoints, SignerOptions } from '../types';
+import { ChainInfo, Endpoints, SignerOptions } from '../types';
 
 export function convertChain(
   chain: Chain,
   signerOptions?: SignerOptions,
   preferredEndpoints?: Endpoints
-): ChainRecord {
+): ChainInfo {
   return {
     name: chain.chain_name,
     chain,

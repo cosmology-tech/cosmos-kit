@@ -26,10 +26,10 @@ export interface MainWalletData extends MainWalletDataBase {
 export type WalletData = ChainWalletData | MainWalletData;
 
 export interface ChainWallet
-  extends ChainWalletBase<unknown, ChainWalletData, unknown> {
+  extends ChainWalletBase<unknown, ChainWalletData, any> {
   [k: string]: any | undefined;
 }
-export interface MainWallet
+export interface WalletOption
   extends MainWalletBase<
     unknown,
     MainWalletData,
@@ -39,7 +39,7 @@ export interface MainWallet
   [k: string]: any | undefined;
 }
 
-export type WalletAdapter = ChainWallet | MainWallet;
+export type WalletAdapter = ChainWallet | WalletOption;
 
 export enum State {
   Init = 'Init',
@@ -77,7 +77,6 @@ interface Icon {
 
 export interface Wallet {
   name: WalletName;
-  wallet: MainWallet;
   prettyName: string;
   isQRCode: boolean;
   downloads?: {
@@ -90,7 +89,7 @@ export interface Wallet {
   qrCodeLink?: string;
 }
 
-export interface ChainRecord {
+export interface ChainInfo {
   name: ChainName;
   chain: Chain;
   signerOptions?: {
@@ -137,4 +136,4 @@ export interface Endpoints {
   rest?: string[];
 }
 
-export type EndpointOptions = Record<string, Endpoints>;
+export type EndpointOptions = Record<ChainName, Endpoints>;

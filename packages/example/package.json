@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/config": "^0.16.2",
+    "@cosmos-kit/keplr": "^0.16.2",
     "@cosmos-kit/core": "^0.16.2",
     "@cosmos-kit/react": "^0.16.3",
     "@emotion/react": "^11",

@@ -3,9 +3,9 @@ import { WalletProvider } from '@cosmos-kit/react'
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme } from '../config';
 
-import { wallets } from '@cosmos-kit/config';
 import { chains } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
+import { wallets } from '@cosmos-kit/keplr';
 
 
 function MyApp({ Component, pageProps }: AppProps) {

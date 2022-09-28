@@ -21,7 +21,7 @@ Cosmos Kit is a wallet adapter for developers to build apps that quickly and eas
 ## 1. Installation
 
 ```sh
-yarn add @cosmos-kit/react @cosmos-kit/config @cosmos-kit/core chain-registry
+yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
 ## 2. Connection
@@ -34,14 +34,14 @@ import * as React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { WalletProvider } from '@cosmos-kit/react';
 import { chains } from 'chain-registry';
-import { wallets } from '@cosmos-kit/config';
+import { wallets } from '@cosmos-kit/keplr';
 
 function WalletApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains} // supported chains
-        wallets={wallets} // supported wallets
+        chains={chains} // supported chains, include all chains in `chain-registry` here.
+        wallets={wallets} // supported wallets, include `keplrExtension` and `KeplrMobile` here.
       >
         <YourWalletRelatedComponents />
       </WalletProvider>
@@ -84,7 +84,7 @@ function Component ({ chainName }: { chainName?: string }) => {
     }, [chainName]);
 }
 ```
-## 2. Signing Clients
+## 3. Signing Clients
 
 There two signing clients available via `walletManager` functions: `getStargateClient()` and `getCosmWasmClient()`.
 
@@ -125,7 +125,7 @@ function Component () => {
 }
 ```
 
-### 2.1 Customized signing client options
+### 3.1 Customized signing client options
 
 The default options are `undefined`. You can provide your own options in `WalletProvider`.
 
@@ -187,7 +187,7 @@ export interface SignerOptions {
 }
 ```
 
-### 3 Customized modal
+### 4 Customized modal
 
 You can bring your own UI. The `WalletProvider` provides a default modal for connection in `@cosmos-kit/react`.
 
@@ -259,6 +259,47 @@ function WalletApp() {
       <YourWalletRelatedComponents />
     </WalletProvider>
   )
+}
+```
+
+### 5. Other props in `WalletProvider`
+
+### 5.1 `endpointOptions`
+
+Define preferred endpoints for each chain.
+
+```ts
+export type ChainName = string;
+
+export interface Endpoints {
+  rpc?: string[];
+  rest?: string[];
+};
+
+export type EndpointOptions = Record<ChainName, Endpoints>;
+```
+
+e.g.
+```tsx
+<WalletProvider
+  ...
+  endpointOptions={{
+    osmosis: {
+      rpc: ['http://test.com']
+    }
+  }}
+>
+```
+
+### 5.2 `viewOptions`
+
+Define automation for view. By default all `false`.
+
+```ts
+export interface ViewOptions {
+  closeViewWhenWalletIsConnected?: boolean;
+  closeViewWhenWalletIsDisconnected?: boolean;
+  closeViewWhenWalletIsRejected?: boolean;
 }
 ```
 

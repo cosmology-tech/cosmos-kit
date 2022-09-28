@@ -3,7 +3,6 @@ import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@ch
 import { MouseEventHandler, useMemo } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { Astronaut, Error, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent, ChooseChainInfo } from "../components";
-import { getWalletPrettyName } from "@cosmos-kit/config";
 import { assets as chainAssets } from 'chain-registry';
 
 
@@ -11,9 +10,9 @@ const Home = () => {
   const walletManager = useWallet();
   const { connect, openView, setCurrentChain, chains,
     walletStatus, username, address, message,
-    currentChainName: chainName, currentWalletName } = walletManager;
+    currentChainName: chainName, currentWalletName, currentWallet } = walletManager;
 
-  const walletPrettyName = getWalletPrettyName(currentWalletName);
+  const walletPrettyName = currentWallet?.walletInfo.prettyName;
 
   const chainOptions = useMemo(() => (
     chains

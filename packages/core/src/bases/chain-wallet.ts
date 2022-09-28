@@ -8,53 +8,57 @@ import {
   SigningStargateClientOptions,
 } from '@cosmjs/stargate';
 
-import { ChainRecord, ChainWalletDataBase, State } from '../types';
+import { ChainInfo, ChainWalletDataBase, State, Wallet } from '../types';
 import { StateBase } from './state';
 
 export abstract class ChainWalletBase<
   WalletClient,
   ChainWalletData extends ChainWalletDataBase,
-  MainWallet
+  MainWallet extends { walletInfo: Wallet }
 > extends StateBase<ChainWalletData> {
-  protected _chainRecord: ChainRecord;
+  protected _chainInfo: ChainInfo;
   protected mainWallet: MainWallet;
   rpcEndpoints: string[];
   restEndpoints: string[];
 
-  constructor(_chainRecord: ChainRecord, mainWallet: MainWallet) {
+  constructor(_chainInfo: ChainInfo, mainWallet: MainWallet) {
     super();
-    this._chainRecord = _chainRecord;
+    this._chainInfo = _chainInfo;
     this.mainWallet = mainWallet;
     this.rpcEndpoints = [
-      ...(_chainRecord.preferredEndpoints?.rpc || []),
+      ...(_chainInfo.preferredEndpoints?.rpc || []),
       `https://rpc.cosmos.directory/${this.chainName}`,
-      ...(_chainRecord.chain?.apis?.rpc?.map((e) => e.address) || []),
+      ...(_chainInfo.chain?.apis?.rpc?.map((e) => e.address) || []),
     ];
     this.restEndpoints = [
-      ...(_chainRecord.preferredEndpoints?.rest || []),
+      ...(_chainInfo.preferredEndpoints?.rest || []),
       `https://rest.cosmos.directory/${this.chainName}`,
-      ...(_chainRecord.chain?.apis?.rest?.map((e) => e.address) || []),
+      ...(_chainInfo.chain?.apis?.rest?.map((e) => e.address) || []),
     ];
   }
 
-  get chainRecord() {
-    return this._chainRecord;
+  get walletInfo() {
+    return this.mainWallet.walletInfo;
+  }
+
+  get chainInfo() {
+    return this._chainInfo;
   }
 
   get chainName() {
-    return this.chainRecord.name;
+    return this.chainInfo.name;
   }
 
   get stargateOptions(): SigningStargateClientOptions | undefined {
-    return this.chainRecord.signerOptions?.stargate;
+    return this.chainInfo.signerOptions?.stargate;
   }
 
   get cosmwasmOptions(): SigningCosmWasmClientOptions | undefined {
-    return this.chainRecord.signerOptions?.cosmwasm;
+    return this.chainInfo.signerOptions?.cosmwasm;
   }
 
   get chain() {
-    return this.chainRecord.chain;
+    return this.chainInfo.chain;
   }
 
   get chainId() {
