@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { ChainName, ChainRecord } from '@cosmos-kit/core';
+import { ChainName, ChainInfo, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
@@ -11,12 +11,12 @@ export declare class KeplrMobileWallet extends MainWalletBase<KeplrWalletConnect
     protected _client: KeplrWalletConnectV1;
     connector: WalletConnect;
     emitter: EventEmitter;
-    constructor(_concurrency?: number);
+    constructor(_walletInfo?: Wallet, _chainsInfo?: ChainInfo[]);
     get isInSession(): boolean;
     get qrUri(): string;
     get client(): KeplrWalletConnectV1;
     setClient(client: KeplrWalletConnectV1): void;
-    protected setChains(supportedChains: ChainRecord[]): void;
+    setChains(supportedChains: ChainInfo[]): void;
     connect(): Promise<void>;
     update(): Promise<void>;
     disconnect(): Promise<void>;

@@ -1,7 +1,6 @@
 import { Mutable, State, StateActions, WalletStatus } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
-
 export abstract class StateBase<T> {
   protected _mutable: Mutable<T>;
   actions?: StateActions<T>;
@@ -64,7 +63,7 @@ export abstract class StateBase<T> {
     this.emitData?.(data);
   }
 
-  setMessage(message: string) {
+  setMessage(message: string | undefined) {
     this._mutable.message = message;
     this.emitMessage?.(message);
   }

@@ -3,24 +3,23 @@ import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 
-import { convertChain } from '..';
 import { StateBase } from './bases';
 import {
-  ChainRecord,
+  ChainInfo,
   EndpointOptions,
   ManagerActions,
   SignerOptions,
-  Wallet,
+  State,
+  WalletOption,
   WalletData,
   WalletStatus,
-} from './types';
-import {
   Actions,
   ChainName,
   ViewOptions,
-  WalletAdapter,
   WalletName,
+  WalletAdapter,
 } from './types';
+import { convertChain } from './utils';
 
 export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
@@ -28,8 +27,8 @@ export class WalletManager extends StateBase<WalletData> {
   protected _useView = true;
   protected _concurrency?: number;
   declare actions?: ManagerActions<WalletData>;
-  wallets: Wallet[];
-  chains: ChainRecord[];
+  wallets: WalletOption[];
+  chains: ChainInfo[];
   viewOptions: ViewOptions = {
     closeViewWhenWalletIsConnected: false,
     closeViewWhenWalletIsDisconnected: true,
@@ -37,8 +36,8 @@ export class WalletManager extends StateBase<WalletData> {
   };
 
   constructor(
-    chains?: Chain[],
-    wallets?: Wallet[],
+    chains: Chain[],
+    wallets: WalletOption[],
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
@@ -53,9 +52,7 @@ export class WalletManager extends StateBase<WalletData> {
     console.info(
       `${this.walletCount} wallets and ${this.chainCount} chains are used!`
     );
-    this.wallets.forEach((item) => {
-      item.wallet.setSupportedChains(this.chains);
-    });
+    this.wallets.forEach((wallet) => { wallet.setChains(this.chains) });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
   }
 
@@ -75,12 +72,12 @@ export class WalletManager extends StateBase<WalletData> {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
-  get data(): WalletData {
+  get data(): WalletData | undefined {
     return this.currentWallet?.data;
   }
 
   get state() {
-    return this.currentWallet?.state;
+    return this.currentWallet?.state || State.Init;
   }
 
   get message() {
@@ -100,7 +97,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this.wallets.map((item) => item.name);
+    return this.wallets.map((wallet) => wallet.walletName);
   }
 
   get walletCount() {
@@ -108,7 +105,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get chainNames() {
-    return this.chains.map((item) => item.name);
+    return this.chains.map((chain) => chain.name);
   }
 
   get chainCount() {
@@ -176,8 +173,12 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let wallet: WalletAdapter | undefined = this.wallets.find(
-      (w) => w.name === walletName
-    )?.wallet;
+      (w) => w.walletName === walletName
+    );
+
+    if (!wallet) {
+      throw new Error(`${walletName} is not provided!`);
+    }
     if (chainName) {
       wallet = wallet.getChain(chainName);
     }
@@ -185,7 +186,7 @@ export class WalletManager extends StateBase<WalletData> {
     return wallet;
   }
 
-  update = () => {};
+  update = () => { };
 
   connect = async () => {
     if (!this.currentWalletName) {
@@ -193,8 +194,7 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
     try {
-      await this.currentWallet.connect();
-      // console.log('%cwallet-manager.ts line:222 object', 'color: #007acc;', this.currentWallet.username);
+      await this.currentWallet!.connect();
       if (
         this.walletStatus === WalletStatus.Connected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
@@ -219,7 +219,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     try {
-      await this.currentWallet.disconnect();
+      await this.currentWallet!.disconnect();
 
       if (
         this.walletStatus === WalletStatus.Disconnected &&

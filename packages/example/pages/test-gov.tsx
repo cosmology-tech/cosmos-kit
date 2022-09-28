@@ -1,6 +1,5 @@
 import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { cosmos } from 'interchain';
 import { useWallet } from "@cosmos-kit/react";
 
 

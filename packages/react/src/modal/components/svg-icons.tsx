@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Logo = (props) => (
+export const Logo = (props: any) => (
   <svg
     viewBox="0 0 116 83"
     fill="none"
@@ -29,7 +29,7 @@ export const Logo = (props) => (
   </svg>
 );
 
-export const LogoBrandName = (props) => (
+export const LogoBrandName = (props: any) => (
   <svg
     viewBox="0 0 346 67"
     fill="none"
@@ -57,7 +57,7 @@ export const LogoBrandName = (props) => (
   </svg>
 );
 
-export const Astronaut = (props) => (
+export const Astronaut = (props: any) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" {...props}>
     <title>{"cosmology-astronaut"}</title>
     <style>
@@ -362,7 +362,7 @@ export const Astronaut = (props) => (
   </svg>
 );
 
-export const SpaceBackground1 = (props) => (
+export const SpaceBackground1 = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1280 720"
@@ -554,7 +554,7 @@ export const SpaceBackground1 = (props) => (
   </svg>
 );
 
-export const SpaceBackground2 = (props) => (
+export const SpaceBackground2 = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1280 720"
@@ -618,7 +618,7 @@ export const SpaceBackground2 = (props) => (
   </svg>
 );
 
-export const SpaceBackground3 = (props) => (
+export const SpaceBackground3 = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1280 720"
@@ -722,7 +722,7 @@ export const SpaceBackground3 = (props) => (
   </svg>
 );
 
-export const SpaceBackground4 = (props) => (
+export const SpaceBackground4 = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1280 720"
@@ -1516,7 +1516,7 @@ export const SpaceBackground4 = (props) => (
   </svg>
 );
 
-export const SpaceBackground5 = (props) => (
+export const SpaceBackground5 = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1280 720"
@@ -2685,7 +2685,7 @@ export const SpaceBackground5 = (props) => (
   </svg>
 );
 
-export const SpaceBackground6 = (props) => (
+export const SpaceBackground6 = (props: any) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1280 720"

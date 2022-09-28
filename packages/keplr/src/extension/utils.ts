@@ -2,7 +2,7 @@ import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 const error = new Error('No keplr extension installed!');
 
-export const getKeplrFromExtension: () => Promise<Keplr> = async () => {
+export const getKeplrFromExtension: () => Promise<Keplr | undefined> = async () => {
   if (typeof window === 'undefined') {
     return undefined;
   }

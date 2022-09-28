@@ -14,7 +14,8 @@
     "format": "lerna run format",
     "pretest": "yarn lint",
     "test": "lerna run test",
-    "pub": "lerna publish --allowBranch=beta-cosmos-kit"
+    "clear:node_modules": "find . -name 'node_modules' -type d -prune -print | xargs rm -rf",
+    "clear": "find -E ./packages -iregex '.*/packages/[a-z]*/(main|module|types)' -type d -prune -print | xargs rm -rf"
   },
   "devDependencies": {
     "@babel/cli": "7.18.10",

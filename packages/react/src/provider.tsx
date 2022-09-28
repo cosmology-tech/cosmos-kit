@@ -1,4 +1,4 @@
-import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, Wallet, EndpointOptions } from '@cosmos-kit/core';
+import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, WalletOption, EndpointOptions } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, { createContext, ReactNode, useMemo, useState } from 'react';
 
@@ -17,7 +17,7 @@ export const WalletProvider = ({
   children,
 }: {
   chains: Chain[],
-  wallets: Wallet[],
+  wallets: WalletOption[],
   walletModal?: ({
     isOpen,
     setOpen,

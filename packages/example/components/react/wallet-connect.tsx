@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, ReactNode } from "react";
 import { Button, Icon, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { IoWallet } from "react-icons/io5";
-import { ConnectWalletType } from "./types";
+import { ConnectWalletType } from "../types";
 import { FiAlertTriangle } from "react-icons/fi";
 import { WalletStatus } from "@cosmos-kit/core";
 
@@ -78,6 +78,8 @@ export const Rejected = ({
   wordOfWarning?: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const bg = useColorModeValue("orange.200", "orange.300");
+
   return (
     <Stack>
       <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />
@@ -85,7 +87,7 @@ export const Rejected = ({
         <Stack
           isInline={true}
           borderRadius="md"
-          bg={useColorModeValue("orange.200", "orange.300")}
+          bg={bg}
           color="blackAlpha.900"
           p={4}
           spacing={1}
@@ -112,6 +114,8 @@ export const Error = ({
   wordOfWarning?: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
+  const bg = useColorModeValue("orange.200", "orange.300");
+
   return (
     <Stack>
       <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />
@@ -119,7 +123,7 @@ export const Error = ({
         <Stack
           isInline={true}
           borderRadius="md"
-          bg={useColorModeValue("orange.200", "orange.300")}
+          bg={bg}
           color="blackAlpha.900"
           p={4}
           spacing={1}
@@ -137,12 +141,12 @@ export const Error = ({
   );
 };
 
-export const NotExist = ({ 
-  buttonText, 
-  onClick 
-}: { 
-  buttonText: string; 
-  onClick: MouseEventHandler<HTMLButtonElement>; 
+export const NotExist = ({
+  buttonText,
+  onClick
+}: {
+  buttonText: string;
+  onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />;
 };

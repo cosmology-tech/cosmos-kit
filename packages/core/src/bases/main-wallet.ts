@@ -1,5 +1,5 @@
-import { ChainName, ChainRecord, State } from '../types';
-import { MainWalletDataBase, ChainWalletDataBase } from '../types';
+import { ChainName, ChainInfo, State, Wallet } from '../types';
+import { ChainWalletDataBase, MainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
 
@@ -7,41 +7,38 @@ export abstract class MainWalletBase<
   WalletClient,
   MainWalletData extends MainWalletDataBase,
   ChainWalletData extends ChainWalletDataBase,
-  ChainWallet extends ChainWalletBase<WalletClient, ChainWalletData, unknown>
+  ChainWallet extends ChainWalletBase<WalletClient, ChainWalletData, any>
 > extends StateBase<MainWalletData> {
   protected abstract _chains: Map<ChainName, ChainWallet>;
-  protected abstract _client: Promise<WalletClient | undefined> | WalletClient | undefined;
-  // protected queue: PQueue;
+  protected abstract _client:
+    | Promise<WalletClient | undefined>
+    | WalletClient
+    | undefined;
 
-  protected _supportedChains: ChainRecord[] = [];
-  protected _concurrency: number;
+  protected _chainsInfo: ChainInfo[] = [];
+  protected _walletInfo: Wallet;
 
-  constructor(_concurrency?: number) {
+  constructor(_walletInfo: Wallet, _chainsInfo?: ChainInfo[]) {
     super();
-    this._concurrency = _concurrency || 1;
-    // this.queue = new PQueue({ concurrency: this._concurrency });
-    this.setChains(this._supportedChains);
+    this._walletInfo = _walletInfo;
+    this._chainsInfo = _chainsInfo;
+    if (_chainsInfo) { this.setChains(_chainsInfo) };
   }
 
   get client() {
     return this._client;
   }
 
-  setSupportedChains(chains: ChainRecord[]) {
-    this._supportedChains = chains;
-    this.setChains(this._supportedChains);
+  get walletInfo(): Wallet {
+    return this._walletInfo;
+  }
+
+  get walletName() {
+    return this.walletInfo.name;
   }
 
   get username(): string | undefined {
     return this.data?.username;
-  }
-
-  get supportedChains() {
-    return this._supportedChains;
-  }
-
-  get concurrency() {
-    return this._concurrency;
   }
 
   get chains() {
@@ -67,17 +64,6 @@ export abstract class MainWalletBase<
     return this.chains.get(chainName)!;
   }
 
-  // async updateAllChains() {
-  //     console.info('Running all chain wallet update');
-  //     await Promise.all([...this.chains].map(([chainName, chain]) => {
-  //         const request = async () => {
-  //             await chain.update();
-  //         };
-  //         return this.queue.add(request, { nameentifier: chainName } as any);
-  //     }));
-  //     console.info('All chain wallet update complete')
-  // }
-
   disconnect() {
     this.chains.forEach((chain) => {
       chain.disconnect();
@@ -86,13 +72,13 @@ export abstract class MainWalletBase<
   }
 
   async connect() {
-    if (!await this.client) {
+    if (!(await this.client)) {
       this.setState(State.Error);
-      this.setMessage("Client Not Exist!");
-      return
+      this.setMessage('Client Not Exist!');
+      return;
     }
     await this.update();
   }
 
-  protected abstract setChains(supportedChains?: ChainRecord[]): void;
+  abstract setChains(supportedChains?: ChainInfo[]): void;
 }

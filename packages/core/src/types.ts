@@ -26,10 +26,10 @@ export interface MainWalletData extends MainWalletDataBase {
 export type WalletData = ChainWalletData | MainWalletData;
 
 export interface ChainWallet
-  extends ChainWalletBase<unknown, ChainWalletData, unknown> {
+  extends ChainWalletBase<unknown, ChainWalletData, any> {
   [k: string]: any | undefined;
 }
-export interface MainWallet
+export interface WalletOption
   extends MainWalletBase<
     unknown,
     MainWalletData,
@@ -39,7 +39,7 @@ export interface MainWallet
   [k: string]: any | undefined;
 }
 
-export type WalletAdapter = ChainWallet | MainWallet;
+export type WalletAdapter = ChainWallet | WalletOption;
 
 export enum State {
   Init = 'Init',
@@ -77,7 +77,6 @@ interface Icon {
 
 export interface Wallet {
   name: WalletName;
-  wallet: MainWallet;
   prettyName: string;
   isQRCode: boolean;
   downloads?: {
@@ -90,14 +89,14 @@ export interface Wallet {
   qrCodeLink?: string;
 }
 
-export interface ChainRecord {
+export interface ChainInfo {
   name: ChainName;
-  chain?: Chain;
+  chain: Chain;
   signerOptions?: {
     stargate?: SigningStargateClientOptions;
     cosmwasm?: SigningCosmWasmClientOptions;
   };
-  preferredEndpoints: Endpoints;
+  preferredEndpoints?: Endpoints;
 }
 
 export interface WalletModalProps {
@@ -106,7 +105,7 @@ export interface WalletModalProps {
 }
 
 export interface Actions {
-  [k: string]: Dispatch<unknown> | undefined;
+  [k: string]: Dispatch<any> | undefined;
 }
 
 export interface StateActions<T> extends Actions {
@@ -133,8 +132,8 @@ export interface ViewOptions {
 }
 
 export interface Endpoints {
-  rpc: string[];
-  rest: string[];
+  rpc?: string[];
+  rest?: string[];
 }
 
-export type EndpointOptions = Record<string, Endpoints>;
+export type EndpointOptions = Record<ChainName, Endpoints>;

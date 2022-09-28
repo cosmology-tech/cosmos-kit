@@ -1,18 +1,34 @@
 import { useWallet } from "@cosmos-kit/react";
-import { chainRecords } from "../config";
 import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useMemo } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
-import { Astronaut, Error, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent } from "../components";
-import { getWalletPrettyName } from "@cosmos-kit/config";
+import { Astronaut, Error, ChainOption, ChooseChain, Connected, ConnectedShowAddress, ConnectedUserInfo, Connecting, ConnectStatusWarn, CopyAddressBtn, Disconnected, handleSelectChainDropdown, NotExist, Rejected, RejectedWarn, WalletConnectComponent, ChooseChainInfo } from "../components";
+import { assets as chainAssets } from 'chain-registry';
+
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, openView, setCurrentChain,
+  const { connect, openView, setCurrentChain, chains,
     walletStatus, username, address, message,
-    currentChainName: chainName, currentWalletName } = walletManager;
+    currentChainName: chainName, currentWalletName, currentWallet } = walletManager;
 
-  const walletPrettyName = getWalletPrettyName(currentWalletName);
+  const walletPrettyName = currentWallet?.walletInfo.prettyName;
+
+  const chainOptions = useMemo(() => (
+    chains
+      .map((chainRecord) => {
+        const assets = chainAssets.find(
+          _chain => _chain.chain_name === chainRecord.name
+        )?.assets;
+        return {
+          chainName: chainRecord.name,
+          label: chainRecord.chain.pretty_name,
+          value: chainRecord.name,
+          icon: assets ? assets[0]?.logo_URIs?.svg || assets[0]?.logo_URIs?.png : undefined,
+          disabled: false
+        }
+      })
+  ), [])
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -71,7 +87,7 @@ const Home = () => {
   const chooseChain = (
     <ChooseChain
       chainName={chainName}
-      chainRecords={chainRecords}
+      chainOptions={chainOptions}
       onChange={onChainChange}
     />
   );

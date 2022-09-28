@@ -1,4 +1,4 @@
-import { ChainRecord, ChainWalletBase, State } from '@cosmos-kit/core';
+import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
@@ -12,7 +12,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
   KeplrMobileWallet
 > {
 
-  constructor(_chainRecord: ChainRecord, keplrWallet: KeplrMobileWallet) {
+  constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet) {
     super(_chainRecord, keplrWallet);
   }
 
@@ -36,17 +36,17 @@ export class ChainKeplrMobile extends ChainWalletBase<
     return this.connector.uri;
   }
 
-  private get ee() {
+  private get emitter() {
     return this.mainWallet.emitter;
   }
 
   async connect(): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
-      this.ee.on('update', async () => {
+      this.emitter.on('update', async () => {
         await this.update();
       })
-      this.ee.on('disconnect', async () => {
+      this.emitter.on('disconnect', async () => {
         await this.disconnect();
       })
     } else {
@@ -61,7 +61,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
       this.setData({
         address: key.bech32Address,
         username: key.name,
-        offlineSigner: this.chainId && this.client.getOfflineSigner(this.chainId),
+        offlineSigner: this.chainId ? this.client.getOfflineSigner(this.chainId) : undefined,
       });
       this.setState(State.Done);
     } catch (e) {

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 export declare const Logo: (props: any) => JSX.Element;
 export declare const LogoBrandName: (props: any) => JSX.Element;
 export declare const Astronaut: (props: any) => JSX.Element;

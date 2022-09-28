@@ -18,13 +18,13 @@ export interface MainWalletData extends MainWalletDataBase {
     [k: string]: any | undefined;
 }
 export declare type WalletData = ChainWalletData | MainWalletData;
-export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData, unknown> {
+export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData, any> {
     [k: string]: any | undefined;
 }
-export interface MainWallet extends MainWalletBase<unknown, MainWalletData, ChainWalletData, ChainWallet> {
+export interface WalletOption extends MainWalletBase<unknown, MainWalletData, ChainWalletData, ChainWallet> {
     [k: string]: any | undefined;
 }
-export declare type WalletAdapter = ChainWallet | MainWallet;
+export declare type WalletAdapter = ChainWallet | WalletOption;
 export declare enum State {
     Init = "Init",
     Pending = "Pending",
@@ -55,7 +55,6 @@ interface Icon {
 }
 export interface Wallet {
     name: WalletName;
-    wallet: MainWallet;
     prettyName: string;
     isQRCode: boolean;
     downloads?: {
@@ -67,21 +66,21 @@ export interface Wallet {
     logo?: string;
     qrCodeLink?: string;
 }
-export interface ChainRecord {
+export interface ChainInfo {
     name: ChainName;
-    chain?: Chain;
+    chain: Chain;
     signerOptions?: {
         stargate?: SigningStargateClientOptions;
         cosmwasm?: SigningCosmWasmClientOptions;
     };
-    preferredEndpoints: Endpoints;
+    preferredEndpoints?: Endpoints;
 }
 export interface WalletModalProps {
     isOpen: boolean;
     setOpen: Dispatch<boolean>;
 }
 export interface Actions {
-    [k: string]: Dispatch<unknown> | undefined;
+    [k: string]: Dispatch<any> | undefined;
 }
 export interface StateActions<T> extends Actions {
     state?: Dispatch<State>;
@@ -103,8 +102,8 @@ export interface ViewOptions {
     closeViewWhenWalletIsRejected?: boolean;
 }
 export interface Endpoints {
-    rpc: string[];
-    rest: string[];
+    rpc?: string[];
+    rest?: string[];
 }
-export declare type EndpointOptions = Record<string, Endpoints>;
+export declare type EndpointOptions = Record<ChainName, Endpoints>;
 export {};

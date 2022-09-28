@@ -1,17 +1,19 @@
-import { ChainName, ChainRecord, State } from '@cosmos-kit/core';
+import { ChainName, ChainInfo, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
+import { preferredEndpoints } from '../config';
 
 import { ChainKeplrExtension } from './chain-wallet';
 import { ChainKeplrExtensionData, KeplrExtensionData } from './types';
 import { getKeplrFromExtension } from './utils';
+import { walletInfo } from './registry';
 
 export class KeplrExtensionWallet extends MainWalletBase<Keplr, KeplrExtensionData, ChainKeplrExtensionData, ChainKeplrExtension> {
-  protected _chains: Map<ChainName, ChainKeplrExtension>;
+  protected _chains!: Map<ChainName, ChainKeplrExtension>;
   protected _client: Promise<Keplr | undefined> | undefined;
 
-  constructor(_concurrency?: number) {
-    super(_concurrency);
+  constructor(_walletInfo: Wallet = walletInfo, _chainsInfo?: ChainInfo[]) {
+    super(_walletInfo, _chainsInfo);
     this._client = (async () => {
       try {
         return await getKeplrFromExtension();
@@ -21,12 +23,26 @@ export class KeplrExtensionWallet extends MainWalletBase<Keplr, KeplrExtensionDa
     })();
   }
 
-  protected setChains(supportedChains: ChainRecord[]): void {
+  setChains(chainsInfo: ChainInfo[]): void {
     this._chains = new Map(
-      supportedChains.map((chainRecord) => [
-        chainRecord.name,
-        new ChainKeplrExtension(chainRecord, this),
-      ])
+      chainsInfo.map((chain) => {
+
+        chain.preferredEndpoints = {
+          rpc: [
+            ...chain.preferredEndpoints?.rpc || [],
+            ...preferredEndpoints[chain.name]?.rpc || []
+          ],
+          rest: [
+            ...chain.preferredEndpoints?.rest || [],
+            ...preferredEndpoints[chain.name]?.rest || []
+          ]
+        }
+
+        return [
+          chain.name,
+          new ChainKeplrExtension(chain, this),
+        ]
+      })
     );
   }
 

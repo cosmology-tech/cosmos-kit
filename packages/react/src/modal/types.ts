@@ -102,7 +102,7 @@ export type DownloadWalletButtonType = {
 };
 export type UserDeviceInfoType = {
   browser?: string;
-  device: string;
+  device?: string;
   os?: string;
 };
 export type DeviceDataType = {
@@ -115,7 +115,6 @@ export type ExtensionLinkType = {
   desktop?: DeviceDataType[];
   tablet?: DeviceDataType[];
   mobile?: DeviceDataType[];
-  websiteDownload?: string;
 };
 export type WalletRecordType = {
   id: string;

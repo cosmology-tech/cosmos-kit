@@ -5,7 +5,7 @@ import { WalletRecordType } from "../types";
 
 export const getModalHead = (
     walletManager: WalletManager,
-    currentWalletData: WalletRecordType,
+    currentWalletData: WalletRecordType | undefined,
     handleClose: () => void,
     modalReset: boolean,
     setModalReset: (v: boolean) => void
@@ -15,10 +15,10 @@ export const getModalHead = (
         setModalReset(true);
     }
 
-    if (walletManager.currentWalletName && !modalReset) {
+    if (currentWalletData && !modalReset) {
         return (
             <ModalHead
-                title={currentWalletData.walletName}
+                title={currentWalletData.walletName || currentWalletData.id}
                 backButton={true}
                 onClose={handleClose}
                 onBack={onBack}

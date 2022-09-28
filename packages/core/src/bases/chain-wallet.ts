@@ -8,41 +8,57 @@ import {
   SigningStargateClientOptions,
 } from '@cosmjs/stargate';
 
-import { ChainRecord, ChainWalletDataBase, State } from '../types';
+import { ChainInfo, ChainWalletDataBase, State, Wallet } from '../types';
 import { StateBase } from './state';
 
 export abstract class ChainWalletBase<
   WalletClient,
   ChainWalletData extends ChainWalletDataBase,
-  MainWallet
+  MainWallet extends { walletInfo: Wallet }
 > extends StateBase<ChainWalletData> {
-  protected _chainRecord: ChainRecord;
-  protected mainWallet?: MainWallet;
+  protected _chainInfo: ChainInfo;
+  protected mainWallet: MainWallet;
+  rpcEndpoints: string[];
+  restEndpoints: string[];
 
-  constructor(_chainRecord: ChainRecord, mainWallet?: MainWallet) {
+  constructor(_chainInfo: ChainInfo, mainWallet: MainWallet) {
     super();
-    this._chainRecord = _chainRecord;
+    this._chainInfo = _chainInfo;
     this.mainWallet = mainWallet;
+    this.rpcEndpoints = [
+      ...(_chainInfo.preferredEndpoints?.rpc || []),
+      `https://rpc.cosmos.directory/${this.chainName}`,
+      ...(_chainInfo.chain?.apis?.rpc?.map((e) => e.address) || []),
+    ];
+    this.restEndpoints = [
+      ...(_chainInfo.preferredEndpoints?.rest || []),
+      `https://rest.cosmos.directory/${this.chainName}`,
+      ...(_chainInfo.chain?.apis?.rest?.map((e) => e.address) || []),
+    ];
   }
 
-  get chainRecord() {
-    return this._chainRecord;
+  get walletInfo() {
+    return this.mainWallet.walletInfo;
+  }
+
+  get chainInfo() {
+    return this._chainInfo;
   }
 
   get chainName() {
-    return this.chainRecord.name;
+    return this.chainInfo.name;
   }
 
   get stargateOptions(): SigningStargateClientOptions | undefined {
-    return this.chainRecord.signerOptions?.stargate;
+    return this.chainInfo.signerOptions?.stargate;
   }
 
   get cosmwasmOptions(): SigningCosmWasmClientOptions | undefined {
-    return this.chainRecord.signerOptions?.cosmwasm;
+    return this.chainInfo.signerOptions?.cosmwasm;
   }
 
   get chain() {
-    return this.chainRecord.chain;
+    return this.chainInfo.chain;
   }
 
   get chainId() {
@@ -54,44 +70,31 @@ export abstract class ChainWalletBase<
   }
 
   getRpcEndpoint = async (): Promise<string | undefined> => {
-    const rpcs = [
-      { address: `https://rpc.cosmos.directory/${this.chainName}` },
-    ];
-    rpcs.push(...this.chainRecord.chain?.apis?.rpc);
-
-    for (const rpc of rpcs) {
+    for (const endpoint of this.rpcEndpoints) {
       try {
-        const response = await fetch(rpc.address);
+        const response = await fetch(endpoint);
         if (response.status == 200) {
-          return rpc.address;
+          return endpoint;
         }
       } catch (err) {
-        console.error(err);
+        console.error(`Failed to fetch RPC ${endpoint}`);
       }
     }
     return undefined;
   };
 
   getRestEndpoint = async (): Promise<string | undefined> => {
-    const fn = async () => {
-      const rests = [
-        { address: `https://rest.cosmos.directory/${this.chainName}` },
-      ];
-      rests.push(...this.chainRecord.chain?.apis?.rest);
-
-      for (const rest of rests) {
-        try {
-          const response = await fetch(rest.address);
-          if (response.status == 200) {
-            return rest.address;
-          }
-        } catch (err) {
-          console.error(err);
+    for (const endpoint of this.restEndpoints) {
+      try {
+        const response = await fetch(endpoint);
+        if (response.status == 200) {
+          return endpoint;
         }
+      } catch (err) {
+        console.error(`Failed to fetch REST ${endpoint}`);
       }
-      return undefined;
-    };
-    return fn();
+    }
+    return undefined;
   };
 
   get address(): string | undefined {
@@ -118,6 +121,7 @@ export abstract class ChainWalletBase<
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
     if (this.offlineSigner && rpcEndpoint) {
+      console.info('Using RPC endpoint ' + rpcEndpoint)
       return SigningStargateClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
@@ -131,6 +135,7 @@ export abstract class ChainWalletBase<
   getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
     if (this.offlineSigner && rpcEndpoint) {
+      console.info('Using RPC endpoint ' + rpcEndpoint)
       return SigningCosmWasmClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
@@ -141,5 +146,8 @@ export abstract class ChainWalletBase<
     return undefined;
   };
 
-  abstract get client(): Promise<WalletClient> | undefined | WalletClient;
+  abstract get client():
+    | Promise<WalletClient | undefined>
+    | undefined
+    | WalletClient;
 }

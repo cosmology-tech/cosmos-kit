@@ -18,17 +18,18 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     >();
     let [modalReset, setModalReset] = useState(false);
 
-    const walletsData: WalletRecordType[] = walletManager.wallets.map(({
-        name, logo, prettyName, isQRCode, downloads
-    }) => ({
-        id: name,
-        logo,
-        walletName: prettyName,
-        walletType: isQRCode ? 'qrcode' : 'extension',
-        extensionLink: { ...downloads, websiteDownload: downloads?.default },
-        websiteDownload: downloads?.default,
-        qrCodeLink: walletManager.currentWallet?.qrUri
-    }))
+    const walletsData: WalletRecordType[] = walletManager.wallets.map(({ walletInfo }) => {
+        const { name, logo, prettyName, isQRCode, downloads } = walletInfo;
+        return {
+            id: name,
+            logo,
+            walletName: prettyName,
+            walletType: isQRCode ? 'qrcode' : 'extension',
+            extensionLink: { ...downloads, websiteDownload: downloads?.default },
+            websiteDownload: downloads?.default,
+            qrCodeLink: walletManager.currentWallet?.qrUri
+        }
+    })
 
     function handleClose() {
         setOpen(false);
@@ -59,7 +60,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
             setModalReset(false);
         }
     }, [walletManager.walletStatus, walletManager.currentChainName, walletManager.currentWalletName,
-    modalReset, isOpen, walletManager.currentWallet?.qrUri])
+        modalReset, isOpen, walletManager.currentWallet?.qrUri])
 
     return (
         <ConnectModal

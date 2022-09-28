@@ -1,13 +1,18 @@
 import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
-import { ChainRecord, ChainWalletDataBase } from '../types';
+import { ChainInfo, ChainWalletDataBase, Wallet } from '../types';
 import { StateBase } from './state';
-export declare abstract class ChainWalletBase<WalletClient, ChainWalletData extends ChainWalletDataBase, MainWallet> extends StateBase<ChainWalletData> {
-    protected _chainRecord: ChainRecord;
-    protected mainWallet?: MainWallet;
-    constructor(_chainRecord: ChainRecord, mainWallet?: MainWallet);
-    get chainRecord(): ChainRecord;
+export declare abstract class ChainWalletBase<WalletClient, ChainWalletData extends ChainWalletDataBase, MainWallet extends {
+    walletInfo: Wallet;
+}> extends StateBase<ChainWalletData> {
+    protected _chainInfo: ChainInfo;
+    protected mainWallet: MainWallet;
+    rpcEndpoints: string[];
+    restEndpoints: string[];
+    constructor(_chainInfo: ChainInfo, mainWallet: MainWallet);
+    get walletInfo(): Wallet;
+    get chainInfo(): ChainInfo;
     get chainName(): string;
     get stargateOptions(): SigningStargateClientOptions | undefined;
     get cosmwasmOptions(): SigningCosmWasmClientOptions | undefined;
@@ -22,5 +27,5 @@ export declare abstract class ChainWalletBase<WalletClient, ChainWalletData exte
     connect(): Promise<void>;
     getStargateClient: () => Promise<SigningStargateClient | undefined>;
     getCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
-    abstract get client(): Promise<WalletClient> | undefined | WalletClient;
+    abstract get client(): Promise<WalletClient | undefined> | undefined | WalletClient;
 }

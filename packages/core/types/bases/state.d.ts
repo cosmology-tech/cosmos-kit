@@ -16,7 +16,7 @@ export declare abstract class StateBase<T> {
     get message(): string;
     setState(state: State): void;
     setData(data: T | undefined): void;
-    setMessage(message: string): void;
+    setMessage(message: string | undefined): void;
     reset(): void;
     get walletStatus(): WalletStatus;
     get isWalletConnected(): boolean;

@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { WalletModalType, DisplayWalletListType, ConnectModalContentType, DownloadWalletButtonType, ConnectWalletCardType } from "../types";
 export declare const ConnectedContent: ({ userInfo, addressBtn, connectWalletButton, }: ConnectWalletCardType) => JSX.Element;
 export declare const InstallWalletButton: ({ icon, text, }: DownloadWalletButtonType) => JSX.Element;
