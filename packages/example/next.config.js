@@ -2,7 +2,7 @@
 
 module.exports = {
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   webpack: (
     config,
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
@@ -18,6 +18,7 @@ module.exports = {
               ["@babel/preset-react", {"runtime": "automatic"}],
               ["@babel/typescript", { allowDeclareFields: true }],
             ],
+            plugins: ["@babel/plugin-syntax-bigint"]
           },
         },
       ],

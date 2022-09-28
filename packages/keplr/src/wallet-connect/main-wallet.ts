@@ -14,7 +14,7 @@ export class KeplrMobileWallet extends MainWalletBase<
   ChainKeplrMobileData,
   ChainKeplrMobile
 > {
-  protected _chains: Map<ChainName, ChainKeplrMobile>;
+  protected _chains!: Map<ChainName, ChainKeplrMobile>;
   protected _client: KeplrWalletConnectV1;
   connector: WalletConnect;
   emitter: EventEmitter;

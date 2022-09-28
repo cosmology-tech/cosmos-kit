@@ -2,7 +2,7 @@ import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClient } from '@cosmjs/stargate';
 
-import { Wallet, ManagerActions, WalletData, WalletStatus, SignerOptions, ChainRecord, EndpointOptions } from './types';
+import { Wallet, ManagerActions, WalletData, WalletStatus, SignerOptions, ChainRecord, EndpointOptions, State } from './types';
 import {
   Actions,
   ViewOptions,
@@ -29,8 +29,8 @@ export class WalletManager extends StateBase<WalletData> {
   };
 
   constructor(
-    chains?: Chain[],
-    wallets?: Wallet[],
+    chains: Chain[],
+    wallets: Wallet[],
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
@@ -63,12 +63,12 @@ export class WalletManager extends StateBase<WalletData> {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
-  get data(): WalletData {
+  get data(): WalletData | undefined {
     return this.currentWallet?.data;
   }
 
   get state() {
-    return this.currentWallet?.state;
+    return this.currentWallet?.state || State.Init;
   }
 
   get message() {
@@ -161,6 +161,11 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let wallet: WalletAdapter | undefined = this.wallets.find(w => w.name === walletName)?.wallet;
+
+    if (!wallet) {
+      throw new Error(`${walletName} is not provided!`)
+    }
+
     if (chainName) {
       wallet = wallet.getChain(chainName);
     }
@@ -176,8 +181,7 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
     try {
-      await this.currentWallet.connect();
-      // console.log('%cwallet-manager.ts line:222 object', 'color: #007acc;', this.currentWallet.username);
+      await this.currentWallet!.connect();
       if (
         this.walletStatus === WalletStatus.Connected
         && this.viewOptions?.closeViewWhenWalletIsConnected
@@ -202,7 +206,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     try {
-      await this.currentWallet.disconnect();
+      await this.currentWallet!.disconnect();
 
       if (
         this.walletStatus === WalletStatus.Disconnected

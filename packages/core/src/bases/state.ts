@@ -64,7 +64,7 @@ export abstract class StateBase<T> {
     this.emitData?.(data);
   }
 
-  setMessage(message: string) {
+  setMessage(message: string | undefined) {
     this._mutable.message = message;
     this.emitMessage?.(message);
   }

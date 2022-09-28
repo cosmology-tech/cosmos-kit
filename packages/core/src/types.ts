@@ -99,7 +99,7 @@ export interface WalletModalProps {
 }
 
 export interface Actions {
-  [k: string]: Dispatch<unknown> | undefined;
+  [k: string]: Dispatch<any> | undefined;
 }
 
 export interface StateActions<T> extends Actions {

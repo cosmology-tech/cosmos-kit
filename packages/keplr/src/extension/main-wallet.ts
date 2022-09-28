@@ -8,7 +8,7 @@ import { ChainKeplrExtensionData, KeplrExtensionData } from './types';
 import { getKeplrFromExtension } from './utils';
 
 export class KeplrExtensionWallet extends MainWalletBase<Keplr, KeplrExtensionData, ChainKeplrExtensionData, ChainKeplrExtension> {
-  protected _chains: Map<ChainName, ChainKeplrExtension>;
+  protected _chains!: Map<ChainName, ChainKeplrExtension>;
   protected _client: Promise<Keplr | undefined> | undefined;
 
   constructor(_concurrency?: number) {

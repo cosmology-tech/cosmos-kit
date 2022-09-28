@@ -22,11 +22,14 @@ export class ChainKeplrExtension extends ChainWalletBase<Keplr, ChainKeplrExtens
     this.setState(State.Pending);
     try {
       const keplr = await this.client;
+      if (!keplr) {
+        throw new Error('No Keplr Client found!')
+      }
       const key = await keplr.getKey(this.chainName);
       this.setData({
         address: key.bech32Address,
         username: key.name,
-        offlineSigner: this.chainId && keplr.getOfflineSigner(this.chainId),
+        offlineSigner: this.chainId ? keplr.getOfflineSigner(this.chainId) : undefined,
       });
       this.setState(State.Done);
     } catch (e) {

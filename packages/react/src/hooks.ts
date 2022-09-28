@@ -5,11 +5,11 @@ import { walletContext } from './provider';
 
 export const useWallet = (): WalletManager => {
 
-  const { walletManager } = React.useContext(walletContext);
+  const context = React.useContext(walletContext);
 
-  if (!walletManager) {
+  if (!context || !context.walletManager) {
     throw new Error('You have forgot to use WalletProvider');
   }
 
-  return walletManager;
+  return context.walletManager;
 };

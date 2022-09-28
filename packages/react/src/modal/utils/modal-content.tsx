@@ -3,11 +3,11 @@ import { WalletManager, WalletStatus } from "@cosmos-kit/core";
 import { GoDesktopDownload } from "react-icons/go";
 import { IoExitOutline } from "react-icons/io5";
 import { Astronaut, ConnectedContent, ConnectWalletButton, DefaultLink, DisplayWalletList, ExtensionContent, InstallWalletButton, QRCode, SimpleAvatarWithName, SimpleCopyAddressButton } from "../components";
-import { UserDeviceInfoType, WalletRecordType } from "../types";
+import { ExtensionLinkType, UserDeviceInfoType, WalletRecordType } from "../types";
 
 export const getModalContent = (
     walletManager: WalletManager,
-    currentWalletData: WalletRecordType,
+    currentWalletData: WalletRecordType | undefined,
     userBrowserInfo: UserDeviceInfoType | undefined,
     walletsData: WalletRecordType[],
     modalReset: boolean,
@@ -34,7 +34,7 @@ export const getModalContent = (
         setModalReset(true);
     }
 
-    if (walletManager.currentWalletName && !modalReset) {
+    if (currentWalletData && !modalReset) {
         switch (walletManager.walletStatus) {
             case WalletStatus.Disconnected:
                 if (currentWalletData.walletType === 'extension') {
@@ -55,7 +55,7 @@ export const getModalContent = (
                     );
                 }
                 else if (currentWalletData.walletType === "qrcode") {
-                    if (walletManager.currentWallet.isInSession) {
+                    if (walletManager.currentWallet!.isInSession) {
                         return (
                             <ExtensionContent
                                 selectedWallet={currentWalletData}
@@ -72,10 +72,30 @@ export const getModalContent = (
                             />
                         );
                     } else {
-                        return (<QRCode link={currentWalletData.qrCodeLink} />);
+                        return (<QRCode link={currentWalletData.qrCodeLink!} />);
                     }
                 }
             case WalletStatus.NotExist:
+                let link, icon;
+                if (userBrowserInfo?.device) {
+                    link = currentWalletData.extensionLink
+                        ?.[userBrowserInfo.device as keyof ExtensionLinkType]
+                        ?.find(
+                            ({ browser, os }) =>
+                                browser === userBrowserInfo.browser ||
+                                os === userBrowserInfo.os
+                        )?.link || currentWalletData.websiteDownload;
+                    icon = currentWalletData.extensionLink
+                        ?.[userBrowserInfo.device as keyof ExtensionLinkType]
+                        ?.find(
+                            ({ browser, os }) =>
+                                browser === userBrowserInfo.browser ||
+                                os === userBrowserInfo.os
+                        )?.icon || GoDesktopDownload;
+                } else {
+                    link = currentWalletData.websiteDownload;
+                    icon = GoDesktopDownload;
+                }
                 return (
                     <ExtensionContent
                         selectedWallet={currentWalletData}
@@ -85,23 +105,11 @@ export const getModalContent = (
                         downloadWalletButton={
                             <DefaultLink
                                 target="_blank"
-                                href={
-                                    currentWalletData.extensionLink[userBrowserInfo.device].find(
-                                        ({ browser, os }) =>
-                                            browser === userBrowserInfo.browser ||
-                                            os === userBrowserInfo.os
-                                    )?.link || currentWalletData.websiteDownload
-                                }
+                                href={link}
                             >
                                 <InstallWalletButton
-                                    icon={
-                                        currentWalletData.extensionLink[userBrowserInfo.device].find(
-                                            ({ browser, os }) =>
-                                                browser === userBrowserInfo.browser ||
-                                                os === userBrowserInfo.os
-                                        )?.icon || GoDesktopDownload
-                                    }
-                                    text={`Install ${currentWalletData.walletName} ${userBrowserInfo.device === "desktop" ? "Extension" : "App"
+                                    icon={icon}
+                                    text={`Install ${currentWalletData.walletName} ${userBrowserInfo?.device === "desktop" ? "Extension" : "App"
                                         }`}
                                 />
                             </DefaultLink>
@@ -140,7 +148,7 @@ export const getModalContent = (
                     />
                 );
             case WalletStatus.Connecting:
-                let stateDesc: string;
+                let stateDesc: string = '';
                 if (currentWalletData.walletType === 'extension') {
                     stateDesc = `Open the ${currentWalletData.walletName} browser extension to connect your wallet.`
                 } else if (currentWalletData.walletType === "qrcode") {

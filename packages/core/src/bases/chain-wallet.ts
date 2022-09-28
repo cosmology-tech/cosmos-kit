@@ -11,23 +11,23 @@ export abstract class ChainWalletBase<
   MainWallet
 > extends StateBase<ChainWalletData> {
   protected _chainRecord: ChainRecord;
-  protected mainWallet?: MainWallet;
+  protected mainWallet: MainWallet;
   rpcEndpoints: string[];
   restEndpoints: string[];
 
-  constructor(_chainRecord: ChainRecord, mainWallet?: MainWallet) {
+  constructor(_chainRecord: ChainRecord, mainWallet: MainWallet) {
     super();
     this._chainRecord = _chainRecord;
     this.mainWallet = mainWallet;
     this.rpcEndpoints = [
       ..._chainRecord.preferredEndpoints?.rpc || [],
       `https://rpc.cosmos.directory/${this.chainName}`, 
-      ..._chainRecord.chain?.apis?.rpc.map(e => e.address) || []
+      ..._chainRecord.chain?.apis?.rpc?.map(e => e.address) || []
     ];
     this.restEndpoints = [
       ..._chainRecord.preferredEndpoints?.rest || [],
       `https://rest.cosmos.directory/${this.chainName}`,
-      ..._chainRecord.chain?.apis?.rest.map(e => e.address) || []
+      ..._chainRecord.chain?.apis?.rest?.map(e => e.address) || []
     ];
   }
 
@@ -134,5 +134,5 @@ export abstract class ChainWalletBase<
     return undefined; 
   }
 
-  abstract get client(): Promise<WalletClient> | undefined | WalletClient;
+  abstract get client(): Promise<WalletClient | undefined> | undefined | WalletClient;
 }

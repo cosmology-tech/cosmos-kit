@@ -200,7 +200,7 @@ export const ExtensionContent = ({
 };
 
 export const QRCode = ({ link }: { link: string }) => {
-  const elementRef = useRef();
+  const elementRef = useRef<HTMLElement | null>(null);
   const dimensions = useDimensions(elementRef);
 
   return (
@@ -222,7 +222,7 @@ export const QRCode = ({ link }: { link: string }) => {
         >
           <QRCodeSVG
             value={link}
-            size={dimensions && dimensions.contentBox.width - 24}
+            size={dimensions ? dimensions.contentBox.width - 24 : undefined}
             bgColor={"#ffffff"}
             fgColor={"#000000"}
             level={"L"}
