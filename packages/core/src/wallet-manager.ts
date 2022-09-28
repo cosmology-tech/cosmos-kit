@@ -1,17 +1,26 @@
-import { OfflineSigner } from '@cosmjs/proto-signing';
+import { Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 
-import { Wallet, ManagerActions, WalletData, WalletStatus, SignerOptions, ChainRecord, EndpointOptions, State } from './types';
+import { StateBase } from './bases';
+import {
+  ChainRecord,
+  EndpointOptions,
+  ManagerActions,
+  SignerOptions,
+  State,
+  Wallet,
+  WalletData,
+  WalletStatus,
+} from './types';
 import {
   Actions,
-  ViewOptions,
   ChainName,
-  WalletName,
+  ViewOptions,
   WalletAdapter,
+  WalletName,
 } from './types';
-import { StateBase } from './bases';
-import { Chain } from '@chain-registry/types';
 import { convertChain } from './utils';
 
 export class WalletManager extends StateBase<WalletData> {
@@ -39,8 +48,12 @@ export class WalletManager extends StateBase<WalletData> {
     super();
     this._concurrency = _concurrency;
     this.wallets = wallets;
-    this.chains = chains.map(chain => convertChain(chain, signerOptions, endpointOptions?.[chain.chain_name]));
-    console.info(`${this.walletCount} wallets and ${this.chainCount} chains are used!`)
+    this.chains = chains.map((chain) =>
+      convertChain(chain, signerOptions, endpointOptions?.[chain.chain_name])
+    );
+    console.info(
+      `${this.walletCount} wallets and ${this.chainCount} chains are used!`
+    );
     this.wallets.forEach((item) => {
       item.wallet.setSupportedChains(this.chains);
     });
@@ -125,11 +138,11 @@ export class WalletManager extends StateBase<WalletData> {
 
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
     return await this.currentWallet?.getStargateClient();
-  }
+  };
 
   getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
     return await this.currentWallet?.getCosmWasmClient();
-  }
+  };
 
   setActions(actions: Actions) {
     this.actions = actions;
@@ -147,23 +160,28 @@ export class WalletManager extends StateBase<WalletData> {
     this.reset();
     this._currentWalletName = walletName;
     this.emitWalletName?.(walletName);
-  }
+  };
 
   setCurrentChain = (chainName?: ChainName) => {
     this.reset();
     this._currentChainName = chainName;
     this.emitChainName?.(chainName);
-  }
+  };
 
-  private getWallet(walletName?: WalletName, chainName?: ChainName): WalletAdapter | undefined {
+  private getWallet(
+    walletName?: WalletName,
+    chainName?: ChainName
+  ): WalletAdapter | undefined {
     if (!walletName) {
       return undefined;
     }
 
-    let wallet: WalletAdapter | undefined = this.wallets.find(w => w.name === walletName)?.wallet;
+    let wallet: WalletAdapter | undefined = this.wallets.find(
+      (w) => w.name === walletName
+    )?.wallet;
 
     if (!wallet) {
-      throw new Error(`${walletName} is not provided!`)
+      throw new Error(`${walletName} is not provided!`);
     }
 
     if (chainName) {
@@ -173,7 +191,7 @@ export class WalletManager extends StateBase<WalletData> {
     return wallet;
   }
 
-  update = () => { }
+  update = () => {};
 
   connect = async () => {
     if (!this.currentWalletName) {
@@ -183,42 +201,42 @@ export class WalletManager extends StateBase<WalletData> {
     try {
       await this.currentWallet!.connect();
       if (
-        this.walletStatus === WalletStatus.Connected
-        && this.viewOptions?.closeViewWhenWalletIsConnected
+        this.walletStatus === WalletStatus.Connected &&
+        this.viewOptions?.closeViewWhenWalletIsConnected
       ) {
         this.emitViewOpen?.(false);
       }
     } catch (error) {
       console.error(error);
       if (
-        this.walletStatus === WalletStatus.Rejected
-        && this.viewOptions?.closeViewWhenWalletIsRejected
+        this.walletStatus === WalletStatus.Rejected &&
+        this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
         this.emitViewOpen?.(false);
       }
     }
-  }
+  };
 
   disconnect = async () => {
     if (!this.currentWalletName) {
-      this.setMessage('Current Wallet not defined.')
-      return
+      this.setMessage('Current Wallet not defined.');
+      return;
     }
 
     try {
       await this.currentWallet!.disconnect();
 
       if (
-        this.walletStatus === WalletStatus.Disconnected
-        && this.viewOptions?.closeViewWhenWalletIsDisconnected
+        this.walletStatus === WalletStatus.Disconnected &&
+        this.viewOptions?.closeViewWhenWalletIsDisconnected
       ) {
         this.emitViewOpen?.(false);
       }
     } catch (e) {
-      this.setMessage((e as Error).message)
+      this.setMessage((e as Error).message);
       if (
-        this.walletStatus === WalletStatus.Rejected
-        && this.viewOptions?.closeViewWhenWalletIsRejected
+        this.walletStatus === WalletStatus.Rejected &&
+        this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
         this.emitViewOpen?.(false);
       }
@@ -231,9 +249,9 @@ export class WalletManager extends StateBase<WalletData> {
 
   openView = () => {
     this.emitViewOpen?.(true);
-  }
+  };
 
   closeView = () => {
     this.emitViewOpen?.(false);
-  }
+  };
 }

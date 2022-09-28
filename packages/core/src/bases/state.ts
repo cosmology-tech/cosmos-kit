@@ -1,7 +1,6 @@
 import { Mutable, State, StateActions, WalletStatus } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
-
 export abstract class StateBase<T> {
   protected _mutable: Mutable<T>;
   actions?: StateActions<T>;

@@ -1,6 +1,12 @@
-import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
+import {
+  SigningCosmWasmClient,
+  SigningCosmWasmClientOptions,
+} from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
+import {
+  SigningStargateClient,
+  SigningStargateClientOptions,
+} from '@cosmjs/stargate';
 
 import { ChainRecord, ChainWalletDataBase, State } from '../types';
 import { StateBase } from './state';
@@ -20,14 +26,14 @@ export abstract class ChainWalletBase<
     this._chainRecord = _chainRecord;
     this.mainWallet = mainWallet;
     this.rpcEndpoints = [
-      ..._chainRecord.preferredEndpoints?.rpc || [],
-      `https://rpc.cosmos.directory/${this.chainName}`, 
-      ..._chainRecord.chain?.apis?.rpc?.map(e => e.address) || []
+      ...(_chainRecord.preferredEndpoints?.rpc || []),
+      `https://rpc.cosmos.directory/${this.chainName}`,
+      ...(_chainRecord.chain?.apis?.rpc?.map((e) => e.address) || []),
     ];
     this.restEndpoints = [
-      ..._chainRecord.preferredEndpoints?.rest || [],
+      ...(_chainRecord.preferredEndpoints?.rest || []),
       `https://rest.cosmos.directory/${this.chainName}`,
-      ..._chainRecord.chain?.apis?.rest?.map(e => e.address) || []
+      ...(_chainRecord.chain?.apis?.rest?.map((e) => e.address) || []),
     ];
   }
 
@@ -60,32 +66,32 @@ export abstract class ChainWalletBase<
   }
 
   getRpcEndpoint = async (): Promise<string | undefined> => {
-    for (const endpoint of this.rpcEndpoints) {   
-      try {
-        const response = await fetch(endpoint)
-        if (response.status == 200) {
-          return endpoint;
-        } 
-      } catch (err) {
-        console.error(`Failed to fetch RPC ${endpoint}`)
-      }        
-    }      
-    return undefined;
-  }
-
-  getRestEndpoint = async (): Promise<string | undefined> => {
-    for (const endpoint of this.restEndpoints) { 
+    for (const endpoint of this.rpcEndpoints) {
       try {
         const response = await fetch(endpoint);
         if (response.status == 200) {
           return endpoint;
         }
       } catch (err) {
-        console.error(`Failed to fetch REST ${endpoint}`)
-      }        
-    }      
+        console.error(`Failed to fetch RPC ${endpoint}`);
+      }
+    }
     return undefined;
-  }
+  };
+
+  getRestEndpoint = async (): Promise<string | undefined> => {
+    for (const endpoint of this.restEndpoints) {
+      try {
+        const response = await fetch(endpoint);
+        if (response.status == 200) {
+          return endpoint;
+        }
+      } catch (err) {
+        console.error(`Failed to fetch REST ${endpoint}`);
+      }
+    }
+    return undefined;
+  };
 
   get address(): string | undefined {
     return this.data?.address;
@@ -100,10 +106,10 @@ export abstract class ChainWalletBase<
   }
 
   async connect() {
-    if (!await this.client) {
+    if (!(await this.client)) {
       this.setState(State.Error);
-      this.setMessage("Client Not Exist!");
-      return
+      this.setMessage('Client Not Exist!');
+      return;
     }
     await this.update();
   }
@@ -116,10 +122,11 @@ export abstract class ChainWalletBase<
         rpcEndpoint,
         this.offlineSigner,
         this.stargateOptions
-    )}
+      );
+    }
     console.error('Undefined offlineSigner or rpcEndpoint.');
-    return undefined; 
-  }
+    return undefined;
+  };
 
   getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
@@ -129,10 +136,14 @@ export abstract class ChainWalletBase<
         rpcEndpoint,
         this.offlineSigner,
         this.stargateOptions
-    )}
+      );
+    }
     console.error('Undefined offlineSigner or rpcEndpoint.');
-    return undefined; 
-  }
+    return undefined;
+  };
 
-  abstract get client(): Promise<WalletClient | undefined> | undefined | WalletClient;
+  abstract get client():
+    | Promise<WalletClient | undefined>
+    | undefined
+    | WalletClient;
 }

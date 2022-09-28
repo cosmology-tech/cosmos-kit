@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app'
-import BigInt from 'big-integer';
 import { WalletProvider } from '@cosmos-kit/react'
 import { ChakraProvider } from '@chakra-ui/react';
 import { defaultTheme } from '../config';

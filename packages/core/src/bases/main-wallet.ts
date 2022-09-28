@@ -1,5 +1,5 @@
 import { ChainName, ChainRecord, State } from '../types';
-import { MainWalletDataBase, ChainWalletDataBase } from '../types';
+import { ChainWalletDataBase, MainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
 
@@ -10,7 +10,10 @@ export abstract class MainWalletBase<
   ChainWallet extends ChainWalletBase<WalletClient, ChainWalletData, unknown>
 > extends StateBase<MainWalletData> {
   protected abstract _chains: Map<ChainName, ChainWallet>;
-  protected abstract _client: Promise<WalletClient | undefined> | WalletClient | undefined;
+  protected abstract _client:
+    | Promise<WalletClient | undefined>
+    | WalletClient
+    | undefined;
   // protected queue: PQueue;
 
   protected _supportedChains: ChainRecord[] = [];
@@ -86,10 +89,10 @@ export abstract class MainWalletBase<
   }
 
   async connect() {
-    if (!await this.client) {
+    if (!(await this.client)) {
       this.setState(State.Error);
-      this.setMessage("Client Not Exist!");
-      return
+      this.setMessage('Client Not Exist!');
+      return;
     }
     await this.update();
   }
