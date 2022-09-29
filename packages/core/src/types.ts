@@ -131,6 +131,12 @@ export interface ViewOptions {
   closeViewWhenWalletIsRejected?: boolean;
 }
 
+export interface StorageOptions {
+  disabled?: boolean;
+  duration?: number; // ms
+  clearOnTabClose?: boolean;
+}
+
 export interface Endpoints {
   rpc?: string[];
   rest?: string[];

@@ -1,6 +1,6 @@
-import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, WalletOption, EndpointOptions } from '@cosmos-kit/core';
+import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, WalletOption, EndpointOptions, StorageOptions } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
-import React, { createContext, ReactNode, useMemo, useState } from 'react';
+import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { DefaultModal } from './modal';
 import { Chain } from '@chain-registry/types';
@@ -14,6 +14,7 @@ export const WalletProvider = ({
   signerOptions,
   viewOptions,
   endpointOptions,
+  storageOptions,
   children,
 }: {
   chains: Chain[],
@@ -25,6 +26,7 @@ export const WalletProvider = ({
   signerOptions?: SignerOptions,
   viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
+  storageOptions?: StorageOptions;
   children: ReactNode;
 }) => {
 
@@ -34,7 +36,8 @@ export const WalletProvider = ({
       wallets,
       signerOptions,
       viewOptions,
-      endpointOptions
+      endpointOptions,
+      storageOptions
     )
   ), []);
 
@@ -60,6 +63,33 @@ export const WalletProvider = ({
   });
 
   const Modal = walletModal || DefaultModal;
+
+  useEffect(() => {
+    if (walletManager.useStorage) {
+      const storeStr = window.localStorage.getItem('walletManager');
+      if (storeStr) {
+        const { currentWalletName, currentChainName } = JSON.parse(storeStr);
+        walletManager.setCurrentWallet(currentWalletName);
+        walletManager.setCurrentChain(currentChainName);
+        if (currentWalletName) {
+          walletManager.connect();
+        }
+      }
+
+      const handleTabClose = event => {
+        event.preventDefault();
+        if (walletManager.storageOptions.clearOnTabClose) {
+          window.localStorage.removeItem('walletManager');
+        }
+      };
+
+      window.addEventListener('beforeunload', handleTabClose);
+
+      return () => {
+        window.removeEventListener('beforeunload', handleTabClose);
+      };
+    }
+  }, [])
 
   return (
     <walletContext.Provider

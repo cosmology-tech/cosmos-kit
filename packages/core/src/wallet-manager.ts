@@ -18,6 +18,7 @@ import {
   ViewOptions,
   WalletName,
   WalletAdapter,
+  StorageOptions,
 } from './types';
 import { convertChain } from './utils';
 
@@ -34,6 +35,11 @@ export class WalletManager extends StateBase<WalletData> {
     closeViewWhenWalletIsDisconnected: true,
     closeViewWhenWalletIsRejected: false,
   };
+  storageOptions: StorageOptions = {
+    disabled: false,
+    duration: 108000,
+    clearOnTabClose: false
+  };
 
   constructor(
     chains: Chain[],
@@ -41,10 +47,9 @@ export class WalletManager extends StateBase<WalletData> {
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
-    _concurrency?: number
+    storageOptions?: StorageOptions
   ) {
     super();
-    this._concurrency = _concurrency;
     this.wallets = wallets;
     this.chains = chains.map((chain) =>
       convertChain(chain, signerOptions, endpointOptions?.[chain.chain_name])
@@ -54,10 +59,15 @@ export class WalletManager extends StateBase<WalletData> {
     );
     this.wallets.forEach((wallet) => { wallet.setChains(this.chains) });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
+    this.storageOptions = { ...this.storageOptions, ...storageOptions };
   }
 
   get useView() {
     return this._useView;
+  }
+
+  get useStorage() {
+    return !this.storageOptions.disabled;
   }
 
   get currentWalletName() {
@@ -152,16 +162,35 @@ export class WalletManager extends StateBase<WalletData> {
     this.currentWallet?.reset();
   }
 
+  private storeCurrent() {
+    const storeObj = {
+      currentWalletName: this.currentWalletName,
+      currentChainName: this.currentChainName
+    }
+    window?.localStorage.setItem('walletManager', JSON.stringify(storeObj));
+    if (this.storageOptions.duration) {
+      setTimeout(() => {
+        window?.localStorage.removeItem('walletManager');
+      }, this.storageOptions.duration)
+    }
+  }
+
   setCurrentWallet = (walletName?: WalletName) => {
     this.reset();
     this._currentWalletName = walletName;
     this.emitWalletName?.(walletName);
+    if (this.useStorage) {
+      this.storeCurrent();
+    }
   };
 
   setCurrentChain = (chainName?: ChainName) => {
     this.reset();
     this._currentChainName = chainName;
     this.emitChainName?.(chainName);
+    if (this.useStorage) {
+      this.storeCurrent();
+    }
   };
 
   private getWallet(
