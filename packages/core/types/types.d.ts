@@ -101,6 +101,11 @@ export interface ViewOptions {
     closeViewWhenWalletIsDisconnected?: boolean;
     closeViewWhenWalletIsRejected?: boolean;
 }
+export interface StorageOptions {
+    disabled?: boolean;
+    duration?: number;
+    clearOnTabClose?: boolean;
+}
 export interface Endpoints {
     rpc?: string[];
     rest?: string[];

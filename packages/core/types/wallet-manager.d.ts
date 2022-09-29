@@ -3,7 +3,7 @@ import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
-import { ChainInfo, EndpointOptions, ManagerActions, SignerOptions, State, WalletOption, WalletData, Actions, ChainName, ViewOptions, WalletName, WalletAdapter } from './types';
+import { ChainInfo, EndpointOptions, ManagerActions, SignerOptions, State, WalletOption, WalletData, Actions, ChainName, ViewOptions, WalletName, WalletAdapter, StorageOptions } from './types';
 export declare class WalletManager extends StateBase<WalletData> {
     protected _currentWalletName?: WalletName;
     protected _currentChainName?: ChainName;
@@ -13,8 +13,10 @@ export declare class WalletManager extends StateBase<WalletData> {
     wallets: WalletOption[];
     chains: ChainInfo[];
     viewOptions: ViewOptions;
-    constructor(chains: Chain[], wallets: WalletOption[], signerOptions?: SignerOptions, viewOptions?: ViewOptions, endpointOptions?: EndpointOptions, _concurrency?: number);
+    storageOptions: StorageOptions;
+    constructor(chains: Chain[], wallets: WalletOption[], signerOptions?: SignerOptions, viewOptions?: ViewOptions, endpointOptions?: EndpointOptions, storageOptions?: StorageOptions);
     get useView(): boolean;
+    get useStorage(): boolean;
     get currentWalletName(): string;
     get currentChainName(): string;
     get currentWallet(): WalletAdapter | undefined;
@@ -38,6 +40,7 @@ export declare class WalletManager extends StateBase<WalletData> {
     setActions(actions: Actions): void;
     setViewOptions(viewOptions: ViewOptions): void;
     reset(): void;
+    private storeCurrent;
     setCurrentWallet: (walletName?: WalletName) => void;
     setCurrentChain: (chainName?: ChainName) => void;
     private getWallet;

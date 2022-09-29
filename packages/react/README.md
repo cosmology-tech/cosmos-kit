@@ -293,7 +293,7 @@ e.g.
 
 ### 5.2 `viewOptions`
 
-Define automation for view. By default all `false`.
+Define automation for view. `Optional`
 
 ```ts
 export interface ViewOptions {
@@ -301,6 +301,32 @@ export interface ViewOptions {
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;
 }
+
+// default value
+const viewOptions: ViewOptions = {
+  closeViewWhenWalletIsConnected: false,
+  closeViewWhenWalletIsDisconnected: true,
+  closeViewWhenWalletIsRejected: false,
+};
+```
+
+### 5.3 `storageOptions`
+
+Define local storage attributes. `Optional`
+
+```ts
+export interface StorageOptions {
+  disabled?: boolean;
+  duration?: number; // ms
+  clearOnTabClose?: boolean;
+}
+
+// default value
+const storageOptions: StorageOptions = {
+  disabled: false,
+  duration: 108000,
+  clearOnTabClose: false
+};
 ```
 
 ## Credits

@@ -109,8 +109,7 @@ export const getModalContent = (
                             >
                                 <InstallWalletButton
                                     icon={icon}
-                                    text={`Install ${currentWalletData.walletName} ${userBrowserInfo?.device === "desktop" ? "Extension" : "App"
-                                        }`}
+                                    text={`Install ${currentWalletData.walletName}`}
                                 />
                             </DefaultLink>
                         }
