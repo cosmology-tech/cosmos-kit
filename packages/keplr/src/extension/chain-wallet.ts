@@ -1,12 +1,10 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { Chain } from '@chain-registry/types';
 import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
 import { preferredEndpoints } from '../config';
 import { KeplrExtensionWallet } from './main-wallet';
 import { ChainKeplrExtensionData } from './types';
-
 export class ChainKeplrExtension extends ChainWalletBase<
   Keplr,
   ChainKeplrExtensionData,
@@ -32,32 +30,23 @@ export class ChainKeplrExtension extends ChainWalletBase<
         throw new Error('No Keplr Client found!');
       }
 
-      const suggestChain = chainRegistryChainToKeplr(
-        this.chain,
-        [this.assetList],
-        {
-          getRestEndpoint: (chain: Chain) => {
-            if (preferredEndpoints[chain.chain_name]) {
-              return preferredEndpoints[chain.chain_name].rest[0];
-            }
-          },
-          getRpcEndpoint: (chain: Chain) => {
-            if (preferredEndpoints[chain.chain_name]) {
-              return preferredEndpoints[chain.chain_name].rpc[0];
-            }
-          },
-          getExplorer: (chain: Chain) => {
-            return chain.explorers?.[0]?.url;
-          },
-        }
-      );
+      const suggestChain = chainRegistryChainToKeplr(this.chain, [
+        this.assetList,
+      ]);
 
-      console.log(suggestChain);
+      if (preferredEndpoints[this.chain.chain_name]) {
+        suggestChain.rest = preferredEndpoints[this.chain.chain_name].rest[0];
+      }
+      if (preferredEndpoints[this.chain.chain_name]) {
+        suggestChain.rpc = preferredEndpoints[this.chain.chain_name].rpc[0];
+      }
+
+      // console.log(suggestChain);
 
       await keplr.experimentalSuggestChain(suggestChain);
 
       const key = await keplr.getKey(this.chainId);
-      console.log({ key });
+
       this.setData({
         address: key.bech32Address,
         username: key.name,

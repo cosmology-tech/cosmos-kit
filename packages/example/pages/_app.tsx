@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           cosmwasm: (chain: Chain) => undefined,
         }}
         endpointOptions={{
-          osmosis: {
+          somechainname: {
             rpc: ['http://test.com']
           }
         }}

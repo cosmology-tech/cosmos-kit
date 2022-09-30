@@ -55,7 +55,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
   async update() {
     this.setState(State.Pending);
     try {
-      const key = await this.client.getKey(this.chainName);
+      const key = await this.client.getKey(this.chainId);
       this.setData({
         address: key.bech32Address,
         username: key.name,
