@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
@@ -44,6 +44,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   constructor(
     chains: Chain[],
+    assetLists: AssetList[],
     wallets: WalletOption[],
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
@@ -53,7 +54,12 @@ export class WalletManager extends StateBase<WalletData> {
     super();
     this.wallets = wallets;
     this.chains = chains.map((chain) =>
-      convertChain(chain, signerOptions, endpointOptions?.[chain.chain_name])
+      convertChain(
+        chain,
+        assetLists,
+        signerOptions,
+        endpointOptions?.[chain.chain_name]
+      )
     );
     console.info(
       `${this.walletCount} wallets and ${this.chainCount} chains are used!`
@@ -219,7 +225,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  update = () => {};
+  update = () => { };
 
   connect = async () => {
     if (!this.currentWalletName) {

@@ -103,6 +103,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "@chain-registry/keplr": "1.0.0",
     "@chain-registry/types": "^0.11.0",
     "@chakra-ui/react": "^2.2.9",
     "@cosmos-kit/core": "^0.17.1",
