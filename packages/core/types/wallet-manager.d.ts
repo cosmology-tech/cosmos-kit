@@ -3,7 +3,7 @@ import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
-import { ChainInfo, EndpointOptions, ManagerActions, SignerOptions, State, WalletOption, WalletData, Actions, ChainName, ViewOptions, WalletName, WalletAdapter, StorageOptions } from './types';
+import { Actions, ChainInfo, ChainName, EndpointOptions, ManagerActions, SignerOptions, State, StorageOptions, ViewOptions, WalletAdapter, WalletData, WalletName, WalletOption } from './types';
 export declare class WalletManager extends StateBase<WalletData> {
     protected _currentWalletName?: WalletName;
     protected _currentChainName?: ChainName;

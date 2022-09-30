@@ -1,4 +1,4 @@
-import { ChainName, ChainInfo, Wallet } from '@cosmos-kit/core';
+import { ChainInfo, ChainName, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 import { ChainKeplrExtension } from './chain-wallet';

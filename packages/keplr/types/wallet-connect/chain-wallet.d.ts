@@ -1,8 +1,8 @@
 import { ChainInfo, ChainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
-import { ChainKeplrMobileData } from './types';
 import { KeplrMobileWallet } from './main-wallet';
+import { ChainKeplrMobileData } from './types';
 export declare class ChainKeplrMobile extends ChainWalletBase<KeplrWalletConnectV1, ChainKeplrMobileData, KeplrMobileWallet> {
     constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet);
     get client(): KeplrWalletConnectV1;
