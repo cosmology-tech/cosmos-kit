@@ -2,16 +2,14 @@ import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
-import { ChainKeplrMobileData } from './types';
 import { KeplrMobileWallet } from './main-wallet';
-
+import { ChainKeplrMobileData } from './types';
 
 export class ChainKeplrMobile extends ChainWalletBase<
   KeplrWalletConnectV1,
   ChainKeplrMobileData,
   KeplrMobileWallet
 > {
-
   constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet) {
     super(_chainRecord, keplrWallet);
   }
@@ -45,10 +43,10 @@ export class ChainKeplrMobile extends ChainWalletBase<
       await this.connector.createSession();
       this.emitter.on('update', async () => {
         await this.update();
-      })
+      });
       this.emitter.on('disconnect', async () => {
         await this.disconnect();
-      })
+      });
     } else {
       await this.update();
     }
@@ -61,11 +59,15 @@ export class ChainKeplrMobile extends ChainWalletBase<
       this.setData({
         address: key.bech32Address,
         username: key.name,
-        offlineSigner: this.chainId ? this.client.getOfflineSigner(this.chainId) : undefined,
+        offlineSigner: this.chainId
+          ? this.client.getOfflineSigner(this.chainId)
+          : undefined,
       });
       this.setState(State.Done);
     } catch (e) {
-      console.error(`Chain ${this.chainName} keplr-qrcode connection failed! \n ${e}`);
+      console.error(
+        `Chain ${this.chainName} keplr-qrcode connection failed! \n ${e}`
+      );
       this.setState(State.Error);
       this.setMessage((e as Error).message);
     }

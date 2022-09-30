@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
@@ -5,20 +6,20 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 
 import { StateBase } from './bases';
 import {
+  Actions,
   ChainInfo,
+  ChainName,
   EndpointOptions,
   ManagerActions,
   SignerOptions,
   State,
-  WalletOption,
-  WalletData,
-  WalletStatus,
-  Actions,
-  ChainName,
-  ViewOptions,
-  WalletName,
-  WalletAdapter,
   StorageOptions,
+  ViewOptions,
+  WalletAdapter,
+  WalletData,
+  WalletName,
+  WalletOption,
+  WalletStatus,
 } from './types';
 import { convertChain } from './utils';
 
@@ -38,7 +39,7 @@ export class WalletManager extends StateBase<WalletData> {
   storageOptions: StorageOptions = {
     disabled: false,
     duration: 108000,
-    clearOnTabClose: false
+    clearOnTabClose: false,
   };
 
   constructor(
@@ -57,7 +58,9 @@ export class WalletManager extends StateBase<WalletData> {
     console.info(
       `${this.walletCount} wallets and ${this.chainCount} chains are used!`
     );
-    this.wallets.forEach((wallet) => { wallet.setChains(this.chains) });
+    this.wallets.forEach((wallet) => {
+      wallet.setChains(this.chains);
+    });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
   }
@@ -165,13 +168,13 @@ export class WalletManager extends StateBase<WalletData> {
   private storeCurrent() {
     const storeObj = {
       currentWalletName: this.currentWalletName,
-      currentChainName: this.currentChainName
-    }
+      currentChainName: this.currentChainName,
+    };
     window?.localStorage.setItem('walletManager', JSON.stringify(storeObj));
     if (this.storageOptions.duration) {
       setTimeout(() => {
         window?.localStorage.removeItem('walletManager');
-      }, this.storageOptions.duration)
+      }, this.storageOptions.duration);
     }
   }
 
@@ -215,7 +218,8 @@ export class WalletManager extends StateBase<WalletData> {
     return wallet;
   }
 
-  update = () => { };
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  update = () => {};
 
   connect = async () => {
     if (!this.currentWalletName) {
@@ -223,7 +227,7 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
     try {
-      await this.currentWallet!.connect();
+      await this.currentWallet.connect();
       if (
         this.walletStatus === WalletStatus.Connected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
@@ -248,7 +252,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     try {
-      await this.currentWallet!.disconnect();
+      await this.currentWallet.disconnect();
 
       if (
         this.walletStatus === WalletStatus.Disconnected &&

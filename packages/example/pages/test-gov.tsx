@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useWallet } from "@cosmos-kit/react";
 
 
-export default () => {
+const Test = () => {
     const walletManager = useWallet();
     const { getStargateClient, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
 
@@ -14,7 +14,7 @@ export default () => {
             await connect();
         }
         fn();
-    }, [])
+    }, [connect, setCurrentWallet, setCurrentChain])
 
     const onClick = async () => {
         const stargateClient = await getStargateClient();
@@ -52,3 +52,5 @@ export default () => {
         </div>
     )
 }
+
+export default Test;

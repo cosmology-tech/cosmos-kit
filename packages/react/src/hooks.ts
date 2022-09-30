@@ -4,7 +4,6 @@ import React from 'react';
 import { walletContext } from './provider';
 
 export const useWallet = (): WalletManager => {
-
   const context = React.useContext(walletContext);
 
   if (!context || !context.walletManager) {

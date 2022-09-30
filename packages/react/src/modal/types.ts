@@ -1,17 +1,18 @@
-import React, { ReactNode, MouseEventHandler, RefObject } from "react";
-import { IconType } from "react-icons";
-import { OptionBase } from "chakra-react-select";
-import { ColorMode, GridItemProps } from "@chakra-ui/react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ColorMode, GridItemProps } from '@chakra-ui/react';
+import { OptionBase } from 'chakra-react-select';
+import { MouseEventHandler, ReactNode, RefObject } from 'react';
+import { IconType } from 'react-icons';
 
 /* ================================== */
 /*            default type            */
 /* ================================== */
 export enum WalletStatus {
-  Init = "Init",
-  Loading = "Loading",
-  Loaded = "Loaded",
-  NotExist = "NotExist",
-  Rejected = "Rejected",
+  Init = 'Init',
+  Loading = 'Loading',
+  Loaded = 'Loaded',
+  NotExist = 'NotExist',
+  Rejected = 'Rejected',
 }
 export type IconTypeProps = string | IconType | JSX.Element | ReactNode | any;
 export type DefaultLinkItemType = {

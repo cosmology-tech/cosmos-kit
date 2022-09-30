@@ -4,8 +4,8 @@ module.exports = (api) => {
   api.cache(() => process.env.MODULE);
   return {
     presets: useESModules
-    ? [["@babel/preset-typescript", { allowDeclareFields: true }]]
-    : [["@babel/preset-typescript", { allowDeclareFields: true }], "@babel/preset-env"],
+      ? [["@babel/preset-typescript", { allowDeclareFields: true }]]
+      : [["@babel/preset-typescript", { allowDeclareFields: true }], "@babel/preset-env"],
     plugins: [
       ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
       ['@babel/transform-runtime', { useESModules }],

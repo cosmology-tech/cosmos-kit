@@ -1,11 +1,30 @@
-import { ChainName, MainWalletData, SignerOptions, ViewOptions, WalletManager, WalletName, WalletOption, EndpointOptions, StorageOptions } from '@cosmos-kit/core';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Chain } from '@chain-registry/types';
+import {
+  ChainName,
+  EndpointOptions,
+  MainWalletData,
+  SignerOptions,
+  StorageOptions,
+  ViewOptions,
+  WalletManager,
+  WalletName,
+  WalletOption,
+} from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
-import React, { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { DefaultModal } from './modal';
-import { Chain } from '@chain-registry/types';
 
-export const walletContext = createContext<{ walletManager: WalletManager } | null>(null);
+export const walletContext = createContext<{
+  walletManager: WalletManager;
+} | null>(null);
 
 export const WalletProvider = ({
   chains,
@@ -17,29 +36,27 @@ export const WalletProvider = ({
   storageOptions,
   children,
 }: {
-  chains: Chain[],
-  wallets: WalletOption[],
-  walletModal?: ({
-    isOpen,
-    setOpen,
-  }: WalletModalProps) => JSX.Element;
-  signerOptions?: SignerOptions,
+  chains: Chain[];
+  wallets: WalletOption[];
+  walletModal?: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
+  signerOptions?: SignerOptions;
   viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
   storageOptions?: StorageOptions;
   children: ReactNode;
 }) => {
-
-  const walletManager = useMemo(() => (
-    new WalletManager(
-      chains,
-      wallets,
-      signerOptions,
-      viewOptions,
-      endpointOptions,
-      storageOptions
-    )
-  ), []);
+  const walletManager = useMemo(
+    () =>
+      new WalletManager(
+        chains,
+        wallets,
+        signerOptions,
+        viewOptions,
+        endpointOptions,
+        storageOptions
+      ),
+    []
+  );
 
   const [walletData, setWalletData] = useState<MainWalletData>();
   const [walletState, setWalletState] = useState(walletManager.state);
@@ -76,7 +93,7 @@ export const WalletProvider = ({
         }
       }
 
-      const handleTabClose = event => {
+      const handleTabClose = (event) => {
         event.preventDefault();
         if (walletManager.storageOptions.clearOnTabClose) {
           window.localStorage.removeItem('walletManager');
@@ -89,19 +106,16 @@ export const WalletProvider = ({
         window.removeEventListener('beforeunload', handleTabClose);
       };
     }
-  }, [])
+  }, []);
 
   return (
     <walletContext.Provider
       value={{
-        walletManager
+        walletManager,
       }}
     >
       {children}
-      <Modal
-        isOpen={isViewOpen}
-        setOpen={setViewOpen}
-      />
+      <Modal isOpen={isViewOpen} setOpen={setViewOpen} />
     </walletContext.Provider>
   );
 };

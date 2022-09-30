@@ -28,7 +28,7 @@ const Home = () => {
           disabled: false
         }
       })
-  ), [])
+  ), [chains])
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
