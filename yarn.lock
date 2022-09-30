@@ -2297,6 +2297,16 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.0.tgz#0a61e6d608e9f6f89a278cc71f4e7cee01199657"
   integrity sha512-NiJk3ISX+FU1cQcTTgmJcY84A8mV/p8L5CRewp/2jc/lUmo8j9lMGbX17U7NxVQ9RX5RmrwgdjYnBASzhRCVmA==
 
+"@cosmos-kit/config@^0.16.2":
+  version "0.16.2"
+  resolved "https://registry.npmjs.org/@cosmos-kit/config/-/config-0.16.2.tgz#17b3444bd28600286ab30c187ed81fcaf4fd324d"
+  integrity sha512-ywWdW4UOyYP6IOD+WSFoxdtaEEKvY/dYasoNk5FGsL35jE8fpJU2hmm3e0YxiXREafi4i31pv9pE5rtf0ijB3g==
+  dependencies:
+    "@babel/runtime" "^7.11.2"
+    "@chain-registry/types" "^0.11.0"
+    "@cosmos-kit/core" "^0.16.2"
+    "@cosmos-kit/keplr" "^0.16.2"
+
 "@ctrl/tinycolor@^3.4.0":
   version "3.4.1"
   resolved "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.4.1.tgz#75b4c27948c81e88ccd3a8902047bcd797f38d32"
@@ -5232,7 +5242,7 @@ before-after-hook@^2.0.0:
   resolved "https://registry.npmjs.org/before-after-hook/-/before-after-hook-2.2.2.tgz#a6e8ca41028d90ee2c24222f201c90956091613e"
   integrity sha512-3pZEU3NT5BFUo/AD5ERPWOgQOCZITni6iavr5AUw5AUwQjMlI0kzu5btnyD39AF0gUEsDPwJT+oY1ORBJijPjQ==
 
-big-integer@1.6.51, big-integer@^1.6.48:
+big-integer@^1.6.48:
   version "1.6.51"
   resolved "https://registry.npmjs.org/big-integer/-/big-integer-1.6.51.tgz#0df92a5d9880560d3ff2d5fd20245c889d130686"
   integrity sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==
