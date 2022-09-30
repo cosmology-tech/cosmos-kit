@@ -5,6 +5,10 @@ export const preferredEndpoints: EndpointOptions = {
     rpc: ['https://rpc-osmosis.keplr.app/'],
     rest: ['https://lcd-osmosis.keplr.app/'],
   },
+  osmosistestnet: {
+    rpc: ['https://rpc-test.osmosis.zone/'],
+    rest: ['https://lcd-test.osmosis.zone/'],
+  },
   cosmoshub: {
     rpc: ['https://rpc-cosmoshub.keplr.app'],
     rest: ['https://lcd-cosmoshub.keplr.app'],
@@ -52,11 +56,6 @@ export const preferredEndpoints: EndpointOptions = {
   juno: {
     rpc: ['https://rpc-juno.itastakers.com'],
     rest: ['https://lcd-juno.itastakers.com'],
-  },
-  junotestnet: {
-    // TODO add to chain-registry
-    rpc: ['https://rpc.uni.juno.deuslabs.fi'],
-    rest: ['https://lcd.uni.juno.deuslabs.fi'],
   },
   microtick: {
     rpc: ['https://rpc-microtick.keplr.app'],

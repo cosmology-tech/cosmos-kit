@@ -1,4 +1,4 @@
-import { Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
@@ -14,7 +14,7 @@ export declare class WalletManager extends StateBase<WalletData> {
     chains: ChainInfo[];
     viewOptions: ViewOptions;
     storageOptions: StorageOptions;
-    constructor(chains: Chain[], wallets: WalletOption[], signerOptions?: SignerOptions, viewOptions?: ViewOptions, endpointOptions?: EndpointOptions, storageOptions?: StorageOptions);
+    constructor(chains: Chain[], assetLists: AssetList[], wallets: WalletOption[], signerOptions?: SignerOptions, viewOptions?: ViewOptions, endpointOptions?: EndpointOptions, storageOptions?: StorageOptions);
     get useView(): boolean;
     get useStorage(): boolean;
     get currentWalletName(): string;

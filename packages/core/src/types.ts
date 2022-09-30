@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
@@ -93,6 +93,7 @@ export interface Wallet {
 export interface ChainInfo {
   name: ChainName;
   chain: Chain;
+  assetList: AssetList;
   signerOptions?: {
     stargate?: SigningStargateClientOptions;
     cosmwasm?: SigningCosmWasmClientOptions;

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainName,
   EndpointOptions,
@@ -28,6 +28,7 @@ export const walletContext = createContext<{
 
 export const WalletProvider = ({
   chains,
+  assetLists,
   wallets,
   walletModal,
   signerOptions,
@@ -37,6 +38,7 @@ export const WalletProvider = ({
   children,
 }: {
   chains: Chain[];
+  assetLists: AssetList[];
   wallets: WalletOption[];
   walletModal?: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
   signerOptions?: SignerOptions;
@@ -49,6 +51,7 @@ export const WalletProvider = ({
     () =>
       new WalletManager(
         chains,
+        assetLists,
         wallets,
         signerOptions,
         viewOptions,

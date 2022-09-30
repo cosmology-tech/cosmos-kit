@@ -62,6 +62,14 @@ export abstract class ChainWalletBase<
     return this.chainInfo.chain;
   }
 
+  get assets() {
+    return this.chainInfo.assetList.assets;
+  }
+
+  get assetList() {
+    return this.chainInfo.assetList;
+  }
+
   get chainId() {
     return this.chain?.chain_id;
   }

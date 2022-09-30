@@ -17,6 +17,8 @@ export declare abstract class ChainWalletBase<WalletClient, ChainWalletData exte
     get stargateOptions(): SigningStargateClientOptions | undefined;
     get cosmwasmOptions(): SigningCosmWasmClientOptions | undefined;
     get chain(): import("@chain-registry/types").Chain;
+    get assets(): import("@chain-registry/types").Asset[];
+    get assetList(): import("@chain-registry/types").AssetList;
     get chainId(): string;
     get cosmwasmEnabled(): boolean;
     getRpcEndpoint: () => Promise<string | undefined>;
