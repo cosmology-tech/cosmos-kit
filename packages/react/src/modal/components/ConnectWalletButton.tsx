@@ -1,7 +1,8 @@
-import React from "react";
-import { Button, Icon } from "@chakra-ui/react";
-import { IoWallet } from "react-icons/io5";
-import { ConnectWalletType } from "../types";
+import { Button, Icon } from '@chakra-ui/react';
+import React from 'react';
+import { IoWallet } from 'react-icons/io5';
+
+import { ConnectWalletType } from '../types';
 
 export const ConnectWalletButton = ({
   buttonText,
@@ -22,7 +23,7 @@ export const ConnectWalletButton = ({
       onClick={onClickConnectBtn}
     >
       <Icon as={icon ? icon : IoWallet} mr={2} />
-      {buttonText ? buttonText : "Connect Wallet"}
+      {buttonText ? buttonText : 'Connect Wallet'}
     </Button>
   );
 };

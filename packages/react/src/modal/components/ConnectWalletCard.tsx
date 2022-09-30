@@ -1,15 +1,16 @@
-import React from "react";
 import {
-  Stack,
   Box,
-  Text,
-  Image,
-  useColorModeValue,
   Center,
   Icon,
-} from "@chakra-ui/react";
-import { ConnectedUserCardType, ConnectWalletCardType } from "../types";
-import { IoMdWallet } from "react-icons/io";
+  Image,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import React from 'react';
+import { IoMdWallet } from 'react-icons/io';
+
+import { ConnectedUserCardType, ConnectWalletCardType } from '../types';
 
 export const SimpleAvatarWithName = ({
   walletIcon,
@@ -19,7 +20,7 @@ export const SimpleAvatarWithName = ({
   return (
     <Stack spacing={1} alignItems="center">
       <Box
-        display={icon ? "block" : "none"}
+        display={icon ? 'block' : 'none'}
         minW={24}
         maxW={24}
         w={24}
@@ -41,13 +42,13 @@ export const SimpleAvatarWithName = ({
             <Center
               borderRadius="full"
               p={1.5}
-              bg={useColorModeValue("purple.50", "purple.700")}
-              color={useColorModeValue("purple.700", "purple.100")}
+              bg={useColorModeValue('purple.50', 'purple.700')}
+              color={useColorModeValue('purple.700', 'purple.100')}
             >
               <Icon as={IoMdWallet} />
             </Center>
           )}
-          <Text fontSize={{ md: "xl" }} fontWeight="semibold">
+          <Text fontSize={{ md: 'xl' }} fontWeight="semibold">
             {username}
           </Text>
         </Stack>
@@ -66,10 +67,10 @@ export const ConnectWalletCard = ({
       justifyContent="center"
       alignItems="center"
       borderRadius="lg"
-      bg={useColorModeValue("white", "blackAlpha.400")}
+      bg={useColorModeValue('white', 'blackAlpha.400')}
       boxShadow={useColorModeValue(
-        "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
-        "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
+        '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
+        '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
       )}
       spacing={4}
       px={8}

@@ -1,7 +1,6 @@
 import { BroadcastMode } from '@cosmjs/launchpad';
 import { Buffer } from 'buffer/';
 
-
 export async function sendTx(
   chainId: string,
   tx: Uint8Array,

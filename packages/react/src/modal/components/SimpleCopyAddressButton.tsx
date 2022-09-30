@@ -1,24 +1,24 @@
-import React from "react";
 import {
-  Text,
-  useColorModeValue,
+  Box,
   Button,
   Icon,
-  useClipboard,
   Stack,
-  Box,
-} from "@chakra-ui/react";
-import { FaRegCopy } from "react-icons/fa";
+  Text,
+  useClipboard,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import React from 'react';
+import { FaRegCopy } from 'react-icons/fa';
 
 export const SimpleCopyAddressButton = ({ address }: { address?: string }) => {
-  const { hasCopied, onCopy } = useClipboard(address ? address : "");
+  const { hasCopied, onCopy } = useClipboard(address ? address : '');
 
   return (
     <Box w="full" px={3}>
       <Button
         borderRadius="full"
-        bg={useColorModeValue("white", "blackAlpha.500")}
-        boxShadow={useColorModeValue("0 0 2px #ccc", "0 1px 2px #333")}
+        bg={useColorModeValue('white', 'blackAlpha.500')}
+        boxShadow={useColorModeValue('0 0 2px #ccc', '0 1px 2px #333')}
         w="full"
         h="fit-content"
         px={4}
@@ -30,7 +30,7 @@ export const SimpleCopyAddressButton = ({ address }: { address?: string }) => {
           <Text
             maxW={{ base: 40, md: 48 }}
             position="relative"
-            fontSize={{ base: "xs", md: "sm" }}
+            fontSize={{ base: 'xs', md: 'sm' }}
             fontWeight="normal"
             letterSpacing="0.4px"
             verticalAlign="bottom"
@@ -40,19 +40,19 @@ export const SimpleCopyAddressButton = ({ address }: { address?: string }) => {
             overflow="hidden"
             opacity={0.8}
             _before={{
-              content: "attr(title)",
-              width: "25%",
-              float: "right",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              direction: "rtl",
+              content: 'attr(title)',
+              width: '25%',
+              float: 'right',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              direction: 'rtl',
             }}
             _hover={{
-              cursor: "inherit",
+              cursor: 'inherit',
             }}
           >
-            {address ? address : "address not identified yet"}
+            {address ? address : 'address not identified yet'}
           </Text>
           <Icon as={FaRegCopy} w={3} h={3} />
         </Stack>

@@ -1,4 +1,5 @@
-import { ChainName, ChainInfo, State, Wallet } from '../types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ChainInfo, ChainName, State, Wallet } from '../types';
 import { ChainWalletDataBase, MainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
@@ -22,7 +23,9 @@ export abstract class MainWalletBase<
     super();
     this._walletInfo = _walletInfo;
     this._chainsInfo = _chainsInfo;
-    if (_chainsInfo) { this.setChains(_chainsInfo) };
+    if (_chainsInfo) {
+      this.setChains(_chainsInfo);
+    }
   }
 
   get client() {
@@ -57,11 +60,11 @@ export abstract class MainWalletBase<
     return Array.from(this.chains.values());
   }
 
-  getChain(chainName: string) {
+  getChain(chainName: string): ChainWallet {
     if (!this.chains.has(chainName)) {
       throw new Error(`Unknown chain name: ${chainName}`);
     }
-    return this.chains.get(chainName)!;
+    return this.chains.get(chainName);
   }
 
   disconnect() {

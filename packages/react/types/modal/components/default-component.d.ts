@@ -1,6 +1,6 @@
-import React from "react";
-import { TooltipProps, ButtonProps } from "@chakra-ui/react";
-import { DefaultLinkType, IconTypeProps, DefaultCardType, DefaultLinkItemType, DefaultIconButtonType } from "../types";
+import { ButtonProps, TooltipProps } from '@chakra-ui/react';
+import React from 'react';
+import { DefaultCardType, DefaultIconButtonType, DefaultLinkItemType, DefaultLinkType, IconTypeProps } from '../types';
 export declare const DefaultLink: React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
 export declare const DefaultIconButton: ({ icon, label, showTooltip, chakraButtonProps, chakraTooltipProps, }: {
     chakraButtonProps?: ButtonProps;

@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { ChainName, ChainInfo, Wallet } from '@cosmos-kit/core';
+import { ChainInfo, ChainName, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';

@@ -1,32 +1,31 @@
-import React from "react";
-import { Box } from "@chakra-ui/react";
-import { motion, Variants } from "framer-motion";
+import { Box } from '@chakra-ui/react';
+import { motion, Variants } from 'framer-motion';
 
 export const ModalContentVariants: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.8,
-    transition: { duration: 0.4, type: "easeOut" },
+    transition: { duration: 0.4, type: 'easeOut' },
   },
   enter: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.4, type: "easeOut" },
+    transition: { duration: 0.4, type: 'easeOut' },
   },
 };
 export const LoadingVariants: Variants = {
   hidden: {
     rotate: 0,
-    transition: { duration: 0.4, type: "easeOut" },
+    transition: { duration: 0.4, type: 'easeOut' },
   },
   animate: {
     opacity: [1, 0.7, 0.5, 0.3, 0.5, 0.7, 1],
     rotate: 360,
     transition: {
       duration: 2,
-      type: "easeInOut",
+      type: 'easeInOut',
       repeat: Infinity,
-      repeatType: "loop",
+      repeatType: 'loop',
     },
   },
 };

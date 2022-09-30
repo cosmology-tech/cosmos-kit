@@ -176,6 +176,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               overflow="hidden"
             >
               <Image
+                alt=""
                 src={props.getValue()[0].icon}
                 fallbackSrc={"https://dummyimage.com/150/9e9e9e/ffffff&text=☒"}
               />
@@ -218,6 +219,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
             overflow="hidden"
           >
             <Image
+              alt=""
               src={props.data?.icon}
               fallbackSrc={"https://dummyimage.com/150/9e9e9e/ffffff&text=☒"}
             />

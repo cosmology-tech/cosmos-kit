@@ -1,7 +1,7 @@
-import { ReactNode, MouseEventHandler, RefObject } from "react";
-import { IconType } from "react-icons";
-import { OptionBase } from "chakra-react-select";
-import { ColorMode, GridItemProps } from "@chakra-ui/react";
+import { ColorMode, GridItemProps } from '@chakra-ui/react';
+import { OptionBase } from 'chakra-react-select';
+import { MouseEventHandler, ReactNode, RefObject } from 'react';
+import { IconType } from 'react-icons';
 export declare enum WalletStatus {
     Init = "Init",
     Loading = "Loading",

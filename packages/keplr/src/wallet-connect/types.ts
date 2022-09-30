@@ -7,4 +7,4 @@ export interface ChainKeplrMobileData extends ChainWalletDataBase {
 
 export interface KeplrMobileData extends MainWalletDataBase {
   qrUri?: string;
-};
+}

@@ -1,34 +1,34 @@
-import React, { useRef } from "react";
 import {
-  Stack,
   Box,
-  useColorModeValue,
-  Image,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
   Button,
-  Icon,
   Center,
+  Icon,
+  Image,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Stack,
+  Text,
+  useColorModeValue,
   useDimensions,
-} from "@chakra-ui/react";
-import { FiChevronRight, FiChevronLeft, FiX } from "react-icons/fi";
-import { BsPatchQuestion, BsPatchExclamation } from "react-icons/bs";
-import { QRCodeSVG } from "qrcode.react";
+} from '@chakra-ui/react';
+import { QRCodeSVG } from 'qrcode.react';
+import React, { useRef } from 'react';
+import { BsPatchExclamation, BsPatchQuestion } from 'react-icons/bs';
+import { FiChevronLeft, FiChevronRight, FiX } from 'react-icons/fi';
 
 import {
-  AnimateBox,
-  ModalContentVariants,
-  LoadingVariants,
-} from "./motion-component";
-import {
-  WalletModalType,
-  DisplayWalletListType,
   ConnectModalContentType,
-  DownloadWalletButtonType,
   ConnectWalletCardType,
-} from "../types";
+  DisplayWalletListType,
+  DownloadWalletButtonType,
+  WalletModalType,
+} from '../types';
+import {
+  AnimateBox,
+  LoadingVariants,
+  ModalContentVariants,
+} from './motion-component';
 
 export const ConnectedContent = ({
   userInfo,
@@ -57,22 +57,22 @@ export const InstallWalletButton = ({
         fontWeight="medium"
         fontSize="lg"
         color={useColorModeValue(
-          "rgba(37, 57, 201, 0.72)",
-          "rgba(196, 203, 255, 0.9)"
+          'rgba(37, 57, 201, 0.72)',
+          'rgba(196, 203, 255, 0.9)'
         )}
         border="1px solid"
-        borderColor={useColorModeValue("#ffffff", "rgba(0, 0, 0, 0.25)")}
+        borderColor={useColorModeValue('#ffffff', 'rgba(0, 0, 0, 0.25)')}
         bg={useColorModeValue(
-          "rgba(37, 57, 201, 0.1)",
-          "rgba(40, 62, 219, 0.15)"
+          'rgba(37, 57, 201, 0.1)',
+          'rgba(40, 62, 219, 0.15)'
         )}
         boxShadow={useColorModeValue(
-          "0 0 1px 2px rgba(37, 57, 201, 0.5)",
-          "0 0 1px 2px rgba(196, 203, 255, 0.5)"
+          '0 0 1px 2px rgba(37, 57, 201, 0.5)',
+          '0 0 1px 2px rgba(196, 203, 255, 0.5)'
         )}
         _hover={{ opacity: 0.8 }}
         _active={{ opacity: 0.9 }}
-        _focus={{ outline: "none" }}
+        _focus={{ outline: 'none' }}
       >
         <Stack
           w="full"
@@ -146,8 +146,8 @@ export const ExtensionContent = ({
               border="2px solid"
               borderColor={
                 isWarning
-                  ? useColorModeValue("orange.300", "red.500")
-                  : useColorModeValue("red.400", "red.500")
+                  ? useColorModeValue('orange.300', 'red.500')
+                  : useColorModeValue('red.400', 'red.500')
               }
               borderRadius="full"
             >
@@ -156,7 +156,7 @@ export const ExtensionContent = ({
                 right={-2}
                 bottom={-1}
                 borderRadius="full"
-                bg={useColorModeValue("whiteAlpha.900", "blackAlpha.700")}
+                bg={useColorModeValue('whiteAlpha.900', 'blackAlpha.700')}
                 boxShadow="base"
                 p={1.5}
               >
@@ -166,8 +166,8 @@ export const ExtensionContent = ({
                   h={6}
                   color={
                     isWarning
-                      ? useColorModeValue("orange.300", "red.500")
-                      : useColorModeValue("red.500", "red.500")
+                      ? useColorModeValue('orange.300', 'red.500')
+                      : useColorModeValue('red.500', 'red.500')
                   }
                 />
               </Center>
@@ -215,7 +215,7 @@ export const QRCode = ({ link }: { link: string }) => {
         <Box
           w="full"
           border="1px solid"
-          borderColor={useColorModeValue("blackAlpha.100", "whiteAlpha.600")}
+          borderColor={useColorModeValue('blackAlpha.100', 'whiteAlpha.600')}
           borderRadius="lg"
           boxShadow="base"
           p={5}
@@ -223,9 +223,9 @@ export const QRCode = ({ link }: { link: string }) => {
           <QRCodeSVG
             value={link}
             size={dimensions ? dimensions.contentBox.width - 24 : undefined}
-            bgColor={"#ffffff"}
-            fgColor={"#000000"}
-            level={"L"}
+            bgColor={'#ffffff'}
+            fgColor={'#000000'}
+            level={'L'}
             includeMargin={false}
           />
         </Box>
@@ -256,21 +256,21 @@ export const DisplayWalletList = ({
               p={2.5}
               justifyContent="start"
               borderRadius="none"
-              color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}
+              color={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')}
               boxShadow={useColorModeValue(
-                "0 20px 1px -19px #fff",
-                "0 20px 1px -19px #2d3748"
+                '0 20px 1px -19px #fff',
+                '0 20px 1px -19px #2d3748'
               )}
               transition="all .4s ease-in-out"
               _hover={{
-                color: useColorModeValue("primary.300", "primary.100"),
-                borderRadius: "md",
+                color: useColorModeValue('primary.300', 'primary.100'),
+                borderRadius: 'md',
                 boxShadow: useColorModeValue(
-                  "0 0 2px 0 rgba(98, 17, 240, 0.5)",
-                  "0 0 2px 0 rgba(182, 153, 232, 0.9)"
+                  '0 0 2px 0 rgba(98, 17, 240, 0.5)',
+                  '0 0 2px 0 rgba(182, 153, 232, 0.9)'
                 ),
               }}
-              _focus={{ outline: "none" }}
+              _focus={{ outline: 'none' }}
               onClick={(e) => {
                 if (e.currentTarget.id === id) onClick(walletsData[i]);
               }}
@@ -330,7 +330,7 @@ export const ModalHead = ({
         <Text
           fontSize="lg"
           fontWeight="medium"
-          textAlign={backButton ? "center" : "start"}
+          textAlign={backButton ? 'center' : 'start'}
         >
           {title}
         </Text>

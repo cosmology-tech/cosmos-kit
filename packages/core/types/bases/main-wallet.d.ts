@@ -1,4 +1,4 @@
-import { ChainName, ChainInfo, Wallet } from '../types';
+import { ChainInfo, ChainName, Wallet } from '../types';
 import { ChainWalletDataBase, MainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
