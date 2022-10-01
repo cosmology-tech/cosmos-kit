@@ -16,15 +16,13 @@ Cosmos Kit is a wallet adapter for developers to build apps that quickly and eas
 
 @cosmos-kit/react is the React integration for Cosmos Kit.
 
-## Getting Start
-
-## 1. Installation
+## Installation
 
 ```sh
 yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
-## 2. Connection
+## Provider
 
 First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
@@ -33,15 +31,16 @@ import * as React from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react';
 import { WalletProvider } from '@cosmos-kit/react';
-import { chains } from 'chain-registry';
+import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
 function WalletApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains} // supported chains, include all chains in `chain-registry` here.
-        wallets={wallets} // supported wallets, include `keplrExtension` and `KeplrMobile` here.
+        chains={chains} // supported chains 
+        assetList={assets} // supported asset lists
+        wallets={wallets} // supported wallets
       >
         <YourWalletRelatedComponents />
       </WalletProvider>
@@ -84,7 +83,7 @@ function Component ({ chainName }: { chainName?: string }) => {
     }, [chainName]);
 }
 ```
-## 3. Signing Clients
+## Signing Clients
 
 There two signing clients available via `walletManager` functions: `getStargateClient()` and `getCosmWasmClient()`.
 
@@ -125,7 +124,7 @@ function Component () => {
 }
 ```
 
-### 3.1 Customized signing client options
+### Customized signing client options
 
 The default options are `undefined`. You can provide your own options in `WalletProvider`.
 
@@ -187,7 +186,7 @@ export interface SignerOptions {
 }
 ```
 
-### 4 Customized modal
+### Customized Modal
 
 You can bring your own UI. The `WalletProvider` provides a default modal for connection in `@cosmos-kit/react`.
 
@@ -262,9 +261,9 @@ function WalletApp() {
 }
 ```
 
-### 5. Other props in `WalletProvider`
+### Other props in `WalletProvider`
 
-### 5.1 `endpointOptions`
+#### `endpointOptions`
 
 Define preferred endpoints for each chain.
 
@@ -291,7 +290,7 @@ e.g.
 >
 ```
 
-### 5.2 `viewOptions`
+#### `viewOptions`
 
 Define automation for view. `Optional`
 
@@ -310,7 +309,7 @@ const viewOptions: ViewOptions = {
 };
 ```
 
-### 5.3 `storageOptions`
+#### `storageOptions`
 
 Define local storage attributes. `Optional`
 
@@ -332,3 +331,8 @@ const storageOptions: StorageOptions = {
 ## Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+
+Code built with the help of these related projects:
+
+* [create-cosmos-app](https://github.com/cosmology/create-cosmos-app) Set up a modern Cosmos app by running one command ⚛️
+* [chain-registry](https://github.com/cosmology/chain-registry) an npm module for the official Cosmos chain-registry
