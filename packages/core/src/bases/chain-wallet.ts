@@ -148,7 +148,7 @@ export abstract class ChainWalletBase<
       return SigningCosmWasmClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
-        this.stargateOptions
+        this.cosmwasmOptions
       );
     }
     console.error('Undefined offlineSigner or rpcEndpoint.');
