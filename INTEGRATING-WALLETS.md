@@ -49,7 +49,7 @@ This is how we can read your wallet into the provider.
 * make PR to [`chain-registry/packages/<your-wallet>`](https://github.com/cosmology-tech/chain-registry/tree/main/packages)
 * name the package `@chain-registry/<your-wallet>`
 
-For reference, see the [keplr chain-registry package](https://github.com/cosmology-tech/chain-registry/tree/main/packages/keplr) for integrating your wallet data structure
+For reference, see the [keplr chain-registry package](https://github.com/cosmology-tech/chain-registry/tree/main/packages/keplr) for integrating your [wallet data structure](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25)
 
 The interface should be as follows:
 
@@ -60,7 +60,5 @@ export const chainRegistryChainToYourWallet = (
   assets: AssetList[]
 ): YourWalletChainInfo;
 ```
-
-[Here is an example](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25)
 
 
