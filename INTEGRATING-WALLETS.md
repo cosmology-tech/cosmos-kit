@@ -49,7 +49,7 @@ This is how we can read your wallet into the provider.
 
 ## 2 Cconvert to your wallet data 
 
-If you use the same data structure as keplr, you can skip the PR and use the keplr method.
+If you use the same data structure as Keplr, you can skip the PR and use the Keplr conversion function.
 
 * make PR to [`chain-registry/packages/<your-wallet>`](https://github.com/cosmology-tech/chain-registry/tree/main/packages)
 * name the package `@chain-registry/<your-wallet>`
