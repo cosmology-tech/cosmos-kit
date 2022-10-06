@@ -47,7 +47,9 @@ This is how we can read your wallet into the provider.
 
 * export a [`wallets` object from the root](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/keplr.ts#L7)
 
-## 2 Make a PR to convert to your wallet data 
+## 2 Cconvert to your wallet data 
+
+If you use the same data structure as keplr, you can skip the PR and use the keplr method.
 
 * make PR to [`chain-registry/packages/<your-wallet>`](https://github.com/cosmology-tech/chain-registry/tree/main/packages)
 * name the package `@chain-registry/<your-wallet>`
