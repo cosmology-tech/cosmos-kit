@@ -42,7 +42,7 @@ An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
 ## Integrating Wallets
 
-See our docs on [https://github.com/cosmology-tech/cosmos-kit/blob/main/INTEGRATING-WALLETS.md](integrating your wallet)
+See our docs on [integrating your wallet](https://github.com/cosmology-tech/cosmos-kit/blob/main/INTEGRATING-WALLETS.md)
 
 ## Developing
 
