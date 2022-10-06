@@ -40,6 +40,10 @@ Keplr Wallet integration with Mobile support.
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
+## Integrating Wallets
+
+See our docs on [https://github.com/cosmology-tech/cosmos-kit/blob/main/INTEGRATING-WALLETS.md](integrating your wallet)
+
 ## Developing
 
 Checkout the repository and bootstrap the yarn workspace:
