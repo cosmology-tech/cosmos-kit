@@ -7,8 +7,8 @@
 ## Requirements
 
 * having an `offlineSigner` for the provider
-* having an `experimentalSuggestChain` of similar method to suggest chains to your wallet
-* submit PR with a `chainRegistryChainTo<YourWallet>` function to convert [`chain-registry`](https://github.com/cosmos/chain-registry) data format to your wallet's data format
+* having either an `experimentalSuggestChain` or similar method to suggest chains to your wallet
+* a function `chainRegistryChainTo<YourWallet>` to convert [`chain-registry`](https://github.com/cosmos/chain-registry) data format to your wallet's data format
 
 ## 1 Make a PR to add your wallet adapter
 
