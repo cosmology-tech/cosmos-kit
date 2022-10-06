@@ -39,6 +39,7 @@ This is the class for when the wallet is connected
 This is your client. It probably lives on `window`, e.g., `window.keplr`. However, it is best if we abstract that for interoperability:
 
 * don't use `window` directly, [write a async `get<YourWallet>FromExtension` method](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/utils.ts#L5-L10) to return your client
+* make sure to protect your call to `window` with a return [`if (typeof window === 'undefined')`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/utils.ts#L8-L10) so applications can leverage server side rendering w/o issues.
 
 ### 🔌 Exporting the wallet
 
