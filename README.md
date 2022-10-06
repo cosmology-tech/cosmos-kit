@@ -14,19 +14,19 @@
 
 Cosmos Kit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-## Quickstart
+## 🏁 Quickstart
 
 Get started quickly by using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) to help you build high-quality Cosmos apps fast!
 
-## Configuration
+## ⚙️ Configuration
 
 Check out [our docs here](packages/react/README.md) to configure Cosmos Kit.
 
-## CosmJS Signers
+## ⚛️ CosmJS Signers
 
 If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/react/README.md#2-signing-clients)
 
-## Packages
+## 📦 Packages
 
 #### [@cosmos-kit/react](packages/react)
 
@@ -40,11 +40,11 @@ Keplr Wallet integration with Mobile support.
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
-## Integrating Wallets
+## 🔌 Integrating Wallets
 
 See our docs on [integrating your wallet](https://github.com/cosmology-tech/cosmos-kit/blob/main/INTEGRATING-WALLETS.md)
 
-## Developing
+## 🛠 Developing
 
 Checkout the repository and bootstrap the yarn workspace:
 
