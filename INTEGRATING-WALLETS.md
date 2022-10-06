@@ -51,22 +51,13 @@ This is how we can read your wallet into the provider.
 
 For reference, see the [keplr chain-registry package](https://github.com/cosmology-tech/chain-registry/tree/main/packages/keplr) for integrating your wallet data structure
 
-You can see how `chainRegistryChainToKeplr` takes `Chain` and `AssetList[]` as args from the `@chain-registry/types` repo. Optionally you can provide methods to set preferred endpoints/explorers. [Here is an example](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25): 
+You can see how `chainRegistryChainToKeplr` takes `Chain` and `AssetList[]` as args from the `@chain-registry/types` repo. [Here is an example](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25): 
 
 ```ts
-export const chainRegistryChainToKeplr = (
+export const chainRegistryChainToYourWallet = (
   chain: Chain,
-  assets: AssetList[],
-  options: {
-    getRpcEndpoint: (chain: Chain) => string;
-    getRestEndpoint: (chain: Chain) => string;
-    getExplorer: (chain: Chain) => string;
-  } = {
-    getRpcEndpoint: getRpc,
-    getRestEndpoint: getRest,
-    getExplorer: getExplr
-  }
-): ChainInfo;
+  assets: AssetList[]
+): YourWalletChainInfo;
 ```
 
 
