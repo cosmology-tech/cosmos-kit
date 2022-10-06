@@ -31,6 +31,7 @@ This is the class for when the wallet is connected
 
 * implement a class that [extends the `ChainWalletBase`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L8) abstract class
 * set `address`, `username`, and `offlineSigner` [in the `update()` method](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L50-L56)
+* make sure to write a `chainRegistryChainTo<YourWallet>` method (see below)
 
 We use [the chain-registry](https://github.com/cosmos/chain-registry) as our data source, with the npm module as a way to convert data to your wallet. Here is the [experimental suggest chain](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L46) for Keplr, and you can see that we convert the data from `chain-registry` into Keplr's data structure with the [`chainRegistryChainToKeplr` function](https://github.com/cosmology-tech/cosmos-kit/blob/95d4f1346ee9d577cb18415127aaba84cca6b1a4/packages/keplr/src/extension/chain-wallet.ts#L33-L35).  
 
