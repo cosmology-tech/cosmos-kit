@@ -1,5 +1,5 @@
 import { TrustWallet } from './extension';
 
-const trustWallet = new TrustWallet();
+const wallet = new TrustWallet();
 
-export const wallets = [trustWallet];
+export const trustWallet = [wallet];

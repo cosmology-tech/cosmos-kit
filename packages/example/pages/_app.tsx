@@ -6,6 +6,7 @@ import { defaultTheme } from '../config';
 import { chains, assets } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
 import { wallets } from '@cosmos-kit/keplr';
+import { trustWallet } from '@cosmos-kit/trust';
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -15,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={wallets}
+        wallets={wallets + trustWallet}
         signerOptions={{
           stargate: (chain: Chain) => undefined,
           cosmwasm: (chain: Chain) => undefined,
