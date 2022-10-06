@@ -1,6 +1,10 @@
 # CosmosKit Wallet Integrations
 
-## requirements
+<p align="center" width="100%">
+    <img height="90" src="https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg" />
+</p>
+
+## Requirements
 
 * having an `offlineSigner` for the provider
 * having an `experimentalSuggestChain` of similar method to suggest chains to your wallet
