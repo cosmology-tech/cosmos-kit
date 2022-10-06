@@ -23,7 +23,7 @@ This is the class for when the wallet is not connected, and presents information
 * the design may require a round image right now, but we can update that if it becomes an issue
 * implement a class that [extends the `MainWalletBase`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L11) abstract class
 * load the registry data as [defaults to the wallet class](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L20)
-* if you have them, [add your wallet's preferred endpoints](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L31-L48)
+* if you have them, [add your wallet's preferred endpoints](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/config.ts#L3) and then [use them](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L31-L48) (do NOT use other wallet's endpoints, please bring your own, or let cosmos-kit use chain-registry as the default)
 
 ### ⚡️ chain wallet class
 
