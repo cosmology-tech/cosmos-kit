@@ -49,12 +49,7 @@ This is how we can read your wallet into the provider.
 
 ## 2 Convert to your wallet data 
 
-If you use the same data structure as Keplr, you can skip the PR and use the Keplr conversion function.
-
-* make PR to [`chain-registry/packages/<your-wallet>`](https://github.com/cosmology-tech/chain-registry/tree/main/packages)
-* name the package `@chain-registry/<your-wallet>`
-
-For reference, see the [keplr chain-registry package](https://github.com/cosmology-tech/chain-registry/tree/main/packages/keplr) for integrating your [wallet data structure](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25)
+If you use the same data structure as Keplr, you can use the Keplr conversion function.
 
 The interface should be as follows:
 
@@ -66,4 +61,10 @@ export const chainRegistryChainToYourWallet = (
 ): YourWalletChainInfo;
 ```
 
+You can inline the function in this repo, however, it could be useful to publish to the chain-registry for other wallet adapters. Optionally, you can publish this method to `@chain-registry/<your-wallet>`.
+
+* optoinally, make PR to [`chain-registry/packages/<your-wallet>`](https://github.com/cosmology-tech/chain-registry/tree/main/packages)
+* name the package `@chain-registry/<your-wallet>`
+
+For reference, see the [keplr chain-registry package](https://github.com/cosmology-tech/chain-registry/tree/main/packages/keplr) for integrating your [wallet data structure](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25)
 
