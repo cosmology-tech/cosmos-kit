@@ -139,6 +139,11 @@ export interface StorageOptions {
   clearOnTabClose?: boolean;
 }
 
+export interface SessionOptions {
+  duration?: number; // ms
+  killOnTabClose?: boolean;
+}
+
 export interface Endpoints {
   rpc?: string[];
   rest?: string[];

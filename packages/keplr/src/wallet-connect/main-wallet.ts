@@ -1,4 +1,10 @@
-import { ChainInfo, ChainName, State, Wallet } from '@cosmos-kit/core';
+import {
+  ChainInfo,
+  ChainName,
+  SessionOptions,
+  State,
+  Wallet,
+} from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
@@ -18,7 +24,7 @@ export class KeplrMobileWallet extends MainWalletBase<
   protected _chains!: Map<ChainName, ChainKeplrMobile>;
   protected _client: KeplrWalletConnectV1;
   connector: WalletConnect;
-  emitter: EventEmitter;
+  emitter: EventEmitter = new EventEmitter();
 
   constructor(_walletInfo: Wallet = walletInfo, _chainsInfo?: ChainInfo[]) {
     super(_walletInfo, _chainsInfo);
@@ -43,7 +49,6 @@ export class KeplrMobileWallet extends MainWalletBase<
     });
 
     this._client = new KeplrWalletConnectV1(this.connector);
-    this.emitter = new EventEmitter();
   }
 
   get isInSession() {
@@ -81,11 +86,17 @@ export class KeplrMobileWallet extends MainWalletBase<
     );
   }
 
-  async connect(): Promise<void> {
+  async connect(sessionOptions?: SessionOptions): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
       this.emitter.on('update', async () => {
         await this.update();
+        if (sessionOptions?.duration) {
+          setTimeout(async () => {
+            await this.disconnect();
+            await this.connect(sessionOptions);
+          }, sessionOptions?.duration);
+        }
       });
       this.emitter.on('disconnect', async () => {
         await this.disconnect();
@@ -104,5 +115,6 @@ export class KeplrMobileWallet extends MainWalletBase<
       await this.connector.killSession();
     }
     this.reset();
+    this.emitter.removeAllListeners();
   }
 }

@@ -4,6 +4,7 @@ import {
   ChainName,
   EndpointOptions,
   MainWalletData,
+  SessionOptions,
   SignerOptions,
   StorageOptions,
   ViewOptions,
@@ -45,6 +46,7 @@ export const WalletProvider = ({
   viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
   storageOptions?: StorageOptions;
+  sessionOptions?: SessionOptions;
   children: ReactNode;
 }) => {
   const walletManager = useMemo(
@@ -100,6 +102,9 @@ export const WalletProvider = ({
         event.preventDefault();
         if (walletManager.storageOptions.clearOnTabClose) {
           window.localStorage.removeItem('walletManager');
+        }
+        if (walletManager.sessionOptions.killOnTabClose) {
+          walletManager.disconnect();
         }
       };
 

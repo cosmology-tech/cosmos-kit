@@ -9,7 +9,13 @@ import {
   SigningStargateClientOptions,
 } from '@cosmjs/stargate';
 
-import { ChainInfo, ChainWalletDataBase, State, Wallet } from '../types';
+import {
+  ChainInfo,
+  ChainWalletDataBase,
+  SessionOptions,
+  State,
+  Wallet,
+} from '../types';
 import { StateBase } from './state';
 
 export abstract class ChainWalletBase<
@@ -118,13 +124,19 @@ export abstract class ChainWalletBase<
     this.reset();
   }
 
-  async connect() {
+  async connect(sessionOptions?: SessionOptions) {
     if (!(await this.client)) {
       this.setState(State.Error);
       this.setMessage('Client Not Exist!');
       return;
     }
     await this.update();
+
+    if (sessionOptions?.duration) {
+      setTimeout(() => {
+        this.disconnect();
+      }, sessionOptions?.duration);
+    }
   }
 
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {

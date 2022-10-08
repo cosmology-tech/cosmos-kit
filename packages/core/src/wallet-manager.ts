@@ -11,6 +11,7 @@ import {
   ChainName,
   EndpointOptions,
   ManagerActions,
+  SessionOptions,
   SignerOptions,
   State,
   StorageOptions,
@@ -41,6 +42,10 @@ export class WalletManager extends StateBase<WalletData> {
     duration: 108000,
     clearOnTabClose: false,
   };
+  sessionOptions: SessionOptions = {
+    duration: 108000,
+    killOnTabClose: false,
+  };
 
   constructor(
     chains: Chain[],
@@ -49,7 +54,8 @@ export class WalletManager extends StateBase<WalletData> {
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
-    storageOptions?: StorageOptions
+    storageOptions?: StorageOptions,
+    sessionOptions?: SessionOptions
   ) {
     super();
     this.wallets = wallets;
@@ -69,6 +75,7 @@ export class WalletManager extends StateBase<WalletData> {
     });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
+    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
   }
 
   get useView() {
@@ -233,7 +240,7 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
     try {
-      await this.currentWallet.connect();
+      await this.currentWallet.connect(this.sessionOptions);
       if (
         this.walletStatus === WalletStatus.Connected &&
         this.viewOptions?.closeViewWhenWalletIsConnected

@@ -1,5 +1,10 @@
 /* eslint-disable no-console */
-import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
+import {
+  ChainInfo,
+  ChainWalletBase,
+  SessionOptions,
+  State,
+} from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
@@ -39,11 +44,16 @@ export class ChainKeplrMobile extends ChainWalletBase<
     return this.mainWallet.emitter;
   }
 
-  async connect(): Promise<void> {
+  async connect(sessionOptions?: SessionOptions): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
       this.emitter.on('update', async () => {
         await this.update();
+        if (sessionOptions.duration) {
+          setTimeout(() => {
+            this.disconnect();
+          }, sessionOptions.duration);
+        }
       });
       this.emitter.on('disconnect', async () => {
         await this.disconnect();
