@@ -100,7 +100,9 @@ export class KeplrMobileWallet extends MainWalletBase<
   }
 
   async disconnect() {
-    // await this.connector.killSession();
+    if (this.connector.connected) {
+      await this.connector.killSession();
+    }
     this.reset();
   }
 }

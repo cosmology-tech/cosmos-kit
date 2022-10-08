@@ -225,7 +225,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  update = () => { };
+  update = () => {};
 
   connect = async () => {
     if (!this.currentWalletName) {
