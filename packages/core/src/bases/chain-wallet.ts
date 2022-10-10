@@ -124,7 +124,7 @@ export abstract class ChainWalletBase<
     this.reset();
   }
 
-  async connect(sessionOptions?: SessionOptions) {
+  async connect(sessionOptions?: SessionOptions, callback?: () => void) {
     if (!(await this.client)) {
       this.setState(State.Error);
       this.setMessage('Client Not Exist!');
@@ -137,6 +137,7 @@ export abstract class ChainWalletBase<
         this.disconnect();
       }, sessionOptions?.duration);
     }
+    callback?.();
   }
 
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {

@@ -74,7 +74,7 @@ export abstract class MainWalletBase<
     this.reset();
   }
 
-  async connect(sessionOptions?: SessionOptions) {
+  async connect(sessionOptions?: SessionOptions, callback?: () => void) {
     if (!(await this.client)) {
       this.setState(State.Error);
       this.setMessage('Client Not Exist!');
@@ -87,6 +87,7 @@ export abstract class MainWalletBase<
         this.disconnect();
       }, sessionOptions?.duration);
     }
+    callback?.();
   }
 
   abstract setChains(supportedChains?: ChainInfo[]): void;

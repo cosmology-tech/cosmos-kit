@@ -8,9 +8,19 @@ import { assets as chainAssets } from 'chain-registry';
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, openView, disconnect, setCurrentChain, chains,
-    walletStatus, username, address, message,
-    currentChainName: chainName, currentWallet } = walletManager;
+  const { 
+    connect, 
+    openView, 
+    disconnect, 
+    setCurrentChain, 
+    chains,
+    walletStatus, 
+    username, 
+    address, 
+    message,
+    currentChainName: chainName,
+    currentWallet 
+  } = walletManager;
 
   const walletPrettyName = currentWallet?.walletInfo.prettyName;
 
@@ -59,7 +69,7 @@ const Home = () => {
       walletStatus={walletStatus}
       disconnect={<Disconnected buttonText="Connect Wallet" onClick={onClickConnect} />}
       connecting={<Connecting />}
-      connected={<Connected buttonText={"My Wallet"} onClick={onClickDisconnect} />}
+      connected={<Connected buttonText={"My Wallet"} onClick={onClickOpenView} />}
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
       notExist={<NotExist buttonText="Install Wallet" onClick={onClickOpenView} />}

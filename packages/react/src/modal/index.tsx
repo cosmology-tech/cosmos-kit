@@ -35,8 +35,15 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   function handleClose() {
     setOpen(false);
-    if (walletManager.walletStatus === 'Connecting') {
-      walletManager.disconnect();
+    switch (walletManager.walletStatus) {
+      case 'Connecting':
+        walletManager.disconnect();
+        break;
+      case 'Disconnected':
+        walletManager.setCurrentWallet(undefined);
+        break;
+      default:
+        break;
     }
   }
 

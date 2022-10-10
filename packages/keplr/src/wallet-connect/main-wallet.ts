@@ -86,7 +86,10 @@ export class KeplrMobileWallet extends MainWalletBase<
     );
   }
 
-  async connect(sessionOptions?: SessionOptions): Promise<void> {
+  async connect(
+    sessionOptions?: SessionOptions,
+    callback?: () => void
+  ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
       this.emitter.on('update', async () => {
@@ -97,6 +100,7 @@ export class KeplrMobileWallet extends MainWalletBase<
             await this.connect(sessionOptions);
           }, sessionOptions?.duration);
         }
+        callback?.();
       });
       this.emitter.on('disconnect', async () => {
         await this.disconnect();

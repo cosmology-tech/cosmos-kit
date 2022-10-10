@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
