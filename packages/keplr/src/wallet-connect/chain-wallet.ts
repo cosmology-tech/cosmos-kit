@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
-import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import {
   ChainInfo,
   ChainWalletBase,
   SessionOptions,
   State,
 } from '@cosmos-kit/core';
+import { Key } from '@keplr-wallet/types';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
-import { preferredEndpoints } from '../config';
+import { suggestChain } from '../utils';
 import { KeplrMobileWallet } from './main-wallet';
 import { ChainKeplrMobileData } from './types';
 
@@ -18,12 +18,14 @@ export class ChainKeplrMobile extends ChainWalletBase<
   ChainKeplrMobileData,
   KeplrMobileWallet
 > {
+  protected _client: KeplrWalletConnectV1;
+
   constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet) {
     super(_chainRecord, keplrWallet);
   }
 
   get client() {
-    return this.mainWallet.client;
+    return this._client || this.mainWallet.client;
   }
 
   get connector(): WalletConnect {
@@ -72,25 +74,14 @@ export class ChainKeplrMobile extends ChainWalletBase<
   async update() {
     this.setState(State.Pending);
     try {
-      const keplr = await this.client;
-      if (!keplr) {
-        throw new Error('No Keplr Client found!');
+      let key: Key;
+      try {
+        key = await this.client.getKey(this.chainId);
+      } catch (error) {
+        this._client = await suggestChain(this.client, this.chainInfo);
+        key = await this.client.getKey(this.chainId);
       }
 
-      const suggestChain = chainRegistryChainToKeplr(this.chain, [
-        this.assetList,
-      ]);
-
-      if (preferredEndpoints[this.chain.chain_name]) {
-        suggestChain.rest = preferredEndpoints[this.chain.chain_name].rest[0];
-      }
-      if (preferredEndpoints[this.chain.chain_name]) {
-        suggestChain.rpc = preferredEndpoints[this.chain.chain_name].rpc[0];
-      }
-
-      await keplr.experimentalSuggestChain(suggestChain);
-
-      const key = await this.client.getKey(this.chainId);
       this.setData({
         address: key.bech32Address,
         username: key.name,
@@ -108,10 +99,11 @@ export class ChainKeplrMobile extends ChainWalletBase<
     }
   }
 
-  async disconnect() {
+  async disconnect(callback?: () => void) {
     if (this.connector.connected) {
       await this.connector.killSession();
     }
     this.reset();
+    callback?.();
   }
 }

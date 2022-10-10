@@ -21,10 +21,17 @@ import { StateBase } from './state';
 export abstract class ChainWalletBase<
   WalletClient,
   ChainWalletData extends ChainWalletDataBase,
-  MainWallet extends { walletInfo: Wallet }
+  MainWallet extends {
+    walletInfo: Wallet;
+    client: Promise<WalletClient | undefined> | WalletClient | undefined;
+  }
 > extends StateBase<ChainWalletData> {
   protected _chainInfo: ChainInfo;
   protected mainWallet: MainWallet;
+  protected _client:
+    | Promise<WalletClient | undefined>
+    | WalletClient
+    | undefined;
   rpcEndpoints: string[];
   restEndpoints: string[];
 
@@ -42,6 +49,11 @@ export abstract class ChainWalletBase<
       `https://rest.cosmos.directory/${this.chainName}`,
       ...(_chainInfo.chain?.apis?.rest?.map((e) => e.address) || []),
     ];
+    this._client = this.mainWallet.client;
+  }
+
+  get client() {
+    return this._client || this.mainWallet.client;
   }
 
   get walletInfo() {
@@ -120,8 +132,9 @@ export abstract class ChainWalletBase<
     return this.data?.offlineSigner;
   }
 
-  disconnect() {
+  disconnect(callback?: () => void) {
     this.reset();
+    callback?.();
   }
 
   async connect(sessionOptions?: SessionOptions, callback?: () => void) {
@@ -167,9 +180,4 @@ export abstract class ChainWalletBase<
     console.error('Undefined offlineSigner or rpcEndpoint.');
     return undefined;
   };
-
-  abstract get client():
-    | Promise<WalletClient | undefined>
-    | undefined
-    | WalletClient;
 }

@@ -114,11 +114,12 @@ export class KeplrMobileWallet extends MainWalletBase<
     this.setState(State.Done);
   }
 
-  async disconnect() {
+  async disconnect(callback?: () => void) {
     if (this.connector.connected) {
       await this.connector.killSession();
     }
     this.reset();
+    callback?.();
     this.emitter.removeAllListeners();
   }
 }

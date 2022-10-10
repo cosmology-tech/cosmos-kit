@@ -88,7 +88,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   get currentWalletName() {
     if (!this._currentWalletName && this.walletCount === 1) {
-      return this.wallets[0].name;
+      return this.wallets[0].walletName;
     }
     return this._currentWalletName;
   }
@@ -129,7 +129,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this.wallets.map((wallet) => wallet.name);
+    return this.wallets.map((wallet) => wallet.walletName);
   }
 
   get walletCount() {
@@ -210,7 +210,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let wallet: WalletAdapter | undefined = this.wallets.find(
-      (w) => w.name === walletName
+      (w) => w.walletName === walletName
     );
 
     if (!wallet) {
@@ -264,7 +264,13 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      await this.currentWallet.disconnect();
+      await this.currentWallet.disconnect(() => {
+        this.setCurrentWallet(undefined);
+        this.storeCurrent();
+      });
+
+      // console.log(12, this.currentWallet.data);
+      // console.log(23, this.data);
 
       if (
         this.isWalletConnected &&
@@ -281,9 +287,6 @@ export class WalletManager extends StateBase<WalletData> {
         this.closeView();
       }
     }
-
-    this.setCurrentWallet(undefined);
-    this.storeCurrent();
   };
 
   openView = () => {

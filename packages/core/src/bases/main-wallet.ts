@@ -36,7 +36,7 @@ export abstract class MainWalletBase<
     return this._walletInfo;
   }
 
-  get name() {
+  get walletName() {
     return this.walletInfo.name;
   }
 
@@ -67,11 +67,12 @@ export abstract class MainWalletBase<
     return this.chains.get(chainName);
   }
 
-  disconnect() {
+  disconnect(callback?: () => void) {
     this.chains.forEach((chain) => {
       chain.disconnect();
     });
     this.reset();
+    callback?.();
   }
 
   async connect(sessionOptions?: SessionOptions, callback?: () => void) {
