@@ -36,7 +36,7 @@ export abstract class MainWalletBase<
     return this._walletInfo;
   }
 
-  get walletName() {
+  get name() {
     return this.walletInfo.name;
   }
 

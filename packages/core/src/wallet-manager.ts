@@ -60,6 +60,15 @@ export class WalletManager extends StateBase<WalletData> {
   ) {
     super();
     this.wallets = wallets;
+    switch (this.walletCount) {
+      case 0:
+        throw new Error('No wallet provided.');
+      case 1:
+        this.setCurrentWallet(this.wallets[0].name);
+        break;
+      default:
+        break;
+    }
     this.chains = chains.map((chain) =>
       convertChain(
         chain,
@@ -68,6 +77,15 @@ export class WalletManager extends StateBase<WalletData> {
         endpointOptions?.[chain.chain_name]
       )
     );
+    switch (this.chainCount) {
+      case 0:
+        throw new Error('No chain provided.');
+      case 1:
+        this.setCurrentChain(this.chains[0].name);
+        break;
+      default:
+        break;
+    }
     console.info(
       `${this.walletCount} wallets and ${this.chainCount} chains are used!`
     );
@@ -124,7 +142,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this.wallets.map((wallet) => wallet.walletName);
+    return this.wallets.map((wallet) => wallet.name);
   }
 
   get walletCount() {
@@ -171,10 +189,6 @@ export class WalletManager extends StateBase<WalletData> {
     this.actions = actions;
   }
 
-  setViewOptions(viewOptions: ViewOptions) {
-    this.viewOptions = viewOptions;
-  }
-
   reset() {
     this.currentWallet?.reset();
   }
@@ -219,7 +233,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let wallet: WalletAdapter | undefined = this.wallets.find(
-      (w) => w.walletName === walletName
+      (w) => w.name === walletName
     );
 
     if (!wallet) {
@@ -289,7 +303,7 @@ export class WalletManager extends StateBase<WalletData> {
       }
     }
 
-    if (this.useView) {
+    if (this.walletCount > 1) {
       this.setCurrentWallet(undefined);
     }
   };

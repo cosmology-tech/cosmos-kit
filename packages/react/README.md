@@ -261,7 +261,7 @@ function WalletApp() {
 }
 ```
 
-### Other props in `WalletProvider`
+### Options in `WalletProvider`
 
 #### `endpointOptions`
 
@@ -296,6 +296,11 @@ Define automation for view. `Optional`
 
 ```ts
 export interface ViewOptions {
+  /**
+   * if alwaysOpenView === true, always open view when `connect` or `disconnect` is called
+   * if alwaysOpenView === false, only open view when necessary. e.g. current wallet is not defined, need to choose wallet in modal.
+  */
+  alwaysOpenView?: boolean;
   closeViewWhenWalletIsConnected?: boolean;
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;
@@ -303,6 +308,7 @@ export interface ViewOptions {
 
 // default value
 const viewOptions: ViewOptions = {
+  alwaysOpenView: false,
   closeViewWhenWalletIsConnected: false,
   closeViewWhenWalletIsDisconnected: true,
   closeViewWhenWalletIsRejected: false,
@@ -312,6 +318,12 @@ const viewOptions: ViewOptions = {
 #### `storageOptions`
 
 Define local storage attributes. `Optional`
+
+storage key: `walletManager`
+
+storage value attributes:
+- `currentWalletName`
+- `currentChainName`
 
 ```ts
 export interface StorageOptions {
@@ -323,9 +335,26 @@ export interface StorageOptions {
 // default value
 const storageOptions: StorageOptions = {
   disabled: false,
-  duration: 108000,
+  duration: 1800000, // half an hour
   clearOnTabClose: false
 };
+```
+
+#### `sessionOptions`
+
+Define connection session options. `Optional`
+
+```ts
+export interface SessionOptions {
+  duration?: number; // ms
+  killOnTabClose?: boolean;
+}
+
+// default value
+  sessionOptions: SessionOptions = {
+    duration: 1800000, // half an hour
+    killOnTabClose: false,
+  };
 ```
 
 ## Credits
