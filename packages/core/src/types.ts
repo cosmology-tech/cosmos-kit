@@ -128,6 +128,7 @@ export interface SignerOptions {
 }
 
 export interface ViewOptions {
+  alwaysOpenView?: boolean;
   closeViewWhenWalletIsConnected?: boolean;
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;

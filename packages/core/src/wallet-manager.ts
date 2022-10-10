@@ -33,17 +33,18 @@ export class WalletManager extends StateBase<WalletData> {
   wallets: WalletOption[];
   chains: ChainInfo[];
   viewOptions: ViewOptions = {
+    alwaysOpenView: true,
     closeViewWhenWalletIsConnected: false,
     closeViewWhenWalletIsDisconnected: true,
     closeViewWhenWalletIsRejected: false,
   };
   storageOptions: StorageOptions = {
     disabled: false,
-    duration: 108000,
+    duration: 1800000,
     clearOnTabClose: false,
   };
   sessionOptions: SessionOptions = {
-    duration: 108000,
+    duration: 1800000,
     killOnTabClose: false,
   };
 
@@ -239,13 +240,16 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
       return;
     }
+    if (this.viewOptions?.alwaysOpenView) {
+      this.openView();
+    }
     try {
       await this.currentWallet.connect(this.sessionOptions);
       if (
         this.walletStatus === WalletStatus.Connected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     } catch (error) {
       console.error(error);
@@ -253,7 +257,7 @@ export class WalletManager extends StateBase<WalletData> {
         this.walletStatus === WalletStatus.Rejected &&
         this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     }
   };
@@ -263,7 +267,9 @@ export class WalletManager extends StateBase<WalletData> {
       this.setMessage('Current Wallet not defined.');
       return;
     }
-
+    if (this.viewOptions?.alwaysOpenView) {
+      this.openView();
+    }
     try {
       await this.currentWallet.disconnect();
 
@@ -271,7 +277,7 @@ export class WalletManager extends StateBase<WalletData> {
         this.walletStatus === WalletStatus.Disconnected &&
         this.viewOptions?.closeViewWhenWalletIsDisconnected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     } catch (e) {
       this.setMessage((e as Error).message);
@@ -279,7 +285,7 @@ export class WalletManager extends StateBase<WalletData> {
         this.walletStatus === WalletStatus.Rejected &&
         this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     }
 
@@ -293,6 +299,6 @@ export class WalletManager extends StateBase<WalletData> {
   };
 
   closeView = () => {
-    this.emitViewOpen?.(false);
+    this.closeView();
   };
 }
