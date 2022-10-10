@@ -33,7 +33,7 @@ export class WalletManager extends StateBase<WalletData> {
   wallets: WalletOption[];
   chains: ChainInfo[];
   viewOptions: ViewOptions = {
-    alwaysOpenView: true,
+    alwaysOpenView: false,
     closeViewWhenWalletIsConnected: false,
     closeViewWhenWalletIsDisconnected: true,
     closeViewWhenWalletIsRejected: false,
