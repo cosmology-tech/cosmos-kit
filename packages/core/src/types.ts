@@ -151,3 +151,8 @@ export interface Endpoints {
 }
 
 export type EndpointOptions = Record<ChainName, Endpoints>;
+
+export interface Callbacks {
+  connect?: () => void;
+  disconnect?: () => void;
+}

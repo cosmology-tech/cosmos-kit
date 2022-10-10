@@ -7,6 +7,7 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
 import {
   Actions,
+  Callbacks,
   ChainInfo,
   ChainName,
   EndpointOptions,
@@ -226,6 +227,18 @@ export class WalletManager extends StateBase<WalletData> {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   update = () => {};
 
+  private get callbacks(): Callbacks {
+    return {
+      connect: () => {
+        this.storeCurrent();
+      },
+      disconnect: () => {
+        this.setCurrentWallet(undefined);
+        this.storeCurrent();
+      },
+    };
+  }
+
   connect = async () => {
     if (!this.currentWalletName) {
       this.openView();
@@ -235,9 +248,7 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      await this.currentWallet.connect(this.sessionOptions, () => {
-        this.storeCurrent();
-      });
+      await this.currentWallet.connect(this.sessionOptions, this.callbacks);
       if (
         this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
@@ -264,13 +275,10 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      await this.currentWallet.disconnect(() => {
-        this.setCurrentWallet(undefined);
-        this.storeCurrent();
-      });
+      await this.currentWallet.disconnect(this.callbacks);
 
-      // console.log(12, this.currentWallet.data);
-      // console.log(23, this.data);
+      console.log(12, this.currentWallet.data);
+      console.log(23, this.data);
 
       if (
         this.isWalletConnected &&

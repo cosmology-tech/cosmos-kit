@@ -10,6 +10,7 @@ import {
 } from '@cosmjs/stargate';
 
 import {
+  Callbacks,
   ChainInfo,
   ChainWalletDataBase,
   SessionOptions,
@@ -132,12 +133,12 @@ export abstract class ChainWalletBase<
     return this.data?.offlineSigner;
   }
 
-  disconnect(callback?: () => void) {
+  disconnect(callbacks?: Callbacks) {
     this.reset();
-    callback?.();
+    callbacks?.disconnect?.();
   }
 
-  async connect(sessionOptions?: SessionOptions, callback?: () => void) {
+  async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     if (!(await this.client)) {
       this.setState(State.Error);
       this.setMessage('Client Not Exist!');
@@ -150,7 +151,7 @@ export abstract class ChainWalletBase<
         this.disconnect();
       }, sessionOptions?.duration);
     }
-    callback?.();
+    callbacks?.connect?.();
   }
 
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {

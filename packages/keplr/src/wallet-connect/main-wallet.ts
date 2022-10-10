@@ -1,4 +1,5 @@
 import {
+  Callbacks,
   ChainInfo,
   ChainName,
   SessionOptions,
@@ -88,7 +89,7 @@ export class KeplrMobileWallet extends MainWalletBase<
 
   async connect(
     sessionOptions?: SessionOptions,
-    callback?: () => void
+    callbacks?: Callbacks
   ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
@@ -96,14 +97,14 @@ export class KeplrMobileWallet extends MainWalletBase<
         await this.update();
         if (sessionOptions?.duration) {
           setTimeout(async () => {
-            await this.disconnect();
+            await this.disconnect(callbacks);
             await this.connect(sessionOptions);
           }, sessionOptions?.duration);
         }
-        callback?.();
+        callbacks?.connect?.();
       });
       this.emitter.on('disconnect', async () => {
-        await this.disconnect();
+        await this.disconnect(callbacks);
       });
     } else {
       await this.update();
@@ -114,12 +115,12 @@ export class KeplrMobileWallet extends MainWalletBase<
     this.setState(State.Done);
   }
 
-  async disconnect(callback?: () => void) {
+  async disconnect(callbacks?: Callbacks) {
     if (this.connector.connected) {
       await this.connector.killSession();
     }
     this.reset();
-    callback?.();
+    callbacks?.disconnect?.();
     this.emitter.removeAllListeners();
   }
 }

@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import {
+  Callbacks,
   ChainInfo,
   ChainWalletBase,
   SessionOptions,
@@ -50,7 +51,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
 
   async connect(
     sessionOptions?: SessionOptions,
-    callback?: () => void
+    callbacks?: Callbacks
   ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
@@ -58,13 +59,13 @@ export class ChainKeplrMobile extends ChainWalletBase<
         await this.update();
         if (sessionOptions.duration) {
           setTimeout(() => {
-            this.disconnect();
+            this.disconnect(callbacks);
           }, sessionOptions.duration);
         }
-        callback?.();
+        callbacks?.connect?.();
       });
       this.emitter.on('disconnect', async () => {
-        await this.disconnect();
+        await this.disconnect(callbacks);
       });
     } else {
       await this.update();
@@ -99,11 +100,12 @@ export class ChainKeplrMobile extends ChainWalletBase<
     }
   }
 
-  async disconnect(callback?: () => void) {
+  async disconnect(callbacks?: Callbacks) {
     if (this.connector.connected) {
       await this.connector.killSession();
     }
     this.reset();
-    callback?.();
+    callbacks?.disconnect?.();
+    this.emitter.removeAllListeners();
   }
 }

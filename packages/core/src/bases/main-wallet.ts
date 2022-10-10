@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChainInfo, ChainName, SessionOptions, State, Wallet } from '../types';
+import {
+  Callbacks,
+  ChainInfo,
+  ChainName,
+  SessionOptions,
+  State,
+  Wallet,
+} from '../types';
 import { ChainWalletDataBase, MainWalletDataBase } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { StateBase } from './state';
@@ -67,15 +74,15 @@ export abstract class MainWalletBase<
     return this.chains.get(chainName);
   }
 
-  disconnect(callback?: () => void) {
+  disconnect(callbacks?: Callbacks) {
     this.chains.forEach((chain) => {
       chain.disconnect();
     });
     this.reset();
-    callback?.();
+    callbacks?.disconnect?.();
   }
 
-  async connect(sessionOptions?: SessionOptions, callback?: () => void) {
+  async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     if (!(await this.client)) {
       this.setState(State.Error);
       this.setMessage('Client Not Exist!');
@@ -88,7 +95,7 @@ export abstract class MainWalletBase<
         this.disconnect();
       }, sessionOptions?.duration);
     }
-    callback?.();
+    callbacks?.connect?.();
   }
 
   abstract setChains(supportedChains?: ChainInfo[]): void;
