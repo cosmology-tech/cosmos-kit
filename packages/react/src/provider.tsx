@@ -108,10 +108,25 @@ export const WalletProvider = ({
         }
       };
 
+      const handleKeplrKeyStoreChange = async (event) => {
+        event.preventDefault();
+        if (!walletManager.isInit) {
+          await walletManager.connect();
+        }
+      };
+
       window.addEventListener('beforeunload', handleTabClose);
+      window.addEventListener(
+        'keplr_keystorechange',
+        handleKeplrKeyStoreChange
+      );
 
       return () => {
         window.removeEventListener('beforeunload', handleTabClose);
+        window.removeEventListener(
+          'keplr_keystorechange',
+          handleKeplrKeyStoreChange
+        );
       };
     }
   }, []);
