@@ -24,7 +24,7 @@ export class ChainKeplrExtension extends ChainWalletBase<
       let keplr = await this.client;
 
       if (!keplr) {
-        throw new Error('No Keplr Client found!');
+        throw new Error('Client Not Exist!');
       }
 
       let key: Key;
