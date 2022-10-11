@@ -38,14 +38,14 @@ function WalletApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
-        chains={chains} // supported chains 
-        assetList={assets} // supported asset lists
+        chains={chains} // supported chains
+        assetLists={assets} // supported asset lists
         wallets={wallets} // supported wallets
       >
         <YourWalletRelatedComponents />
       </WalletProvider>
     </ChakraProvider>
-  )
+  );
 }
 ```
 
@@ -61,18 +61,18 @@ function Component ({ chainName }: { chainName?: string }) => {
 
     // Get wallet properties
     const {
-        currentChainName, 
-        currentWalletName, 
-        walletStatus, 
-        username, 
-        address, 
+        currentChainName,
+        currentWalletName,
+        walletStatus,
+        username,
+        address,
         message,
       } = walletManager;
 
     // Get wallet functions
-    const { 
-        connect, 
-        disconnect, 
+    const {
+        connect,
+        disconnect,
         openView,
         setCurrentChain,
     } = walletManager;
@@ -83,6 +83,7 @@ function Component ({ chainName }: { chainName?: string }) => {
     }, [chainName]);
 }
 ```
+
 ## Signing Clients
 
 There two signing clients available via `walletManager` functions: `getStargateClient()` and `getCosmWasmClient()`.
@@ -91,7 +92,7 @@ Using signing client in react component:
 
 ```tsx
 import * as React from 'react';
-import { cosmos } from 'interchain'; 
+import { cosmos } from 'interchain';
 import { StdFee } from '@cosmjs/amino';
 import { useWallet } from "@cosmos-kit/react";
 
@@ -142,34 +143,34 @@ import { wallets } from '@cosmos-kit/config';
 // construct signer options
 const signerOptions: SignerOptions = {
   stargate: (chain: Chain) => {
-     // return corresponding stargate options or undefined
+    // return corresponding stargate options or undefined
     return getSigningCosmosClientOptions();
   },
   cosmwasm: (chain: Chain) => {
-     // return corresponding cosmwasm options or undefined
+    // return corresponding cosmwasm options or undefined
     switch (chain.chain_name) {
       case 'osmosis':
         return {
-          gasPrice: GasPrice.fromString('0.0025uosmo')
+          gasPrice: GasPrice.fromString('0.0025uosmo'),
         };
       case 'juno':
         return {
-          gasPrice: GasPrice.fromString('0.0025ujuno')
+          gasPrice: GasPrice.fromString('0.0025ujuno'),
         };
     }
-  }
-}
+  },
+};
 
 function WalletApp() {
   return (
-      <WalletProvider
-        chains={chains}
-        wallets={wallets}
-        signerOptions={signerOptions} // Provide signerOptions
-      >
+    <WalletProvider
+      chains={chains}
+      wallets={wallets}
+      signerOptions={signerOptions} // Provide signerOptions
+    >
       <YourWalletRelatedComponents />
     </WalletProvider>
-  )
+  );
 }
 ```
 
@@ -219,16 +220,16 @@ import { WalletProvider, useWallet } from '@cosmos-kit/react';
 const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
   const walletManager = useWallet();
 
-  function onCloseModal () {
+  function onCloseModal() {
     setOpen(false);
-  };
+  }
 
   function onWalletClicked(name: string) {
     return async () => {
       console.info('Connecting ' + name);
       walletManager.setCurrentWallet(name);
       await walletManager.connect();
-    }
+    };
   }
 
   return (
@@ -238,26 +239,31 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalCloseButton />
         <ModalBody>
           {walletManager.wallets.map(({ name, prettyName }) => (
-            <Button key={name} colorScheme='blue' variant='ghost' onClick={onWalletClicked(name)}>
+            <Button
+              key={name}
+              colorScheme="blue"
+              variant="ghost"
+              onClick={onWalletClicked(name)}
+            >
               {prettyName}
             </Button>
           ))}
         </ModalBody>
       </ModalContent>
     </Modal>
-  )
-}
+  );
+};
 
 function WalletApp() {
   return (
-    <WalletProvider 
-        chains={chains}
-        wallets={wallets}
-        walletModal={MyModal} // Provide walletModal
+    <WalletProvider
+      chains={chains}
+      wallets={wallets}
+      walletModal={MyModal} // Provide walletModal
     >
       <YourWalletRelatedComponents />
     </WalletProvider>
-  )
+  );
 }
 ```
 
@@ -273,12 +279,13 @@ export type ChainName = string;
 export interface Endpoints {
   rpc?: string[];
   rest?: string[];
-};
+}
 
 export type EndpointOptions = Record<ChainName, Endpoints>;
 ```
 
 e.g.
+
 ```tsx
 <WalletProvider
   ...
@@ -324,7 +331,7 @@ export interface StorageOptions {
 const storageOptions: StorageOptions = {
   disabled: false,
   duration: 108000,
-  clearOnTabClose: false
+  clearOnTabClose: false,
 };
 ```
 
@@ -334,5 +341,5 @@ const storageOptions: StorageOptions = {
 
 Code built with the help of these related projects:
 
-* [create-cosmos-app](https://github.com/cosmology/create-cosmos-app) Set up a modern Cosmos app by running one command ⚛️
-* [chain-registry](https://github.com/cosmology/chain-registry) an npm module for the official Cosmos chain-registry
+- [create-cosmos-app](https://github.com/cosmology/create-cosmos-app) Set up a modern Cosmos app by running one command ⚛️
+- [chain-registry](https://github.com/cosmology/chain-registry) an npm module for the official Cosmos chain-registry
