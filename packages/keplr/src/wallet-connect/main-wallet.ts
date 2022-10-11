@@ -1,7 +1,7 @@
 import {
   Callbacks,
-  ChainInfo,
   ChainName,
+  ChainRecord,
   SessionOptions,
   State,
   Wallet,
@@ -13,7 +13,7 @@ import EventEmitter from 'events';
 
 import { preferredEndpoints } from '../config';
 import { ChainKeplrMobile } from './chain-wallet';
-import { walletInfo } from './registry';
+import { keplrMobileInfo } from './registry';
 import { ChainKeplrMobileData, KeplrMobileData } from './types';
 
 export class KeplrMobileWallet extends MainWalletBase<
@@ -27,7 +27,10 @@ export class KeplrMobileWallet extends MainWalletBase<
   connector: WalletConnect;
   emitter: EventEmitter = new EventEmitter();
 
-  constructor(_walletInfo: Wallet = walletInfo, _chainsInfo?: ChainInfo[]) {
+  constructor(
+    _walletInfo: Wallet = keplrMobileInfo,
+    _chainsInfo?: ChainRecord[]
+  ) {
     super(_walletInfo, _chainsInfo);
 
     this.connector = new WalletConnect({
@@ -68,7 +71,7 @@ export class KeplrMobileWallet extends MainWalletBase<
     this._client = client;
   }
 
-  setChains(supportedChains: ChainInfo[]): void {
+  setChains(supportedChains: ChainRecord[]): void {
     this._chains = new Map(
       supportedChains.map((chainRecord) => {
         chainRecord.preferredEndpoints = {

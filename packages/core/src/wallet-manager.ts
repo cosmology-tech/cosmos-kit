@@ -8,8 +8,8 @@ import { StateBase } from './bases';
 import {
   Actions,
   Callbacks,
-  ChainInfo,
   ChainName,
+  ChainRecord,
   EndpointOptions,
   ManagerActions,
   SessionOptions,
@@ -29,7 +29,7 @@ export class WalletManager extends StateBase<WalletData> {
   protected _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
   wallets: WalletOption[];
-  chains: ChainInfo[];
+  chains: ChainRecord[];
   viewOptions: ViewOptions = {
     alwaysOpenView: false,
     closeViewWhenWalletIsConnected: false,

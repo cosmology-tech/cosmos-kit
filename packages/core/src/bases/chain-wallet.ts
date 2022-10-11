@@ -11,7 +11,7 @@ import {
 
 import {
   Callbacks,
-  ChainInfo,
+  ChainRecord,
   ChainWalletDataBase,
   SessionOptions,
   State,
@@ -27,7 +27,7 @@ export abstract class ChainWalletBase<
     client: Promise<WalletClient | undefined> | WalletClient | undefined;
   }
 > extends StateBase<ChainWalletData> {
-  protected _chainInfo: ChainInfo;
+  protected _chainInfo: ChainRecord;
   protected mainWallet: MainWallet;
   protected _client:
     | Promise<WalletClient | undefined>
@@ -36,7 +36,7 @@ export abstract class ChainWalletBase<
   rpcEndpoints: string[];
   restEndpoints: string[];
 
-  constructor(_chainInfo: ChainInfo, mainWallet: MainWallet) {
+  constructor(_chainInfo: ChainRecord, mainWallet: MainWallet) {
     super();
     this._chainInfo = _chainInfo;
     this.mainWallet = mainWallet;

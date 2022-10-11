@@ -3,7 +3,7 @@ import { FaAndroid } from 'react-icons/fa';
 import { GrFirefox } from 'react-icons/gr';
 import { RiAppStoreFill, RiChromeFill } from 'react-icons/ri';
 
-export const walletInfo: Wallet = {
+export const keplrExtensionInfo: Wallet = {
   name: 'keplr-extension',
   logo: 'https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png',
   prettyName: 'Keplr Extension',

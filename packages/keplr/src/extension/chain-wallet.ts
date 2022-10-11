@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
+import { ChainRecord, ChainWalletBase, State } from '@cosmos-kit/core';
 import { Keplr, Key } from '@keplr-wallet/types';
 
 import { suggestChain } from '../utils';
@@ -10,7 +10,7 @@ export class ChainKeplrExtension extends ChainWalletBase<
   ChainKeplrExtensionData,
   KeplrExtensionWallet
 > {
-  constructor(_chainRecord: ChainInfo, mainWallet: KeplrExtensionWallet) {
+  constructor(_chainRecord: ChainRecord, mainWallet: KeplrExtensionWallet) {
     super(_chainRecord, mainWallet);
   }
 

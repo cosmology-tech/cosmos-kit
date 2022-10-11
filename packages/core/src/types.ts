@@ -90,7 +90,7 @@ export interface Wallet {
   qrCodeLink?: string;
 }
 
-export interface ChainInfo {
+export interface ChainRecord {
   name: ChainName;
   chain: Chain;
   assetList: AssetList;

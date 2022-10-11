@@ -1,12 +1,12 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { ChainInfo } from '@cosmos-kit/core';
+import { ChainRecord } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
 import { preferredEndpoints } from './config';
 
 export async function suggestChain<T extends Keplr>(
   keplr: T,
-  chainInfo: ChainInfo
+  chainInfo: ChainRecord
 ) {
   const suggestChain = chainRegistryChainToKeplr(chainInfo.chain, [
     chainInfo.assetList,

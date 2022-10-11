@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import {
   Callbacks,
-  ChainInfo,
+  ChainRecord,
   ChainWalletBase,
   SessionOptions,
   State,
@@ -21,7 +21,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
 > {
   protected _client: KeplrWalletConnectV1;
 
-  constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet) {
+  constructor(_chainRecord: ChainRecord, keplrWallet: KeplrMobileWallet) {
     super(_chainRecord, keplrWallet);
   }
 

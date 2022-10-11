@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Callbacks,
-  ChainInfo,
   ChainName,
+  ChainRecord,
   SessionOptions,
   State,
   Wallet,
@@ -23,10 +23,10 @@ export abstract class MainWalletBase<
     | WalletClient
     | undefined;
 
-  protected _chainsInfo: ChainInfo[] = [];
+  protected _chainsInfo: ChainRecord[] = [];
   protected _walletInfo: Wallet;
 
-  constructor(_walletInfo: Wallet, _chainsInfo?: ChainInfo[]) {
+  constructor(_walletInfo: Wallet, _chainsInfo?: ChainRecord[]) {
     super();
     this._walletInfo = _walletInfo;
     this._chainsInfo = _chainsInfo;
@@ -98,5 +98,5 @@ export abstract class MainWalletBase<
     callbacks?.connect?.();
   }
 
-  abstract setChains(supportedChains?: ChainInfo[]): void;
+  abstract setChains(supportedChains?: ChainRecord[]): void;
 }
