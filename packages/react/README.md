@@ -39,7 +39,7 @@ function WalletApp() {
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
         chains={chains} // supported chains 
-        assetList={assets} // supported asset lists
+        assetLists={assets} // supported asset lists
         wallets={wallets} // supported wallets
       >
         <YourWalletRelatedComponents />
