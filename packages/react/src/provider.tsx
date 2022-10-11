@@ -94,7 +94,9 @@ export const WalletProvider = ({
         walletManager.setCurrentWallet(currentWalletName);
         walletManager.setCurrentChain(currentChainName);
         if (currentWalletName) {
-          walletManager.connect();
+          window.addEventListener('load', () => {
+            walletManager.connect();
+          });
         }
       }
 

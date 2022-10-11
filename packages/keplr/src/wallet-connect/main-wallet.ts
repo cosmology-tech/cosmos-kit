@@ -1,6 +1,5 @@
 import {
   Callbacks,
-  ChainName,
   ChainRecord,
   SessionOptions,
   State,
@@ -14,16 +13,14 @@ import EventEmitter from 'events';
 import { preferredEndpoints } from '../config';
 import { ChainKeplrMobile } from './chain-wallet';
 import { keplrMobileInfo } from './registry';
-import { ChainKeplrMobileData, KeplrMobileData } from './types';
+import { KeplrMobileData } from './types';
 
 export class KeplrMobileWallet extends MainWalletBase<
   KeplrWalletConnectV1,
   KeplrMobileData,
-  ChainKeplrMobileData,
   ChainKeplrMobile
 > {
-  protected _chains!: Map<ChainName, ChainKeplrMobile>;
-  protected _client: KeplrWalletConnectV1;
+  private _client: KeplrWalletConnectV1;
   connector: WalletConnect;
   emitter: EventEmitter = new EventEmitter();
 
@@ -55,16 +52,16 @@ export class KeplrMobileWallet extends MainWalletBase<
     this._client = new KeplrWalletConnectV1(this.connector);
   }
 
+  get client() {
+    return this._client;
+  }
+
   get isInSession() {
     return this.connector.connected;
   }
 
   get qrUri() {
     return this.connector.uri;
-  }
-
-  get client() {
-    return this._client;
   }
 
   setClient(client: KeplrWalletConnectV1) {

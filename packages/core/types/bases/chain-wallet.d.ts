@@ -1,19 +1,18 @@
 import { SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, SigningStargateClientOptions } from '@cosmjs/stargate';
-import { Callbacks, ChainRecord, ChainWalletDataBase, SessionOptions, Wallet } from '../types';
-import { StateBase } from './state';
-export declare abstract class ChainWalletBase<WalletClient, ChainWalletData extends ChainWalletDataBase, MainWallet extends {
+import { ChainRecord, ChainWalletDataBase, Wallet } from '../types';
+import { WalletBase } from './wallet';
+export declare abstract class ChainWalletBase<Client, Data extends ChainWalletDataBase, MainWallet extends {
     walletInfo: Wallet;
-    client: Promise<WalletClient | undefined> | WalletClient | undefined;
-}> extends StateBase<ChainWalletData> {
+    client: Client | undefined;
+}> extends WalletBase<Client, Data> {
     protected _chainInfo: ChainRecord;
-    protected mainWallet: MainWallet;
-    protected _client: Promise<WalletClient | undefined> | WalletClient | undefined;
+    protected _mainWallet: MainWallet;
     rpcEndpoints: string[];
     restEndpoints: string[];
-    constructor(_chainInfo: ChainRecord, mainWallet: MainWallet);
-    get client(): WalletClient | Promise<WalletClient>;
+    constructor(chainInfo: ChainRecord, mainWallet: MainWallet);
+    get client(): Client;
     get walletInfo(): Wallet;
     get chainInfo(): ChainRecord;
     get chainName(): string;
@@ -28,8 +27,6 @@ export declare abstract class ChainWalletBase<WalletClient, ChainWalletData exte
     getRestEndpoint: () => Promise<string | undefined>;
     get address(): string | undefined;
     get offlineSigner(): OfflineSigner | undefined;
-    disconnect(callbacks?: Callbacks): void;
-    connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
     getStargateClient: () => Promise<SigningStargateClient | undefined>;
     getCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
 }

@@ -1,9 +1,9 @@
 import { Mutable, State, StateActions, WalletStatus } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
-export abstract class StateBase<T> {
-  protected _mutable: Mutable<T>;
-  actions?: StateActions<T>;
+export abstract class StateBase<Data> {
+  protected _mutable: Mutable<Data>;
+  actions?: StateActions<Data>;
 
   constructor() {
     this._mutable = { state: State.Init };
@@ -58,7 +58,7 @@ export abstract class StateBase<T> {
     this.emitState?.(state);
   }
 
-  setData(data: T | undefined) {
+  setData(data: Data | undefined) {
     this._mutable.data = data;
     this.emitData?.(data);
   }

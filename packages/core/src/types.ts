@@ -31,12 +31,7 @@ export interface ChainWallet
   [k: string]: any | undefined;
 }
 export interface WalletOption
-  extends MainWalletBase<
-    unknown,
-    MainWalletData,
-    ChainWalletData,
-    ChainWallet
-  > {
+  extends MainWalletBase<unknown, MainWalletData, ChainWallet> {
   [k: string]: any | undefined;
 }
 

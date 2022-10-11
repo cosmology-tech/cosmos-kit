@@ -1,5 +1,10 @@
 /* eslint-disable no-console */
-import { ChainRecord, ChainWalletBase, State } from '@cosmos-kit/core';
+import {
+  ChainRecord,
+  ChainWalletBase,
+  ClientNoExistError,
+  State,
+} from '@cosmos-kit/core';
 import { Keplr, Key } from '@keplr-wallet/types';
 
 import { suggestChain } from '../utils';
@@ -10,8 +15,14 @@ export class ChainKeplrExtension extends ChainWalletBase<
   ChainKeplrExtensionData,
   KeplrExtensionWallet
 > {
+  private _client?: Keplr;
+
   constructor(_chainRecord: ChainRecord, mainWallet: KeplrExtensionWallet) {
     super(_chainRecord, mainWallet);
+  }
+
+  get client() {
+    return this._client || this._mainWallet.client;
   }
 
   get username(): string | undefined {
@@ -24,7 +35,7 @@ export class ChainKeplrExtension extends ChainWalletBase<
       let keplr = await this.client;
 
       if (!keplr) {
-        throw new Error('Client Not Exist!');
+        throw ClientNoExistError;
       }
 
       let key: Key;

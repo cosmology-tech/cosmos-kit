@@ -1,34 +1,30 @@
-import { ChainName, ChainRecord, State, Wallet } from '@cosmos-kit/core';
+import { ChainRecord, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
-import { Keplr } from '@keplr-wallet/types';
+import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 import { preferredEndpoints } from '../config';
 import { ChainKeplrExtension } from './chain-wallet';
 import { keplrExtensionInfo } from './registry';
-import { ChainKeplrExtensionData, KeplrExtensionData } from './types';
-import { getKeplrFromExtension } from './utils';
+import { KeplrExtensionData } from './types';
 
 export class KeplrExtensionWallet extends MainWalletBase<
   Keplr,
   KeplrExtensionData,
-  ChainKeplrExtensionData,
   ChainKeplrExtension
 > {
-  protected _chains!: Map<ChainName, ChainKeplrExtension>;
-  protected _client: Promise<Keplr | undefined> | undefined;
-
   constructor(
     _walletInfo: Wallet = keplrExtensionInfo,
     _chainsInfo?: ChainRecord[]
   ) {
     super(_walletInfo, _chainsInfo);
-    this._client = (async () => {
-      try {
-        return await getKeplrFromExtension();
-      } catch (e) {
-        return undefined;
-      }
-    })();
+  }
+
+  get client(): Keplr | undefined {
+    if (typeof window === 'undefined') {
+      return undefined;
+    } else {
+      return (window as KeplrWindow).keplr;
+    }
   }
 
   setChains(chainsInfo: ChainRecord[]): void {

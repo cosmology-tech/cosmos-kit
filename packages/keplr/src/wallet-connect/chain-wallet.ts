@@ -6,11 +6,9 @@ import {
   SessionOptions,
   State,
 } from '@cosmos-kit/core';
-import { Key } from '@keplr-wallet/types';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 
-import { suggestChain } from '../utils';
 import { KeplrMobileWallet } from './main-wallet';
 import { ChainKeplrMobileData } from './types';
 
@@ -26,7 +24,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
   }
 
   get client() {
-    return this._client || this.mainWallet.client;
+    return this._client || (this._mainWallet.client as KeplrWalletConnectV1);
   }
 
   get connector(): WalletConnect {
@@ -46,7 +44,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
   }
 
   private get emitter() {
-    return this.mainWallet.emitter;
+    return this._mainWallet.emitter;
   }
 
   async connect(
@@ -75,13 +73,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
   async update() {
     this.setState(State.Pending);
     try {
-      let key: Key;
-      try {
-        key = await this.client.getKey(this.chainId);
-      } catch (error) {
-        this._client = await suggestChain(this.client, this.chainInfo);
-        key = await this.client.getKey(this.chainId);
-      }
+      const key = await this.client.getKey(this.chainId);
 
       this.setData({
         address: key.bech32Address,
