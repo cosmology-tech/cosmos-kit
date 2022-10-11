@@ -5,8 +5,14 @@ import { defaultTheme } from '../config';
 
 import { chains, assets } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
-import { wallets } from '@cosmos-kit/keplr';
+// import { wallets } from '@cosmos-kit/keplr';
+import { KeplrExtensionWallet, KeplrMobileWallet } from '@cosmos-kit/keplr';
+import { keplrExtensionInfo, keplrMobileInfo } from '@cosmos-kit/keplr';
 
+const keplrExtension = new KeplrExtensionWallet(keplrExtensionInfo);
+const KeplrMobile = new KeplrMobileWallet(keplrMobileInfo);
+
+export const wallets = [keplrExtension, KeplrMobile];
 
 function MyApp({ Component, pageProps }: AppProps) {
 
