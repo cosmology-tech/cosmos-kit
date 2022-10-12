@@ -87,6 +87,28 @@ export const WalletProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
+    const handleLoaded = (event: Event) => {
+      event.preventDefault();
+      walletManager.connect();
+    };
+
+    const handleTabClose = (event: Event) => {
+      event.preventDefault();
+      if (walletManager.storageOptions.clearOnTabClose) {
+        window.localStorage.removeItem('walletManager');
+      }
+      if (walletManager.sessionOptions.killOnTabClose) {
+        walletManager.disconnect();
+      }
+    };
+
+    const handleKeplrKeyStoreChange = async (event: Event) => {
+      event.preventDefault();
+      if (!walletManager.isInit) {
+        await walletManager.connect();
+      }
+    };
+
     if (walletManager.useStorage) {
       const storeStr = window.localStorage.getItem('walletManager');
       if (storeStr) {
@@ -94,28 +116,13 @@ export const WalletProvider = ({
         walletManager.setCurrentWallet(currentWalletName);
         walletManager.setCurrentChain(currentChainName);
         if (currentWalletName) {
-          window.addEventListener('load', () => {
-            walletManager.connect();
-          });
+          const env = process.env.NODE_ENV;
+          walletManager.connect();
+          if (env == 'production') {
+            window.addEventListener('load', handleLoaded);
+          }
         }
       }
-
-      const handleTabClose = (event) => {
-        event.preventDefault();
-        if (walletManager.storageOptions.clearOnTabClose) {
-          window.localStorage.removeItem('walletManager');
-        }
-        if (walletManager.sessionOptions.killOnTabClose) {
-          walletManager.disconnect();
-        }
-      };
-
-      const handleKeplrKeyStoreChange = async (event) => {
-        event.preventDefault();
-        if (!walletManager.isInit) {
-          await walletManager.connect();
-        }
-      };
 
       window.addEventListener('beforeunload', handleTabClose);
       window.addEventListener(
@@ -129,6 +136,7 @@ export const WalletProvider = ({
           'keplr_keystorechange',
           handleKeplrKeyStoreChange
         );
+        window.removeEventListener('load', handleLoaded);
       };
     }
   }, []);
