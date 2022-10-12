@@ -1,4 +1,9 @@
-import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
+import {
+  ChainRecord,
+  ChainWalletBase,
+  ClientNoExistError,
+  State,
+} from '@cosmos-kit/core';
 
 import { LeapExtensionWallet } from './main-wallet';
 import { ChainLeapExtensionData, Leap } from './types';
@@ -7,12 +12,14 @@ export class ChainLeapExtension extends ChainWalletBase<
   ChainLeapExtensionData,
   LeapExtensionWallet
 > {
-  constructor(_chainRecord: ChainInfo, mainWallet: LeapExtensionWallet) {
-    super(_chainRecord, mainWallet);
+  private _client?: Leap;
+
+  constructor(chainRecord: ChainRecord, mainWallet: LeapExtensionWallet) {
+    super(chainRecord, mainWallet);
   }
 
   get client() {
-    return this.mainWallet.client;
+    return this._client || this._mainWallet.client;
   }
 
   get username(): string | undefined {
@@ -24,14 +31,8 @@ export class ChainLeapExtension extends ChainWalletBase<
     try {
       const leap = await this.client;
       if (!leap) {
-        throw new Error('No Leap Client found!');
+        throw ClientNoExistError;
       }
-
-      // const suggestChain = chainRegistryChainToKeplr(this.chain, [
-      //   this.assetList,
-      // ]);
-
-      // await leap.experimentalSuggestChain(suggestChain);
 
       const key = await leap.getKey(this.chainId);
 

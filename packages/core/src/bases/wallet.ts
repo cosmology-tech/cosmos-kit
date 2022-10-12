@@ -33,5 +33,5 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   }
 
   abstract get walletInfo(): Wallet;
-  abstract get client(): Client | undefined;
+  abstract get client(): Client | undefined | Promise<Client | undefined>;
 }

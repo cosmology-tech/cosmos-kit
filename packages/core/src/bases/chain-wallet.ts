@@ -17,7 +17,7 @@ export abstract class ChainWalletBase<
   Data extends ChainWalletDataBase,
   MainWallet extends {
     walletInfo: Wallet;
-    client: Client | undefined;
+    client: Client | undefined | Promise<Client | undefined>;
   }
 > extends WalletBase<Client, Data> {
   protected _chainInfo: ChainRecord;

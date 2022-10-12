@@ -17,8 +17,8 @@ export class ChainKeplrExtension extends ChainWalletBase<
 > {
   private _client?: Keplr;
 
-  constructor(_chainRecord: ChainRecord, mainWallet: KeplrExtensionWallet) {
-    super(_chainRecord, mainWallet);
+  constructor(chainRecord: ChainRecord, mainWallet: KeplrExtensionWallet) {
+    super(chainRecord, mainWallet);
   }
 
   get client() {

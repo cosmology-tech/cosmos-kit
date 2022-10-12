@@ -1,34 +1,22 @@
-import { OfflineSigner } from '@cosmjs/launchpad';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { ClientNoExistError } from '@cosmos-kit/core';
+import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
-import { Leap } from './types';
-
-interface LeapWindow {
-  leap?: Leap;
-  getOfflineSigner?: (chainId: string) => OfflineSigner & OfflineDirectSigner;
-  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
-  getOfflineSignerAuto?: (
-    chainId: string
-  ) => Promise<OfflineSigner | OfflineDirectSigner>;
-}
-
-export const getLeapFromExtension: () => Promise<
-  Leap | undefined
+export const getKeplrFromExtension: () => Promise<
+  Keplr | undefined
 > = async () => {
   if (typeof window === 'undefined') {
     return undefined;
   }
 
-  const leap = (window as LeapWindow).leap;
+  const keplr = (window as KeplrWindow).keplr;
 
-  if (leap) {
-    return leap;
+  if (keplr) {
+    return keplr;
   }
 
   if (document.readyState === 'complete') {
-    if (leap) {
-      return leap;
+    if (keplr) {
+      return keplr;
     } else {
       throw ClientNoExistError;
     }
@@ -40,8 +28,8 @@ export const getLeapFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        if (leap) {
-          resolve(leap);
+        if (keplr) {
+          resolve(keplr);
         } else {
           reject(ClientNoExistError.message);
         }
