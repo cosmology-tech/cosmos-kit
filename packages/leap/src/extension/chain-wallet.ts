@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   ChainRecord,
   ChainWalletBase,
@@ -7,6 +8,7 @@ import {
 
 import { LeapExtensionWallet } from './main-wallet';
 import { ChainLeapExtensionData, Leap } from './types';
+import { getLeapFromExtension } from './utils';
 export class ChainLeapExtension extends ChainWalletBase<
   Leap,
   ChainLeapExtensionData,
@@ -29,18 +31,21 @@ export class ChainLeapExtension extends ChainWalletBase<
   async update() {
     this.setState(State.Pending);
     try {
-      const leap = await this.client;
-      if (!leap) {
-        throw ClientNoExistError;
+      if (!this.client) {
+        try {
+          this._client = await getLeapFromExtension();
+        } catch (error) {
+          throw ClientNoExistError;
+        }
       }
 
-      const key = await leap.getKey(this.chainId);
+      const key = await this.client.getKey(this.chainId);
 
       this.setData({
         address: key.bech32Address,
         username: key.name,
         offlineSigner: this.chainId
-          ? leap.getOfflineSigner(this.chainId)
+          ? this.client.getOfflineSigner(this.chainId)
           : undefined,
       });
       this.setState(State.Done);

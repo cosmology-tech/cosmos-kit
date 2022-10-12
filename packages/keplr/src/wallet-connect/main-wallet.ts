@@ -12,7 +12,7 @@ import EventEmitter from 'events';
 
 import { preferredEndpoints } from '../config';
 import { ChainKeplrMobile } from './chain-wallet';
-import { keplrMobileInfo } from './registry';
+import { walletRegistry } from './registry';
 import { KeplrMobileData } from './types';
 
 export class KeplrMobileWallet extends MainWalletBase<
@@ -25,10 +25,10 @@ export class KeplrMobileWallet extends MainWalletBase<
   emitter: EventEmitter = new EventEmitter();
 
   constructor(
-    _walletInfo: Wallet = keplrMobileInfo,
-    _chainsInfo?: ChainRecord[]
+    walletInfo: Wallet = walletRegistry,
+    chainRecords?: ChainRecord[]
   ) {
-    super(_walletInfo, _chainsInfo);
+    super(walletInfo, chainRecords);
 
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org',

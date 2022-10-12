@@ -1,8 +1,13 @@
-import { ChainRecord, State, Wallet } from '@cosmos-kit/core';
+import {
+  ChainRecord,
+  ClientNoExistError,
+  State,
+  Wallet,
+} from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainLeapExtension } from './chain-wallet';
-import { walletInfo } from './registry';
+import { walletRegistry } from './registry';
 import { Leap, LeapExtensionData } from './types';
 import { getLeapFromExtension } from './utils';
 
@@ -11,17 +16,13 @@ export class LeapExtensionWallet extends MainWalletBase<
   LeapExtensionData,
   ChainLeapExtension
 > {
-  private _client: Promise<Leap | undefined>;
+  private _client?: Leap;
 
-  constructor(_walletInfo: Wallet = walletInfo, _chainsInfo?: ChainRecord[]) {
-    super(_walletInfo, _chainsInfo);
-    this._client = (async () => {
-      try {
-        return await getLeapFromExtension();
-      } catch (e) {
-        return undefined;
-      }
-    })();
+  constructor(
+    walletInfo: Wallet = walletRegistry,
+    chainRecords?: ChainRecord[]
+  ) {
+    super(walletInfo, chainRecords);
   }
 
   get client() {
@@ -42,6 +43,13 @@ export class LeapExtensionWallet extends MainWalletBase<
   }
 
   async update() {
-    this.setState(State.Done);
+    try {
+      if (!this.client) {
+        this._client = await getLeapFromExtension();
+      }
+      this.setState(State.Done);
+    } catch (error) {
+      throw ClientNoExistError;
+    }
   }
 }

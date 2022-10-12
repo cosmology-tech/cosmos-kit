@@ -10,6 +10,7 @@ import { Keplr, Key } from '@keplr-wallet/types';
 import { suggestChain } from '../utils';
 import { KeplrExtensionWallet } from './main-wallet';
 import { ChainKeplrExtensionData } from './types';
+import { getKeplrFromExtension } from './utils';
 export class ChainKeplrExtension extends ChainWalletBase<
   Keplr,
   ChainKeplrExtensionData,
@@ -32,26 +33,27 @@ export class ChainKeplrExtension extends ChainWalletBase<
   async update() {
     this.setState(State.Pending);
     try {
-      let keplr = await this.client;
-
-      if (!keplr) {
-        throw ClientNoExistError;
+      if (!this.client) {
+        try {
+          this._client = await getKeplrFromExtension();
+        } catch (error) {
+          throw ClientNoExistError;
+        }
       }
 
       let key: Key;
       try {
-        key = await keplr.getKey(this.chainId);
+        key = await this.client.getKey(this.chainId);
       } catch (error) {
-        keplr = await suggestChain(keplr, this.chainInfo);
-        this._client = keplr;
-        key = await keplr.getKey(this.chainId);
+        this._client = await suggestChain(this.client, this.chainInfo);
+        key = await this.client.getKey(this.chainId);
       }
 
       this.setData({
         address: key.bech32Address,
         username: key.name,
         offlineSigner: this.chainId
-          ? keplr.getOfflineSigner(this.chainId)
+          ? this.client.getOfflineSigner(this.chainId)
           : undefined,
       });
       this.setState(State.Done);
