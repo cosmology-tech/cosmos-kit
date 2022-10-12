@@ -30,7 +30,7 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 
 #### [@cosmos-kit/react](packages/react)
 
-A wallet adapter for react with mobile WalletConnect support for the Cosmos ecosystem.
+A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem.
 
 #### [@cosmos-kit/keplr](packages/keplr)
 
