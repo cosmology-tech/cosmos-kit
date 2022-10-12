@@ -1,10 +1,6 @@
 {
   "name": "example",
-<<<<<<< HEAD
-  "version": "0.19.2",
-=======
   "version": "0.20.0",
->>>>>>> ffdd76e7c2bba4245ef8b39aee65e62bde59d663
   "private": true,
   "scripts": {
     "dev": "next dev",
