@@ -1,7 +1,7 @@
 import { Mutable, State, StateActions, WalletStatus } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
-export abstract class StateBase<Data> {
+export class StateBase<Data> {
   protected _mutable: Mutable<Data>;
   actions?: StateActions<Data>;
 
@@ -97,6 +97,4 @@ export abstract class StateBase<Data> {
   get isWalletError() {
     return this.walletStatus === WalletStatus.Error;
   }
-
-  abstract update(): void | Promise<void>;
 }

@@ -16,28 +16,19 @@ export class LeapExtensionWallet extends MainWalletBase<
   LeapExtensionData,
   ChainLeapExtension
 > {
-  private _client?: Leap;
-
-  constructor(
-    walletInfo: Wallet = walletRegistry,
-    chainRecords?: ChainRecord[]
-  ) {
-    super(walletInfo, chainRecords);
+  constructor(walletInfo: Wallet = walletRegistry, chains?: ChainRecord[]) {
+    super(walletInfo, chains);
   }
 
-  get client() {
-    return this._client;
-  }
-
-  setChains(chainsInfo: ChainRecord[]): void {
-    this._chains = new Map(
-      chainsInfo.map((chain) => {
+  setChains(chains: ChainRecord[]): void {
+    this._chainWallets = new Map(
+      chains.map((chain) => {
         chain.preferredEndpoints = {
           rpc: [...(chain.preferredEndpoints?.rpc || [])],
           rest: [...(chain.preferredEndpoints?.rest || [])],
         };
 
-        return [chain.name, new ChainLeapExtension(chain, this)];
+        return [chain.name, new ChainLeapExtension(this.walletInfo, chain)];
       })
     );
   }
@@ -47,8 +38,10 @@ export class LeapExtensionWallet extends MainWalletBase<
       if (!this.client) {
         this._client = await getLeapFromExtension();
       }
+      console.log(123, this.client);
       this.setState(State.Done);
     } catch (error) {
+      console.log('%cmain-wallet.ts line:52 error', 'color: #007acc;', error);
       throw ClientNoExistError;
     }
   }

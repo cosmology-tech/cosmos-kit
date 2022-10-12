@@ -218,14 +218,11 @@ export class WalletManager extends StateBase<WalletData> {
       throw new Error(`${walletName} is not provided!`);
     }
     if (chainName) {
-      wallet = wallet.getChain(chainName);
+      wallet = wallet.getChainWallet(chainName);
     }
     wallet.actions = this.actions;
     return wallet;
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  update = () => {};
 
   private get callbacks(): Callbacks {
     return {

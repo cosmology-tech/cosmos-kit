@@ -10,14 +10,14 @@ export abstract class MainWalletBase<
     disconnect: () => void;
   }
 > extends WalletBase<Client, Data> {
-  protected _chains: Map<ChainName, ChainWallet>;
+  protected _chainWallets: Map<ChainName, ChainWallet>;
   protected _walletInfo: Wallet;
 
-  constructor(walletInfo: Wallet, chainRecords: ChainRecord[] = []) {
+  constructor(walletInfo: Wallet, chains: ChainRecord[] = []) {
     super();
     this._walletInfo = walletInfo;
-    if (chainRecords) {
-      this.setChains(chainRecords);
+    if (chains) {
+      this.setChains(chains);
     }
   }
 
@@ -29,25 +29,25 @@ export abstract class MainWalletBase<
     return this.data?.username;
   }
 
-  get chains() {
-    return this._chains;
+  get chainWallets() {
+    return this._chainWallets;
   }
 
-  getChain(chainName: string): ChainWallet {
-    if (!this.chains.has(chainName)) {
+  getChainWallet(chainName: string): ChainWallet {
+    if (!this.chainWallets.has(chainName)) {
       throw new Error(`Unknown chain name: ${chainName}`);
     } else {
-      return this.chains.get(chainName);
+      return this.chainWallets.get(chainName);
     }
   }
 
   disconnect(callbacks?: Callbacks) {
-    this.chains.forEach((chain) => {
+    this.chainWallets.forEach((chain) => {
       chain.disconnect();
     });
     this.reset();
     callbacks?.disconnect?.();
   }
 
-  abstract setChains(supportedChains?: ChainRecord[]): void;
+  abstract setChains(chains?: ChainRecord[]): void;
 }

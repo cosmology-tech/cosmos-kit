@@ -3,12 +3,18 @@ import { ClientNoExistError } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase<Client, Data> extends StateBase<Data> {
+  protected _client?: Client;
+
   constructor() {
     super();
   }
 
   get walletName() {
     return this.walletInfo.name;
+  }
+
+  get client() {
+    return this._client;
   }
 
   disconnect(callbacks?: Callbacks) {
@@ -33,5 +39,5 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   }
 
   abstract get walletInfo(): Wallet;
-  abstract get client(): Client | undefined;
+  abstract update(): void | Promise<void>;
 }

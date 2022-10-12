@@ -4,26 +4,19 @@ import {
   ChainWalletBase,
   ClientNoExistError,
   State,
+  Wallet,
 } from '@cosmos-kit/core';
 import { Keplr, Key } from '@keplr-wallet/types';
 
 import { suggestChain } from '../utils';
-import { KeplrExtensionWallet } from './main-wallet';
 import { ChainKeplrExtensionData } from './types';
 import { getKeplrFromExtension } from './utils';
 export class ChainKeplrExtension extends ChainWalletBase<
   Keplr,
-  ChainKeplrExtensionData,
-  KeplrExtensionWallet
+  ChainKeplrExtensionData
 > {
-  private _client?: Keplr;
-
-  constructor(chainRecord: ChainRecord, mainWallet: KeplrExtensionWallet) {
-    super(chainRecord, mainWallet);
-  }
-
-  get client() {
-    return this._client || this._mainWallet.client;
+  constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
+    super(walletInfo, chainInfo);
   }
 
   get username(): string | undefined {

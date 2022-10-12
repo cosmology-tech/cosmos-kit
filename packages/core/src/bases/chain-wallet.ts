@@ -14,21 +14,17 @@ import { WalletBase } from './wallet';
 
 export abstract class ChainWalletBase<
   Client,
-  Data extends ChainWalletDataBase,
-  MainWallet extends {
-    walletInfo: Wallet;
-    client: Client | undefined | Promise<Client | undefined>;
-  }
+  Data extends ChainWalletDataBase
 > extends WalletBase<Client, Data> {
+  protected _walletInfo: Wallet;
   protected _chainInfo: ChainRecord;
-  protected _mainWallet: MainWallet;
   rpcEndpoints: string[];
   restEndpoints: string[];
 
-  constructor(chainInfo: ChainRecord, mainWallet: MainWallet) {
+  constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
     super();
     this._chainInfo = chainInfo;
-    this._mainWallet = mainWallet;
+    this._walletInfo = walletInfo;
     this.rpcEndpoints = [
       ...(chainInfo.preferredEndpoints?.rpc || []),
       `https://rpc.cosmos.directory/${this.chainName}`,
@@ -41,12 +37,8 @@ export abstract class ChainWalletBase<
     ];
   }
 
-  get client() {
-    return this._mainWallet.client;
-  }
-
   get walletInfo() {
-    return this._mainWallet.walletInfo;
+    return this._walletInfo;
   }
 
   get chainInfo() {

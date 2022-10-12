@@ -20,15 +20,11 @@ export class KeplrMobileWallet extends MainWalletBase<
   KeplrMobileData,
   ChainKeplrMobile
 > {
-  private _client: KeplrWalletConnectV1;
   connector: WalletConnect;
   emitter: EventEmitter = new EventEmitter();
 
-  constructor(
-    walletInfo: Wallet = walletRegistry,
-    chainRecords?: ChainRecord[]
-  ) {
-    super(walletInfo, chainRecords);
+  constructor(walletInfo: Wallet = walletRegistry, chains?: ChainRecord[]) {
+    super(walletInfo, chains);
 
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org',
@@ -38,7 +34,7 @@ export class KeplrMobileWallet extends MainWalletBase<
       if (error) {
         throw error;
       }
-      this.setClient(new KeplrWalletConnectV1(this.connector));
+      this._client = new KeplrWalletConnectV1(this.connector);
       this.emitter.emit('update');
     });
 
@@ -52,10 +48,6 @@ export class KeplrMobileWallet extends MainWalletBase<
     this._client = new KeplrWalletConnectV1(this.connector);
   }
 
-  get client() {
-    return this._client;
-  }
-
   get isInSession() {
     return this.connector.connected;
   }
@@ -64,25 +56,29 @@ export class KeplrMobileWallet extends MainWalletBase<
     return this.connector.uri;
   }
 
-  setClient(client: KeplrWalletConnectV1) {
-    this._client = client;
-  }
-
-  setChains(supportedChains: ChainRecord[]): void {
-    this._chains = new Map(
-      supportedChains.map((chainRecord) => {
-        chainRecord.preferredEndpoints = {
+  setChains(chains: ChainRecord[]): void {
+    this._chainWallets = new Map(
+      chains.map((chain) => {
+        chain.preferredEndpoints = {
           rpc: [
-            ...(chainRecord.preferredEndpoints?.rpc || []),
-            ...(preferredEndpoints[chainRecord.name]?.rpc || []),
+            ...(chain.preferredEndpoints?.rpc || []),
+            ...(preferredEndpoints[chain.name]?.rpc || []),
           ],
           rest: [
-            ...(chainRecord.preferredEndpoints?.rest || []),
-            ...(preferredEndpoints[chainRecord.name]?.rest || []),
+            ...(chain.preferredEndpoints?.rest || []),
+            ...(preferredEndpoints[chain.name]?.rest || []),
           ],
         };
 
-        return [chainRecord.name, new ChainKeplrMobile(chainRecord, this)];
+        return [
+          chain.name,
+          new ChainKeplrMobile(
+            this.walletInfo,
+            chain,
+            this.client,
+            this.emitter
+          ),
+        ];
       })
     );
   }

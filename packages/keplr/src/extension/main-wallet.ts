@@ -18,22 +18,13 @@ export class KeplrExtensionWallet extends MainWalletBase<
   KeplrExtensionData,
   ChainKeplrExtension
 > {
-  private _client?: Keplr;
-
-  constructor(
-    walletInfo: Wallet = walletRegistry,
-    chainRecords?: ChainRecord[]
-  ) {
-    super(walletInfo, chainRecords);
+  constructor(walletInfo: Wallet = walletRegistry, chains?: ChainRecord[]) {
+    super(walletInfo, chains);
   }
 
-  get client() {
-    return this._client;
-  }
-
-  setChains(chainsInfo: ChainRecord[]): void {
-    this._chains = new Map(
-      chainsInfo.map((chain) => {
+  setChains(chains: ChainRecord[]): void {
+    this._chainWallets = new Map(
+      chains.map((chain) => {
         chain.preferredEndpoints = {
           rpc: [
             ...(chain.preferredEndpoints?.rpc || []),
@@ -45,7 +36,7 @@ export class KeplrExtensionWallet extends MainWalletBase<
           ],
         };
 
-        return [chain.name, new ChainKeplrExtension(chain, this)];
+        return [chain.name, new ChainKeplrExtension(this.walletInfo, chain)];
       })
     );
   }
