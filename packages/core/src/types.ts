@@ -26,8 +26,7 @@ export interface MainWalletData extends MainWalletDataBase {
 
 export type WalletData = ChainWalletData | MainWalletData;
 
-export interface ChainWallet
-  extends ChainWalletBase<unknown, ChainWalletData, any> {
+export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData> {
   [k: string]: any | undefined;
 }
 export interface WalletOption

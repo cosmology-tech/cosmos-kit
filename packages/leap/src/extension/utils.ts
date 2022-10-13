@@ -1,6 +1,6 @@
 import { OfflineSigner } from '@cosmjs/launchpad';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { ClientNoExistError } from '@cosmos-kit/core';
+import { ClientNotExistError } from '@cosmos-kit/core';
 
 import { Leap } from './types';
 
@@ -30,7 +30,7 @@ export const getLeapFromExtension: () => Promise<
     if (leap) {
       return leap;
     } else {
-      throw ClientNoExistError;
+      throw ClientNotExistError;
     }
   }
 
@@ -43,7 +43,7 @@ export const getLeapFromExtension: () => Promise<
         if (leap) {
           resolve(leap);
         } else {
-          reject(ClientNoExistError.message);
+          reject(ClientNotExistError.message);
         }
         document.removeEventListener('readystatechange', documentStateChange);
       }

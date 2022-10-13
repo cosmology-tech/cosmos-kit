@@ -1,11 +1,5 @@
 /* eslint-disable no-console */
-import {
-  ChainRecord,
-  ChainWalletBase,
-  ClientNoExistError,
-  State,
-  Wallet,
-} from '@cosmos-kit/core';
+import { ChainRecord, ChainWalletBase, State, Wallet } from '@cosmos-kit/core';
 
 import { ChainLeapExtensionData, Leap } from './types';
 import { getLeapFromExtension } from './utils';
@@ -21,17 +15,13 @@ export class ChainLeapExtension extends ChainWalletBase<
     return this.data?.username;
   }
 
+  async fetchClient() {
+    return await getLeapFromExtension();
+  }
+
   async update() {
     this.setState(State.Pending);
     try {
-      if (!this.client) {
-        try {
-          this._client = await getLeapFromExtension();
-        } catch (error) {
-          throw ClientNoExistError;
-        }
-      }
-
       const key = await this.client.getKey(this.chainId);
 
       this.setData({

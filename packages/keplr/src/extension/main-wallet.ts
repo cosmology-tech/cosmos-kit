@@ -1,15 +1,10 @@
-import {
-  ChainRecord,
-  ClientNoExistError,
-  State,
-  Wallet,
-} from '@cosmos-kit/core';
+import { ChainRecord, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
 import { preferredEndpoints } from '../config';
 import { ChainKeplrExtension } from './chain-wallet';
-import { walletRegistry } from './registry';
+import { keplrExtensionInfo } from './registry';
 import { KeplrExtensionData } from './types';
 import { getKeplrFromExtension } from './utils';
 
@@ -18,7 +13,7 @@ export class KeplrExtensionWallet extends MainWalletBase<
   KeplrExtensionData,
   ChainKeplrExtension
 > {
-  constructor(walletInfo: Wallet = walletRegistry, chains?: ChainRecord[]) {
+  constructor(walletInfo: Wallet = keplrExtensionInfo, chains?: ChainRecord[]) {
     super(walletInfo, chains);
   }
 
@@ -41,14 +36,11 @@ export class KeplrExtensionWallet extends MainWalletBase<
     );
   }
 
+  async fetchClient() {
+    return await getKeplrFromExtension();
+  }
+
   async update() {
-    try {
-      if (!this.client) {
-        this._client = await getKeplrFromExtension();
-      }
-      this.setState(State.Done);
-    } catch (error) {
-      throw ClientNoExistError;
-    }
+    this.setState(State.Done);
   }
 }

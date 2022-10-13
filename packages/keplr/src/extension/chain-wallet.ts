@@ -1,11 +1,5 @@
 /* eslint-disable no-console */
-import {
-  ChainRecord,
-  ChainWalletBase,
-  ClientNoExistError,
-  State,
-  Wallet,
-} from '@cosmos-kit/core';
+import { ChainRecord, ChainWalletBase, State, Wallet } from '@cosmos-kit/core';
 import { Keplr, Key } from '@keplr-wallet/types';
 
 import { suggestChain } from '../utils';
@@ -23,17 +17,13 @@ export class ChainKeplrExtension extends ChainWalletBase<
     return this.data?.username;
   }
 
+  async fetchClient() {
+    return await getKeplrFromExtension();
+  }
+
   async update() {
     this.setState(State.Pending);
     try {
-      if (!this.client) {
-        try {
-          this._client = await getKeplrFromExtension();
-        } catch (error) {
-          throw ClientNoExistError;
-        }
-      }
-
       let key: Key;
       try {
         key = await this.client.getKey(this.chainId);

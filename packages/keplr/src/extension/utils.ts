@@ -1,4 +1,4 @@
-import { ClientNoExistError } from '@cosmos-kit/core';
+import { ClientNotExistError } from '@cosmos-kit/core';
 import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 export const getKeplrFromExtension: () => Promise<
@@ -18,7 +18,7 @@ export const getKeplrFromExtension: () => Promise<
     if (keplr) {
       return keplr;
     } else {
-      throw ClientNoExistError;
+      throw ClientNotExistError;
     }
   }
 
@@ -31,7 +31,7 @@ export const getKeplrFromExtension: () => Promise<
         if (keplr) {
           resolve(keplr);
         } else {
-          reject(ClientNoExistError.message);
+          reject(ClientNotExistError.message);
         }
         document.removeEventListener('readystatechange', documentStateChange);
       }

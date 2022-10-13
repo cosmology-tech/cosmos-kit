@@ -12,7 +12,7 @@ import EventEmitter from 'events';
 
 import { preferredEndpoints } from '../config';
 import { ChainKeplrMobile } from './chain-wallet';
-import { walletRegistry } from './registry';
+import { keplrMobileInfo } from './registry';
 import { KeplrMobileData } from './types';
 
 export class KeplrMobileWallet extends MainWalletBase<
@@ -23,7 +23,7 @@ export class KeplrMobileWallet extends MainWalletBase<
   connector: WalletConnect;
   emitter: EventEmitter = new EventEmitter();
 
-  constructor(walletInfo: Wallet = walletRegistry, chains?: ChainRecord[]) {
+  constructor(walletInfo: Wallet = keplrMobileInfo, chains?: ChainRecord[]) {
     super(walletInfo, chains);
 
     this.connector = new WalletConnect({
@@ -105,6 +105,10 @@ export class KeplrMobileWallet extends MainWalletBase<
     } else {
       await this.update();
     }
+  }
+
+  async fetchClient() {
+    return this._client;
   }
 
   async update() {

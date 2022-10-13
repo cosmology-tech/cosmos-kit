@@ -70,6 +70,10 @@ export class ChainKeplrMobile extends ChainWalletBase<
     }
   }
 
+  async fetchClient() {
+    return this._client;
+  }
+
   async update() {
     this.setState(State.Pending);
     try {

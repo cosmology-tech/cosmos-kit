@@ -1,5 +1,5 @@
 import { Callbacks, SessionOptions, State, Wallet } from '../types';
-import { ClientNoExistError } from '../utils';
+import { ClientNotExistError } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase<Client, Data> extends StateBase<Data> {
@@ -22,12 +22,26 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     callbacks?.disconnect?.();
   }
 
+  setClientNotExist() {
+    this.setState(State.Error);
+    this.setMessage(ClientNotExistError.message);
+  }
+
   async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     if (!this.client) {
-      this.setState(State.Error);
-      this.setMessage(ClientNoExistError.message);
+      try {
+        this._client = await this.fetchClient();
+      } catch (error) {
+        this.setClientNotExist();
+        return;
+      }
+    }
+
+    if (!this.client) {
+      this.setClientNotExist();
       return;
     }
+
     await this.update();
 
     if (sessionOptions?.duration) {
@@ -39,5 +53,6 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   }
 
   abstract get walletInfo(): Wallet;
+  abstract fetchClient(): Client | Promise<Client>;
   abstract update(): void | Promise<void>;
 }
