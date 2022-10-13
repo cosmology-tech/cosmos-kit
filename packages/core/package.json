@@ -108,5 +108,6 @@
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/stargate": "^0.28"
-  }
+  },
+  "gitHead": "aff8305d0a5bfd821ecc84669880e1fc9b9d7eda"
 }
