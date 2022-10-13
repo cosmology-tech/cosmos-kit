@@ -1,9 +1,9 @@
 /// <reference types="long" />
-import { Key } from "@keplr-wallet/types";
-import { OfflineDirectSigner, OfflineSigner } from "@cosmjs/proto-signing";
-import { AminoSignResponse, StdSignDoc } from "@cosmjs/amino";
-import { DirectSignResponse } from "@cosmjs/proto-signing";
-import { ChainWalletDataBase, MainWalletDataBase } from "@cosmos-kit/core";
+import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
+import { DirectSignResponse } from '@cosmjs/proto-signing';
+import { ChainWalletDataBase, MainWalletDataBase } from '@cosmos-kit/core';
+import { Key } from '@keplr-wallet/types';
 export interface LeapSignOptions {
     readonly preferNoSetFee?: boolean;
     readonly preferNoSetMemo?: boolean;
@@ -11,7 +11,7 @@ export interface LeapSignOptions {
 }
 export interface Leap {
     enable(chainIds: string | string[]): Promise<void>;
-    mode: "extension";
+    mode: 'extension';
     getKey(chainId: string): Promise<Key>;
     getOfflineSigner(chainId: string): OfflineSigner & OfflineDirectSigner;
     getOfflineSignerOnlyAmino(chainId: string): OfflineSigner;

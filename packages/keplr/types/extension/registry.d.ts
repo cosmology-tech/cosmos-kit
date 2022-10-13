@@ -1,2 +1,2 @@
 import { Wallet } from '@cosmos-kit/core';
-export declare const walletInfo: Wallet;
+export declare const keplrExtensionInfo: Wallet;

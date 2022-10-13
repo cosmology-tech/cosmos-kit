@@ -18,10 +18,10 @@ export interface MainWalletData extends MainWalletDataBase {
     [k: string]: any | undefined;
 }
 export declare type WalletData = ChainWalletData | MainWalletData;
-export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData, any> {
+export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData> {
     [k: string]: any | undefined;
 }
-export interface WalletOption extends MainWalletBase<unknown, MainWalletData, ChainWalletData, ChainWallet> {
+export interface WalletOption extends MainWalletBase<unknown, MainWalletData, ChainWallet> {
     [k: string]: any | undefined;
 }
 export declare type WalletAdapter = ChainWallet | WalletOption;
@@ -66,7 +66,7 @@ export interface Wallet {
     logo?: string;
     qrCodeLink?: string;
 }
-export interface ChainInfo {
+export interface ChainRecord {
     name: ChainName;
     chain: Chain;
     assetList: AssetList;
@@ -98,6 +98,7 @@ export interface SignerOptions {
     cosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
 }
 export interface ViewOptions {
+    alwaysOpenView?: boolean;
     closeViewWhenWalletIsConnected?: boolean;
     closeViewWhenWalletIsDisconnected?: boolean;
     closeViewWhenWalletIsRejected?: boolean;
@@ -107,9 +108,17 @@ export interface StorageOptions {
     duration?: number;
     clearOnTabClose?: boolean;
 }
+export interface SessionOptions {
+    duration?: number;
+    killOnTabClose?: boolean;
+}
 export interface Endpoints {
     rpc?: string[];
     rest?: string[];
 }
 export declare type EndpointOptions = Record<ChainName, Endpoints>;
+export interface Callbacks {
+    connect?: () => void;
+    disconnect?: () => void;
+}
 export {};

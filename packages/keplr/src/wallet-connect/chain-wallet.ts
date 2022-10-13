@@ -1,21 +1,33 @@
-import { ChainInfo, ChainWalletBase, State } from '@cosmos-kit/core';
+/* eslint-disable no-console */
+import {
+  Callbacks,
+  ChainRecord,
+  ChainWalletBase,
+  SessionOptions,
+  State,
+  Wallet,
+} from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
+import EventEmitter from 'events';
 
-import { KeplrMobileWallet } from './main-wallet';
 import { ChainKeplrMobileData } from './types';
 
 export class ChainKeplrMobile extends ChainWalletBase<
   KeplrWalletConnectV1,
-  ChainKeplrMobileData,
-  KeplrMobileWallet
+  ChainKeplrMobileData
 > {
-  constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet) {
-    super(_chainRecord, keplrWallet);
-  }
+  private _emitter: EventEmitter;
 
-  get client() {
-    return this.mainWallet.client;
+  constructor(
+    walletInfo: Wallet,
+    chainInfo: ChainRecord,
+    client: KeplrWalletConnectV1,
+    emitter: EventEmitter
+  ) {
+    super(walletInfo, chainInfo);
+    this._emitter = emitter;
+    this._client = client;
   }
 
   get connector(): WalletConnect {
@@ -34,28 +46,39 @@ export class ChainKeplrMobile extends ChainWalletBase<
     return this.connector.uri;
   }
 
-  private get emitter() {
-    return this.mainWallet.emitter;
-  }
-
-  async connect(): Promise<void> {
+  async connect(
+    sessionOptions?: SessionOptions,
+    callbacks?: Callbacks
+  ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
-      this.emitter.on('update', async () => {
+      this._emitter.on('update', async () => {
         await this.update();
+        if (sessionOptions?.duration) {
+          setTimeout(async () => {
+            await this.disconnect(callbacks);
+            await this.connect(sessionOptions);
+          }, sessionOptions.duration);
+        }
+        callbacks?.connect?.();
       });
-      this.emitter.on('disconnect', async () => {
-        await this.disconnect();
+      this._emitter.on('disconnect', async () => {
+        await this.disconnect(callbacks);
       });
     } else {
       await this.update();
     }
   }
 
+  async fetchClient() {
+    return this._client;
+  }
+
   async update() {
     this.setState(State.Pending);
     try {
       const key = await this.client.getKey(this.chainId);
+
       this.setData({
         address: key.bech32Address,
         username: key.name,
@@ -73,8 +96,12 @@ export class ChainKeplrMobile extends ChainWalletBase<
     }
   }
 
-  async disconnect() {
-    // await this.connector.killSession();
+  async disconnect(callbacks?: Callbacks) {
+    if (this.connector.connected) {
+      await this.connector.killSession();
+    }
     this.reset();
+    callbacks?.disconnect?.();
+    this._emitter.removeAllListeners();
   }
 }

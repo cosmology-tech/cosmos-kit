@@ -8,9 +8,19 @@ import { assets as chainAssets } from 'chain-registry';
 
 const Home = () => {
   const walletManager = useWallet();
-  const { connect, openView, setCurrentChain, chains,
-    walletStatus, username, address, message,
-    currentChainName: chainName, currentWalletName, currentWallet } = walletManager;
+  const { 
+    connect, 
+    openView, 
+    disconnect, 
+    setCurrentChain, 
+    chains,
+    walletStatus, 
+    username, 
+    address, 
+    message,
+    currentChainName: chainName,
+    currentWallet 
+  } = walletManager;
 
   const walletPrettyName = currentWallet?.walletInfo.prettyName;
 
@@ -33,10 +43,7 @@ const Home = () => {
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
-    openView();
-    if (currentWalletName) {
-      await connect();
-    }
+    await connect();
   };
 
   const onClickOpenView: MouseEventHandler = (e) => {
@@ -44,14 +51,16 @@ const Home = () => {
     openView();
   };
 
+  const onClickDisconnect: MouseEventHandler = async (e) => {
+    e.preventDefault();
+    await disconnect();
+  };
+
   const onChainChange: handleSelectChainDropdown = async (
     selectedValue: ChainOption | null
   ) => {
     setCurrentChain(selectedValue?.chainName);
-    openView();
-    if (currentWalletName) {
-      await connect();
-    }
+    await connect();
   };
 
   // Components

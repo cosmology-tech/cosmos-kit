@@ -1,17 +1,18 @@
-import { ChainInfo, ChainWalletBase } from '@cosmos-kit/core';
+/// <reference types="node" />
+import { Callbacks, ChainRecord, ChainWalletBase, SessionOptions, Wallet } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
-import { KeplrMobileWallet } from './main-wallet';
+import EventEmitter from 'events';
 import { ChainKeplrMobileData } from './types';
-export declare class ChainKeplrMobile extends ChainWalletBase<KeplrWalletConnectV1, ChainKeplrMobileData, KeplrMobileWallet> {
-    constructor(_chainRecord: ChainInfo, keplrWallet: KeplrMobileWallet);
-    get client(): KeplrWalletConnectV1;
+export declare class ChainKeplrMobile extends ChainWalletBase<KeplrWalletConnectV1, ChainKeplrMobileData> {
+    private _emitter;
+    constructor(walletInfo: Wallet, chainInfo: ChainRecord, client: KeplrWalletConnectV1, emitter: EventEmitter);
     get connector(): WalletConnect;
     get isInSession(): boolean;
     get username(): string | undefined;
     get qrUri(): string;
-    private get emitter();
-    connect(): Promise<void>;
+    connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
+    fetchClient(): Promise<KeplrWalletConnectV1>;
     update(): Promise<void>;
-    disconnect(): Promise<void>;
+    disconnect(callbacks?: Callbacks): Promise<void>;
 }

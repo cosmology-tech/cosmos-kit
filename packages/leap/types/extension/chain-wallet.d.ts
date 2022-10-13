@@ -1,9 +1,8 @@
-import { ChainInfo, ChainWalletBase } from "@cosmos-kit/core";
-import { LeapExtensionWallet } from "./main-wallet";
-import { ChainLeapExtensionData, Leap } from "./types";
-export declare class ChainLeapExtension extends ChainWalletBase<Leap, ChainLeapExtensionData, LeapExtensionWallet> {
-    constructor(_chainRecord: ChainInfo, mainWallet: LeapExtensionWallet);
-    get client(): Leap | Promise<Leap>;
+import { ChainRecord, ChainWalletBase, Wallet } from '@cosmos-kit/core';
+import { ChainLeapExtensionData, Leap } from './types';
+export declare class ChainLeapExtension extends ChainWalletBase<Leap, ChainLeapExtensionData> {
+    constructor(walletInfo: Wallet, chainInfo: ChainRecord);
     get username(): string | undefined;
+    fetchClient(): Promise<Leap>;
     update(): Promise<void>;
 }

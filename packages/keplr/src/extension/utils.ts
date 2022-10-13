@@ -1,6 +1,5 @@
+import { ClientNotExistError } from '@cosmos-kit/core';
 import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
-
-const error = new Error('No keplr extension installed!');
 
 export const getKeplrFromExtension: () => Promise<
   Keplr | undefined
@@ -11,15 +10,15 @@ export const getKeplrFromExtension: () => Promise<
 
   const keplr = (window as KeplrWindow).keplr;
 
-  if (keplr && keplr.mode === 'extension') {
+  if (keplr) {
     return keplr;
   }
 
   if (document.readyState === 'complete') {
-    if (keplr && keplr.mode === 'extension') {
+    if (keplr) {
       return keplr;
     } else {
-      throw error;
+      throw ClientNotExistError;
     }
   }
 
@@ -29,10 +28,10 @@ export const getKeplrFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        if (keplr && keplr.mode === 'extension') {
+        if (keplr) {
           resolve(keplr);
         } else {
-          reject(error.message);
+          reject(ClientNotExistError.message);
         }
         document.removeEventListener('readystatechange', documentStateChange);
       }

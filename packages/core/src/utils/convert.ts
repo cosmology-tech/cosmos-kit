@@ -1,13 +1,13 @@
 import { AssetList, Chain } from '@chain-registry/types';
 
-import { ChainInfo, Endpoints, SignerOptions } from '../types';
+import { ChainRecord, Endpoints, SignerOptions } from '../types';
 
 export function convertChain(
   chain: Chain,
   assetLists: AssetList[],
   signerOptions?: SignerOptions,
   preferredEndpoints?: Endpoints
-): ChainInfo {
+): ChainRecord {
   const assetList = assetLists.find(
     (list) => list.chain_name === chain.chain_name
   );

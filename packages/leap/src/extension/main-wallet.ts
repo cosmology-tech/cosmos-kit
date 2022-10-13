@@ -1,45 +1,38 @@
-import { ChainInfo, ChainName, State, Wallet } from '@cosmos-kit/core';
+import { ChainRecord, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainLeapExtension } from './chain-wallet';
-import { walletInfo } from './registry';
-import { ChainLeapExtensionData, Leap, LeapExtensionData } from './types';
+import { leapExtensionInfo } from './registry';
+import { Leap, LeapExtensionData } from './types';
 import { getLeapFromExtension } from './utils';
 
 export class LeapExtensionWallet extends MainWalletBase<
   Leap,
   LeapExtensionData,
-  ChainLeapExtensionData,
   ChainLeapExtension
 > {
-  protected _chains!: Map<ChainName, ChainLeapExtension>;
-  protected _client: Promise<Leap | undefined> | undefined;
-
-  constructor(_walletInfo: Wallet = walletInfo, _chainsInfo?: ChainInfo[]) {
-    super(_walletInfo, _chainsInfo);
-    this._client = (async () => {
-      try {
-        return await getLeapFromExtension();
-      } catch (e) {
-        return undefined;
-      }
-    })();
+  constructor(walletInfo: Wallet = leapExtensionInfo, chains?: ChainRecord[]) {
+    super(walletInfo, chains);
   }
 
-  setChains(chainsInfo: ChainInfo[]): void {
-    this._chains = new Map(
-      chainsInfo.map((chain) => {
+  setChains(chains: ChainRecord[]): void {
+    this._chainWallets = new Map(
+      chains.map((chain) => {
         chain.preferredEndpoints = {
           rpc: [...(chain.preferredEndpoints?.rpc || [])],
           rest: [...(chain.preferredEndpoints?.rest || [])],
         };
 
-        return [chain.name, new ChainLeapExtension(chain, this)];
+        return [chain.name, new ChainLeapExtension(this.walletInfo, chain)];
       })
     );
   }
 
-  async update() {
+  async fetchClient() {
+    return await getLeapFromExtension();
+  }
+
+  update() {
     this.setState(State.Done);
   }
 }

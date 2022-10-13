@@ -7,10 +7,12 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
 import {
   Actions,
-  ChainInfo,
+  Callbacks,
   ChainName,
+  ChainRecord,
   EndpointOptions,
   ManagerActions,
+  SessionOptions,
   SignerOptions,
   State,
   StorageOptions,
@@ -19,27 +21,29 @@ import {
   WalletData,
   WalletName,
   WalletOption,
-  WalletStatus,
 } from './types';
 import { convertChain } from './utils';
 
 export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
-  protected _useView = true;
-  protected _concurrency?: number;
   declare actions?: ManagerActions<WalletData>;
   wallets: WalletOption[];
-  chains: ChainInfo[];
+  chains: ChainRecord[];
   viewOptions: ViewOptions = {
+    alwaysOpenView: false,
     closeViewWhenWalletIsConnected: false,
     closeViewWhenWalletIsDisconnected: true,
     closeViewWhenWalletIsRejected: false,
   };
   storageOptions: StorageOptions = {
     disabled: false,
-    duration: 108000,
+    duration: 1800000,
     clearOnTabClose: false,
+  };
+  sessionOptions: SessionOptions = {
+    duration: 1800000,
+    killOnTabClose: false,
   };
 
   constructor(
@@ -49,9 +53,16 @@ export class WalletManager extends StateBase<WalletData> {
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
-    storageOptions?: StorageOptions
+    storageOptions?: StorageOptions,
+    sessionOptions?: SessionOptions
   ) {
     super();
+    if (wallets.length === 0) {
+      throw new Error('No wallet provided.');
+    }
+    if (chains.length === 0) {
+      throw new Error('No chain provided.');
+    }
     this.wallets = wallets;
     this.chains = chains.map((chain) =>
       convertChain(
@@ -69,10 +80,7 @@ export class WalletManager extends StateBase<WalletData> {
     });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
-  }
-
-  get useView() {
-    return this._useView;
+    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
   }
 
   get useStorage() {
@@ -80,10 +88,16 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get currentWalletName() {
+    if (!this._currentWalletName && this.walletCount === 1) {
+      return this.wallets[0].walletName;
+    }
     return this._currentWalletName;
   }
 
   get currentChainName() {
+    if (!this._currentChainName && this.chainCount === 1) {
+      return this.chains[0].name;
+    }
     return this._currentChainName;
   }
 
@@ -131,23 +145,15 @@ export class WalletManager extends StateBase<WalletData> {
     return this.chainNames.length;
   }
 
-  get concurrency() {
-    return this._concurrency;
-  }
-
-  emit(type: string) {
-    return this.actions?.[type];
-  }
-
-  get emitWalletName() {
+  private get emitWalletName() {
     return this.actions?.walletName;
   }
 
-  get emitChainName() {
+  private get emitChainName() {
     return this.actions?.chainName;
   }
 
-  get emitViewOpen() {
+  private get emitViewOpen() {
     return this.actions?.viewOpen;
   }
 
@@ -159,19 +165,18 @@ export class WalletManager extends StateBase<WalletData> {
     return await this.currentWallet?.getCosmWasmClient();
   };
 
-  setActions(actions: Actions) {
+  setActions = (actions: Actions) => {
     this.actions = actions;
-  }
+  };
 
-  setViewOptions(viewOptions: ViewOptions) {
-    this.viewOptions = viewOptions;
-  }
-
-  reset() {
+  reset = () => {
     this.currentWallet?.reset();
-  }
+  };
 
-  private storeCurrent() {
+  private storeCurrent = () => {
+    if (!this.useStorage) {
+      return;
+    }
     const storeObj = {
       currentWalletName: this.currentWalletName,
       currentChainName: this.currentChainName,
@@ -182,30 +187,25 @@ export class WalletManager extends StateBase<WalletData> {
         window?.localStorage.removeItem('walletManager');
       }, this.storageOptions.duration);
     }
-  }
+  };
 
   setCurrentWallet = (walletName?: WalletName) => {
     this.reset();
     this._currentWalletName = walletName;
     this.emitWalletName?.(walletName);
-    if (this.useStorage) {
-      this.storeCurrent();
-    }
   };
 
   setCurrentChain = (chainName?: ChainName) => {
     this.reset();
     this._currentChainName = chainName;
     this.emitChainName?.(chainName);
-    if (this.useStorage) {
-      this.storeCurrent();
-    }
+    this.storeCurrent();
   };
 
-  private getWallet(
+  private getWallet = (
     walletName?: WalletName,
     chainName?: ChainName
-  ): WalletAdapter | undefined {
+  ): WalletAdapter | undefined => {
     if (!walletName) {
       return undefined;
     }
@@ -218,35 +218,47 @@ export class WalletManager extends StateBase<WalletData> {
       throw new Error(`${walletName} is not provided!`);
     }
     if (chainName) {
-      wallet = wallet.getChain(chainName);
+      wallet = wallet.getChainWallet(chainName);
     }
     wallet.actions = this.actions;
     return wallet;
-  }
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  update = () => { };
+  private get callbacks(): Callbacks {
+    return {
+      connect: () => {
+        this.storeCurrent();
+      },
+      disconnect: () => {
+        this.setCurrentWallet(undefined);
+        this.storeCurrent();
+      },
+    };
+  }
 
   connect = async () => {
     if (!this.currentWalletName) {
       this.openView();
       return;
     }
+    if (this.viewOptions?.alwaysOpenView) {
+      this.openView();
+    }
     try {
-      await this.currentWallet.connect();
+      await this.currentWallet.connect(this.sessionOptions, this.callbacks);
       if (
-        this.walletStatus === WalletStatus.Connected &&
+        this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     } catch (error) {
       console.error(error);
       if (
-        this.walletStatus === WalletStatus.Rejected &&
+        this.isWalletRejected &&
         this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     }
   };
@@ -256,28 +268,29 @@ export class WalletManager extends StateBase<WalletData> {
       this.setMessage('Current Wallet not defined.');
       return;
     }
-
+    if (this.viewOptions?.alwaysOpenView) {
+      this.openView();
+    }
     try {
-      await this.currentWallet.disconnect();
+      await this.currentWallet.disconnect(this.callbacks);
+
+      console.log(12, this.currentWallet.data);
+      console.log(23, this.data);
 
       if (
-        this.walletStatus === WalletStatus.Disconnected &&
+        this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsDisconnected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
     } catch (e) {
       this.setMessage((e as Error).message);
       if (
-        this.walletStatus === WalletStatus.Rejected &&
+        this.isWalletRejected &&
         this.viewOptions?.closeViewWhenWalletIsRejected
       ) {
-        this.emitViewOpen?.(false);
+        this.closeView();
       }
-    }
-
-    if (this.useView) {
-      this.setCurrentWallet(undefined);
     }
   };
 

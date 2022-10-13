@@ -1,5 +1,5 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { EndpointOptions, SignerOptions, StorageOptions, ViewOptions, WalletManager, WalletOption } from '@cosmos-kit/core';
+import { EndpointOptions, SessionOptions, SignerOptions, StorageOptions, ViewOptions, WalletManager, WalletOption } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, { ReactNode } from 'react';
 export declare const walletContext: React.Context<{
@@ -14,5 +14,6 @@ export declare const WalletProvider: ({ chains, assetLists, wallets, walletModal
     viewOptions?: ViewOptions;
     endpointOptions?: EndpointOptions;
     storageOptions?: StorageOptions;
+    sessionOptions?: SessionOptions;
     children: ReactNode;
 }) => JSX.Element;

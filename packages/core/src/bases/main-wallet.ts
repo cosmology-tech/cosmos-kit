@@ -1,87 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChainInfo, ChainName, State, Wallet } from '../types';
-import { ChainWalletDataBase, MainWalletDataBase } from '../types';
-import { ChainWalletBase } from './chain-wallet';
-import { StateBase } from './state';
+import { Callbacks, ChainName, ChainRecord, Wallet } from '../types';
+import { MainWalletDataBase } from '../types';
+import { WalletBase } from './wallet';
 
 export abstract class MainWalletBase<
-  WalletClient,
-  MainWalletData extends MainWalletDataBase,
-  ChainWalletData extends ChainWalletDataBase,
-  ChainWallet extends ChainWalletBase<WalletClient, ChainWalletData, any>
-> extends StateBase<MainWalletData> {
-  protected abstract _chains: Map<ChainName, ChainWallet>;
-  protected abstract _client:
-    | Promise<WalletClient | undefined>
-    | WalletClient
-    | undefined;
-
-  protected _chainsInfo: ChainInfo[] = [];
+  Client,
+  Data extends MainWalletDataBase,
+  ChainWallet extends {
+    disconnect: () => void;
+  }
+> extends WalletBase<Client, Data> {
+  protected _chainWallets: Map<ChainName, ChainWallet>;
   protected _walletInfo: Wallet;
 
-  constructor(_walletInfo: Wallet, _chainsInfo?: ChainInfo[]) {
+  constructor(walletInfo: Wallet, chains: ChainRecord[] = []) {
     super();
-    this._walletInfo = _walletInfo;
-    this._chainsInfo = _chainsInfo;
-    if (_chainsInfo) {
-      this.setChains(_chainsInfo);
+    this._walletInfo = walletInfo;
+    if (chains) {
+      this.setChains(chains);
     }
-  }
-
-  get client() {
-    return this._client;
   }
 
   get walletInfo(): Wallet {
     return this._walletInfo;
   }
 
-  get walletName() {
-    return this.walletInfo.name;
-  }
-
   get username(): string | undefined {
     return this.data?.username;
   }
 
-  get chains() {
-    return this._chains;
+  get chainWallets() {
+    return this._chainWallets;
   }
 
-  get count() {
-    return this.chains.size;
-  }
-
-  get chainNames(): ChainName[] {
-    return Array.from(this.chains.keys());
-  }
-
-  get chainList(): ChainWallet[] {
-    return Array.from(this.chains.values());
-  }
-
-  getChain(chainName: string): ChainWallet {
-    if (!this.chains.has(chainName)) {
+  getChainWallet(chainName: string): ChainWallet {
+    if (!this.chainWallets.has(chainName)) {
       throw new Error(`Unknown chain name: ${chainName}`);
+    } else {
+      return this.chainWallets.get(chainName);
     }
-    return this.chains.get(chainName);
   }
 
-  disconnect() {
-    this.chains.forEach((chain) => {
+  disconnect(callbacks?: Callbacks) {
+    this.chainWallets.forEach((chain) => {
       chain.disconnect();
     });
     this.reset();
+    callbacks?.disconnect?.();
   }
 
-  async connect() {
-    if (!(await this.client)) {
-      this.setState(State.Error);
-      this.setMessage('Client Not Exist!');
-      return;
-    }
-    await this.update();
-  }
-
-  abstract setChains(supportedChains?: ChainInfo[]): void;
+  abstract setChains(chains?: ChainRecord[]): void;
 }

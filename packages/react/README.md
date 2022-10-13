@@ -267,7 +267,43 @@ function WalletApp() {
 }
 ```
 
-### Other props in `WalletProvider`
+### Customized Wallet Info
+
+The simplest way to import wallets in `WalletProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
+
+```ts
+export interface Wallet {
+  name: WalletName;
+  prettyName: string;
+  isQRCode: boolean;
+  downloads?: {
+    default: string;
+    desktop?: Icon[];
+    tablet?: Icon[];
+    mobile?: Icon[];
+  };
+  logo?: string;
+  qrCodeLink?: string;
+}
+```
+
+To define your own wallet info, such as icon, app name, as well as other props, you can construct wallets as follows.
+
+```ts
+import { KeplrExtensionWallet, KeplrMobileWallet } from '@cosmos-kit/keplr';
+
+const keplrExtensionInfo: Wallet = {...};
+const keplrMobileInfo: Wallet = {...};
+
+const keplrExtension = new KeplrExtensionWallet(keplrExtensionInfo);
+const KeplrMobile = new KeplrMobileWallet(keplrMobileInfo);
+
+export const wallets = [keplrExtension, KeplrMobile];
+```
+
+The default value of `keplrExtensionInfo` and `keplrMobileInfo` can be seen from `import { keplrExtensionInfo, keplrMobileInfo } from '@cosmos-kit/keplr';`.
+
+### Options in `WalletProvider`
 
 #### `endpointOptions`
 
@@ -303,6 +339,11 @@ Define automation for view. `Optional`
 
 ```ts
 export interface ViewOptions {
+  /**
+   * if alwaysOpenView === true, always open view when `connect` or `disconnect` is called
+   * if alwaysOpenView === false, only open view when necessary. e.g. current wallet is not defined, need to choose wallet in modal.
+  */
+  alwaysOpenView?: boolean;
   closeViewWhenWalletIsConnected?: boolean;
   closeViewWhenWalletIsDisconnected?: boolean;
   closeViewWhenWalletIsRejected?: boolean;
@@ -310,6 +351,7 @@ export interface ViewOptions {
 
 // default value
 const viewOptions: ViewOptions = {
+  alwaysOpenView: false,
   closeViewWhenWalletIsConnected: false,
   closeViewWhenWalletIsDisconnected: true,
   closeViewWhenWalletIsRejected: false,
@@ -319,6 +361,12 @@ const viewOptions: ViewOptions = {
 #### `storageOptions`
 
 Define local storage attributes. `Optional`
+
+storage key: `walletManager`
+
+storage value attributes:
+- `currentWalletName`
+- `currentChainName`
 
 ```ts
 export interface StorageOptions {
@@ -330,9 +378,26 @@ export interface StorageOptions {
 // default value
 const storageOptions: StorageOptions = {
   disabled: false,
-  duration: 108000,
-  clearOnTabClose: false,
+  duration: 1800000, // half an hour
+  clearOnTabClose: false
 };
+```
+
+#### `sessionOptions`
+
+Define connection session options. `Optional`
+
+```ts
+export interface SessionOptions {
+  duration?: number; // ms
+  killOnTabClose?: boolean;
+}
+
+// default value
+  sessionOptions: SessionOptions = {
+    duration: 1800000, // half an hour
+    killOnTabClose: false,
+  };
 ```
 
 ## Credits

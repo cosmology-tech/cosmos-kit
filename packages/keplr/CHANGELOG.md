@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr@0.19.2...@cosmos-kit/keplr@0.19.3) (2022-10-13)
+
+**Note:** Version bump only for package @cosmos-kit/keplr
+
+
+
+
+
+## [0.19.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr@0.19.1...@cosmos-kit/keplr@0.19.2) (2022-10-12)
+
+**Note:** Version bump only for package @cosmos-kit/keplr
+
+
+
+
+
+## [0.19.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr@0.19.0...@cosmos-kit/keplr@0.19.1) (2022-10-11)
+
+**Note:** Version bump only for package @cosmos-kit/keplr
+
+
+
+
+
 # [0.19.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr@0.18.1...@cosmos-kit/keplr@0.19.0) (2022-10-01)
 
 **Note:** Version bump only for package @cosmos-kit/keplr

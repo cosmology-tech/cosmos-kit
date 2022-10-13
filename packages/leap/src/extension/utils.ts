@@ -1,9 +1,8 @@
 import { OfflineSigner } from '@cosmjs/launchpad';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { ClientNotExistError } from '@cosmos-kit/core';
 
 import { Leap } from './types';
-
-const error = new Error('No Leap extension installed!');
 
 interface LeapWindow {
   leap?: Leap;
@@ -31,7 +30,7 @@ export const getLeapFromExtension: () => Promise<
     if (leap) {
       return leap;
     } else {
-      throw error;
+      throw ClientNotExistError;
     }
   }
 
@@ -44,7 +43,7 @@ export const getLeapFromExtension: () => Promise<
         if (leap) {
           resolve(leap);
         } else {
-          reject(error.message);
+          reject(ClientNotExistError.message);
         }
         document.removeEventListener('readystatechange', documentStateChange);
       }

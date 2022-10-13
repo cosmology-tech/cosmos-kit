@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react",
-  "version": "0.18.1",
+  "version": "0.18.4",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -120,5 +120,5 @@
     "react": "^16 || ^17 || ^18",
     "react-dom": "^16 || ^17 || ^18"
   },
-  "gitHead": "5ac059680544db18d75f39f005a2887bd4716b9b"
+  "gitHead": "aff8305d0a5bfd821ecc84669880e1fc9b9d7eda"
 }
