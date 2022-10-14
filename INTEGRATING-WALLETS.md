@@ -19,7 +19,7 @@ For reference, see the [keplr cosmos-kit package](https://github.com/cosmology-t
 
 ### 📝 Main wallet class
 
-This is the class for when the wallet is not connected, and presents information to the user, and has methods to connect to the wallet.
+This is the wallet class without any chain sepcified, and presents wallet information to the user, and has methods to connect to the wallet. It has access to each supported [chain wallet](#⚡️-chain-wallet-class) object.
 
 - add your [images and wallet info](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/registry.ts) to a registry
 - the design may require a round image right now, but we can update that if it becomes an issue
@@ -29,7 +29,7 @@ This is the class for when the wallet is not connected, and presents information
 
 ### ⚡️ Chain wallet class
 
-This is the class for when the wallet is connected
+This is the class for which a chain is specified for the wallet
 
 - implement a class that [extends the `ChainWalletBase`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L8) abstract class
 - set `address`, `username`, and `offlineSigner` [in the `update()` method](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L50-L56)
