@@ -90,20 +90,19 @@ export class KeplrMobileWallet extends MainWalletBase<
     if (!this.isInSession) {
       await this.connector.createSession();
       this.emitter.on('update', async () => {
-        await this.update();
+        await this.update(callbacks);
         if (sessionOptions?.duration) {
           setTimeout(async () => {
             await this.disconnect(callbacks);
             await this.connect(sessionOptions);
           }, sessionOptions?.duration);
         }
-        callbacks?.connect?.();
       });
       this.emitter.on('disconnect', async () => {
         await this.disconnect(callbacks);
       });
     } else {
-      await this.update();
+      await this.update(callbacks);
     }
   }
 
@@ -111,8 +110,9 @@ export class KeplrMobileWallet extends MainWalletBase<
     return this._client;
   }
 
-  async update() {
+  async update(callbacks?: Callbacks) {
     this.setState(State.Done);
+    callbacks?.connect?.();
   }
 
   async disconnect(callbacks?: Callbacks) {

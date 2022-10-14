@@ -1,5 +1,11 @@
 /* eslint-disable no-console */
-import { ChainRecord, ChainWalletBase, State, Wallet } from '@cosmos-kit/core';
+import {
+  Callbacks,
+  ChainRecord,
+  ChainWalletBase,
+  State,
+  Wallet,
+} from '@cosmos-kit/core';
 
 import { ChainLeapExtensionData, Leap } from './types';
 import { getLeapFromExtension } from './utils';
@@ -19,7 +25,7 @@ export class ChainLeapExtension extends ChainWalletBase<
     return await getLeapFromExtension();
   }
 
-  async update() {
+  async update(callbacks?: Callbacks) {
     this.setState(State.Pending);
     try {
       const key = await this.client.getKey(this.chainId);
@@ -39,5 +45,6 @@ export class ChainLeapExtension extends ChainWalletBase<
       this.setState(State.Error);
       this.setMessage((e as Error).message);
     }
+    callbacks?.connect?.();
   }
 }

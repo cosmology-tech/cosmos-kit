@@ -1,5 +1,11 @@
 /* eslint-disable no-console */
-import { ChainRecord, ChainWalletBase, State, Wallet } from '@cosmos-kit/core';
+import {
+  Callbacks,
+  ChainRecord,
+  ChainWalletBase,
+  State,
+  Wallet,
+} from '@cosmos-kit/core';
 import { Keplr, Key } from '@keplr-wallet/types';
 
 import { suggestChain } from '../utils';
@@ -21,7 +27,7 @@ export class ChainKeplrExtension extends ChainWalletBase<
     return await getKeplrFromExtension();
   }
 
-  async update() {
+  async update(callbacks?: Callbacks) {
     this.setState(State.Pending);
     try {
       let key: Key;
@@ -47,5 +53,6 @@ export class ChainKeplrExtension extends ChainWalletBase<
       this.setState(State.Error);
       this.setMessage((e as Error).message);
     }
+    callbacks?.connect?.();
   }
 }
