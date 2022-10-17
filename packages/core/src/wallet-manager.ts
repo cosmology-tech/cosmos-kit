@@ -7,6 +7,7 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
 import {
   Actions,
+  BrowserEnv,
   Callbacks,
   ChainName,
   ChainRecord,
@@ -28,6 +29,7 @@ export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
+  declare env?: BrowserEnv;
   wallets: WalletOption[];
   chains: ChainRecord[];
   viewOptions: ViewOptions = {
@@ -233,14 +235,26 @@ export class WalletManager extends StateBase<WalletData> {
       return undefined;
     }
 
-    const chain: ChainRecord | undefined = this.chains.find(
+    const chainRecord: ChainRecord | undefined = this.chains.find(
       (c) => c.name === chainName
     );
 
-    if (!chain) {
+    if (!chainRecord) {
       throw new Error(`${chainName} is not provided!`);
     }
-    return chain;
+    return chainRecord;
+  };
+
+  getChainLogo = (chainName?: ChainName): string | undefined => {
+    const chainRecord = this.getChain(chainName);
+    return (
+      chainRecord?.chain.logo_URIs?.svg ||
+      chainRecord?.chain.logo_URIs?.png ||
+      chainRecord?.chain.logo_URIs?.jpeg ||
+      chainRecord.assetList?.assets[0]?.logo_URIs?.svg ||
+      chainRecord.assetList?.assets[0]?.logo_URIs?.png ||
+      undefined
+    );
   };
 
   private get callbacks(): Callbacks {
