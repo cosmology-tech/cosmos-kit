@@ -179,7 +179,7 @@ export class WalletManager extends StateBase<WalletData> {
     this.currentWallet?.reset();
   };
 
-  private storeCurrent = () => {
+  private updateCurrentStore = () => {
     if (!this.useStorage) {
       return;
     }
@@ -201,11 +201,13 @@ export class WalletManager extends StateBase<WalletData> {
     this.emitWalletName?.(walletName);
   };
 
-  setCurrentChain = (chainName?: ChainName) => {
+  setCurrentChain = (chainName?: ChainName, noUpdateStore?: boolean) => {
     this.reset();
     this._currentChainName = chainName;
     this.emitChainName?.(chainName);
-    this.storeCurrent();
+    if (!noUpdateStore) {
+      this.updateCurrentStore();
+    }
   };
 
   getWallet = (
@@ -261,11 +263,11 @@ export class WalletManager extends StateBase<WalletData> {
   private get callbacks(): Callbacks {
     return {
       connect: () => {
-        this.storeCurrent();
+        this.updateCurrentStore();
       },
       disconnect: () => {
         this.setCurrentWallet(undefined);
-        this.storeCurrent();
+        this.updateCurrentStore();
       },
     };
   }
