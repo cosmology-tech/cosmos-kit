@@ -4,13 +4,23 @@ import { StateBase } from './state';
 
 export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   protected _client?: Client;
+  protected _walletInfo: Wallet;
 
-  constructor() {
+  constructor(walletInfo: Wallet) {
     super();
+    this._walletInfo = walletInfo;
+  }
+
+  get walletInfo(): Wallet {
+    return this._walletInfo;
   }
 
   get walletName() {
     return this.walletInfo.name;
+  }
+
+  get walletPrettyName() {
+    return this.walletInfo.prettyName;
   }
 
   get client() {
@@ -52,7 +62,6 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     callbacks?.connect?.();
   }
 
-  abstract get walletInfo(): Wallet;
   abstract fetchClient(): Client | Promise<Client>;
   abstract update(): void | Promise<void>;
 }

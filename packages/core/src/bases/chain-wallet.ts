@@ -16,15 +16,13 @@ export abstract class ChainWalletBase<
   Client,
   Data extends ChainWalletDataBase
 > extends WalletBase<Client, Data> {
-  protected _walletInfo: Wallet;
   protected _chainInfo: ChainRecord;
   rpcEndpoints: string[];
   restEndpoints: string[];
 
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
-    super();
+    super(walletInfo);
     this._chainInfo = chainInfo;
-    this._walletInfo = walletInfo;
     this.rpcEndpoints = [
       ...(chainInfo.preferredEndpoints?.rpc || []),
       `https://rpc.cosmos.directory/${this.chainName}`,
@@ -35,10 +33,6 @@ export abstract class ChainWalletBase<
       `https://rest.cosmos.directory/${this.chainName}`,
       ...(chainInfo.chain?.apis?.rest?.map((e) => e.address) || []),
     ];
-  }
-
-  get walletInfo() {
-    return this._walletInfo;
   }
 
   get chainInfo() {
