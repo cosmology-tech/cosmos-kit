@@ -19,7 +19,7 @@ export declare class WalletManager extends StateBase<WalletData> {
     get currentWalletName(): string;
     get currentChainName(): string;
     get currentWallet(): WalletAdapter | undefined;
-    get currentChain(): ChainRecord | undefined;
+    get currentChainRecord(): ChainRecord | undefined;
     get data(): WalletData | undefined;
     get state(): State;
     get message(): string;
@@ -37,11 +37,11 @@ export declare class WalletManager extends StateBase<WalletData> {
     getCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
     setActions: (actions: Actions) => void;
     reset: () => void;
-    private updateCurrentStore;
+    private updateLocalStorage;
     setCurrentWallet: (walletName?: WalletName) => void;
-    setCurrentChain: (chainName?: ChainName, noUpdateStore?: boolean) => void;
+    setCurrentChain: (chainName?: ChainName) => void;
     getWallet: (walletName?: WalletName, chainName?: ChainName) => WalletAdapter | undefined;
-    getChain: (chainName?: ChainName) => ChainRecord | undefined;
+    getChainRecord: (chainName?: ChainName) => ChainRecord | undefined;
     getChainLogo: (chainName?: ChainName) => string | undefined;
     private get callbacks();
     connect: () => Promise<void>;
