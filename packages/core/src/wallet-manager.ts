@@ -107,8 +107,8 @@ export class WalletManager extends StateBase<WalletData> {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
-  get currentChain(): ChainRecord | undefined {
-    return this.getChain(this.currentChainName);
+  get currentChainRecord(): ChainRecord | undefined {
+    return this.getChainRecord(this.currentChainName);
   }
 
   get data(): WalletData | undefined {
@@ -179,14 +179,38 @@ export class WalletManager extends StateBase<WalletData> {
     this.currentWallet?.reset();
   };
 
-  private updateCurrentStore = () => {
+  private updateLocalStorage = (target: string) => {
     if (!this.useStorage) {
       return;
     }
-    const storeObj = {
-      currentWalletName: this.currentWalletName,
-      currentChainName: this.currentChainName,
-    };
+
+    let storeObj = {};
+    const storeStr = window?.localStorage.getItem('walletManager');
+    if (storeStr) {
+      storeObj = JSON.parse(storeStr);
+    }
+    switch (target) {
+      case 'chain':
+        storeObj = {
+          ...storeObj,
+          currentChainName: this.currentChainName,
+        };
+        break;
+      case 'wallet':
+        storeObj = {
+          ...storeObj,
+          currentWalletName: this.currentWalletName,
+        };
+        break;
+      default:
+        storeObj = {
+          ...storeObj,
+          currentWalletName: this.currentWalletName,
+          currentChainName: this.currentChainName,
+        };
+        break;
+    }
+
     window?.localStorage.setItem('walletManager', JSON.stringify(storeObj));
     if (this.storageOptions.duration) {
       setTimeout(() => {
@@ -201,13 +225,11 @@ export class WalletManager extends StateBase<WalletData> {
     this.emitWalletName?.(walletName);
   };
 
-  setCurrentChain = (chainName?: ChainName, noUpdateStore?: boolean) => {
+  setCurrentChain = (chainName?: ChainName) => {
     this.reset();
     this._currentChainName = chainName;
     this.emitChainName?.(chainName);
-    if (!noUpdateStore) {
-      this.updateCurrentStore();
-    }
+    this.updateLocalStorage('chain');
   };
 
   getWallet = (
@@ -232,7 +254,7 @@ export class WalletManager extends StateBase<WalletData> {
     return wallet;
   };
 
-  getChain = (chainName?: ChainName): ChainRecord | undefined => {
+  getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
     if (!chainName) {
       return undefined;
     }
@@ -249,7 +271,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   // get chain logo
   getChainLogo = (chainName?: ChainName): string | undefined => {
-    const chainRecord = this.getChain(chainName);
+    const chainRecord = this.getChainRecord(chainName);
     return (
       // until chain_registry fix this
       // chainRecord?.chain.logo_URIs?.svg ||
@@ -264,11 +286,11 @@ export class WalletManager extends StateBase<WalletData> {
   private get callbacks(): Callbacks {
     return {
       connect: () => {
-        this.updateCurrentStore();
+        this.updateLocalStorage('wallet');
       },
       disconnect: () => {
         this.setCurrentWallet(undefined);
-        this.updateCurrentStore();
+        this.updateLocalStorage('wallet');
       },
     };
   }
