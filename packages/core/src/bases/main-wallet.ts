@@ -11,18 +11,12 @@ export abstract class MainWalletBase<
   }
 > extends WalletBase<Client, Data> {
   protected _chainWallets: Map<ChainName, ChainWallet>;
-  protected _walletInfo: Wallet;
 
   constructor(walletInfo: Wallet, chains: ChainRecord[] = []) {
-    super();
-    this._walletInfo = walletInfo;
+    super(walletInfo);
     if (chains) {
       this.setChains(chains);
     }
-  }
-
-  get walletInfo(): Wallet {
-    return this._walletInfo;
   }
 
   get username(): string | undefined {

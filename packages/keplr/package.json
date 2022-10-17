@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr",
-  "version": "0.19.3",
+  "version": "0.19.7",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -106,7 +106,7 @@
     "@chain-registry/keplr": "1.0.0",
     "@chain-registry/types": "^0.11.0",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.19.3",
+    "@cosmos-kit/core": "^0.19.9",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "^0.11.3",
@@ -121,5 +121,5 @@
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/stargate": "^0.28"
   },
-  "gitHead": "aff8305d0a5bfd821ecc84669880e1fc9b9d7eda"
+  "gitHead": "6d42132a3dfe3b621c14a7ad19111fc0d6c2cbd1"
 }

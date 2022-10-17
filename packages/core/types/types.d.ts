@@ -62,7 +62,6 @@ export interface Wallet {
     name: WalletName;
     prettyName: string;
     isQRCode: boolean;
-    compatibleEnvs?: BrowserEnv[];
     downloads?: {
         default: string;
         desktop?: Icon[];
