@@ -1,4 +1,4 @@
-import { ChainRecord, State, Wallet } from '@cosmos-kit/core';
+import { Callbacks, ChainRecord, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
@@ -40,7 +40,8 @@ export class KeplrExtensionWallet extends MainWalletBase<
     return await getKeplrFromExtension();
   }
 
-  async update() {
+  async update(callbacks?: Callbacks) {
     this.setState(State.Done);
+    callbacks?.connect?.();
   }
 }

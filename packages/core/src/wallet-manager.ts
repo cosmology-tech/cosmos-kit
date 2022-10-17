@@ -7,6 +7,7 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
 import {
   Actions,
+  BrowserEnv,
   Callbacks,
   ChainName,
   ChainRecord,
@@ -28,6 +29,7 @@ export class WalletManager extends StateBase<WalletData> {
   protected _currentWalletName?: WalletName;
   protected _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
+  declare env?: BrowserEnv;
   wallets: WalletOption[];
   chains: ChainRecord[];
   viewOptions: ViewOptions = {
@@ -105,6 +107,10 @@ export class WalletManager extends StateBase<WalletData> {
     return this.getWallet(this.currentWalletName, this.currentChainName);
   }
 
+  get currentChain(): ChainRecord | undefined {
+    return this.getChain(this.currentChainName);
+  }
+
   get data(): WalletData | undefined {
     return this.currentWallet?.data;
   }
@@ -158,11 +164,11 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
-    return await this.currentWallet?.getStargateClient();
+    return await this.currentWallet?.getSigningStargateClient();
   };
 
   getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
-    return await this.currentWallet?.getCosmWasmClient();
+    return await this.currentWallet?.getSigningCosmWasmClient();
   };
 
   setActions = (actions: Actions) => {
@@ -202,7 +208,7 @@ export class WalletManager extends StateBase<WalletData> {
     this.storeCurrent();
   };
 
-  private getWallet = (
+  getWallet = (
     walletName?: WalletName,
     chainName?: ChainName
   ): WalletAdapter | undefined => {
@@ -222,6 +228,33 @@ export class WalletManager extends StateBase<WalletData> {
     }
     wallet.actions = this.actions;
     return wallet;
+  };
+
+  getChain = (chainName?: ChainName): ChainRecord | undefined => {
+    if (!chainName) {
+      return undefined;
+    }
+
+    const chainRecord: ChainRecord | undefined = this.chains.find(
+      (c) => c.name === chainName
+    );
+
+    if (!chainRecord) {
+      throw new Error(`${chainName} is not provided!`);
+    }
+    return chainRecord;
+  };
+
+  getChainLogo = (chainName?: ChainName): string | undefined => {
+    const chainRecord = this.getChain(chainName);
+    return (
+      chainRecord?.chain.logo_URIs?.svg ||
+      chainRecord?.chain.logo_URIs?.png ||
+      chainRecord?.chain.logo_URIs?.jpeg ||
+      chainRecord.assetList?.assets[0]?.logo_URIs?.svg ||
+      chainRecord.assetList?.assets[0]?.logo_URIs?.png ||
+      undefined
+    );
   };
 
   private get callbacks(): Callbacks {

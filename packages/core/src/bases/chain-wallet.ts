@@ -113,7 +113,9 @@ export abstract class ChainWalletBase<
     return this.data?.offlineSigner;
   }
 
-  getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
+  getSigningStargateClient = async (): Promise<
+    SigningStargateClient | undefined
+  > => {
     const rpcEndpoint = await this.getRpcEndpoint();
     if (this.offlineSigner && rpcEndpoint) {
       console.info('Using RPC endpoint ' + rpcEndpoint);
@@ -127,7 +129,9 @@ export abstract class ChainWalletBase<
     return undefined;
   };
 
-  getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
+  getSigningCosmWasmClient = async (): Promise<
+    SigningCosmWasmClient | undefined
+  > => {
     const rpcEndpoint = await this.getRpcEndpoint();
     if (this.offlineSigner && rpcEndpoint) {
       console.info('Using RPC endpoint ' + rpcEndpoint);

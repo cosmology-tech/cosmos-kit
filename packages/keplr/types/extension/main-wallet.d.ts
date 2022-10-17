@@ -1,4 +1,4 @@
-import { ChainRecord, Wallet } from '@cosmos-kit/core';
+import { Callbacks, ChainRecord, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 import { ChainKeplrExtension } from './chain-wallet';
@@ -7,5 +7,5 @@ export declare class KeplrExtensionWallet extends MainWalletBase<Keplr, KeplrExt
     constructor(walletInfo?: Wallet, chains?: ChainRecord[]);
     setChains(chains: ChainRecord[]): void;
     fetchClient(): Promise<Keplr>;
-    update(): Promise<void>;
+    update(callbacks?: Callbacks): Promise<void>;
 }

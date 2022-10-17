@@ -74,7 +74,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
     return this._client;
   }
 
-  async update() {
+  async update(callbacks?: Callbacks) {
     this.setState(State.Pending);
     try {
       const key = await this.client.getKey(this.chainId);
@@ -94,6 +94,7 @@ export class ChainKeplrMobile extends ChainWalletBase<
       this.setState(State.Error);
       this.setMessage((e as Error).message);
     }
+    callbacks?.connect?.();
   }
 
   async disconnect(callbacks?: Callbacks) {

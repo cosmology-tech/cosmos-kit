@@ -13,6 +13,6 @@ export declare class ChainKeplrMobile extends ChainWalletBase<KeplrWalletConnect
     get qrUri(): string;
     connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
     fetchClient(): Promise<KeplrWalletConnectV1>;
-    update(): Promise<void>;
+    update(callbacks?: Callbacks): Promise<void>;
     disconnect(callbacks?: Callbacks): Promise<void>;
 }

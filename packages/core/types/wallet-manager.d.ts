@@ -3,11 +3,12 @@ import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
-import { Actions, ChainName, ChainRecord, EndpointOptions, ManagerActions, SessionOptions, SignerOptions, State, StorageOptions, ViewOptions, WalletAdapter, WalletData, WalletName, WalletOption } from './types';
+import { Actions, BrowserEnv, ChainName, ChainRecord, EndpointOptions, ManagerActions, SessionOptions, SignerOptions, State, StorageOptions, ViewOptions, WalletAdapter, WalletData, WalletName, WalletOption } from './types';
 export declare class WalletManager extends StateBase<WalletData> {
     protected _currentWalletName?: WalletName;
     protected _currentChainName?: ChainName;
     actions?: ManagerActions<WalletData>;
+    env?: BrowserEnv;
     wallets: WalletOption[];
     chains: ChainRecord[];
     viewOptions: ViewOptions;
@@ -18,6 +19,7 @@ export declare class WalletManager extends StateBase<WalletData> {
     get currentWalletName(): string;
     get currentChainName(): string;
     get currentWallet(): WalletAdapter | undefined;
+    get currentChain(): ChainRecord | undefined;
     get data(): WalletData | undefined;
     get state(): State;
     get message(): string;
@@ -38,7 +40,9 @@ export declare class WalletManager extends StateBase<WalletData> {
     private storeCurrent;
     setCurrentWallet: (walletName?: WalletName) => void;
     setCurrentChain: (chainName?: ChainName) => void;
-    private getWallet;
+    getWallet: (walletName?: WalletName, chainName?: ChainName) => WalletAdapter | undefined;
+    getChain: (chainName?: ChainName) => ChainRecord | undefined;
+    getChainLogo: (chainName?: ChainName) => string | undefined;
     private get callbacks();
     connect: () => Promise<void>;
     disconnect: () => Promise<void>;
