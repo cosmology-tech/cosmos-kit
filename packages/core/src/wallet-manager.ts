@@ -251,9 +251,10 @@ export class WalletManager extends StateBase<WalletData> {
   getChainLogo = (chainName?: ChainName): string | undefined => {
     const chainRecord = this.getChain(chainName);
     return (
-      chainRecord?.chain.logo_URIs?.svg ||
-      chainRecord?.chain.logo_URIs?.png ||
-      chainRecord?.chain.logo_URIs?.jpeg ||
+      // until chain_registry fix this
+      // chainRecord?.chain.logo_URIs?.svg ||
+      // chainRecord?.chain.logo_URIs?.png ||
+      // chainRecord?.chain.logo_URIs?.jpeg ||
       chainRecord?.assetList?.assets[0]?.logo_URIs?.svg ||
       chainRecord?.assetList?.assets[0]?.logo_URIs?.png ||
       undefined
