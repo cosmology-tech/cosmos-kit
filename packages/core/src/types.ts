@@ -70,10 +70,17 @@ interface Icon {
   link: string;
 }
 
+export interface BrowserEnv {
+  browser?: string;
+  device?: string;
+  os?: string;
+}
+
 export interface Wallet {
   name: WalletName;
   prettyName: string;
   isQRCode: boolean;
+  // compatibleEnvs?: BrowserEnv[];
   downloads?: {
     default: string;
     desktop?: Icon[];

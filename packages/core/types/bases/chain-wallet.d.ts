@@ -23,6 +23,6 @@ export declare abstract class ChainWalletBase<Client, Data extends ChainWalletDa
     getRestEndpoint: () => Promise<string | undefined>;
     get address(): string | undefined;
     get offlineSigner(): OfflineSigner | undefined;
-    getStargateClient: () => Promise<SigningStargateClient | undefined>;
-    getCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
+    getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;
+    getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
 }

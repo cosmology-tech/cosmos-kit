@@ -87,6 +87,14 @@ export const WalletProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
+    // setUserBrowserInfo({
+    //   browser: Bowser.getParser(window.navigator.userAgent).getBrowserName(
+    //     true
+    //   ),
+    //   device: Bowser.getParser(window.navigator.userAgent).getPlatform().type,
+    //   os: Bowser.getParser(window.navigator.userAgent).getOSName(true),
+    // });
+
     const handleLoaded = (event: Event) => {
       event.preventDefault();
       walletManager.connect();

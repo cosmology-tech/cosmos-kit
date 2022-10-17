@@ -15,6 +15,6 @@ export declare class KeplrMobileWallet extends MainWalletBase<KeplrWalletConnect
     setChains(chains: ChainRecord[]): void;
     connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
     fetchClient(): Promise<KeplrWalletConnectV1>;
-    update(): Promise<void>;
+    update(callbacks?: Callbacks): Promise<void>;
     disconnect(callbacks?: Callbacks): Promise<void>;
 }
