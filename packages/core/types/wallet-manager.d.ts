@@ -37,9 +37,9 @@ export declare class WalletManager extends StateBase<WalletData> {
     getCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
     setActions: (actions: Actions) => void;
     reset: () => void;
-    private storeCurrent;
+    private updateCurrentStore;
     setCurrentWallet: (walletName?: WalletName) => void;
-    setCurrentChain: (chainName?: ChainName) => void;
+    setCurrentChain: (chainName?: ChainName, noUpdateStore?: boolean) => void;
     getWallet: (walletName?: WalletName, chainName?: ChainName) => WalletAdapter | undefined;
     getChain: (chainName?: ChainName) => ChainRecord | undefined;
     getChainLogo: (chainName?: ChainName) => string | undefined;

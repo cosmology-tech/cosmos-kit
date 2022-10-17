@@ -254,8 +254,8 @@ export class WalletManager extends StateBase<WalletData> {
       chainRecord?.chain.logo_URIs?.svg ||
       chainRecord?.chain.logo_URIs?.png ||
       chainRecord?.chain.logo_URIs?.jpeg ||
-      chainRecord.assetList?.assets[0]?.logo_URIs?.svg ||
-      chainRecord.assetList?.assets[0]?.logo_URIs?.png ||
+      chainRecord?.assetList?.assets[0]?.logo_URIs?.svg ||
+      chainRecord?.assetList?.assets[0]?.logo_URIs?.png ||
       undefined
     );
   };
