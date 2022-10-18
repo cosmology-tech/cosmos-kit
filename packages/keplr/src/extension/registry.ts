@@ -9,6 +9,7 @@ export const keplrExtensionInfo: Wallet = {
   prettyName: 'Keplr Extension',
   isQRCode: false,
   desktopOnly: false,
+  connectEventNames: ['keplr_keystorechange'],
   downloads: {
     desktop: [
       {

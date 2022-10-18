@@ -3,6 +3,7 @@ import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
+import Bowser from 'bowser';
 
 import { StateBase } from './bases';
 import {
@@ -198,7 +199,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let storeObj = {};
-    const storeStr = window?.localStorage.getItem('walletManager');
+    const storeStr = window?.localStorage.getItem('this');
     if (storeStr) {
       storeObj = JSON.parse(storeStr);
     }
@@ -224,10 +225,10 @@ export class WalletManager extends StateBase<WalletData> {
         break;
     }
 
-    window?.localStorage.setItem('walletManager', JSON.stringify(storeObj));
+    window?.localStorage.setItem('this', JSON.stringify(storeObj));
     if (this.storageOptions.duration) {
       setTimeout(() => {
-        window?.localStorage.removeItem('walletManager');
+        window?.localStorage.removeItem('this');
       }, this.storageOptions.duration);
     }
   };
@@ -373,5 +374,78 @@ export class WalletManager extends StateBase<WalletData> {
 
   closeView = () => {
     this.emitViewOpen?.(false);
+  };
+
+  private _handleTabLoad = (event?: Event) => {
+    event?.preventDefault();
+    this.env = {
+      browser: Bowser.getParser(window.navigator.userAgent).getBrowserName(
+        true
+      ),
+      device: Bowser.getParser(window.navigator.userAgent).getPlatform().type,
+      os: Bowser.getParser(window.navigator.userAgent).getOSName(true),
+    };
+    this.connect();
+  };
+
+  private _handleTabClose = (event: Event) => {
+    event.preventDefault();
+    if (this.storageOptions.clearOnTabClose) {
+      window.localStorage.removeItem('this');
+    }
+    if (this.sessionOptions.killOnTabClose) {
+      this.disconnect();
+    }
+  };
+
+  private _connectEventLisener = async (event: Event) => {
+    event.preventDefault();
+    if (!this.isInit) {
+      await this.connect();
+    }
+  };
+
+  addEventListeners = () => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    if (this.useStorage) {
+      const storeStr = window.localStorage.getItem('this');
+      if (storeStr) {
+        const { currentWalletName, currentChainName } = JSON.parse(storeStr);
+        this.setCurrentWallet(currentWalletName);
+        this.setCurrentChain(currentChainName);
+        if (currentWalletName) {
+          this._handleTabLoad();
+          if (document.readyState !== 'complete') {
+            window.addEventListener('load', this._handleTabLoad);
+          }
+        }
+      }
+
+      window.addEventListener('beforeunload', this._handleTabClose);
+
+      this.wallets.forEach((wallet) => {
+        wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+          window.addEventListener(eventName, this._connectEventLisener);
+        });
+      });
+    }
+  };
+
+  removeEventListeners = () => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    window.removeEventListener('beforeunload', this._handleTabClose);
+    window.removeEventListener('load', this._handleTabLoad);
+
+    this.wallets.forEach((wallet) => {
+      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+        window.removeEventListener(eventName, this._connectEventLisener);
+      });
+    });
   };
 }

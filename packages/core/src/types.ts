@@ -81,6 +81,7 @@ export interface Wallet {
   prettyName: string;
   isQRCode: boolean;
   desktopOnly?: boolean; // if undefined, equivalent to false
+  connectEventNames?: string[];
   downloads?: {
     default: string;
     desktop?: Icon[];
