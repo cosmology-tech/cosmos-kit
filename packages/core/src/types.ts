@@ -63,6 +63,12 @@ export type WalletName = string;
 
 export type Dispatch<T> = (value: T) => void;
 
+export interface WalletEnv {
+  browser: string;
+  device: string;
+  os: string;
+}
+
 interface Icon {
   browser?: string;
   os?: string;
@@ -70,17 +76,11 @@ interface Icon {
   link: string;
 }
 
-export interface BrowserEnv {
-  browser?: string;
-  device?: string;
-  os?: string;
-}
-
 export interface Wallet {
   name: WalletName;
   prettyName: string;
   isQRCode: boolean;
-  // compatibleEnvs?: BrowserEnv[];
+  desktopOnly?: boolean; // if undefined, equivalent to false
   downloads?: {
     default: string;
     desktop?: Icon[];

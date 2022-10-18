@@ -92,6 +92,13 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     walletManager.currentWallet?.qrUri,
   ]);
 
+  useEffect(() => {
+    const appUrl = walletManager.currentWallet?.appUrl;
+    if (appUrl) {
+      window.location.href = appUrl;
+    }
+  }, [walletManager.currentWallet?.appUrl]);
+
   return (
     <ConnectModal
       modalIsOpen={isOpen}

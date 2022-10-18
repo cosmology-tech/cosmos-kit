@@ -7,7 +7,6 @@ import { SigningStargateClient } from '@cosmjs/stargate';
 import { StateBase } from './bases';
 import {
   Actions,
-  BrowserEnv,
   Callbacks,
   ChainName,
   ChainRecord,
@@ -20,18 +19,19 @@ import {
   ViewOptions,
   WalletAdapter,
   WalletData,
+  WalletEnv,
   WalletName,
   WalletOption,
 } from './types';
 import { convertChain } from './utils';
 
 export class WalletManager extends StateBase<WalletData> {
-  protected _currentWalletName?: WalletName;
-  protected _currentChainName?: ChainName;
+  private _currentWalletName?: WalletName;
+  private _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
-  declare env?: BrowserEnv;
-  wallets: WalletOption[];
-  chains: ChainRecord[];
+  private _wallets: WalletOption[];
+  chainRecords: ChainRecord[];
+  env?: WalletEnv;
   viewOptions: ViewOptions = {
     alwaysOpenView: false,
     closeViewWhenWalletIsConnected: false,
@@ -65,8 +65,8 @@ export class WalletManager extends StateBase<WalletData> {
     if (chains.length === 0) {
       throw new Error('No chain provided.');
     }
-    this.wallets = wallets;
-    this.chains = chains.map((chain) =>
+    this._wallets = wallets;
+    this.chainRecords = chains.map((chain) =>
       convertChain(
         chain,
         assetLists,
@@ -77,12 +77,25 @@ export class WalletManager extends StateBase<WalletData> {
     console.info(
       `${this.walletCount} wallets and ${this.chainCount} chains are used!`
     );
-    this.wallets.forEach((wallet) => {
-      wallet.setChains(this.chains);
+    this._wallets.forEach((wallet) => {
+      wallet.setChains(this.chainRecords);
     });
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+  }
+
+  get isMobile() {
+    return this.env && ['tablet', 'mobile'].includes(this.env.device)
+      ? true
+      : false;
+  }
+
+  get wallets() {
+    if (this.isMobile) {
+      return this._wallets.filter((wallet) => !wallet.walletInfo.desktopOnly);
+    }
+    return this._wallets;
   }
 
   get useStorage() {
@@ -91,14 +104,14 @@ export class WalletManager extends StateBase<WalletData> {
 
   get currentWalletName() {
     if (!this._currentWalletName && this.walletCount === 1) {
-      return this.wallets[0].walletName;
+      return this._wallets[0].walletName;
     }
     return this._currentWalletName;
   }
 
   get currentChainName() {
     if (!this._currentChainName && this.chainCount === 1) {
-      return this.chains[0].name;
+      return this.chainRecords[0].name;
     }
     return this._currentChainName;
   }
@@ -136,7 +149,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this.wallets.map((wallet) => wallet.walletName);
+    return this._wallets.map((wallet) => wallet.walletName);
   }
 
   get walletCount() {
@@ -144,7 +157,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get chainNames() {
-    return this.chains.map((chain) => chain.name);
+    return this.chainRecords.map((chain) => chain.name);
   }
 
   get chainCount() {
@@ -240,7 +253,7 @@ export class WalletManager extends StateBase<WalletData> {
       return undefined;
     }
 
-    let wallet: WalletAdapter | undefined = this.wallets.find(
+    let wallet: WalletAdapter | undefined = this._wallets.find(
       (w) => w.walletName === walletName
     );
 
@@ -259,7 +272,7 @@ export class WalletManager extends StateBase<WalletData> {
       return undefined;
     }
 
-    const chainRecord: ChainRecord | undefined = this.chains.find(
+    const chainRecord: ChainRecord | undefined = this.chainRecords.find(
       (c) => c.name === chainName
     );
 
@@ -304,6 +317,7 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
+      this.currentWallet.setEnv(this.env);
       await this.currentWallet.connect(this.sessionOptions, this.callbacks);
       if (
         this.isWalletConnected &&

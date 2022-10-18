@@ -22,6 +22,7 @@ export class KeplrMobileWallet extends MainWalletBase<
 > {
   connector: WalletConnect;
   emitter: EventEmitter = new EventEmitter();
+  private _appUrl?: string;
 
   constructor(walletInfo: Wallet = keplrMobileInfo, chains?: ChainRecord[]) {
     super(walletInfo, chains);
@@ -54,6 +55,10 @@ export class KeplrMobileWallet extends MainWalletBase<
 
   get qrUri() {
     return this.connector.uri;
+  }
+
+  get appUrl() {
+    return this._appUrl;
   }
 
   setChains(chains: ChainRecord[]): void {
@@ -89,6 +94,18 @@ export class KeplrMobileWallet extends MainWalletBase<
   ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
+      this.setState(State.Pending);
+
+      if (this.env && ['tablet', 'mobile'].includes(this.env.device)) {
+        if (this.env.os === 'android') {
+          this._appUrl = `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
+        } else {
+          this._appUrl = `keplrwallet://wcV1?${this.qrUri}`;
+        }
+      } else {
+        this._appUrl = undefined;
+      }
+
       this.emitter.on('update', async () => {
         await this.update(callbacks);
         if (sessionOptions?.duration) {

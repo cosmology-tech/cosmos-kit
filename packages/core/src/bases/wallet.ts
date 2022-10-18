@@ -1,10 +1,11 @@
-import { Callbacks, SessionOptions, State, Wallet } from '../types';
+import { Callbacks, SessionOptions, State, Wallet, WalletEnv } from '../types';
 import { ClientNotExistError } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   protected _client?: Client;
   protected _walletInfo: Wallet;
+  protected _env?: WalletEnv;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -25,6 +26,14 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
 
   get client() {
     return this._client;
+  }
+
+  get env() {
+    return this._env;
+  }
+
+  setEnv(env: WalletEnv) {
+    this._env = env;
   }
 
   disconnect(callbacks?: Callbacks) {

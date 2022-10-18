@@ -88,7 +88,30 @@ export const getModalContent = (
               />
             );
           } else {
-            return <QRCode link={currentWalletData.qrCodeLink} />;
+            if (walletManager.isMobile) {
+              if (walletManager.currentWallet?.appUrl) {
+                window.location.href = walletManager.currentWallet?.appUrl;
+                return;
+              } else {
+                return (
+                  <ExtensionContent
+                    selectedWallet={currentWalletData}
+                    stateHeader="Error"
+                    stateDesc={'App URL not defined!'}
+                    isReconnect={true}
+                    connectWalletButton={
+                      <ConnectWalletButton
+                        isDisabled={false}
+                        buttonText="Change Wallet"
+                        onClickConnectBtn={onChangeWallet}
+                      />
+                    }
+                  />
+                );
+              }
+            } else {
+              return <QRCode link={currentWalletData.qrCodeLink} />;
+            }
           }
         }
         break;
