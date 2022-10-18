@@ -3,11 +3,12 @@ import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient } from '@cosmjs/stargate';
-import Bowser from 'bowser';
+import { isAndroid, isMobile } from '@walletconnect/browser-utils';
 
 import { StateBase } from './bases';
 import {
   Actions,
+  AppEnv,
   Callbacks,
   ChainName,
   ChainRecord,
@@ -20,7 +21,6 @@ import {
   ViewOptions,
   WalletAdapter,
   WalletData,
-  WalletEnv,
   WalletName,
   WalletOption,
 } from './types';
@@ -32,7 +32,7 @@ export class WalletManager extends StateBase<WalletData> {
   declare actions?: ManagerActions<WalletData>;
   private _wallets: WalletOption[];
   chainRecords: ChainRecord[];
-  env?: WalletEnv;
+  env?: AppEnv;
   viewOptions: ViewOptions = {
     alwaysOpenView: false,
     closeViewWhenWalletIsConnected: false,
@@ -86,15 +86,9 @@ export class WalletManager extends StateBase<WalletData> {
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
   }
 
-  get isMobile() {
-    return this.env && ['tablet', 'mobile'].includes(this.env.device)
-      ? true
-      : false;
-  }
-
   get wallets() {
-    if (this.isMobile) {
-      return this._wallets.filter((wallet) => !wallet.walletInfo.desktopOnly);
+    if (this.env?.isMobile) {
+      return this._wallets.filter((wallet) => wallet.walletInfo.supportMobile);
     }
     return this._wallets;
   }
@@ -318,8 +312,11 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      this.currentWallet.setEnv(this.env);
-      await this.currentWallet.connect(this.sessionOptions, this.callbacks);
+      await this.currentWallet.connect(
+        this.sessionOptions,
+        this.callbacks,
+        this.env
+      );
       if (
         this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
@@ -348,9 +345,6 @@ export class WalletManager extends StateBase<WalletData> {
     try {
       await this.currentWallet.disconnect(this.callbacks);
 
-      console.log(12, this.currentWallet.data);
-      console.log(23, this.data);
-
       if (
         this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsDisconnected
@@ -378,13 +372,6 @@ export class WalletManager extends StateBase<WalletData> {
 
   private _handleTabLoad = (event?: Event) => {
     event?.preventDefault();
-    this.env = {
-      browser: Bowser.getParser(window.navigator.userAgent).getBrowserName(
-        true
-      ),
-      device: Bowser.getParser(window.navigator.userAgent).getPlatform().type,
-      os: Bowser.getParser(window.navigator.userAgent).getOSName(true),
-    };
     this.connect();
   };
 
@@ -405,10 +392,15 @@ export class WalletManager extends StateBase<WalletData> {
     }
   };
 
-  addEventListeners = () => {
+  onMounted = () => {
     if (typeof window === 'undefined') {
       return;
     }
+
+    this.env = {
+      isMobile: isMobile(),
+      isAndroid: isAndroid(),
+    };
 
     if (this.useStorage) {
       const storeStr = window.localStorage.getItem('this');
@@ -434,7 +426,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
   };
 
-  removeEventListeners = () => {
+  onUnmounted = () => {
     if (typeof window === 'undefined') {
       return;
     }

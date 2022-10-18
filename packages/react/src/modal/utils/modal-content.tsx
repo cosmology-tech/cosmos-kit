@@ -88,9 +88,9 @@ export const getModalContent = (
               />
             );
           } else {
-            if (walletManager.isMobile) {
+            if (walletManager.env?.isMobile) {
               if (walletManager.currentWallet?.appUrl) {
-                window.location.href = walletManager.currentWallet?.appUrl;
+                // window.location.href = walletManager.currentWallet?.appUrl;
                 return;
               } else {
                 return (

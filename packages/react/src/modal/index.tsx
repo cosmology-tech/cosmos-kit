@@ -95,7 +95,12 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   useEffect(() => {
     const appUrl = walletManager.currentWallet?.appUrl;
     if (appUrl) {
+      console.log('%cindex.tsx line:98 appUrl', 'color: #007acc;', appUrl);
       window.location.href = appUrl;
+      setTimeout(function () {
+        window.location.href =
+          'https://apps.apple.com/us/app/keplr-wallet/id1567851089';
+      }, 5000);
     }
   }, [walletManager.currentWallet?.appUrl]);
 

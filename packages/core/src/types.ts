@@ -63,10 +63,9 @@ export type WalletName = string;
 
 export type Dispatch<T> = (value: T) => void;
 
-export interface WalletEnv {
-  browser: string;
-  device: string;
-  os: string;
+export interface AppEnv {
+  isMobile: boolean;
+  isAndroid: boolean;
 }
 
 interface Icon {
@@ -80,7 +79,7 @@ export interface Wallet {
   name: WalletName;
   prettyName: string;
   isQRCode: boolean;
-  desktopOnly?: boolean; // if undefined, equivalent to false
+  supportMobile: boolean;
   connectEventNames?: string[];
   downloads?: {
     default: string;

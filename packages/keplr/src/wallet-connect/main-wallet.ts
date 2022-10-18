@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import {
+  AppEnv,
   Callbacks,
   ChainRecord,
   SessionOptions,
@@ -7,6 +9,7 @@ import {
 } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
+import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
@@ -90,16 +93,25 @@ export class KeplrMobileWallet extends MainWalletBase<
 
   async connect(
     sessionOptions?: SessionOptions,
-    callbacks?: Callbacks
+    callbacks?: Callbacks,
+    env?: AppEnv
   ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
-      this.setState(State.Pending);
 
-      if (this.env && ['tablet', 'mobile'].includes(this.env.device)) {
-        if (this.env.os === 'android') {
+      if (env?.isMobile) {
+        // this.setState(State.Pending);
+        if (env?.isAndroid) {
+          saveMobileLinkInfo({
+            name: 'Keplr',
+            href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
+          });
           this._appUrl = `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
         } else {
+          saveMobileLinkInfo({
+            name: 'Keplr',
+            href: 'keplrwallet://wcV1',
+          });
           this._appUrl = `keplrwallet://wcV1?${this.qrUri}`;
         }
       } else {
@@ -119,6 +131,7 @@ export class KeplrMobileWallet extends MainWalletBase<
         await this.disconnect(callbacks);
       });
     } else {
+      console.info('Using existing wallet connect session.');
       await this.update(callbacks);
     }
   }

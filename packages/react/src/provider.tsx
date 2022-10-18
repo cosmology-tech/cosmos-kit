@@ -87,9 +87,9 @@ export const WalletProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
-    walletManager.addEventListeners();
+    walletManager.onMounted();
     return () => {
-      walletManager.removeEventListeners();
+      walletManager.onUnmounted();
     };
   }, []);
 

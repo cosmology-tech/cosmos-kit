@@ -1,11 +1,12 @@
-import { Callbacks, SessionOptions, State, Wallet, WalletEnv } from '../types';
+import { AppEnv, Callbacks, SessionOptions, State, Wallet } from '../types';
 import { ClientNotExistError } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   protected _client?: Client;
   protected _walletInfo: Wallet;
-  protected _env?: WalletEnv;
+  isMobile = false;
+  isAndroid = false;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -28,14 +29,6 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     return this._client;
   }
 
-  get env() {
-    return this._env;
-  }
-
-  setEnv(env: WalletEnv) {
-    this._env = env;
-  }
-
   disconnect(callbacks?: Callbacks) {
     this.reset();
     callbacks?.disconnect?.();
@@ -46,7 +39,19 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     this.setMessage(ClientNotExistError.message);
   }
 
-  async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+  async connect(
+    sessionOptions?: SessionOptions,
+    callbacks?: Callbacks,
+    env?: AppEnv
+  ) {
+    if (env?.isMobile && !this.walletInfo.supportMobile) {
+      this.setMessage(
+        'This wallet is not supported on mobile, please use desktop browsers.'
+      );
+      this.setState(State.Error);
+      return;
+    }
+
     if (!this.client) {
       try {
         this._client = await this.fetchClient();
