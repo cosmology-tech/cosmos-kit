@@ -27,7 +27,7 @@ export const walletContext = createContext<{
   walletManager: WalletManager;
 } | null>(null);
 
-export const WalletProvider = ({
+export const CosmosProvider = ({
   chains,
   assetLists,
   wallets,

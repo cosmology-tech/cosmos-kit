@@ -24,26 +24,26 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 ## Provider
 
-First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
+First, add the `CosmosProvider` to your app, and include the supported chains and supported wallets:
 
 ```tsx
 import * as React from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { WalletProvider } from '@cosmos-kit/react';
+import { CosmosProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
 function WalletApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <WalletProvider
+      <CosmosProvider
         chains={chains} // supported chains
         assetLists={assets} // supported asset lists
         wallets={wallets} // supported wallets
       >
         <YourWalletRelatedComponents />
-      </WalletProvider>
+      </CosmosProvider>
     </ChakraProvider>
   );
 }
@@ -127,7 +127,7 @@ function Component () => {
 
 ### Customized signing client options
 
-The default options are `undefined`. You can provide your own options in `WalletProvider`.
+The default options are `undefined`. You can provide your own options in `CosmosProvider`.
 
 ```ts
 import * as React from 'react';
@@ -137,7 +137,7 @@ import { chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { getSigningCosmosClientOptions } from 'interchain';
 import { SignerOptions } from '@cosmos-kit/core';
-import { WalletProvider } from '@cosmos-kit/react';
+import { CosmosProvider } from '@cosmos-kit/react';
 import { wallets } from '@cosmos-kit/config';
 
 // construct signer options
@@ -163,13 +163,13 @@ const signerOptions: SignerOptions = {
 
 function WalletApp() {
   return (
-    <WalletProvider
+    <CosmosProvider
       chains={chains}
       wallets={wallets}
       signerOptions={signerOptions} // Provide signerOptions
     >
       <YourWalletRelatedComponents />
-    </WalletProvider>
+    </CosmosProvider>
   );
 }
 ```
@@ -189,13 +189,13 @@ export interface SignerOptions {
 
 ### Customized Modal
 
-You can bring your own UI. The `WalletProvider` provides a default modal for connection in `@cosmos-kit/react`.
+You can bring your own UI. The `CosmosProvider` provides a default modal for connection in `@cosmos-kit/react`.
 
 ```ts
 import { DefaultModal } from '@cosmos-kit/react';
 ```
 
-To define your own modal, you can input you modal component in `WalletProvider` props.
+To define your own modal, you can input you modal component in `CosmosProvider` props.
 
 Required properties in your modal component:
 
@@ -214,7 +214,7 @@ A simple example to define your own modal:
 ```tsx
 import * as React from 'react';
 
-import { WalletProvider, useWallet } from '@cosmos-kit/react';
+import { CosmosProvider, useWallet } from '@cosmos-kit/react';
 
 // Define Modal Component
 const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
@@ -256,20 +256,20 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
 function WalletApp() {
   return (
-    <WalletProvider
+    <CosmosProvider
       chains={chains}
       wallets={wallets}
       walletModal={MyModal} // Provide walletModal
     >
       <YourWalletRelatedComponents />
-    </WalletProvider>
+    </CosmosProvider>
   );
 }
 ```
 
 ### Customized Wallet Info
 
-The simplest way to import wallets in `WalletProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
+The simplest way to import wallets in `CosmosProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
 
 ```ts
 export interface Wallet {
@@ -303,7 +303,7 @@ export const wallets = [keplrExtension, KeplrMobile];
 
 The default value of `keplrExtensionInfo` and `keplrMobileInfo` can be seen from `import { keplrExtensionInfo, keplrMobileInfo } from '@cosmos-kit/keplr';`.
 
-### Options in `WalletProvider`
+### Options in `CosmosProvider`
 
 #### `endpointOptions`
 
@@ -323,7 +323,7 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 e.g.
 
 ```tsx
-<WalletProvider
+<CosmosProvider
   ...
   endpointOptions={{
     osmosis: {
