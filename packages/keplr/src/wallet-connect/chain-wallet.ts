@@ -8,6 +8,7 @@ import {
   Wallet,
 } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
+import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
@@ -44,6 +45,26 @@ export class ChainKeplrMobile extends ChainWalletBase<
 
   get qrUri() {
     return this.connector.uri;
+  }
+
+  get appUrl() {
+    if (this.env?.isMobile) {
+      if (this.env?.isAndroid) {
+        saveMobileLinkInfo({
+          name: 'Keplr',
+          href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
+        });
+        return `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
+      } else {
+        saveMobileLinkInfo({
+          name: 'Keplr',
+          href: 'keplrwallet://wcV1',
+        });
+        return `keplrwallet://wcV1?${this.qrUri}`;
+      }
+    } else {
+      return void 0;
+    }
   }
 
   async connect(

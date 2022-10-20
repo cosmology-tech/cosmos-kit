@@ -312,11 +312,8 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      await this.currentWallet.connect(
-        this.sessionOptions,
-        this.callbacks,
-        this.env
-      );
+      this.currentWallet.setEnv(this.env);
+      await this.currentWallet.connect(this.sessionOptions, this.callbacks);
       if (
         this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsConnected

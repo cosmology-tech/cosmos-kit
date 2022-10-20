@@ -5,8 +5,7 @@ import { StateBase } from './state';
 export abstract class WalletBase<Client, Data> extends StateBase<Data> {
   protected _client?: Client;
   protected _walletInfo: Wallet;
-  isMobile = false;
-  isAndroid = false;
+  protected _env?: AppEnv;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -29,6 +28,14 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     return this._client;
   }
 
+  get env() {
+    return this._env;
+  }
+
+  setEnv(env: AppEnv) {
+    this._env = env;
+  }
+
   disconnect(callbacks?: Callbacks) {
     this.reset();
     callbacks?.disconnect?.();
@@ -39,12 +46,8 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     this.setMessage(ClientNotExistError.message);
   }
 
-  async connect(
-    sessionOptions?: SessionOptions,
-    callbacks?: Callbacks,
-    env?: AppEnv
-  ) {
-    if (env?.isMobile && !this.walletInfo.supportMobile) {
+  async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+    if (this.env?.isMobile && !this.walletInfo.supportMobile) {
       this.setMessage(
         'This wallet is not supported on mobile, please use desktop browsers.'
       );

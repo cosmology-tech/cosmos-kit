@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import {
-  AppEnv,
   Callbacks,
   ChainRecord,
   SessionOptions,
@@ -25,7 +24,6 @@ export class KeplrMobileWallet extends MainWalletBase<
 > {
   connector: WalletConnect;
   emitter: EventEmitter = new EventEmitter();
-  private _appUrl?: string;
 
   constructor(walletInfo: Wallet = keplrMobileInfo, chains?: ChainRecord[]) {
     super(walletInfo, chains);
@@ -61,7 +59,23 @@ export class KeplrMobileWallet extends MainWalletBase<
   }
 
   get appUrl() {
-    return this._appUrl;
+    if (this.env?.isMobile) {
+      if (this.env?.isAndroid) {
+        saveMobileLinkInfo({
+          name: 'Keplr',
+          href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
+        });
+        return `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
+      } else {
+        saveMobileLinkInfo({
+          name: 'Keplr',
+          href: 'keplrwallet://wcV1',
+        });
+        return `keplrwallet://wcV1?${this.qrUri}`;
+      }
+    } else {
+      return void 0;
+    }
   }
 
   setChains(chains: ChainRecord[]): void {
@@ -93,30 +107,10 @@ export class KeplrMobileWallet extends MainWalletBase<
 
   async connect(
     sessionOptions?: SessionOptions,
-    callbacks?: Callbacks,
-    env?: AppEnv
+    callbacks?: Callbacks
   ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
-
-      if (env?.isMobile) {
-        // this.setState(State.Pending);
-        if (env?.isAndroid) {
-          saveMobileLinkInfo({
-            name: 'Keplr',
-            href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
-          });
-          this._appUrl = `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
-        } else {
-          saveMobileLinkInfo({
-            name: 'Keplr',
-            href: 'keplrwallet://wcV1',
-          });
-          this._appUrl = `keplrwallet://wcV1?${this.qrUri}`;
-        }
-      } else {
-        this._appUrl = undefined;
-      }
 
       this.emitter.on('update', async () => {
         await this.update(callbacks);
