@@ -1,7 +1,6 @@
 import { Callbacks, ChainRecord, State, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
-import { preferredEndpoints } from '../config';
 import { ChainCosmostationExtension } from './chain-wallet';
 import { cosmostationExtensionInfo } from './registry';
 import { Cosmostation } from './types';
@@ -24,14 +23,8 @@ export class CosmostationExtensionWallet extends MainWalletBase<
     this._chainWallets = new Map(
       chains.map((chain) => {
         chain.preferredEndpoints = {
-          rpc: [
-            ...(chain.preferredEndpoints?.rpc || []),
-            ...(preferredEndpoints[chain.name]?.rpc || []),
-          ],
-          rest: [
-            ...(chain.preferredEndpoints?.rest || []),
-            ...(preferredEndpoints[chain.name]?.rest || []),
-          ],
+          rpc: [...(chain.preferredEndpoints?.rpc || [])],
+          rest: [...(chain.preferredEndpoints?.rest || [])],
         };
 
         return [

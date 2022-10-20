@@ -11,7 +11,6 @@ import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
-import { preferredEndpoints } from '../config';
 import { ChainKeplrMobile } from './chain-wallet';
 import { cosmostationMobileInfo } from './registry';
 import { CosmostationMobileData } from './types';
@@ -65,14 +64,8 @@ export class CosmostationMobileWallet extends MainWalletBase<
     this._chainWallets = new Map(
       chains.map((chain) => {
         chain.preferredEndpoints = {
-          rpc: [
-            ...(chain.preferredEndpoints?.rpc || []),
-            ...(preferredEndpoints[chain.name]?.rpc || []),
-          ],
-          rest: [
-            ...(chain.preferredEndpoints?.rest || []),
-            ...(preferredEndpoints[chain.name]?.rest || []),
-          ],
+          rpc: [...(chain.preferredEndpoints?.rpc || [])],
+          rest: [...(chain.preferredEndpoints?.rest || [])],
         };
 
         return [
