@@ -35,7 +35,7 @@ export class ChainLeapExtension extends ChainWalletBase<
         username: key.name,
         offlineSigner: this.chainId
           ? this.client.getOfflineSigner(this.chainId)
-          : undefined,
+          : void 0,
       });
       this.setState(State.Done);
     } catch (e) {

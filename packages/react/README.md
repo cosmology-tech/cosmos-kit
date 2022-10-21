@@ -86,7 +86,7 @@ function Component ({ chainName }: { chainName?: string }) => {
 
 ## Signing Clients
 
-There two signing clients available via `walletManager` functions: `getStargateClient()` and `getCosmWasmClient()`.
+There two signing clients available via `walletManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
 
 Using signing client in react component:
 
@@ -99,13 +99,13 @@ import { useWallet } from "@cosmos-kit/react";
 function Component () => {
     const walletManager = useWallet();
     const {
-        getStargateClient,
-        getCosmWasmClient,
+        getSigningStargateClient,
+        getSigningCosmWasmClient,
         address,
       } = walletManager;
 
     const sendTokens = async () => {
-      const stargateClient = await getStargateClient();
+      const stargateClient = await getSigningStargateClient();
       if (!stargateClient || !address) {
           console.error('stargateClient undefined or address undefined.')
           return;

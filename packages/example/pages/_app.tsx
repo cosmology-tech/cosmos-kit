@@ -7,6 +7,8 @@ import { chains, assets } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
 import { wallets as keplrWallet } from '@cosmos-kit/keplr';
 import { wallets as leapwallets } from "@cosmos-kit/leap";
+import { GasPrice } from '@cosmjs/stargate';
+import { Decimal } from "@cosmjs/math";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,7 +18,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[...keplrWallet, ...leapwallets]}
         signerOptions={{
-          stargate: (chain: Chain) => undefined,
+          stargate: (chain: Chain) => {
+            switch (chain.chain_name) {
+              case 'osmosis':
+                return {
+                  gasPrice: new GasPrice(Decimal.zero(1), 'uosmo')
+                }           
+              default:
+                return void 0;
+            }
+          },
           cosmwasm: (chain: Chain) => undefined,
         }}
         endpointOptions={{

@@ -5,7 +5,7 @@ import { useWallet } from "@cosmos-kit/react";
 
 const Test = () => {
     const walletManager = useWallet();
-    const { getStargateClient, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
+    const { signAndBroadcast, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
 
     useEffect(() => {
         const fn = async () => {
@@ -17,32 +17,26 @@ const Test = () => {
     }, [connect, setCurrentWallet, setCurrentChain])
 
     const onClick = async () => {
-        const stargateClient = await getStargateClient();
-        if (!stargateClient || !address) {
-            console.error('stargateClient undefined or address undefined.')
-            return;
-        }
-
         const voteMessages = [];
 
         voteMessages.push({
             typeUrl: '/cosmos.gov.v1beta1.MsgVote',
             value: {
                 voter: address,
-                proposalId: "330",
+                proposalId: "350",
                 option: 1
             }
         });
 
-        const fee = {
-            amount: [{
-                denom: 'uosmo',
-                amount: '0',
-            }],
-            gas: '200000',
-        }
+        // const fee = {
+        //     amount: [{
+        //         denom: 'uosmo',
+        //         amount: '0',
+        //     }],
+        //     gas: '200000',
+        // }
 
-        const res = await stargateClient.signAndBroadcast(address, voteMessages, fee, '');
+        const res = await signAndBroadcast(voteMessages);
         console.log(111, res)
     }
 

@@ -5,7 +5,7 @@ export const getKeplrFromExtension: () => Promise<
   Keplr | undefined
 > = async () => {
   if (typeof window === 'undefined') {
-    return undefined;
+    return void 0;
   }
 
   const keplr = (window as KeplrWindow).keplr;

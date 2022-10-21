@@ -17,7 +17,7 @@ export const getLeapFromExtension: () => Promise<
   Leap | undefined
 > = async () => {
   if (typeof window === 'undefined') {
-    return undefined;
+    return void 0;
   }
 
   const leap = (window as LeapWindow).leap;

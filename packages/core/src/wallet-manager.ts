@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { OfflineSigner } from '@cosmjs/proto-signing';
-import { SigningStargateClient } from '@cosmjs/stargate';
+import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
+import { SigningStargateClient, StdFee } from '@cosmjs/stargate';
 import { isAndroid, isMobile } from '@walletconnect/browser-utils';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import { StateBase } from './bases';
 import {
@@ -171,12 +172,43 @@ export class WalletManager extends StateBase<WalletData> {
     return this.actions?.viewOpen;
   }
 
-  getStargateClient = async (): Promise<SigningStargateClient | undefined> => {
-    return await this.currentWallet?.getSigningStargateClient();
+  getSigningStargateClient = async (): Promise<
+    SigningStargateClient | undefined
+  > => {
+    return await this.currentWallet?.getSigningStargateClient?.();
   };
 
-  getCosmWasmClient = async (): Promise<SigningCosmWasmClient | undefined> => {
-    return await this.currentWallet?.getSigningCosmWasmClient();
+  getSigningCosmWasmClient = async (): Promise<
+    SigningCosmWasmClient | undefined
+  > => {
+    return await this.currentWallet?.getSigningCosmWasmClient?.();
+  };
+
+  sign = async (
+    messages: EncodeObject[],
+    fee: StdFee,
+    memo?: string,
+    type?: string
+  ): Promise<TxRaw> => {
+    return await this.currentWallet?.signStargate?.(messages, fee, memo, type);
+  };
+
+  broadcast = async (signedMessages: TxRaw, type?: string) => {
+    return await this.currentWallet?.broadcast?.(signedMessages, type);
+  };
+
+  signAndBroadcast = async (
+    messages: EncodeObject[],
+    fee?: StdFee,
+    memo?: string,
+    type?: string
+  ) => {
+    return await this.currentWallet?.signAndBroadcast?.(
+      messages,
+      fee,
+      memo,
+      type
+    );
   };
 
   setActions = (actions: Actions) => {
@@ -245,7 +277,7 @@ export class WalletManager extends StateBase<WalletData> {
     chainName?: ChainName
   ): WalletAdapter | undefined => {
     if (!walletName) {
-      return undefined;
+      return void 0;
     }
 
     let wallet: WalletAdapter | undefined = this._wallets.find(
@@ -264,7 +296,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
     if (!chainName) {
-      return undefined;
+      return void 0;
     }
 
     const chainRecord: ChainRecord | undefined = this.chainRecords.find(
