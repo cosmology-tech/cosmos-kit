@@ -1,10 +1,11 @@
-import type { AppProps } from 'next/app';
-import { WalletProvider } from '@cosmos-kit/react'
-import { ChakraProvider } from '@chakra-ui/react';
-import { defaultTheme } from '../config';
+import { assets, chains } from 'chain-registry';
 
-import { chains, assets } from 'chain-registry';
+import type { AppProps } from 'next/app';
 import { Chain } from '@chain-registry/types';
+import { ChakraProvider } from '@chakra-ui/react';
+import { WalletProvider } from '@cosmos-kit/react'
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { defaultTheme } from '../config';
 import { wallets as keplrWallet } from '@cosmos-kit/keplr';
 import { wallets as leapwallets } from "@cosmos-kit/leap";
 
@@ -14,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallet, ...leapwallets]}
+        wallets={[...keplrWallet, ...leapwallets, ...cosmostationWallets]}
         signerOptions={{
           stargate: (chain: Chain) => undefined,
           cosmwasm: (chain: Chain) => undefined,

@@ -36,6 +36,10 @@ A wallet adapter for React with mobile WalletConnect support for the Cosmos ecos
 
 Keplr Wallet integration with Mobile support.
 
+#### [@cosmos-kit/cosmostation](packages/cosmostation)
+
+Cosmostation Wallet integration with Mobile support.
+
 #### [@cosmos-kit/example](packages/example)
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
