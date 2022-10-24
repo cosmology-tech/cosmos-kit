@@ -1,4 +1,4 @@
-import { State, WalletStatus } from '../types';
+import { State, WalletStatus } from '../types/common';
 import { ClientNotExistError } from './error';
 
 export const getWalletStatusFromState = (

@@ -12,7 +12,9 @@ import {
   StdFee,
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { cosmos } from 'interchain';
 
+import { ChainQuery } from '../chain-query';
 import { ChainRecord, ChainWalletDataBase, Wallet } from '../types';
 import { isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
@@ -113,6 +115,28 @@ export abstract class ChainWalletBase<
   get offlineSigner(): OfflineSigner | undefined {
     return this.data?.offlineSigner;
   }
+
+  getQueryClient = async () => {
+    const restEndpoint = await this.getRestEndpoint();
+
+    if (restEndpoint) {
+      return await cosmos.ClientFactory.createLCDClient({
+        restEndpoint,
+      });
+    }
+    console.error('No valid restEndpoint.');
+    return void 0;
+  };
+
+  getChainQuery = async () => {
+    const restEndpoint = await this.getRestEndpoint();
+
+    if (restEndpoint) {
+      return new ChainQuery(restEndpoint);
+    }
+    console.error('No valid restEndpoint.');
+    return void 0;
+  };
 
   getSigningStargateClient = async (): Promise<
     SigningStargateClient | undefined

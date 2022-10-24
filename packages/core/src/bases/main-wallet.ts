@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Callbacks, ChainName, ChainRecord, Wallet } from '../types';
-import { MainWalletDataBase } from '../types';
+import {
+  Callbacks,
+  ChainName,
+  ChainRecord,
+  MainWalletDataBase,
+  Wallet,
+} from '../types';
+import {} from '../types';
 import { WalletBase } from './wallet';
 
 export abstract class MainWalletBase<

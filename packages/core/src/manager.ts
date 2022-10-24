@@ -24,7 +24,7 @@ import {
   WalletData,
   WalletName,
   WalletOption,
-} from './types';
+} from './types/common';
 import { convertChain } from './utils';
 
 export class CosmosManager extends StateBase<WalletData> {
@@ -171,6 +171,10 @@ export class CosmosManager extends StateBase<WalletData> {
   private get emitViewOpen() {
     return this.actions?.viewOpen;
   }
+
+  getQueryClient = async () => {
+    return await this.currentWallet?.getQueryClient?.();
+  };
 
   getSigningStargateClient = async (): Promise<
     SigningStargateClient | undefined

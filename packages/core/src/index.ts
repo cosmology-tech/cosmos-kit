@@ -1,4 +1,4 @@
 export * from './bases';
 export * from './manager';
-export * from './types';
+export * from './types/common';
 export * from './utils';
