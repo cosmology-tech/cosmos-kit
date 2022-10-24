@@ -1,6 +1,6 @@
 import { AssetList, Chain } from '@chain-registry/types';
 
-import { ChainRecord, Endpoints, SignerOptions } from '../types/common';
+import { ChainRecord, Endpoints, SignerOptions } from '../types';
 
 export function convertChain(
   chain: Chain,

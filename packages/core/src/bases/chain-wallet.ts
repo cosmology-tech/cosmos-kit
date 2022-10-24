@@ -14,9 +14,9 @@ import {
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { cosmos } from 'interchain';
 
-import { ChainQuery } from '../chain-query';
 import { ChainRecord, ChainWalletDataBase, Wallet } from '../types';
 import { isValidEndpoint } from '../utils';
+import { ChainQuery } from './chain-query';
 import { WalletBase } from './wallet';
 
 export abstract class ChainWalletBase<

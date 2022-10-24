@@ -2,9 +2,12 @@ import {
   Coin,
   DecCoin,
 } from 'interchain/types/codegen/cosmos/base/v1beta1/coin';
-import distribution from 'interchain/types/codegen/cosmos/distribution/v1beta1/query';
+import { ParamsSDKType as DistributionParams } from 'interchain/types/codegen/cosmos/distribution/v1beta1/distribution';
 // import mint from 'interchain/types/codegen/cosmos/mint/v1beta1/query';
-import staking from 'interchain/types/codegen/cosmos/staking/v1beta1/query';
+import {
+  ParamsSDKType as StakingParams,
+  PoolSDKType,
+} from 'interchain/types/codegen/cosmos/staking/v1beta1/staking';
 
 export type CoinMap = Map<Coin['denom'], Coin['amount']>;
 export type DecCoinMap = Map<DecCoin['denom'], DecCoin['amount']>;
@@ -14,8 +17,8 @@ export type AddressMap<T> = Map<Address, T>;
 export interface ChainQueryResult {
   cosmos: {
     staking: {
-      params?: staking.QueryParamsResponse['params'];
-      pool?: staking.QueryPoolResponse['pool'];
+      params?: StakingParams;
+      pool?: PoolSDKType;
       delegator: {
         denom?: Coin['denom'];
         delegations?: AddressMap<Coin['amount']>;
@@ -32,7 +35,7 @@ export interface ChainQueryResult {
       annualProvisions?: string;
     };
     distribution: {
-      params?: distribution.QueryParamsResponse['params'];
+      params?: DistributionParams;
       delegator: {
         totalRewards?: DecCoinMap;
         rewards?: AddressMap<DecCoinMap>;

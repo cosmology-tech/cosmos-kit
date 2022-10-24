@@ -3,17 +3,16 @@ import { IntPretty, RatePretty } from '@keplr-wallet/unit';
 import { cosmos } from 'interchain';
 import { Coin } from 'interchain/types/codegen/cosmos/base/v1beta1/coin';
 
-import { ChainQueryResult } from './types';
-import { checkInit, checkKey, sum, valuesApply } from './utils';
+import { ChainQueryResult } from '../types';
+import { checkInit, checkKey, sum, valuesApply } from '../utils';
+import { ChainWalletBase } from './chain-wallet';
 
 export class ChainQuery {
-  queryClient: ReturnType<typeof cosmos.ClientFactory.createLCDClient>;
+  chainWallet: ChainWalletBase<any, any>;
   result: ChainQueryResult;
 
-  constructor(restEndpoint: string) {
-    this.queryClient = cosmos.ClientFactory.createLCDClient({
-      restEndpoint,
-    });
+  constructor(chainWallet: ChainWalletBase<any, any>) {
+    this.chainWallet = chainWallet;
 
     this.result = {
       cosmos: {
@@ -27,6 +26,32 @@ export class ChainQuery {
         },
       },
     };
+  }
+
+  protected get queryClient(): ReturnType<
+    typeof cosmos.ClientFactory.createLCDClient
+  > {
+    const fn = async () => {
+      const queryClient = await this.chainWallet.getQueryClient();
+      if (!queryClient) {
+        throw new Error('QueryClient is undefined!');
+      }
+      return queryClient;
+    };
+    return fn();
+  }
+
+  protected get address(): Promise<string> {
+    const fn = async () => {
+      if (!this.chainWallet.address) {
+        await this.chainWallet.connect();
+      }
+      if (!this.chainWallet.address) {
+        throw new Error('Address is undefined!');
+      }
+      return this.chainWallet.address;
+    };
+    return fn();
   }
 
   get staking() {
@@ -138,7 +163,7 @@ export class ChainQuery {
   }
 
   get bondedTokens() {
-    return new IntPretty(this._pool.bondedTokens);
+    return new IntPretty(this._pool.bonded_tokens);
   }
 
   get supply() {
@@ -172,7 +197,7 @@ export class ChainQuery {
   }
 
   get communityTax() {
-    return new RatePretty(this._distParams.communityTax);
+    return new RatePretty(this._distParams.community_tax);
   }
 
   get totalRewards() {
@@ -184,98 +209,94 @@ export class ChainQuery {
     return this.totalRewards.get(denom);
   }
 
-  // async updateStakingPool() {
-  //   const pool = await (await this.queryClient).cosmos.staking.v1beta1.pool({});
+  async updateStakingPool() {
+    const pool = await (await this.queryClient).cosmos.staking.v1beta1.pool({});
 
-  //   this.staking.pool = pool['pool'];
-  // }
+    this.staking.pool = pool.pool;
+  }
 
-  // async updateStakingParams() {
-  //   const params = await (
-  //     await this.queryClient
-  //   ).cosmos.staking.v1beta1.params({});
+  async updateStakingParams() {
+    const params = await (
+      await this.queryClient
+    ).cosmos.staking.v1beta1.params({});
 
-  //   this.staking.params = params['params'];
-  // }
+    this.staking.params = params.params;
+  }
 
-  // async updateStakingDelegations() {
-  //   const address = await this.resultKeplr.getAddress();
-  //   const delegations = await (
-  //     await this.queryClient
-  //   ).cosmos.staking.v1beta1.delegatorDelegations({
-  //     delegatorAddr: address,
-  //     pagination: null,
-  //   } as any);
+  async updateStakingDelegations() {
+    const delegations = await (
+      await this.queryClient
+    ).cosmos.staking.v1beta1.delegatorDelegations({
+      delegatorAddr: await this.address,
+      pagination: null,
+    } as any);
 
-  //   this.stakingDelegator.delegations = new Map(
-  //     delegations['delegationResponses'].map(
-  //       ({ delegation, balance }, index) => {
-  //         if (index === 0) {
-  //           this.stakingDelegator.denom = balance.denom;
-  //         } else {
-  //           assert(
-  //             this.stakingDelegator.denom === balance.denom,
-  //             `Denom is different for differnt validators (${this.stakingDelegator.denom} vs ${balance.denom})`
-  //           );
-  //         }
-  //         return [delegation.validatorAddress, balance.amount];
-  //       }
-  //     )
-  //   );
-  // }
+    this.stakingDelegator.delegations = new Map(
+      delegations.delegation_responses.map(({ delegation, balance }, index) => {
+        if (index === 0) {
+          this.stakingDelegator.denom = balance.denom;
+        } else {
+          if (this.stakingDelegator.denom !== balance.denom) {
+            throw new Error(
+              `Denom is different for differnt validators (${this.stakingDelegator.denom} vs ${balance.denom})`
+            );
+          }
+        }
+        return [delegation.validator_address, balance.amount];
+      })
+    );
+  }
 
-  // async updateStakingUnbondingDelegations() {
-  //   const address = await this.resultKeplr.getAddress();
-  //   const delegations = await (
-  //     await this.queryClient
-  //   ).cosmos.staking.v1beta1.delegatorUnbondingDelegations({
-  //     delegatorAddr: address,
-  //     pagination: null,
-  //   } as any);
+  async updateStakingUnbondingDelegations() {
+    const delegations = await (
+      await this.queryClient
+    ).cosmos.staking.v1beta1.delegatorUnbondingDelegations({
+      delegatorAddr: await this.address,
+      pagination: null,
+    } as any);
 
-  //   this.stakingDelegator.delegations = new Map(
-  //     delegations['unbondingResponses'].map(({ validatorAddress, entries }) => {
-  //       return [
-  //         validatorAddress,
-  //         sum(
-  //           entries.map((entry) => parseFloat(entry.balance)),
-  //           (p, c) => p + c
-  //         ).toString(),
-  //       ];
-  //     })
-  //   );
-  // }
+    this.stakingDelegator.delegations = new Map(
+      delegations.unbonding_responses.map(({ validator_address, entries }) => {
+        return [
+          validator_address,
+          sum(
+            entries.map((entry) => parseFloat(entry.balance)),
+            (p, c) => p + c
+          ).toString(),
+        ];
+      })
+    );
+  }
 
-  // async updateBankSupply() {
-  //   const supply = await (
-  //     await this.queryClient
-  //   ).cosmos.bank.v1beta1.totalSupply({ pagination: null } as any);
+  async updateBankSupply() {
+    const supply = await (
+      await this.queryClient
+    ).cosmos.bank.v1beta1.totalSupply({ pagination: null } as any);
 
-  //   this.bank.supply = new Map(
-  //     supply['supply'].map((coin) => [coin.denom, coin.amount])
-  //   );
-  // }
+    this.bank.supply = new Map(
+      supply.supply.map((coin) => [coin.denom, coin.amount])
+    );
+  }
 
-  // async updateBankBalances() {
-  //   const address = await this.resultKeplr.getAddress();
-  //   const balances = await (
-  //     await this.queryClient
-  //   ).cosmos.bank.v1beta1.allBalances({
-  //     address,
-  //     pagination: null,
-  //   } as any);
+  async updateBankBalances() {
+    const balances = await (
+      await this.queryClient
+    ).cosmos.bank.v1beta1.allBalances({
+      address: await this.address,
+      pagination: null,
+    } as any);
 
-  //   this.bank.balances = new Map(
-  //     balances['balances'].map((coin) => [coin.denom, coin.amount])
-  //   );
-  // }
+    this.bank.balances = new Map(
+      balances.balances.map((coin) => [coin.denom, coin.amount])
+    );
+  }
 
   // async updateMintParams() {
   //   const params = await (
   //     await this.queryClient
   //   ).cosmos.mint.v1beta1.params({});
 
-  //   this.mint.params = params['params'];
+  //   this.mint.params = params.params;
   // }
 
   // async updateMintInflation() {
@@ -283,7 +304,7 @@ export class ChainQuery {
   //     await this.queryClient
   //   ).cosmos.mint.v1beta1.inflation({});
 
-  //   this.mint.inflation = new TextDecoder().decode(inflation['inflation']);
+  //   this.mint.inflation = new TextDecoder().decode(inflation.inflation);
   // }
 
   // async updateMintAnnualProvisions() {
@@ -292,34 +313,33 @@ export class ChainQuery {
   //   ).cosmos.mint.v1beta1.annualProvisions({});
 
   //   this.mint.annualProvisions = new TextDecoder().decode(
-  //     annualProvisions['annualProvisions']
+  //     annualProvisions.annualProvisions
   //   );
   // }
 
-  // async updateDistributionParams() {
-  //   const params = await (
-  //     await this.queryClient
-  //   ).cosmos.distribution.v1beta1.params({});
+  async updateDistributionParams() {
+    const params = await (
+      await this.queryClient
+    ).cosmos.distribution.v1beta1.params({});
 
-  //   this.distribution.params = params['params'];
-  // }
+    this.distribution.params = params.params;
+  }
 
-  // async updateDistributionDelegationRewards() {
-  //   const address = await this.resultKeplr.getAddress();
-  //   const rewards = await (
-  //     await this.queryClient
-  //   ).cosmos.distribution.v1beta1.delegationTotalRewards({
-  //     delegatorAddress: address,
-  //   });
+  async updateDistributionDelegationRewards() {
+    const rewards = await (
+      await this.queryClient
+    ).cosmos.distribution.v1beta1.delegationTotalRewards({
+      delegatorAddress: await this.address,
+    });
 
-  //   this.distDelegator.totalRewards = new Map(
-  //     rewards['total'].map((decCoin) => [decCoin.denom, decCoin.amount])
-  //   );
-  //   this.distDelegator.rewards = new Map(
-  //     rewards['rewards'].map(({ validatorAddress, reward }) => [
-  //       validatorAddress,
-  //       new Map(reward.map((decCoin) => [decCoin.denom, decCoin.amount])),
-  //     ])
-  //   );
-  // }
+    this.distDelegator.totalRewards = new Map(
+      rewards.total.map((decCoin) => [decCoin.denom, decCoin.amount])
+    );
+    this.distDelegator.rewards = new Map(
+      rewards.rewards.map(({ validator_address, reward }) => [
+        validator_address,
+        new Map(reward.map((decCoin) => [decCoin.denom, decCoin.amount])),
+      ])
+    );
+  }
 }
