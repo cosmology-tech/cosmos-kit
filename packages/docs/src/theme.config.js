@@ -18,7 +18,7 @@ export default {
   },
   chat: false,
   docsRepositoryBase:
-    'https://github.com/shuding/nextra/blob/core/examples/docs',
+    'https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/docs',
   editLink: {
     text: 'Edit this page on GitHub'
   },
