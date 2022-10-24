@@ -13,6 +13,7 @@
     "@cosmos-kit/core": "^0.19.9",
     "@cosmos-kit/keplr": "^0.19.7",
     "@cosmos-kit/leap": "^0.1.6",
+    "@cosmos-kit/cosmostation": "^0.1.0",
     "@cosmos-kit/react": "^0.18.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
