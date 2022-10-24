@@ -2,13 +2,13 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainName,
+  CosmosManager,
   EndpointOptions,
   MainWalletData,
   SessionOptions,
   SignerOptions,
   StorageOptions,
   ViewOptions,
-  WalletManager,
   WalletName,
   WalletOption,
 } from '@cosmos-kit/core';
@@ -24,7 +24,7 @@ import React, {
 import { DefaultModal } from './modal';
 
 export const walletContext = createContext<{
-  walletManager: WalletManager;
+  cosmosManager: CosmosManager;
 } | null>(null);
 
 export const CosmosProvider = ({
@@ -49,9 +49,9 @@ export const CosmosProvider = ({
   sessionOptions?: SessionOptions;
   children: ReactNode;
 }) => {
-  const walletManager = useMemo(
+  const cosmosManager = useMemo(
     () =>
-      new WalletManager(
+      new CosmosManager(
         chains,
         assetLists,
         wallets,
@@ -64,17 +64,17 @@ export const CosmosProvider = ({
   );
 
   const [walletData, setWalletData] = useState<MainWalletData>();
-  const [walletState, setWalletState] = useState(walletManager.state);
+  const [walletState, setWalletState] = useState(cosmosManager.state);
   const [walletMsg, setWalletMsg] = useState<string | undefined>();
   const [walletName, setWalletName] = useState<WalletName | undefined>(
-    walletManager.currentWalletName
+    cosmosManager.currentWalletName
   );
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [chainName, setChainName] = useState<ChainName | undefined>();
   const [qrUri, setQRUri] = useState<string | undefined>();
 
-  walletManager.setActions({
+  cosmosManager.setActions({
     data: setWalletData,
     state: setWalletState,
     message: setWalletMsg,
@@ -87,16 +87,16 @@ export const CosmosProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
-    walletManager.onMounted();
+    cosmosManager.onMounted();
     return () => {
-      walletManager.onUnmounted();
+      cosmosManager.onUnmounted();
     };
   }, []);
 
   return (
     <walletContext.Provider
       value={{
-        walletManager,
+        cosmosManager,
       }}
     >
       {children}

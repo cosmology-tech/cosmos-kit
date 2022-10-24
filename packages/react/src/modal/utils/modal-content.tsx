@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { WalletManager, WalletStatus } from '@cosmos-kit/core';
+import { CosmosManager, WalletStatus } from '@cosmos-kit/core';
 import React from 'react';
 import { GoDesktopDownload } from 'react-icons/go';
 import { IoExitOutline } from 'react-icons/io5';
@@ -23,7 +23,7 @@ import {
 } from '../types';
 
 export const getModalContent = (
-  walletManager: WalletManager,
+  cosmosManager: CosmosManager,
   currentWalletData: WalletRecordType | undefined,
   userBrowserInfo: UserDeviceInfoType | undefined,
   walletsData: WalletRecordType[],
@@ -33,18 +33,18 @@ export const getModalContent = (
   async function onWalletClicked(select: WalletRecordType) {
     setModalReset(false);
     console.info('Connecting to ' + select.id);
-    walletManager.setCurrentWallet(select.id);
-    await walletManager.connect();
+    cosmosManager.setCurrentWallet(select.id);
+    await cosmosManager.connect();
   }
 
   async function onDisconnect() {
     console.info('Disconnecting');
-    await walletManager.disconnect();
+    await cosmosManager.disconnect();
   }
 
   async function handleConnectButtonClick() {
     console.log('reconnect wallet');
-    await walletManager.connect();
+    await cosmosManager.connect();
   }
 
   function onChangeWallet() {
@@ -52,7 +52,7 @@ export const getModalContent = (
   }
 
   if (currentWalletData && !modalReset) {
-    switch (walletManager.walletStatus) {
+    switch (cosmosManager.walletStatus) {
       case WalletStatus.Disconnected:
         if (currentWalletData.walletType === 'extension') {
           return (
@@ -71,7 +71,7 @@ export const getModalContent = (
             />
           );
         } else if (currentWalletData.walletType === 'qrcode') {
-          if (walletManager.currentWallet.isInSession) {
+          if (cosmosManager.currentWallet.isInSession) {
             return (
               <ExtensionContent
                 selectedWallet={currentWalletData}
@@ -88,9 +88,9 @@ export const getModalContent = (
               />
             );
           } else {
-            if (walletManager.env?.isMobile) {
-              if (walletManager.currentWallet?.appUrl) {
-                // window.location.href = walletManager.currentWallet?.appUrl;
+            if (cosmosManager.env?.isMobile) {
+              if (cosmosManager.currentWallet?.appUrl) {
+                // window.location.href = cosmosManager.currentWallet?.appUrl;
                 return;
               } else {
                 return (
@@ -158,7 +158,7 @@ export const getModalContent = (
           <ExtensionContent
             selectedWallet={currentWalletData}
             stateHeader="Error"
-            stateDesc={walletManager.message}
+            stateDesc={cosmosManager.message}
             isReconnect={true}
             connectWalletButton={
               <ConnectWalletButton
@@ -173,7 +173,7 @@ export const getModalContent = (
           <ExtensionContent
             selectedWallet={currentWalletData}
             stateHeader="Error"
-            stateDesc={walletManager.message}
+            stateDesc={cosmosManager.message}
             isReconnect={true}
             connectWalletButton={
               <ConnectWalletButton
@@ -205,13 +205,13 @@ export const getModalContent = (
           <ConnectedContent
             userInfo={
               <SimpleAvatarWithName
-                username={walletManager.username}
+                username={cosmosManager.username}
                 icon={<Astronaut />}
                 walletIcon={currentWalletData.logo}
               />
             }
             addressBtn={
-              <SimpleCopyAddressButton address={walletManager.address} />
+              <SimpleCopyAddressButton address={cosmosManager.address} />
             }
             connectWalletButton={
               <ConnectWalletButton

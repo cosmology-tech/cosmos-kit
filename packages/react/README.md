@@ -34,7 +34,7 @@ import { CosmosProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
-function WalletApp() {
+function CosmosApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
       <CosmosProvider
@@ -49,15 +49,15 @@ function WalletApp() {
 }
 ```
 
-Get wallet properties and functions using the `useWallet` hook:
+Get wallet properties and functions using the `useCosmos` hook:
 
 ```tsx
 import * as React from 'react';
 
-import { useWallet } from "@cosmos-kit/react";
+import { useCosmos } from "@cosmos-kit/react";
 
 function Component ({ chainName }: { chainName?: string }) => {
-    const walletManager = useWallet();
+    const cosmosManager = useCosmos();
 
     // Get wallet properties
     const {
@@ -67,7 +67,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         username,
         address,
         message,
-      } = walletManager;
+      } = cosmosManager;
 
     // Get wallet functions
     const {
@@ -75,7 +75,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         disconnect,
         openView,
         setCurrentChain,
-    } = walletManager;
+    } = cosmosManager;
 
     // if `chainName` in component props, `setCurrentChain` in `useEffect`
     React.useEffect(() => {
@@ -86,7 +86,7 @@ function Component ({ chainName }: { chainName?: string }) => {
 
 ## Signing Clients
 
-There two signing clients available via `walletManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
+There two signing clients available via `cosmosManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
 
 Using signing client in react component:
 
@@ -94,15 +94,15 @@ Using signing client in react component:
 import * as React from 'react';
 import { cosmos } from 'interchain';
 import { StdFee } from '@cosmjs/amino';
-import { useWallet } from "@cosmos-kit/react";
+import { useCosmos } from "@cosmos-kit/react";
 
 function Component () => {
-    const walletManager = useWallet();
+    const cosmosManager = useCosmos();
     const {
         getSigningStargateClient,
         getSigningCosmWasmClient,
         address,
-      } = walletManager;
+      } = cosmosManager;
 
     const sendTokens = async () => {
       const stargateClient = await getSigningStargateClient();
@@ -161,7 +161,7 @@ const signerOptions: SignerOptions = {
   },
 };
 
-function WalletApp() {
+function CosmosApp() {
   return (
     <CosmosProvider
       chains={chains}
@@ -214,11 +214,11 @@ A simple example to define your own modal:
 ```tsx
 import * as React from 'react';
 
-import { CosmosProvider, useWallet } from '@cosmos-kit/react';
+import { CosmosProvider, useCosmos } from '@cosmos-kit/react';
 
 // Define Modal Component
 const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const walletManager = useWallet();
+  const cosmosManager = useCosmos();
 
   function onCloseModal() {
     setOpen(false);
@@ -227,8 +227,8 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
   function onWalletClicked(name: string) {
     return async () => {
       console.info('Connecting ' + name);
-      walletManager.setCurrentWallet(name);
-      await walletManager.connect();
+      cosmosManager.setCurrentWallet(name);
+      await cosmosManager.connect();
     };
   }
 
@@ -238,7 +238,7 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletManager.wallets.map(({ name, prettyName }) => (
+          {cosmosManager.wallets.map(({ name, prettyName }) => (
             <Button
               key={name}
               colorScheme="blue"
@@ -254,7 +254,7 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
   );
 };
 
-function WalletApp() {
+function CosmosApp() {
   return (
     <CosmosProvider
       chains={chains}
@@ -362,7 +362,7 @@ const viewOptions: ViewOptions = {
 
 Define local storage attributes. `Optional`
 
-storage key: `walletManager`
+storage key: `cosmosManager`
 
 storage value attributes:
 - `currentWalletName`

@@ -3,14 +3,14 @@ import Bowser from 'bowser';
 import React from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
-import { useWallet } from '../hooks';
+import { useCosmos } from '../hooks';
 import { ConnectModal } from './components/ConnectModal';
 import { UserDeviceInfoType, WalletRecordType } from './types';
 import { getModalContent } from './utils/modal-content';
 import { getModalHead } from './utils/modal-head';
 
 export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const walletManager = useWallet();
+  const cosmosManager = useCosmos();
   const [modalHead, setModalHead] = useState<ReactNode>();
   const [modalContent, setModalContent] = useState<ReactNode>();
   const [userBrowserInfo, setUserBrowserInfo] = useState<
@@ -18,7 +18,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   >();
   const [modalReset, setModalReset] = useState(false);
 
-  const walletsData: WalletRecordType[] = walletManager.wallets.map(
+  const walletsData: WalletRecordType[] = cosmosManager.wallets.map(
     ({ walletInfo }) => {
       const { name, logo, prettyName, isQRCode, downloads } = walletInfo;
       return {
@@ -28,19 +28,19 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
         walletType: isQRCode ? 'qrcode' : 'extension',
         extensionLink: { ...downloads, websiteDownload: downloads?.default },
         websiteDownload: downloads?.default,
-        qrCodeLink: walletManager.currentWallet?.qrUri,
+        qrCodeLink: cosmosManager.currentWallet?.qrUri,
       };
     }
   );
 
   function handleClose() {
     setOpen(false);
-    switch (walletManager.walletStatus) {
+    switch (cosmosManager.walletStatus) {
       case 'Connecting':
-        walletManager.disconnect();
+        cosmosManager.disconnect();
         break;
       case 'Disconnected':
-        walletManager.setCurrentWallet(undefined);
+        cosmosManager.setCurrentWallet(undefined);
         break;
       default:
         break;
@@ -59,11 +59,11 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   useEffect(() => {
     const currentWalletData = walletsData.find(
-      (data) => data.id === walletManager.currentWalletName
+      (data) => data.id === cosmosManager.currentWalletName
     );
     setModalHead(
       getModalHead(
-        walletManager,
+        cosmosManager,
         currentWalletData,
         handleClose,
         modalReset,
@@ -72,7 +72,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     );
     setModalContent(
       getModalContent(
-        walletManager,
+        cosmosManager,
         currentWalletData,
         userBrowserInfo,
         walletsData,
@@ -84,20 +84,20 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
       setModalReset(false);
     }
   }, [
-    walletManager.walletStatus,
-    walletManager.currentChainName,
-    walletManager.currentWalletName,
+    cosmosManager.walletStatus,
+    cosmosManager.currentChainName,
+    cosmosManager.currentWalletName,
     modalReset,
     isOpen,
-    walletManager.currentWallet?.qrUri,
+    cosmosManager.currentWallet?.qrUri,
   ]);
 
   useEffect(() => {
-    const appUrl = walletManager.currentWallet?.appUrl;
+    const appUrl = cosmosManager.currentWallet?.appUrl;
     if (appUrl) {
       window.location.href = appUrl;
     }
-  }, [walletManager.currentWallet?.appUrl]);
+  }, [cosmosManager.currentWallet?.appUrl]);
 
   return (
     <ConnectModal

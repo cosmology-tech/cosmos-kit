@@ -1,14 +1,14 @@
-import { WalletManager } from '@cosmos-kit/core';
+import { CosmosManager } from '@cosmos-kit/core';
 import React from 'react';
 
 import { walletContext } from './provider';
 
-export const useWallet = (): WalletManager => {
+export const useCosmos = (): CosmosManager => {
   const context = React.useContext(walletContext);
 
-  if (!context || !context.walletManager) {
+  if (!context || !context.cosmosManager) {
     throw new Error('You have forgot to use CosmosProvider');
   }
 
-  return context.walletManager;
+  return context.cosmosManager;
 };

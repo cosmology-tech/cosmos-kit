@@ -1,11 +1,11 @@
-import { WalletManager } from '@cosmos-kit/core';
+import { CosmosManager } from '@cosmos-kit/core';
 import React from 'react';
 
 import { ModalHead } from '../components';
 import { WalletRecordType } from '../types';
 
 export const getModalHead = (
-  walletManager: WalletManager,
+  cosmosManager: CosmosManager,
   currentWalletData: WalletRecordType | undefined,
   handleClose: () => void,
   modalReset: boolean,

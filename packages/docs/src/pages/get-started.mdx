@@ -1,0 +1,76 @@
+## Installation
+
+```sh
+yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
+```
+
+## Provider
+
+First, add the `CosmosProvider` to your app, and include the supported chains and supported wallets:
+
+```tsx
+import * as React from 'react';
+
+import { ChakraProvider } from '@chakra-ui/react';
+import { CosmosProvider } from '@cosmos-kit/react';
+import { chains, assets } from 'chain-registry';
+import { wallets } from '@cosmos-kit/keplr';
+
+function CosmosApp() {
+  return (
+    <ChakraProvider theme={defaultTheme}>
+      <CosmosProvider
+        chains={chains} // supported chains
+        assetLists={assets} // supported asset lists
+        wallets={wallets} // supported wallets
+      >
+        <YourWalletRelatedComponents />
+      </CosmosProvider>
+    </ChakraProvider>
+  );
+}
+```
+
+Get wallet properties and functions using the `useCosmos` hook:
+
+```tsx
+import * as React from 'react';
+
+import { useCosmos } from "@cosmos-kit/react";
+
+function Component ({ chainName }: { chainName?: string }) => {
+    const cosmosManager = useCosmos();
+
+    // Get wallet properties
+    const {
+        currentChainName,
+        currentWalletName,
+        walletStatus,
+        username,
+        address,
+        message,
+      } = cosmosManager;
+
+    // Get wallet functions
+    const {
+        connect,
+        disconnect,
+        openView,
+        setCurrentChain,
+    } = cosmosManager;
+
+    // if `chainName` in component props, `setCurrentChain` in `useEffect`
+    React.useEffect(() => {
+        setCurrentChain(chainName);
+    }, [chainName]);
+}
+```
+
+## Credits
+
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+
+Code built with the help of these related projects:
+
+- [create-cosmos-app](https://github.com/cosmology/create-cosmos-app) Set up a modern Cosmos app by running one command ⚛️
+- [chain-registry](https://github.com/cosmology/chain-registry) an npm module for the official Cosmos chain-registry

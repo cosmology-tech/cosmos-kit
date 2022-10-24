@@ -27,7 +27,7 @@ import {
 } from './types';
 import { convertChain } from './utils';
 
-export class WalletManager extends StateBase<WalletData> {
+export class CosmosManager extends StateBase<WalletData> {
   private _currentWalletName?: WalletName;
   private _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
