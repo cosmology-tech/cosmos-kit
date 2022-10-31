@@ -1,16 +1,9 @@
-import { OfflineSigner } from '@cosmjs/launchpad';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { ClientNotExistError } from '@cosmos-kit/core';
 
 import { Leap } from './types';
 
 interface LeapWindow {
   leap?: Leap;
-  getOfflineSigner?: (chainId: string) => OfflineSigner & OfflineDirectSigner;
-  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
-  getOfflineSignerAuto?: (
-    chainId: string
-  ) => Promise<OfflineSigner | OfflineDirectSigner>;
 }
 
 export const getLeapFromExtension: () => Promise<

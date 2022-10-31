@@ -1,12 +1,19 @@
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import {
+  CosmWasmClient,
+  SigningCosmWasmClient,
+} from '@cosmjs/cosmwasm-stargate';
 import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
-import { SigningStargateClient, StdFee } from '@cosmjs/stargate';
+import {
+  SigningStargateClient,
+  StargateClient,
+  StdFee,
+} from '@cosmjs/stargate';
 import { isAndroid, isMobile } from '@walletconnect/browser-utils';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { StateBase } from './bases';
+import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
 import {
   Actions,
   AppEnv,
@@ -23,15 +30,14 @@ import {
   WalletAdapter,
   WalletData,
   WalletName,
-  WalletOption,
-} from './types/common';
+} from './types';
 import { convertChain } from './utils';
 
 export class CosmosManager extends StateBase<WalletData> {
   private _currentWalletName?: WalletName;
   private _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
-  private _wallets: WalletOption[];
+  private _wallets: MainWalletBase[];
   chainRecords: ChainRecord[];
   env?: AppEnv;
   viewOptions: ViewOptions = {
@@ -53,7 +59,7 @@ export class CosmosManager extends StateBase<WalletData> {
   constructor(
     chains: Chain[],
     assetLists: AssetList[],
-    wallets: WalletOption[],
+    wallets: MainWalletBase[],
     signerOptions?: SignerOptions,
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
@@ -172,20 +178,32 @@ export class CosmosManager extends StateBase<WalletData> {
     return this.actions?.viewOpen;
   }
 
-  getQueryClient = async () => {
-    return await this.currentWallet?.getQueryClient?.();
+  enable = async (chainIds: string | string[]): Promise<void> => {
+    await this.currentWallet?.client?.enable?.(chainIds);
+  };
+
+  getStargateClient = async (): Promise<StargateClient | undefined> => {
+    return await (this.currentWallet as ChainWalletBase)?.getStargateClient?.();
+  };
+
+  getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
+    return await (this.currentWallet as ChainWalletBase)?.getCosmWasmClient?.();
   };
 
   getSigningStargateClient = async (): Promise<
     SigningStargateClient | undefined
   > => {
-    return await this.currentWallet?.getSigningStargateClient?.();
+    return await (
+      this.currentWallet as ChainWalletBase
+    )?.getSigningStargateClient?.();
   };
 
   getSigningCosmWasmClient = async (): Promise<
     SigningCosmWasmClient | undefined
   > => {
-    return await this.currentWallet?.getSigningCosmWasmClient?.();
+    return await (
+      this.currentWallet as ChainWalletBase
+    )?.getSigningCosmWasmClient?.();
   };
 
   sign = async (
@@ -194,11 +212,19 @@ export class CosmosManager extends StateBase<WalletData> {
     memo?: string,
     type?: string
   ): Promise<TxRaw> => {
-    return await this.currentWallet?.signStargate?.(messages, fee, memo, type);
+    return await (this.currentWallet as ChainWalletBase)?.sign?.(
+      messages,
+      fee,
+      memo,
+      type
+    );
   };
 
   broadcast = async (signedMessages: TxRaw, type?: string) => {
-    return await this.currentWallet?.broadcast?.(signedMessages, type);
+    return await (this.currentWallet as ChainWalletBase)?.broadcast?.(
+      signedMessages,
+      type
+    );
   };
 
   signAndBroadcast = async (
@@ -207,7 +233,7 @@ export class CosmosManager extends StateBase<WalletData> {
     memo?: string,
     type?: string
   ) => {
-    return await this.currentWallet?.signAndBroadcast?.(
+    return await (this.currentWallet as ChainWalletBase)?.signAndBroadcast?.(
       messages,
       fee,
       memo,
@@ -292,7 +318,7 @@ export class CosmosManager extends StateBase<WalletData> {
       throw new Error(`${walletName} is not provided!`);
     }
     if (chainName) {
-      wallet = wallet.getChainWallet(chainName);
+      wallet = (wallet as MainWalletBase).getChainWallet(chainName);
     }
     wallet.actions = this.actions;
     return wallet;

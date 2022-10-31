@@ -1,6 +1,9 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { SigningStargateClientOptions } from '@cosmjs/stargate';
+import {
+  SigningStargateClientOptions,
+  StargateClientOptions,
+} from '@cosmjs/stargate';
 
 import { Endpoints } from './manager';
 
@@ -10,9 +13,10 @@ export interface ChainRecord {
   name: ChainName;
   chain: Chain;
   assetList: AssetList;
-  signerOptions?: {
-    stargate?: SigningStargateClientOptions;
-    cosmwasm?: SigningCosmWasmClientOptions;
+  clientOptions?: {
+    signingStargate?: SigningStargateClientOptions;
+    signingCosmwasm?: SigningCosmWasmClientOptions;
+    stargate?: StargateClientOptions;
   };
   preferredEndpoints?: Endpoints;
 }

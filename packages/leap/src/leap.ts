@@ -1,5 +1,5 @@
-import { LeapExtensionWallet } from './extension';
+import { leapExtensionInfo, LeapExtensionWallet } from './extension';
 
-const leapExtension = new LeapExtensionWallet();
+const leapExtension = new LeapExtensionWallet(leapExtensionInfo);
 
 export const wallets = [leapExtension];

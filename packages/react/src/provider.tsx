@@ -4,13 +4,13 @@ import {
   ChainName,
   CosmosManager,
   EndpointOptions,
+  MainWalletBase,
   MainWalletData,
   SessionOptions,
   SignerOptions,
   StorageOptions,
   ViewOptions,
   WalletName,
-  WalletOption,
 } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, {
@@ -40,7 +40,7 @@ export const CosmosProvider = ({
 }: {
   chains: Chain[];
   assetLists: AssetList[];
-  wallets: WalletOption[];
+  wallets: MainWalletBase[];
   walletModal?: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
   signerOptions?: SignerOptions;
   viewOptions?: ViewOptions;

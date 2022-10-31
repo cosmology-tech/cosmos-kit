@@ -108,6 +108,7 @@
     "interchain": "1.0.0"
   },
   "peerDependencies": {
+    "@cosmjs/amino": "0.29.3",
     "@cosmjs/cosmwasm-stargate": "^0.28",
     "@cosmjs/proto-signing": "0.29.2",
     "@cosmjs/stargate": "^0.28",

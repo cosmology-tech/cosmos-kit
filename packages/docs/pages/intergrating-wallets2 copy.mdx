@@ -1,0 +1,213 @@
+# CosmosKit Wallet Integrations
+
+## Introduction
+
+New wallet instance need to be added in the `wallets` property of [CosmosProvider](https://github.com/cosmology-tech/cosmos-kit/blob/develop/packages/docs/src/pages/get-started.mdx#provider) so that it can be accessed through Modal or Dropdown.
+
+Property `wallets` is of type `MainWallet[]`, therefore new wallet class should extend **abstract** class [MainWalletBase](#📝-mainwallet) and implement it's abstract functions.
+
+In addition, a wallet registry object with requried wallet information need to be provided to construct `MainWalletBase`. usually we call it [walletInfo](#🔈-walletinfo).
+
+In conclusion, to intergrating your wallet in `CosmosKit`, basically you need to prepare
+
+- A wallet registry object:
+
+  - **walletInfo**: with type [`Wallet`](#💫-wallet). 🌵 e.g. [keplrExtensionInfo](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/keplr/src/extension/registry.ts)
+
+- Three classes:
+
+  - **MainWallet**: a subclass of [MainWalletBase](#📝-mainwallet). 🌵 e.g. [KeplrExtensionWallet](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/keplr/src/extension/main-wallet.ts)
+  - **ChainWallet**: a subclass of [ChainWalletBase](#⚡️-chainwallet). 🌵 e.g. [ChainKeplrExtension](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/keplr/src/extension/chain-wallet.ts)
+  - **Client**: a class implements [WalletClient](#💫-walletclient). 🌵 e.g. [KeplrClient](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/keplr/src/client.ts)
+
+> Hint: Both [MainWalletBase](#📝-mainwallet) and [ChainWalletBase](#⚡️-chainwallet) extend [WalletBase](#3-walletbase), while [WalletBase](#3-walletbase) is a subclass of  [StateBase](#4-statebase)
+
+**Examples:**
+
+- 🌵 [Keplr Extension](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/extension)
+
+- 🌵 [Keplr Mobile](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect) using [WalletConnect](https://walletconnect.com/)
+
+Then you can add an instance of the `MainWallet` into the `wallets` prop of [`CosmosProvider`](https://github.com/cosmology-tech/cosmos-kit/blob/develop/packages/docs/src/pages/get-started.mdx#provider)
+
+## 1. Wallet Registry
+
+### 🔈 walletInfo
+
+- type: [Wallet](#💫-wallet)
+- `walletInfo` is also a requried parameter to construct [wallet classes](#2-wallet-classes)
+
+## 2. Wallet Classes
+
+### 📝 MainWallet
+
+should be a subclass of `MainWalletBase`, which is
+
+- a generic class deals with type variables:
+  - `Client`: a class implements [WalletClient](#💫-walletclient)
+  - `Data`: extends MainWalletData
+  - `ChainWallet` is a subclass of  [ChainWalletBase](#⚡️-chainwallet)
+- a subclass of abstract class [WalletBase](#3-walletbase).
+- an abstract class with abstract functions as follows. They should be implemented in `MainWallet`.
+
+```ts
+abstract setChains(chains?: ChainRecord[]): void
+abstract fetchClient(): Client | Promise<Client>; // inherit from `WalletBase`
+abstract update(): void | Promise<void>; // inherit from `WalletBase`
+```
+
+### ⚡️ ChainWallet
+
+should be a subclass of `ChainWalletBase`, which is
+
+- a generic class deals with type variables:
+  - `Client`: a class implements [WalletClient](#💫-walletclient)
+  - `Data`: extends ChainWalletData
+- a subclass of abstract class [WalletBase](#3-walletbase).
+- an abstract class with abstract functions as follows. They should be implemented in `ChainWallet`.
+
+```ts
+abstract fetchClient(): Client | Promise<Client>; // inherit from `WalletBase`
+abstract update(): void | Promise<void>; // inherit from `WalletBase`
+```
+
+### WalletBase
+
+- a generic class deals with type variables:
+  - `Client`: a class implements [WalletClient](#💫-walletclient)
+  - `Data`: any type
+- a subclass of [StateBase](#4-statebase).
+- an abstract class with abstract functions as follows. They should be implemented in `ChainWallet`.
+
+```ts
+abstract fetchClient(): Client | Promise<Client>;
+abstract update(): void | Promise<void>;
+```
+
+### StateBase
+
+- a generic class deals with type variables:
+  - `Data`: any type
+
+- with properties
+  - **state**: [State](#state)
+  - **data**: `Data`
+  - **message**: `string | undefined`
+  - **walletStatus**: [WalletStatus](#walletstatus)
+    - a `getter` from `state` and `message`
+
+```ts
+import getWalletStatusFromState from '@cosmos-kit/core';
+
+get walletStatus: WalletStatus() {
+  return getWalletStatusFromState(this.state, this.message);
+}
+```
+
+## 3. Types
+
+### 💫 Wallet
+
+```ts
+export type WalletName = string;
+
+export interface DownloadInfo {
+  browser?: string;
+  os?: string;
+  icon: IconType;
+  link: string;
+}
+
+export interface Wallet {
+  name: WalletName;
+  prettyName: string;
+  mode: WalletMode;
+  supportMobile: boolean;
+  connectEventNames?: string[];
+  downloads?: {
+    default: string;
+    desktop?: DownloadInfo[];
+    tablet?: DownloadInfo[];
+    mobile?: DownloadInfo[];
+  };
+  logo?: string;
+  qrCodeLink?: string;
+}
+```
+
+### 💫 WalletClient
+
+```ts
+export interface WalletClient {
+  enable: (chainIds: string | string[]) => Promise&lt;void>;
+  addChain: (chainInfo: ChainRecord) => void;
+  getAccount: (chainId: string) => Promise&lt;{
+    name?: string;
+    address: string;
+  }>;
+  getOfflineSigner: (chainId: string) => OfflineSigner;
+
+  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
+  getOfflineSignerAuto?: (
+    chainId: string
+  ) => Promise&lt;OfflineSigner | OfflineDirectSigner>;
+  signAmino?: (
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc
+  ) => Promise&lt;AminoSignResponse>;
+  signDirect?: (
+    chainId: string,
+    signer: string,
+    signDoc: {
+      /** SignDoc bodyBytes */
+      bodyBytes?: Uint8Array | null;
+      /** SignDoc authInfoBytes */
+      authInfoBytes?: Uint8Array | null;
+      /** SignDoc chainId */
+      chainId?: string | null;
+      /** SignDoc accountNumber */
+      accountNumber?: Long | null;
+    }
+  ) => Promise&lt;DirectSignResponse>;
+  getEnigmaPubKey?: (chainId: string) => Promise&lt;Uint8Array>;
+  getEnigmaTxEncryptionKey?: (
+    chainId: string,
+    nonce: Uint8Array
+  ) => Promise&lt;Uint8Array>;
+  enigmaEncrypt?: (
+    chainId: string,
+    contractCodeHash: string,
+    msg: object
+  ) => Promise&lt;Uint8Array>;
+  enigmaDecrypt?: (
+    chainId: string,
+    ciphertext: Uint8Array,
+    nonce: Uint8Array
+  ) => Promise&lt;Uint8Array>;
+}
+```
+
+### WalletStatus
+
+```ts
+export enum WalletStatus {
+  Disconnected = 'Disconnected',
+  Connecting = 'Connecting',
+  Connected = 'Connected',
+  NotExist = 'NotExist',
+  Rejected = 'Rejected',
+  Error = 'Error',
+}
+```
+
+### State
+
+```ts
+export enum State {
+  Init = 'Init',
+  Pending = 'Pending',
+  Done = 'Done',
+  Error = 'Error',
+}
+```

@@ -20,15 +20,14 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   const walletsData: WalletRecordType[] = cosmosManager.wallets.map(
     ({ walletInfo }) => {
-      const { name, logo, prettyName, isQRCode, downloads } = walletInfo;
+      const { name, logo, prettyName, mode, downloads } = walletInfo;
       return {
         id: name,
         logo,
         walletName: prettyName,
-        walletType: isQRCode ? 'qrcode' : 'extension',
+        walletType: mode === 'wallet-connect' ? 'qrcode' : 'extension',
         extensionLink: { ...downloads, websiteDownload: downloads?.default },
         websiteDownload: downloads?.default,
-        qrCodeLink: cosmosManager.currentWallet?.qrUri,
       };
     }
   );

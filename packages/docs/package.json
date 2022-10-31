@@ -10,7 +10,13 @@
     "start": "next start",
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "vercel-build": "yarn workspace nextra run build && yarn workspace nextra-theme-docs run build && yarn build",
-    "clean": "rimraf .next .turbo"
+    "clean": "rimraf .next .turbo",
+    "export": "next build && next export",
+    "postexport": "npm run seo",
+    "seo": "node ./seo/seo.js",
+    "deploy": "AWS_PROFILE=webinc aws s3 sync out/ s3://docs.cosmoskit.com",
+    "invalidate": "AWS_PROFILE=webinc aws cloudfront create-invalidation --distribution-id EN5Y85FX893DG --paths \"/*\"",
+    "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
     "next": "12.3.1",

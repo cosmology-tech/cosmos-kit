@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { OfflineSigner } from '@cosmjs/proto-signing';
+import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import {
+  DirectSignResponse,
+  OfflineDirectSigner,
+  OfflineSigner,
+} from '@cosmjs/proto-signing';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
+import { ChainRecord } from './chain';
 
 export type WalletName = string;
 
@@ -25,8 +31,9 @@ export interface DownloadInfo {
 export interface Wallet {
   name: WalletName;
   prettyName: string;
-  isQRCode: boolean;
+  mode: WalletMode;
   supportMobile: boolean;
+  rejectMessage?: string;
   connectEventNames?: string[];
   downloads?: {
     default: string;
@@ -35,35 +42,75 @@ export interface Wallet {
     mobile?: DownloadInfo[];
   };
   logo?: string;
-  qrCodeLink?: string;
 }
 
-export interface ChainWalletDataBase {
+export interface WalletAccount {
+  name?: string;
+  address: string;
+}
+
+export type WalletMode = 'extension' | 'wallet-connect';
+
+export interface WalletClient {
+  readonly mode: WalletMode;
+  getAccount: (chainId: string) => Promise<WalletAccount>;
+  getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
+
+  enable?: (chainIds: string | string[]) => Promise<void>;
+  addChain?: (chainInfo: ChainRecord) => Promise<void>;
+  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
+  getOfflineSignerAuto?: (
+    chainId: string
+  ) => Promise<OfflineSigner | OfflineDirectSigner>;
+  signAmino?: (
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc
+  ) => Promise<AminoSignResponse>;
+  signDirect?: (
+    chainId: string,
+    signer: string,
+    signDoc: {
+      /** SignDoc bodyBytes */
+      bodyBytes?: Uint8Array | null;
+      /** SignDoc authInfoBytes */
+      authInfoBytes?: Uint8Array | null;
+      /** SignDoc chainId */
+      chainId?: string | null;
+      /** SignDoc accountNumber */
+      accountNumber?: Long | null;
+    }
+  ) => Promise<DirectSignResponse>;
+  getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
+  getEnigmaTxEncryptionKey?: (
+    chainId: string,
+    nonce: Uint8Array
+  ) => Promise<Uint8Array>;
+  enigmaEncrypt?: (
+    chainId: string,
+    contractCodeHash: string,
+    msg: object
+  ) => Promise<Uint8Array>;
+  enigmaDecrypt?: (
+    chainId: string,
+    ciphertext: Uint8Array,
+    nonce: Uint8Array
+  ) => Promise<Uint8Array>;
+}
+
+export interface ChainWalletData {
+  username?: string;
   address?: string;
   offlineSigner?: OfflineSigner;
 }
 
-export interface MainWalletDataBase {
+export interface MainWalletData {
   username?: string;
 }
 
-export interface ChainWalletData extends ChainWalletDataBase {
-  [k: string]: any | undefined;
+export type WalletData = ChainWalletData & MainWalletData;
+export type WalletAdapter = ChainWalletBase | MainWalletBase;
+
+export interface IChainWallet {
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
 }
-
-export interface MainWalletData extends MainWalletDataBase {
-  [k: string]: any | undefined;
-}
-
-export type WalletData = ChainWalletData | MainWalletData;
-
-export interface ChainWallet extends ChainWalletBase<unknown, ChainWalletData> {
-  [k: string]: any | undefined;
-}
-
-export interface WalletOption
-  extends MainWalletBase<unknown, MainWalletData, ChainWallet> {
-  [k: string]: any | undefined;
-}
-
-export type WalletAdapter = ChainWallet | WalletOption;

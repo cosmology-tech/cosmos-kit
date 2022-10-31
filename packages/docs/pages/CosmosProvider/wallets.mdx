@@ -1,4 +1,6 @@
-### Customizing Wallet Info
+**Type:** `MainWalletBase<Client, Data, ChainWallet>`
+
+## Customizing Wallet Info
 
 The simplest way to import wallets in `CosmosProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
 
@@ -6,7 +8,7 @@ The simplest way to import wallets in `CosmosProvider` is `import { wallets } fr
 export interface Wallet {
   name: WalletName;
   prettyName: string;
-  isQRCode: boolean;
+  mode: WalletMode;
   downloads?: {
     default: string;
     desktop?: Icon[];
@@ -14,7 +16,6 @@ export interface Wallet {
     mobile?: Icon[];
   };
   logo?: string;
-  qrCodeLink?: string;
 }
 ```
 

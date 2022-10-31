@@ -1,7 +1,6 @@
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { ChainWalletDataBase, MainWalletDataBase } from '@cosmos-kit/core';
 import { Key } from '@keplr-wallet/types';
 
 export interface LeapSignOptions {
@@ -57,9 +56,3 @@ export interface Leap {
     nonce: Uint8Array
   ): Promise<Uint8Array>;
 }
-
-export interface ChainLeapExtensionData extends ChainWalletDataBase {
-  username?: string;
-}
-
-export type LeapExtensionData = MainWalletDataBase;

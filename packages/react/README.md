@@ -275,7 +275,7 @@ The simplest way to import wallets in `CosmosProvider` is `import { wallets } fr
 export interface Wallet {
   name: WalletName;
   prettyName: string;
-  isQRCode: boolean;
+  mode: WalletMode;
   downloads?: {
     default: string;
     desktop?: Icon[];

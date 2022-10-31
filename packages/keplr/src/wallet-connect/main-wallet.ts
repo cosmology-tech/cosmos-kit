@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 import {
   Callbacks,
-  ChainRecord,
+  EndpointOptions,
   SessionOptions,
-  State,
   Wallet,
 } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
@@ -12,21 +11,17 @@ import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
-import { preferredEndpoints } from '../config';
+import { KeplrClient } from '../client';
 import { ChainKeplrMobile } from './chain-wallet';
-import { keplrMobileInfo } from './registry';
-import { KeplrMobileData } from './types';
 
-export class KeplrMobileWallet extends MainWalletBase<
-  KeplrWalletConnectV1,
-  KeplrMobileData,
-  ChainKeplrMobile
-> {
+export class KeplrMobileWallet extends MainWalletBase {
+  client?: KeplrClient;
   connector: WalletConnect;
-  emitter: EventEmitter = new EventEmitter();
+  emitter: EventEmitter;
 
-  constructor(walletInfo: Wallet = keplrMobileInfo, chains?: ChainRecord[]) {
-    super(walletInfo, chains);
+  constructor(walletInfo: Wallet, preferredEndpoints?: EndpointOptions) {
+    super(walletInfo, ChainKeplrMobile);
+    this.preferredEndpoints = preferredEndpoints;
 
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org',
@@ -36,7 +31,10 @@ export class KeplrMobileWallet extends MainWalletBase<
       if (error) {
         throw error;
       }
-      this._client = new KeplrWalletConnectV1(this.connector);
+      this.client = new KeplrClient(
+        new KeplrWalletConnectV1(this.connector),
+        'wallet-connect'
+      );
       this.emitter.emit('update');
     });
 
@@ -47,7 +45,22 @@ export class KeplrMobileWallet extends MainWalletBase<
       this.emitter.emit('disconnect');
     });
 
-    this._client = new KeplrWalletConnectV1(this.connector);
+    this.client = new KeplrClient(
+      new KeplrWalletConnectV1(this.connector),
+      'wallet-connect'
+    );
+    this.emitter = new EventEmitter();
+  }
+
+  protected setChainsCallback(): void {
+    this.chainWallets.forEach((chainWallet: ChainKeplrMobile) => {
+      chainWallet.client = this.client;
+      chainWallet.connector = this.connector;
+      chainWallet.emitter = this.emitter;
+      chainWallet.appUrl = this.appUrl;
+      chainWallet.connect = this.connect;
+      chainWallet.disconnect = this.disconnect;
+    });
   }
 
   get isInSession() {
@@ -78,33 +91,6 @@ export class KeplrMobileWallet extends MainWalletBase<
     }
   }
 
-  setChains(chains: ChainRecord[]): void {
-    this._chainWallets = new Map(
-      chains.map((chain) => {
-        chain.preferredEndpoints = {
-          rpc: [
-            ...(chain.preferredEndpoints?.rpc || []),
-            ...(preferredEndpoints[chain.name]?.rpc || []),
-          ],
-          rest: [
-            ...(chain.preferredEndpoints?.rest || []),
-            ...(preferredEndpoints[chain.name]?.rest || []),
-          ],
-        };
-
-        return [
-          chain.name,
-          new ChainKeplrMobile(
-            this.walletInfo,
-            chain,
-            this.client,
-            this.emitter
-          ),
-        ];
-      })
-    );
-  }
-
   async connect(
     sessionOptions?: SessionOptions,
     callbacks?: Callbacks
@@ -120,6 +106,7 @@ export class KeplrMobileWallet extends MainWalletBase<
             await this.connect(sessionOptions);
           }, sessionOptions?.duration);
         }
+        callbacks?.connect?.();
       });
       this.emitter.on('disconnect', async () => {
         await this.disconnect(callbacks);
@@ -131,12 +118,7 @@ export class KeplrMobileWallet extends MainWalletBase<
   }
 
   async fetchClient() {
-    return this._client;
-  }
-
-  async update(callbacks?: Callbacks) {
-    this.setState(State.Done);
-    callbacks?.connect?.();
+    return this.client;
   }
 
   async disconnect(callbacks?: Callbacks) {

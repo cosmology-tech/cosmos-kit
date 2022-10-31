@@ -6,7 +6,7 @@ export const cosmostationExtensionInfo: Wallet = {
   name: 'cosmostation-extension',
   logo: 'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation.png',
   prettyName: 'Cosmostation Extension',
-  isQRCode: false,
+  mode: 'extension',
   downloads: {
     desktop: [
       {
@@ -29,4 +29,7 @@ export const cosmostationExtensionInfo: Wallet = {
     ],
     default: 'https://cosmostation.io/wallet',
   },
+  supportMobile: false,
+  rejectMessage:
+    'The requested account and/or method has not been authorized by the user.',
 };

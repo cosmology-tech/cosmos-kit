@@ -1,6 +1,6 @@
 const withNextra = require('nextra')({
   theme: 'nextra-theme-docs',
-  themeConfig: './src/theme.config.js',
+  themeConfig: './theme.config.js',
   unstable_staticImage: true,
   unstable_flexsearch: {
     codeblock: false
@@ -13,5 +13,6 @@ module.exports = {
   }),
   images: {
     domains: ['user-images.githubusercontent.com', 'github.com', 'img.shields.io'],
+    unoptimized: true
   }
 }

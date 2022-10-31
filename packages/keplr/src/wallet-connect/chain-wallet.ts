@@ -1,129 +1,25 @@
 /* eslint-disable no-console */
-import {
-  Callbacks,
-  ChainRecord,
-  ChainWalletBase,
-  SessionOptions,
-  State,
-  Wallet,
-} from '@cosmos-kit/core';
-import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
-import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
+import { ChainRecord, ChainWalletBase, Wallet } from '@cosmos-kit/core';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
-import { ChainKeplrMobileData } from './types';
+import { KeplrClient } from '../client';
 
-export class ChainKeplrMobile extends ChainWalletBase<
-  KeplrWalletConnectV1,
-  ChainKeplrMobileData
-> {
-  private _emitter: EventEmitter;
+export class ChainKeplrMobile extends ChainWalletBase {
+  client?: KeplrClient;
+  connector?: WalletConnect;
+  emitter?: EventEmitter;
+  appUrl?: string;
 
-  constructor(
-    walletInfo: Wallet,
-    chainInfo: ChainRecord,
-    client: KeplrWalletConnectV1,
-    emitter: EventEmitter
-  ) {
+  constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
     super(walletInfo, chainInfo);
-    this._emitter = emitter;
-    this._client = client;
-  }
-
-  get connector(): WalletConnect {
-    return this.client.connector as WalletConnect;
   }
 
   get isInSession() {
-    return this.connector.connected;
-  }
-
-  get username(): string | undefined {
-    return this.data?.username;
+    return this.connector?.connected;
   }
 
   get qrUri() {
-    return this.connector.uri;
-  }
-
-  get appUrl() {
-    if (this.env?.isMobile) {
-      if (this.env?.isAndroid) {
-        saveMobileLinkInfo({
-          name: 'Keplr',
-          href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
-        });
-        return `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
-      } else {
-        saveMobileLinkInfo({
-          name: 'Keplr',
-          href: 'keplrwallet://wcV1',
-        });
-        return `keplrwallet://wcV1?${this.qrUri}`;
-      }
-    } else {
-      return void 0;
-    }
-  }
-
-  async connect(
-    sessionOptions?: SessionOptions,
-    callbacks?: Callbacks
-  ): Promise<void> {
-    if (!this.isInSession) {
-      await this.connector.createSession();
-      this._emitter.on('update', async () => {
-        await this.update();
-        if (sessionOptions?.duration) {
-          setTimeout(async () => {
-            await this.disconnect(callbacks);
-            await this.connect(sessionOptions);
-          }, sessionOptions.duration);
-        }
-        callbacks?.connect?.();
-      });
-      this._emitter.on('disconnect', async () => {
-        await this.disconnect(callbacks);
-      });
-    } else {
-      await this.update();
-    }
-  }
-
-  async fetchClient() {
-    return this._client;
-  }
-
-  async update(callbacks?: Callbacks) {
-    this.setState(State.Pending);
-    try {
-      const key = await this.client.getKey(this.chainId);
-
-      this.setData({
-        address: key.bech32Address,
-        username: key.name,
-        offlineSigner: this.chainId
-          ? this.client.getOfflineSigner(this.chainId)
-          : void 0,
-      });
-      this.setState(State.Done);
-    } catch (e) {
-      console.error(
-        `Chain ${this.chainName} keplr-qrcode connection failed! \n ${e}`
-      );
-      this.setState(State.Error);
-      this.setMessage((e as Error).message);
-    }
-    callbacks?.connect?.();
-  }
-
-  async disconnect(callbacks?: Callbacks) {
-    if (this.connector.connected) {
-      await this.connector.killSession();
-    }
-    this.reset();
-    callbacks?.disconnect?.();
-    this._emitter.removeAllListeners();
+    return this.connector?.uri;
   }
 }

@@ -140,14 +140,11 @@ export const getModalContent = (
           <ExtensionContent
             selectedWallet={currentWalletData}
             stateHeader={`Install ${currentWalletData.walletName}`}
-            stateDesc={`To connect your ${currentWalletData.walletName} wallet,
+            stateDesc={`To connect your wallet,
             install the browser extension.`}
             downloadWalletButton={
               <DefaultLink target="_blank" href={link}>
-                <InstallWalletButton
-                  icon={icon}
-                  text={`Install ${currentWalletData.walletName}`}
-                />
+                <InstallWalletButton icon={icon} text={`Install Wallet`} />
               </DefaultLink>
             }
           />

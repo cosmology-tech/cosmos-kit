@@ -1,33 +1,28 @@
+/* eslint-disable no-console */
 import {
   Callbacks,
-  ChainRecord,
+  EndpointOptions,
   SessionOptions,
-  State,
   Wallet,
 } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import CosmostationWCModal from '@cosmostation/wc-modal';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
+import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
-import { ChainKeplrMobile } from './chain-wallet';
-import { cosmostationMobileInfo } from './registry';
-import { CosmostationMobileData } from './types';
+import { CosmostationClient } from '../client';
+import { ChainCosmostationMobile } from './chain-wallet';
 
-export class CosmostationMobileWallet extends MainWalletBase<
-  KeplrWalletConnectV1,
-  CosmostationMobileData,
-  ChainKeplrMobile
-> {
+export class CosmostationMobileWallet extends MainWalletBase {
+  client?: CosmostationClient;
   connector: WalletConnect;
-  emitter: EventEmitter = new EventEmitter();
+  emitter: EventEmitter;
 
-  constructor(
-    walletInfo: Wallet = cosmostationMobileInfo,
-    chains?: ChainRecord[]
-  ) {
-    super(walletInfo, chains);
+  constructor(walletInfo: Wallet, preferredEndpoints?: EndpointOptions) {
+    super(walletInfo, ChainCosmostationMobile);
+    this.preferredEndpoints = preferredEndpoints;
 
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org',
@@ -38,7 +33,10 @@ export class CosmostationMobileWallet extends MainWalletBase<
       if (error) {
         throw error;
       }
-      this._client = new KeplrWalletConnectV1(this.connector);
+      this.client = new CosmostationClient(
+        new KeplrWalletConnectV1(this.connector),
+        'wallet-connect'
+      );
       this.emitter.emit('update');
     });
 
@@ -49,7 +47,22 @@ export class CosmostationMobileWallet extends MainWalletBase<
       this.emitter.emit('disconnect');
     });
 
-    this._client = new KeplrWalletConnectV1(this.connector);
+    this.client = new CosmostationClient(
+      new KeplrWalletConnectV1(this.connector),
+      'wallet-connect'
+    );
+    this.emitter = new EventEmitter();
+  }
+
+  protected setChainsCallback(): void {
+    this.chainWallets.forEach((chainWallet: ChainCosmostationMobile) => {
+      chainWallet.client = this.client;
+      chainWallet.connector = this.connector;
+      chainWallet.emitter = this.emitter;
+      chainWallet.appUrl = this.appUrl;
+      chainWallet.connect = this.connect;
+      chainWallet.disconnect = this.disconnect;
+    });
   }
 
   get isInSession() {
@@ -60,25 +73,24 @@ export class CosmostationMobileWallet extends MainWalletBase<
     return this.connector.uri;
   }
 
-  setChains(chains: ChainRecord[]): void {
-    this._chainWallets = new Map(
-      chains.map((chain) => {
-        chain.preferredEndpoints = {
-          rpc: [...(chain.preferredEndpoints?.rpc || [])],
-          rest: [...(chain.preferredEndpoints?.rest || [])],
-        };
-
-        return [
-          chain.name,
-          new ChainKeplrMobile(
-            this.walletInfo,
-            chain,
-            this.client,
-            this.emitter
-          ),
-        ];
-      })
-    );
+  get appUrl() {
+    if (this.env?.isMobile) {
+      if (this.env?.isAndroid) {
+        saveMobileLinkInfo({
+          name: 'Cosmostation',
+          href: '',
+        });
+        return ``;
+      } else {
+        saveMobileLinkInfo({
+          name: 'Cosmostation',
+          href: '',
+        });
+        return ``;
+      }
+    } else {
+      return void 0;
+    }
   }
 
   async connect(
@@ -87,6 +99,7 @@ export class CosmostationMobileWallet extends MainWalletBase<
   ): Promise<void> {
     if (!this.isInSession) {
       await this.connector.createSession();
+
       this.emitter.on('update', async () => {
         await this.update(callbacks);
         if (sessionOptions?.duration) {
@@ -95,22 +108,19 @@ export class CosmostationMobileWallet extends MainWalletBase<
             await this.connect(sessionOptions);
           }, sessionOptions?.duration);
         }
+        callbacks?.connect?.();
       });
       this.emitter.on('disconnect', async () => {
         await this.disconnect(callbacks);
       });
     } else {
+      console.info('Using existing wallet connect session.');
       await this.update(callbacks);
     }
   }
 
   async fetchClient() {
-    return this._client;
-  }
-
-  async update(callbacks?: Callbacks) {
-    this.setState(State.Done);
-    callbacks?.connect?.();
+    return this.client;
   }
 
   async disconnect(callbacks?: Callbacks) {
