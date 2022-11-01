@@ -6,6 +6,6 @@ const keplrExtension = new KeplrExtensionWallet(
   keplrExtensionInfo,
   preferredEndpoints
 );
-const KeplrMobile = new KeplrMobileWallet(keplrMobileInfo, preferredEndpoints);
+const keplrMobile = new KeplrMobileWallet(keplrMobileInfo, preferredEndpoints);
 
-export const wallets = [keplrExtension, KeplrMobile];
+export const wallets = [keplrExtension, keplrMobile];
