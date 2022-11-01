@@ -9,6 +9,7 @@ import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainRecord } from './chain';
+import { Data } from './common';
 
 export type WalletName = string;
 
@@ -28,11 +29,13 @@ export interface DownloadInfo {
   link: string;
 }
 
+export type WalletMode = 'extension' | 'wallet-connect';
+
 export interface Wallet {
   name: WalletName;
   prettyName: string;
   mode: WalletMode;
-  supportMobile: boolean;
+  mobileDisabled: boolean;
   rejectMessage?: string;
   connectEventNames?: string[];
   downloads?: {
@@ -49,10 +52,7 @@ export interface WalletAccount {
   address: string;
 }
 
-export type WalletMode = 'extension' | 'wallet-connect';
-
 export interface WalletClient {
-  readonly mode: WalletMode;
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
@@ -98,13 +98,13 @@ export interface WalletClient {
   ) => Promise<Uint8Array>;
 }
 
-export interface ChainWalletData {
+export interface ChainWalletData extends Data {
   username?: string;
   address?: string;
   offlineSigner?: OfflineSigner;
 }
 
-export interface MainWalletData {
+export interface MainWalletData extends Data {
   username?: string;
 }
 

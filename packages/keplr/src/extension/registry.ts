@@ -8,7 +8,7 @@ export const keplrExtensionInfo: Wallet = {
   logo: 'https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png',
   prettyName: 'Keplr Extension',
   mode: 'extension',
-  supportMobile: false,
+  mobileDisabled: true,
   rejectMessage: 'Request rejected',
   connectEventNames: ['keplr_keystorechange'],
   downloads: {

@@ -13,7 +13,7 @@ export class CosmostationExtensionWallet extends MainWalletBase {
   async fetchClient() {
     const cosmostation = await getCosmostationFromExtension();
     return cosmostation
-      ? new CosmostationClient(cosmostation, 'extension')
+      ? new CosmostationClient(cosmostation, this.walletInfo.mode)
       : undefined;
   }
 }

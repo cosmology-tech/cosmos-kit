@@ -35,7 +35,7 @@ export class CosmostationMobileWallet extends MainWalletBase {
       }
       this.client = new CosmostationClient(
         new KeplrWalletConnectV1(this.connector),
-        'wallet-connect'
+        this.walletInfo.mode
       );
       this.emitter.emit('update');
     });
@@ -49,7 +49,7 @@ export class CosmostationMobileWallet extends MainWalletBase {
 
     this.client = new CosmostationClient(
       new KeplrWalletConnectV1(this.connector),
-      'wallet-connect'
+      this.walletInfo.mode
     );
     this.emitter = new EventEmitter();
   }

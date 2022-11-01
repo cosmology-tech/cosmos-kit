@@ -5,5 +5,5 @@ export const cosmostationMobileInfo: Wallet = {
   prettyName: 'Cosmostation Mobile',
   logo: 'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation-wc.png',
   mode: 'wallet-connect',
-  supportMobile: true,
+  mobileDisabled: false,
 };

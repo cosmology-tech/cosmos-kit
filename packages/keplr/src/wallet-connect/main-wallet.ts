@@ -33,7 +33,7 @@ export class KeplrMobileWallet extends MainWalletBase {
       }
       this.client = new KeplrClient(
         new KeplrWalletConnectV1(this.connector),
-        'wallet-connect'
+        this.walletInfo.mode
       );
       this.emitter.emit('update');
     });
@@ -47,7 +47,7 @@ export class KeplrMobileWallet extends MainWalletBase {
 
     this.client = new KeplrClient(
       new KeplrWalletConnectV1(this.connector),
-      'wallet-connect'
+      this.walletInfo.mode
     );
     this.emitter = new EventEmitter();
   }

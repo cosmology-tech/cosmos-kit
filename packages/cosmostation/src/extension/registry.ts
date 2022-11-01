@@ -29,7 +29,7 @@ export const cosmostationExtensionInfo: Wallet = {
     ],
     default: 'https://cosmostation.io/wallet',
   },
-  supportMobile: false,
+  mobileDisabled: true,
   rejectMessage:
     'The requested account and/or method has not been authorized by the user.',
 };

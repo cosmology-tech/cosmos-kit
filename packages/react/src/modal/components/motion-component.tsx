@@ -3,11 +3,19 @@ import { motion, Variants } from 'framer-motion';
 
 export const ModalContentVariants: Variants = {
   hidden: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    height: '100%',
     opacity: 0,
     scale: 0.8,
     transition: { duration: 0.4, type: 'easeOut' },
   },
   enter: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    height: '100%',
     opacity: 1,
     scale: 1,
     transition: { duration: 0.4, type: 'easeOut' },

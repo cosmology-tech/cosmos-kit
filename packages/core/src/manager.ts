@@ -27,6 +27,7 @@ import {
   State,
   StorageOptions,
   ViewOptions,
+  Wallet,
   WalletAdapter,
   WalletData,
   WalletName,
@@ -95,7 +96,9 @@ export class CosmosManager extends StateBase<WalletData> {
 
   get wallets() {
     if (this.env?.isMobile) {
-      return this._wallets.filter((wallet) => wallet.walletInfo.supportMobile);
+      return this._wallets.filter(
+        (wallet) => !wallet.walletInfo.mobileDisabled
+      );
     }
     return this._wallets;
   }
@@ -120,6 +123,10 @@ export class CosmosManager extends StateBase<WalletData> {
 
   get currentWallet(): WalletAdapter | undefined {
     return this.getWallet(this.currentWalletName, this.currentChainName);
+  }
+
+  get currentWalletInfo(): Wallet | undefined {
+    return this.currentWallet?.walletInfo;
   }
 
   get currentChainRecord(): ChainRecord | undefined {

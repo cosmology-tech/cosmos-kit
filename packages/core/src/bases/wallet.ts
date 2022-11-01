@@ -61,7 +61,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   }
 
   async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
-    if (this.env?.isMobile && !this.walletInfo.supportMobile) {
+    if (this.env?.isMobile && this.walletInfo.mobileDisabled) {
       this.setError(
         'This wallet is not supported on mobile, please use desktop browsers.'
       );

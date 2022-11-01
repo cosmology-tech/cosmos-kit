@@ -14,6 +14,10 @@ export interface Mutable<T> {
 
 export type Dispatch<T> = (value: T) => void;
 
+export interface Data {
+  [k: string]: any | undefined;
+}
+
 export interface Actions {
   [k: string]: Dispatch<any> | undefined;
 }
