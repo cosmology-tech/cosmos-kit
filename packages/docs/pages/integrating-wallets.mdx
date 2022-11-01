@@ -1,4 +1,4 @@
-# Intergrating wallets in FOUR steps
+# Integrating wallets in FOUR steps
 
 ## 1️⃣ Prepare basic information for wallet
 
@@ -42,9 +42,9 @@ interface DownloadInfo {
 
 ### 🌵 Examples
 
-- [Keplr Extension - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/extension/registry.ts)
+- [Keplr Extension - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/extension/registry.ts)
 
-- [Keplr Mobile - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/registry.ts)
+- [Keplr Mobile - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/registry.ts)
 
 
 ## 2️⃣ Implement `WalletClient`
@@ -76,7 +76,7 @@ interface WalletAccount {
 
 ### 🌵 Examples
 
-- [Keplr Client](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/client.ts)
+- [Keplr Client](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/client.ts)
 
 
 ## 3️⃣ Extend `ChainWalletBase`
@@ -87,14 +87,16 @@ Create a `ChainWallet` class that extends  `ChainWalletBase`. `ChainWallet` prov
 
 ### 🌵 Examples
 
-- [Keplr Extension - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/extension/chain-wallet.ts)
+- [Keplr Extension - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/extension/chain-wallet.ts)
 
-- [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/chain-wallet.ts)
+- [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/chain-wallet.ts)
 
 
 ## 4️⃣ Extend `MainWalletBase`
 
 Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organizes all `ChainWallet`s, which are stored in protected member `_chainWallets`. [[learn more]](#)
+
+> Note: Class `ChainWallet` created in [Step 3](#3️⃣-extend-chainwalletbase) is required in `MainWalletBase` construction.
 
 ### 🔥 Required methods
 
@@ -108,9 +110,9 @@ Also, feel free to overwrite methods in `MainWalletBase` if necessary.
 
 ### 🌵 Examples
 
-- [Keplr Extension - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/extension/main-wallet.ts)
+- [Keplr Extension - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/extension/main-wallet.ts)
 
-- [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/main-wallet.ts)
+- [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/main-wallet.ts)
 
 
 ## ✅ Get `MainWallet` Instance
@@ -119,8 +121,8 @@ You can construct your `MainWallet` Instance according to your `MainWallet` cons
 
 ### 🌵 Examples
 
-- [keplrExtension & keplrMobile](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/keplr.ts)
+- [keplrExtension & keplrMobile](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/keplr.ts)
 
-Last but not least, append this instance to the `wallets` property of [CosmosProvider](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/docs/src/pages/get-started.mdx#provider).
+Last but not least, append this instance to the `wallets` property of [CosmosProvider](https://docs.cosmoskit.com/get-started#provider).
 
 Then you can play with your wallet! Have fun!  👻👻👻
