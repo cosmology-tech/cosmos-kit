@@ -49,7 +49,7 @@ interface DownloadInfo {
 
 ## 2️⃣ Implement `WalletClient`
 
-`MainWallet` is a class organizing all `ChainWallet`s. **It should extend  `MainWalletBase` class**, in which protected `_chainWallets` property stores all `ChainWallet`s. [[learn more]](#)
+`MainWallet` is a class organizing all `ChainWallet`s. **It should extend  `MainWalletBase` class**, in which protected `_chainWallets` property stores all `ChainWallet`s.
 
 ### 🔥 Required methods
 
@@ -94,7 +94,7 @@ Create a `ChainWallet` class that extends  `ChainWalletBase`. `ChainWallet` prov
 
 ## 4️⃣ Extend `MainWalletBase`
 
-Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organizes all `ChainWallet`s, which are stored in protected member `_chainWallets`. [[learn more]](#)
+Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organizes all `ChainWallet`s, which are stored in protected member `_chainWallets`.
 
 > Note: Class `ChainWallet` created in [Step 3](#3️⃣-extend-chainwalletbase) is required in `MainWalletBase` construction.
 
@@ -115,7 +115,7 @@ Also, feel free to overwrite methods in `MainWalletBase` if necessary.
 - [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/main-wallet.ts)
 
 
-## ✅ Get `MainWallet` instance
+## 5️⃣ Get `MainWallet` instance
 
 You can construct your `MainWallet` Instance according to your `MainWallet` construct method now. Usually the `walletInfo` object prepared in [Step 1](#1️⃣-prepare-basic-information-for-wallet) is imported here as a construction argument.
 
@@ -125,4 +125,4 @@ You can construct your `MainWallet` Instance according to your `MainWallet` cons
 
 Last but not least, append this instance to the `wallets` property of [WalletProvider](https://docs.cosmoskit.com/get-started#provider).
 
-Then you can play with your wallet! Have fun!  👻👻👻
+✅ You can play with your wallet now! HAVE FUN!  👻👻👻

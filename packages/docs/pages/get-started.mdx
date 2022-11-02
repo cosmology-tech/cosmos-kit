@@ -1,10 +1,12 @@
-## Installation
+# Use CosmosKit in THREE steps
+
+## 1️⃣ Install dependecies
 
 ```sh
 yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
-## Provider
+## 2️⃣ Wrap Provider
 
 First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
@@ -31,7 +33,9 @@ function CosmosApp() {
 }
 ```
 
-Get wallet properties and functions using the `useWallet` hook:
+## 3️⃣ Consume with Hook
+
+Consume `WalletProvider` with the `useWallet` hook. It returns `WalletMananger` object, which provides wallet properties and functions.
 
 ```tsx
 import * as React from 'react';
@@ -66,7 +70,9 @@ function Component ({ chainName }: { chainName?: string }) => {
 }
 ```
 
-## Credits
+✅ HAVE FUN! 👻👻👻
+
+## 💟 Credits
 
 🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
 
