@@ -6,17 +6,15 @@ import React from "react";
  * @type {import('nextra-theme-docs').DocsThemeConfig}
  */
 export default {
-  // banner: {
-  //   key: 'CosmosKit',
-  //   text: 'CosmosKit'
-  // },
-  // chat: {
-  //   link: 'https://discord.gg/hEM84NMkRv' // Next.js discord server,
-  // },
+  footer: {
+    text: `BSD ${new Date().getFullYear()} © ComosKit.`,
+  },
+  chat: {
+    link: 'https://discord.gg/6hy8KQ9aJY'
+  },
   project: {
     link: 'https://github.com/cosmology-tech/cosmos-kit'
   },
-  chat: false,
   docsRepositoryBase:
     'https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/docs',
   editLink: {
@@ -78,10 +76,8 @@ export default {
   },
   logo: (
     <>
+      <img src="https://cosmology.tech/logos/cosmology/logo.svg" width="50px"></img>
       <span className="mr-2 font-extrabold hidden md:inline">CosmosKit</span>
-      <span className="text-gray-600 font-normal hidden md:inline">
-        {' - quickly and easily interact with Cosmos blockchains and wallets'}
-      </span>
     </>
   ),
 }

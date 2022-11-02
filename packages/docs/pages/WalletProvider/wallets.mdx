@@ -9,11 +9,14 @@ export interface Wallet {
   name: WalletName;
   prettyName: string;
   mode: WalletMode;
+  mobileDisabled: boolean;
+  rejectMessage?: string;
+  connectEventNames?: string[];
   downloads?: {
     default: string;
-    desktop?: Icon[];
-    tablet?: Icon[];
-    mobile?: Icon[];
+    desktop?: DownloadInfo[];
+    tablet?: DownloadInfo[];
+    mobile?: DownloadInfo[];
   };
   logo?: string;
 }

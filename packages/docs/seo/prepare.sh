@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export S3_BUCKET=docs.comoskit.com
+export S3_BUCKET=docs.cosmoskit.com
 
 (cd out &&
   find . -type f -name '*.html' | while read HTMLFILE; do

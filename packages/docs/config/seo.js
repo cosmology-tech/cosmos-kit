@@ -1,4 +1,4 @@
-const siteUrl = 'https://cosmology.tech';
+const siteUrl = 'https://docs.cosmoskit.com';
 const siteAddress = new URL(siteUrl);
 const canonical = siteAddress.href.slice(0, -1);
 const title = 'Cosmology™';

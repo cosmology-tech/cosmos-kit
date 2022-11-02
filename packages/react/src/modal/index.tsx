@@ -10,7 +10,7 @@ import { UserDeviceInfoType } from './components/types';
 import { getModal } from './utils/get-modal';
 
 export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const cosmos = useWallet();
+  const walletManager = useWallet();
   const [modalHead, setModalHead] = useState<ReactNode>();
   const [modalContent, setModalContent] = useState<ReactNode>();
   const [browser, setBrowser] = useState<UserDeviceInfoType | undefined>();
@@ -18,12 +18,12 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   function handleClose() {
     setOpen(false);
-    switch (cosmos.walletStatus) {
+    switch (walletManager.walletStatus) {
       case 'Connecting':
-        cosmos.disconnect();
+        walletManager.disconnect();
         return;
       case 'Disconnected':
-        cosmos.setCurrentWallet(undefined);
+        walletManager.setCurrentWallet(undefined);
         return;
       default:
         return;
@@ -42,7 +42,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   useEffect(() => {
     const [modalHead, modalContent] = getModal(
       browser,
-      cosmos,
+      walletManager,
       modalIsReset,
       resetModal,
       handleClose
@@ -54,20 +54,20 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
       resetModal(false);
     }
   }, [
-    cosmos.walletStatus,
-    cosmos.currentChainName,
-    cosmos.currentWalletName,
+    walletManager.walletStatus,
+    walletManager.currentChainName,
+    walletManager.currentWalletName,
     modalIsReset,
     isOpen,
-    (cosmos.currentWallet as any)?.qrUri,
+    (walletManager.currentWallet as any)?.qrUri,
   ]);
 
   useEffect(() => {
-    const appUrl = (cosmos.currentWallet as any)?.appUrl;
+    const appUrl = (walletManager.currentWallet as any)?.appUrl;
     if (appUrl) {
       window.location.href = appUrl;
     }
-  }, [(cosmos.currentWallet as any)?.appUrl]);
+  }, [(walletManager.currentWallet as any)?.appUrl]);
 
   return (
     <ConnectModal
