@@ -1,5 +1,4 @@
-import { OfflineSigner } from '@cosmjs/launchpad';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { ClientNotExistError } from '@cosmos-kit/core';
 
 import { Leap } from './types';

@@ -105,14 +105,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@chain-registry/types": "^0.11.0",
-    "@chakra-ui/react": "^2.2.9",
+    "@chain-registry/types": "^0.13.1",
+    "@chakra-ui/react": "^2.3.7",
     "@cosmos-kit/config": "^0.16.2",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "bowser": "2.11.0",
     "qrcode.react": "^3.1.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "^4.6.0"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.28",
