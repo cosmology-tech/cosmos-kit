@@ -1,4 +1,4 @@
-import { useCosmos } from "@cosmos-kit/react";
+import { useWallet } from "@cosmos-kit/react";
 import { Box, Center, Grid, GridItem, Icon, Stack, useColorModeValue } from "@chakra-ui/react";
 import { MouseEventHandler, useMemo } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -7,7 +7,7 @@ import { assets as chainAssets } from 'chain-registry';
 
 
 const Home = () => {
-  const cosmosManager = useCosmos();
+  const walletManager = useWallet();
   const { 
     connect, 
     openView, 
@@ -20,7 +20,7 @@ const Home = () => {
     message,
     currentChainName: chainName,
     currentWallet 
-  } = cosmosManager;
+  } = walletManager;
 
   const walletPrettyName = currentWallet?.walletInfo.prettyName;
 

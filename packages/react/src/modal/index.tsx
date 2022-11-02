@@ -4,13 +4,13 @@ import Bowser from 'bowser';
 import React from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
-import { useCosmos } from '../hooks';
+import { useWallet } from '../hooks';
 import { SimpleConnectModal as ConnectModal } from './components';
 import { UserDeviceInfoType } from './components/types';
 import { getModal } from './utils/get-modal';
 
 export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const cosmos = useCosmos();
+  const cosmos = useWallet();
   const [modalHead, setModalHead] = useState<ReactNode>();
   const [modalContent, setModalContent] = useState<ReactNode>();
   const [browser, setBrowser] = useState<UserDeviceInfoType | undefined>();

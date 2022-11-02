@@ -6,13 +6,13 @@
 
 ### Customizing Modal
 
-You can bring your own UI. The `CosmosProvider` provides a default modal for connection in `@cosmos-kit/react`.
+You can bring your own UI. The `WalletProvider` provides a default modal for connection in `@cosmos-kit/react`.
 
 ```ts
 import { DefaultModal } from '@cosmos-kit/react';
 ```
 
-To define your own modal, you can input you modal component in `CosmosProvider` props.
+To define your own modal, you can input you modal component in `WalletProvider` props.
 
 Required properties in your modal component:
 
@@ -31,11 +31,11 @@ A simple example to define your own modal:
 ```tsx
 import * as React from 'react';
 
-import { CosmosProvider, useCosmos } from '@cosmos-kit/react';
+import { WalletProvider, useWallet } from '@cosmos-kit/react';
 
 // Define Modal Component
 const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const cosmosManager = useCosmos();
+  const walletManager = useWallet();
 
   function onCloseModal() {
     setOpen(false);
@@ -44,8 +44,8 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
   function onWalletClicked(name: string) {
     return async () => {
       console.info('Connecting ' + name);
-      cosmosManager.setCurrentWallet(name);
-      await cosmosManager.connect();
+      walletManager.setCurrentWallet(name);
+      await walletManager.connect();
     };
   }
 
@@ -55,7 +55,7 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {cosmosManager.wallets.map(({ name, prettyName }) => (
+          {walletManager.wallets.map(({ name, prettyName }) => (
             <Button
               key={name}
               colorScheme="blue"
@@ -73,13 +73,13 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
 function CosmosApp() {
   return (
-    <CosmosProvider
+    <WalletProvider
       chains={chains}
       wallets={wallets}
       walletModal={MyModal} // Provide walletModal
     >
       <YourWalletRelatedComponents />
-    </CosmosProvider>
+    </WalletProvider>
   );
 }
 ```

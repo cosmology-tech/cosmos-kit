@@ -1,7 +1,7 @@
 {
   "index": "Introduction",
   "get-started": "Get Started",
-  "CosmosProvider": "CosmosProvider",
-  "CosmosManager": "CosmosManager",
+  "WalletProvider": "WalletProvider",
+  "WalletManager": "WalletManager",
   "integrating-wallets": "Integrating Wallets"
 }

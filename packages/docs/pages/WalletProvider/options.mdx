@@ -18,7 +18,7 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 **Example:**
 
 ```tsx
-<CosmosProvider
+<WalletProvider
   ...
   endpointOptions={{
     osmosis: {
@@ -52,7 +52,7 @@ const sessionOptions: SessionOptions = {
 
 ## `signerOptions`
 
-The default options are `undefined`. You can provide your own options in `CosmosProvider`.
+The default options are `undefined`. You can provide your own options in `WalletProvider`.
 
 ```ts
 import * as React from "react";
@@ -62,7 +62,7 @@ import { chains } from "chain-registry";
 import { GasPrice } from "@cosmjs/stargate";
 import { getSigningCosmosClientOptions } from "interchain";
 import { SignerOptions } from "@cosmos-kit/core";
-import { CosmosProvider } from "@cosmos-kit/react";
+import { WalletProvider } from "@cosmos-kit/react";
 import { wallets } from "@cosmos-kit/config";
 
 // construct signer options
@@ -88,13 +88,13 @@ const signerOptions: SignerOptions = {
 
 function CosmosApp() {
   return (
-    <CosmosProvider
+    <WalletProvider
       chains={chains}
       wallets={wallets}
       signerOptions={signerOptions} // Provide signerOptions
     >
       <YourWalletRelatedComponents />
-    </CosmosProvider>
+    </WalletProvider>
   );
 }
 ```
@@ -116,7 +116,7 @@ export interface SignerOptions {
 
 Define local storage attributes.
 
-storage key: `cosmosManager`
+storage key: `walletManager`
 
 storage value attributes:
 

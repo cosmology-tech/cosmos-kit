@@ -1,11 +1,11 @@
 import { Button } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useCosmos } from "@cosmos-kit/react";
+import { useWallet } from "@cosmos-kit/react";
 
 
 const Test = () => {
-    const cosmosManager = useCosmos();
-    const { signAndBroadcast, connect, setCurrentWallet, setCurrentChain, address } = cosmosManager;
+    const walletManager = useWallet();
+    const { signAndBroadcast, connect, setCurrentWallet, setCurrentChain, address } = walletManager;
 
     useEffect(() => {
         const fn = async () => {

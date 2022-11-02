@@ -24,40 +24,40 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 ## Provider
 
-First, add the `CosmosProvider` to your app, and include the supported chains and supported wallets:
+First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
 ```tsx
 import * as React from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { CosmosProvider } from '@cosmos-kit/react';
+import { WalletProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
 function CosmosApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <CosmosProvider
+      <WalletProvider
         chains={chains} // supported chains
         assetLists={assets} // supported asset lists
         wallets={wallets} // supported wallets
       >
         <YourWalletRelatedComponents />
-      </CosmosProvider>
+      </WalletProvider>
     </ChakraProvider>
   );
 }
 ```
 
-Get wallet properties and functions using the `useCosmos` hook:
+Get wallet properties and functions using the `useWallet` hook:
 
 ```tsx
 import * as React from 'react';
 
-import { useCosmos } from "@cosmos-kit/react";
+import { useWallet } from "@cosmos-kit/react";
 
 function Component ({ chainName }: { chainName?: string }) => {
-    const cosmosManager = useCosmos();
+    const walletManager = useWallet();
 
     // Get wallet properties
     const {
@@ -67,7 +67,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         username,
         address,
         message,
-      } = cosmosManager;
+      } = walletManager;
 
     // Get wallet functions
     const {
@@ -75,7 +75,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         disconnect,
         openView,
         setCurrentChain,
-    } = cosmosManager;
+    } = walletManager;
 
     // if `chainName` in component props, `setCurrentChain` in `useEffect`
     React.useEffect(() => {
@@ -86,7 +86,7 @@ function Component ({ chainName }: { chainName?: string }) => {
 
 ## Signing Clients
 
-There two signing clients available via `cosmosManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
+There two signing clients available via `walletManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
 
 Using signing client in react component:
 
@@ -94,15 +94,15 @@ Using signing client in react component:
 import * as React from 'react';
 import { cosmos } from 'interchain';
 import { StdFee } from '@cosmjs/amino';
-import { useCosmos } from "@cosmos-kit/react";
+import { useWallet } from "@cosmos-kit/react";
 
 function Component () => {
-    const cosmosManager = useCosmos();
+    const walletManager = useWallet();
     const {
         getSigningStargateClient,
         getSigningCosmWasmClient,
         address,
-      } = cosmosManager;
+      } = walletManager;
 
     const sendTokens = async () => {
       const stargateClient = await getSigningStargateClient();
@@ -127,7 +127,7 @@ function Component () => {
 
 ### Customized signing client options
 
-The default options are `undefined`. You can provide your own options in `CosmosProvider`.
+The default options are `undefined`. You can provide your own options in `WalletProvider`.
 
 ```ts
 import * as React from 'react';
@@ -137,7 +137,7 @@ import { chains } from 'chain-registry';
 import { GasPrice } from '@cosmjs/stargate';
 import { getSigningCosmosClientOptions } from 'interchain';
 import { SignerOptions } from '@cosmos-kit/core';
-import { CosmosProvider } from '@cosmos-kit/react';
+import { WalletProvider } from '@cosmos-kit/react';
 import { wallets } from '@cosmos-kit/config';
 
 // construct signer options
@@ -163,13 +163,13 @@ const signerOptions: SignerOptions = {
 
 function CosmosApp() {
   return (
-    <CosmosProvider
+    <WalletProvider
       chains={chains}
       wallets={wallets}
       signerOptions={signerOptions} // Provide signerOptions
     >
       <YourWalletRelatedComponents />
-    </CosmosProvider>
+    </WalletProvider>
   );
 }
 ```
@@ -189,13 +189,13 @@ export interface SignerOptions {
 
 ### Customized Modal
 
-You can bring your own UI. The `CosmosProvider` provides a default modal for connection in `@cosmos-kit/react`.
+You can bring your own UI. The `WalletProvider` provides a default modal for connection in `@cosmos-kit/react`.
 
 ```ts
 import { DefaultModal } from '@cosmos-kit/react';
 ```
 
-To define your own modal, you can input you modal component in `CosmosProvider` props.
+To define your own modal, you can input you modal component in `WalletProvider` props.
 
 Required properties in your modal component:
 
@@ -214,11 +214,11 @@ A simple example to define your own modal:
 ```tsx
 import * as React from 'react';
 
-import { CosmosProvider, useCosmos } from '@cosmos-kit/react';
+import { WalletProvider, useWallet } from '@cosmos-kit/react';
 
 // Define Modal Component
 const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const cosmosManager = useCosmos();
+  const walletManager = useWallet();
 
   function onCloseModal() {
     setOpen(false);
@@ -227,8 +227,8 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
   function onWalletClicked(name: string) {
     return async () => {
       console.info('Connecting ' + name);
-      cosmosManager.setCurrentWallet(name);
-      await cosmosManager.connect();
+      walletManager.setCurrentWallet(name);
+      await walletManager.connect();
     };
   }
 
@@ -238,7 +238,7 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {cosmosManager.wallets.map(({ name, prettyName }) => (
+          {walletManager.wallets.map(({ name, prettyName }) => (
             <Button
               key={name}
               colorScheme="blue"
@@ -256,20 +256,20 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
 function CosmosApp() {
   return (
-    <CosmosProvider
+    <WalletProvider
       chains={chains}
       wallets={wallets}
       walletModal={MyModal} // Provide walletModal
     >
       <YourWalletRelatedComponents />
-    </CosmosProvider>
+    </WalletProvider>
   );
 }
 ```
 
 ### Customized Wallet Info
 
-The simplest way to import wallets in `CosmosProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
+The simplest way to import wallets in `WalletProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
 
 ```ts
 export interface Wallet {
@@ -303,7 +303,7 @@ export const wallets = [keplrExtension, KeplrMobile];
 
 The default value of `keplrExtensionInfo` and `keplrMobileInfo` can be seen from `import { keplrExtensionInfo, keplrMobileInfo } from '@cosmos-kit/keplr';`.
 
-### Options in `CosmosProvider`
+### Options in `WalletProvider`
 
 #### `endpointOptions`
 
@@ -323,7 +323,7 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 e.g.
 
 ```tsx
-<CosmosProvider
+<WalletProvider
   ...
   endpointOptions={{
     osmosis: {
@@ -362,7 +362,7 @@ const viewOptions: ViewOptions = {
 
 Define local storage attributes. `Optional`
 
-storage key: `cosmosManager`
+storage key: `walletManager`
 
 storage value attributes:
 - `currentWalletName`

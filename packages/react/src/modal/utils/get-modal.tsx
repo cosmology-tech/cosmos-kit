@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { Box, Icon } from '@chakra-ui/react';
-import { CosmosManager, WalletStatus } from '@cosmos-kit/core';
+import { WalletManager, WalletStatus } from '@cosmos-kit/core';
 import React from 'react';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiDoorOpenFill } from 'react-icons/ri';
@@ -20,12 +20,12 @@ import { UserDeviceInfoType, WalletInfoType } from '../components/types';
 
 export const getModal = (
   browser: UserDeviceInfoType | undefined,
-  cosmos: CosmosManager,
+  walletManager: WalletManager,
   modalIsReset: boolean,
   resetModal: (v: boolean) => void,
   handleClose: () => void
 ) => {
-  const wallets: WalletInfoType[] = cosmos.wallets.map(
+  const wallets: WalletInfoType[] = walletManager.wallets.map(
     ({ walletInfo: { name, logo, prettyName } }) => ({
       id: name,
       logo,
@@ -33,7 +33,9 @@ export const getModal = (
     })
   );
 
-  const current = wallets.find((data) => data.id === cosmos.currentWalletName);
+  const current = wallets.find(
+    (data) => data.id === walletManager.currentWalletName
+  );
 
   let modalHead: JSX.Element, modalContent: JSX.Element;
 
@@ -71,28 +73,28 @@ export const getModal = (
   async function handleWalletClick(select: WalletInfoType) {
     resetModal(false);
     console.info('Connecting to ' + select.id);
-    cosmos.setCurrentWallet(select.id);
-    await cosmos.connect();
+    walletManager.setCurrentWallet(select.id);
+    await walletManager.connect();
   }
 
   async function handleDisconnect() {
     console.info('Disconnecting');
-    await cosmos.disconnect();
+    await walletManager.disconnect();
   }
 
   async function handleReconnect() {
     console.log('Reconnect wallet');
-    await cosmos.connect();
+    await walletManager.connect();
   }
 
   function handleChangeWallet() {
     resetModal(true);
   }
 
-  const appType = cosmos.env?.isMobile ? 'App' : 'Extension';
-  const downloadInfo = cosmos.currentWalletInfo.downloads[browser.device]?.find(
-    (info) => info.browser === browser.browser || info.os === browser.os
-  );
+  const appType = walletManager.env?.isMobile ? 'App' : 'Extension';
+  const downloadInfo = walletManager.currentWalletInfo.downloads[
+    browser.device
+  ]?.find((info) => info.browser === browser.browser || info.os === browser.os);
 
   const modalInfo = {
     NotExist: {
@@ -102,7 +104,8 @@ export const getModal = (
       buttonText: `Install ${appType}`,
       onClick: () => {
         const link =
-          downloadInfo?.link || cosmos.currentWalletInfo.downloads.default;
+          downloadInfo?.link ||
+          walletManager.currentWalletInfo.downloads.default;
         if (link) {
           window.open(link, '_blank');
         } else {
@@ -133,7 +136,7 @@ export const getModal = (
     Error: {
       logoStatus: LogoStatus.Error,
       header: 'Oops! Something wrong...',
-      desc: cosmos.message,
+      desc: walletManager.message,
       buttonText: 'Change Wallet',
       onClick: handleChangeWallet,
     },
@@ -172,13 +175,13 @@ export const getModal = (
       return (
         <ModalContent
           logo={Astronaut}
-          username={cosmos.username}
+          username={walletManager.username}
           walletIcon={typeof current.logo === 'string' && current.logo}
           addressButton={
             <CopyAddressButton
               size="sm"
               isRound={true}
-              address={cosmos.address}
+              address={walletManager.address}
             />
           }
           bottomButton={getBottomButtonByStatus(walletStatus)}
@@ -188,7 +191,7 @@ export const getModal = (
     if (
       walletStatus === WalletStatus.Disconnected &&
       current.qrCodeLink &&
-      !cosmos.env?.isMobile
+      !walletManager.env?.isMobile
     ) {
       return (
         <QRCode
@@ -209,7 +212,7 @@ export const getModal = (
   }
 
   if (current && !modalIsReset) {
-    modalContent = getModalContentByStatus(cosmos.walletStatus);
+    modalContent = getModalContentByStatus(walletManager.walletStatus);
   } else {
     modalContent = (
       <DisplayWalletList

@@ -1,6 +1,6 @@
 ## Signing Client
 
-There two signing clients available via `cosmosManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
+There two signing clients available via `walletManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
 
 Using signing client in react component:
 
@@ -8,15 +8,15 @@ Using signing client in react component:
 import * as React from 'react';
 import { cosmos } from 'interchain';
 import { StdFee } from '@cosmjs/amino';
-import { useCosmos } from "@cosmos-kit/react";
+import { useWallet } from "@cosmos-kit/react";
 
 function Component () => {
-    const cosmosManager = useCosmos();
+    const walletManager = useWallet();
     const {
         getSigningStargateClient,
         getSigningCosmWasmClient,
         address,
-      } = cosmosManager;
+      } = walletManager;
 
     const sendTokens = async () => {
       const stargateClient = await getSigningStargateClient();

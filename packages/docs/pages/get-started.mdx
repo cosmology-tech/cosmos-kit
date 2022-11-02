@@ -6,40 +6,40 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 ## Provider
 
-First, add the `CosmosProvider` to your app, and include the supported chains and supported wallets:
+First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
 ```tsx
 import * as React from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { CosmosProvider } from '@cosmos-kit/react';
+import { WalletProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
 function CosmosApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <CosmosProvider
+      <WalletProvider
         chains={chains} // supported chains
         assetLists={assets} // supported asset lists
         wallets={wallets} // supported wallets
       >
         <YourWalletRelatedComponents />
-      </CosmosProvider>
+      </WalletProvider>
     </ChakraProvider>
   );
 }
 ```
 
-Get wallet properties and functions using the `useCosmos` hook:
+Get wallet properties and functions using the `useWallet` hook:
 
 ```tsx
 import * as React from 'react';
 
-import { useCosmos } from "@cosmos-kit/react";
+import { useWallet } from "@cosmos-kit/react";
 
 function Component ({ chainName }: { chainName?: string }) => {
-    const cosmosManager = useCosmos();
+    const walletManager = useWallet();
 
     // Get wallet properties
     const {
@@ -49,7 +49,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         username,
         address,
         message,
-      } = cosmosManager;
+      } = walletManager;
 
     // Get wallet functions
     const {
@@ -57,7 +57,7 @@ function Component ({ chainName }: { chainName?: string }) => {
         disconnect,
         openView,
         setCurrentChain,
-    } = cosmosManager;
+    } = walletManager;
 
     // if `chainName` in component props, `setCurrentChain` in `useEffect`
     React.useEffect(() => {

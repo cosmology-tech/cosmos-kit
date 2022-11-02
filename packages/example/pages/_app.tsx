@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { CosmosProvider } from '@cosmos-kit/react';
+import { WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { assets, chains } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
@@ -14,7 +14,7 @@ import { defaultTheme } from '../config';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <CosmosProvider
+      <WalletProvider
         chains={chains}
         assetLists={assets}
         // wallets={[...keplrWallet, ...leapwallets, ...cosmostationWallets]}
@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <Component {...pageProps} />
-      </CosmosProvider>
+      </WalletProvider>
     </ChakraProvider>
   );
 }

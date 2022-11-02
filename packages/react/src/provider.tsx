@@ -2,7 +2,6 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainName,
-  CosmosManager,
   EndpointOptions,
   MainWalletBase,
   MainWalletData,
@@ -10,6 +9,7 @@ import {
   SignerOptions,
   StorageOptions,
   ViewOptions,
+  WalletManager,
   WalletName,
 } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
@@ -24,10 +24,10 @@ import React, {
 import { DefaultModal } from './modal';
 
 export const walletContext = createContext<{
-  cosmosManager: CosmosManager;
+  walletManager: WalletManager;
 } | null>(null);
 
-export const CosmosProvider = ({
+export const WalletProvider = ({
   chains,
   assetLists,
   wallets,
@@ -49,9 +49,9 @@ export const CosmosProvider = ({
   sessionOptions?: SessionOptions;
   children: ReactNode;
 }) => {
-  const cosmosManager = useMemo(
+  const walletManager = useMemo(
     () =>
-      new CosmosManager(
+      new WalletManager(
         chains,
         assetLists,
         wallets,
@@ -64,17 +64,17 @@ export const CosmosProvider = ({
   );
 
   const [walletData, setWalletData] = useState<MainWalletData>();
-  const [walletState, setWalletState] = useState(cosmosManager.state);
+  const [walletState, setWalletState] = useState(walletManager.state);
   const [walletMsg, setWalletMsg] = useState<string | undefined>();
   const [walletName, setWalletName] = useState<WalletName | undefined>(
-    cosmosManager.currentWalletName
+    walletManager.currentWalletName
   );
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [chainName, setChainName] = useState<ChainName | undefined>();
   const [qrUri, setQRUri] = useState<string | undefined>();
 
-  cosmosManager.setActions({
+  walletManager.setActions({
     data: setWalletData,
     state: setWalletState,
     message: setWalletMsg,
@@ -87,16 +87,16 @@ export const CosmosProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
-    cosmosManager.onMounted();
+    walletManager.onMounted();
     return () => {
-      cosmosManager.onUnmounted();
+      walletManager.onUnmounted();
     };
   }, []);
 
   return (
     <walletContext.Provider
       value={{
-        cosmosManager,
+        walletManager,
       }}
     >
       {children}
