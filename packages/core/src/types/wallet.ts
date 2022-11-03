@@ -29,6 +29,13 @@ export interface DownloadInfo {
   link: string;
 }
 
+export interface Downloads {
+  default: string;
+  desktop?: DownloadInfo[];
+  tablet?: DownloadInfo[];
+  mobile?: DownloadInfo[];
+}
+
 export type WalletMode = 'extension' | 'wallet-connect';
 
 export interface Wallet {
@@ -38,12 +45,7 @@ export interface Wallet {
   mobileDisabled: boolean;
   rejectMessage?: string;
   connectEventNames?: string[];
-  downloads?: {
-    default: string;
-    desktop?: DownloadInfo[];
-    tablet?: DownloadInfo[];
-    mobile?: DownloadInfo[];
-  };
+  downloads?: Downloads;
   logo?: string;
 }
 

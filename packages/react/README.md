@@ -16,7 +16,9 @@ Cosmos Kit is a wallet adapter for developers to build apps that quickly and eas
 
 @cosmos-kit/react is the React integration for Cosmos Kit.
 
-❗❗ **SEE LATEST DOCS ON https://docs.cosmoskit.com/** ❗❗
+## Documentation
+
+[docs.cosmoskit.com](https://docs.cosmoskit.com)
 
 ## Installation
 
