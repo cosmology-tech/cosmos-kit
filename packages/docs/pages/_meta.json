@@ -1,0 +1,7 @@
+{
+  "index": "Introduction",
+  "get-started": "Get Started",
+  "integrating-wallets": "Integrating Wallets",
+  "WalletProvider": "WalletProvider",
+  "WalletManager": "WalletManager"
+}

@@ -1,10 +1,19 @@
-import { Callbacks, SessionOptions, State, Wallet } from '../types';
-import { ClientNotExistError } from '../utils';
+import {
+  AppEnv,
+  Callbacks,
+  SessionOptions,
+  State,
+  Wallet,
+  WalletClient,
+} from '../types';
+import { ClientNotExistError, RejectedError } from '../utils';
 import { StateBase } from './state';
 
-export abstract class WalletBase<Client, Data> extends StateBase<Data> {
-  protected _client?: Client;
+export abstract class WalletBase<Data> extends StateBase<Data> {
+  clientPromise?: WalletClient | Promise<WalletClient | undefined>;
+  client?: WalletClient;
   protected _walletInfo: Wallet;
+  protected _env?: AppEnv;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -23,8 +32,12 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     return this.walletInfo.prettyName;
   }
 
-  get client() {
-    return this._client;
+  get env() {
+    return this._env;
+  }
+
+  setEnv(env: AppEnv) {
+    this._env = env;
   }
 
   disconnect(callbacks?: Callbacks) {
@@ -37,19 +50,33 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     this.setMessage(ClientNotExistError.message);
   }
 
+  setRejected() {
+    this.setState(State.Error);
+    this.setMessage(RejectedError.message);
+  }
+
+  setError(e: Error | string) {
+    this.setState(State.Error);
+    this.setMessage(typeof e === 'string' ? e : e.message);
+  }
+
   async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
-    if (!this.client) {
-      try {
-        this._client = await this.fetchClient();
-      } catch (error) {
-        this.setClientNotExist();
-        return;
-      }
+    if (this.env?.isMobile && this.walletInfo.mobileDisabled) {
+      this.setError(
+        'This wallet is not supported on mobile, please use desktop browsers.'
+      );
+      return;
     }
 
     if (!this.client) {
-      this.setClientNotExist();
-      return;
+      const client = await this.clientPromise;
+
+      if (!client) {
+        this.setClientNotExist();
+        return;
+      } else {
+        this.client = client;
+      }
     }
 
     await this.update();
@@ -62,6 +89,5 @@ export abstract class WalletBase<Client, Data> extends StateBase<Data> {
     callbacks?.connect?.();
   }
 
-  abstract fetchClient(): Client | Promise<Client>;
   abstract update(): void | Promise<void>;
 }

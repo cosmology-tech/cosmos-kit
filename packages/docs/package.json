@@ -1,0 +1,36 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "debug": "NODE_OPTIONS='--inspect' next dev",
+    "vercel-build": "yarn workspace nextra run build && yarn workspace nextra-theme-docs run build && yarn build",
+    "clean": "rimraf .next .turbo",
+    "export": "next build && next export",
+    "postexport": "npm run seo",
+    "seo": "node ./seo/seo.js",
+    "deploy": "AWS_PROFILE=webinc aws s3 sync out/ s3://docs.cosmoskit.com",
+    "invalidate": "AWS_PROFILE=webinc aws cloudfront create-invalidation --distribution-id EN5Y85FX893DG --paths \"/*\"",
+    "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
+  },
+  "dependencies": {
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "nextra": "2.0.0-beta.33",
+    "nextra-theme-docs": "2.0.0-beta.33"
+  },
+  "dependenciesMeta": {
+    "nextra": {
+      "injected": true
+    },
+    "nextra-theme-docs": {
+      "injected": true
+    }
+  }
+}

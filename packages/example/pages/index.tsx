@@ -13,7 +13,7 @@ const Home = () => {
     openView, 
     disconnect, 
     setCurrentChain, 
-    chains,
+    chainRecords,
     walletStatus, 
     username, 
     address, 
@@ -25,7 +25,7 @@ const Home = () => {
   const walletPrettyName = currentWallet?.walletInfo.prettyName;
 
   const chainOptions = useMemo(() => (
-    chains
+    chainRecords
       .map((chainRecord) => {
         const assets = chainAssets.find(
           _chain => _chain.chain_name === chainRecord.name
@@ -38,7 +38,7 @@ const Home = () => {
           disabled: false
         }
       })
-  ), [chains])
+  ), [chainRecords])
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {

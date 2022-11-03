@@ -1,102 +1,78 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WalletModalProps } from '@cosmos-kit/core';
 import Bowser from 'bowser';
 import React from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { useWallet } from '../hooks';
-import { ConnectModal } from './components/ConnectModal';
-import { UserDeviceInfoType, WalletRecordType } from './types';
-import { getModalContent } from './utils/modal-content';
-import { getModalHead } from './utils/modal-head';
+import { SimpleConnectModal as ConnectModal } from './components';
+import { UserDeviceInfoType } from './components/types';
+import { getModal } from './utils/get-modal';
 
 export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   const walletManager = useWallet();
   const [modalHead, setModalHead] = useState<ReactNode>();
   const [modalContent, setModalContent] = useState<ReactNode>();
-  const [userBrowserInfo, setUserBrowserInfo] = useState<
-    UserDeviceInfoType | undefined
-  >();
-  const [modalReset, setModalReset] = useState(false);
-
-  const walletsData: WalletRecordType[] = walletManager.wallets.map(
-    ({ walletInfo }) => {
-      const { name, logo, prettyName, isQRCode, downloads } = walletInfo;
-      return {
-        id: name,
-        logo,
-        walletName: prettyName,
-        walletType: isQRCode ? 'qrcode' : 'extension',
-        extensionLink: { ...downloads, websiteDownload: downloads?.default },
-        websiteDownload: downloads?.default,
-        qrCodeLink: walletManager.currentWallet?.qrUri,
-      };
-    }
-  );
+  const [browser, setBrowser] = useState<UserDeviceInfoType | undefined>();
+  const [modalIsReset, resetModal] = useState(false);
 
   function handleClose() {
     setOpen(false);
     switch (walletManager.walletStatus) {
       case 'Connecting':
         walletManager.disconnect();
-        break;
+        return;
       case 'Disconnected':
         walletManager.setCurrentWallet(undefined);
-        break;
+        return;
       default:
-        break;
+        return;
     }
   }
 
   useEffect(() => {
-    setUserBrowserInfo({
-      browser: Bowser.getParser(window.navigator.userAgent).getBrowserName(
-        true
-      ),
-      device: Bowser.getParser(window.navigator.userAgent).getPlatform().type,
-      os: Bowser.getParser(window.navigator.userAgent).getOSName(true),
+    const parser = Bowser.getParser(window.navigator.userAgent);
+    setBrowser({
+      browser: parser.getBrowserName(true),
+      device: parser.getPlatform().type,
+      os: parser.getOSName(true),
     });
   }, []);
 
   useEffect(() => {
-    const currentWalletData = walletsData.find(
-      (data) => data.id === walletManager.currentWalletName
+    const [modalHead, modalContent] = getModal(
+      browser,
+      walletManager,
+      modalIsReset,
+      resetModal,
+      handleClose
     );
-    setModalHead(
-      getModalHead(
-        walletManager,
-        currentWalletData,
-        handleClose,
-        modalReset,
-        setModalReset
-      )
-    );
-    setModalContent(
-      getModalContent(
-        walletManager,
-        currentWalletData,
-        userBrowserInfo,
-        walletsData,
-        modalReset,
-        setModalReset
-      )
-    );
+
+    setModalHead(modalHead);
+    setModalContent(modalContent);
     if (!isOpen) {
-      setModalReset(false);
+      resetModal(false);
     }
   }, [
     walletManager.walletStatus,
     walletManager.currentChainName,
     walletManager.currentWalletName,
-    modalReset,
+    modalIsReset,
     isOpen,
-    walletManager.currentWallet?.qrUri,
+    (walletManager.currentWallet as any)?.qrUri,
   ]);
+
+  useEffect(() => {
+    const appUrl = (walletManager.currentWallet as any)?.appUrl;
+    if (appUrl) {
+      window.location.href = appUrl;
+    }
+  }, [(walletManager.currentWallet as any)?.appUrl]);
 
   return (
     <ConnectModal
       modalIsOpen={isOpen}
       modalOnClose={handleClose}
-      walletsData={walletsData}
       modalHead={modalHead}
       modalContent={modalContent}
     />

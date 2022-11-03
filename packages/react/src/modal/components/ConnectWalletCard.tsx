@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { IoMdWallet } from 'react-icons/io';
 
-import { ConnectedUserCardType, ConnectWalletCardType } from '../types';
+import { ConnectedUserCardType, ConnectWalletCardType } from './types';
 
 export const SimpleAvatarWithName = ({
   walletIcon,

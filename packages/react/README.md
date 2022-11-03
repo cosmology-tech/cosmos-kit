@@ -19,6 +19,10 @@ Cosmos Kit is a wallet adapter for developers to build apps that quickly and eas
 
 @cosmos-kit/react is the React integration for Cosmos Kit.
 
+## Documentation
+
+[docs.cosmoskit.com](https://docs.cosmoskit.com)
+
 ## Installation
 
 ```sh
@@ -37,7 +41,7 @@ import { WalletProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
-function WalletApp() {
+function CosmosApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
       <WalletProvider
@@ -89,7 +93,7 @@ function Component ({ chainName }: { chainName?: string }) => {
 
 ## Signing Clients
 
-There two signing clients available via `walletManager` functions: `getStargateClient()` and `getCosmWasmClient()`.
+There two signing clients available via `walletManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
 
 Using signing client in react component:
 
@@ -102,13 +106,13 @@ import { useWallet } from "@cosmos-kit/react";
 function Component () => {
     const walletManager = useWallet();
     const {
-        getStargateClient,
-        getCosmWasmClient,
+        getSigningStargateClient,
+        getSigningCosmWasmClient,
         address,
       } = walletManager;
 
     const sendTokens = async () => {
-      const stargateClient = await getStargateClient();
+      const stargateClient = await getSigningStargateClient();
       if (!stargateClient || !address) {
           console.error('stargateClient undefined or address undefined.')
           return;
@@ -164,7 +168,7 @@ const signerOptions: SignerOptions = {
   },
 };
 
-function WalletApp() {
+function CosmosApp() {
   return (
     <WalletProvider
       chains={chains}
@@ -257,7 +261,7 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
   );
 };
 
-function WalletApp() {
+function CosmosApp() {
   return (
     <WalletProvider
       chains={chains}
@@ -278,7 +282,7 @@ The simplest way to import wallets in `WalletProvider` is `import { wallets } fr
 export interface Wallet {
   name: WalletName;
   prettyName: string;
-  isQRCode: boolean;
+  mode: WalletMode;
   downloads?: {
     default: string;
     desktop?: Icon[];

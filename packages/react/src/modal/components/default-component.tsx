@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Button,
   ButtonProps,
+  Center,
   Divider,
   Icon,
   Image,
@@ -10,6 +12,7 @@ import {
   Text,
   Tooltip,
   TooltipProps,
+  useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
 import React from 'react';
@@ -20,7 +23,17 @@ import {
   DefaultLinkItemType,
   DefaultLinkType,
   IconTypeProps,
-} from '../types';
+} from './types';
+
+// use for let color mode value fit Rules of Hooks
+export function handleChangeColorModeValue(
+  colorMode: string,
+  light: string,
+  dark: string
+) {
+  if (colorMode === 'light') return light;
+  if (colorMode === 'dark') return dark;
+}
 
 // 🔧 use forwardRef to fix ref-warnings =>
 // https://github.com/vercel/next.js/issues/7915#issuecomment-745117649
@@ -99,17 +112,44 @@ export const ListLinkButton = ({
 export const MenuLinkButton = ({
   icon,
   text,
-  chakraButtonProps,
-}: { chakraButtonProps?: ButtonProps } & DefaultLinkItemType) => {
+  size = 'md',
+}: DefaultLinkItemType) => {
+  const { colorMode } = useColorMode();
+  const SIZES = {
+    lg: {
+      h: 12,
+      fontSize: 'lg',
+    },
+    md: {
+      h: 10,
+      fontSize: 'md',
+    },
+    sm: {
+      h: 8,
+      fontSize: 'sm',
+    },
+  };
   return (
     <Button
-      size="lg"
-      w="full"
+      title={text}
+      display="flex"
       variant="ghost"
       justifyContent="start"
-      px={3}
-      _focus={{ outline: 'none' }}
-      {...chakraButtonProps}
+      alignItems="center"
+      fontSize={SIZES[size].fontSize}
+      fontWeight="medium"
+      textAlign="start"
+      px={2}
+      w="full"
+      h="full"
+      minH={SIZES[size].h}
+      maxH="fit-content"
+      whiteSpace="break-spaces"
+      lineHeight={1.1}
+      _hover={{
+        bg: handleChangeColorModeValue(colorMode, 'gray.200', 'gray.700'),
+      }}
+      _focus={{ boxShadow: '0 0 0 2px #C47CCF' }}
     >
       <Stack isInline={true} spacing={2} alignItems="center">
         {icon}
@@ -126,17 +166,58 @@ export const TextWithIconLink = ({ text, icon }: DefaultLinkType) => (
   </Stack>
 );
 
-export const DefaultIcon = ({ icon }: { icon: IconTypeProps }) => {
+export const DefaultIcon = ({
+  size = 'md',
+  icon,
+}: {
+  size?: string;
+  icon: IconTypeProps;
+}) => {
+  const SIZES = {
+    lg: {
+      imageSize: 9,
+    },
+    md: {
+      imageSize: 8,
+    },
+    sm: {
+      imageSize: 6,
+    },
+  };
   if (typeof icon === 'string')
     return (
-      <Box borderRadius="full" overflow="hidden" w={6} h={6}>
+      <Center
+        borderRadius="full"
+        overflow="hidden"
+        w={SIZES[size].imageSize}
+        minW={SIZES[size].imageSize}
+        maxW={SIZES[size].imageSize}
+        h={SIZES[size].imageSize}
+        minH={SIZES[size].imageSize}
+        maxH={SIZES[size].imageSize}
+      >
         <Image
+          w="full"
+          alt={icon}
           src={icon}
           fallbackSrc={'https://dummyimage.com/200x200/cfcfcf/fff&text=X'}
         />
-      </Box>
+      </Center>
     );
-  return <>{icon}</>;
+  return (
+    <Center
+      borderRadius="full"
+      overflow="hidden"
+      w={SIZES[size].imageSize}
+      minW={SIZES[size].imageSize}
+      maxW={SIZES[size].imageSize}
+      h={SIZES[size].imageSize}
+      minH={SIZES[size].imageSize}
+      maxH={SIZES[size].imageSize}
+    >
+      {icon}
+    </Center>
+  );
 };
 
 export const DefaultCard = ({ title, children }: DefaultCardType) => {

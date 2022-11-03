@@ -15,7 +15,7 @@ export function convertChain(
     name: chain.chain_name,
     chain,
     assetList,
-    signerOptions: {
+    clientOptions: {
       stargate: signerOptions?.stargate?.(chain),
       cosmwasm: signerOptions?.cosmwasm?.(chain),
     },

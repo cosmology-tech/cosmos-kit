@@ -23,11 +23,11 @@ Get started quickly by using [create-cosmos-app](https://github.com/cosmology-te
 
 ## ⚙️ Configuration
 
-Check out [our docs here](packages/react/README.md) to configure Cosmos Kit.
+Check out [our docs here](https://docs.cosmoskit.com/) to configure Cosmos Kit.
 
 ## ⚛️ CosmJS Signers
 
-If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/react/README.md#2-signing-clients)
+If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://docs.cosmoskit.com/WalletManager/signing-client)
 
 ## 📦 Packages
 
@@ -49,7 +49,7 @@ An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
 ## 🔌 Integrating Wallets
 
-See our docs on [integrating your wallet](https://github.com/cosmology-tech/cosmos-kit/blob/main/INTEGRATING-WALLETS.md)
+See our docs on [integrating your wallet](https://docs.cosmoskit.com/integrating-wallets)
 
 ## 🛠 Developing
 

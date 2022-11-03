@@ -3,6 +3,7 @@ import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainName,
   EndpointOptions,
+  MainWalletBase,
   MainWalletData,
   SessionOptions,
   SignerOptions,
@@ -10,7 +11,6 @@ import {
   ViewOptions,
   WalletManager,
   WalletName,
-  WalletOption,
 } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, {
@@ -40,7 +40,7 @@ export const WalletProvider = ({
 }: {
   chains: Chain[];
   assetLists: AssetList[];
-  wallets: WalletOption[];
+  wallets: MainWalletBase[];
   walletModal?: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
   signerOptions?: SignerOptions;
   viewOptions?: ViewOptions;
@@ -87,66 +87,10 @@ export const WalletProvider = ({
   const Modal = walletModal || DefaultModal;
 
   useEffect(() => {
-    // setUserBrowserInfo({
-    //   browser: Bowser.getParser(window.navigator.userAgent).getBrowserName(
-    //     true
-    //   ),
-    //   device: Bowser.getParser(window.navigator.userAgent).getPlatform().type,
-    //   os: Bowser.getParser(window.navigator.userAgent).getOSName(true),
-    // });
-
-    const handleLoaded = (event: Event) => {
-      event.preventDefault();
-      walletManager.connect();
+    walletManager.onMounted();
+    return () => {
+      walletManager.onUnmounted();
     };
-
-    const handleTabClose = (event: Event) => {
-      event.preventDefault();
-      if (walletManager.storageOptions.clearOnTabClose) {
-        window.localStorage.removeItem('walletManager');
-      }
-      if (walletManager.sessionOptions.killOnTabClose) {
-        walletManager.disconnect();
-      }
-    };
-
-    const handleKeplrKeyStoreChange = async (event: Event) => {
-      event.preventDefault();
-      if (!walletManager.isInit) {
-        await walletManager.connect();
-      }
-    };
-
-    if (walletManager.useStorage) {
-      const storeStr = window.localStorage.getItem('walletManager');
-      if (storeStr) {
-        const { currentWalletName, currentChainName } = JSON.parse(storeStr);
-        walletManager.setCurrentWallet(currentWalletName);
-        walletManager.setCurrentChain(currentChainName);
-        if (currentWalletName) {
-          const env = process.env.NODE_ENV;
-          walletManager.connect();
-          if (env == 'production') {
-            window.addEventListener('load', handleLoaded);
-          }
-        }
-      }
-
-      window.addEventListener('beforeunload', handleTabClose);
-      window.addEventListener(
-        'keplr_keystorechange',
-        handleKeplrKeyStoreChange
-      );
-
-      return () => {
-        window.removeEventListener('beforeunload', handleTabClose);
-        window.removeEventListener(
-          'keplr_keystorechange',
-          handleKeplrKeyStoreChange
-        );
-        window.removeEventListener('load', handleLoaded);
-      };
-    }
   }, []);
 
   return (
