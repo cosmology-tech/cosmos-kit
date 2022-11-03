@@ -4,13 +4,19 @@ import React from 'react';
 import { ConnectModalType } from './types';
 
 export const SimpleConnectModal = ({
+  initialRef,
   modalHead,
   modalContent,
   modalIsOpen,
   modalOnClose,
 }: ConnectModalType) => {
   return (
-    <Modal isOpen={modalIsOpen} isCentered={true} onClose={modalOnClose}>
+    <Modal
+      initialFocusRef={initialRef}
+      isOpen={modalIsOpen}
+      isCentered={true}
+      onClose={modalOnClose}
+    >
       <ModalOverlay />
       <ModalContent
         alignSelf="center"

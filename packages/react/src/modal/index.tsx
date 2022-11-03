@@ -1,29 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { WalletModalProps } from '@cosmos-kit/core';
 import Bowser from 'bowser';
-import React from 'react';
+import React, { useRef } from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { useWallet } from '../hooks';
 import { SimpleConnectModal as ConnectModal } from './components';
 import { UserDeviceInfoType } from './components/types';
-import { getModal } from './utils/get-modal';
+import { getModal } from './get-modal';
 
 export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   const walletManager = useWallet();
+  const { walletStatus, currentWallet, disconnect, setCurrentWallet } =
+    walletManager;
   const [modalHead, setModalHead] = useState<ReactNode>();
   const [modalContent, setModalContent] = useState<ReactNode>();
-  const [browser, setBrowser] = useState<UserDeviceInfoType | undefined>();
+  const [userAgent, setUserAgent] = useState<UserDeviceInfoType | undefined>();
   const [modalIsReset, resetModal] = useState(false);
+  const initialFocus = useRef();
 
   function handleClose() {
     setOpen(false);
-    switch (walletManager.walletStatus) {
+    switch (walletStatus) {
       case 'Connecting':
-        walletManager.disconnect();
+        disconnect();
         return;
       case 'Disconnected':
-        walletManager.setCurrentWallet(undefined);
+        setCurrentWallet(undefined);
         return;
       default:
         return;
@@ -32,7 +34,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   useEffect(() => {
     const parser = Bowser.getParser(window.navigator.userAgent);
-    setBrowser({
+    setUserAgent({
       browser: parser.getBrowserName(true),
       device: parser.getPlatform().type,
       os: parser.getOSName(true),
@@ -41,11 +43,12 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   useEffect(() => {
     const [modalHead, modalContent] = getModal(
-      browser,
+      userAgent,
       walletManager,
       modalIsReset,
       resetModal,
-      handleClose
+      handleClose,
+      initialFocus
     );
 
     setModalHead(modalHead);
@@ -53,21 +56,14 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     if (!isOpen) {
       resetModal(false);
     }
-  }, [
-    walletManager.walletStatus,
-    walletManager.currentChainName,
-    walletManager.currentWalletName,
-    modalIsReset,
-    isOpen,
-    (walletManager.currentWallet as any)?.qrUri,
-  ]);
+  }, [walletStatus, modalIsReset, isOpen, currentWallet?.qrUri]);
 
   useEffect(() => {
-    const appUrl = (walletManager.currentWallet as any)?.appUrl;
+    const appUrl = currentWallet?.appUrl;
     if (appUrl) {
       window.location.href = appUrl;
     }
-  }, [(walletManager.currentWallet as any)?.appUrl]);
+  }, [currentWallet?.appUrl]);
 
   return (
     <ConnectModal
@@ -75,6 +71,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
       modalOnClose={handleClose}
       modalHead={modalHead}
       modalContent={modalContent}
+      initialRef={initialFocus}
     />
   );
 };

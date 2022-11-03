@@ -12,7 +12,12 @@ export class KeplrExtensionWallet extends MainWalletBase {
   }
 
   async fetchClient() {
-    const keplr = await getKeplrFromExtension();
-    return keplr ? new KeplrClient(keplr, this.walletInfo.mode) : undefined;
+    try {
+      const keplr = await getKeplrFromExtension();
+      return keplr ? new KeplrClient(keplr, this.walletInfo.mode) : undefined;
+    } catch (error) {
+      this.setClientNotExist();
+      return void 0;
+    }
   }
 }

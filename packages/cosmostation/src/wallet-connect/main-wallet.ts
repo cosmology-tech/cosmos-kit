@@ -8,12 +8,12 @@ import {
 import { MainWalletBase } from '@cosmos-kit/core';
 import CosmostationWCModal from '@cosmostation/wc-modal';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
-import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
 import { CosmostationClient } from '../client';
 import { ChainCosmostationMobile } from './chain-wallet';
+import { getAppUrlFromQrUri } from './utils';
 
 export class CosmostationMobileWallet extends MainWalletBase {
   client?: CosmostationClient;
@@ -59,7 +59,6 @@ export class CosmostationMobileWallet extends MainWalletBase {
       chainWallet.client = this.client;
       chainWallet.connector = this.connector;
       chainWallet.emitter = this.emitter;
-      chainWallet.appUrl = this.appUrl;
       chainWallet.connect = this.connect;
       chainWallet.disconnect = this.disconnect;
     });
@@ -74,23 +73,7 @@ export class CosmostationMobileWallet extends MainWalletBase {
   }
 
   get appUrl() {
-    if (this.env?.isMobile) {
-      if (this.env?.isAndroid) {
-        saveMobileLinkInfo({
-          name: 'Cosmostation',
-          href: '',
-        });
-        return ``;
-      } else {
-        saveMobileLinkInfo({
-          name: 'Cosmostation',
-          href: '',
-        });
-        return ``;
-      }
-    } else {
-      return void 0;
-    }
+    return getAppUrlFromQrUri(this.qrUri);
   }
 
   async connect(

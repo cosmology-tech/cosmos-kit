@@ -7,6 +7,9 @@ export const leapExtensionInfo: Wallet = {
   prettyName: 'Leap Extension',
   mode: 'extension',
   mobileDisabled: true,
+  rejectMessage: {
+    source: 'Request rejected',
+  },
   downloads: {
     desktop: [
       {

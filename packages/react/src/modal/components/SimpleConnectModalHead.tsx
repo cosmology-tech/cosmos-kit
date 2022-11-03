@@ -7,8 +7,8 @@ import { SimpleModalHeadType } from './types';
 export const SimpleModalHead = ({
   title,
   backButton,
-  onBack,
-  onClose,
+  handleBack,
+  handleClose,
 }: SimpleModalHeadType) => {
   return (
     <Stack
@@ -26,7 +26,7 @@ export const SimpleModalHead = ({
           borderRadius="full"
           px={0}
           _focus={{ outline: 'none' }}
-          onClick={onBack}
+          onClick={handleBack}
         >
           <Icon as={FiChevronLeft} w={6} h={6} />
         </Button>
@@ -45,7 +45,7 @@ export const SimpleModalHead = ({
         borderRadius="full"
         px={0}
         _focus={{ outline: 'none' }}
-        onClick={onClose}
+        onClick={handleClose}
       >
         <Icon as={FiX} w={5} h={5} />
       </Button>

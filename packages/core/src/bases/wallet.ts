@@ -14,6 +14,8 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   client?: WalletClient;
   protected _walletInfo: Wallet;
   protected _env?: AppEnv;
+  protected _appUrl?: string;
+  protected _qrUri?: string;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -30,6 +32,14 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
 
   get walletPrettyName() {
     return this.walletInfo.prettyName;
+  }
+
+  get appUrl(): string | undefined {
+    return this._appUrl;
+  }
+
+  get qrUri() {
+    return this._qrUri;
   }
 
   get env() {

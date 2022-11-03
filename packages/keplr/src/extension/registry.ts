@@ -9,7 +9,9 @@ export const keplrExtensionInfo: Wallet = {
   prettyName: 'Keplr Extension',
   mode: 'extension',
   mobileDisabled: true,
-  rejectMessage: 'Request rejected',
+  rejectMessage: {
+    source: 'Request rejected',
+  },
   connectEventNames: ['keplr_keystorechange'],
   downloads: {
     desktop: [

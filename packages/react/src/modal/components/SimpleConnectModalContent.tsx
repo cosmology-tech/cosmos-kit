@@ -30,6 +30,7 @@ export const SimpleInstallWalletButton = ({
   icon,
   text,
   onClick,
+  disabled,
 }: DownloadWalletButtonType) => {
   const { colorMode } = useColorMode();
   return (
@@ -116,8 +117,8 @@ export const SimpleDisplayModalContent = ({
         alignItems="center"
         justifyContent="center"
         textAlign="center"
-        py={8}
-        px={4}
+        p={4}
+        pt={10}
       >
         {logo && (
           <Center
@@ -236,7 +237,7 @@ export const SimpleQRCode = ({
         pt={6}
       >
         {description && (
-          <Text fontWeight="medium" opacity={0.75}>
+          <Text fontWeight="medium" textAlign="center" opacity={0.75}>
             {description}
           </Text>
         )}
@@ -267,10 +268,12 @@ export const SimpleQRCode = ({
 };
 
 export const SimpleDisplayWalletList = ({
+  initialFocus,
   walletsData,
   handleClick,
 }: DisplayWalletListType) => {
   const { colorMode } = useColorMode();
+
   return (
     <AnimateBox
       initial="hidden"
@@ -316,6 +319,7 @@ export const SimpleDisplayWalletList = ({
         {walletsData.map(({ id, displayName, logo }, i) => {
           return (
             <Button
+              ref={i === 0 ? initialFocus : null}
               id={id}
               key={id}
               variant="unstyled"
@@ -349,7 +353,10 @@ export const SimpleDisplayWalletList = ({
                   '0 0 2px 0 rgba(182, 153, 232, 0.9)'
                 ),
               }}
-              _focus={{ outline: 'none' }}
+              _focus={{
+                borderRadius: 'md',
+                outline: 'none',
+              }}
               onClick={(e) => {
                 if (e.currentTarget.id === id) handleClick(walletsData[i]);
               }}

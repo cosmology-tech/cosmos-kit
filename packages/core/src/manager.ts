@@ -262,7 +262,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
 
     let storeObj = {};
-    const storeStr = window?.localStorage.getItem('this');
+    const storeStr = window?.localStorage.getItem('cosmos-kit');
     if (storeStr) {
       storeObj = JSON.parse(storeStr);
     }
@@ -288,10 +288,10 @@ export class WalletManager extends StateBase<WalletData> {
         break;
     }
 
-    window?.localStorage.setItem('this', JSON.stringify(storeObj));
+    window?.localStorage.setItem('cosmos-kit', JSON.stringify(storeObj));
     if (this.storageOptions.duration) {
       setTimeout(() => {
-        window?.localStorage.removeItem('this');
+        window?.localStorage.removeItem('cosmos-kit');
       }, this.storageOptions.duration);
     }
   };
@@ -444,7 +444,7 @@ export class WalletManager extends StateBase<WalletData> {
   private _handleTabClose = (event: Event) => {
     event.preventDefault();
     if (this.storageOptions.clearOnTabClose) {
-      window.localStorage.removeItem('this');
+      window.localStorage.removeItem('cosmos-kit');
     }
     if (this.sessionOptions.killOnTabClose) {
       this.disconnect();
@@ -469,7 +469,7 @@ export class WalletManager extends StateBase<WalletData> {
     };
 
     if (this.useStorage) {
-      const storeStr = window.localStorage.getItem('this');
+      const storeStr = window.localStorage.getItem('cosmos-kit');
       if (storeStr) {
         const { currentWalletName, currentChainName } = JSON.parse(storeStr);
         this.setCurrentWallet(currentWalletName);

@@ -11,9 +11,14 @@ export class CosmostationExtensionWallet extends MainWalletBase {
   }
 
   async fetchClient() {
-    const cosmostation = await getCosmostationFromExtension();
-    return cosmostation
-      ? new CosmostationClient(cosmostation, this.walletInfo.mode)
-      : undefined;
+    try {
+      const cosmostation = await getCosmostationFromExtension();
+      return cosmostation
+        ? new CosmostationClient(cosmostation, this.walletInfo.mode)
+        : undefined;
+    } catch (error) {
+      this.setClientNotExist();
+      return void 0;
+    }
   }
 }

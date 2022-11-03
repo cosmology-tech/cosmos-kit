@@ -101,8 +101,6 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
 
     this.setState(State.Pending);
     try {
-      this.client.enable?.(this.chainId);
-
       let account: WalletAccount;
       if (this.client.addChain) {
         try {
@@ -126,7 +124,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     } catch (e) {
       if (
         this.walletInfo.rejectMessage &&
-        (e as Error).message === this.walletInfo.rejectMessage
+        (e as Error).message === this.walletInfo.rejectMessage?.source
       ) {
         this.setRejected();
       } else {
