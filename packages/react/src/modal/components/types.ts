@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PlacementWithLogical } from '@chakra-ui/react';
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, RefObject } from 'react';
 import { IconType } from 'react-icons';
 
 /* ================================== */
@@ -119,6 +119,7 @@ export type WalletInfoType = {
   contentText?: string;
 };
 export type DisplayWalletListType = {
+  initialFocus: RefObject<any>;
   size?: string;
   walletsData: WalletInfoType[];
   handleClick: (select: WalletInfoType) => void;
@@ -157,14 +158,16 @@ export type DownloadWalletButtonType = {
   icon?: IconType;
   text?: string;
   onClick: () => void;
+  disabled: boolean;
 };
 export type SimpleModalHeadType = {
   title: string;
   backButton: boolean;
-  onBack?: () => void;
-  onClose: () => void;
+  handleBack?: () => void;
+  handleClose: () => void;
 };
 export type ConnectModalType = {
+  initialRef: RefObject<any>;
   modalHead: ReactNode;
   modalContent: ReactNode;
   modalIsOpen: boolean;

@@ -71,6 +71,10 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   }
 
   async update(callbacks?: Callbacks) {
+    if (!this.client) {
+      this.setClientNotExist();
+      return;
+    }
     this.setState(State.Done);
     callbacks?.connect?.();
   }

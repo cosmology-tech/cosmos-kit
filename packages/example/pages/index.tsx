@@ -43,6 +43,7 @@ const Home = () => {
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
     e.preventDefault();
+    openView();
     await connect();
   };
 

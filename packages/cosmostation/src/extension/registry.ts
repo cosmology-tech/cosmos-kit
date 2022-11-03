@@ -30,6 +30,10 @@ export const cosmostationExtensionInfo: Wallet = {
     default: 'https://cosmostation.io/wallet',
   },
   mobileDisabled: true,
-  rejectMessage:
-    'The requested account and/or method has not been authorized by the user.',
+  rejectMessage: {
+    source:
+      'The requested account and/or method has not been authorized by the user.',
+    target:
+      'The requested account and/or method has not been authorized by the user. \n Open Extension/App to authorize this site before retrying.',
+  },
 };

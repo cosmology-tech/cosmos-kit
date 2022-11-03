@@ -7,12 +7,12 @@ import {
 } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { KeplrWalletConnectV1 } from '@keplr-wallet/wc-client';
-import { saveMobileLinkInfo } from '@walletconnect/browser-utils';
 import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
 import { KeplrClient } from '../client';
 import { ChainKeplrMobile } from './chain-wallet';
+import { getAppUrlFromQrUri } from './utils';
 
 export class KeplrMobileWallet extends MainWalletBase {
   client?: KeplrClient;
@@ -57,14 +57,9 @@ export class KeplrMobileWallet extends MainWalletBase {
       chainWallet.client = this.client;
       chainWallet.connector = this.connector;
       chainWallet.emitter = this.emitter;
-      chainWallet.appUrl = this.appUrl;
       chainWallet.connect = this.connect;
       chainWallet.disconnect = this.disconnect;
     });
-  }
-
-  get isInSession() {
-    return this.connector.connected;
   }
 
   get qrUri() {
@@ -72,30 +67,14 @@ export class KeplrMobileWallet extends MainWalletBase {
   }
 
   get appUrl() {
-    if (this.env?.isMobile) {
-      if (this.env?.isAndroid) {
-        saveMobileLinkInfo({
-          name: 'Keplr',
-          href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
-        });
-        return `intent://wcV1?${this.qrUri}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
-      } else {
-        saveMobileLinkInfo({
-          name: 'Keplr',
-          href: 'keplrwallet://wcV1',
-        });
-        return `keplrwallet://wcV1?${this.qrUri}`;
-      }
-    } else {
-      return void 0;
-    }
+    return getAppUrlFromQrUri(this.qrUri);
   }
 
   async connect(
     sessionOptions?: SessionOptions,
     callbacks?: Callbacks
   ): Promise<void> {
-    if (!this.isInSession) {
+    if (!this.connector.connected) {
       await this.connector.createSession();
 
       this.emitter.on('update', async () => {

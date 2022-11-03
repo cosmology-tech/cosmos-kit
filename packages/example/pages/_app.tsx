@@ -3,9 +3,9 @@ import { WalletProvider } from '@cosmos-kit/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { assets, chains } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
-// import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from '@cosmos-kit/keplr';
-// import { wallets as leapwallets } from "@cosmos-kit/leap";
+import { wallets as leapwallets } from "@cosmos-kit/leap";
 import { GasPrice } from '@cosmjs/stargate';
 import { Decimal } from "@cosmjs/math";
 
@@ -17,8 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        // wallets={[...keplrWallet, ...leapwallets, ...cosmostationWallets]}
-        wallets={[...keplrWallet]}
+        wallets={[...keplrWallet, ...leapwallets, ...cosmostationWallets]}
         signerOptions={{
           stargate: (chain: Chain) => {
             switch (chain.chain_name) {
