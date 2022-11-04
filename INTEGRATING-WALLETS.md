@@ -1,70 +1,108 @@
-# CosmosKit Wallet Integrations
+# How to Integrate your Wallet into Cosmos Kit
 
-<p align="center" width="100%">
-    <img height="90" src="https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg" />
-</p>
+## 1️⃣ Prepare basic information for wallet
 
-## Requirements
+### Required properties
 
-- having an `offlineSigner` for the provider
-- having either an `experimentalSuggestChain` or similar method to suggest chains to your wallet
-- a function `chainRegistryChainTo<YourWallet>` to convert [`chain-registry`](https://github.com/cosmos/chain-registry) data format to your wallet's data format
+| Key      | Type | Comment |
+| ----------- | ----------- | -- |
+| **name**      | `WalletName = string`   | identifier |
+| **prettyName**   | `string`   | display name |
+| **mode**   | `WalletMode = 'extension' \| 'wallet-connect'`   | wallet client type |
+| **mobileDisabled**<sup>*</sup>  | `boolean`   | display on mobile or not |
 
-## 1 Make a PR to add your wallet adapter
+\* <span style={{fontSize: '0.85rem'}}> Usually `true` when **mode** is `wallet-connect`,  `false` when **mode** is `extension`.</span>
 
-- make PR to [`cosmos-kit/packages/<your-wallet>`](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages)
-- name the package `@cosmos-kit/<your-wallet>`
+### Optional properties
 
-For reference, see the [keplr cosmos-kit package](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr) for integrating wallet.
+| Key      | Type | Comment |
+| ----------- | ----------- | -- |
+| **rejectMessage**      | `string`   | error message when reject permission to wallet app/extension |
+| **connectEventNames**   | `string[]`   | window event names to fire auto-connect |
+| **downloads**   | [`Downloads`](https://github.com/cosmology-tech/cosmos-kit/blob/4c1f4b9a818ca1afa08c2067fe0c29a740d8e5ea/packages/core/src/types/wallet.ts#L32-L37) | wallet app/extension download information |
+| **logo** | `string`   | wallet logo url, display on default modal |
 
-### 📝 Main wallet class
+### Examples
 
-This is the wallet class without any chain sepcified, and presents wallet information to the user, and has methods to connect to the wallet. It has access to each supported [chain wallet](#⚡️-chain-wallet-class) object.
+- [Keplr Extension - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/extension/registry.ts)
 
-- add your [images and wallet info](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/registry.ts) to a registry
-- the design may require a round image right now, but we can update that if it becomes an issue
-- implement a class that [extends the `MainWalletBase`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L11) abstract class
-- load the registry data as [defaults to the wallet class](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L20)
-- if you have them, [add your wallet's preferred endpoints](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/config.ts#L3) and then [use them](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/main-wallet.ts#L31-L48) (do NOT use other wallet's endpoints, please bring your own, or let cosmos-kit use chain-registry as the default)
+- [Keplr Mobile - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/registry.ts)
 
-### ⚡️ Chain wallet class
 
-This is the class for which a chain is specified for the wallet
+## 2️⃣ Implement `WalletClient`
 
-- implement a class that [extends the `ChainWalletBase`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L8) abstract class
-- set `address`, `username`, and `offlineSigner` [in the `update()` method](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L50-L56)
-- convert the chain info from `chain-registry` format using your [`chainRegistryChainTo<YourWallet>` function](https://github.com/cosmology-tech/cosmos-kit/blob/95d4f1346ee9d577cb18415127aaba84cca6b1a4/packages/keplr/src/extension/chain-wallet.ts#L33-L35) and [suggest your chain info to your wallet](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/chain-wallet.ts#L46)
+`MainWallet` is a class organizing all `ChainWallet`s. **It should extend  `MainWalletBase` class**, in which protected `_chainWallets` property stores all `ChainWallet`s.
 
-### 💴 Wallet client
+### Required methods
 
-This is your client. It probably lives on `window`, e.g., `window.keplr`. However, it is best if we abstract that for interoperability:
+| Key      | Type |
+| ----------- | ----------- |
+| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   |
+| **getOfflineSigner**   | `(chainId: string) => Promise<OfflineSigner> \| OfflineSigner`   |
 
-- don't use `window` directly, [write a async `get<YourWallet>FromExtension` method](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/utils.ts#L5-L10) to return your client
-- make sure to protect your call to `window` with a return [`if (typeof window === 'undefined')`](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/extension/utils.ts#L8-L10) so applications can leverage server side rendering w/o issues.
-
-### 🔌 Exporting the wallet
-
-This is how we can read your wallet into the provider.
-
-- export a [`wallets` object from the root](https://github.com/cosmology-tech/cosmos-kit/blob/aa16c2c4fc3d8245e2fa0d2624a6f2ff5ab73c2a/packages/keplr/src/keplr.ts#L7)
-
-## 2 Convert to your wallet data
-
-If you use the same data structure as Keplr, you can use the Keplr conversion function.
-
-The interface should be as follows:
+\* *Type **WalletAccount***
 
 ```ts
-import { Chain, AssetList } from '@chain-registry/types';
-export const chainRegistryChainToYourWallet = (
-  chain: Chain,
-  assets: AssetList[]
-): YourWalletChainInfo;
+interface WalletAccount {
+  name?: string; // username
+  address: string;
+}
 ```
 
-You can inline the function in this repo, however, it could be useful to publish to the chain-registry for other wallet adapters. Optionally, you can publish this method to `@chain-registry/<your-wallet>`.
+### Optional methods
 
-- optoinally, make PR to [`chain-registry/packages/<your-wallet>`](https://github.com/cosmology-tech/chain-registry/tree/main/packages)
-- name the package `@chain-registry/<your-wallet>`
+| Key      | Type | Comment |
+| ----------- | ----------- | -- |
+| **enable**      | `(chainIds: string \| string[]) => Promise<void>`   | give permission for the webpage to access wallet |
+| **addChain**   | `(chainInfo: ChainRecord) => Promise<void>`   | add new Cosmos-SDK based blockchains that isn't natively integrated to wallet app/extension |
 
-For reference, see the [keplr chain-registry package](https://github.com/cosmology-tech/chain-registry/tree/main/packages/keplr) for integrating your [wallet data structure](https://github.com/cosmology-tech/chain-registry/blob/40709e28e89fe7346017f1daddd9195b33a273df/packages/keplr/src/index.ts#L25)
+### Examples
+
+- [Keplr Client](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/client.ts)
+
+
+## 3️⃣ Extend `ChainWalletBase`
+
+Create a `ChainWallet` class that extends  `ChainWalletBase`. `ChainWallet` provides wallet information for a particular chain, e.g. `address`, `offlineSigner`, etc. 
+
+`ChainWalletBase` has implemented a bunch of methods such as wallet connection, sign, broadcast, etc. [[learn more]](#). Therefore, normally you don't need to do any extra work inside `ChainWallet`. But feel free to overwrite these methods or add new methods/properties if customization is needed to meet new demand.
+
+### Examples
+
+- [Keplr Extension - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/extension/chain-wallet.ts)
+
+- [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/chain-wallet.ts)
+
+
+## 4️⃣ Extend `MainWalletBase`
+
+Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organizes all `ChainWallet`s, which are stored in protected member `_chainWallets`.
+
+> Note: Class `ChainWallet` created in [Step 3](#3️⃣-extend-chainwalletbase) is required in `MainWalletBase` construction.
+
+### Required methods
+
+| Key      | Type |
+| ----------- | ----------- |
+| **fetchClient**      | `() => WalletClient \| undefined \| Promise<WalletClient \| undefined>`<sup>*</sup>   |
+
+\* <span style={{fontSize: '0.85rem'}}> `WalletClient` is the one implemented in [Step 2](#2️⃣-implement-walletclient).</span>
+
+Also, feel free to overwrite methods in `MainWalletBase` or add new methods/properties if necessary.
+
+### Examples
+
+- [Keplr Extension - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/extension/main-wallet.ts)
+
+- [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/main-wallet.ts)
+
+
+## 5️⃣ Get `MainWallet` instance
+
+You can construct your `MainWallet` Instance according to your `MainWallet` construct method now. Usually the `walletInfo` object prepared in [Step 1](#1️⃣-prepare-basic-information-for-wallet) is imported here as a construction argument.
+
+### Examples
+
+- [keplrExtension & keplrMobile](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/keplr.ts)
+
+Last but not least, append this instance to the `wallets` property of [WalletProvider](https://docs.cosmoskit.com/get-started#provider).

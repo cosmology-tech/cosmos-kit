@@ -23,7 +23,7 @@ Get started quickly by using [create-cosmos-app](https://github.com/cosmology-te
 
 ## ⚙️ Configuration
 
-Check out [our docs here](https://docs.cosmoskit.com/) to configure Cosmos Kit.
+Check out [our docs here](https://docs.cosmoskit.com/get-started) to configure Cosmos Kit.
 
 ## ⚛️ CosmJS Signers
 
