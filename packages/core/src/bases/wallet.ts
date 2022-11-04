@@ -78,24 +78,28 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       return;
     }
 
-    if (!this.client) {
-      const client = await this.clientPromise;
+    try {
+      if (!this.client) {
+        const client = await this.clientPromise;
 
-      if (!client) {
-        this.setClientNotExist();
-        return;
-      } else {
-        this.client = client;
+        if (!client) {
+          this.setClientNotExist();
+          return;
+        } else {
+          this.client = client;
+        }
       }
+      await this.update();
+
+      if (sessionOptions?.duration) {
+        setTimeout(() => {
+          this.disconnect();
+        }, sessionOptions?.duration);
+      }
+    } catch (error) {
+      this.setError(error);
     }
 
-    await this.update();
-
-    if (sessionOptions?.duration) {
-      setTimeout(() => {
-        this.disconnect();
-      }, sessionOptions?.duration);
-    }
     callbacks?.connect?.();
   }
 

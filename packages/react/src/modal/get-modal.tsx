@@ -64,6 +64,7 @@ export const getModal = (
     console.info('Connecting to ' + select.id);
     setCurrentWallet(select.id);
     await connect();
+    console.log(8);
   }
 
   if (!wallet || modalIsReset) {
@@ -226,7 +227,8 @@ export const getModal = (
         />
       );
     }
-    if (status === WalletStatus.Disconnected && wallet?.qrUri) {
+    if (status === WalletStatus.Connecting && wallet?.qrUri) {
+      console.log(wallet.appUrl);
       if (!env?.isMobile || (env?.isMobile && !wallet.appUrl)) {
         return (
           <QRCode

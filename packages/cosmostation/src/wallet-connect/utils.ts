@@ -6,15 +6,15 @@ export function getAppUrlFromQrUri(qrUri: string, env?: AppEnv) {
     if (env?.isAndroid) {
       saveMobileLinkInfo({
         name: 'Cosmostation',
-        href: '',
+        href: 'intent://wc#Intent;package=wannabit.io.cosmostaion;scheme=cosmostation;end;',
       });
-      return void 0;
+      return `intent://wc?${qrUri}#Intent;package=wannabit.io.cosmostaion;scheme=cosmostation;end;`;
     } else {
       saveMobileLinkInfo({
         name: 'Cosmostation',
-        href: '',
+        href: 'cosmostation://wc',
       });
-      return void 0;
+      return `cosmostation://wc?${qrUri}`;
     }
   } else {
     return void 0;

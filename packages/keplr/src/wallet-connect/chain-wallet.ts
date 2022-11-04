@@ -20,6 +20,6 @@ export class ChainKeplrMobile extends ChainWalletBase {
   }
 
   get appUrl() {
-    return getAppUrlFromQrUri(this.qrUri);
+    return getAppUrlFromQrUri(this.qrUri, this.env);
   }
 }

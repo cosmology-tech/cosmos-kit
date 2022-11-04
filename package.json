@@ -20,8 +20,7 @@
   "devDependencies": {
     "@babel/cli": "7.18.10",
     "@babel/core": "7.19.1",
-    "@pyramation/babel-preset-env": "0.1.0",
-    "babel-core": "7.0.0-bridge.0",
+    "@pyramation/babel-preset-env": "0.2.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "^29.0.2",
     "eslint": "8.23.1",
@@ -34,6 +33,10 @@
   "workspaces": [
     "packages/*"
   ],
+  "resolutions": {
+    "@keplr-wallet/types": "0.11.16-alpha.0",
+    "@keplr-wallet/wc-client": "0.11.16-alpha.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cosmology-tech/cosmos-kit#readme"
