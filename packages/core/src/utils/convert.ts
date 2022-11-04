@@ -17,7 +17,8 @@ export function convertChain(
     assetList,
     clientOptions: {
       stargate: signerOptions?.stargate?.(chain),
-      cosmwasm: signerOptions?.cosmwasm?.(chain),
+      signingStargate: signerOptions?.signingStargate?.(chain),
+      signingCosmwasm: signerOptions?.signingCosmwasm?.(chain),
     },
     preferredEndpoints,
   };

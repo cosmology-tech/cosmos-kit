@@ -31,12 +31,19 @@ export class KeplrClient implements WalletClient {
   async addChain(chainInfo: ChainRecord) {
     switch (this.mode) {
       case 'extension':
-        const suggestChain = chainRegistryChainToKeplr(chainInfo.chain, [
-          chainInfo.assetList,
-        ]);
+        const suggestChain = chainRegistryChainToKeplr(
+          chainInfo.chain,
+          chainInfo.assetList ? [chainInfo.assetList] : []
+        );
 
-        (suggestChain.rest as string) = chainInfo.preferredEndpoints.rest[0];
-        (suggestChain.rpc as string) = chainInfo.preferredEndpoints.rpc[0];
+        if (chainInfo.preferredEndpoints?.rest?.[0]) {
+          (suggestChain.rest as string) =
+            chainInfo.preferredEndpoints?.rest?.[0];
+        }
+
+        if (chainInfo.preferredEndpoints?.rpc?.[0]) {
+          (suggestChain.rpc as string) = chainInfo.preferredEndpoints?.rpc?.[0];
+        }
 
         await this.client.experimentalSuggestChain(suggestChain);
         break;

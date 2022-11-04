@@ -72,7 +72,10 @@ export const CopyAddressButton = ({
       setDisplayAddress(stringTruncateFromCenter(address, maxDisplayLength));
     if (address && !maxDisplayLength)
       setDisplayAddress(
-        stringTruncateFromCenter(address, defaultMaxLength[size])
+        stringTruncateFromCenter(
+          address,
+          defaultMaxLength[size as keyof typeof defaultMaxLength]
+        )
       );
   }, [address]);
 
@@ -91,7 +94,7 @@ export const CopyAddressButton = ({
         'whiteAlpha.300'
       )}
       w="full"
-      h={SIZES[size].height}
+      h={SIZES[size as keyof typeof SIZES].height}
       minH="fit-content"
       pl={2}
       pr={2}
@@ -130,10 +133,10 @@ export const CopyAddressButton = ({
           borderRadius="full"
           w="full"
           h="full"
-          minW={SIZES[size].walletImageSize}
-          minH={SIZES[size].walletImageSize}
-          maxW={SIZES[size].walletImageSize}
-          maxH={SIZES[size].walletImageSize}
+          minW={SIZES[size as keyof typeof SIZES].walletImageSize}
+          minH={SIZES[size as keyof typeof SIZES].walletImageSize}
+          maxW={SIZES[size as keyof typeof SIZES].walletImageSize}
+          maxH={SIZES[size as keyof typeof SIZES].walletImageSize}
           mr={2}
           opacity={0.85}
         >
@@ -141,7 +144,7 @@ export const CopyAddressButton = ({
         </Box>
       )}
       <Text
-        fontSize={SIZES[size].fontSize}
+        fontSize={SIZES[size as keyof typeof SIZES].fontSize}
         fontWeight="normal"
         letterSpacing="0.4px"
         opacity={0.75}
@@ -151,8 +154,8 @@ export const CopyAddressButton = ({
       {address && (
         <Icon
           as={hasCopied ? FaCheckCircle : FiCopy}
-          w={SIZES[size].icon}
-          h={SIZES[size].icon}
+          w={SIZES[size as keyof typeof SIZES].icon}
+          h={SIZES[size as keyof typeof SIZES].icon}
           ml={2}
           opacity={0.9}
           color={

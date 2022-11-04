@@ -38,7 +38,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._appUrl;
   }
 
-  get qrUri() {
+  get qrUri(): string | undefined {
     return this._qrUri;
   }
 
@@ -46,7 +46,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._env;
   }
 
-  setEnv(env: AppEnv) {
+  setEnv(env?: AppEnv) {
     this._env = env;
   }
 
@@ -97,7 +97,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
         }, sessionOptions?.duration);
       }
     } catch (error) {
-      this.setError(error);
+      this.setError(error as Error);
     }
 
     callbacks?.connect?.();

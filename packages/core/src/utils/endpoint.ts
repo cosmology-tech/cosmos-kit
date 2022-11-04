@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable no-console */
 
 export const isValidEndpoint = async (endpoint: string): Promise<boolean> => {
@@ -8,8 +9,7 @@ export const isValidEndpoint = async (endpoint: string): Promise<boolean> => {
       console.info('Access successfully.');
       return true;
     }
-  } catch (err) {
-    console.info('Access failed.');
-    return false;
-  }
+  } catch (err) {}
+  console.info('Access failed.');
+  return false;
 };

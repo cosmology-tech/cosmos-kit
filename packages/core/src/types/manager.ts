@@ -8,7 +8,8 @@ import { WalletName } from './wallet';
 
 export interface SignerOptions {
   stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
-  cosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
+  signingStargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
+  signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
 }
 
 export interface ViewOptions {

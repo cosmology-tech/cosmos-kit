@@ -36,7 +36,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     const parser = Bowser.getParser(window.navigator.userAgent);
     setUserAgent({
       browser: parser.getBrowserName(true),
-      device: parser.getPlatform().type,
+      device: parser.getPlatform().type || 'desktop',
       os: parser.getOSName(true),
     });
   }, []);
@@ -61,7 +61,7 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   useEffect(() => {
     const appUrl = currentWallet?.appUrl;
     if (appUrl) {
-      window.location.href = appUrl;
+      window.open(appUrl, '_self');
     }
   }, [currentWallet?.appUrl]);
 

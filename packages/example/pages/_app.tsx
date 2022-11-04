@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[...keplrWallet, ...leapwallets, ...cosmostationWallets]}
         signerOptions={{
-          stargate: (chain: Chain) => {
+          signingStargate: (chain: Chain) => {
             switch (chain.chain_name) {
               case 'osmosis':
                 return {
@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 return void 0;
             }
           },
-          cosmwasm: (chain: Chain) => undefined,
+          signingCosmwasm: (chain: Chain) => undefined,
         }}
         endpointOptions={{
           somechainname: {

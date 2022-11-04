@@ -13,7 +13,7 @@ import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 
 export abstract class MainWalletBase extends WalletBase<MainWalletData> {
-  protected _chainWallets: Map<ChainName, ChainWalletBase>;
+  protected _chainWallets?: Map<ChainName, ChainWalletBase>;
   preferredEndpoints?: EndpointOptions;
   ChainWallet: IChainWallet;
 
@@ -24,7 +24,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   }
 
   protected setChainsCallback(): void {
-    this.chainWallets.forEach((chainWallet) => {
+    this.chainWallets?.forEach((chainWallet) => {
       chainWallet.clientPromise = this.clientPromise;
     });
   }
@@ -62,12 +62,8 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     return this._chainWallets;
   }
 
-  getChainWallet(chainName: string): ChainWalletBase {
-    if (!this.chainWallets.has(chainName)) {
-      throw new Error(`Unknown chain name: ${chainName}`);
-    } else {
-      return this.chainWallets.get(chainName);
-    }
+  getChainWallet(chainName: string): ChainWalletBase | undefined {
+    return this.chainWallets?.get(chainName);
   }
 
   async update(callbacks?: Callbacks) {
@@ -80,7 +76,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   }
 
   disconnect(callbacks?: Callbacks) {
-    this.chainWallets.forEach((chain) => {
+    this.chainWallets?.forEach((chain) => {
       chain.disconnect();
     });
     this.reset();

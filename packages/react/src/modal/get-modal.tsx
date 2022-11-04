@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { Box, Icon } from '@chakra-ui/react';
-import { DownloadInfo, WalletManager, WalletStatus } from '@cosmos-kit/core';
+import {
+  DownloadInfo,
+  Downloads,
+  WalletManager,
+  WalletStatus,
+} from '@cosmos-kit/core';
 import React, { RefObject } from 'react';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
@@ -64,7 +69,6 @@ export const getModal = (
     console.info('Connecting to ' + select.id);
     setCurrentWallet(select.id);
     await connect();
-    console.log(8);
   }
 
   if (!wallet || modalIsReset) {
@@ -94,6 +98,16 @@ export const getModal = (
   }
 
   /* ================================== */
+  /*           selected wallet          */
+  /* ================================== */
+
+  if (!walletInfo) {
+    throw new Error('No basic wallet information!');
+  }
+
+  const displayName = walletInfo.prettyName || walletInfo.name;
+
+  /* ================================== */
   /*    selected wallet: modal head     */
   /* ================================== */
 
@@ -103,7 +117,7 @@ export const getModal = (
 
   modalHead = (
     <ModalHead
-      title={walletInfo.prettyName || walletInfo.name}
+      title={displayName}
       backButton={true}
       handleClose={handleClose}
       handleBack={handleBack}
@@ -115,11 +129,16 @@ export const getModal = (
   /* ================================== */
 
   const appType = env?.isMobile ? 'App' : 'Extension';
-  const downloadInfo: DownloadInfo | undefined = walletInfo.downloads?.[
-    userAgent?.device
-  ]?.find(
-    (info) => info.browser === userAgent?.browser || info.os === userAgent?.os
-  );
+  const downloadInfo: DownloadInfo | undefined = userAgent?.device
+    ? (
+        walletInfo.downloads?.[
+          userAgent?.device as keyof Downloads
+        ] as DownloadInfo[]
+      )?.find(
+        (info) =>
+          info.browser === userAgent?.browser || info.os === userAgent?.os
+      )
+    : undefined;
   const link = downloadInfo?.link || walletInfo.downloads?.default;
 
   async function handleDisconnect() {
@@ -164,8 +183,8 @@ export const getModal = (
       logoStatus: LogoStatus.Loading,
       header: 'Requesting Connection',
       desc: wallet?.qrUri
-        ? `Approve ${walletInfo.prettyName} connection request on your mobile.`
-        : `Open the ${walletInfo.prettyName} extension to connect your wallet.`,
+        ? `Approve ${displayName} connection request on your mobile.`
+        : `Open the ${displayName} extension to connect your wallet.`,
     },
     Rejected: {
       logoStatus: LogoStatus.Error,
@@ -214,12 +233,18 @@ export const getModal = (
   }
 
   function getModalContentByStatus(status: WalletStatus) {
+    if (!walletInfo) {
+      throw new Error('No basic wallet information!');
+    }
+
     if (status === WalletStatus.Connected) {
       return (
         <ModalContent
           logo={Astronaut}
           username={username}
-          walletIcon={typeof walletInfo.logo === 'string' && walletInfo.logo}
+          walletIcon={
+            (typeof walletInfo.logo === 'string' && walletInfo.logo) || void 0
+          }
           addressButton={
             <CopyAddressButton size="sm" isRound={true} address={address} />
           }
@@ -228,12 +253,12 @@ export const getModal = (
       );
     }
     if (status === WalletStatus.Connecting && wallet?.qrUri) {
-      console.log(wallet.appUrl);
+      // console.log(wallet.appUrl);
       if (!env?.isMobile || (env?.isMobile && !wallet.appUrl)) {
         return (
           <QRCode
             link={wallet?.qrUri}
-            description={`Open ${walletInfo.prettyName} App to Scan`}
+            description={`Open ${displayName} App to Scan`}
           />
         );
       }

@@ -4,7 +4,7 @@ import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
 import { KeplrClient } from '../client';
-import { getAppUrlFromQrUri } from './utils';
+import { getAppUrl } from './utils';
 
 export class ChainKeplrMobile extends ChainWalletBase {
   client?: KeplrClient;
@@ -16,10 +16,10 @@ export class ChainKeplrMobile extends ChainWalletBase {
   }
 
   get qrUri() {
-    return this.connector.uri;
+    return this.connector?.uri;
   }
 
   get appUrl() {
-    return getAppUrlFromQrUri(this.qrUri, this.env);
+    return getAppUrl(this.qrUri, this.env);
   }
 }

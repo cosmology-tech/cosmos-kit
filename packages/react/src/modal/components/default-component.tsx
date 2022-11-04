@@ -136,13 +136,13 @@ export const MenuLinkButton = ({
       variant="ghost"
       justifyContent="start"
       alignItems="center"
-      fontSize={SIZES[size].fontSize}
+      fontSize={SIZES[size as keyof typeof SIZES].fontSize}
       fontWeight="medium"
       textAlign="start"
       px={2}
       w="full"
       h="full"
-      minH={SIZES[size].h}
+      minH={SIZES[size as keyof typeof SIZES].h}
       maxH="fit-content"
       whiteSpace="break-spaces"
       lineHeight={1.1}
@@ -189,12 +189,12 @@ export const DefaultIcon = ({
       <Center
         borderRadius="full"
         overflow="hidden"
-        w={SIZES[size].imageSize}
-        minW={SIZES[size].imageSize}
-        maxW={SIZES[size].imageSize}
-        h={SIZES[size].imageSize}
-        minH={SIZES[size].imageSize}
-        maxH={SIZES[size].imageSize}
+        w={SIZES[size as keyof typeof SIZES].imageSize}
+        minW={SIZES[size as keyof typeof SIZES].imageSize}
+        maxW={SIZES[size as keyof typeof SIZES].imageSize}
+        h={SIZES[size as keyof typeof SIZES].imageSize}
+        minH={SIZES[size as keyof typeof SIZES].imageSize}
+        maxH={SIZES[size as keyof typeof SIZES].imageSize}
       >
         <Image
           w="full"
@@ -208,12 +208,12 @@ export const DefaultIcon = ({
     <Center
       borderRadius="full"
       overflow="hidden"
-      w={SIZES[size].imageSize}
-      minW={SIZES[size].imageSize}
-      maxW={SIZES[size].imageSize}
-      h={SIZES[size].imageSize}
-      minH={SIZES[size].imageSize}
-      maxH={SIZES[size].imageSize}
+      w={SIZES[size as keyof typeof SIZES].imageSize}
+      minW={SIZES[size as keyof typeof SIZES].imageSize}
+      maxW={SIZES[size as keyof typeof SIZES].imageSize}
+      h={SIZES[size as keyof typeof SIZES].imageSize}
+      minH={SIZES[size as keyof typeof SIZES].imageSize}
+      maxH={SIZES[size as keyof typeof SIZES].imageSize}
     >
       {icon}
     </Center>
