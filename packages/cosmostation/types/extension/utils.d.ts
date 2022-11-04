@@ -1,4 +1,2 @@
-import { Cosmostation } from './types';
-export declare const getCosmostationFromExtension: () => Promise<
-  Cosmostation | undefined
->;
+import { Cosmos } from '@cosmostation/extension-client';
+export declare const getCosmostationFromExtension: () => Promise<Cosmos | undefined>;

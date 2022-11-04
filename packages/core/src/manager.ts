@@ -122,7 +122,9 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get currentWallet(): WalletAdapter | undefined {
-    return this.getWallet(this.currentWalletName, this.currentChainName);
+    return this.currentWalletName
+      ? this.getWallet(this.currentWalletName, this.currentChainName)
+      : void 0;
   }
 
   get currentWalletInfo(): Wallet | undefined {
@@ -310,13 +312,9 @@ export class WalletManager extends StateBase<WalletData> {
   };
 
   getWallet = (
-    walletName?: WalletName,
+    walletName: WalletName,
     chainName?: ChainName
-  ): WalletAdapter | undefined => {
-    if (!walletName) {
-      return void 0;
-    }
-
+  ): WalletAdapter => {
     let wallet: WalletAdapter | undefined = this._wallets.find(
       (w) => w.walletName === walletName
     );
@@ -326,9 +324,13 @@ export class WalletManager extends StateBase<WalletData> {
     }
     if (chainName) {
       wallet = (wallet as MainWalletBase).getChainWallet(chainName);
+      if (!wallet) {
+        throw new Error(`Unknown chain name: ${chainName}`);
+      }
     }
+
     wallet.actions = this.actions;
-    return wallet;
+    return wallet as WalletAdapter;
   };
 
   getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
@@ -373,7 +375,8 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   connect = async () => {
-    if (!this.currentWalletName) {
+    const current = this.currentWallet;
+    if (!current) {
       this.openView();
       return;
     }
@@ -381,8 +384,8 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      this.currentWallet.setEnv(this.env);
-      await this.currentWallet.connect(this.sessionOptions, this.callbacks);
+      current.setEnv(this.env);
+      await current.connect(this.sessionOptions, this.callbacks);
       if (
         this.isWalletConnected &&
         this.viewOptions?.closeViewWhenWalletIsConnected
@@ -401,7 +404,8 @@ export class WalletManager extends StateBase<WalletData> {
   };
 
   disconnect = async () => {
-    if (!this.currentWalletName) {
+    const current = this.currentWallet;
+    if (!current) {
       this.setMessage('Current Wallet not defined.');
       return;
     }
@@ -409,7 +413,7 @@ export class WalletManager extends StateBase<WalletData> {
       this.openView();
     }
     try {
-      await this.currentWallet.disconnect(this.callbacks);
+      await current.disconnect(this.callbacks);
 
       if (
         this.isWalletConnected &&

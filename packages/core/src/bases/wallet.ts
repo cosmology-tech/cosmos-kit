@@ -38,7 +38,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._appUrl;
   }
 
-  get qrUri() {
+  get qrUri(): string | undefined {
     return this._qrUri;
   }
 
@@ -46,7 +46,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._env;
   }
 
-  setEnv(env: AppEnv) {
+  setEnv(env?: AppEnv) {
     this._env = env;
   }
 
@@ -78,24 +78,28 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       return;
     }
 
-    if (!this.client) {
-      const client = await this.clientPromise;
+    try {
+      if (!this.client) {
+        const client = await this.clientPromise;
 
-      if (!client) {
-        this.setClientNotExist();
-        return;
-      } else {
-        this.client = client;
+        if (!client) {
+          this.setClientNotExist();
+          return;
+        } else {
+          this.client = client;
+        }
       }
+      await this.update();
+
+      if (sessionOptions?.duration) {
+        setTimeout(() => {
+          this.disconnect();
+        }, sessionOptions?.duration);
+      }
+    } catch (error) {
+      this.setError(error as Error);
     }
 
-    await this.update();
-
-    if (sessionOptions?.duration) {
-      setTimeout(() => {
-        this.disconnect();
-      }, sessionOptions?.duration);
-    }
     callbacks?.connect?.();
   }
 

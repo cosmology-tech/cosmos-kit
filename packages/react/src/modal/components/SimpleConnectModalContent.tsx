@@ -175,7 +175,7 @@ export const SimpleDisplayModalContent = ({
           <Text
             fontSize="lg"
             fontWeight="semibold"
-            color={Style[status]?.color}
+            color={Style[status as keyof typeof Style]?.color}
             mb={0.5}
           >
             {contentHeader}
@@ -218,7 +218,7 @@ export const SimpleQRCode = ({
   link: string;
   description?: string;
 }) => {
-  const elementRef = useRef();
+  const elementRef = useRef<HTMLElement | null>(null);
   const dimensions = useDimensions(elementRef);
   const { colorMode } = useColorMode();
   return (
@@ -255,7 +255,7 @@ export const SimpleQRCode = ({
         >
           <QRCodeSVG
             value={link}
-            size={dimensions && dimensions.contentBox.width - 24}
+            size={(dimensions && dimensions.contentBox.width - 24) || void 0}
             bgColor={'#ffffff'}
             fgColor={'#000000'}
             level={'L'}
@@ -378,7 +378,7 @@ export const SimpleDisplayWalletList = ({
                   maxW={9}
                   maxH={9}
                 >
-                  <Image src={typeof logo === 'string' && logo} />
+                  <Image src={(typeof logo === 'string' && logo) || void 0} />
                 </Box>
                 <Box textAlign="start" flex={1}>
                   <Text fontSize="xl" fontWeight="semibold" lineHeight={1.1}>

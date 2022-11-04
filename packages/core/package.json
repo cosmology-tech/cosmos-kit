@@ -102,7 +102,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@chain-registry/types": "^0.11.0",
+    "@chain-registry/types": "^0.13.0",
     "@walletconnect/browser-utils": "1.8.0",
     "chain-registry": "^0.14.0",
     "interchain": "1.0.0"

@@ -103,14 +103,14 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@chain-registry/keplr": "1.0.0",
-    "@chain-registry/types": "^0.11.0",
+    "@chain-registry/keplr": "1.4.0",
+    "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
     "@cosmos-kit/core": "^0.20.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@keplr-wallet/types": "^0.11.3",
-    "@keplr-wallet/wc-client": "^0.11.3",
+    "@keplr-wallet/types": "0.11.16-alpha.0",
+    "@keplr-wallet/wc-client": "0.11.16-alpha.0",
     "@walletconnect/browser-utils": "1.8.0",
     "@walletconnect/client": "1.8.0",
     "events": "3.3.0",
@@ -119,8 +119,8 @@
     "react-icons": "^4.4.0"
   },
   "peerDependencies": {
-    "@cosmjs/cosmwasm-stargate": "^0.28",
-    "@cosmjs/stargate": "^0.28"
+    "@cosmjs/cosmwasm-stargate": ">= 0.28",
+    "@cosmjs/stargate": ">= 0.28"
   },
   "gitHead": "6d42132a3dfe3b621c14a7ad19111fc0d6c2cbd1"
 }

@@ -4,7 +4,7 @@ import WalletConnect from '@walletconnect/client';
 import EventEmitter from 'events';
 
 import { CosmostationClient } from '../client';
-import { getAppUrlFromQrUri } from './utils';
+import { getAppUrl } from './utils';
 
 export class ChainCosmostationMobile extends ChainWalletBase {
   client?: CosmostationClient;
@@ -16,10 +16,10 @@ export class ChainCosmostationMobile extends ChainWalletBase {
   }
 
   get qrUri() {
-    return this.connector.uri;
+    return this.connector?.uri;
   }
 
   get appUrl() {
-    return getAppUrlFromQrUri(this.qrUri);
+    return getAppUrl(this.qrUri, this.env);
   }
 }

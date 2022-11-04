@@ -66,7 +66,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   }
 
   get assets() {
-    return this.chainInfo.assetList.assets;
+    return this.chainInfo.assetList?.assets;
   }
 
   get assetList() {

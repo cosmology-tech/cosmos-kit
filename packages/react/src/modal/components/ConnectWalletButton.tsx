@@ -205,14 +205,14 @@ export const ConnectWalletButton = ({
     <Button
       px={2.5}
       w="full"
-      h={SIZES[size].h}
+      h={SIZES[size as keyof typeof SIZES].h}
       display="flex"
       alignItems="center"
-      fontSize={SIZES[size].fontSize}
+      fontSize={SIZES[size as keyof typeof SIZES].fontSize}
       isLoading={isLoading}
       isDisabled={isDisabled}
       onClick={onClickConnectBtn}
-      {...Variants(colorMode)[variant]}
+      {...Variants(colorMode)[variant as keyof ReturnType<typeof Variants>]}
     >
       {leftIcon ? (
         <Center mr={1.5}>{leftIcon}</Center>

@@ -157,7 +157,7 @@ export type DownloadWalletButtonType = {
   size?: string;
   icon?: IconType;
   text?: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled: boolean;
 };
 export type SimpleModalHeadType = {
