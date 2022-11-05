@@ -145,7 +145,7 @@ import { GasPrice } from '@cosmjs/stargate';
 import { getSigningCosmosClientOptions } from 'interchain';
 import { SignerOptions } from '@cosmos-kit/core';
 import { WalletProvider } from '@cosmos-kit/react';
-import { wallets } from '@cosmos-kit/config';
+import { wallets } from "@cosmos-kit/keplr";
 
 // construct signer options
 const signerOptions: SignerOptions = {

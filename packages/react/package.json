@@ -107,7 +107,6 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/config": "^0.16.2",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bowser": "2.11.0",
