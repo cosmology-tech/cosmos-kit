@@ -72,7 +72,7 @@ export const WalletProvider = ({
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [chainName, setChainName] = useState<ChainName | undefined>();
-  const [qrUri, setQRUri] = useState<string | undefined>();
+  const [qrUrl, setQRUrl] = useState<string | undefined>();
 
   walletManager.setActions({
     data: setWalletData,
@@ -81,7 +81,7 @@ export const WalletProvider = ({
     walletName: setWalletName,
     viewOpen: setViewOpen,
     chainName: setChainName,
-    qrUri: setQRUri,
+    qrUrl: setQRUrl,
   });
 
   const Modal = walletModal || DefaultModal;

@@ -2,7 +2,7 @@ import { CosmWasmClient, SigningCosmWasmClient, SigningCosmWasmClientOptions } f
 import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, SigningStargateClientOptions, StargateClient, StargateClientOptions, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { Callbacks, ChainRecord, ChainWalletData, Wallet } from '../types';
+import { Callbacks, ChainRecord, ChainWalletData, SessionOptions, Wallet } from '../types';
 import { WalletBase } from './wallet';
 export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     protected _chainInfo: ChainRecord;
@@ -24,7 +24,7 @@ export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     get username(): string | undefined;
     get address(): string | undefined;
     get offlineSigner(): OfflineSigner | undefined;
-    update(callbacks?: Callbacks): Promise<void>;
+    update(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
     getRpcEndpoint: () => Promise<string | undefined>;
     getRestEndpoint: () => Promise<string | undefined>;
     getStargateClient: () => Promise<StargateClient | undefined>;

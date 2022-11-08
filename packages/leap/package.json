@@ -106,7 +106,8 @@
   "peerDependencies": {
     "@cosmjs/amino": "0.29.3",
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
+    "@cosmjs/stargate": ">= 0.28",
+    "@cosmjs/proto-signing": "0.29.2"
   },
   "gitHead": "6d42132a3dfe3b621c14a7ad19111fc0d6c2cbd1"
 }

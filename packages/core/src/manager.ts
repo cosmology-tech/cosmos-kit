@@ -191,6 +191,14 @@ export class WalletManager extends StateBase<WalletData> {
     await this.currentWallet?.client?.enable?.(chainIds);
   };
 
+  getRpcEndpoint = async (): Promise<string | undefined> => {
+    return await (this.currentWallet as ChainWalletBase)?.getRpcEndpoint?.();
+  };
+
+  getRestEndpoint = async (): Promise<string | undefined> => {
+    return await (this.currentWallet as ChainWalletBase)?.getRestEndpoint?.();
+  };
+
   getStargateClient = async (): Promise<StargateClient | undefined> => {
     return await (this.currentWallet as ChainWalletBase)?.getStargateClient?.();
   };
@@ -365,7 +373,9 @@ export class WalletManager extends StateBase<WalletData> {
   private get callbacks(): Callbacks {
     return {
       connect: () => {
-        this.updateLocalStorage('wallet');
+        if (!this.isWalletDisconnected) {
+          this.updateLocalStorage('wallet');
+        }
       },
       disconnect: () => {
         this.setCurrentWallet(undefined);
@@ -442,6 +452,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   private _handleTabLoad = (event?: Event) => {
     event?.preventDefault();
+    console.log(22);
     this.connect();
   };
 
@@ -450,7 +461,7 @@ export class WalletManager extends StateBase<WalletData> {
     if (this.storageOptions.clearOnTabClose) {
       window.localStorage.removeItem('cosmos-kit');
     }
-    if (this.sessionOptions.killOnTabClose) {
+    if (this.sessionOptions.killOnTabClose || this.isWalletConnecting) {
       this.disconnect();
     }
   };
@@ -467,9 +478,10 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
 
+    const _isMobile = isMobile();
     this.env = {
-      isMobile: isMobile(),
-      isAndroid: isAndroid(),
+      isMobile: _isMobile,
+      os: _isMobile ? (isAndroid() ? 'android' : 'ios') : void 0,
     };
 
     if (this.useStorage) {
@@ -479,9 +491,10 @@ export class WalletManager extends StateBase<WalletData> {
         this.setCurrentWallet(currentWalletName);
         this.setCurrentChain(currentChainName);
         if (currentWalletName) {
-          this._handleTabLoad();
           if (document.readyState !== 'complete') {
             window.addEventListener('load', this._handleTabLoad);
+          } else {
+            this._handleTabLoad();
           }
         }
       }

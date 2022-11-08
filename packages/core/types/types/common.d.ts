@@ -25,3 +25,8 @@ export interface Callbacks {
     connect?: () => void;
     disconnect?: () => void;
 }
+export declare type OS = 'android' | 'ios' | 'windows' | 'macos';
+export interface AppEnv {
+    isMobile: boolean;
+    os?: OS;
+}

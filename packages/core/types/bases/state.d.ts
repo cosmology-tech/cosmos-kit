@@ -19,6 +19,7 @@ export declare class StateBase<Data> {
     setMessage(message: string | undefined): void;
     reset(): void;
     get walletStatus(): WalletStatus;
+    get isWalletConnecting(): boolean;
     get isWalletConnected(): boolean;
     get isWalletDisconnected(): boolean;
     get isWalletRejected(): boolean;

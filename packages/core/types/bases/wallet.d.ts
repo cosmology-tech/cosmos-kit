@@ -6,13 +6,13 @@ export declare abstract class WalletBase<Data> extends StateBase<Data> {
     protected _walletInfo: Wallet;
     protected _env?: AppEnv;
     protected _appUrl?: string;
-    protected _qrUri?: string;
+    protected _qrUrl?: string;
     constructor(walletInfo: Wallet);
     get walletInfo(): Wallet;
     get walletName(): string;
     get walletPrettyName(): string;
     get appUrl(): string | undefined;
-    get qrUri(): string | undefined;
+    get qrUrl(): string | undefined;
     get env(): AppEnv;
     setEnv(env?: AppEnv): void;
     disconnect(callbacks?: Callbacks): void;
@@ -20,5 +20,5 @@ export declare abstract class WalletBase<Data> extends StateBase<Data> {
     setRejected(): void;
     setError(e: Error | string): void;
     connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
-    abstract update(): void | Promise<void>;
+    abstract update(sessionOptions?: SessionOptions, callbacks?: Callbacks): void | Promise<void>;
 }

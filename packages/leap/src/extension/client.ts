@@ -1,14 +1,13 @@
-import { WalletClient, WalletMode } from '@cosmos-kit/core';
+import { Algo } from '@cosmjs/proto-signing';
+import { WalletClient } from '@cosmos-kit/core';
 
-import { Leap } from './extension/types';
+import { Leap } from './types';
 
 export class LeapClient implements WalletClient {
   readonly client: Leap;
-  readonly mode: WalletMode;
 
-  constructor(client: Leap, mode: WalletMode) {
+  constructor(client: Leap) {
     this.client = client;
-    this.mode = mode;
   }
 
   async enable(chainIds: string | string[]) {
@@ -20,6 +19,8 @@ export class LeapClient implements WalletClient {
     return {
       name: key.name,
       address: key.bech32Address,
+      algo: key.algo as Algo,
+      pubkey: key.pubKey,
     };
   }
 

@@ -1,10 +1,12 @@
 /// <reference types="long" />
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
-import { DirectSignResponse, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
+import { Algo, DirectSignResponse, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
+import { IConnector } from '@walletconnect/types';
 import { IconType } from 'react-icons';
 import { ChainWalletBase, MainWalletBase } from '../bases';
+import { ChainWalletConnect } from '../wallet-connect';
 import { ChainRecord } from './chain';
-import { Data } from './common';
+import { Data, OS } from './common';
 export declare type WalletName = string;
 export declare enum WalletStatus {
     Disconnected = "Disconnected",
@@ -41,8 +43,15 @@ export interface Wallet {
     logo?: string;
 }
 export interface WalletAccount {
-    name?: string;
     address: string;
+    pubkey: Uint8Array;
+    name?: string;
+    algo?: Algo;
+}
+export interface SignOptions {
+    readonly preferNoSetFee?: boolean;
+    readonly preferNoSetMemo?: boolean;
+    readonly disableBalanceCheck?: boolean;
 }
 export interface WalletClient {
     getAccount: (chainId: string) => Promise<WalletAccount>;
@@ -51,7 +60,7 @@ export interface WalletClient {
     addChain?: (chainInfo: ChainRecord) => Promise<void>;
     getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
     getOfflineSignerAuto?: (chainId: string) => Promise<OfflineSigner | OfflineDirectSigner>;
-    signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc) => Promise<AminoSignResponse>;
+    signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions: SignOptions) => Promise<AminoSignResponse>;
     signDirect?: (chainId: string, signer: string, signDoc: {
         /** SignDoc bodyBytes */
         bodyBytes?: Uint8Array | null;
@@ -67,6 +76,11 @@ export interface WalletClient {
     enigmaEncrypt?: (chainId: string, contractCodeHash: string, msg: object) => Promise<Uint8Array>;
     enigmaDecrypt?: (chainId: string, ciphertext: Uint8Array, nonce: Uint8Array) => Promise<Uint8Array>;
 }
+export interface WalletConnectClient extends WalletClient {
+    getAppUrl: (os: OS) => string | undefined;
+    readonly connector: IConnector;
+    readonly qrUrl: string;
+}
 export interface ChainWalletData extends Data {
     username?: string;
     address?: string;
@@ -79,4 +93,10 @@ export declare type WalletData = ChainWalletData & MainWalletData;
 export declare type WalletAdapter = ChainWalletBase | MainWalletBase;
 export interface IChainWallet {
     new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
+}
+export interface IChainWalletConnect {
+    new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnect;
+}
+export interface IWalletConnectClient {
+    new (): WalletConnectClient;
 }

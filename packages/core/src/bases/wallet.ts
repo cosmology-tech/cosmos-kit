@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   AppEnv,
   Callbacks,
@@ -15,7 +16,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   protected _walletInfo: Wallet;
   protected _env?: AppEnv;
   protected _appUrl?: string;
-  protected _qrUri?: string;
+  protected _qrUrl?: string;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -38,8 +39,8 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._appUrl;
   }
 
-  get qrUri(): string | undefined {
-    return this._qrUri;
+  get qrUrl(): string | undefined {
+    return this._qrUrl;
   }
 
   get env() {
@@ -68,6 +69,9 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   setError(e: Error | string) {
     this.setState(State.Error);
     this.setMessage(typeof e === 'string' ? e : e.message);
+    if (typeof e !== 'string' && e.stack) {
+      console.error(e.stack);
+    }
   }
 
   async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
@@ -79,21 +83,18 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     }
 
     try {
-      if (!this.client) {
-        const client = await this.clientPromise;
+      this.client = this.client || (await this.clientPromise);
 
-        if (!client) {
-          this.setClientNotExist();
-          return;
-        } else {
-          this.client = client;
-        }
+      if (!this.client) {
+        this.setClientNotExist();
+        return;
       }
+
       await this.update();
 
       if (sessionOptions?.duration) {
         setTimeout(() => {
-          this.disconnect();
+          this.disconnect(callbacks);
         }, sessionOptions?.duration);
       }
     } catch (error) {
@@ -103,5 +104,8 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     callbacks?.connect?.();
   }
 
-  abstract update(): void | Promise<void>;
+  abstract update(
+    sessionOptions?: SessionOptions,
+    callbacks?: Callbacks
+  ): void | Promise<void>;
 }

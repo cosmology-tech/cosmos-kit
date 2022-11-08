@@ -38,7 +38,3 @@ export interface ManagerActions<T> extends StateActions<T> {
     chainName?: Dispatch<ChainName | undefined>;
     viewOpen?: Dispatch<boolean>;
 }
-export interface AppEnv {
-    isMobile: boolean;
-    isAndroid: boolean;
-}

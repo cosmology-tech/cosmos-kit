@@ -78,6 +78,10 @@ export class StateBase<Data> {
     return getWalletStatusFromState(this.state, this.message);
   }
 
+  get isWalletConnecting() {
+    return this.walletStatus === WalletStatus.Connecting;
+  }
+
   get isWalletConnected() {
     return this.walletStatus === WalletStatus.Connected;
   }

@@ -37,6 +37,8 @@ export declare class WalletManager extends StateBase<WalletData> {
     private get emitChainName();
     private get emitViewOpen();
     enable: (chainIds: string | string[]) => Promise<void>;
+    getRpcEndpoint: () => Promise<string | undefined>;
+    getRestEndpoint: () => Promise<string | undefined>;
     getStargateClient: () => Promise<StargateClient | undefined>;
     getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
     getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;

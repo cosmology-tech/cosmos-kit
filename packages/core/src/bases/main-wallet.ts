@@ -5,6 +5,7 @@ import {
   EndpointOptions,
   IChainWallet,
   MainWalletData,
+  SessionOptions,
   State,
   Wallet,
   WalletClient,
@@ -23,8 +24,9 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.clientPromise = this.fetchClient();
   }
 
-  protected setChainsCallback(): void {
+  protected onSetChainsDone(): void {
     this.chainWallets?.forEach((chainWallet) => {
+      chainWallet.client = this.client;
       chainWallet.clientPromise = this.clientPromise;
     });
   }
@@ -51,7 +53,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
       })
     );
 
-    this.setChainsCallback();
+    this.onSetChainsDone();
   }
 
   get username(): string | undefined {
@@ -66,12 +68,19 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     return this.chainWallets?.get(chainName);
   }
 
-  async update(callbacks?: Callbacks) {
+  async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     if (!this.client) {
       this.setClientNotExist();
       return;
     }
     this.setState(State.Done);
+
+    if (sessionOptions?.duration) {
+      setTimeout(() => {
+        this.disconnect(callbacks);
+      }, sessionOptions?.duration);
+    }
+
     callbacks?.connect?.();
   }
 
