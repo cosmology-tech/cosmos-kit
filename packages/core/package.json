@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/core",
-  "version": "0.20.1",
+  "version": "0.21.0",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -104,7 +104,6 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.13.0",
     "@walletconnect/browser-utils": "1.8.0",
-    "chain-registry": "^0.14.0",
     "@walletconnect/types": "^1.8.0"
   },
   "peerDependencies": {
@@ -113,6 +112,5 @@
     "@cosmjs/proto-signing": "0.29.2",
     "@cosmjs/stargate": "^0.28",
     "cosmjs-types": "^0.5.0"
-  },
-  "gitHead": "6d42132a3dfe3b621c14a7ad19111fc0d6c2cbd1"
+  }
 }

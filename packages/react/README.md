@@ -68,13 +68,13 @@ function Component ({ chainName }: { chainName?: string }) => {
 
     // Get wallet properties
     const {
-        currentChainName,
-        currentWalletName,
-        walletStatus,
-        username,
-        address,
-        message,
-      } = walletManager;
+      currentChainName,
+      currentWalletName,
+      walletStatus,
+      username,
+      address,
+      message,
+    } = walletManager;
 
     // Get wallet functions
     const {
@@ -145,7 +145,7 @@ import { GasPrice } from '@cosmjs/stargate';
 import { getSigningCosmosClientOptions } from 'interchain';
 import { SignerOptions } from '@cosmos-kit/core';
 import { WalletProvider } from '@cosmos-kit/react';
-import { wallets } from '@cosmos-kit/config';
+import { wallets } from "@cosmos-kit/keplr";
 
 // construct signer options
 const signerOptions: SignerOptions = {
@@ -413,5 +413,5 @@ export interface SessionOptions {
 
 Code built with the help of these related projects:
 
-- [create-cosmos-app](https://github.com/cosmology/create-cosmos-app) Set up a modern Cosmos app by running one command ⚛️
-- [chain-registry](https://github.com/cosmology/chain-registry) an npm module for the official Cosmos chain-registry
+- [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command ⚛️
+- [chain-registry](https://github.com/cosmology-tech/chain-registry) an npm module for the official Cosmos chain-registry

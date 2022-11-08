@@ -57,18 +57,18 @@ export default {
       ],
       additionalMetaTags: [
         { content: 'en', httpEquiv: 'Content-Language' },
-        { content: 'CosmosKit', name: 'apple-mobile-web-app-title' },
+        { content: 'Cosmos Kit', name: 'apple-mobile-web-app-title' },
         { content: '#fff', name: 'msapplication-TileColor' },
         { content: '/ms-icon-144x144.png', name: 'msapplication-TileImage' }
       ],
       description:
-        frontMatter.description || 'CosmosKit: the Cosmos apps builder',
+        frontMatter.description || 'Cosmos Kit: A wallet connector for the Cosmos ',
       openGraph: {
         images: [
           { url: frontMatter.image }
         ]
       },
-      titleTemplate: '%s – CosmosKit',
+      titleTemplate: '%s – Cosmos Kit',
       twitter: {
         cardType: 'summary_large_image',
         site: 'https://cosmoskit.com/'
@@ -78,7 +78,7 @@ export default {
   logo: (
     <>
       <img src="https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg" width="50px"></img>
-      <span className="mr-2 font-extrabold hidden md:inline">&nbsp;&nbsp;CosmosKit</span>
+      <span className="mr-2 font-extrabold hidden md:inline">&nbsp;&nbsp;Cosmos Kit</span>
     </>
   ),
 }

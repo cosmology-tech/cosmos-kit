@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr",
-  "version": "0.20.1",
+  "version": "0.22.0",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -106,7 +106,7 @@
     "@chain-registry/keplr": "1.4.0",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.20.1",
+    "@cosmos-kit/core": "^0.21.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "0.11.16-alpha.0",
