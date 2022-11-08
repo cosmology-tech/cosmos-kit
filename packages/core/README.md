@@ -16,7 +16,7 @@
 </p>
 
 A wallet adapter for React with mobile WalletConnect support for the Cosmos
-ecosystem.
+ecosystem
 
 ## Credits
 
