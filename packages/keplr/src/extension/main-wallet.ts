@@ -1,8 +1,8 @@
 import { EndpointOptions, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
-import { KeplrClient } from '../client';
 import { ChainKeplrExtension } from './chain-wallet';
+import { KeplrClient } from './client';
 import { getKeplrFromExtension } from './utils';
 
 export class KeplrExtensionWallet extends MainWalletBase {
@@ -14,7 +14,7 @@ export class KeplrExtensionWallet extends MainWalletBase {
   async fetchClient() {
     try {
       const keplr = await getKeplrFromExtension();
-      return keplr ? new KeplrClient(keplr, this.walletInfo.mode) : undefined;
+      return keplr ? new KeplrClient(keplr) : undefined;
     } catch (error) {
       this.setClientNotExist();
       return void 0;

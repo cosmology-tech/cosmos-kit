@@ -1,25 +1,7 @@
-/* eslint-disable no-console */
-import { ChainRecord, ChainWalletBase, Wallet } from '@cosmos-kit/core';
-import WalletConnect from '@walletconnect/client';
-import EventEmitter from 'events';
+import { ChainRecord, ChainWalletConnect, Wallet } from '@cosmos-kit/core';
 
-import { KeplrClient } from '../client';
-import { getAppUrl } from './utils';
-
-export class ChainKeplrMobile extends ChainWalletBase {
-  client?: KeplrClient;
-  connector?: WalletConnect;
-  emitter?: EventEmitter;
-
+export class ChainKeplrMobile extends ChainWalletConnect {
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
     super(walletInfo, chainInfo);
-  }
-
-  get qrUri() {
-    return this.connector?.uri;
-  }
-
-  get appUrl() {
-    return getAppUrl(this.qrUri, this.env);
   }
 }

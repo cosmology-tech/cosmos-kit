@@ -110,17 +110,20 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "0.11.16-alpha.0",
-    "@keplr-wallet/wc-client": "0.11.16-alpha.0",
     "@walletconnect/browser-utils": "1.8.0",
     "@walletconnect/client": "1.8.0",
+    "@walletconnect/utils": "1.8.0",
+    "deepmerge": "4.2.2",
     "events": "3.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0"
   },
   "peerDependencies": {
+    "@cosmjs/amino": "0.29.3",
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
+    "@cosmjs/stargate": ">= 0.28",
+    "@cosmjs/proto-signing": "0.29.2"
   },
   "gitHead": "6d42132a3dfe3b621c14a7ad19111fc0d6c2cbd1"
 }

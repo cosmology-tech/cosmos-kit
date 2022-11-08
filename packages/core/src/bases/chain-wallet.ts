@@ -20,6 +20,7 @@ import {
   Callbacks,
   ChainRecord,
   ChainWalletData,
+  SessionOptions,
   State,
   Wallet,
   WalletAccount,
@@ -93,7 +94,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return this.data?.offlineSigner;
   }
 
-  async update(callbacks?: Callbacks) {
+  async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     if (!this.client) {
       this.setClientNotExist();
       return;
@@ -121,6 +122,12 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
           : void 0,
       });
       this.setState(State.Done);
+
+      if (sessionOptions?.duration) {
+        setTimeout(() => {
+          this.disconnect(callbacks);
+        }, sessionOptions?.duration);
+      }
     } catch (e) {
       if (
         this.walletInfo.rejectMessage &&

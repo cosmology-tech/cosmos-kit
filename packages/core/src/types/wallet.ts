@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import {
+  Algo,
   DirectSignResponse,
   OfflineDirectSigner,
   OfflineSigner,
 } from '@cosmjs/proto-signing';
+import { IConnector } from '@walletconnect/types';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
+import { ChainWalletConnect } from '../wallet-connect';
 import { ChainRecord } from './chain';
-import { Data } from './common';
+import { Data, OS } from './common';
 
 export type WalletName = string;
 
@@ -53,8 +56,16 @@ export interface Wallet {
 }
 
 export interface WalletAccount {
-  name?: string;
   address: string;
+  pubkey: Uint8Array;
+  name?: string;
+  algo?: Algo;
+}
+
+export interface SignOptions {
+  readonly preferNoSetFee?: boolean;
+  readonly preferNoSetMemo?: boolean;
+  readonly disableBalanceCheck?: boolean;
 }
 
 export interface WalletClient {
@@ -70,7 +81,8 @@ export interface WalletClient {
   signAmino?: (
     chainId: string,
     signer: string,
-    signDoc: StdSignDoc
+    signDoc: StdSignDoc,
+    signOptions: SignOptions
   ) => Promise<AminoSignResponse>;
   signDirect?: (
     chainId: string,
@@ -103,6 +115,12 @@ export interface WalletClient {
   ) => Promise<Uint8Array>;
 }
 
+export interface WalletConnectClient extends WalletClient {
+  getAppUrl: (os: OS) => string | undefined;
+  readonly connector: IConnector;
+  readonly qrUrl: string;
+}
+
 export interface ChainWalletData extends Data {
   username?: string;
   address?: string;
@@ -118,4 +136,12 @@ export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
+}
+
+export interface IChainWalletConnect {
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnect;
+}
+
+export interface IWalletConnectClient {
+  new (): WalletConnectClient;
 }

@@ -105,7 +105,7 @@
     "@chain-registry/types": "^0.13.0",
     "@walletconnect/browser-utils": "1.8.0",
     "chain-registry": "^0.14.0",
-    "interchain": "1.0.0"
+    "@walletconnect/types": "^1.8.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": "0.29.3",

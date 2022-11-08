@@ -1,5 +1,5 @@
 {
-  "name": "docs",
+  "name": "@cosmos-kit/docs",
   "version": "1.0.1",
   "private": true,
   "main": "index.js",

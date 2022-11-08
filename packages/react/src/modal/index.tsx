@@ -20,15 +20,10 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   function handleClose() {
     setOpen(false);
-    switch (walletStatus) {
-      case 'Connecting':
-        disconnect();
-        return;
-      case 'Disconnected':
-        setCurrentWallet(undefined);
-        return;
-      default:
-        return;
+    if (walletManager.isWalletConnecting) {
+      disconnect();
+    } else if (walletManager.isWalletDisconnected) {
+      setCurrentWallet(undefined);
     }
   }
 
@@ -56,12 +51,13 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     if (!isOpen) {
       resetModal(false);
     }
-  }, [walletStatus, modalIsReset, isOpen, currentWallet?.qrUri]);
+  }, [walletStatus, modalIsReset, isOpen, currentWallet?.qrUrl]);
 
   useEffect(() => {
     const appUrl = currentWallet?.appUrl;
     if (appUrl) {
-      window.open(appUrl, '_self');
+      // window.open(appUrl, '_self');
+      window.location.href = appUrl;
     }
   }, [currentWallet?.appUrl]);
 

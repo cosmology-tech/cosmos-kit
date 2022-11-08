@@ -56,6 +56,7 @@ export const getModal = (
     setCurrentWallet,
     connect,
     disconnect,
+    isWalletDisconnected,
   } = walletManager;
 
   let modalHead: JSX.Element, modalContent: JSX.Element;
@@ -67,6 +68,9 @@ export const getModal = (
   async function handleWalletClick(select: WalletInfoType) {
     resetModal(false);
     console.info('Connecting to ' + select.id);
+    if (!isWalletDisconnected) {
+      await disconnect();
+    }
     setCurrentWallet(select.id);
     await connect();
   }
@@ -182,7 +186,7 @@ export const getModal = (
     Connecting: {
       logoStatus: LogoStatus.Loading,
       header: 'Requesting Connection',
-      desc: wallet?.qrUri
+      desc: wallet?.qrUrl
         ? `Approve ${displayName} connection request on your mobile.`
         : `Open the ${displayName} extension to connect your wallet.`,
     },
@@ -252,12 +256,12 @@ export const getModal = (
         />
       );
     }
-    if (status === WalletStatus.Connecting && wallet?.qrUri) {
+    if (status === WalletStatus.Disconnected && wallet?.qrUrl) {
       // console.log(wallet.appUrl);
       if (!env?.isMobile || (env?.isMobile && !wallet.appUrl)) {
         return (
           <QRCode
-            link={wallet?.qrUri}
+            link={wallet?.qrUrl}
             description={`Open ${displayName} App to Scan`}
           />
         );
