@@ -1,0 +1,35 @@
+# How to Add Cosmostation wallet to Cosmos Kit
+
+## add `@cosmoskit/cosmostation`
+
+```
+yarn add @cosmoskit/cosmostation
+```
+
+## import the wallets
+
+```js
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+    <ChakraProvider theme={defaultTheme}>
+      <WalletProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...cosmostationWallets]}
+      >
+        <Component {...pageProps} />
+      </WalletProvider>
+    </ChakraProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
+
+
