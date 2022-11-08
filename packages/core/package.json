@@ -104,13 +104,14 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.13.0",
     "@walletconnect/browser-utils": "1.8.0",
-    "@walletconnect/types": "^1.8.0"
+    "@walletconnect/types": "^1.8.0",
+    "events": "3.3.0"
   },
   "peerDependencies": {
-    "@cosmjs/amino": "0.29.3",
-    "@cosmjs/cosmwasm-stargate": "^0.28",
-    "@cosmjs/proto-signing": "0.29.2",
-    "@cosmjs/stargate": "^0.28",
-    "cosmjs-types": "^0.5.0"
+    "@cosmjs/amino": ">= 0.28",
+    "@cosmjs/cosmwasm-stargate": ">= 0.28",
+    "@cosmjs/proto-signing": ">= 0.28",
+    "@cosmjs/stargate": ">= 0.28",
+    "cosmjs-types": ">= 0.5"
   }
 }
