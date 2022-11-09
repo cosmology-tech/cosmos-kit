@@ -1,6 +1,4 @@
 {
-  "wallet-connection": "Wallet Connection",
-  "query-client": "Query Client",
   "signing-client": "Signing Client",
   "sign-and-broadcast": "Sign & Broadcast"
 }

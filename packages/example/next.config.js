@@ -18,7 +18,6 @@ module.exports = {
               ["@babel/preset-react", {"runtime": "automatic"}],
               ["@babel/typescript", { allowDeclareFields: true }],
             ],
-            plugins: ["@babel/plugin-syntax-bigint"]
           },
         },
       ],

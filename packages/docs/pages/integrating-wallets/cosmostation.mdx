@@ -1,3 +1,6 @@
+import { WalletSection } from "../../components";
+import { wallets } from "@cosmos-kit/cosmostation";
+
 # How to Add Cosmostation wallet to Cosmos Kit
 
 ## add `@cosmoskit/cosmostation`
@@ -32,4 +35,6 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
 export default MyCosmosApp;
 ```
 
+## try it out!
 
+<WalletSection wallets={wallets}/>

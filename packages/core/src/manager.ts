@@ -38,8 +38,8 @@ export class WalletManager extends StateBase<WalletData> {
   private _currentWalletName?: WalletName;
   private _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
-  private _wallets: MainWalletBase[];
-  chainRecords: ChainRecord[];
+  private _wallets: MainWalletBase[] = [];
+  private _chainRecords: ChainRecord[] = [];
   env?: AppEnv;
   viewOptions: ViewOptions = {
     alwaysOpenView: false,
@@ -68,14 +68,24 @@ export class WalletManager extends StateBase<WalletData> {
     sessionOptions?: SessionOptions
   ) {
     super();
-    if (wallets.length === 0) {
-      throw new Error('No wallet provided.');
-    }
-    if (chains.length === 0) {
-      throw new Error('No chain provided.');
-    }
-    this._wallets = wallets;
-    this.chainRecords = chains.map((chain) =>
+    this.setWallets(wallets);
+    this.setChainRecords(chains, assetLists, signerOptions, endpointOptions);
+    this.viewOptions = { ...this.viewOptions, ...viewOptions };
+    this.storageOptions = { ...this.storageOptions, ...storageOptions };
+    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+  }
+
+  setActions = (actions: Actions) => {
+    this.actions = actions;
+  };
+
+  setChainRecords = (
+    chains: Chain[],
+    assetLists: AssetList[],
+    signerOptions?: SignerOptions,
+    endpointOptions?: EndpointOptions
+  ) => {
+    this._chainRecords = chains.map((chain) =>
       convertChain(
         chain,
         assetLists,
@@ -83,16 +93,19 @@ export class WalletManager extends StateBase<WalletData> {
         endpointOptions?.[chain.chain_name]
       )
     );
-    console.info(
-      `${this.walletCount} wallets and ${this.chainCount} chains are used!`
-    );
+    console.info(`${this.chainCount} chains are used!`);
     this._wallets.forEach((wallet) => {
-      wallet.setChains(this.chainRecords);
+      wallet.setChains(this._chainRecords);
     });
-    this.viewOptions = { ...this.viewOptions, ...viewOptions };
-    this.storageOptions = { ...this.storageOptions, ...storageOptions };
-    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
-  }
+  };
+
+  setWallets = (wallets: MainWalletBase[]) => {
+    this._wallets = wallets;
+    console.info(`${this.walletCount} wallets are used!`);
+    this._wallets.forEach((wallet) => {
+      wallet.setChains(this._chainRecords);
+    });
+  };
 
   get wallets() {
     if (this.env?.isMobile) {
@@ -101,6 +114,10 @@ export class WalletManager extends StateBase<WalletData> {
       );
     }
     return this._wallets;
+  }
+
+  get chainRecords() {
+    return this._chainRecords;
   }
 
   get useStorage() {
@@ -256,10 +273,6 @@ export class WalletManager extends StateBase<WalletData> {
       memo,
       type
     );
-  };
-
-  setActions = (actions: Actions) => {
-    this.actions = actions;
   };
 
   reset = () => {
