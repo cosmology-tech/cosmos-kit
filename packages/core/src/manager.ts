@@ -38,7 +38,8 @@ export class WalletManager extends StateBase<WalletData> {
   private _currentWalletName?: WalletName;
   private _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
-  private _wallets: MainWalletBase[] = [];
+  private _activeWallets: MainWalletBase[] = [];
+  private _totalWallets: MainWalletBase[] = [];
   private _chainRecords: ChainRecord[] = [];
   env?: AppEnv;
   viewOptions: ViewOptions = {
@@ -93,27 +94,33 @@ export class WalletManager extends StateBase<WalletData> {
         endpointOptions?.[chain.chain_name]
       )
     );
-    console.info(`${this.chainCount} chains are used!`);
-    this._wallets.forEach((wallet) => {
+    console.info(`${this.chainCount} chains are available!`);
+    this._totalWallets.forEach((wallet) => {
       wallet.setChains(this._chainRecords);
     });
   };
 
   setWallets = (wallets: MainWalletBase[]) => {
-    this._wallets = wallets;
-    console.info(`${this.walletCount} wallets are used!`);
-    this._wallets.forEach((wallet) => {
+    this._totalWallets = wallets;
+    console.info(`${this.walletCount} wallets are available!`);
+    this._totalWallets.forEach((wallet) => {
       wallet.setChains(this._chainRecords);
     });
   };
 
+  setActiveWalletNames = (walletNames: WalletName[]) => {
+    this._activeWallets = this._totalWallets.filter((wallet) =>
+      walletNames.includes(wallet.walletName)
+    );
+  };
+
   get wallets() {
     if (this.env?.isMobile) {
-      return this._wallets.filter(
+      return this._activeWallets.filter(
         (wallet) => !wallet.walletInfo.mobileDisabled
       );
     }
-    return this._wallets;
+    return this._activeWallets;
   }
 
   get chainRecords() {
@@ -126,7 +133,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   get currentWalletName() {
     if (!this._currentWalletName && this.walletCount === 1) {
-      return this._wallets[0].walletName;
+      return this._totalWallets[0].walletName;
     }
     return this._currentWalletName;
   }
@@ -177,7 +184,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this._wallets.map((wallet) => wallet.walletName);
+    return this._totalWallets.map((wallet) => wallet.walletName);
   }
 
   get walletCount() {
@@ -336,7 +343,7 @@ export class WalletManager extends StateBase<WalletData> {
     walletName: WalletName,
     chainName?: ChainName
   ): WalletAdapter => {
-    let wallet: WalletAdapter | undefined = this._wallets.find(
+    let wallet: WalletAdapter | undefined = this._totalWallets.find(
       (w) => w.walletName === walletName
     );
 

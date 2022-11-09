@@ -27,10 +27,10 @@ import {
   WalletConnectComponent,
   ChainCard
 } from '../components';
-import { MainWalletBase } from '@cosmos-kit/core';
+import { MainWalletBase, WalletName } from '@cosmos-kit/core';
 
 
-export const WalletSection = ({ wallets }: { wallets?: MainWalletBase[] }) => {
+export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) => {
   const walletManager = useWallet();
   const {
     connect,
@@ -43,13 +43,15 @@ export const WalletSection = ({ wallets }: { wallets?: MainWalletBase[] }) => {
     currentWallet,
     currentChainRecord,
     getChainLogo,
-    setCurrentChain
+    setCurrentChain,
+    setCurrentWallet
   } = walletManager;
 
   useEffect(() => {
-    if (wallets) {
-      walletManager.setWallets(wallets);
+    if (walletNames) {
+      walletManager.setActiveWalletNames(walletNames);
     }
+    setCurrentWallet(undefined);
     setCurrentChain('cosmoshub');
   }, []);
 
@@ -108,7 +110,7 @@ export const WalletSection = ({ wallets }: { wallets?: MainWalletBase[] }) => {
     />
   );
 
-  const userInfo = (
+  const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
   const addressBtn = currentChainName && (

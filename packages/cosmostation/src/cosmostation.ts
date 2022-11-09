@@ -13,3 +13,4 @@ const cosmostationExtension = new CosmostationExtensionWallet(
 const cosmostationMobile = new CosmostationMobileWallet(cosmostationMobileInfo);
 
 export const wallets = [cosmostationExtension, cosmostationMobile];
+export const walletNames = wallets.map((wallet) => wallet.walletName);
