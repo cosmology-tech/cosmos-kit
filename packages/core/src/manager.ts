@@ -38,8 +38,9 @@ export class WalletManager extends StateBase<WalletData> {
   private _currentWalletName?: WalletName;
   private _currentChainName?: ChainName;
   declare actions?: ManagerActions<WalletData>;
-  private _wallets: MainWalletBase[];
-  chainRecords: ChainRecord[];
+  private _activeWallets: MainWalletBase[] = [];
+  private _totalWallets: MainWalletBase[] = [];
+  private _chainRecords: ChainRecord[] = [];
   env?: AppEnv;
   viewOptions: ViewOptions = {
     alwaysOpenView: false,
@@ -68,14 +69,25 @@ export class WalletManager extends StateBase<WalletData> {
     sessionOptions?: SessionOptions
   ) {
     super();
-    if (wallets.length === 0) {
-      throw new Error('No wallet provided.');
-    }
-    if (chains.length === 0) {
-      throw new Error('No chain provided.');
-    }
-    this._wallets = wallets;
-    this.chainRecords = chains.map((chain) =>
+    this.setWallets(wallets);
+    this._activeWallets = wallets;
+    this.setChainRecords(chains, assetLists, signerOptions, endpointOptions);
+    this.viewOptions = { ...this.viewOptions, ...viewOptions };
+    this.storageOptions = { ...this.storageOptions, ...storageOptions };
+    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+  }
+
+  setActions = (actions: Actions) => {
+    this.actions = actions;
+  };
+
+  setChainRecords = (
+    chains: Chain[],
+    assetLists: AssetList[],
+    signerOptions?: SignerOptions,
+    endpointOptions?: EndpointOptions
+  ) => {
+    this._chainRecords = chains.map((chain) =>
       convertChain(
         chain,
         assetLists,
@@ -83,24 +95,37 @@ export class WalletManager extends StateBase<WalletData> {
         endpointOptions?.[chain.chain_name]
       )
     );
-    console.info(
-      `${this.walletCount} wallets and ${this.chainCount} chains are used!`
-    );
-    this._wallets.forEach((wallet) => {
-      wallet.setChains(this.chainRecords);
+    console.info(`${this.chainCount} chains are available!`);
+    this._totalWallets.forEach((wallet) => {
+      wallet.setChains(this._chainRecords);
     });
-    this.viewOptions = { ...this.viewOptions, ...viewOptions };
-    this.storageOptions = { ...this.storageOptions, ...storageOptions };
-    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
-  }
+  };
+
+  setWallets = (wallets: MainWalletBase[]) => {
+    this._totalWallets = wallets;
+    console.info(`${this.walletCount} wallets are available!`);
+    this._totalWallets.forEach((wallet) => {
+      wallet.setChains(this._chainRecords);
+    });
+  };
+
+  setActiveWalletNames = (walletNames: WalletName[]) => {
+    this._activeWallets = this._totalWallets.filter((wallet) =>
+      walletNames.includes(wallet.walletName)
+    );
+  };
 
   get wallets() {
     if (this.env?.isMobile) {
-      return this._wallets.filter(
+      return this._activeWallets.filter(
         (wallet) => !wallet.walletInfo.mobileDisabled
       );
     }
-    return this._wallets;
+    return this._activeWallets;
+  }
+
+  get chainRecords() {
+    return this._chainRecords;
   }
 
   get useStorage() {
@@ -109,7 +134,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   get currentWalletName() {
     if (!this._currentWalletName && this.walletCount === 1) {
-      return this._wallets[0].walletName;
+      return this._totalWallets[0].walletName;
     }
     return this._currentWalletName;
   }
@@ -160,7 +185,7 @@ export class WalletManager extends StateBase<WalletData> {
   }
 
   get walletNames() {
-    return this._wallets.map((wallet) => wallet.walletName);
+    return this._totalWallets.map((wallet) => wallet.walletName);
   }
 
   get walletCount() {
@@ -258,10 +283,6 @@ export class WalletManager extends StateBase<WalletData> {
     );
   };
 
-  setActions = (actions: Actions) => {
-    this.actions = actions;
-  };
-
   reset = () => {
     this.currentWallet?.reset();
   };
@@ -323,7 +344,7 @@ export class WalletManager extends StateBase<WalletData> {
     walletName: WalletName,
     chainName?: ChainName
   ): WalletAdapter => {
-    let wallet: WalletAdapter | undefined = this._wallets.find(
+    let wallet: WalletAdapter | undefined = this._totalWallets.find(
       (w) => w.walletName === walletName
     );
 

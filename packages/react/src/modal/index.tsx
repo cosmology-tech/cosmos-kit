@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { WalletModalProps } from '@cosmos-kit/core';
 import Bowser from 'bowser';
 import React, { useRef } from 'react';
@@ -7,6 +8,7 @@ import { useWallet } from '../hooks';
 import { SimpleConnectModal as ConnectModal } from './components';
 import { UserDeviceInfoType } from './components/types';
 import { getModal } from './get-modal';
+import { defaultTheme } from './theme';
 
 export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   const walletManager = useWallet();
@@ -62,12 +64,14 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   }, [currentWallet?.appUrl]);
 
   return (
-    <ConnectModal
-      modalIsOpen={isOpen}
-      modalOnClose={handleClose}
-      modalHead={modalHead}
-      modalContent={modalContent}
-      initialRef={initialFocus}
-    />
+    <ChakraProvider theme={defaultTheme}>
+      <ConnectModal
+        modalIsOpen={isOpen}
+        modalOnClose={handleClose}
+        modalHead={modalHead}
+        modalContent={modalContent}
+        initialRef={initialFocus}
+      />
+    </ChakraProvider>
   );
 };

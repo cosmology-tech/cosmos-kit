@@ -1,7 +1,7 @@
 {
   "index": "Introduction",
   "get-started": "Get Started",
+  "wallet-manager": "Wallet Manager",
   "integrating-wallets": "Integrating Wallets",
-  "wallet-provider": "WalletProvider",
-  "wallet-manager": "WalletManager"
+  "wallet-provider": "Wallet Provider"
 }

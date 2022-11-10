@@ -1,3 +1,6 @@
+import { WalletSection } from "../../components";
+import { walletNames } from "@cosmos-kit/leap";
+
 # How to Add Leap wallet to Cosmos Kit
 
 ## add `@cosmoskit/leap`
@@ -32,4 +35,6 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
 export default MyCosmosApp;
 ```
 
+## try it out!
 
+<WalletSection walletNames={walletNames}/>

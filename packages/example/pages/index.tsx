@@ -102,7 +102,7 @@ const Home = () => {
     />
   );
 
-  const userInfo = <ConnectedUserInfo username={username} icon={<Astronaut />} />;
+  const userInfo = username && <ConnectedUserInfo username={username} icon={<Astronaut />} />;
   const addressBtn = chainName && (
     <CopyAddressBtn
       walletStatus={walletStatus}

@@ -83,7 +83,8 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     }
 
     try {
-      this.client = this.client || (await this.clientPromise);
+      this.client =
+        this.client || (await this.clientPromise) || (await this.fetchClient());
 
       if (!this.client) {
         this.setClientNotExist();
@@ -103,6 +104,11 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
 
     callbacks?.connect?.();
   }
+
+  abstract fetchClient():
+    | WalletClient
+    | undefined
+    | Promise<WalletClient | undefined>;
 
   abstract update(
     sessionOptions?: SessionOptions,

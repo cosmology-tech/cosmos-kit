@@ -1,3 +1,6 @@
+import { WalletSection } from "../../components";
+import { walletNames } from "@cosmos-kit/keplr";
+
 # How to Add Keplr wallet to Cosmos Kit
 
 ## add `@cosmoskit/keplr`
@@ -32,4 +35,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
 export default MyCosmosApp;
 ```
 
+## try it out!
+
+<WalletSection walletNames={walletNames}/>
 

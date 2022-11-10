@@ -6,7 +6,6 @@ import { Key } from '@keplr-wallet/types';
 export interface LeapSignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
-
   readonly disableBalanceCheck?: boolean;
 }
 

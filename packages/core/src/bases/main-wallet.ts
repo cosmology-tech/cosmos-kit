@@ -8,7 +8,6 @@ import {
   SessionOptions,
   State,
   Wallet,
-  WalletClient,
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
@@ -28,6 +27,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.chainWallets?.forEach((chainWallet) => {
       chainWallet.client = this.client;
       chainWallet.clientPromise = this.clientPromise;
+      chainWallet.fetchClient = this.fetchClient;
     });
   }
 
@@ -91,9 +91,4 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.reset();
     callbacks?.disconnect?.();
   }
-
-  abstract fetchClient():
-    | WalletClient
-    | undefined
-    | Promise<WalletClient | undefined>;
 }

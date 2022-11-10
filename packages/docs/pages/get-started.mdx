@@ -1,12 +1,18 @@
 # How to use Cosmos Kit
 
-## 1️⃣ Install dependecies
+## Quickstart
+
+🏁 Get started quickly by using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) to help you build high-quality Cosmos apps fast!
+
+## Use Cosmos Kit from Scratch
+
+### 1️⃣ Install Dependencies
 
 ```sh
 yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
-## 2️⃣ Wrap Provider
+### 2️⃣ Wrap Provider
 
 First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
 
@@ -33,7 +39,7 @@ function CosmosApp() {
 }
 ```
 
-## 3️⃣ Consume with Hook
+### 3️⃣ Consume with Hook
 
 Consume `WalletProvider` with the `useWallet` hook. It returns `WalletMananger` object, which provides wallet properties and functions.
 
