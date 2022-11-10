@@ -70,6 +70,7 @@ export class WalletManager extends StateBase<WalletData> {
   ) {
     super();
     this.setWallets(wallets);
+    this._activeWallets = wallets;
     this.setChainRecords(chains, assetLists, signerOptions, endpointOptions);
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };

@@ -24,6 +24,7 @@ import {
   State,
   Wallet,
   WalletAccount,
+  WalletClient,
 } from '../types';
 import { isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
@@ -92,6 +93,13 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
 
   get offlineSigner(): OfflineSigner | undefined {
     return this.data?.offlineSigner;
+  }
+
+  fetchClient(): WalletClient | Promise<WalletClient | undefined> | undefined {
+    console.warn(
+      'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
+    );
+    return void 0;
   }
 
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
