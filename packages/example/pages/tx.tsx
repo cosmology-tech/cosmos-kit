@@ -29,7 +29,7 @@ const library = {
 
 const sendTokens = (
   getSigningStargateClient: () => Promise<SigningStargateClient>,
-  setResp: () => any,
+  setResp: (resp: string) => any,
   address: string
 ) => {
   return async () => {
