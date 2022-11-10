@@ -1,4 +1,3 @@
-import { useWallet } from '@cosmos-kit/react';
 import {
   Box,
   Center,
@@ -8,11 +7,12 @@ import {
   Stack,
   useColorModeValue
 } from '@chakra-ui/react';
-import { MouseEventHandler, useEffect, useMemo } from 'react';
+import { useWallet } from '@cosmos-kit/react';
+import { MouseEventHandler, useMemo } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
+
 import {
   Astronaut,
-  Error,
   ChainOption,
   ChooseChain,
   Connected,
@@ -22,15 +22,15 @@ import {
   ConnectStatusWarn,
   CopyAddressBtn,
   Disconnected,
+  Error,
   handleSelectChainDropdown,
   NotExist,
   Rejected,
   RejectedWarn,
   WalletConnectComponent
-} from '.';
-import { WalletName } from '@cosmos-kit/core';
+} from '../components';
 
-export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) => {
+export const WalletSection = () => {
   const walletManager = useWallet();
   const {
     connect,
@@ -43,17 +43,8 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
     currentWallet,
     chainRecords,
     getChainLogo,
-    setCurrentChain,
-    setCurrentWallet
+    setCurrentChain
   } = walletManager;
-
-  useEffect(() => {
-    walletManager.setActiveWalletNames(walletNames);
-    setCurrentWallet(undefined);
-    if (!currentChainName) {
-      setCurrentChain('cosmoshub');
-    }
-  }, []);
 
   const chainOptions = useMemo(
     () =>
@@ -125,7 +116,7 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
   const chooseChain = (
     <ChooseChain
       chainName={currentChainName}
-      chainInfos={chainOptions}
+      chainOptions={chainOptions}
       onChange={onChainChange}
     />
   );
@@ -151,7 +142,7 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
         justifyContent="center"
       >
         <GridItem>{chooseChain}</GridItem>
-        {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
+        <GridItem>{connectWalletWarn}</GridItem>
         <GridItem px={6}>
           <Stack
             justifyContent="center"

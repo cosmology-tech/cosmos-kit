@@ -1,5 +1,10 @@
-import { MouseEventHandler, ReactNode, RefObject } from "react";
-import { IconType } from "react-icons";
+import { MouseEventHandler, ReactNode, RefObject } from 'react';
+import { IconType } from 'react-icons';
+
+export interface ChainCardProps {
+  prettyName: string;
+  icon?: string;
+}
 
 export interface ConnectWalletType {
   buttonText?: string;

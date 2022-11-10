@@ -137,10 +137,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         }, sessionOptions?.duration);
       }
     } catch (e) {
-      if (
-        this.walletInfo.rejectMessage &&
-        (e as Error).message === this.walletInfo.rejectMessage?.source
-      ) {
+      if (this.rejectMatched(e as Error)) {
         this.setRejected();
       } else {
         this.setError(e as Error);

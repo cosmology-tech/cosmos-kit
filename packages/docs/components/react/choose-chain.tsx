@@ -1,32 +1,31 @@
-import { useEffect,useState } from 'react';
-
-import {
-  ChainOption,
-  ChooseChainInfo,
-  handleSelectChainDropdown,
-} from '../types';
+import { useState, useEffect } from 'react';
 import { ChangeChainDropdown } from './chain-dropdown';
+import {
+  ChooseChainInfo,
+  ChainOption,
+  handleSelectChainDropdown
+} from '../types';
 
 export function ChooseChain({
   chainName,
-  chainOptions,
-  onChange,
+  chainInfos,
+  onChange
 }: {
   chainName?: string;
-  chainOptions: ChooseChainInfo[];
+  chainInfos: ChooseChainInfo[];
   onChange: handleSelectChainDropdown;
 }) {
   const [selectedItem, setSelectedItem] = useState<ChainOption | undefined>();
   useEffect(() => {
-    if (chainName && chainOptions.length > 0)
+    if (chainName && chainInfos.length > 0)
       setSelectedItem(
-        chainOptions.filter((options) => options.chainName === chainName)[0]
+        chainInfos.filter((options) => options.chainName === chainName)[0]
       );
     if (!chainName) setSelectedItem(undefined);
-  }, [chainName, chainOptions]);
+  }, [chainInfos, chainName]);
   return (
     <ChangeChainDropdown
-      data={chainOptions}
+      data={chainInfos}
       selectedItem={selectedItem}
       onChange={onChange}
     />

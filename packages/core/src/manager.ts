@@ -70,7 +70,7 @@ export class WalletManager extends StateBase<WalletData> {
   ) {
     super();
     this.setWallets(wallets);
-    this._activeWallets = wallets;
+    this.setActiveWalletNames();
     this.setChainRecords(chains, assetLists, signerOptions, endpointOptions);
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
@@ -109,10 +109,14 @@ export class WalletManager extends StateBase<WalletData> {
     });
   };
 
-  setActiveWalletNames = (walletNames: WalletName[]) => {
-    this._activeWallets = this._totalWallets.filter((wallet) =>
-      walletNames.includes(wallet.walletName)
-    );
+  setActiveWalletNames = (walletNames?: WalletName[]) => {
+    if (walletNames) {
+      this._activeWallets = this._totalWallets.filter((wallet) =>
+        walletNames.includes(wallet.walletName)
+      );
+    } else {
+      this._activeWallets = this._totalWallets;
+    }
   };
 
   get wallets() {

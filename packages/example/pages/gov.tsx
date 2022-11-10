@@ -1,6 +1,7 @@
-import { Button } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useWallet } from "@cosmos-kit/react";
+/* eslint-disable no-alert */
+import { Button, Center } from '@chakra-ui/react';
+import { useWallet } from '@cosmos-kit/react';
+import { useEffect } from 'react';
 
 
 const Test = () => {
@@ -23,27 +24,30 @@ const Test = () => {
             typeUrl: '/cosmos.gov.v1beta1.MsgVote',
             value: {
                 voter: address,
-                proposalId: "350",
-                option: 1
+                proposalId: '360',
+                option: 2
             }
         });
 
-        // const fee = {
-        //     amount: [{
-        //         denom: 'uosmo',
-        //         amount: '0',
-        //     }],
-        //     gas: '200000',
-        // }
+        const fee = {
+            amount: [{
+                denom: 'uosmo',
+                amount: '0',
+            }],
+            gas: '200000',
+        }
 
-        const res = await signAndBroadcast(voteMessages);
-        console.log(111, res)
+        const res = await signAndBroadcast(voteMessages, fee);
+
+        if (res) {
+            alert('Voted successfully!');
+        }
     }
 
     return (
-        <div>
+        <Center mb={16} my={24}>
             <Button onClick={onClick}>Vote</Button>
-        </div>
+        </Center>
     )
 }
 

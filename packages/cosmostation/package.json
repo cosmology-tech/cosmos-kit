@@ -91,6 +91,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "@chain-registry/cosmostation": "1.7.0",
     "@chain-registry/keplr": "1.5.0",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
@@ -109,5 +110,6 @@
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
-  }
+  },
+  "gitHead": "d45131a1a1f7fa4bb5f650fcdeff7cd10121e127"
 }

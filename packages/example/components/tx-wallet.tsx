@@ -1,4 +1,3 @@
-import { useWallet } from '@cosmos-kit/react';
 import {
   Box,
   Center,
@@ -6,15 +5,15 @@ import {
   GridItem,
   Icon,
   Stack,
-  useColorModeValue
-} from '@chakra-ui/react';
-import { MouseEventHandler, useEffect, useMemo } from 'react';
+  useColorModeValue} from '@chakra-ui/react';
+import { ChainName } from '@cosmos-kit/core';
+import { useWallet } from '@cosmos-kit/react';
+import { MouseEventHandler, useEffect } from 'react';
 import { FiAlertTriangle } from 'react-icons/fi';
+
 import {
   Astronaut,
-  Error,
-  ChainOption,
-  ChooseChain,
+  ChainCard,
   Connected,
   ConnectedShowAddress,
   ConnectedUserInfo,
@@ -22,15 +21,14 @@ import {
   ConnectStatusWarn,
   CopyAddressBtn,
   Disconnected,
-  handleSelectChainDropdown,
+  Error,
   NotExist,
   Rejected,
   RejectedWarn,
-  WalletConnectComponent
-} from '.';
-import { WalletName } from '@cosmos-kit/core';
+  WalletConnectComponent} from '.';
 
-export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) => {
+
+export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
   const walletManager = useWallet();
   const {
     connect,
@@ -41,32 +39,21 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
     message,
     currentChainName,
     currentWallet,
-    chainRecords,
+    currentChainRecord,
     getChainLogo,
-    setCurrentChain,
-    setCurrentWallet
+    setCurrentChain
   } = walletManager;
 
   useEffect(() => {
-    walletManager.setActiveWalletNames(walletNames);
-    setCurrentWallet(undefined);
-    if (!currentChainName) {
-      setCurrentChain('cosmoshub');
-    }
-  }, []);
+    setCurrentChain(chainName);
+  }, [setCurrentChain]);
 
-  const chainOptions = useMemo(
-    () =>
-      chainRecords.map((chainRecord) => {
-        return {
-          chainName: chainRecord?.name,
-          label: chainRecord?.chain.pretty_name,
-          value: chainRecord?.name,
-          icon: getChainLogo(chainRecord.name)
-        };
-      }),
-    [chainRecords, getChainLogo]
-  );
+  const chain = {
+    chainName: currentChainName,
+    label: currentChainRecord?.chain.pretty_name,
+    value: currentChainName,
+    icon: getChainLogo(currentChainName)
+  }
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -77,13 +64,6 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
   const onClickOpenView: MouseEventHandler = (e) => {
     e.preventDefault();
     openView();
-  };
-
-  const onChainChange: handleSelectChainDropdown = async (
-    selectedValue: ChainOption | null
-  ) => {
-    setCurrentChain(selectedValue?.chainName);
-    await connect();
   };
 
   // Components
@@ -122,13 +102,6 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
       }
     />
   );
-  const chooseChain = (
-    <ChooseChain
-      chainName={currentChainName}
-      chainInfos={chainOptions}
-      onChange={onChainChange}
-    />
-  );
 
   const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
@@ -150,8 +123,14 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
         alignItems="center"
         justifyContent="center"
       >
-        <GridItem>{chooseChain}</GridItem>
-        {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
+        {currentChainName && (
+          <GridItem marginBottom={'20px'}>
+            <ChainCard
+              prettyName={chain?.label || currentChainName}
+              icon={chain?.icon}
+            />
+          </GridItem>
+        )}
         <GridItem px={6}>
           <Stack
             justifyContent="center"
@@ -171,6 +150,7 @@ export const WalletSection = ({ walletNames }: { walletNames?: WalletName[] }) =
             <Box w="full" maxW={{ base: 52, md: 64 }}>
               {connectWalletButton}
             </Box>
+            <GridItem>{connectWalletWarn}</GridItem>
           </Stack>
         </GridItem>
       </Grid>

@@ -58,7 +58,6 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
   useEffect(() => {
     const appUrl = currentWallet?.appUrl;
     if (appUrl) {
-      // window.open(appUrl, '_self');
       window.location.href = appUrl;
     }
   }, [currentWallet?.appUrl]);

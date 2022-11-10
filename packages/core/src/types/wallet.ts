@@ -46,10 +46,13 @@ export interface Wallet {
   prettyName: string;
   mode: WalletMode;
   mobileDisabled: boolean;
-  rejectMessage?: {
-    source: string; // message from wallet app
-    target?: string; // message stored in walletManager, default 'Request Rejected!'
-  };
+  rejectMessage?:
+    | {
+        source: string; // message from wallet app
+        target?: string; // message stored in walletManager, default 'Request Rejected!'
+      }
+    | string; // message from wallet app
+  rejectCode?: number; // code from wallet app
   connectEventNames?: string[];
   downloads?: Downloads;
   logo?: string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import {
   AppEnv,
@@ -33,6 +34,25 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
 
   get walletPrettyName() {
     return this.walletInfo.prettyName;
+  }
+
+  get rejectMessage() {
+    if (typeof this.walletInfo.rejectMessage === 'string') {
+      return this.walletInfo.rejectMessage;
+    } else {
+      return this.walletInfo.rejectMessage?.source;
+    }
+  }
+
+  get rejectCode() {
+    return this.walletInfo.rejectCode;
+  }
+
+  rejectMatched(e: Error) {
+    return (
+      (this.rejectMessage && e.message === this.rejectMessage) ||
+      (this.rejectCode && (e as any).code === this.rejectCode)
+    );
   }
 
   get appUrl(): string | undefined {

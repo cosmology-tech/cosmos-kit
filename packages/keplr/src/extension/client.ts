@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { Algo } from '@cosmjs/proto-signing';
 import { ChainRecord, WalletClient } from '@cosmos-kit/core';

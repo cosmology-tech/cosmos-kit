@@ -33,7 +33,8 @@ export const cosmostationExtensionInfo: Wallet = {
   rejectMessage: {
     source:
       'The requested account and/or method has not been authorized by the user.',
-    target:
-      'The requested account and/or method has not been authorized by the user. \n Open Extension/App to authorize this site before retrying.',
+    // target:
+    //   'The requested account and/or method has not been authorized by the user. \n Open Extension/App to authorize this site before retrying.',
   },
+  rejectCode: 4001,
 };
