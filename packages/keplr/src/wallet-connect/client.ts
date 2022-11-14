@@ -14,12 +14,16 @@ import deepmerge from 'deepmerge';
 import { KeplrAccount } from './types';
 
 export class KeplrClient implements WalletConnectClient {
-  readonly connector: IConnector;
   defaultOptions: KeplrIntereactionOptions = {};
+  readonly connector: IConnector;
 
   constructor() {
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org',
+      signingMethods: [
+        'keplr_enable_wallet_connect_v1',
+        'keplr_sign_amino_wallet_connect_v1',
+      ],
     });
   }
 
@@ -27,7 +31,7 @@ export class KeplrClient implements WalletConnectClient {
     return this.connector.uri;
   }
 
-  getAppUrl(os: OS) {
+  getAppUrl(os?: OS) {
     switch (os) {
       case 'android':
         saveMobileLinkInfo({

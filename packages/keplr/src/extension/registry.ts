@@ -1,7 +1,7 @@
 import { Wallet } from '@cosmos-kit/core';
-import { FaAndroid } from 'react-icons/fa';
+import { GoDesktopDownload } from 'react-icons/go';
 import { GrFirefox } from 'react-icons/gr';
-import { RiAppStoreFill, RiChromeFill } from 'react-icons/ri';
+import { RiChromeFill } from 'react-icons/ri';
 
 export const keplrExtensionInfo: Wallet = {
   name: 'keplr-extension',
@@ -13,43 +13,22 @@ export const keplrExtensionInfo: Wallet = {
     source: 'Request rejected',
   },
   connectEventNames: ['keplr_keystorechange'],
-  downloads: {
-    desktop: [
-      {
-        browser: 'chrome',
-        icon: RiChromeFill,
-        link: 'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
-      },
-      {
-        browser: 'firefox',
-        icon: GrFirefox,
-        link: 'https://addons.mozilla.org/en-US/firefox/addon/keplr/',
-      },
-    ],
-    tablet: [
-      {
-        os: 'android',
-        icon: FaAndroid,
-        link: 'https://addons.mozilla.org/en-US/firefox/addon/keplr/',
-      },
-      {
-        os: 'ios',
-        icon: RiAppStoreFill,
-        link: 'https://addons.mozilla.org/en-US/firefox/addon/keplr/',
-      },
-    ],
-    mobile: [
-      {
-        os: 'android',
-        icon: FaAndroid,
-        link: 'https://addons.mozilla.org/en-US/firefox/addon/keplr/',
-      },
-      {
-        os: 'ios',
-        icon: RiAppStoreFill,
-        link: 'https://addons.mozilla.org/en-US/firefox/addon/keplr/',
-      },
-    ],
-    default: 'https://www.keplr.app/download',
-  },
+  downloads: [
+    {
+      device: 'desktop',
+      browser: 'chrome',
+      icon: RiChromeFill,
+      link: 'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
+    },
+    {
+      device: 'desktop',
+      browser: 'firefox',
+      icon: GrFirefox,
+      link: 'https://addons.mozilla.org/en-US/firefox/addon/keplr/',
+    },
+    {
+      icon: GoDesktopDownload,
+      link: 'https://www.keplr.app/download',
+    },
+  ],
 };

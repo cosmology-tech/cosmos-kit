@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
 import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { WalletStatus } from "@cosmos-kit/core";
+import React, { ReactNode } from "react";
 
 export const WarnBlock = ({
   wordOfWarning,

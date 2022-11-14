@@ -93,6 +93,7 @@ export const SimpleDisplayModalContent = ({
   walletIcon,
   addressButton,
   bottomButton,
+  bottomLink,
 }: ConnectModalContentType) => {
   const { colorMode } = useColorMode();
   const Style = {
@@ -204,6 +205,11 @@ export const SimpleDisplayModalContent = ({
         {bottomButton && (
           <Box w="full" pt={addressButton ? 4 : 4}>
             {bottomButton}
+          </Box>
+        )}
+        {bottomLink && (
+          <Box w="full" pt={addressButton ? 4 : 4}>
+            {bottomLink}
           </Box>
         )}
       </Flex>

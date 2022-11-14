@@ -1,26 +1,27 @@
-import React from "react";
 import {
   Box,
-  Text,
-  Stack,
-  useColorModeValue,
-  Image,
   Icon,
-  useBreakpointValue,
-  SystemStyleObject,
-  SkeletonCircle,
+  Image,
   Skeleton,
+  SkeletonCircle,
+  Stack,
+  SystemStyleObject,
+  Text,
+  useBreakpointValue,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { Searcher } from "fast-fuzzy";
-import { FiChevronDown } from "react-icons/fi";
 import {
   AsyncSelect,
-  OptionProps,
   chakraComponents,
-  GroupBase,
   DropdownIndicatorProps,
+  GroupBase,
+  OptionProps,
   PlaceholderProps,
 } from "chakra-react-select";
+import { Searcher } from "fast-fuzzy";
+import React from "react";
+import { FiChevronDown } from "react-icons/fi";
+
 import {
   ChainOption,
   ChangeChainDropdownType,

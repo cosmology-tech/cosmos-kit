@@ -1,13 +1,13 @@
-import React, { ReactNode } from "react";
 import {
-  Text,
-  useColorModeValue,
   Button,
   Icon,
+  Text,
   useClipboard,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { FaRegCopy } from "react-icons/fa";
 import { WalletStatus } from "@cosmos-kit/core";
+import React, { ReactNode } from "react";
+import { FaRegCopy } from "react-icons/fa";
 
 export const ConnectedShowAddress = ({
   address,

@@ -293,6 +293,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     } else {
       usedFee = fee;
     }
+
     return await client.sign(this.address, messages, usedFee, memo || '');
   };
 

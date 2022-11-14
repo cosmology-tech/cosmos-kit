@@ -1,15 +1,16 @@
-import type { AppProps } from 'next/app';
-import { WalletProvider } from '@cosmos-kit/react';
-import { ChakraProvider } from '@chakra-ui/react';
-import { assets, chains } from 'chain-registry';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Chain } from '@chain-registry/types';
-import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as keplrWallet } from '@cosmos-kit/keplr';
-import { wallets as leapwallets } from "@cosmos-kit/leap";
+import { ChakraProvider } from '@chakra-ui/react';
+import { Decimal } from '@cosmjs/math';
 import { GasPrice } from '@cosmjs/stargate';
-import { Decimal } from "@cosmjs/math";
+import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
+import { wallets as keplrWallet } from '@cosmos-kit/keplr';
+import { wallets as leapwallets } from '@cosmos-kit/leap';
+import { WalletProvider } from '@cosmos-kit/react';
+import { assets, chains } from 'chain-registry';
+import type { AppProps } from 'next/app';
 
-import { defaultTheme } from '../config';
+import { defaultTheme } from '../theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -33,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
         endpointOptions={{
           somechainname: {
-            rpc: ["http://test.com"],
+            rpc: ['http://test.com'],
           },
         }}
       >

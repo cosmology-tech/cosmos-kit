@@ -1,13 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import { Box, Icon } from '@chakra-ui/react';
-import {
-  DownloadInfo,
-  Downloads,
-  WalletManager,
-  WalletStatus,
-} from '@cosmos-kit/core';
-import React, { RefObject } from 'react';
+import { Box, Button, Icon, Text } from '@chakra-ui/react';
+import { WalletManager, WalletStatus } from '@cosmos-kit/core';
+import React, { ReactNode, RefObject } from 'react';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiDoorOpenFill } from 'react-icons/ri';
@@ -23,21 +19,21 @@ import {
   SimpleModalHead as ModalHead,
   SimpleQRCode as QRCode,
 } from './components';
-import { UserDeviceInfoType, WalletInfoType } from './components/types';
+import { WalletInfoType } from './components/types';
 
-interface ModalInfo {
-  [k: string]: {
+type ModalInfo = {
+  [k in WalletStatus]: {
     logoStatus?: LogoStatus;
     header?: string;
     desc?: string;
     buttonText?: string;
     onClick?: () => void;
     icon?: IconType | JSX.Element;
+    bottomLink?: ReactNode;
   };
-}
+};
 
 export const getModal = (
-  userAgent: UserDeviceInfoType | undefined,
   walletManager: WalletManager,
   modalIsReset: boolean,
   resetModal: (v: boolean) => void,
@@ -52,7 +48,7 @@ export const getModal = (
     address,
     username,
     message,
-    env,
+    isMobile,
     setCurrentWallet,
     connect,
     disconnect,
@@ -132,18 +128,9 @@ export const getModal = (
   /*   selected wallet: modal content   */
   /* ================================== */
 
-  const appType = env?.isMobile ? 'App' : 'Extension';
-  const downloadInfo: DownloadInfo | undefined = userAgent?.device
-    ? (
-        walletInfo.downloads?.[
-          userAgent?.device as keyof Downloads
-        ] as DownloadInfo[]
-      )?.find(
-        (info) =>
-          info.browser === userAgent?.browser || info.os === userAgent?.os
-      )
-    : undefined;
-  const link = downloadInfo?.link || walletInfo.downloads?.default;
+  const { downloadInfo } = wallet;
+
+  const appType = isMobile ? 'App' : 'Extension';
 
   async function handleDisconnect() {
     console.info('Disconnecting');
@@ -159,24 +146,45 @@ export const getModal = (
     resetModal(true);
   }
 
+  function handleOpenApp() {
+    if (wallet!.appUrl) {
+      window.location.href = wallet!.appUrl;
+    }
+  }
+
+  function handleOpenDownload() {
+    if (downloadInfo) {
+      window.open(downloadInfo?.link, '_blank');
+    }
+  }
+
   const modalInfo: ModalInfo = {
     NotExist: {
       logoStatus: LogoStatus.Error,
       header: `${appType} Not Installed`,
       buttonText: `Install ${appType}`,
-      desc: link
-        ? void 0
+      desc: downloadInfo?.link
+        ? `If wallet ${appType.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
         : `Install link not provided. Try searching it or consulting the developer team.`,
-      onClick: () => {
-        window.open(link, '_blank');
-      },
+      onClick: handleOpenDownload,
       icon: downloadInfo?.icon || GoDesktopDownload,
     },
     Disconnected: {
       logoStatus: LogoStatus.Warning,
-      header: 'Wallet is Disconnected',
-      buttonText: 'Connect Wallet',
-      onClick: handleConnect,
+      header: isMobile ? 'Wallet Authorization' : 'Wallet is Disconnected',
+      desc: isMobile ? 'Approve connection in wallet app' : void 0,
+      buttonText: isMobile ? 'Open App' : 'Connect Wallet',
+      onClick: isMobile ? handleOpenApp : handleConnect,
+      bottomLink:
+        isMobile && downloadInfo ? (
+          <Button variant="link" onClick={handleOpenDownload}>
+            <Text as="u" fontSize="sm">
+              don't have a wallet?
+            </Text>
+          </Button>
+        ) : (
+          void 0
+        ),
     },
     Connected: {
       buttonText: 'Disconnect',
@@ -186,15 +194,14 @@ export const getModal = (
     Connecting: {
       logoStatus: LogoStatus.Loading,
       header: 'Requesting Connection',
-      desc: wallet?.qrUrl
+      desc: wallet.qrUrl
         ? `Approve ${displayName} connection request on your mobile.`
         : `Open the ${displayName} extension to connect your wallet.`,
     },
     Rejected: {
       logoStatus: LogoStatus.Error,
       header: 'Request Rejected',
-      desc:
-        walletInfo.rejectMessage?.target || 'Connection permission is denied.',
+      desc: wallet.rejectMessageTarget || 'Connection permission is denied.',
       buttonText: 'Reconnect',
       onClick: handleConnect,
     },
@@ -218,7 +225,7 @@ export const getModal = (
             icon={info.icon as IconType}
             text={info.buttonText}
             onClick={info.onClick}
-            disabled={link ? false : true}
+            disabled={downloadInfo?.link ? false : true}
           />
         );
       default:
@@ -256,16 +263,18 @@ export const getModal = (
         />
       );
     }
-    if (status === WalletStatus.Disconnected && wallet?.qrUrl) {
-      // console.log(wallet.appUrl);
-      if (!env?.isMobile || (env?.isMobile && !wallet.appUrl)) {
-        return (
-          <QRCode
-            link={wallet?.qrUrl}
-            description={`Open ${displayName} App to Scan`}
-          />
-        );
-      }
+
+    if (
+      status === WalletStatus.Disconnected &&
+      walletInfo.mode === 'wallet-connect' &&
+      (!isMobile || (isMobile && !wallet!.appUrl))
+    ) {
+      return (
+        <QRCode
+          link={wallet!.qrUrl!}
+          description={`Open ${displayName} App to Scan`}
+        />
+      );
     }
 
     const info = modalInfo[status];
@@ -277,6 +286,7 @@ export const getModal = (
         contentHeader={info.header}
         contentDesc={info.desc}
         bottomButton={getBottomButtonByStatus(status)}
+        bottomLink={info.bottomLink}
       />
     );
   }

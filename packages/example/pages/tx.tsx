@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { Asset,AssetList } from '@chain-registry/types';
 import { Center, Container } from '@chakra-ui/react';
 import { StdFee } from '@cosmjs/amino';
@@ -61,8 +62,12 @@ const sendTokens = (
       ],
       gas: '86364',
     };
-    const response = await stargateClient.signAndBroadcast(address, [msg], fee);
-    setResp(JSON.stringify(response, null, 2));
+    try {
+      const response = await stargateClient.signAndBroadcast(address, [msg], fee);
+      setResp(JSON.stringify(response, null, 2));
+    } catch (error) {
+      alert(`Error! ${(error as Error).message}`)
+    }
   };
 };
 

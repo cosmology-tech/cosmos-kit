@@ -25,6 +25,7 @@
     "simple-import-sort/imports": 2,
     "simple-import-sort/exports": 2,
     // "prettier/prettier": 2,
+    "quotes": "off",
     "unused-imports/no-unused-imports": 2,
     "no-console": 1,
     "no-debugger": 2,
@@ -59,14 +60,14 @@
     ],
     "comma-dangle": 0,
     "jsx-quotes": [2, "prefer-double"],
-    "linebreak-style": ["error", "unix"],
-    "quotes": [
-      2,
-      "single",
-      {
-        "avoidEscape": true,
-        "allowTemplateLiterals": true
-      }
-    ]
+    "linebreak-style": ["error", "unix"]
+    // "quotes": [
+    //   2,
+    //   "single",
+    //   {
+    //     "avoidEscape": true,
+    //     "allowTemplateLiterals": true
+    //   }
+    // ]
   }
 }

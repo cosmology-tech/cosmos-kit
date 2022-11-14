@@ -2,25 +2,7 @@
 
 ## Customizing Wallet Info
 
-The simplest way to import wallets in `WalletProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`, and the `Wallet` here is from `import { Wallet } from '@cosmos-kit/core';`.
-
-```ts
-export interface Wallet {
-  name: WalletName;
-  prettyName: string;
-  mode: WalletMode;
-  mobileDisabled: boolean;
-  rejectMessage?: string;
-  connectEventNames?: string[];
-  downloads?: {
-    default: string;
-    desktop?: DownloadInfo[];
-    tablet?: DownloadInfo[];
-    mobile?: DownloadInfo[];
-  };
-  logo?: string;
-}
-```
+The simplest way to import wallets in `WalletProvider` is `import { wallets } from '@cosmos-kit/keplr';`. `wallets` is of type `Wallet[]`.
 
 To define your own wallet info, such as icon, app name, as well as other props, you can construct wallets as follows.
 

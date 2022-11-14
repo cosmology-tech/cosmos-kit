@@ -17,6 +17,10 @@ export class CosmostationClient implements WalletConnectClient {
   constructor() {
     this.connector = new WalletConnect({
       bridge: 'https://bridge.walletconnect.org',
+      signingMethods: [
+        'cosmostation_wc_accounts_v1',
+        'cosmostation_wc_sign_tx_v1',
+      ],
     });
   }
 
@@ -24,7 +28,7 @@ export class CosmostationClient implements WalletConnectClient {
     return this.connector.uri;
   }
 
-  getAppUrl(os: OS) {
+  getAppUrl(os?: OS) {
     switch (os) {
       case 'android':
         saveMobileLinkInfo({
@@ -41,19 +45,6 @@ export class CosmostationClient implements WalletConnectClient {
       default:
         return void 0;
     }
-  }
-
-  async enable(chainIds: string | string[]) {
-    if (typeof chainIds === 'string') {
-      chainIds = [chainIds];
-    }
-
-    await this.connector.sendCustomRequest({
-      id: payloadId(),
-      jsonrpc: '2.0',
-      method: 'keplr_enable_wallet_connect_v1',
-      params: chainIds,
-    });
   }
 
   async getAccount(chainId: string) {

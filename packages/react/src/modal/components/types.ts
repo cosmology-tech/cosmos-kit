@@ -152,6 +152,7 @@ export type ConnectModalContentType = {
   contentDesc?: string;
   addressButton?: ReactNode;
   bottomButton?: ReactNode;
+  bottomLink?: ReactNode;
 };
 export type DownloadWalletButtonType = {
   size?: string;

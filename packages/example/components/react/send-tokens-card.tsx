@@ -1,20 +1,14 @@
-import React, { MouseEventHandler, ReactNode } from "react";
 import {
   Box,
   Button,
   Center,
-  Flex,
   Heading,
-  Icon,
-  Spinner,
   Stack,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
+import React from "react";
 
-import { WalletStatus } from "@cosmos-kit/core";
-
-import { ConnectWalletType } from "../types";
 import { handleChangeColorModeValue } from "./handleChangeColor";
 
 export const SendTokensCard = ({

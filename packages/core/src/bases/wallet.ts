@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import {
-  AppEnv,
   Callbacks,
+  DownloadInfo,
   SessionOptions,
   State,
   Wallet,
@@ -15,7 +15,6 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   clientPromise?: WalletClient | Promise<WalletClient | undefined>;
   client?: WalletClient;
   protected _walletInfo: Wallet;
-  protected _env?: AppEnv;
   protected _appUrl?: string;
   protected _qrUrl?: string;
 
@@ -28,6 +27,26 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._walletInfo;
   }
 
+  get downloadInfo(): DownloadInfo | undefined {
+    let downloads: DownloadInfo[] = this.walletInfo.downloads || [];
+
+    downloads = downloads.filter((d) => d.device === this.env?.device);
+
+    if (downloads.length === 1) {
+      return downloads[0];
+    }
+
+    downloads = downloads.filter((d) => d.os === this.env?.os);
+
+    if (downloads.length === 1) {
+      return downloads[0];
+    }
+
+    downloads = downloads.filter((d) => d.browser === this.env?.browser);
+
+    return downloads[0];
+  }
+
   get walletName() {
     return this.walletInfo.name;
   }
@@ -36,11 +55,19 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this.walletInfo.prettyName;
   }
 
-  get rejectMessage() {
+  get rejectMessageSource() {
     if (typeof this.walletInfo.rejectMessage === 'string') {
       return this.walletInfo.rejectMessage;
     } else {
       return this.walletInfo.rejectMessage?.source;
+    }
+  }
+
+  get rejectMessageTarget() {
+    if (typeof this.walletInfo.rejectMessage === 'string') {
+      return void 0;
+    } else {
+      return this.walletInfo.rejectMessage?.target;
     }
   }
 
@@ -50,7 +77,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
 
   rejectMatched(e: Error) {
     return (
-      (this.rejectMessage && e.message === this.rejectMessage) ||
+      (this.rejectMessageSource && e.message === this.rejectMessageSource) ||
       (this.rejectCode && (e as any).code === this.rejectCode)
     );
   }
@@ -61,14 +88,6 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
 
   get qrUrl(): string | undefined {
     return this._qrUrl;
-  }
-
-  get env() {
-    return this._env;
-  }
-
-  setEnv(env?: AppEnv) {
-    this._env = env;
   }
 
   disconnect(callbacks?: Callbacks) {
@@ -95,7 +114,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   }
 
   async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
-    if (this.env?.isMobile && this.walletInfo.mobileDisabled) {
+    if (this.isMobile && this.walletInfo.mobileDisabled) {
       this.setError(
         'This wallet is not supported on mobile, please use desktop browsers.'
       );

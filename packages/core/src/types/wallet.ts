@@ -12,7 +12,7 @@ import { IconType } from 'react-icons';
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainWalletConnect } from '../wallet-connect';
 import { ChainRecord } from './chain';
-import { Data, OS } from './common';
+import { AppEnv, Data, OS } from './common';
 
 export type WalletName = string;
 
@@ -25,18 +25,9 @@ export enum WalletStatus {
   Error = 'Error',
 }
 
-export interface DownloadInfo {
-  browser?: string;
-  os?: string;
+export interface DownloadInfo extends AppEnv {
   icon: IconType;
   link: string;
-}
-
-export interface Downloads {
-  default: string;
-  desktop?: DownloadInfo[];
-  tablet?: DownloadInfo[];
-  mobile?: DownloadInfo[];
 }
 
 export type WalletMode = 'extension' | 'wallet-connect';
@@ -54,7 +45,7 @@ export interface Wallet {
     | string; // message from wallet app
   rejectCode?: number; // code from wallet app
   connectEventNames?: string[];
-  downloads?: Downloads;
+  downloads?: DownloadInfo[];
   logo?: string;
 }
 
@@ -119,8 +110,8 @@ export interface WalletClient {
 }
 
 export interface WalletConnectClient extends WalletClient {
-  getAppUrl: (os: OS) => string | undefined;
   readonly connector: IConnector;
+  getAppUrl: (os?: OS) => string | undefined;
   readonly qrUrl: string;
 }
 

@@ -1,5 +1,6 @@
+import { Box,Stack, Text } from "@chakra-ui/react";
 import React from "react";
-import { Text, Stack, Box } from "@chakra-ui/react";
+
 import { ConnectedUserCardType } from "../types";
 
 export const ConnectedUserInfo = ({

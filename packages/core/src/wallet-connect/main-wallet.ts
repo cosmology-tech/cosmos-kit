@@ -53,10 +53,7 @@ export class WalletConnectWallet extends MainWalletBase {
   }
 
   get appUrl() {
-    if (!this.env?.os) {
-      return void 0;
-    }
-    return this.client?.getAppUrl(this.env.os);
+    return this.client?.getAppUrl(this.env?.os);
   }
 
   fetchClient() {
@@ -87,6 +84,9 @@ export class WalletConnectWallet extends MainWalletBase {
 
     if (!this.connector.connected) {
       this.connector.createSession();
+      if (window && this.appUrl) {
+        window.location.href = this.appUrl;
+      }
     } else {
       this.update(sessionOptions, callbacks);
     }

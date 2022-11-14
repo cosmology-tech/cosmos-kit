@@ -1,12 +1,25 @@
-import { Mutable, State, StateActions, WalletStatus } from '../types';
+import { AppEnv, Mutable, State, StateActions, WalletStatus } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
 export class StateBase<Data> {
   protected _mutable: Mutable<Data>;
   actions?: StateActions<Data>;
+  protected _env?: AppEnv;
 
   constructor() {
     this._mutable = { state: State.Init };
+  }
+
+  get env() {
+    return this._env;
+  }
+
+  setEnv(env?: AppEnv) {
+    this._env = env;
+  }
+
+  get isMobile() {
+    return this.env?.device === 'mobile';
   }
 
   get emitState() {

@@ -1,4 +1,5 @@
 import { Wallet } from '@cosmos-kit/core';
+import { GoDesktopDownload } from 'react-icons/go';
 import { RiChromeFill } from 'react-icons/ri';
 
 export const leapExtensionInfo: Wallet = {
@@ -10,15 +11,16 @@ export const leapExtensionInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
-  downloads: {
-    desktop: [
-      {
-        browser: 'chrome',
-        icon: RiChromeFill,
-        link: 'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
-      },
-    ],
-    default:
-      'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
-  },
+  downloads: [
+    {
+      device: 'desktop',
+      browser: 'chrome',
+      icon: RiChromeFill,
+      link: 'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
+    },
+    {
+      icon: GoDesktopDownload,
+      link: 'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
+    },
+  ],
 };

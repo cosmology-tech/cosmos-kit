@@ -1,4 +1,7 @@
 import { Wallet } from '@cosmos-kit/core';
+import { FaAndroid } from 'react-icons/fa';
+import { GoDesktopDownload } from 'react-icons/go';
+import { RiAppStoreFill } from 'react-icons/ri';
 
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',
@@ -9,5 +12,23 @@ export const keplrMobileInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
+  downloads: [
+    {
+      device: 'mobile',
+      os: 'android',
+      icon: FaAndroid,
+      link: 'https://play.google.com/store/apps/details?id=com.chainapsis.keplr&hl=en&gl=US&pli=1',
+    },
+    {
+      device: 'mobile',
+      os: 'ios',
+      icon: RiAppStoreFill,
+      link: 'https://apps.apple.com/us/app/keplr-wallet/id1567851089',
+    },
+    {
+      icon: GoDesktopDownload,
+      link: 'https://www.keplr.app/download',
+    },
+  ],
   connectEventNames: ['keplr_keystorechange'],
 };

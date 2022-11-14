@@ -10,18 +10,19 @@ import {
   StargateClient,
   StdFee,
 } from '@cosmjs/stargate';
-import { isAndroid, isMobile } from '@walletconnect/browser-utils';
+import Bowser from 'bowser';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
 import {
   Actions,
-  AppEnv,
   Callbacks,
   ChainName,
   ChainRecord,
+  DeviceType,
   EndpointOptions,
   ManagerActions,
+  OS,
   SessionOptions,
   SignerOptions,
   State,
@@ -41,7 +42,6 @@ export class WalletManager extends StateBase<WalletData> {
   private _activeWallets: MainWalletBase[] = [];
   private _totalWallets: MainWalletBase[] = [];
   private _chainRecords: ChainRecord[] = [];
-  env?: AppEnv;
   viewOptions: ViewOptions = {
     alwaysOpenView: false,
     closeViewWhenWalletIsConnected: false,
@@ -120,7 +120,7 @@ export class WalletManager extends StateBase<WalletData> {
   };
 
   get wallets() {
-    if (this.env?.isMobile) {
+    if (this.isMobile) {
       return this._activeWallets.filter(
         (wallet) => !wallet.walletInfo.mobileDisabled
       );
@@ -477,7 +477,6 @@ export class WalletManager extends StateBase<WalletData> {
 
   private _handleTabLoad = (event?: Event) => {
     event?.preventDefault();
-    console.log(22);
     this.connect();
   };
 
@@ -503,11 +502,12 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
 
-    const _isMobile = isMobile();
-    this.env = {
-      isMobile: _isMobile,
-      os: _isMobile ? (isAndroid() ? 'android' : 'ios') : void 0,
-    };
+    const parser = Bowser.getParser(window.navigator.userAgent);
+    this.setEnv({
+      browser: parser.getBrowserName(true),
+      device: (parser.getPlatform().type || 'desktop') as DeviceType,
+      os: parser.getOSName(true) as OS,
+    });
 
     if (this.useStorage) {
       const storeStr = window.localStorage.getItem('cosmos-kit');
