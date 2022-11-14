@@ -55,7 +55,11 @@
     "type": "git",
     "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
-  "keywords": [],
+  "keywords": [
+    "cosmos",
+    "keplr",
+    "wallet"
+  ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
@@ -122,6 +126,5 @@
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
-  },
-  "gitHead": "d45131a1a1f7fa4bb5f650fcdeff7cd10121e127"
+  }
 }
