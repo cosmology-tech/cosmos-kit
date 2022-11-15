@@ -121,5 +121,6 @@
     "@cosmjs/stargate": ">= 0.28",
     "react": "^18",
     "react-dom": "^18"
-  }
+  },
+  "gitHead": "b0795154b952bb2f1b7ade4c50b1f98460624388"
 }
