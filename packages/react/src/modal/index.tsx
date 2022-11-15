@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { ChakraProvider } from '@chakra-ui/react';
+import { ColorModeProvider } from '@chakra-ui/color-mode';
+import { ColorMode, ThemeProvider } from '@chakra-ui/react';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, { useRef } from 'react';
 import { ReactNode, useEffect, useState } from 'react';
@@ -43,15 +44,29 @@ export const DefaultModal = ({ isOpen, setOpen }: WalletModalProps) => {
     }
   }, [walletStatus, modalIsReset, isOpen, currentWallet?.qrUrl]);
 
+  const [mode, setMode] = useState<ColorMode>('light');
+
+  useEffect(() => {
+    setMode(window.localStorage.getItem('chakra-ui-color-mode') as ColorMode);
+  }, [isOpen]);
+
   return (
-    <ChakraProvider theme={defaultTheme}>
-      <ConnectModal
-        modalIsOpen={isOpen}
-        modalOnClose={handleClose}
-        modalHead={modalHead}
-        modalContent={modalContent}
-        initialRef={initialFocus}
-      />
-    </ChakraProvider>
+    <ThemeProvider theme={defaultTheme}>
+      <ColorModeProvider
+        value={mode}
+        options={{
+          useSystemColorMode: false,
+          initialColorMode: 'light',
+        }}
+      >
+        <ConnectModal
+          modalIsOpen={isOpen}
+          modalOnClose={handleClose}
+          modalHead={modalHead}
+          modalContent={modalContent}
+          initialRef={initialFocus}
+        />
+      </ColorModeProvider>
+    </ThemeProvider>
   );
 };
