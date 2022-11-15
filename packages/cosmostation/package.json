@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation",
-  "version": "0.9.1",
+  "version": "0.11.0",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -29,7 +29,6 @@
     "build:ts": "tsc --project ./tsconfig.json",
     "prepare": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
-    "watch": "cross-env NODE_ENV=development babel-watch src/index",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
     "test": "jest",
@@ -43,7 +42,11 @@
     "type": "git",
     "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
-  "keywords": [],
+  "keywords": [
+    "cosmos",
+    "cosmostation",
+    "wallet"
+  ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
@@ -72,9 +75,7 @@
     "@types/react-dom": "18.0.6",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
-    "babel-core": "7.0.0-bridge.0",
     "babel-jest": "29.0.3",
-    "babel-watch": "^7.0.0",
     "cross-env": "^7.0.2",
     "eslint": "8.23.1",
     "eslint-config-next": "12.3.1",
@@ -91,10 +92,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@chain-registry/cosmostation": "1.7.0",
+    "@chain-registry/cosmostation": "1.8.0",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.24.1",
+    "@cosmos-kit/core": "^0.25.1",
     "@cosmostation/cosmos-client": "0.0.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
@@ -109,6 +110,5 @@
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
-  },
-  "gitHead": "ce50648487e73c1f6f17777347df7984168381af"
+  }
 }

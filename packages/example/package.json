@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/example",
-  "version": "0.28.1",
+  "version": "0.30.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -15,13 +15,12 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@chain-registry/utils": "1.3.0",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.24.1",
-    "@cosmos-kit/cosmostation": "^0.9.1",
-    "@cosmos-kit/keplr": "^0.27.1",
-    "@cosmos-kit/leap": "^0.9.1",
-    "@cosmos-kit/react": "^0.23.1",
+    "@cosmos-kit/core": "^0.25.1",
+    "@cosmos-kit/cosmostation": "^0.11.0",
+    "@cosmos-kit/keplr": "^0.29.0",
+    "@cosmos-kit/leap": "^0.10.1",
+    "@cosmos-kit/react": "^0.24.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bignumber.js": "9.1.0",
