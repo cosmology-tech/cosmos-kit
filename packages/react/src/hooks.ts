@@ -7,7 +7,7 @@ export const useWallet = (): WalletManager => {
   const context = React.useContext(walletContext);
 
   if (!context || !context.walletManager) {
-    throw new Error('You have forgot to use WalletProvider');
+    throw new Error('You have forgot to use WalletProvider.');
   }
 
   return context.walletManager;
