@@ -149,11 +149,11 @@ import { wallets } from "@cosmos-kit/keplr";
 
 // construct signer options
 const signerOptions: SignerOptions = {
-  stargate: (chain: Chain) => {
+  signingStargate: (chain: Chain) => {
     // return corresponding stargate options or undefined
     return getSigningCosmosClientOptions();
   },
-  cosmwasm: (chain: Chain) => {
+  signingCosmWasm: (chain: Chain) => {
     // return corresponding cosmwasm options or undefined
     switch (chain.chain_name) {
       case 'osmosis':
@@ -245,8 +245,8 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletManager.wallets.map(({ name, prettyName }) => (
-            <Button
+          {walletManager.wallets.map(({ walletInfo: { name, prettyName } }) => (
+          <Button
               key={name}
               colorScheme="blue"
               variant="ghost"
