@@ -6,6 +6,7 @@ import { walletContext } from './provider';
 export const useWallet = (): WalletManager => {
   const context = React.useContext(walletContext);
 
+  // test-yarn
   if (!context || !context.walletManager) {
     throw new Error('You have forgot to use WalletProvider');
   }
