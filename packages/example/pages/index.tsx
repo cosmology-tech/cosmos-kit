@@ -4,6 +4,7 @@ import { BsFillMoonStarsFill, BsFillSunFill } from 'react-icons/bs';
 
 import { WalletSection } from '../components';
 
+
 export default function Home() {
 
   const { colorMode, toggleColorMode } = useColorMode();

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AssetList, Chain } from '@chain-registry/types';
+import { ColorMode, ColorModeProvider } from '@chakra-ui/react';
 import {
   ChainName,
   EndpointOptions,
@@ -13,6 +14,7 @@ import {
   WalletName,
 } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
+import { ThemeProvider } from '@emotion/react';
 import React, {
   createContext,
   ReactNode,
@@ -22,6 +24,29 @@ import React, {
 } from 'react';
 
 import { DefaultModal } from './modal';
+import { defaultTheme } from './modal/theme';
+
+const ModalChakraProvider = ({
+  mode,
+  children,
+}: {
+  mode: ColorMode;
+  children: ReactNode;
+}) => {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <ColorModeProvider
+        value={mode}
+        options={{
+          useSystemColorMode: false,
+          initialColorMode: 'light',
+        }}
+      >
+        {children}
+      </ColorModeProvider>
+    </ThemeProvider>
+  );
+};
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
