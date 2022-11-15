@@ -92,7 +92,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@chain-registry/cosmostation": "1.7.0",
+    "@chain-registry/cosmostation": "1.8.0",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
     "@cosmos-kit/core": "^0.25.1",

@@ -1245,19 +1245,20 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@chain-registry/cosmostation@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.7.0.tgz#9298924a10d97afb5edb59cb307775e2e8232f4b"
-  integrity sha512-Y+ZrEoSYggE1PVSTE4uyfZlrzsirX2t1blzGhoqg7rQ23ld6RjR4uEm1Hwm14kvc2Npm8b8uFBiKhCEqf5yv+g==
+"@chain-registry/cosmostation@1.8.0":
+  version "1.8.0"
+  resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.8.0.tgz#43c913f5e5bc51d21a449efdc74f8a639eae442c"
+  integrity sha512-WfJio/CN6cOWUgToVwW4oXOg6gqh37AImVG4AO1LZtOpVjHMgdCGfcXqy2rwlw9netIw2OouHQfjxo7GZapXSg==
   dependencies:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.13.1"
+    "@chain-registry/utils" "^1.3.0"
     "@cosmostation/extension-client" "0.1.11"
 
-"@chain-registry/keplr@1.6.0":
-  version "1.6.0"
-  resolved "https://registry.npmjs.org/@chain-registry/keplr/-/keplr-1.6.0.tgz#9a805844ae8b71120a6188e4223a9bb6ba3d7cbf"
-  integrity sha512-3w8c4+G2CZ75xaCvuHk2KOWq1QDhZiJaqVpwZ0jMhd6d63VX0tDfIYRbGNUtsUf62HJEU0kCVHHYxJKW5aAAbw==
+"@chain-registry/keplr@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/@chain-registry/keplr/-/keplr-1.7.0.tgz#bdd3fad1486b76afe79597d9f37e8b42d4aa94f3"
+  integrity sha512-3NaoS7+xeEeLaDzAszN2X/Bip0VUmii7OLkviKyJn10/pWhVHlOxAawUq0bMYCwy4Rdv5Q1rnp56QY14B4X5og==
   dependencies:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.13.1"
@@ -1271,6 +1272,15 @@
   integrity sha512-NF4x7pqkQJ/zSQLoT28sYlBdzWUyCTFvWgVE9hJ2jkirX+It9VUHP5j1wtTq+vxQ74SZk2V8vRBo2uuoEYBB1A==
   dependencies:
     "@babel/runtime" "^7.19.4"
+
+"@chain-registry/utils@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.3.0.tgz#31b70f47d4e513c089f18db37e4ca3b9a1a8843c"
+  integrity sha512-IFEQqpNLyMVCVEb7MwYnVXz6fjGfwF4mwuACxyn9+XvLSbtD6Lc+8WgiliVZitkQz3YuSRqVDo0Kx63I0xm0BA==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@chain-registry/types" "^0.13.1"
+    sha.js "^2.4.11"
 
 "@chakra-ui/accordion@2.1.3":
   version "2.1.3"
