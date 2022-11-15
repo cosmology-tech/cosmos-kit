@@ -1272,15 +1272,6 @@
   dependencies:
     "@babel/runtime" "^7.19.4"
 
-"@chain-registry/utils@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.3.0.tgz#31b70f47d4e513c089f18db37e4ca3b9a1a8843c"
-  integrity sha512-IFEQqpNLyMVCVEb7MwYnVXz6fjGfwF4mwuACxyn9+XvLSbtD6Lc+8WgiliVZitkQz3YuSRqVDo0Kx63I0xm0BA==
-  dependencies:
-    "@babel/runtime" "^7.19.4"
-    "@chain-registry/types" "^0.13.1"
-    sha.js "^2.4.11"
-
 "@chakra-ui/accordion@2.1.3":
   version "2.1.3"
   resolved "https://registry.npmjs.org/@chakra-ui/accordion/-/accordion-2.1.3.tgz#98c5426fe32d06a2f7b600161e0f81d02c4c3bb0"
