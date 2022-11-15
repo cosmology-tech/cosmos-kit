@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/example",
-  "version": "0.30.4",
+  "version": "0.30.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,7 +20,7 @@
     "@cosmos-kit/cosmostation": "^0.11.0",
     "@cosmos-kit/keplr": "^0.29.0",
     "@cosmos-kit/leap": "^0.10.1",
-    "@cosmos-kit/react": "^0.24.5",
+    "@cosmos-kit/react": "^0.24.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bignumber.js": "9.1.0",
