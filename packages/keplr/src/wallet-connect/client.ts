@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   AminoSignResponse,
   OfflineAminoSigner,
@@ -22,6 +23,7 @@ export class KeplrClient implements WalletConnectClient {
       bridge: 'https://bridge.walletconnect.org',
       signingMethods: [
         'keplr_enable_wallet_connect_v1',
+        'keplr_get_key_wallet_connect_v1',
         'keplr_sign_amino_wallet_connect_v1',
       ],
     });

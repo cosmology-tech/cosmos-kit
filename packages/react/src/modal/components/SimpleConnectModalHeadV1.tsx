@@ -4,7 +4,7 @@ import { FiChevronLeft, FiX } from 'react-icons/fi';
 
 import { SimpleModalHeadType } from './types';
 
-export const SimpleModalHead = ({
+export const SimpleModalHeadV1 = ({
   title,
   backButton,
   handleBack,
@@ -31,8 +31,12 @@ export const SimpleModalHead = ({
           <Icon as={FiChevronLeft} w={6} h={6} />
         </Button>
       )}
-      <Box flex={1} mr={backButton ? 0 : -10}>
-        <Text fontSize="lg" fontWeight="medium" textAlign="center">
+      <Box flex={1} pl={2}>
+        <Text
+          fontSize="lg"
+          fontWeight="medium"
+          textAlign={backButton ? 'center' : 'start'}
+        >
           {title}
         </Text>
       </Box>

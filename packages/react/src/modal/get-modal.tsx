@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { Box, Button, Icon, Text } from '@chakra-ui/react';
-import { WalletManager, WalletStatus } from '@cosmos-kit/core';
+import { ModalVersion, WalletManager, WalletStatus } from '@cosmos-kit/core';
 import React, { ReactNode, RefObject } from 'react';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
@@ -13,13 +13,18 @@ import {
   ConnectWalletButton,
   CopyAddressButton,
   LogoStatus,
-  SimpleDisplayModalContent as ModalContent,
-  SimpleDisplayWalletList as DisplayWalletList,
-  SimpleInstallWalletButton as InstallWalletButton,
-  SimpleModalHead as ModalHead,
-  SimpleQRCode as QRCode,
+  SimpleDisplayModalContent,
+  SimpleDisplayModalContentV1,
+  SimpleDisplayWalletList,
+  SimpleDisplayWalletListV1,
+  SimpleInstallWalletButton,
+  SimpleInstallWalletButtonV1,
+  SimpleModalHead,
+  SimpleModalHeadV1,
+  SimpleQRCode,
+  SimpleQRCodeV1,
 } from './components';
-import { WalletInfoType } from './components/types';
+import { Wallet } from './components/types';
 
 type ModalInfo = {
   [k in WalletStatus]: {
@@ -38,8 +43,30 @@ export const getModal = (
   modalIsReset: boolean,
   resetModal: (v: boolean) => void,
   handleClose: () => void,
-  initialFocus: RefObject<any>
+  initialFocus: RefObject<any>,
+  version: ModalVersion
 ) => {
+  let ModalContent: any,
+    DisplayWalletList: any,
+    InstallWalletButton: any,
+    QRCode: any,
+    ModalHead: any;
+  switch (version) {
+    case 'simple_v1':
+      ModalContent = SimpleDisplayModalContentV1;
+      DisplayWalletList = SimpleDisplayWalletListV1;
+      InstallWalletButton = SimpleInstallWalletButtonV1;
+      QRCode = SimpleQRCodeV1;
+      ModalHead = SimpleModalHeadV1;
+      break;
+    case 'simple_v2':
+      ModalContent = SimpleDisplayModalContent;
+      DisplayWalletList = SimpleDisplayWalletList;
+      InstallWalletButton = SimpleInstallWalletButton;
+      QRCode = SimpleQRCode;
+      ModalHead = SimpleModalHead;
+      break;
+  }
   const {
     wallets,
     currentWallet: wallet,
@@ -61,20 +88,20 @@ export const getModal = (
   /*           choose wallet            */
   /* ================================== */
 
-  async function handleWalletClick(select: WalletInfoType) {
+  async function handleWalletClick(select: Wallet) {
     resetModal(false);
-    console.info('Connecting to ' + select.id);
+    console.info('Connecting to ' + select.name);
     if (!isWalletDisconnected) {
       await disconnect();
     }
-    setCurrentWallet(select.id);
+    setCurrentWallet(select.name);
     await connect();
   }
 
   if (!wallet || modalIsReset) {
     modalHead = (
       <ModalHead
-        title="Select Wallet"
+        title="Select your wallet"
         backButton={false}
         handleClose={handleClose}
       />
@@ -83,13 +110,27 @@ export const getModal = (
     modalContent = (
       <DisplayWalletList
         initialFocus={initialFocus}
-        walletsData={wallets.map(
-          ({ walletInfo: { name, logo, prettyName } }) => ({
-            id: name,
-            logo,
-            displayName: prettyName,
-          })
-        )}
+        walletsData={wallets
+          .map(
+            ({
+              walletInfo: { name, logo, prettyName, mode, mobileDisabled },
+            }) => ({
+              name,
+              logo,
+              prettyName,
+              mode,
+              mobileDisabled,
+            })
+          )
+          .sort((a, b) => {
+            if (a.mode === b.mode) {
+              return 0;
+            } else if (a.mode !== 'wallet-connect') {
+              return -1;
+            } else {
+              return 1;
+            }
+          })}
         handleClick={handleWalletClick}
       />
     );
@@ -130,7 +171,7 @@ export const getModal = (
 
   const { downloadInfo } = wallet;
 
-  const appType = isMobile ? 'App' : 'Extension';
+  // const appType = isMobile ? 'App' : 'Extension';
 
   async function handleDisconnect() {
     console.info('Disconnecting');
@@ -146,12 +187,6 @@ export const getModal = (
     resetModal(true);
   }
 
-  function handleOpenApp() {
-    if (wallet!.appUrl) {
-      window.location.href = wallet!.appUrl;
-    }
-  }
-
   function handleOpenDownload() {
     if (downloadInfo) {
       window.open(downloadInfo?.link, '_blank');
@@ -161,11 +196,11 @@ export const getModal = (
   const modalInfo: ModalInfo = {
     NotExist: {
       logoStatus: LogoStatus.Error,
-      header: `${appType} Not Installed`,
-      buttonText: `Install ${appType}`,
+      header: `${displayName} Not Installed`,
+      buttonText: `Install ${displayName}`,
       desc: downloadInfo?.link
-        ? `If wallet ${appType.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
-        : `Install link not provided. Try searching it or consulting the developer team.`,
+        ? `If ${displayName.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
+        : `Download link not provided. Try searching it or consulting the developer team.`,
       onClick: handleOpenDownload,
       icon: downloadInfo?.icon || GoDesktopDownload,
     },
@@ -174,7 +209,7 @@ export const getModal = (
       header: isMobile ? 'Wallet Authorization' : 'Wallet is Disconnected',
       desc: isMobile ? 'Approve connection in wallet app' : void 0,
       buttonText: isMobile ? 'Open App' : 'Connect Wallet',
-      onClick: isMobile ? handleOpenApp : handleConnect,
+      onClick: handleConnect,
       bottomLink:
         isMobile && downloadInfo ? (
           <Button variant="link" onClick={handleOpenDownload}>
@@ -196,7 +231,7 @@ export const getModal = (
       header: 'Requesting Connection',
       desc: wallet.qrUrl
         ? `Approve ${displayName} connection request on your mobile.`
-        : `Open the ${displayName} extension to connect your wallet.`,
+        : `Open ${displayName} to connect your wallet.`,
     },
     Rejected: {
       logoStatus: LogoStatus.Error,
@@ -267,7 +302,7 @@ export const getModal = (
     if (
       status === WalletStatus.Disconnected &&
       walletInfo.mode === 'wallet-connect' &&
-      (!isMobile || (isMobile && !wallet!.appUrl))
+      !wallet!.appUrl
     ) {
       return (
         <QRCode

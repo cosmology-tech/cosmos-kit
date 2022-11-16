@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import EventEmitter from 'events';
 
 import { ChainWalletConnect, IWalletConnectClient, MainWalletBase } from '..';
@@ -83,12 +84,16 @@ export class WalletConnectWallet extends MainWalletBase {
     });
 
     if (!this.connector.connected) {
-      this.connector.createSession();
+      await this.connector.createSession();
+    } else {
+      await this.update(sessionOptions, callbacks);
+    }
+
+    if (this.isMobile) {
+      await this.update(sessionOptions, callbacks);
       if (window && this.appUrl) {
         window.location.href = this.appUrl;
       }
-    } else {
-      this.update(sessionOptions, callbacks);
     }
   }
 

@@ -108,21 +108,33 @@ export type DownloadLinkType = {
   mobile: DeviceDataType[];
   websiteDownload: string;
 };
-export type WalletInfoType = {
-  id: string;
+export type Downloads = {
+  desktop: DownloadInfo[];
+  tablet: DownloadInfo[];
+  mobile: DownloadInfo[];
+  default: string;
+};
+export type DownloadInfo = {
+  browser?: string;
+  os?: string;
+  icon?: IconType;
+  link: string;
+};
+export type WalletMode = 'extension' | 'wallet-connect';
+export type Wallet = {
+  name: string;
+  prettyName?: string;
   logo?: string | IconType;
-  displayName?: string;
-  modalHeader?: string;
-  downloadLink?: DownloadLinkType;
-  websiteDownload?: string;
-  qrCodeLink?: string;
-  contentText?: string;
+  mode: WalletMode;
+  mobileDisabled: boolean;
+  rejectMessage?: string;
+  downloads?: Downloads;
 };
 export type DisplayWalletListType = {
-  initialFocus: RefObject<any>;
+  initialFocus: RefObject<any>; // eslint-disable-line
   size?: string;
-  walletsData: WalletInfoType[];
-  handleClick: (select: WalletInfoType) => void;
+  walletsData: Wallet[];
+  handleClick: (select: Wallet) => void;
 };
 export type DisplayModalControlButtonType = {
   size?: string;

@@ -3,18 +3,16 @@ import {
   Button,
   Center,
   Flex,
-  Grid,
-  GridItem,
   Icon,
   Image,
   Stack,
   Text,
-  useBreakpointValue,
   useColorMode,
   useDimensions,
 } from '@chakra-ui/react';
 import { QRCodeSVG } from 'qrcode.react';
 import React, { useRef } from 'react';
+import { FiChevronRight } from 'react-icons/fi';
 
 import { handleChangeColorModeValue } from './default-component';
 import {
@@ -28,7 +26,7 @@ import {
   DownloadWalletButtonType,
 } from './types';
 
-export const SimpleInstallWalletButton = ({
+export const SimpleInstallWalletButtonV1 = ({
   icon,
   text,
 }: DownloadWalletButtonType) => {
@@ -83,7 +81,7 @@ export const SimpleInstallWalletButton = ({
   );
 };
 
-export const SimpleDisplayModalContent = ({
+export const SimpleDisplayModalContentV1 = ({
   status,
   logo,
   contentHeader,
@@ -114,13 +112,13 @@ export const SimpleDisplayModalContent = ({
       variants={ModalContentVariants}
     >
       <Flex
-        w={{ base: '85vw', md: 96 }}
+        w={96}
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
         textAlign="center"
         p={4}
-        pt={8}
+        pt={10}
       >
         {logo && (
           <Center
@@ -132,15 +130,15 @@ export const SimpleDisplayModalContent = ({
             minH={24}
             maxW={24}
             maxH={24}
-            mb={typeof logo === 'string' ? 6 : 3}
+            mb={typeof logo === 'string' ? 6 : 0}
           >
             {status === 'loading' && (
               <AnimateBox
                 position="absolute"
-                top={-2.5}
-                right={-2.5}
-                bottom={-2.5}
-                left={-2.5}
+                top={-2}
+                right={-2}
+                bottom={-2}
+                left={-2}
                 border="2px solid"
                 borderTopColor="transparent"
                 borderBottomColor="transparent"
@@ -164,9 +162,9 @@ export const SimpleDisplayModalContent = ({
                 borderRadius="full"
               ></Box>
             )}
-            <Box borderRadius="full" p={typeof logo === 'string' ? 3.5 : 0}>
+            <Box borderRadius="full" overflow="hidden">
               {typeof logo === 'string' ? (
-                <Image src={logo} w="full" h="full" />
+                <Image src={logo} />
               ) : (
                 <Icon as={logo} w="full" h="full" />
               )}
@@ -178,20 +176,13 @@ export const SimpleDisplayModalContent = ({
             fontSize="lg"
             fontWeight="semibold"
             color={status && Style[status]?.color}
-            mb={1}
+            mb={0.5}
           >
             {contentHeader}
           </Text>
         )}
         {contentDesc && (
-          <Text
-            lineHeight={1.3}
-            opacity={0.7}
-            whiteSpace="pre-line"
-            maxW={72}
-            px={2}
-            mb={1}
-          >
+          <Text lineHeight={1.3} opacity={0.7} whiteSpace="pre-line">
             {contentDesc}
           </Text>
         )}
@@ -220,7 +211,7 @@ export const SimpleDisplayModalContent = ({
   );
 };
 
-export const SimpleQRCode = ({
+export const SimpleQRCodeV1 = ({
   link,
   description,
 }: {
@@ -239,7 +230,7 @@ export const SimpleQRCode = ({
       variants={ModalContentVariants}
     >
       <Stack
-        w={{ base: '85vw', md: 96 }}
+        w={96}
         justifyContent="center"
         alignItems="center"
         spacing={4}
@@ -277,13 +268,12 @@ export const SimpleQRCode = ({
   );
 };
 
-export const SimpleDisplayWalletList = ({
+export const SimpleDisplayWalletListV1 = ({
   initialFocus,
   walletsData,
   handleClick,
 }: DisplayWalletListType) => {
   const { colorMode } = useColorMode();
-  const mobile = useBreakpointValue({ base: 'mobile', md: 'desktop' });
 
   return (
     <AnimateBox
@@ -291,181 +281,121 @@ export const SimpleDisplayWalletList = ({
       animate="enter"
       variants={ModalContentVariants}
     >
-      <Grid
-        templateColumns="1fr 1fr auto"
-        gap={2}
+      <Stack
+        flex={1}
+        spacing={3}
         maxH={96}
         minH={60}
-        w={{ base: '88vw', md: 'md' }}
+        w={96}
         overflowY="scroll"
         pl={4}
-        pr={4}
+        pr={1}
         py={0.5}
-        mt={0.5}
         css={{
-          // for firefox
-          scrollbarWidth: 'none',
-          // for chrome
-          '::-webkit-scrollbar': {
-            display: 'none',
+          // For Firefox
+          scrollbarWidth: 'auto',
+          scrollbarColor: handleChangeColorModeValue(
+            colorMode,
+            'rgba(0,0,0,0.3) rgba(0,0,0,0.2)',
+            'rgba(255,255,255,0.2) rgba(255,255,255,0.1)'
+          ),
+          // For Chrome and other browsers except Firefox
+          '&::-webkit-scrollbar': {
+            width: '10px',
+            background: 'transparent',
+            // background: "gray",
+            borderRadius: '3px',
+            mr: 1,
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: handleChangeColorModeValue(
+              colorMode,
+              'rgba(0,0,0,0.1)',
+              'rgba(255,255,255,0.1)'
+            ),
+            borderRadius: '6px',
+            border: '3px solid transparent',
+            backgroundClip: 'content-box',
           },
         }}
       >
         {walletsData.map(({ name, prettyName, logo }, i) => {
-          if (i < 2 && mobile === 'desktop')
-            return (
-              <GridItem
-                display={{ base: 'none', md: 'flex' }}
-                pr={i === 0 ? 1 : void 0}
-                pl={i === 1 ? 1 : void 0}
-                pb={1.5}
-              >
-                <Button
-                  ref={i === 0 ? initialFocus : null}
-                  id={name}
-                  key={name}
-                  variant="unstyled"
-                  w="full"
-                  h="full"
-                  p={3}
-                  py={7}
-                  justifyContent="start"
-                  borderRadius="md"
-                  whiteSpace="break-spaces"
-                  color={handleChangeColorModeValue(
-                    colorMode,
-                    'blackAlpha.800',
-                    'whiteAlpha.800'
-                  )}
-                  transition="all .4s ease-in-out"
-                  bg={handleChangeColorModeValue(
-                    colorMode,
-                    'gray.100',
-                    'blackAlpha.500'
-                  )}
-                  _hover={{
-                    boxShadow: '0 0 0 1px #6A66FF',
-                  }}
-                  _focus={{
-                    borderRadius: 'md',
-                    boxShadow: '0 0 3px -1px #6A66FF',
-                  }}
-                  onClick={(e) => {
-                    if (e.currentTarget.id === name)
-                      handleClick(walletsData[i]);
-                  }}
-                >
-                  <Stack
-                    w="full"
-                    h="full"
-                    justifyContent="start"
-                    alignItems="center"
-                    spacing={2.5}
-                  >
-                    <Center
-                      borderRadius="lg"
-                      overflow="hidden"
-                      w={{ base: 12, md: 20 }}
-                      h={{ base: 12, md: 20 }}
-                      minW={{ base: 12, md: 20 }}
-                      minH={{ base: 12, md: 20 }}
-                      maxW={{ base: 12, md: 20 }}
-                      maxH={{ base: 12, md: 20 }}
-                      p={1}
-                    >
-                      <Image src={typeof logo === 'string' ? logo : void 0} />
-                    </Center>
-                    <Flex
-                      flex={1}
-                      alignItems="center"
-                      textAlign="center"
-                      px={1}
-                    >
-                      <Text
-                        fontSize="lg"
-                        fontWeight="medium"
-                        lineHeight={1.1}
-                        whiteSpace="pre-wrap"
-                      >
-                        {prettyName}
-                      </Text>
-                    </Flex>
-                  </Stack>
-                </Button>
-              </GridItem>
-            );
           return (
-            <GridItem
-              display={{
-                md: i > 1 ? 'block' : 'none',
+            <Button
+              ref={i === 0 ? initialFocus : null}
+              id={name}
+              key={name}
+              variant="unstyled"
+              display="flex"
+              h="fit-content"
+              p={2.5}
+              justifyContent="start"
+              borderRadius="none"
+              whiteSpace="break-spaces"
+              color={handleChangeColorModeValue(
+                colorMode,
+                'blackAlpha.800',
+                'whiteAlpha.800'
+              )}
+              boxShadow={handleChangeColorModeValue(
+                colorMode,
+                '0 20px 1px -19px #fff',
+                '0 20px 1px -19px #2d3748'
+              )}
+              transition="all .4s ease-in-out"
+              _hover={{
+                color: handleChangeColorModeValue(
+                  colorMode,
+                  'primary.300',
+                  'primary.100'
+                ),
+                borderRadius: 'md',
+                boxShadow: handleChangeColorModeValue(
+                  colorMode,
+                  '0 0 2px 0 rgba(98, 17, 240, 0.5)',
+                  '0 0 2px 0 rgba(182, 153, 232, 0.9)'
+                ),
               }}
-              colSpan={2}
-              w="full"
+              _focus={{
+                borderRadius: 'md',
+                outline: 'none',
+              }}
+              onClick={(e) => {
+                if (e.currentTarget.id === name) handleClick(walletsData[i]);
+              }}
             >
-              <Button
-                ref={i === 0 ? initialFocus : null}
-                id={name}
-                key={name}
-                variant="unstyled"
-                display="flex"
+              <Stack
                 w="full"
-                h="fit-content"
-                p={2.5}
+                isInline={true}
                 justifyContent="start"
-                borderRadius="md"
-                whiteSpace="break-spaces"
-                color={handleChangeColorModeValue(
-                  colorMode,
-                  'blackAlpha.800',
-                  'whiteAlpha.800'
-                )}
-                transition="all .4s ease-in-out"
-                bg={handleChangeColorModeValue(
-                  colorMode,
-                  'gray.100',
-                  'blackAlpha.500'
-                )}
-                _hover={{
-                  boxShadow: '0 0 0 1px #6A66FF',
-                }}
-                _focus={{
-                  borderRadius: 'md',
-                  outline: 'none',
-                }}
-                onClick={(e) => {
-                  if (e.currentTarget.id === name) handleClick(walletsData[i]);
-                }}
+                alignItems="center"
+                spacing={2.5}
               >
-                <Stack
-                  w="full"
-                  isInline={true}
-                  justifyContent="start"
-                  alignItems="center"
-                  spacing={2.5}
+                <Box
+                  borderRadius="lg"
+                  overflow="hidden"
+                  w={9}
+                  h={9}
+                  minW={9}
+                  minH={9}
+                  maxW={9}
+                  maxH={9}
                 >
-                  <Box
-                    borderRadius="lg"
-                    overflow="hidden"
-                    w={9}
-                    h={9}
-                    minW={9}
-                    minH={9}
-                    maxW={9}
-                    maxH={9}
-                  >
-                    <Image src={typeof logo === 'string' ? logo : void 0} />
-                  </Box>
-                  <Box textAlign="start" flex={1}>
-                    <Text fontSize="lg" fontWeight="medium" lineHeight={1.1}>
-                      {prettyName}
-                    </Text>
-                  </Box>
-                </Stack>
-              </Button>
-            </GridItem>
+                  <Image src={typeof logo === 'string' ? logo : void 0} />
+                </Box>
+                <Box textAlign="start" flex={1}>
+                  <Text fontSize="xl" fontWeight="semibold" lineHeight={1.1}>
+                    {prettyName}
+                  </Text>
+                </Box>
+                <Box>
+                  <Icon as={FiChevronRight} />
+                </Box>
+              </Stack>
+            </Button>
           );
         })}
-      </Grid>
+      </Stack>
     </AnimateBox>
   );
 };

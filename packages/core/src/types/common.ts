@@ -42,3 +42,5 @@ export interface AppEnv {
   os?: OS;
   browser?: BrowserName;
 }
+
+export type ModalVersion = 'simple_v1' | 'simple_v2';

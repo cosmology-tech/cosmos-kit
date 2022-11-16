@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AssetList, Chain } from '@chain-registry/types';
-import { ColorMode, ColorModeProvider } from '@chakra-ui/react';
 import {
   ChainName,
   EndpointOptions,
   MainWalletBase,
   MainWalletData,
+  ModalVersion,
   SessionOptions,
   SignerOptions,
   StorageOptions,
@@ -14,7 +14,6 @@ import {
   WalletName,
 } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
-import { ThemeProvider } from '@emotion/react';
 import React, {
   createContext,
   ReactNode,
@@ -23,30 +22,7 @@ import React, {
   useState,
 } from 'react';
 
-import { DefaultModal } from './modal';
-import { defaultTheme } from './modal/theme';
-
-const ModalChakraProvider = ({
-  mode,
-  children,
-}: {
-  mode: ColorMode;
-  children: ReactNode;
-}) => {
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <ColorModeProvider
-        value={mode}
-        options={{
-          useSystemColorMode: false,
-          initialColorMode: 'light',
-        }}
-      >
-        {children}
-      </ColorModeProvider>
-    </ThemeProvider>
-  );
-};
+import { getModalFromVersion } from './modal';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -66,7 +42,9 @@ export const WalletProvider = ({
   chains: Chain[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
-  walletModal?: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
+  walletModal?:
+    | ModalVersion
+    | (({ isOpen, setOpen }: WalletModalProps) => JSX.Element);
   signerOptions?: SignerOptions;
   viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
@@ -109,7 +87,15 @@ export const WalletProvider = ({
     qrUrl: setQRUrl,
   });
 
-  const Modal = walletModal || DefaultModal;
+  let Modal: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
+
+  if (!walletModal) {
+    Modal = getModalFromVersion('simple_v2');
+  } else if (typeof walletModal === 'string') {
+    Modal = getModalFromVersion(walletModal as ModalVersion);
+  } else {
+    Modal = walletModal;
+  }
 
   useEffect(() => {
     walletManager.onMounted();
