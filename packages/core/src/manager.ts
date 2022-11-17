@@ -71,7 +71,7 @@ export class WalletManager extends StateBase<WalletData> {
     super();
     this.setWallets(wallets);
     this.setActiveWalletNames();
-    this.setChainRecords(chains, assetLists, signerOptions, endpointOptions);
+    this.setChains(chains, assetLists, signerOptions, endpointOptions);
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
@@ -81,7 +81,7 @@ export class WalletManager extends StateBase<WalletData> {
     this.actions = actions;
   };
 
-  setChainRecords = (
+  setChains = (
     chains: Chain[],
     assetLists: AssetList[],
     signerOptions?: SignerOptions,

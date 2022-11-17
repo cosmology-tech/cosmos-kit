@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             rpc: ['http://test.com'],
           },
         }}
-        // walletModal={'simple_v1'}
+        walletModal={'simple_v1'}
       >
         <Component {...pageProps} />
       </WalletProvider>
