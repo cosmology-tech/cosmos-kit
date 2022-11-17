@@ -96,21 +96,33 @@ export declare type DownloadLinkType = {
     mobile: DeviceDataType[];
     websiteDownload: string;
 };
-export declare type WalletInfoType = {
-    id: string;
+export declare type Downloads = {
+    desktop: DownloadInfo[];
+    tablet: DownloadInfo[];
+    mobile: DownloadInfo[];
+    default: string;
+};
+export declare type DownloadInfo = {
+    browser?: string;
+    os?: string;
+    icon?: IconType;
+    link: string;
+};
+export declare type WalletMode = 'extension' | 'wallet-connect';
+export declare type Wallet = {
+    name: string;
+    prettyName?: string;
     logo?: string | IconType;
-    displayName?: string;
-    modalHeader?: string;
-    downloadLink?: DownloadLinkType;
-    websiteDownload?: string;
-    qrCodeLink?: string;
-    contentText?: string;
+    mode: WalletMode;
+    mobileDisabled: boolean;
+    rejectMessage?: string;
+    downloads?: Downloads;
 };
 export declare type DisplayWalletListType = {
     initialFocus: RefObject<any>;
     size?: string;
-    walletsData: WalletInfoType[];
-    handleClick: (select: WalletInfoType) => void;
+    walletsData: Wallet[];
+    handleClick: (select: Wallet) => void;
 };
 export declare type DisplayModalControlButtonType = {
     size?: string;

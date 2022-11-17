@@ -1,3 +1,3 @@
 /// <reference types="react" />
-import { WalletModalProps } from '@cosmos-kit/core';
-export declare const DefaultModal: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
+import { ModalVersion, WalletModalProps } from '@cosmos-kit/core';
+export declare const getModalFromVersion: (version: ModalVersion) => ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;

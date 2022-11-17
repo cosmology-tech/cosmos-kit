@@ -5,7 +5,7 @@ import { RiChromeFill } from 'react-icons/ri';
 export const cosmostationExtensionInfo: Wallet = {
   name: 'cosmostation-extension',
   logo: 'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation.png',
-  prettyName: 'Cosmostation Extension',
+  prettyName: 'Cosmostation',
   mode: 'extension',
   downloads: [
     {

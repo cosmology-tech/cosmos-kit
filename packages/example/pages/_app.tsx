@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallet, ...leapwallets, ...cosmostationWallets]}
+        wallets={[...keplrWallet, ...cosmostationWallets, ...leapwallets]}
         signerOptions={{
           signingStargate: (chain: Chain) => {
             switch (chain.chain_name) {
@@ -37,6 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             rpc: ['http://test.com'],
           },
         }}
+        // walletModal={'simple_v1'}
       >
         <Component {...pageProps} />
       </WalletProvider>

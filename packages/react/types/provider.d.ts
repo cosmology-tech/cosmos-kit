@@ -1,5 +1,5 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { EndpointOptions, MainWalletBase, SessionOptions, SignerOptions, StorageOptions, ViewOptions, WalletManager } from '@cosmos-kit/core';
+import { EndpointOptions, MainWalletBase, ModalVersion, SessionOptions, SignerOptions, StorageOptions, ViewOptions, WalletManager } from '@cosmos-kit/core';
 import { WalletModalProps } from '@cosmos-kit/core';
 import React, { ReactNode } from 'react';
 export declare const walletContext: React.Context<{
@@ -9,7 +9,7 @@ export declare const WalletProvider: ({ chains, assetLists, wallets, walletModal
     chains: Chain[];
     assetLists: AssetList[];
     wallets: MainWalletBase[];
-    walletModal?: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
+    walletModal?: ModalVersion | (({ isOpen, setOpen }: WalletModalProps) => JSX.Element);
     signerOptions?: SignerOptions;
     viewOptions?: ViewOptions;
     endpointOptions?: EndpointOptions;
