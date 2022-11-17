@@ -56,7 +56,10 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   }
 
   get signingStargateOptions(): SigningStargateClientOptions | undefined {
-    return this.chainInfo.clientOptions?.signingStargate;
+    return (
+      this.chainInfo.clientOptions?.signingStargate ||
+      this.chainInfo.clientOptions?.stargate
+    );
   }
 
   get signingCosmwasmOptions(): SigningCosmWasmClientOptions | undefined {

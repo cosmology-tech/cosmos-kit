@@ -177,7 +177,9 @@ export const SimpleDisplayModalContent = ({
           <Text
             fontSize="lg"
             fontWeight="semibold"
-            color={status && Style[status]?.color}
+            color={
+              status && status !== 'loading' ? Style[status]?.color : void 0
+            }
             mb={1}
           >
             {contentHeader}
@@ -292,7 +294,8 @@ export const SimpleDisplayWalletList = ({
       variants={ModalContentVariants}
     >
       <Grid
-        templateColumns="1fr 1fr auto"
+        templateColumns="1fr 1fr"
+        templateRows={{ base: 'max-content', md: 'auto' }}
         gap={2}
         maxH={96}
         minH={60}

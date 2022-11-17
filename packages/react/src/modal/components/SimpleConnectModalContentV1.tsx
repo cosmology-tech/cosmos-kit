@@ -175,7 +175,9 @@ export const SimpleDisplayModalContentV1 = ({
           <Text
             fontSize="lg"
             fontWeight="semibold"
-            color={status && Style[status]?.color}
+            color={
+              status && status !== 'loading' ? Style[status]?.color : void 0
+            }
             mb={0.5}
           >
             {contentHeader}

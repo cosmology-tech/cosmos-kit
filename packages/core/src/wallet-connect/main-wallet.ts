@@ -86,7 +86,9 @@ export class WalletConnectWallet extends MainWalletBase {
     if (!this.connector.connected) {
       await this.connector.createSession();
     } else {
-      await this.update(sessionOptions, callbacks);
+      if (!this.isMobile) {
+        await this.update(sessionOptions, callbacks);
+      }
     }
 
     if (this.isMobile) {

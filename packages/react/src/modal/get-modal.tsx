@@ -107,30 +107,32 @@ export const getModal = (
       />
     );
 
+    const walletData = wallets.map(
+      ({ walletInfo: { name, logo, prettyName, mode, mobileDisabled } }) => ({
+        name,
+        logo,
+        prettyName,
+        mode,
+        mobileDisabled,
+      })
+    );
+
     modalContent = (
       <DisplayWalletList
         initialFocus={initialFocus}
-        walletsData={wallets
-          .map(
-            ({
-              walletInfo: { name, logo, prettyName, mode, mobileDisabled },
-            }) => ({
-              name,
-              logo,
-              prettyName,
-              mode,
-              mobileDisabled,
-            })
-          )
-          .sort((a, b) => {
-            if (a.mode === b.mode) {
-              return 0;
-            } else if (a.mode !== 'wallet-connect') {
-              return -1;
-            } else {
-              return 1;
-            }
-          })}
+        walletsData={
+          version === 'simple_v2'
+            ? walletData.sort((a, b) => {
+                if (a.mode === b.mode) {
+                  return 0;
+                } else if (a.mode !== 'wallet-connect') {
+                  return -1;
+                } else {
+                  return 1;
+                }
+              })
+            : walletData
+        }
         handleClick={handleWalletClick}
       />
     );
