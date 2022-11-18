@@ -22,7 +22,6 @@ export const SimpleConnectModal = ({
         alignSelf="center"
         borderRadius="xl"
         w="fit-content"
-        p={1}
         pb={8}
         mx={4}
         _focus={{ outline: 'none' }}

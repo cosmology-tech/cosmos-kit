@@ -67,3 +67,12 @@ export interface ChangeChainMenuType {
   onChange: handleSelectChainDropdown;
   innerRef?: RefObject<HTMLInputElement>;
 }
+
+export type CopyAddressType = {
+  address?: string;
+  walletIcon?: string;
+  isLoading?: boolean;
+  maxDisplayLength?: number;
+  isRound?: boolean;
+  size?: string;
+};

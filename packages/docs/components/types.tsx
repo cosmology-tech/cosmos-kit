@@ -75,3 +75,12 @@ export interface ChainCardProps {
   prettyName: string;
   icon?: string;
 }
+
+export type CopyAddressType = {
+  address?: string;
+  walletIcon?: string;
+  isLoading?: boolean;
+  maxDisplayLength?: number;
+  isRound?: boolean;
+  size?: string;
+};

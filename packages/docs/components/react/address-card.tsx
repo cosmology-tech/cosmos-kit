@@ -1,70 +1,182 @@
-import React, { ReactNode } from 'react';
 import {
-  Text,
-  useColorModeValue,
+  Box,
   Button,
   Icon,
-  useClipboard
-} from '@chakra-ui/react';
-import { FaRegCopy } from 'react-icons/fa';
-import { WalletStatus } from '@cosmos-kit/core';
+  Text,
+  useClipboard,
+  useColorMode,
+  Image
+} from "@chakra-ui/react";
+import { WalletStatus } from "@cosmos-kit/core";
+import { FaCheckCircle } from 'react-icons/fa';
+import { FiCopy } from 'react-icons/fi';
+import React, { ReactNode, useEffect,useState } from "react";
+
+import { CopyAddressType } from "../types";
+import {handleChangeColorModeValue} from './handleChangeColor';
+
+const SIZES = {
+  lg: {
+    height: 12,
+    walletImageSize: 7,
+    icon: 5,
+    fontSize: 'md',
+  },
+  md: {
+    height: 10,
+    walletImageSize: 6,
+    icon: 4,
+    fontSize: 'sm',
+  },
+  sm: {
+    height: 7,
+    walletImageSize: 5,
+    icon: 3.5,
+    fontSize: 'sm',
+  },
+};
+
+export function stringTruncateFromCenter(str: string, maxLength: number) {
+  const midChar = '…'; // character to insert into the center of the result
+
+  if (str.length <= maxLength) return str;
+
+  // length of beginning part
+  const left = Math.ceil(maxLength / 2);
+
+  // start index of ending part
+  const right = str.length - Math.floor(maxLength / 2) + 1;
+
+  return str.substring(0, left) + midChar + str.substring(right);
+}
 
 export const ConnectedShowAddress = ({
   address,
-  isLoading
-}: {
-  address?: string;
-  isLoading: boolean;
-}) => {
+  walletIcon,
+  isLoading,
+  isRound,
+  size = 'md',
+  maxDisplayLength,
+}: CopyAddressType) => {
   const { hasCopied, onCopy } = useClipboard(address ? address : '');
+  const [displayAddress, setDisplayAddress] = useState('');
+  const { colorMode } = useColorMode();
+  const defaultMaxLength = {
+    lg: 14,
+    md: 16,
+    sm: 18,
+  };
+
+  useEffect(() => {
+    if (!address) setDisplayAddress('address not identified yet');
+    if (address && maxDisplayLength)
+      setDisplayAddress(stringTruncateFromCenter(address, maxDisplayLength));
+    if (address && !maxDisplayLength)
+      setDisplayAddress(
+        stringTruncateFromCenter(
+          address,
+          defaultMaxLength[size as keyof typeof defaultMaxLength]
+        )
+      );
+  }, [address]);
 
   return (
     <Button
-      borderRadius="full"
-      bg={useColorModeValue('white', 'blackAlpha.500')}
-      boxShadow={useColorModeValue('0 0 2px #ccc', '0 1px 2px #333')}
-      w="fit-content"
-      h="fit-content"
-      px={4}
-      py={1.5}
-      onClick={() => onCopy()}
+      title={address}
+      variant="unstyled"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      borderRadius={isRound ? 'full' : 'lg'}
+      border="1px solid"
+      borderColor={handleChangeColorModeValue(
+        colorMode,
+        'gray.200',
+        'whiteAlpha.300'
+      )}
+      w="full"
+      h={SIZES[size as keyof typeof SIZES].height}
+      minH="fit-content"
+      pl={2}
+      pr={2}
+      color={handleChangeColorModeValue(
+        colorMode,
+        'gray.700',
+        'whiteAlpha.600'
+      )}
+      transition="all .3s ease-in-out"
+      isDisabled={!address && true}
       isLoading={isLoading}
-      isDisabled={address ? hasCopied : true}
-      rightIcon={<Icon as={FaRegCopy} w={3} h={3} />}
+      _hover={{
+        bg: 'rgba(142, 142, 142, 0.05)',
+      }}
+      _focus={{
+        outline: 'none',
+      }}
+      _disabled={{
+        opacity: 0.6,
+        cursor: 'not-allowed',
+        borderColor: 'rgba(142, 142, 142, 0.1)',
+        _hover: {
+          bg: 'transparent',
+        },
+        _active: {
+          outline: 'none',
+        },
+        _focus: {
+          outline: 'none',
+        },
+      }}
+      onClick={onCopy}
     >
+      {address && walletIcon && (
+        <Box
+          borderRadius="full"
+          w="full"
+          h="full"
+          minW={SIZES[size as keyof typeof SIZES].walletImageSize}
+          minH={SIZES[size as keyof typeof SIZES].walletImageSize}
+          maxW={SIZES[size as keyof typeof SIZES].walletImageSize}
+          maxH={SIZES[size as keyof typeof SIZES].walletImageSize}
+          mr={2}
+          opacity={0.85}
+        >
+          <Image alt={displayAddress} src={walletIcon} />
+        </Box>
+      )}
       <Text
-        maxW={{ base: 40, md: 48 }}
-        position="relative"
-        fontSize={{ base: 'xs', md: 'sm' }}
+        fontSize={SIZES[size as keyof typeof SIZES].fontSize}
         fontWeight="normal"
         letterSpacing="0.4px"
-        title={address}
-        height="1.25em"
-        whiteSpace="break-spaces"
-        overflow="hidden"
-        opacity={0.8}
-        _before={{
-          content: 'attr(title)',
-          width: '25%',
-          float: 'right',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          direction: 'rtl'
-        }}
-        _hover={{
-          cursor: 'inherit'
-        }}
+        opacity={0.75}
       >
-        {address ? address : 'address not identified yet'}
+        {displayAddress}
       </Text>
+      {address && (
+        <Icon
+          as={hasCopied ? FaCheckCircle : FiCopy}
+          w={SIZES[size as keyof typeof SIZES].icon}
+          h={SIZES[size as keyof typeof SIZES].icon}
+          ml={2}
+          opacity={0.9}
+          color={
+            hasCopied
+              ? 'green.400'
+              : handleChangeColorModeValue(
+                  colorMode,
+                  'gray.500',
+                  'whiteAlpha.400'
+                )
+          }
+        />
+      )}
     </Button>
   );
 };
 
 export const CopyAddressBtn = ({
   walletStatus,
-  connected
+  connected,
 }: {
   walletStatus: WalletStatus;
   connected: ReactNode;

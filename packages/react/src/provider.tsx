@@ -87,15 +87,15 @@ export const WalletProvider = ({
     qrUrl: setQRUrl,
   });
 
-  let Modal: ({ isOpen, setOpen }: WalletModalProps) => JSX.Element;
-
-  if (!walletModal) {
-    Modal = getModalFromVersion('simple_v2');
-  } else if (typeof walletModal === 'string') {
-    Modal = getModalFromVersion(walletModal as ModalVersion);
-  } else {
-    Modal = walletModal;
-  }
+  const Modal = useMemo(() => {
+    if (!walletModal) {
+      return getModalFromVersion('simple_v2');
+    } else if (typeof walletModal === 'string') {
+      return getModalFromVersion(walletModal as ModalVersion);
+    } else {
+      return walletModal;
+    }
+  }, [walletModal]);
 
   useEffect(() => {
     walletManager.onMounted();
