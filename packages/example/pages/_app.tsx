@@ -6,11 +6,10 @@ import { GasPrice } from '@cosmjs/stargate';
 import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
 import { wallets as keplrWallet } from '@cosmos-kit/keplr';
 import { wallets as leapwallets } from '@cosmos-kit/leap';
-import { WalletProvider } from '@cosmos-kit/react';
+import { defaultTheme, WalletProvider } from '@cosmos-kit/react';
 import { assets, chains } from 'chain-registry';
 import type { AppProps } from 'next/app';
 
-import { defaultTheme } from '../theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
