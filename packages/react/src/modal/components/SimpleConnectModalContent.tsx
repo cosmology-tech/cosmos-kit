@@ -9,16 +9,16 @@ import {
   Image,
   Stack,
   Text,
-  useBreakpointValue,
   useColorMode,
   useDimensions,
 } from '@chakra-ui/react';
 import { QRCodeSVG } from 'qrcode.react';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { handleChangeColorModeValue } from './default-component';
 import {
   AnimateBox,
+  AnimateGridItem,
   LoadingVariants,
   ModalContentVariants,
 } from './motion-component';
@@ -34,13 +34,13 @@ export const SimpleInstallWalletButton = ({
 }: DownloadWalletButtonType) => {
   const { colorMode } = useColorMode();
   return (
-    <Box w="full" px={6} mt={1}>
+    <Box w="full" px={6}>
       <Button
         variant="unstyled"
         w="full"
         h="auto"
         fontWeight="medium"
-        fontSize="lg"
+        fontSize="md"
         color={handleChangeColorModeValue(
           colorMode,
           'rgba(37, 57, 201, 0.72)',
@@ -101,9 +101,6 @@ export const SimpleDisplayModalContent = ({
     error: {
       color: handleChangeColorModeValue(colorMode, 'red.400', 'red.500'),
     },
-    loading: {
-      color: handleChangeColorModeValue(colorMode, 'green.400', 'green.500'),
-    },
   };
 
   return (
@@ -114,33 +111,33 @@ export const SimpleDisplayModalContent = ({
       variants={ModalContentVariants}
     >
       <Flex
-        w={{ base: '85vw', md: 96 }}
+        w={{ base: '88vw', md: 'xs' }}
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
         textAlign="center"
         p={4}
-        pt={8}
+        pt={5}
       >
         {logo && (
           <Center
             position="relative"
             mx="auto"
-            w={24}
-            h={24}
-            minW={24}
-            minH={24}
-            maxW={24}
-            maxH={24}
-            mb={typeof logo === 'string' ? 6 : 3}
+            w={20}
+            h={20}
+            minW={20}
+            minH={20}
+            maxW={20}
+            maxH={20}
+            mb={typeof logo === 'string' ? 4 : 2}
           >
             {status === 'loading' && (
               <AnimateBox
                 position="absolute"
-                top={-2.5}
-                right={-2.5}
-                bottom={-2.5}
-                left={-2.5}
+                top={-1.5}
+                right={-1.5}
+                bottom={-1.5}
+                left={-1.5}
                 border="2px solid"
                 borderTopColor="transparent"
                 borderBottomColor="transparent"
@@ -175,11 +172,9 @@ export const SimpleDisplayModalContent = ({
         )}
         {contentHeader && (
           <Text
-            fontSize="lg"
+            fontSize="md"
             fontWeight="semibold"
-            color={
-              status && status !== 'loading' ? Style[status]?.color : void 0
-            }
+            color={Style[status]?.color}
             mb={1}
           >
             {contentHeader}
@@ -187,33 +182,32 @@ export const SimpleDisplayModalContent = ({
         )}
         {contentDesc && (
           <Text
+            fontSize="sm"
             lineHeight={1.3}
             opacity={0.7}
             whiteSpace="pre-line"
-            maxW={72}
-            px={2}
-            mb={1}
+            px={8}
           >
             {contentDesc}
           </Text>
         )}
         {username && (
           <Stack isInline={true} justifyContent="center" alignItems="center">
-            <Center w={5} h={5} minW={5} minH={5} maxW={5} maxH={5}>
+            <Center w={4} h={4} minW={4} minH={4} maxW={4} maxH={4} mt={0.5}>
               <Image src={walletIcon} />
             </Center>
-            <Text fontSize="xl" fontWeight="semibold">
+            <Text fontSize="lg" fontWeight="semibold">
               {username}
             </Text>
           </Stack>
         )}
         {addressButton && (
-          <Box w="full" pt={4} px={8}>
+          <Box w="full" pt={2.5} px={8}>
             {addressButton}
           </Box>
         )}
         {bottomButton && (
-          <Box w="full" pt={addressButton ? 4 : 4}>
+          <Box w="full" pt={3.5}>
             {bottomButton}
           </Box>
         )}
@@ -229,7 +223,7 @@ export const SimpleQRCode = ({
   link: string;
   description?: string;
 }) => {
-  const elementRef = useRef(null);
+  const elementRef = useRef();
   const dimensions = useDimensions(elementRef);
   const { colorMode } = useColorMode();
   return (
@@ -241,39 +235,40 @@ export const SimpleQRCode = ({
       variants={ModalContentVariants}
     >
       <Stack
-        w={{ base: '85vw', md: 96 }}
+        w={{ base: '88vw', md: 'sm' }}
         justifyContent="center"
         alignItems="center"
         spacing={4}
-        p={8}
-        pt={6}
+        p={4}
       >
         {description && (
           <Text fontWeight="medium" textAlign="center" opacity={0.75}>
             {description}
           </Text>
         )}
-        <Center
-          w="full"
-          border="1px solid"
-          borderColor={handleChangeColorModeValue(
-            colorMode,
-            'blackAlpha.100',
-            'whiteAlpha.600'
-          )}
-          borderRadius="lg"
-          boxShadow="base"
-          p={5}
-        >
-          <QRCodeSVG
-            value={link}
-            size={dimensions ? dimensions.contentBox.width - 24 : void 0}
-            bgColor={'#ffffff'}
-            fgColor={'#000000'}
-            level={'L'}
-            includeMargin={false}
-          />
-        </Center>
+        <Box px={2}>
+          <Center
+            w="full"
+            border="1px solid"
+            borderColor={handleChangeColorModeValue(
+              colorMode,
+              'blackAlpha.100',
+              'whiteAlpha.600'
+            )}
+            borderRadius="lg"
+            boxShadow="base"
+            p={5}
+          >
+            <QRCodeSVG
+              value={link}
+              size={dimensions && dimensions.contentBox.width - 24}
+              bgColor={'#ffffff'}
+              fgColor={'#000000'}
+              level={'L'}
+              includeMargin={false}
+            />
+          </Center>
+        </Box>
       </Stack>
     </AnimateBox>
   );
@@ -285,7 +280,25 @@ export const SimpleDisplayWalletList = ({
   handleClick,
 }: DisplayWalletListType) => {
   const { colorMode } = useColorMode();
-  const mobile = useBreakpointValue({ base: 'mobile', md: 'desktop' });
+  const listRef = useRef(null);
+  const [displayBlur, setDisplayBlur] = useState(false);
+
+  useEffect(() => {
+    if (listRef.current) {
+      if (listRef.current.clientHeight >= 311) setDisplayBlur(true);
+      const scrollHandler = () => {
+        const height = Math.abs(
+          listRef.current.scrollHeight -
+            listRef.current.clientHeight -
+            listRef.current.scrollTop
+        );
+        if (height < 1) setDisplayBlur(false);
+        if (height >= 1) setDisplayBlur(true);
+      };
+
+      listRef.current.addEventListener('scroll', scrollHandler);
+    }
+  }, [listRef]);
 
   return (
     <AnimateBox
@@ -294,16 +307,19 @@ export const SimpleDisplayWalletList = ({
       variants={ModalContentVariants}
     >
       <Grid
-        templateColumns="1fr 1fr"
+        ref={listRef}
+        position="relative"
+        templateColumns={{ base: '1fr', md: '1fr 1fr' }}
         templateRows={{ base: 'max-content', md: 'auto' }}
-        gap={2}
-        maxH={96}
-        minH={60}
-        w={{ base: '88vw', md: 'md' }}
+        columnGap={2.5}
+        rowGap={1}
+        maxH={80}
+        minH={36}
+        w={80}
         overflowY="scroll"
-        pl={4}
-        pr={4}
+        paddingInline={0}
         py={0.5}
+        px={4}
         mt={0.5}
         css={{
           // for firefox
@@ -315,94 +331,10 @@ export const SimpleDisplayWalletList = ({
         }}
       >
         {walletsData.map(({ name, prettyName, logo }, i) => {
-          if (i < 2 && mobile === 'desktop')
-            return (
-              <GridItem
-                display={{ base: 'none', md: 'flex' }}
-                pr={i === 0 ? 1 : void 0}
-                pl={i === 1 ? 1 : void 0}
-                pb={1.5}
-              >
-                <Button
-                  ref={i === 0 ? initialFocus : null}
-                  id={name}
-                  key={name}
-                  variant="unstyled"
-                  w="full"
-                  h="full"
-                  p={3}
-                  py={7}
-                  justifyContent="start"
-                  borderRadius="md"
-                  whiteSpace="break-spaces"
-                  color={handleChangeColorModeValue(
-                    colorMode,
-                    'blackAlpha.800',
-                    'whiteAlpha.800'
-                  )}
-                  transition="all .4s ease-in-out"
-                  bg={handleChangeColorModeValue(
-                    colorMode,
-                    'gray.100',
-                    'blackAlpha.500'
-                  )}
-                  _hover={{
-                    boxShadow: '0 0 0 1px #6A66FF',
-                  }}
-                  _focus={{
-                    borderRadius: 'md',
-                    boxShadow: '0 0 3px -1px #6A66FF',
-                  }}
-                  onClick={(e) => {
-                    if (e.currentTarget.id === name)
-                      handleClick(walletsData[i]);
-                  }}
-                >
-                  <Stack
-                    w="full"
-                    h="full"
-                    justifyContent="start"
-                    alignItems="center"
-                    spacing={2.5}
-                  >
-                    <Center
-                      borderRadius="lg"
-                      overflow="hidden"
-                      w={{ base: 12, md: 20 }}
-                      h={{ base: 12, md: 20 }}
-                      minW={{ base: 12, md: 20 }}
-                      minH={{ base: 12, md: 20 }}
-                      maxW={{ base: 12, md: 20 }}
-                      maxH={{ base: 12, md: 20 }}
-                      p={1}
-                    >
-                      <Image src={typeof logo === 'string' ? logo : void 0} />
-                    </Center>
-                    <Flex
-                      flex={1}
-                      alignItems="center"
-                      textAlign="center"
-                      px={1}
-                    >
-                      <Text
-                        fontSize="lg"
-                        fontWeight="medium"
-                        lineHeight={1.1}
-                        whiteSpace="pre-wrap"
-                      >
-                        {prettyName}
-                      </Text>
-                    </Flex>
-                  </Stack>
-                </Button>
-              </GridItem>
-            );
           return (
             <GridItem
-              display={{
-                md: i > 1 ? 'block' : 'none',
-              }}
-              colSpan={2}
+              key={i}
+              colSpan={{ base: 2, md: i > 1 ? 2 : 'auto' }}
               w="full"
             >
               <Button
@@ -413,7 +345,9 @@ export const SimpleDisplayWalletList = ({
                 display="flex"
                 w="full"
                 h="fit-content"
-                p={2.5}
+                p={{ base: 2, md: i > 1 ? 2 : 3 }}
+                py={{ md: i > 1 ? 2 : 7 }}
+                mb={{ base: 0, md: i > 1 ? 0 : 1.5 }}
                 justifyContent="start"
                 borderRadius="md"
                 whiteSpace="break-spaces"
@@ -422,7 +356,7 @@ export const SimpleDisplayWalletList = ({
                   'blackAlpha.800',
                   'whiteAlpha.800'
                 )}
-                transition="all .4s ease-in-out"
+                transition="all .1s ease-in-out"
                 bg={handleChangeColorModeValue(
                   colorMode,
                   'gray.100',
@@ -433,41 +367,75 @@ export const SimpleDisplayWalletList = ({
                 }}
                 _focus={{
                   borderRadius: 'md',
-                  outline: 'none',
+                  boxShadow: '0 0 0 1px #6A66FF',
                 }}
                 onClick={(e) => {
                   if (e.currentTarget.id === name) handleClick(walletsData[i]);
                 }}
               >
-                <Stack
+                <Flex
                   w="full"
-                  isInline={true}
+                  flexDirection={{ base: 'row', md: i > 1 ? 'row' : 'column' }}
                   justifyContent="start"
                   alignItems="center"
-                  spacing={2.5}
                 >
                   <Box
                     borderRadius="lg"
                     overflow="hidden"
-                    w={9}
-                    h={9}
-                    minW={9}
-                    minH={9}
-                    maxW={9}
-                    maxH={9}
+                    w={{ base: 8, md: i > 1 ? 8 : 14 }}
+                    h={{ base: 8, md: i > 1 ? 8 : 14 }}
+                    minW={{ base: 8, md: i > 1 ? 8 : 14 }}
+                    minH={{ base: 8, md: i > 1 ? 8 : 14 }}
+                    maxW={{ base: 8, md: i > 1 ? 8 : 14 }}
+                    maxH={{ base: 8, md: i > 1 ? 8 : 14 }}
+                    mr={{ base: 4, md: i > 1 ? 4 : 0 }}
+                    mb={{ base: 0, md: i > 1 ? 0 : 3 }}
                   >
-                    <Image src={typeof logo === 'string' ? logo : void 0} />
+                    <Image src={typeof logo === 'string' && logo} />
                   </Box>
                   <Box textAlign="start" flex={1}>
-                    <Text fontSize="lg" fontWeight="medium" lineHeight={1.1}>
+                    <Text fontSize="sm" fontWeight="normal" lineHeight={1.1}>
                       {prettyName}
                     </Text>
                   </Box>
-                </Stack>
+                </Flex>
               </Button>
             </GridItem>
           );
         })}
+        <AnimateGridItem
+          initial={false}
+          animate={
+            displayBlur
+              ? {
+                  opacity: 1,
+                  height: 2,
+                  transition: {
+                    type: 'spring',
+                    duration: 0.1,
+                  },
+                }
+              : {
+                  height: 0,
+                  opacity: 0,
+                  transition: {
+                    type: 'spring',
+                    duration: 0.2,
+                  },
+                }
+          }
+          position="sticky"
+          bg={handleChangeColorModeValue(colorMode, '#fff', 'gray.700')}
+          style={{ marginTop: 0 }}
+          colSpan={2}
+          bottom={-2}
+          w="full"
+          boxShadow={handleChangeColorModeValue(
+            colorMode,
+            '0 -3px 2px 2px #fff, 0 -4px 6px 2px #fff, 0 -4px 4px 2px #fff, 0 -5px 10px 2px #fff, 0 -8px 4px #fff, 0 -8px 6px 1px #fff, 0 -8px 8px 1px #fff',
+            '0 -3px 2px 2px #2D3748, 0 -4px 6px 2px #2D3748, 0 -4px 4px 2px #2D3748, 0 -5px 10px 2px #2D3748, 0 -8px 4px #2D3748, 0 -8px 6px 1px #2D3748, 0 -8px 8px 1px #2D3748'
+          )}
+        ></AnimateGridItem>
       </Grid>
     </AnimateBox>
   );

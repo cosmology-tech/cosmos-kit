@@ -16,7 +16,7 @@ export const SimpleModalHead = ({
       isInline={true}
       alignItems="center"
       h="fit-content"
-      mb={2.5}
+      mb={1}
       p={4}
       pb={0}
     >
@@ -32,7 +32,7 @@ export const SimpleModalHead = ({
         </Button>
       )}
       <Box flex={1} mr={backButton ? 0 : -10}>
-        <Text fontSize="lg" fontWeight="medium" textAlign="center">
+        <Text fontSize="md" fontWeight="semibold" textAlign="center">
           {title}
         </Text>
       </Box>

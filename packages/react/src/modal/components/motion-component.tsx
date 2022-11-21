@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, GridItem } from '@chakra-ui/react';
 import { motion, Variants } from 'framer-motion';
 
 export const ModalContentVariants: Variants = {
@@ -6,7 +6,7 @@ export const ModalContentVariants: Variants = {
     display: 'flex',
     flexDirection: 'column',
     flex: 1,
-    height: '100%',
+    height: '10%',
     opacity: 0,
     scale: 0.8,
     transition: { duration: 0.4, type: 'easeOut' },
@@ -18,7 +18,7 @@ export const ModalContentVariants: Variants = {
     height: '100%',
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.4, type: 'easeOut' },
+    transition: { duration: 0.5, type: 'easeOut' },
   },
 };
 export const LoadingVariants: Variants = {
@@ -39,3 +39,4 @@ export const LoadingVariants: Variants = {
 };
 
 export const AnimateBox = motion(Box);
+export const AnimateGridItem = motion(GridItem);

@@ -19,14 +19,16 @@ export const SimpleConnectModal = ({
     >
       <ModalOverlay />
       <ModalContent
+        position="relative"
         alignSelf="center"
         borderRadius="xl"
         w="fit-content"
-        pb={8}
+        pb={4}
         mx={4}
         _focus={{ outline: 'none' }}
+        overflow="hidden"
       >
-        <Stack flex={1} spacing={1.5} h="full">
+        <Stack flex={1} spacing={1} h="full">
           {modalHead}
           {modalContent}
         </Stack>
