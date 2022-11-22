@@ -5,7 +5,7 @@ import React, { ReactNode } from 'react';
 export declare const walletContext: React.Context<{
     walletManager: WalletManager;
 }>;
-export declare const WalletProvider: ({ chains, assetLists, wallets, walletModal, signerOptions, viewOptions, endpointOptions, storageOptions, children, }: {
+export declare const WalletProvider: ({ chains, assetLists, wallets, walletModal, signerOptions, viewOptions, endpointOptions, storageOptions, sessionOptions, children, }: {
     chains: Chain[];
     assetLists: AssetList[];
     wallets: MainWalletBase[];

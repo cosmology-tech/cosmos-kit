@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Chain } from "@chain-registry/types";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
@@ -35,6 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             rpc: ["http://test.com"],
           },
         }}
+        // walletModal={MyModal}
         // walletModal={'simple_v1'}
       >
         <Component {...pageProps} />

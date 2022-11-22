@@ -4,7 +4,7 @@ import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, StargateClient, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { MainWalletBase, StateBase } from './bases';
-import { Actions, ChainName, ChainRecord, EndpointOptions, ManagerActions, SessionOptions, SignerOptions, State, StorageOptions, ViewOptions, Wallet, WalletAdapter, WalletData, WalletName } from './types';
+import { ChainName, ChainRecord, EndpointOptions, ManagerActions, SessionOptions, SignerOptions, State, StorageOptions, ViewOptions, Wallet, WalletAdapter, WalletData, WalletName } from './types';
 export declare class WalletManager extends StateBase<WalletData> {
     private _currentWalletName?;
     private _currentChainName?;
@@ -16,7 +16,6 @@ export declare class WalletManager extends StateBase<WalletData> {
     storageOptions: StorageOptions;
     sessionOptions: SessionOptions;
     constructor(chains: Chain[], assetLists: AssetList[], wallets: MainWalletBase[], signerOptions?: SignerOptions, viewOptions?: ViewOptions, endpointOptions?: EndpointOptions, storageOptions?: StorageOptions, sessionOptions?: SessionOptions);
-    setActions: (actions: Actions) => void;
     setChains: (chains: Chain[], assetLists: AssetList[], signerOptions?: SignerOptions, endpointOptions?: EndpointOptions) => void;
     setWallets: (wallets: MainWalletBase[]) => void;
     setActiveWalletNames: (walletNames?: WalletName[]) => void;

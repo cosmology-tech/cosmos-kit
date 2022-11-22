@@ -29,6 +29,8 @@ import {
 export const SimpleInstallWalletButtonV1 = ({
   icon,
   text,
+  disabled,
+  onClick,
 }: DownloadWalletButtonType) => {
   const { colorMode } = useColorMode();
   return (
@@ -63,6 +65,14 @@ export const SimpleInstallWalletButtonV1 = ({
         _hover={{ opacity: 0.8 }}
         _active={{ opacity: 0.9 }}
         _focus={{ outline: 'none' }}
+        _disabled={{
+          opacity: 0.5,
+          cursor: 'not-allowed',
+          _hover: { opacity: 0.5 },
+          _active: { opacity: 0.5 },
+        }}
+        isDisabled={disabled}
+        onClick={onClick}
       >
         <Stack
           w="full"
@@ -98,9 +108,6 @@ export const SimpleDisplayModalContentV1 = ({
     },
     error: {
       color: handleChangeColorModeValue(colorMode, 'red.400', 'red.500'),
-    },
-    loading: {
-      color: handleChangeColorModeValue(colorMode, 'green.400', 'green.500'),
     },
   };
 
@@ -175,9 +182,7 @@ export const SimpleDisplayModalContentV1 = ({
           <Text
             fontSize="lg"
             fontWeight="semibold"
-            color={
-              status && status !== 'loading' ? Style[status]?.color : void 0
-            }
+            color={Style[status]?.color}
             mb={0.5}
           >
             {contentHeader}
@@ -220,7 +225,7 @@ export const SimpleQRCodeV1 = ({
   link: string;
   description?: string;
 }) => {
-  const elementRef = useRef(null);
+  const elementRef = useRef();
   const dimensions = useDimensions(elementRef);
   const { colorMode } = useColorMode();
   return (
@@ -258,7 +263,7 @@ export const SimpleQRCodeV1 = ({
         >
           <QRCodeSVG
             value={link}
-            size={dimensions ? dimensions.contentBox.width - 24 : void 0}
+            size={dimensions && dimensions.contentBox.width - 24}
             bgColor={'#ffffff'}
             fgColor={'#000000'}
             level={'L'}
@@ -383,7 +388,7 @@ export const SimpleDisplayWalletListV1 = ({
                   maxW={9}
                   maxH={9}
                 >
-                  <Image src={typeof logo === 'string' ? logo : void 0} />
+                  <Image src={typeof logo === 'string' && logo} />
                 </Box>
                 <Box textAlign="start" flex={1}>
                   <Text fontSize="xl" fontWeight="semibold" lineHeight={1.1}>

@@ -37,6 +37,7 @@ export const WalletProvider = ({
   viewOptions,
   endpointOptions,
   storageOptions,
+  sessionOptions,
   children,
 }: {
   chains: Chain[];
@@ -61,10 +62,25 @@ export const WalletProvider = ({
         signerOptions,
         viewOptions,
         endpointOptions,
-        storageOptions
+        storageOptions,
+        sessionOptions
       ),
     []
   );
+
+  // const walletManagerV2 = useMemo(
+  //   () =>
+  //     new WalletManagerV2(
+  //       chains,
+  //       assetLists,
+  //       wallets,
+  //       signerOptions,
+  //       viewOptions,
+  //       endpointOptions,
+  //       sessionOptions
+  //     ),
+  //   []
+  // );
 
   const [walletData, setWalletData] = useState<MainWalletData>();
   const [walletState, setWalletState] = useState(walletManager.state);

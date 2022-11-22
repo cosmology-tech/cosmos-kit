@@ -155,7 +155,6 @@ export declare type ConnectModalContentType = {
     bottomLink?: ReactNode;
 };
 export declare type DownloadWalletButtonType = {
-    size?: string;
     icon?: IconType;
     text?: string;
     onClick?: () => void;

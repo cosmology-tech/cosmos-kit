@@ -1,25 +1,26 @@
-import { AppEnv, Mutable, State, StateActions, WalletStatus } from '../types';
-export declare class StateBase<Data> {
-    protected _mutable: Mutable<Data>;
-    actions?: StateActions<Data>;
+import { Actions, AppEnv, Mutable, State, StateActions, WalletStatus } from '../types';
+export declare class StateBase<T> {
+    protected _mutable: Mutable<T>;
+    actions?: StateActions<T>;
     protected _env?: AppEnv;
     constructor();
     get env(): AppEnv;
     setEnv(env?: AppEnv): void;
+    setActions: (actions: Actions) => void;
     get isMobile(): boolean;
     get emitState(): import("../types").Dispatch<State>;
-    get emitData(): import("../types").Dispatch<Data>;
+    get emitData(): import("../types").Dispatch<T>;
     get emitMessage(): import("../types").Dispatch<string>;
-    get mutable(): Mutable<Data>;
+    get mutable(): Mutable<T>;
     get state(): State;
     get isInit(): boolean;
     get isDone(): boolean;
     get isError(): boolean;
     get isPending(): boolean;
-    get data(): Data;
+    get data(): T;
     get message(): string;
     setState(state: State): void;
-    setData(data: Data | undefined): void;
+    setData(data: T | undefined): void;
     setMessage(message: string | undefined): void;
     reset(): void;
     get walletStatus(): WalletStatus;
