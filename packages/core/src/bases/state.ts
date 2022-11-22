@@ -1,9 +1,16 @@
-import { AppEnv, Mutable, State, StateActions, WalletStatus } from '../types';
+import {
+  Actions,
+  AppEnv,
+  Mutable,
+  State,
+  StateActions,
+  WalletStatus,
+} from '../types';
 import { getWalletStatusFromState } from '../utils';
 
-export class StateBase<Data> {
-  protected _mutable: Mutable<Data>;
-  actions?: StateActions<Data>;
+export class StateBase<T> {
+  protected _mutable: Mutable<T>;
+  actions?: StateActions<T>;
   protected _env?: AppEnv;
 
   constructor() {
@@ -17,6 +24,10 @@ export class StateBase<Data> {
   setEnv(env?: AppEnv) {
     this._env = env;
   }
+
+  setActions = (actions: Actions) => {
+    this.actions = actions;
+  };
 
   get isMobile() {
     return this.env?.device === 'mobile';
@@ -71,7 +82,7 @@ export class StateBase<Data> {
     this.emitState?.(state);
   }
 
-  setData(data: Data | undefined) {
+  setData(data: T | undefined) {
     this._mutable.data = data;
     this.emitData?.(data);
   }

@@ -33,7 +33,6 @@ type ModalInfo = {
     desc?: string;
     buttonText?: string;
     onClick?: () => void;
-    buttonDisabled?: boolean;
     icon?: IconType | JSX.Element;
     bottomLink?: ReactNode;
   };
@@ -191,6 +190,11 @@ export const getModal = (
   }
 
   function handleOpenDownload() {
+    console.log(
+      '%cget-modal.tsx line:193 downloadInfo?.link',
+      'color: #007acc;',
+      downloadInfo?.link
+    );
     if (downloadInfo?.link) {
       window.open(downloadInfo?.link, '_blank');
     }
@@ -205,7 +209,6 @@ export const getModal = (
         ? `If ${displayName.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
         : `Download link not provided. Try searching it or consulting the developer team.`,
       onClick: handleOpenDownload,
-      buttonDisabled: downloadInfo?.link ? false : true,
       icon: downloadInfo?.icon || GoDesktopDownload,
     },
     Disconnected: {
@@ -264,7 +267,7 @@ export const getModal = (
             icon={info.icon as IconType}
             text={info.buttonText}
             onClick={info.onClick}
-            disabled={info.buttonDisabled}
+            disabled={downloadInfo?.link ? false : true}
           />
         );
       default:

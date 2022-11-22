@@ -31,6 +31,8 @@ import {
 export const SimpleInstallWalletButton = ({
   icon,
   text,
+  onClick,
+  disabled,
 }: DownloadWalletButtonType) => {
   const { colorMode } = useColorMode();
   return (
@@ -65,6 +67,14 @@ export const SimpleInstallWalletButton = ({
         _hover={{ opacity: 0.8 }}
         _active={{ opacity: 0.9 }}
         _focus={{ outline: 'none' }}
+        _disabled={{
+          opacity: 0.5,
+          cursor: 'not-allowed',
+          _hover: { opacity: 0.5 },
+          _active: { opacity: 0.5 },
+        }}
+        isDisabled={disabled}
+        onClick={onClick}
       >
         <Stack
           w="full"
@@ -111,7 +121,7 @@ export const SimpleDisplayModalContent = ({
       variants={ModalContentVariants}
     >
       <Flex
-        w={{ base: '88vw', md: 'xs' }}
+        w={80}
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
@@ -235,7 +245,7 @@ export const SimpleQRCode = ({
       variants={ModalContentVariants}
     >
       <Stack
-        w={{ base: '88vw', md: 'sm' }}
+        w={80}
         justifyContent="center"
         alignItems="center"
         spacing={4}

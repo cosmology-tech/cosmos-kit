@@ -30,19 +30,23 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   get downloadInfo(): DownloadInfo | undefined {
     let downloads: DownloadInfo[] = this.walletInfo.downloads || [];
 
-    downloads = downloads.filter((d) => d.device === this.env?.device);
+    downloads = downloads.filter(
+      (d) => d.device === this.env?.device || !d.device
+    );
 
     if (downloads.length === 1) {
       return downloads[0];
     }
 
-    downloads = downloads.filter((d) => d.os === this.env?.os);
+    downloads = downloads.filter((d) => d.os === this.env?.os || !d.os);
 
     if (downloads.length === 1) {
       return downloads[0];
     }
 
-    downloads = downloads.filter((d) => d.browser === this.env?.browser);
+    downloads = downloads.filter(
+      (d) => d.browser === this.env?.browser || !d.browser
+    );
 
     return downloads[0];
   }

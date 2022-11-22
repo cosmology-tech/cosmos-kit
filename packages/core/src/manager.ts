@@ -15,7 +15,6 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
 import {
-  Actions,
   Callbacks,
   ChainName,
   ChainRecord,
@@ -76,10 +75,6 @@ export class WalletManager extends StateBase<WalletData> {
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
   }
-
-  setActions = (actions: Actions) => {
-    this.actions = actions;
-  };
 
   setChains = (
     chains: Chain[],
