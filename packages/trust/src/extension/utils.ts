@@ -2,6 +2,14 @@ import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 const error = new Error('No keplr extension installed!');
 
+interface Trust {
+  cosmos?: Keplr
+}
+
+interface TrustWindow {
+  trustwallet?: Keplr;
+}
+
 export const getTrustWallet: () => Promise<
   Keplr | undefined
 > = async () => {
@@ -9,7 +17,7 @@ export const getTrustWallet: () => Promise<
     return undefined;
   }
 
-  const trustwallet = (window as KeplrWindow).keplr;
+  const trustwallet = ((window as TrustWindow).trustwallet as Trust).cosmos;
 
   if (trustwallet) {
     return trustwallet;

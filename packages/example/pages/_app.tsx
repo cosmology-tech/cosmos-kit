@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={wallets + trustWallet}
+        wallets={[wallets, trustWallet]}
         signerOptions={{
           stargate: (chain: Chain) => undefined,
           cosmwasm: (chain: Chain) => undefined,
