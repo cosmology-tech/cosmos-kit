@@ -2,10 +2,10 @@
   "name": "@cosmos-kit/trust",
   "version": "0.11.1",
   "description": "cosmos-kit wallet connector",
-  "author": "mayank.yadav@trustwallet.io",
+  "author": "ruslan.serebriakov@binance.com",
   "contributors": [
     {
-      "name": "Mayank Yadav"
+      "name": "Ruslan Serebriakov"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",

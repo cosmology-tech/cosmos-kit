@@ -16,11 +16,7 @@ export const trustExtensionInfo: Wallet = {
       device: 'desktop',
       browser: 'chrome',
       icon: RiChromeFill,
-      link: 'https://chrome.google.com/webstore/detail/trust-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
-    },
-    {
-      icon: GoDesktopDownload,
-      link: 'https://chrome.google.com/webstore/detail/trust-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
+      link: 'https://chrome.google.com/webstore/detail/trust-wallet/egjidjbpglichdcondbcbdnbeeppgdph',
     },
   ],
 };

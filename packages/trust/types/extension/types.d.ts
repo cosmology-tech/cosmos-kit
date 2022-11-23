@@ -2,12 +2,7 @@
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { Key } from '@keplr-wallet/types';
-export interface TrustSignOptions {
-    readonly preferNoSetFee?: boolean;
-    readonly preferNoSetMemo?: boolean;
-    readonly disableBalanceCheck?: boolean;
-}
+import { BroadcastMode, Key, StdTx } from '@keplr-wallet/types';
 export interface Trust {
     enable(chainIds: string | string[]): Promise<void>;
     mode: 'extension';
@@ -15,7 +10,7 @@ export interface Trust {
     getOfflineSigner(chainId: string): OfflineSigner & OfflineDirectSigner;
     getOfflineSignerOnlyAmino(chainId: string): OfflineSigner;
     getOfflineSignerAuto(chainId: string): Promise<OfflineSigner | OfflineDirectSigner>;
-    signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: TrustSignOptions): Promise<AminoSignResponse>;
+    signAmino(chainId: string, signer: string, signDoc: StdSignDoc): Promise<AminoSignResponse>;
     signDirect(chainId: string, signer: string, signDoc: {
         /** SignDoc bodyBytes */
         bodyBytes?: Uint8Array | null;
@@ -25,9 +20,6 @@ export interface Trust {
         chainId?: string | null;
         /** SignDoc accountNumber */
         accountNumber?: Long | null;
-    }, signOptions?: TrustSignOptions): Promise<DirectSignResponse>;
-    getEnigmaPubKey(chainId: string): Promise<Uint8Array>;
-    getEnigmaTxEncryptionKey(chainId: string, nonce: Uint8Array): Promise<Uint8Array>;
-    enigmaEncrypt(chainId: string, contractCodeHash: string, msg: object): Promise<Uint8Array>;
-    enigmaDecrypt(chainId: string, ciphertext: Uint8Array, nonce: Uint8Array): Promise<Uint8Array>;
+    }): Promise<DirectSignResponse>;
+    sendTx(chainId: string, tx: StdTx | Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }

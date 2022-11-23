@@ -14,7 +14,7 @@
 
 Cosmos Kit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-@cosmos-kit/trust is the trust integration for Cosmos Kit.
+@cosmos-kit/trust is the Trust Wallet integration for Cosmos Kit.
 
 ## Credits
 
