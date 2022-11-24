@@ -21,6 +21,7 @@
     "@cosmos-kit/keplr": "^0.30.1",
     "@cosmos-kit/leap": "^0.11.1",
     "@cosmos-kit/react": "^0.25.1",
+    "@cosmos-kit/trust": "^0.11.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bignumber.js": "9.1.0",
