@@ -23,7 +23,7 @@ export const cosmostationMobileInfo: Wallet = {
     },
     {
       icon: GoDesktopDownload,
-      link: 'https://cosmostation.io/wallet',
+      link: 'https://cosmostation.io/wallet/#extension',
     },
   ],
   mobileDisabled: false,
