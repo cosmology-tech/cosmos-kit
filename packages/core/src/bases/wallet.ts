@@ -17,6 +17,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   protected _walletInfo: Wallet;
   protected _appUrl?: string;
   protected _qrUrl?: string;
+  callbacks?: Callbacks;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -94,10 +95,12 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._qrUrl;
   }
 
-  disconnect(callbacks?: Callbacks) {
+  disconnect = async (callbacks?: Callbacks) => {
+    await (callbacks || this.callbacks)?.beforeDisconnect?.();
+    window.localStorage.removeItem('cosmoskit-v2-wallet');
     this.reset();
-    callbacks?.disconnect?.();
-  }
+    await (callbacks || this.callbacks)?.afterDisconnect?.();
+  };
 
   setClientNotExist() {
     this.setState(State.Error);
@@ -117,13 +120,17 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     }
   }
 
-  async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+  connect = async (sessionOptions?: SessionOptions, callbacks?: Callbacks) => {
+    await (callbacks || this.callbacks)?.beforeConnect?.();
+
     if (this.isMobile && this.walletInfo.mobileDisabled) {
       this.setError(
         'This wallet is not supported on mobile, please use desktop browsers.'
       );
       return;
     }
+
+    window?.localStorage.setItem('cosmoskit-v2-wallet', this.walletName);
 
     try {
       this.client =
@@ -145,8 +152,8 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       this.setError(error as Error);
     }
 
-    callbacks?.connect?.();
-  }
+    await (callbacks || this.callbacks)?.afterConnect?.();
+  };
 
   abstract fetchClient():
     | WalletClient

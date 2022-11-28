@@ -73,7 +73,7 @@ export const Connecting = () => {
 export const Rejected = ({
   buttonText,
   wordOfWarning,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   wordOfWarning?: string;
@@ -83,7 +83,11 @@ export const Rejected = ({
 
   return (
     <Stack>
-      <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />
+      <ConnectWalletButton
+        buttonText={buttonText}
+        isDisabled={false}
+        onClickConnectBtn={onClick}
+      />
       {wordOfWarning && (
         <Stack
           isInline={true}
@@ -109,7 +113,7 @@ export const Rejected = ({
 export const Error = ({
   buttonText,
   wordOfWarning,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   wordOfWarning?: string;
@@ -119,7 +123,11 @@ export const Error = ({
 
   return (
     <Stack>
-      <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />
+      <ConnectWalletButton
+        buttonText={buttonText}
+        isDisabled={false}
+        onClickConnectBtn={onClick}
+      />
       {wordOfWarning && (
         <Stack
           isInline={true}
@@ -144,12 +152,18 @@ export const Error = ({
 
 export const NotExist = ({
   buttonText,
-  onClick
+  onClick,
 }: {
   buttonText: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
 }) => {
-  return <ConnectWalletButton buttonText={buttonText} isDisabled={false} onClickConnectBtn={onClick} />;
+  return (
+    <ConnectWalletButton
+      buttonText={buttonText}
+      isDisabled={false}
+      onClickConnectBtn={onClick}
+    />
+  );
 };
 
 export const WalletConnectComponent = ({
@@ -170,17 +184,17 @@ export const WalletConnectComponent = ({
   notExist: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Disconnected:
+    case "Disconnected":
       return <>{disconnect}</>;
-    case WalletStatus.Connecting:
+    case "Connecting":
       return <>{connecting}</>;
-    case WalletStatus.Connected:
+    case "Connected":
       return <>{connected}</>;
-    case WalletStatus.Rejected:
+    case "Rejected":
       return <>{rejected}</>;
-    case WalletStatus.Error:
+    case "Error":
       return <>{error}</>;
-    case WalletStatus.NotExist:
+    case "NotExist":
       return <>{notExist}</>;
     default:
       return <>{disconnect}</>;

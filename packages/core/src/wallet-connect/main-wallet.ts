@@ -66,15 +66,16 @@ export class WalletConnectWallet extends MainWalletBase {
       chainWallet.client = this.client;
       chainWallet.clientPromise = this.clientPromise;
       (chainWallet as ChainWalletConnect).emitter = this.emitter;
-      chainWallet.connect = this.connect;
+      // chainWallet.connect = this.connect;
       chainWallet.disconnect = this.disconnect;
     });
   }
 
-  async connect(
+  connect = async (
     sessionOptions?: SessionOptions,
     callbacks?: Callbacks
-  ): Promise<void> {
+  ): Promise<void> => {
+    this.setMessage('Connecting with WalletConnect');
     this.emitter.removeAllListeners();
     this.emitter.on('update', async () => {
       await this.update(sessionOptions, callbacks);
@@ -97,14 +98,15 @@ export class WalletConnectWallet extends MainWalletBase {
         window.location.href = this.appUrl;
       }
     }
-  }
+  };
 
-  async disconnect(callbacks?: Callbacks) {
+  disconnect = async (callbacks?: Callbacks) => {
+    await (callbacks || this.callbacks)?.beforeDisconnect?.();
     if (this.connector.connected) {
       await this.connector.killSession();
     }
     this.reset();
-    callbacks?.disconnect?.();
     this.emitter.removeAllListeners();
-  }
+    await (callbacks || this.callbacks)?.afterDisconnect?.();
+  };
 }

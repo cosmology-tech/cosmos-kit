@@ -29,8 +29,10 @@ export interface StateActions<T> extends Actions {
 }
 
 export interface Callbacks {
-  connect?: () => void;
-  disconnect?: () => void;
+  beforeConnect?: () => void;
+  beforeDisconnect?: () => void;
+  afterConnect?: () => void;
+  afterDisconnect?: () => void;
 }
 
 export type OS = 'android' | 'ios' | 'windows' | 'macos';

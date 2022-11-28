@@ -6,11 +6,11 @@ export const getWalletStatusFromState = (
   message?: string
 ): WalletStatus => {
   switch (state) {
-    case State.Pending:
+    case 'Pending':
       return WalletStatus.Connecting;
-    case State.Done:
+    case 'Done':
       return WalletStatus.Connected;
-    case State.Error:
+    case 'Error':
       switch (message) {
         case ClientNotExistError.message:
           return WalletStatus.NotExist;
@@ -19,7 +19,7 @@ export const getWalletStatusFromState = (
         default:
           return WalletStatus.Error;
       }
-    case State.Init:
+    case 'Init':
       return WalletStatus.Disconnected;
     default:
       return WalletStatus.Disconnected;

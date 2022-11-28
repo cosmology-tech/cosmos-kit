@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AssetList, Chain } from '@chain-registry/types';
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import {
   Algo,
@@ -10,6 +11,7 @@ import { IConnector } from '@walletconnect/types';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
+import { WalletRepo } from '../repository';
 import { ChainWalletConnect } from '../wallet-connect';
 import { ChainRecord } from './chain';
 import { AppEnv, Data, OS } from './common';
@@ -138,4 +140,18 @@ export interface IChainWalletConnect {
 
 export interface IWalletConnectClient {
   new (): WalletConnectClient;
+}
+
+export interface ChainContext {
+  address: string | undefined;
+  username: string | undefined;
+  message: string | undefined;
+  status: WalletStatus;
+  connect: (wallet?: WalletName) => Promise<void>;
+  disconnect: () => Promise<void>;
+  openView: () => void;
+  chain: Chain;
+  assets: AssetList | undefined;
+  walletRepo: WalletRepo;
+  wallet: ChainWalletBase | undefined;
 }
