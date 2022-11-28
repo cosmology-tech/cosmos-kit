@@ -5,6 +5,7 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapwallets } from "@cosmos-kit/leap";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
@@ -15,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallet, ...cosmostationWallets, ...leapwallets]}
+        wallets={[...keplrWallet,  ...trustWallets, ...cosmostationWallets, ...leapwallets]}
         signerOptions={{
           signingStargate: (chain: Chain) => {
             switch (chain.chain_name) {
