@@ -35,6 +35,7 @@ export const WalletProviderV2 = ({
   assetLists,
   wallets,
   walletModal,
+  modalTheme,
   signerOptions,
   viewOptions,
   endpointOptions,
@@ -46,6 +47,7 @@ export const WalletProviderV2 = ({
   assetLists: AssetList[];
   wallets: MainWalletBase[];
   walletModal?: ModalVersion | ((props: WalletModalPropsV2) => JSX.Element);
+  modalTheme?: Record<string, any>;
   signerOptions?: SignerOptions;
   viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
@@ -121,6 +123,7 @@ export const WalletProviderV2 = ({
         isOpen={isViewOpen}
         setOpen={setViewOpen}
         walletRepo={viewWalletRepo}
+        theme={modalTheme}
       />
     </walletContextV2.Provider>
   );

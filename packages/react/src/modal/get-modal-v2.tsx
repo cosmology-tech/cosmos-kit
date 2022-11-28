@@ -1,18 +1,15 @@
-import { ColorMode, useColorMode } from '@chakra-ui/react';
+import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
 import { ModalVersion, WalletModalPropsV2 } from '@cosmos-kit/core';
 import React, { useMemo, useRef } from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { SimpleConnectModal as ConnectModal } from './components';
+import { defaultTheme } from './theme';
 import { DisplayType } from './types';
-import {
-  getSingleWalletView,
-  getWalletListView,
-  StyleProvider,
-} from './utils-v2';
+import { getSingleWalletView, getWalletListView } from './utils-v2';
 
 export const getModalV2 = (version: ModalVersion) => {
-  return ({ isOpen, setOpen, walletRepo }: WalletModalPropsV2) => {
+  return ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => {
     const initialFocus = useRef();
     const [display, setDisplay] = useState<DisplayType | undefined>();
     const [modalHead, setModalHead] = useState<ReactNode>();
@@ -45,27 +42,20 @@ export const getModalV2 = (version: ModalVersion) => {
       }
     }, [...singleViewDeps, ...listViewDeps, display]);
 
-    const [mode, setMode] = useState<ColorMode>('light');
-
-    useEffect(() => {
-      setMode(window.localStorage.getItem('chakra-ui-color-mode') as ColorMode);
-    }, [isOpen]);
-
-    const { colorMode } = useColorMode();
-    const modal = (
-      <ConnectModal
-        modalIsOpen={isOpen}
-        modalOnClose={() => setOpen(false)}
-        modalHead={modalHead}
-        modalContent={modalContent}
-        initialRef={initialFocus}
-      />
+    return (
+      <ChakraProvider
+        theme={theme || defaultTheme}
+        resetCSS={true}
+        colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
+      >
+        <ConnectModal
+          modalIsOpen={isOpen}
+          modalOnClose={() => setOpen(false)}
+          modalHead={modalHead}
+          modalContent={modalContent}
+          initialRef={initialFocus}
+        />
+      </ChakraProvider>
     );
-
-    if (colorMode) {
-      return modal;
-    }
-
-    return <StyleProvider colorMode={mode}>{modal}</StyleProvider>;
   };
 };

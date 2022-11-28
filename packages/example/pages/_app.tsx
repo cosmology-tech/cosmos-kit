@@ -4,15 +4,16 @@ import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
-import { wallets as leapwallets } from "@cosmos-kit/leap";
+import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
 import {
   defaultTheme,
   WalletProvider,
   WalletProviderV2,
 } from "@cosmos-kit/react";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
+import "./test-style.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -24,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...keplrWallet,
           ...trustWallets,
           ...cosmostationWallets,
-          ...leapwallets,
+          ...leapWallets,
         ]}
         signerOptions={{
           signingStargate: (chain: Chain) => {
@@ -44,7 +45,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             rpc: ["http://test.com"],
           },
         }}
-        // walletModal={'simple_v1'}
       >
         <WalletProviderV2
           chains={chains}
@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             ...keplrWallet,
             ...trustWallets,
             ...cosmostationWallets,
-            ...leapwallets,
+            ...leapWallets,
           ]}
         >
           <Component {...pageProps} />
