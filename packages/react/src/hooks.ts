@@ -30,6 +30,10 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getWallet,
     current,
     chainRecord: { chain, assetList },
+    getRpcEndpoint,
+    getRestEndpoint,
+    getStargateClient,
+    getCosmWasmClient,
   } = walletRepo;
 
   useEffect(() => {
@@ -44,16 +48,31 @@ export const useChain = (chainName: ChainName): ChainContext => {
   }, deps);
 
   return {
-    address: current?.address,
-    username: current?.username,
-    message: current?.message,
-    status: current?.walletStatus,
-    connect,
-    disconnect,
-    openView,
+    // walletRepo: walletRepo,
+    // wallet: current,
+
     chain,
     assets: assetList,
-    walletRepo: walletRepo,
-    wallet: current,
+    logoUrl: current?.chainLogoUrl,
+    address: current?.address,
+    username: current?.username,
+    message: current ? current.message : 'No wallet is connected currently.',
+    status: current?.walletStatus,
+
+    openView,
+    connect,
+    disconnect,
+    getRpcEndpoint,
+    getRestEndpoint,
+    getStargateClient,
+    getCosmWasmClient,
+    getSigningStargateClient: async () =>
+      await current?.getSigningStargateClient(),
+    getSigningCosmWasmClient: async () =>
+      await current?.getSigningCosmWasmClient(),
+    estimateFee: async (props) => await current?.estimateFee(props),
+    sign: async (props) => await current?.sign(props),
+    broadcast: async (props) => await current?.broadcast(props),
+    signAndBroadcast: async (props) => await current?.signAndBroadcast(props),
   };
 };

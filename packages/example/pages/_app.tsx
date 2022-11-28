@@ -6,11 +6,7 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
-import {
-  defaultTheme,
-  WalletProvider,
-  WalletProviderV2,
-} from "@cosmos-kit/react";
+import { defaultTheme, WalletProvider, ChainProvider } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import "./test-style.css";
@@ -46,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <WalletProviderV2
+        <ChainProvider
           chains={chains}
           assetLists={assets}
           wallets={[
@@ -57,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ]}
         >
           <Component {...pageProps} />
-        </WalletProviderV2>
+        </ChainProvider>
       </WalletProvider>
     </ChakraProvider>
   );

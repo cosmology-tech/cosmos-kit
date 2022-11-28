@@ -30,7 +30,7 @@ export const walletContextV2 = createContext<{
   deps: State[];
 } | null>(null);
 
-export const WalletProviderV2 = ({
+export const ChainProvider = ({
   chains,
   assetLists,
   wallets,

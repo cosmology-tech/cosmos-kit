@@ -39,7 +39,6 @@ export const getWalletListView = (
         downloads: void 0,
         onClick: async () => {
           setDisplay('single');
-          console.log('%cwallet-list.tsx line:42 w', 'color: #007acc;', w);
           await w.connect();
         },
       } as Wallet)

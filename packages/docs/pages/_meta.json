@@ -3,5 +3,7 @@
   "get-started": "Get Started",
   "wallet-manager": "Wallet Manager",
   "integrating-wallets": "Integrating Wallets",
-  "wallet-provider": "Wallet Provider"
+  "wallet-provider": "Wallet Provider",
+  "chain-provider": "Chain Provider",
+  "use-chain": "Hook - useChain"
 }

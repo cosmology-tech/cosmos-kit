@@ -20,6 +20,7 @@ import {
   Callbacks,
   ChainRecord,
   ChainWalletData,
+  CosmosClientType,
   SessionOptions,
   State,
   Wallet,
@@ -51,7 +52,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return this.chainRecord.name;
   }
 
-  get chainLogo(): string | undefined {
+  get chainLogoUrl(): string | undefined {
     return (
       // until chain_registry fix this
       // this.chainInfo.chain.logo_URIs?.svg ||
@@ -173,7 +174,9 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         return endpoint;
       }
     }
-    console.warn(`No valid RPC endpoint available!`);
+    console.warn(
+      `No valid RPC endpoint for chain ${this.chainName} in ${this.walletName}!`
+    );
     return void 0;
   };
 
@@ -187,29 +190,35 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         return endpoint;
       }
     }
-    console.warn(`No valid Rest endpoint available!`);
+    console.warn(
+      `No valid Rest endpoint for chain ${this.chainName} in ${this.walletName}!`
+    );
     return void 0;
   };
 
   getStargateClient = async (): Promise<StargateClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (this.offlineSigner && rpcEndpoint) {
+    if (rpcEndpoint) {
       console.info('Using RPC endpoint ' + rpcEndpoint);
       return StargateClient.connect(rpcEndpoint, this.stargateOptions);
     }
-    console.error('Undefined offlineSigner or rpcEndpoint.');
+    console.error(
+      `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!.`
+    );
     return void 0;
   };
 
   getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (this.offlineSigner && rpcEndpoint) {
+    if (rpcEndpoint) {
       console.info('Using RPC endpoint ' + rpcEndpoint);
       return CosmWasmClient.connect(rpcEndpoint);
     }
-    console.error('Undefined offlineSigner or rpcEndpoint.');
+    console.error(
+      `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!`
+    );
     return void 0;
   };
 
@@ -224,7 +233,9 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         this.signingStargateOptions
       );
     } else {
-      throw new Error('Undefined offlineSigner or rpcEndpoint.');
+      throw new Error(
+        `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!`
+      );
     }
   };
 
@@ -239,11 +250,13 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         this.signingCosmwasmOptions
       );
     } else {
-      throw new Error('Undefined offlineSigner or rpcEndpoint.');
+      throw new Error(
+        `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!`
+      );
     }
   };
 
-  protected getSigningClient = async (type?: string) => {
+  protected getSigningClient = async (type?: CosmosClientType) => {
     switch (type) {
       case 'stargate':
         return await this.getSigningStargateClient();
@@ -256,7 +269,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
 
   estimateFee = async (
     messages: EncodeObject[],
-    type?: string,
+    type?: CosmosClientType,
     memo?: string,
     multiplier?: number
   ) => {
@@ -296,7 +309,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     messages: EncodeObject[],
     fee?: StdFee | number,
     memo?: string,
-    type?: string
+    type?: CosmosClientType
   ): Promise<TxRaw> => {
     if (!this.address) {
       throw new Error(
@@ -314,7 +327,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return await client.sign(this.address, messages, usedFee, memo || '');
   };
 
-  broadcast = async (signedMessages: TxRaw, type?: string) => {
+  broadcast = async (signedMessages: TxRaw, type?: CosmosClientType) => {
     const client = await this.getSigningClient(type);
     const txBytes = TxRaw.encode(signedMessages).finish();
 
@@ -341,7 +354,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     messages: EncodeObject[],
     fee?: StdFee | number,
     memo?: string,
-    type?: string
+    type?: CosmosClientType
   ) => {
     const signedMessages = await this.sign(messages, fee, memo, type);
     return this.broadcast(signedMessages, type);

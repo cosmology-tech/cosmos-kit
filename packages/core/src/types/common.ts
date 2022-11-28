@@ -46,3 +46,4 @@ export interface AppEnv {
 }
 
 export type ModalVersion = 'simple_v1' | 'simple_v2';
+export type CosmosClientType = 'stargate' | 'cosmwasm';
