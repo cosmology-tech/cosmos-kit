@@ -10,6 +10,7 @@ import {
   WalletProvider,
   WalletProviderV2,
 } from "@cosmos-kit/react";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
@@ -19,7 +20,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <WalletProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...keplrWallet, ...cosmostationWallets, ...leapwallets]}
+        wallets={[
+          ...keplrWallet,
+          ...trustWallets,
+          ...cosmostationWallets,
+          ...leapwallets,
+        ]}
         signerOptions={{
           signingStargate: (chain: Chain) => {
             switch (chain.chain_name) {
