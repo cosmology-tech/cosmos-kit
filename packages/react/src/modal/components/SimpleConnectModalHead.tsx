@@ -24,6 +24,7 @@ export const SimpleModalHead = ({
         <Button
           variant="ghost"
           borderRadius="full"
+          bg="transparent"
           px={0}
           _focus={{ outline: 'none' }}
           onClick={handleBack}
@@ -39,6 +40,7 @@ export const SimpleModalHead = ({
       <Button
         variant="ghost"
         borderRadius="full"
+        bg="transparent"
         px={0}
         _focus={{ outline: 'none' }}
         onClick={handleClose}
