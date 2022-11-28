@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Icon, Text } from '@chakra-ui/react';
-import { ChainWalletBase, ModalVersion, WalletStatus } from '@cosmos-kit/core';
+import { ChainWalletBase, ModalVersion } from '@cosmos-kit/core';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiDoorOpenFill } from 'react-icons/ri';
@@ -54,7 +54,7 @@ export const getSingleWalletView = (
   }
 
   const {
-    walletInfo: { prettyName, name, logo, mode },
+    walletInfo: { prettyName, name, logo },
     walletStatus: status,
     isWalletConnected,
     isConnectingWalletConnect,
@@ -183,12 +183,6 @@ export const getSingleWalletView = (
         />
       );
     }
-
-    console.log(
-      '%csingle-wallet.tsx line:187 isConnectingWalletConnect',
-      'color: #007acc;',
-      isConnectingWalletConnect
-    );
 
     if (isConnectingWalletConnect && !appUrl) {
       return (

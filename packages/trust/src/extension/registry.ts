@@ -1,5 +1,4 @@
 import { Wallet } from '@cosmos-kit/core';
-import { GoDesktopDownload } from 'react-icons/go';
 import { RiChromeFill } from 'react-icons/ri';
 
 export const trustExtensionInfo: Wallet = {

@@ -49,7 +49,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <WalletProviderV2
           chains={chains}
           assetLists={assets}
-          wallets={[...keplrWallet, ...cosmostationWallets, ...leapwallets]}
+          wallets={[
+            ...keplrWallet,
+            ...trustWallets,
+            ...cosmostationWallets,
+            ...leapwallets,
+          ]}
         >
           <Component {...pageProps} />
         </WalletProviderV2>

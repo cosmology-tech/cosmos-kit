@@ -24,7 +24,6 @@ import {
   SimpleQRCode,
   SimpleQRCodeV1,
 } from './components';
-import { Wallet } from './components/types';
 
 type ModalInfo = {
   [k in WalletStatus]: {
@@ -89,16 +88,6 @@ export const getModalDetails = (
   /*           choose wallet            */
   /* ================================== */
 
-  async function handleWalletClick(select: Wallet) {
-    resetModal(false);
-    console.info('Connecting to ' + select.name);
-    if (!isWalletDisconnected) {
-      await disconnect();
-    }
-    setCurrentWallet(select.name);
-    await connect();
-  }
-
   if (!wallet || modalIsReset) {
     modalHead = (
       <ModalHead
@@ -115,6 +104,15 @@ export const getModalDetails = (
         prettyName,
         mode,
         mobileDisabled,
+        onClick: async () => {
+          resetModal(false);
+          console.info('Connecting to ' + name);
+          if (!isWalletDisconnected) {
+            await disconnect();
+          }
+          setCurrentWallet(name);
+          await connect();
+        },
       })
     );
 
@@ -134,7 +132,6 @@ export const getModalDetails = (
               })
             : walletData
         }
-        handleClick={handleWalletClick}
       />
     );
 

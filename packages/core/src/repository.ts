@@ -1,13 +1,7 @@
 /* eslint-disable no-console */
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
-import {
-  ChainName,
-  ChainRecord,
-  Data,
-  SessionOptions,
-  WalletName,
-} from './types';
+import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
 
 /**
  * Store all ChainWallets for a particular Chain.
@@ -43,6 +37,11 @@ export class WalletRepo extends StateBase<Data> {
         };
       });
     }
+  }
+
+  setEnv(env?: AppEnv): void {
+    this._env = env;
+    this.wallets.forEach((w) => w.setEnv(env));
   }
 
   get chainName() {
@@ -96,9 +95,11 @@ export class WalletRepo extends StateBase<Data> {
 
   connect = async (walletName?: WalletName) => {
     if (walletName) {
-      await this.getWallet(walletName).connect(this.sessionOptions);
+      const wallet = this.getWallet(walletName);
+      await wallet.connect(this.sessionOptions);
     } else if (this.isSingleWallet) {
-      await this.wallets[0].connect(this.sessionOptions);
+      const wallet = this.wallets[0];
+      await wallet.connect(this.sessionOptions);
     } else {
       this.openView();
     }

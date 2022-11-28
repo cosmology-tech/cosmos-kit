@@ -109,15 +109,13 @@ export class WalletManagerV2 extends StateBase<Data> {
   };
 
   connect = async (chainName: ChainName) => {
-    const wallet = this.getWalletRepo(chainName);
-    wallet.setEnv(this.env);
-    await wallet.connect();
+    const repo = this.getWalletRepo(chainName);
+    await repo.connect();
   };
 
   disconnect = async (chainName: ChainName) => {
-    const wallet = this.getWalletRepo(chainName);
-    wallet.setEnv(this.env);
-    await wallet.disconnect();
+    const repo = this.getWalletRepo(chainName);
+    await repo.disconnect();
   };
 
   onMounted = () => {
@@ -126,11 +124,13 @@ export class WalletManagerV2 extends StateBase<Data> {
     }
 
     const parser = Bowser.getParser(window.navigator.userAgent);
-    this.setEnv({
+    const env = {
       browser: parser.getBrowserName(true),
       device: (parser.getPlatform().type || 'desktop') as DeviceType,
       os: parser.getOSName(true) as OS,
-    });
+    };
+    this.setEnv(env);
+    this.walletRepos.forEach((repo) => repo.setEnv(env));
   };
 
   onUnmounted = () => {};
