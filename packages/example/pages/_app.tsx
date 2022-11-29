@@ -8,7 +8,8 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
+// import { wallets as trustWallets } from "@cosmos-kit/trust";
+import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
@@ -20,9 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[
           ...keplrWallet,
-          ...trustWallets,
+          // ...trustWallets,
           ...cosmostationWallets,
           ...leapWallets,
+          ...vectisWallets,
         ]}
         signerOptions={{
           signingStargate: (chain: Chain) => {
@@ -48,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           assetLists={assets}
           wallets={[
             ...keplrWallet,
-            ...trustWallets,
+            // ...trustWallets,
             ...cosmostationWallets,
             ...leapWallets,
           ]}
