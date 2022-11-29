@@ -7,14 +7,18 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
+import {
+  ChainProvider,
+  defaultThemeWithoutCSSReset,
+  WalletProvider,
+} from "@cosmos-kit/react";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ChakraProvider theme={defaultThemeWithoutCSSReset}>
       <WalletProvider
         chains={chains}
         assetLists={assets}

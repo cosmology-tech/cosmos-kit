@@ -184,7 +184,10 @@ export const SimpleDisplayModalContent = ({
           <Text
             fontSize="md"
             fontWeight="semibold"
-            color={Style[status]?.color}
+            color={
+              Style[status]?.color ||
+              handleChangeColorModeValue(colorMode, 'gray.800', 'white')
+            }
             mb={1}
           >
             {contentHeader}
@@ -196,6 +199,7 @@ export const SimpleDisplayModalContent = ({
             lineHeight={1.3}
             opacity={0.7}
             whiteSpace="pre-line"
+            color={handleChangeColorModeValue(colorMode, 'gray.800', 'white')}
             px={8}
           >
             {contentDesc}
@@ -206,7 +210,11 @@ export const SimpleDisplayModalContent = ({
             <Center w={4} h={4} minW={4} minH={4} maxW={4} maxH={4} mt={0.5}>
               <Image src={walletIcon} />
             </Center>
-            <Text fontSize="lg" fontWeight="semibold">
+            <Text
+              fontSize="lg"
+              fontWeight="semibold"
+              color={handleChangeColorModeValue(colorMode, 'gray.800', 'white')}
+            >
               {username}
             </Text>
           </Stack>
@@ -252,7 +260,12 @@ export const SimpleQRCode = ({
         p={4}
       >
         {description && (
-          <Text fontWeight="medium" textAlign="center" opacity={0.75}>
+          <Text
+            fontWeight="medium"
+            textAlign="center"
+            opacity={0.75}
+            color={handleChangeColorModeValue(colorMode, 'gray.800', 'white')}
+          >
             {description}
           </Text>
         )}

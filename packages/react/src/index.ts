@@ -2,7 +2,7 @@ import { getModal, getModalV2 } from './modal';
 
 export * from './hooks';
 export * from './modal/get-modal';
-export { defaultTheme } from './modal/theme';
+export * from './modal/theme';
 export * from './provider';
 export * from './provider-v2';
 
