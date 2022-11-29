@@ -1,3 +1,5 @@
+import "./test-style.css";
+
 import { Chain } from "@chain-registry/types";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
@@ -5,11 +7,10 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
-import { defaultTheme, WalletProvider, ChainProvider } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
-import "./test-style.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

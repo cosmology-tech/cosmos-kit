@@ -186,9 +186,13 @@ export const CopyAddressBtn = ({
       return <>{connected}</>;
     default:
       return (
-        <ConnectedShowAddress
-          isLoading={walletStatus === "Connecting" ? true : false}
-        />
+        <Box width={"full"} px={8}>
+          <ConnectedShowAddress
+            isLoading={walletStatus === "Connecting" ? true : false}
+            isRound={true}
+            size={"sm"}
+          />
+        </Box>
       );
   }
 };

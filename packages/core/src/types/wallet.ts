@@ -22,7 +22,6 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { WalletRepo } from '../repository';
 import { ChainWalletConnect } from '../wallet-connect';
 import { ChainRecord } from './chain';
 import { AppEnv, CosmosClientType, Data, OS } from './common';
@@ -160,6 +159,7 @@ export interface ChainContext {
   chain: Chain;
   assets: AssetList | undefined;
   logoUrl: string | undefined;
+  wallet: Wallet | undefined;
   address: string | undefined;
   username: string | undefined;
   message: string | undefined;

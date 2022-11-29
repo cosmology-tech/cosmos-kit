@@ -1,6 +1,6 @@
 import { Center, List } from "@chakra-ui/react";
 
-import { SingleWalletSection } from "../components";
+import { SingleWalletSection } from "../../components";
 
 const chainNames = ["cosmoshub", "osmosis", "stargaze", "chihuahua"];
 

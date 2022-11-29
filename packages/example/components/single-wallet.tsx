@@ -1,4 +1,4 @@
-import { Text, Center, Flex, GridItem, Icon } from "@chakra-ui/react";
+import { Text, Center, Flex, GridItem, Icon, Box } from "@chakra-ui/react";
 import { ChainName } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
 import { MouseEventHandler } from "react";
@@ -32,7 +32,7 @@ export const SingleWalletSection = ({
     address,
     message,
     chain: { pretty_name },
-    walletRepo: { chainLogo },
+    logoUrl,
     wallet,
   } = useChain(chainName);
 
@@ -87,19 +87,28 @@ export const SingleWalletSection = ({
   );
 
   const chainInfo = (
-    <ChainCard prettyName={pretty_name || chainName} icon={chainLogo} />
+    <ChainCard prettyName={pretty_name || chainName} icon={logoUrl} />
   );
   const userInfo = (
     <Text fontSize="l" fontWeight="semibold" paddingEnd={"18px"} color={"blue"}>
       {username
-        ? `${wallet?.walletInfo.prettyName} / ${username}`
+        ? `${wallet?.prettyName} / ${username}`
         : "<wallet> / <username>"}
     </Text>
   );
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={status}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
+      connected={
+        <Box width={"full"} px={8}>
+          <ConnectedShowAddress
+            address={address}
+            isLoading={false}
+            isRound={true}
+            size={"sm"}
+          />
+        </Box>
+      }
     />
   );
 

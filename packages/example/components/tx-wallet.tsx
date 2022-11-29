@@ -5,11 +5,12 @@ import {
   GridItem,
   Icon,
   Stack,
-  useColorModeValue} from '@chakra-ui/react';
-import { ChainName } from '@cosmos-kit/core';
-import { useWallet } from '@cosmos-kit/react';
-import { MouseEventHandler, useEffect } from 'react';
-import { FiAlertTriangle } from 'react-icons/fi';
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { ChainName } from "@cosmos-kit/core";
+import { useWallet } from "@cosmos-kit/react";
+import { MouseEventHandler, useEffect } from "react";
+import { FiAlertTriangle } from "react-icons/fi";
 
 import {
   Astronaut,
@@ -25,10 +26,10 @@ import {
   NotExist,
   Rejected,
   RejectedWarn,
-  WalletConnectComponent} from '.';
+  WalletConnectComponent,
+} from ".";
 
-
-export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
+export const TXWalletSection = ({ chainName }: { chainName: ChainName }) => {
   const walletManager = useWallet();
   const {
     connect,
@@ -41,7 +42,7 @@ export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
     currentWallet,
     currentChainRecord,
     getChainLogo,
-    setCurrentChain
+    setCurrentChain,
   } = walletManager;
 
   useEffect(() => {
@@ -52,8 +53,8 @@ export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
     chainName: currentChainName,
     label: currentChainRecord?.chain.pretty_name,
     value: currentChainName,
-    icon: getChainLogo(currentChainName)
-  }
+    icon: getChainLogo(currentChainName),
+  };
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -75,7 +76,7 @@ export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
+        <Connected buttonText={"My Wallet"} onClick={onClickOpenView} />
       }
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
@@ -109,7 +110,16 @@ export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
   const addressBtn = currentChainName && (
     <CopyAddressBtn
       walletStatus={walletStatus}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
+      connected={
+        <Box width={"full"} px={8}>
+          <ConnectedShowAddress
+            address={address}
+            isLoading={false}
+            isRound={true}
+            size={"sm"}
+          />
+        </Box>
+      }
     />
   );
 
@@ -124,7 +134,7 @@ export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
         justifyContent="center"
       >
         {currentChainName && (
-          <GridItem marginBottom={'20px'}>
+          <GridItem marginBottom={"20px"}>
             <ChainCard
               prettyName={chain?.label || currentChainName}
               icon={chain?.icon}
@@ -136,10 +146,10 @@ export const TXWalletSection = ({ chainName }: {chainName: ChainName}) => {
             justifyContent="center"
             alignItems="center"
             borderRadius="lg"
-            bg={useColorModeValue('white', 'blackAlpha.400')}
+            bg={useColorModeValue("white", "blackAlpha.400")}
             boxShadow={useColorModeValue(
-              '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-              '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+              "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+              "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
             )}
             spacing={4}
             px={4}

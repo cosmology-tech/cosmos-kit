@@ -54,6 +54,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     chain,
     assets: assetList,
     logoUrl: current?.chainLogoUrl,
+    wallet: current?.walletInfo,
     address: current?.address,
     username: current?.username,
     message: current ? current.message : 'No wallet is connected currently.',

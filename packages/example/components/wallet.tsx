@@ -5,11 +5,11 @@ import {
   GridItem,
   Icon,
   Stack,
-  useColorModeValue
-} from '@chakra-ui/react';
-import { useWallet } from '@cosmos-kit/react';
-import { MouseEventHandler, useMemo } from 'react';
-import { FiAlertTriangle } from 'react-icons/fi';
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { useWallet } from "@cosmos-kit/react";
+import { MouseEventHandler, useMemo } from "react";
+import { FiAlertTriangle } from "react-icons/fi";
 
 import {
   Astronaut,
@@ -27,8 +27,8 @@ import {
   NotExist,
   Rejected,
   RejectedWarn,
-  WalletConnectComponent
-} from '../components';
+  WalletConnectComponent,
+} from "../components";
 
 export const WalletSection = () => {
   const walletManager = useWallet();
@@ -43,7 +43,7 @@ export const WalletSection = () => {
     currentWallet,
     chainRecords,
     getChainLogo,
-    setCurrentChain
+    setCurrentChain,
   } = walletManager;
 
   const chainOptions = useMemo(
@@ -53,7 +53,7 @@ export const WalletSection = () => {
           chainName: chainRecord?.name,
           label: chainRecord?.chain.pretty_name,
           value: chainRecord?.name,
-          icon: getChainLogo(chainRecord.name)
+          icon: getChainLogo(chainRecord.name),
         };
       }),
     [chainRecords, getChainLogo]
@@ -86,7 +86,7 @@ export const WalletSection = () => {
       }
       connecting={<Connecting />}
       connected={
-        <Connected buttonText={'My Wallet'} onClick={onClickOpenView} />
+        <Connected buttonText={"My Wallet"} onClick={onClickOpenView} />
       }
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
       error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
@@ -127,7 +127,16 @@ export const WalletSection = () => {
   const addressBtn = currentChainName && (
     <CopyAddressBtn
       walletStatus={walletStatus}
-      connected={<ConnectedShowAddress address={address} isLoading={false} />}
+      connected={
+        <Box width={"full"} px={8}>
+          <ConnectedShowAddress
+            address={address}
+            isLoading={false}
+            isRound={true}
+            size={"sm"}
+          />
+        </Box>
+      }
     />
   );
 
@@ -148,10 +157,10 @@ export const WalletSection = () => {
             justifyContent="center"
             alignItems="center"
             borderRadius="lg"
-            bg={useColorModeValue('white', 'blackAlpha.400')}
+            bg={useColorModeValue("white", "blackAlpha.400")}
             boxShadow={useColorModeValue(
-              '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-              '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+              "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+              "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
             )}
             spacing={4}
             px={4}
