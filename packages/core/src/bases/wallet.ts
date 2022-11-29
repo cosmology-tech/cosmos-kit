@@ -31,13 +31,9 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   get downloadInfo(): DownloadInfo | undefined {
     let downloads: DownloadInfo[] = this.walletInfo.downloads || [];
 
-    console.log(1, downloads, this.env);
-
     downloads = downloads.filter(
       (d) => d.device === this.env?.device || !d.device
     );
-
-    console.log(2, downloads);
 
     if (downloads.length === 1) {
       return downloads[0];
@@ -49,13 +45,9 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       return downloads[0];
     }
 
-    console.log(3, downloads);
-
     downloads = downloads.filter(
       (d) => d.browser === this.env?.browser || !d.browser
     );
-
-    console.log(4, downloads);
 
     return downloads[0];
   }
