@@ -5,7 +5,6 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapwallets } from "@cosmos-kit/leap";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
@@ -19,7 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[
           ...keplrWallet,
-          ...trustWallets,
           ...cosmostationWallets,
           ...leapwallets,
           ...vectisWallets,
