@@ -1,4 +1,6 @@
-Wallet Provider provides necessary information for `useWallet` hook.
+Chain Provider can be regarded as Wallet Provider V2, with most properties unchanged except for [`walletModal`](#walletmodal) and [`modelTheme`](#modaltheme). it provides necessary information for `useChain` hook.
+
+Different from `useWallet`, `useChain` supports multiple chains connected at one time.
 
 # Properties
 
@@ -15,7 +17,7 @@ Example of adding `localosmosis`
 `_app.tsx`:
 
 ```ts
-import { WalletProvider } from '@cosmos-kit/react';
+import { ChainProvider } from '@cosmos-kit/react';
 import { wallets } from '@cosmos-kit/keplr';
 import { assets, chains } from 'chain-registry';
 import { getSigningCosmosClientOptions } from 'osmojs';
@@ -44,7 +46,7 @@ function App({ Component, pageProps }: AppProps) {
     }
   };
   return (
-      <WalletProvider
+      <ChainProvider
         chains={[...chains, localosmosis]}
         assetLists={[...assets, localosmosisAssets]}
         wallets={wallets}
@@ -56,7 +58,7 @@ function App({ Component, pageProps }: AppProps) {
         }}
       >
         <Component {...pageProps} />
-      </WalletProvider>
+      </ChainProvider>
   );
 }
 ```
@@ -99,7 +101,7 @@ In addition, you can integrate new wallets in a few steps.
 
 ## walletModal
 
-Optional property of type `ModalVersion | ({ isOpen, setOpen }: WalletModalProps) => JSX.Element`
+Optional property of type `ModalVersion | ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
 
 So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
 
@@ -127,31 +129,25 @@ If `walletModal` not provided, by default using `simple_v2` for modal.
     </div>
 </div>
 
-For `simple_v1`, the order of wallets follows the order of property `wallets` in WalletProvider. And basically `simple_v2` follows the same rule, except that all mobiles are moved to the back.
+For `simple_v1`, the order of wallets follows the order of property `wallets` in ChainProvider. And basically `simple_v2` follows the same rule, except that all mobiles are moved to the back.
 
 You can also define your own modal component with required props.
 
-Here is an example design a new modal.
+### customize modal
+
+Example of using self-defined modal.
+
+`_app.tsx`:
 
 ```tsx
 import * as React from 'react';
 
-import { WalletProvider, useWallet } from '@cosmos-kit/react';
+import { ChainProvider } from '@cosmos-kit/react';
 
 // Define Modal Component
-const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
-  const walletManager = useWallet();
-
+const MyModal = ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => {
   function onCloseModal() {
     setOpen(false);
-  }
-
-  function onWalletClicked(name: string) {
-    return async () => {
-      console.info('Connecting ' + name);
-      walletManager.setCurrentWallet(name);
-      await walletManager.connect();
-    };
   }
 
   return (
@@ -160,14 +156,14 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletManager.wallets.map(({ name, prettyName }) => (
+          {walletRepo.wallets.map(({ chainName, connect }) => (
             <Button
-              key={name}
+              key={chainName}
               colorScheme="blue"
               variant="ghost"
-              onClick={onWalletClicked(name)}
+              onClick={() => connect}
             >
-              {prettyName}
+              {chainName}
             </Button>
           ))}
         </ModalBody>
@@ -178,16 +174,22 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
 function CosmosApp() {
   return (
-    <WalletProvider
+    <ChainProvider
       chains={chains}
       wallets={wallets}
       walletModal={MyModal} // Provide walletModal
     >
       <YourWalletRelatedComponents />
-    </WalletProvider>
+    </ChainProvider>
   );
 }
 ```
+
+## modalTheme
+
+Optional property. It will overwrite default theme applied in all given modals, including `simple_v1` and `simple_v2`. 
+
+You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
 
 ## endpointOptions
 
@@ -209,7 +211,7 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 **Example:**
 
 ```tsx
-<WalletProvider
+<ChainProvider
   ...
   endpointOptions={{
     osmosis: {
@@ -253,7 +255,7 @@ import { chains } from "chain-registry";
 import { GasPrice } from "@cosmjs/stargate";
 import { getSigningCosmosClientOptions } from "interchain";
 import { SignerOptions } from "@cosmos-kit/core";
-import { WalletProvider } from "@cosmos-kit/react";
+import { ChainProvider } from "@cosmos-kit/react";
 import { wallets } from '@cosmos-kit/keplr';
 
 // construct signer options
@@ -279,13 +281,13 @@ const signerOptions: SignerOptions = {
 
 function CosmosApp() {
   return (
-    <WalletProvider
+    <ChainProvider
       chains={chains}
       wallets={wallets}
       signerOptions={signerOptions} // Provide signerOptions
     >
       <YourWalletRelatedComponents />
-    </WalletProvider>
+    </ChainProvider>
   );
 }
 ```

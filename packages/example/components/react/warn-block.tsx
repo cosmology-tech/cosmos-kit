@@ -80,9 +80,9 @@ export const ConnectStatusWarn = ({
   error: ReactNode;
 }) => {
   switch (walletStatus) {
-    case WalletStatus.Rejected:
+    case "Rejected":
       return <>{rejected}</>;
-    case WalletStatus.Error:
+    case "Error":
       return <>{error}</>;
     default:
       return <></>;

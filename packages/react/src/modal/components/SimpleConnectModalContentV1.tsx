@@ -278,7 +278,6 @@ export const SimpleQRCodeV1 = ({
 export const SimpleDisplayWalletListV1 = ({
   initialFocus,
   walletsData,
-  handleClick,
 }: DisplayWalletListType) => {
   const { colorMode } = useColorMode();
 
@@ -326,7 +325,7 @@ export const SimpleDisplayWalletListV1 = ({
           },
         }}
       >
-        {walletsData.map(({ name, prettyName, logo }, i) => {
+        {walletsData.map(({ name, prettyName, logo, onClick }, i) => {
           return (
             <Button
               ref={i === 0 ? initialFocus : null}
@@ -367,9 +366,7 @@ export const SimpleDisplayWalletListV1 = ({
                 borderRadius: 'md',
                 outline: 'none',
               }}
-              onClick={(e) => {
-                if (e.currentTarget.id === name) handleClick(walletsData[i]);
-              }}
+              onClick={onClick}
             >
               <Stack
                 w="full"

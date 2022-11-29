@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 // global theme
-const theme = extendTheme({
+const theme = {
   styles: {
     global: () => ({
       html: {
@@ -209,7 +209,7 @@ const theme = extendTheme({
       '900': '#0d17a9',
     },
   },
-});
+};
 
 // old theme
 // export const defaultThemeObject = {

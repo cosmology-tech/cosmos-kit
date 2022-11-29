@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AssetList, Chain } from '@chain-registry/types';
 import {
-  ChainName,
+  ChainWalletData,
   EndpointOptions,
   MainWalletBase,
-  MainWalletData,
   ModalVersion,
   SessionOptions,
   SignerOptions,
+  State,
   StorageOptions,
   ViewOptions,
-  WalletManager,
-  WalletName,
+  WalletManagerV2,
+  WalletModalPropsV2,
+  WalletRepo,
 } from '@cosmos-kit/core';
-import { WalletModalProps } from '@cosmos-kit/core';
 import React, {
   createContext,
   ReactNode,
@@ -22,18 +22,20 @@ import React, {
   useState,
 } from 'react';
 
-import { DefaultModal } from '.';
-import { getModal } from './modal';
+import { DefaultModalV2 } from '.';
+import { getModalV2 } from './modal';
 
-export const walletContext = createContext<{
-  walletManager: WalletManager;
+export const walletContextV2 = createContext<{
+  walletManager: WalletManagerV2;
+  deps: State[];
 } | null>(null);
 
-export const WalletProvider = ({
+export const ChainProvider = ({
   chains,
   assetLists,
   wallets,
   walletModal,
+  modalTheme,
   signerOptions,
   viewOptions,
   endpointOptions,
@@ -44,9 +46,8 @@ export const WalletProvider = ({
   chains: Chain[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
-  walletModal?:
-    | ModalVersion
-    | (({ isOpen, setOpen }: WalletModalProps) => JSX.Element);
+  walletModal?: ModalVersion | ((props: WalletModalPropsV2) => JSX.Element);
+  modalTheme?: Record<string, any>;
   signerOptions?: SignerOptions;
   viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
@@ -56,45 +57,48 @@ export const WalletProvider = ({
 }) => {
   const walletManager = useMemo(
     () =>
-      new WalletManager(
+      new WalletManagerV2(
         chains,
         assetLists,
         wallets,
         signerOptions,
-        viewOptions,
         endpointOptions,
-        storageOptions,
         sessionOptions
       ),
     []
   );
 
-  const [walletData, setWalletData] = useState<MainWalletData>();
-  const [walletState, setWalletState] = useState(walletManager.state);
-  const [walletMsg, setWalletMsg] = useState<string | undefined>();
-  const [walletName, setWalletName] = useState<WalletName | undefined>(
-    walletManager.currentWalletName
-  );
+  const deps = [];
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
-  const [chainName, setChainName] = useState<ChainName | undefined>();
-  const [qrUrl, setQRUrl] = useState<string | undefined>();
+  const [viewWalletRepo, setViewWalletRepo] = useState<
+    WalletRepo | undefined
+  >();
 
-  walletManager.setActions({
-    data: setWalletData,
-    state: setWalletState,
-    message: setWalletMsg,
-    walletName: setWalletName,
-    viewOpen: setViewOpen,
-    chainName: setChainName,
-    qrUrl: setQRUrl,
+  walletManager.walletRepos.forEach((wr) => {
+    const [, setData] = useState<ChainWalletData>();
+    const [state, setState] = useState(wr.state);
+    const [msg, setMsg] = useState<string | undefined>();
+
+    wr.setActions({
+      viewOpen: setViewOpen,
+      viewWalletRepo: setViewWalletRepo,
+    });
+    wr.wallets.forEach((w) => {
+      w.setActions({
+        data: setData,
+        state: setState,
+        message: setMsg,
+      });
+    });
+    deps.push(state, msg);
   });
 
   const Modal = useMemo(() => {
     if (!walletModal) {
-      return DefaultModal;
+      return DefaultModalV2;
     } else if (typeof walletModal === 'string') {
-      return getModal(walletModal as ModalVersion);
+      return getModalV2(walletModal as ModalVersion);
     } else {
       return walletModal;
     }
@@ -108,13 +112,19 @@ export const WalletProvider = ({
   }, []);
 
   return (
-    <walletContext.Provider
+    <walletContextV2.Provider
       value={{
         walletManager,
+        deps,
       }}
     >
       {children}
-      <Modal isOpen={isViewOpen} setOpen={setViewOpen} />
-    </walletContext.Provider>
+      <Modal
+        isOpen={isViewOpen}
+        setOpen={setViewOpen}
+        walletRepo={viewWalletRepo}
+        theme={modalTheme}
+      />
+    </walletContextV2.Provider>
   );
 };

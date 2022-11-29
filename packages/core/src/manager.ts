@@ -392,12 +392,12 @@ export class WalletManager extends StateBase<WalletData> {
 
   private get callbacks(): Callbacks {
     return {
-      connect: () => {
+      afterConnect: () => {
         if (!this.isWalletDisconnected) {
           this.updateLocalStorage('wallet');
         }
       },
-      disconnect: () => {
+      afterDisconnect: () => {
         this.setCurrentWallet(undefined);
         this.updateLocalStorage('wallet');
       },
@@ -485,7 +485,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
   };
 
-  private _connectEventLisener = async (event: Event) => {
+  private _connectEventListener = async (event: Event) => {
     event.preventDefault();
     if (!this.isInit) {
       await this.connect();
@@ -523,7 +523,7 @@ export class WalletManager extends StateBase<WalletData> {
 
       this.wallets.forEach((wallet) => {
         wallet.walletInfo.connectEventNames?.forEach((eventName) => {
-          window.addEventListener(eventName, this._connectEventLisener);
+          window.addEventListener(eventName, this._connectEventListener);
         });
       });
     }
@@ -539,7 +539,7 @@ export class WalletManager extends StateBase<WalletData> {
 
     this.wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNames?.forEach((eventName) => {
-        window.removeEventListener(eventName, this._connectEventLisener);
+        window.removeEventListener(eventName, this._connectEventListener);
       });
     });
   };

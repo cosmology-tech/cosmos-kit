@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 
-import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
+import { MainWalletBase, StateBase } from './bases';
+import { WalletRepo } from './repository';
 import {
   ChainName,
   ChainRecord,
@@ -12,25 +14,16 @@ import {
   OS,
   SessionOptions,
   SignerOptions,
-  ViewOptions,
-  WalletName,
 } from './types';
 import { convertChain } from './utils';
-import { WalletRepo } from './wallet-repo';
 
 export class WalletManagerV2 extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
-  allWallets: ChainWalletBase[] = [];
-
-  chainToWalletHash: Map<ChainName, Map<WalletName, ChainWalletBase>>;
-  walletToChainHash: Map<WalletName, Map<ChainName, ChainWalletBase>>;
-
-  viewOptions: ViewOptions = {
-    alwaysOpenView: false,
-    closeViewWhenWalletIsConnected: false,
-    closeViewWhenWalletIsDisconnected: true,
-    closeViewWhenWalletIsRejected: false,
+  walletRepos: WalletRepo[] = [];
+  options = {
+    synchroMutexWallet: true,
   };
+
   sessionOptions: SessionOptions = {
     duration: 1800000,
     killOnTabClose: false,
@@ -41,12 +34,10 @@ export class WalletManagerV2 extends StateBase<Data> {
     assetLists: AssetList[],
     wallets: MainWalletBase[],
     signerOptions?: SignerOptions,
-    viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
     sessionOptions?: SessionOptions
   ) {
     super();
-    this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
 
     console.info(
@@ -65,70 +56,27 @@ export class WalletManagerV2 extends StateBase<Data> {
       wallet.setChains(this.chainRecords);
     });
 
-    this.chainToWalletHash = new Map(
-      chains.map(({ chain_name }) => {
-        return [
-          chain_name,
-          new Map(
-            wallets.map(({ walletName, getChainWallet }) => {
-              return [walletName, getChainWallet(chain_name)];
-            })
-          ),
-        ];
-      })
-    );
-
-    this.walletToChainHash = new Map(
-      wallets.map(({ walletName, chainWallets }) => {
-        return [walletName, chainWallets];
-      })
-    );
-
-    wallets.forEach(({ chainWallets }) => {
-      this.allWallets.push(...Array.from(chainWallets.values()));
+    this.chainRecords.map((chainRecord) => {
+      this.walletRepos.push(
+        new WalletRepo(
+          chainRecord,
+          wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)),
+          this.sessionOptions
+        )
+      );
     });
   }
 
-  get wallets(): ChainWalletBase[] {
-    if (this.isMobile) {
-      return this.allWallets.filter(
-        (wallet) => !wallet.walletInfo.mobileDisabled
-      );
-    }
-    return this.allWallets;
-  }
+  getWalletRepo = (chainName: ChainName): WalletRepo => {
+    const walletRepo = this.walletRepos.find(
+      (wr) => wr.chainName === chainName
+    );
 
-  getWalletRepo = (
-    chainName?: ChainName,
-    walletName?: WalletName
-  ): WalletRepo => {
-    if (chainName && !this.chainToWalletHash.has(chainName)) {
+    if (!walletRepo) {
       throw new Error(`Chain ${chainName} is not provided.`);
     }
 
-    if (walletName && !this.walletToChainHash.has(walletName)) {
-      throw new Error(`Wallet ${chainName} is not provided.`);
-    }
-
-    if (chainName && walletName) {
-      return new WalletRepo([
-        this.chainToWalletHash.get(chainName).get(walletName),
-      ]);
-    }
-
-    if (chainName) {
-      return new WalletRepo(
-        Array.from(this.chainToWalletHash.get(chainName).values())
-      );
-    }
-
-    if (walletName) {
-      return new WalletRepo(
-        Array.from(this.walletToChainHash.get(walletName).values())
-      );
-    }
-
-    return new WalletRepo(this.allWallets);
+    return walletRepo;
   };
 
   getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
@@ -160,37 +108,14 @@ export class WalletManagerV2 extends StateBase<Data> {
     );
   };
 
-  connect = async (chainName?: ChainName, walletName?: WalletName) => {
-    const wallet = this.getWalletRepo(chainName, walletName);
-    wallet.setEnv(this.env);
-    wallet.setActions(this.actions);
-    await wallet.connect(this.sessionOptions);
+  connect = async (chainName: ChainName) => {
+    const repo = this.getWalletRepo(chainName);
+    await repo.connect();
   };
 
-  disconnect = async (chainName?: ChainName, walletName?: WalletName) => {
-    const wallet = this.getWalletRepo(chainName, walletName);
-    wallet.setEnv(this.env);
-    wallet.setActions(this.actions);
-    await wallet.disconnect();
-  };
-
-  private _handleTabLoad = (event?: Event) => {
-    event?.preventDefault();
-    this.connect();
-  };
-
-  private _handleTabClose = (event: Event) => {
-    event.preventDefault();
-    if (this.sessionOptions.killOnTabClose || this.isWalletConnecting) {
-      this.disconnect();
-    }
-  };
-
-  private _connectEventLisener = async (event: Event) => {
-    event.preventDefault();
-    if (!this.isInit) {
-      await this.connect();
-    }
+  disconnect = async (chainName: ChainName) => {
+    const repo = this.getWalletRepo(chainName);
+    await repo.disconnect();
   };
 
   onMounted = () => {
@@ -199,25 +124,14 @@ export class WalletManagerV2 extends StateBase<Data> {
     }
 
     const parser = Bowser.getParser(window.navigator.userAgent);
-    this.setEnv({
+    const env = {
       browser: parser.getBrowserName(true),
       device: (parser.getPlatform().type || 'desktop') as DeviceType,
       os: parser.getOSName(true) as OS,
-    });
+    };
+    this.setEnv(env);
+    this.walletRepos.forEach((repo) => repo.setEnv(env));
   };
 
-  onUnmounted = () => {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    window.removeEventListener('beforeunload', this._handleTabClose);
-    window.removeEventListener('load', this._handleTabLoad);
-
-    this.wallets.forEach((wallet) => {
-      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
-        window.removeEventListener(eventName, this._connectEventLisener);
-      });
-    });
-  };
+  onUnmounted = () => {};
 }

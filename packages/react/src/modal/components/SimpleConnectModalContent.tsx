@@ -287,7 +287,6 @@ export const SimpleQRCode = ({
 export const SimpleDisplayWalletList = ({
   initialFocus,
   walletsData,
-  handleClick,
 }: DisplayWalletListType) => {
   const { colorMode } = useColorMode();
   const listRef = useRef(null);
@@ -340,7 +339,7 @@ export const SimpleDisplayWalletList = ({
           },
         }}
       >
-        {walletsData.map(({ name, prettyName, logo }, i) => {
+        {walletsData.map(({ name, prettyName, logo, onClick }, i) => {
           return (
             <GridItem
               key={i}
@@ -379,9 +378,7 @@ export const SimpleDisplayWalletList = ({
                   borderRadius: 'md',
                   boxShadow: '0 0 0 1px #6A66FF',
                 }}
-                onClick={(e) => {
-                  if (e.currentTarget.id === name) handleClick(walletsData[i]);
-                }}
+                onClick={onClick}
               >
                 <Flex
                   w="full"
