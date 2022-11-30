@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.32.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/example@0.31.1...@cosmos-kit/example@0.32.0) (2022-11-30)
+
+
+### Features
+
+* vectis wallet integration ([471b656](https://github.com/cosmology-tech/cosmos-kit/commit/471b65678d2df1a074a6d91e9899df5e86454cb2))
+
+
+
+
+
 ## [0.31.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/example@0.31.0...@cosmos-kit/example@0.31.1) (2022-11-22)
 
 **Note:** Version bump only for package @cosmos-kit/example
