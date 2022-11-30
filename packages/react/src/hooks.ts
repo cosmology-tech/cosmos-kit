@@ -1,5 +1,10 @@
-import { ChainContext, ChainName, WalletManager } from '@cosmos-kit/core';
-import React, { useEffect } from 'react';
+import {
+  ChainContext,
+  ChainName,
+  WalletManager,
+  WalletStatus,
+} from '@cosmos-kit/core';
+import React from 'react';
 
 import { walletContext } from './provider';
 import { walletContextV2 } from './provider-v2';
@@ -21,13 +26,13 @@ export const useChain = (chainName: ChainName): ChainContext => {
     throw new Error('You have forgot to use WalletProviderV2.');
   }
 
-  const { walletManager, deps } = context;
+  const { walletManager } = context;
   const walletRepo = walletManager.getWalletRepo(chainName);
+  walletRepo.isInUse = true;
   const {
     connect,
     disconnect,
     openView,
-    getWallet,
     current,
     chainRecord: { chain, assetList },
     getRpcEndpoint,
@@ -36,29 +41,18 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getCosmWasmClient,
   } = walletRepo;
 
-  useEffect(() => {
-    const walletName = window.localStorage.getItem('cosmoskit-v2-wallet');
-    if (walletManager.options.synchroMutexWallet) {
-      if (!walletName) {
-        disconnect();
-      } else if (walletName && !getWallet(walletName).isDone) {
-        connect(walletName);
-      }
-    }
-  }, deps);
-
   return {
     // walletRepo: walletRepo,
     // wallet: current,
 
-    chain,
+    chain: chain,
     assets: assetList,
     logoUrl: current?.chainLogoUrl,
     wallet: current?.walletInfo,
     address: current?.address,
     username: current?.username,
     message: current ? current.message : 'No wallet is connected currently.',
-    status: current?.walletStatus,
+    status: current?.walletStatus || WalletStatus.Disconnected,
 
     openView,
     connect,

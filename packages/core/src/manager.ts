@@ -18,6 +18,7 @@ import {
   Callbacks,
   ChainName,
   ChainRecord,
+  CosmosClientType,
   DeviceType,
   EndpointOptions,
   ManagerActions,
@@ -251,7 +252,7 @@ export class WalletManager extends StateBase<WalletData> {
     messages: EncodeObject[],
     fee: StdFee,
     memo?: string,
-    type?: string
+    type?: CosmosClientType
   ): Promise<TxRaw> => {
     return await (this.currentWallet as ChainWalletBase)?.sign?.(
       messages,
@@ -261,7 +262,7 @@ export class WalletManager extends StateBase<WalletData> {
     );
   };
 
-  broadcast = async (signedMessages: TxRaw, type?: string) => {
+  broadcast = async (signedMessages: TxRaw, type?: CosmosClientType) => {
     return await (this.currentWallet as ChainWalletBase)?.broadcast?.(
       signedMessages,
       type
@@ -272,7 +273,7 @@ export class WalletManager extends StateBase<WalletData> {
     messages: EncodeObject[],
     fee?: StdFee,
     memo?: string,
-    type?: string
+    type?: CosmosClientType
   ) => {
     return await (this.currentWallet as ChainWalletBase)?.signAndBroadcast?.(
       messages,

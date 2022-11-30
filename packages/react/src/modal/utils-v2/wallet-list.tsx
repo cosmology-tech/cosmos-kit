@@ -17,7 +17,8 @@ export const getWalletListView = (
   version: ModalVersion,
   wallets: ChainWalletBase[] = [],
   setOpen: (isOpen: boolean) => void,
-  setDisplay: (display: DisplayType | undefined) => void,
+  setDisplay: (display: DisplayType) => void,
+  setWallet: (wallet: ChainWalletBase | undefined) => void,
   initialFocus: RefObject<any>
 ) => {
   let ModalHead: (props: SimpleModalHeadType) => JSX.Element,
@@ -38,7 +39,13 @@ export const getWalletListView = (
         ...w.walletInfo,
         downloads: void 0,
         onClick: async () => {
-          setDisplay('single');
+          setWallet(w);
+          if (w.walletInfo.mode === 'wallet-connect' && !w.appUrl) {
+            setDisplay('qrcode');
+          } else {
+            setDisplay('single');
+          }
+          window.localStorage.setItem('synchronize-mutex-wallet', 'fire');
           await w.connect();
         },
       } as Wallet)

@@ -11,9 +11,11 @@ function TestStyle() {
 
   function handleColorMode() {
     setColorMode(colorMode === "light" ? "dark" : "light");
-    colorMode === "light"
-      ? window.localStorage.setItem("chakra-ui-color-mode", "dark")
-      : window.localStorage.setItem("chakra-ui-color-mode", "light");
+    if (colorMode === "light") {
+      window.localStorage.setItem("chakra-ui-color-mode", "dark");
+    } else {
+      window.localStorage.setItem("chakra-ui-color-mode", "light");
+    }
   }
 
   // set system color to default color mode

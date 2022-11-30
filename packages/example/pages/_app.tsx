@@ -46,7 +46,24 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ChainProvider
           chains={chains}
           assetLists={assets}
-          wallets={[...keplrWallet, ...cosmostationWallets, ...leapWallets]}
+          wallets={[
+            ...keplrWallet,
+            ...cosmostationWallets,
+            ...leapWallets,
+            ...vectisWallets,
+          ]}
+          signerOptions={{
+            signingStargate: (chain: Chain) => {
+              switch (chain.chain_name) {
+                case "osmosis":
+                  return {
+                    gasPrice: new GasPrice(Decimal.zero(1), "uosmo"),
+                  };
+                default:
+                  return void 0;
+              }
+            },
+          }}
         >
           <Component {...pageProps} />
         </ChainProvider>

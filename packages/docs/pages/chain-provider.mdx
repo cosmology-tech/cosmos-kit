@@ -1,6 +1,15 @@
-Chain Provider can be regarded as Wallet Provider V2, with most properties unchanged except for [`walletModal`](#walletmodal) and [`modelTheme`](#modaltheme). it provides necessary information for `useChain` hook.
+Chain Provider can be regarded as Wallet Provider V2, with most properties unchanged except
 
-Different from `useWallet`, `useChain` supports multiple chains connected at one time.
+- [`walletModal`](#walletmodal) props type modified
+- [`modelTheme`](#modaltheme) newly added
+- `viewOptions` removed
+- `storageOptions` removed
+  
+Chain Provider provides necessary information for `useChain` hook.
+
+Different from `useWallet`, `useChain` supports multiple chains connected at one time. And all the current-chain related functions/properties are removed in result of `useChain`.
+
+> Note: `walletStatus` in `useWallet` is renamed with `status` in `useChain`
 
 # Properties
 

@@ -67,7 +67,7 @@ export class WalletConnectWallet extends MainWalletBase {
       chainWallet.clientPromise = this.clientPromise;
       (chainWallet as ChainWalletConnect).emitter = this.emitter;
       // chainWallet.connect = this.connect;
-      chainWallet.disconnect = this.disconnect;
+      // chainWallet.disconnect = this.disconnect;
     });
   }
 
@@ -75,7 +75,7 @@ export class WalletConnectWallet extends MainWalletBase {
     sessionOptions?: SessionOptions,
     callbacks?: Callbacks
   ): Promise<void> => {
-    this.setMessage('Connecting with WalletConnect');
+    this.setMessage('About to connect.');
     this.emitter.removeAllListeners();
     this.emitter.on('update', async () => {
       await this.update(sessionOptions, callbacks);

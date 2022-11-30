@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { StargateClient } from '@cosmjs/stargate';
+
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
@@ -9,6 +10,7 @@ import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
  * Store all ChainWallets for a particular Chain.
  */
 export class WalletRepo extends StateBase<Data> {
+  isInUse = false;
   chainRecord: ChainRecord;
   private _wallets: ChainWalletBase[];
   options = {
@@ -28,15 +30,16 @@ export class WalletRepo extends StateBase<Data> {
 
     if (this.options.mutexWallet) {
       this.wallets.forEach((w) => {
-        w.callbacks = {
-          beforeConnect: () => {
+        w.updateCallbacks({
+          ...w.callbacks,
+          beforeConnect: async () => {
             this.wallets.forEach(async (w2) => {
               if (!w2.isWalletDisconnected && w2 !== w) {
                 await w2.disconnect();
               }
             });
           },
-        };
+        });
       });
     }
   }
@@ -91,17 +94,17 @@ export class WalletRepo extends StateBase<Data> {
   };
 
   openView = () => {
-    this.actions?.viewWalletRepo(this);
-    this.actions?.viewOpen(true);
+    this.actions?.viewWalletRepo?.(this);
+    this.actions?.viewOpen?.(true);
   };
 
   connect = async (walletName?: WalletName) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
-      await wallet.connect(this.sessionOptions);
+      await wallet?.connect(this.sessionOptions);
     } else if (this.isSingleWallet) {
       const wallet = this.wallets[0];
-      await wallet.connect(this.sessionOptions);
+      await wallet?.connect(this.sessionOptions);
     } else {
       this.openView();
     }
@@ -109,13 +112,11 @@ export class WalletRepo extends StateBase<Data> {
 
   disconnect = async (walletName?: WalletName) => {
     if (walletName) {
-      await this.getWallet(walletName).disconnect();
-    } else if (this.isSingleWallet) {
-      await this.wallets[0].disconnect();
-    } else if (this.options.mutexWallet) {
-      await this.current?.disconnect();
+      await this.getWallet(walletName)?.disconnect();
     } else {
-      this.openView();
+      for (const w of this.wallets) {
+        await w.disconnect();
+      }
     }
   };
 

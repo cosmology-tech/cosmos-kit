@@ -95,10 +95,14 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._qrUrl;
   }
 
+  updateCallbacks(callbacks: Callbacks) {
+    this.callbacks = { ...this.callbacks, ...callbacks };
+  }
+
   disconnect = async (callbacks?: Callbacks) => {
     await (callbacks || this.callbacks)?.beforeDisconnect?.();
-    window.localStorage.removeItem('cosmoskit-v2-wallet');
     this.reset();
+    window.localStorage.removeItem('chain-provider');
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
 
@@ -129,8 +133,6 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       );
       return;
     }
-
-    window?.localStorage.setItem('cosmoskit-v2-wallet', this.walletName);
 
     try {
       this.client =

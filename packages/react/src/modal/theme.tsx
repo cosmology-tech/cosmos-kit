@@ -1,7 +1,28 @@
 import { extendTheme } from '@chakra-ui/react';
 
-// global theme
-const theme = {
+/* ====================================================== */
+/*       NOTICE: Chakra resets global CSS by default      */
+/* ====================================================== */
+
+const colors = {
+  colors: {
+    primary: {
+      '50': '#e5e7f9',
+      '100': '#bec4ef',
+      '200': '#929ce4',
+      '300': '#6674d9',
+      '400': '#4657d1',
+      '500': '#2539c9',
+      '600': '#2133c3',
+      '700': '#1b2cbc',
+      '800': '#1624b5',
+      '900': '#0d17a9',
+    },
+  },
+};
+
+/* ----- this theme is for without Chakra CSS reset ----- */
+const themeWithoutReset = {
   styles: {
     global: () => ({
       html: {
@@ -27,221 +48,185 @@ const theme = {
         color: '',
       },
       '*, *::before, *::after': {
-        borderWidth: 0,
-        borderStyle: 'solid',
-        boxSizing: 'border-box',
+        borderWidth: '',
+        borderStyle: '',
+        boxSizing: '',
       },
       '*, *::before, &::after': {
         borderColor: '',
         wordWrap: '',
       },
       main: {
-        display: 'block',
+        display: '',
       },
       hr: {
-        borderTopWidth: '1px',
-        boxSizing: 'content-box',
-        height: 0,
-        overflow: 'visible',
+        borderTopWidth: '',
+        boxSizing: '',
+        height: '',
+        overflow: '',
       },
       'pre, code, kbd, samp': {
         fontFamily: '',
         fontSize: '',
       },
       a: {
-        backgroundColor: 'transparent',
-        color: 'inherit',
-        textDecoration: 'inherit',
+        backgroundColor: '',
+        color: '',
+        textDecoration: '',
       },
       'abbr[title]': {
-        borderBottom: 'none',
-        WebkitTextDecoration: 'underline dotted',
-        textDecoration: 'underline dotted',
+        borderBottom: '',
+        WebkitTextDecoration: '',
+        textDecoration: '',
       },
       'b, strong': {
-        fontWeight: 'bold',
+        fontWeight: '',
       },
       small: {
-        fontSize: '80%',
+        fontSize: '',
       },
       'sub, sup': {
-        fontSize: '75%',
-        lineHeight: 0,
-        position: 'relative',
-        verticalAlign: 'baseline',
+        fontSize: '',
+        lineHeight: '',
+        position: '',
+        verticalAlign: '',
       },
       sub: {
-        bottom: '-0.25em',
+        bottom: '',
       },
       sup: {
-        top: '-0.5em',
+        top: '',
       },
       img: {
-        borderStyle: 'none',
+        borderStyle: '',
       },
       'button, input, optgroup, select,textarea': {
-        fontFamily: 'inherit',
-        fontSize: '100%',
-        lineHeight: 1.15,
-        margin: 0,
+        fontFamily: '',
+        fontSize: '',
+        lineHeight: '',
+        margin: '',
       },
       'button, input': {
-        overflow: 'visible',
+        overflow: '',
       },
       'button, select': {
-        textTransform: 'none',
+        textTransform: '',
       },
       'button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner':
         {
-          borderStyle: 'none',
-          padding: 0,
+          borderStyle: '',
+          padding: '',
         },
       fieldset: {
-        margin: 0,
-        padding: 0,
+        margin: '',
+        padding: '',
       },
       legend: {
-        boxSizing: 'border-box',
-        color: 'inherit',
-        display: 'table',
-        maxWidth: '100%',
-        padding: 0,
-        whiteSpace: 'normal',
+        boxSizing: '',
+        color: '',
+        display: '',
+        maxWidth: '',
+        padding: '',
+        whiteSpace: '',
       },
       progress: {
-        verticalAlign: 'baseline',
+        verticalAlign: '',
       },
       textarea: {
-        overflow: 'auto',
-        resize: 'vertical',
+        overflow: '',
+        resize: '',
       },
       '[type="checkbox"], [type="radio"]': {
-        boxSizing: 'border-box',
-        padding: 0,
+        boxSizing: '',
+        padding: '',
       },
       '[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button':
         {
-          WebkitAppearance: 'none',
+          WebkitAppearance: '',
         },
       'input[type="number"]': {
-        MozAppearance: 'textfield',
+        MozAppearance: '',
       },
       '[type="search"]': {
-        '-webkit-appearance': 'none',
-        outlineOffset: '-2px',
+        '-webkit-appearance': '',
+        outlineOffset: '',
       },
       '[type="search"]::-webkit-search-decoration': {
-        WebkitAppearance: 'none',
+        WebkitAppearance: '',
       },
       '::-webkit-file-upload-button': {
-        WebkitAppearance: 'button',
-        font: 'inherit',
+        WebkitAppearance: '',
+        font: '',
       },
       details: {
-        display: 'block',
+        display: '',
       },
       summary: {
-        display: 'list-item',
+        display: '',
       },
       template: {
-        display: 'none',
+        display: '',
       },
       '[hidden]': {
-        display: 'none',
+        display: '',
       },
       'body, blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre': {
-        margin: 0,
+        margin: '',
       },
       button: {
         background: '',
-        padding: 0,
+        padding: '',
       },
       'button,[role="button"]': {
-        cursor: 'pointer',
+        cursor: '',
       },
       'button::-moz-focus-inner': {
-        border: 0,
+        border: '',
       },
       table: {
-        borderCollapse: 'collapse',
+        borderCollapse: '',
       },
       'ol, ul': {
-        margin: 0,
-        padding: 0,
+        margin: '',
+        padding: '',
       },
       'h1, h2, h3, h4, h5, h6': {
-        fontSize: 'inherit',
-        fontWeight: 'inherit',
+        fontSize: '',
+        fontWeight: '',
       },
       'button, input, optgroup, select, textarea': {
-        padding: 0,
-        lineHeight: 'inherit',
-        color: 'inherit',
+        padding: '',
+        lineHeight: '',
+        color: '',
       },
       'img, svg, video, canvas, audio, iframe, embed, object': {
-        display: 'block',
+        display: '',
       },
       'img, video': {
-        maxWidth: '100%',
-        height: 'auto',
+        maxWidth: '',
+        height: '',
       },
       '[data-js-focus-visible] :focus:not([data-focus-visible-added]):not([data-focus-visible-disabled])':
         {
-          outline: 'none',
-          boxShadow: 'none',
+          outline: '',
+          boxShadow: '',
         },
       'select::-ms-expand': {
-        display: 'none',
+        display: '',
       },
     }),
   },
-  colors: {
-    primary: {
-      '50': '#e5e7f9',
-      '100': '#bec4ef',
-      '200': '#929ce4',
-      '300': '#6674d9',
-      '400': '#4657d1',
-      '500': '#2539c9',
-      '600': '#2133c3',
-      '700': '#1b2cbc',
-      '800': '#1624b5',
-      '900': '#0d17a9',
-    },
-  },
+  ...colors,
 };
 
-// old theme
-// export const defaultThemeObject = {
-//   fonts: {
-//     body: 'Inter, system-ui, sans-serif',
-//     heading: 'Work Sans, system-ui, sans-serif',
-//   },
-//   colors: {
-//     primary: {
-//       '50': '#e5e7f9',
-//       '100': '#bec4ef',
-//       '200': '#929ce4',
-//       '300': '#6674d9',
-//       '400': '#4657d1',
-//       '500': '#2539c9',
-//       '600': '#2133c3',
-//       '700': '#1b2cbc',
-//       '800': '#1624b5',
-//       '900': '#0d17a9',
-//     },
-//   },
-//   breakPoints: {
-//     sm: '30em',
-//     md: '48em',
-//     lg: '62em',
-//     xl: '80em',
-//     '2xl': '96em',
-//   },
-//   shadows: {
-//     largeSoft: 'rgba(60, 64, 67, 0.15) 0px 2px 10px 6px;',
-//   },
-// };
+/* ------- this theme is for with Chakra CSS reset ------ */
+const themeWithReset = {
+  fonts: {
+    body: 'Inter, system-ui, sans-serif',
+    heading: 'Work Sans, system-ui, sans-serif',
+  },
+  ...colors,
+};
 
-// export const defaultTheme = extendTheme(defaultThemeObject);
-export const defaultTheme = extendTheme(theme);
+export const defaultTheme = extendTheme(themeWithReset);
+export const defaultThemeWithoutCSSReset = extendTheme(themeWithoutReset);

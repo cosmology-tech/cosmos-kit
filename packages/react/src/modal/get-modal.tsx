@@ -5,7 +5,7 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { useWallet } from '../hooks';
 import { SimpleConnectModal as ConnectModal } from './components';
-import { defaultTheme } from './theme';
+import { defaultThemeWithoutCSSReset } from './theme';
 import { getModalDetails } from './utils';
 
 export const getModal = (version: ModalVersion) => {
@@ -46,7 +46,7 @@ export const getModal = (version: ModalVersion) => {
 
     return (
       <ChakraProvider
-        theme={defaultTheme}
+        theme={defaultThemeWithoutCSSReset}
         resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
       >

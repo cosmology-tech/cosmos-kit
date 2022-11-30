@@ -2,8 +2,8 @@ import { Box, Button, Icon, Stack, Text, useColorMode } from '@chakra-ui/react';
 import React from 'react';
 import { FiChevronLeft, FiX } from 'react-icons/fi';
 
-import { SimpleModalHeadType } from './types';
 import { handleChangeColorModeValue } from './default-component';
+import { SimpleModalHeadType } from './types';
 
 export const SimpleModalHeadV1 = ({
   title,

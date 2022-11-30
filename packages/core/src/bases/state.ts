@@ -1,11 +1,4 @@
-import {
-  Actions,
-  AppEnv,
-  Mutable,
-  State,
-  StateActions,
-  WalletStatus,
-} from '../types';
+import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
 export class StateBase<T> {
@@ -90,14 +83,20 @@ export class StateBase<T> {
     return getWalletStatusFromState(this.state, this.message);
   }
 
+  get isWalletOnceConnect() {
+    return (
+      this.isWalletConnected || this.isWalletNotExist || this.isWalletError
+    );
+  }
+
   get isWalletConnecting() {
     return this.walletStatus === 'Connecting';
   }
 
-  get isConnectingWalletConnect() {
+  get isConnectingWC() {
     return (
       this.walletStatus === 'Disconnected' &&
-      this.message === 'Connecting with WalletConnect'
+      this.message === 'About to connect.'
     );
   }
 

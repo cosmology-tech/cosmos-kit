@@ -56,15 +56,61 @@ export class WalletManagerV2 extends StateBase<Data> {
       wallet.setChains(this.chainRecords);
     });
 
+    if (this.options.synchroMutexWallet) {
+      wallets.forEach(({ chainWallets }) => {
+        chainWallets?.forEach((w) => {
+          w.updateCallbacks({
+            afterDisconnect: async () => {
+              chainWallets.forEach(async (w2) => {
+                if (!w2.isWalletDisconnected && w2 !== w) {
+                  await w2.disconnect();
+                }
+              });
+            },
+            afterConnect: async () => {
+              this.synchronizeMutexWalletConnection();
+            },
+          });
+        });
+      });
+    }
+
     this.chainRecords.map((chainRecord) => {
       this.walletRepos.push(
         new WalletRepo(
           chainRecord,
-          wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)),
+          wallets.map(
+            ({ getChainWallet }) => getChainWallet(chainRecord.name)!
+          ),
           this.sessionOptions
         )
       );
     });
+  }
+
+  get walletReposInUse(): WalletRepo[] {
+    return this.walletRepos.filter((repo) => repo.isInUse === true);
+  }
+
+  async synchronizeMutexWalletConnection() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const ls = window.localStorage;
+    if (ls.getItem('synchronize-mutex-wallet') === 'done') {
+      return;
+    }
+    ls.setItem('synchronize-mutex-wallet', 'done');
+    const walletName = ls.getItem('chain-provider');
+    for (const repo of this.walletReposInUse) {
+      if (walletName) {
+        if (repo.current?.walletName !== walletName) {
+          await repo.current?.disconnect();
+        }
+        repo.openView();
+        await repo.connect(walletName);
+      }
+    }
   }
 
   getWalletRepo = (chainName: ChainName): WalletRepo => {
@@ -108,20 +154,21 @@ export class WalletManagerV2 extends StateBase<Data> {
     );
   };
 
-  connect = async (chainName: ChainName) => {
-    const repo = this.getWalletRepo(chainName);
-    await repo.connect();
-  };
-
-  disconnect = async (chainName: ChainName) => {
-    const repo = this.getWalletRepo(chainName);
-    await repo.disconnect();
+  private _handleConnect = async () => {
+    const ls = window.localStorage;
+    const walletName = ls.getItem('chain-provider');
+    if (walletName) {
+      ls.setItem('synchronize-mutex-wallet', 'fire');
+      await this.walletReposInUse[0]?.connect(walletName);
+    }
   };
 
   onMounted = () => {
     if (typeof window === 'undefined') {
       return;
     }
+
+    this._handleConnect();
 
     const parser = Bowser.getParser(window.navigator.userAgent);
     const env = {
@@ -131,7 +178,22 @@ export class WalletManagerV2 extends StateBase<Data> {
     };
     this.setEnv(env);
     this.walletRepos.forEach((repo) => repo.setEnv(env));
+
+    this.walletRepos[0]?.wallets.forEach((wallet) => {
+      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+        window.addEventListener(eventName, this._handleConnect);
+      });
+    });
   };
 
-  onUnmounted = () => {};
+  onUnmounted = () => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    this.walletRepos[0]?.wallets.forEach((wallet) => {
+      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+        window.removeEventListener(eventName, this._handleConnect);
+      });
+    });
+  };
 }

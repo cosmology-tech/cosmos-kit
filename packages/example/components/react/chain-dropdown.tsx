@@ -11,7 +11,6 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { handleChangeColorModeValue } from "./handleChangeColor";
 import {
   AsyncSelect,
   chakraComponents,
@@ -29,6 +28,7 @@ import {
   ChangeChainDropdownType,
   ChangeChainMenuType,
 } from "../types";
+import { handleChangeColorModeValue } from "./handleChangeColor";
 
 const SkeletonOptions = () => {
   return (

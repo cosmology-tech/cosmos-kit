@@ -133,6 +133,10 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         try {
           account = await this.client.getAccount(this.chainId);
         } catch (error) {
+          if (this.rejectMatched(error as Error)) {
+            this.setRejected();
+            return;
+          }
           await this.client.addChain(this.chainRecord);
           account = await this.client.getAccount(this.chainId);
         }
@@ -160,6 +164,9 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
       } else {
         this.setError(e as Error);
       }
+    }
+    if (!this.isWalletRejected) {
+      window?.localStorage.setItem('chain-provider', this.walletName);
     }
     await (callbacks || this.callbacks)?.afterConnect?.();
   }

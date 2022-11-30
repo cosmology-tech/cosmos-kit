@@ -10,8 +10,8 @@ import {
 } from '..';
 
 export class ChainWalletConnect extends ChainWalletBase {
-  client?: WalletConnectClient;
-  emitter?: EventEmitter;
+  client!: WalletConnectClient;
+  emitter!: EventEmitter;
 
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
     super(walletInfo, chainInfo);
@@ -33,7 +33,7 @@ export class ChainWalletConnect extends ChainWalletBase {
     sessionOptions?: SessionOptions,
     callbacks?: Callbacks
   ): Promise<void> => {
-    this.setMessage('Connecting with WalletConnect');
+    this.setMessage('About to connect.');
     this.emitter.removeAllListeners();
     this.emitter.on('update', async () => {
       await this.update(sessionOptions, callbacks);
@@ -65,6 +65,7 @@ export class ChainWalletConnect extends ChainWalletBase {
     }
     this.reset();
     this.emitter.removeAllListeners();
+    window.localStorage.removeItem('chain-provider');
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
 }

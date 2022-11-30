@@ -158,8 +158,8 @@ export interface ChainContext {
 
   chain: Chain;
   assets: AssetList | undefined;
-  logoUrl: string | undefined;
   wallet: Wallet | undefined;
+  logoUrl: string | undefined;
   address: string | undefined;
   username: string | undefined;
   message: string | undefined;

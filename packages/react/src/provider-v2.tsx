@@ -7,9 +7,6 @@ import {
   ModalVersion,
   SessionOptions,
   SignerOptions,
-  State,
-  StorageOptions,
-  ViewOptions,
   WalletManagerV2,
   WalletModalPropsV2,
   WalletRepo,
@@ -27,7 +24,7 @@ import { getModalV2 } from './modal';
 
 export const walletContextV2 = createContext<{
   walletManager: WalletManagerV2;
-  deps: State[];
+  // deps: State[];
 } | null>(null);
 
 export const ChainProvider = ({
@@ -37,9 +34,8 @@ export const ChainProvider = ({
   walletModal,
   modalTheme,
   signerOptions,
-  viewOptions,
+  // viewOptions,
   endpointOptions,
-  storageOptions,
   sessionOptions,
   children,
 }: {
@@ -49,9 +45,8 @@ export const ChainProvider = ({
   walletModal?: ModalVersion | ((props: WalletModalPropsV2) => JSX.Element);
   modalTheme?: Record<string, any>;
   signerOptions?: SignerOptions;
-  viewOptions?: ViewOptions;
+  // viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
-  storageOptions?: StorageOptions;
   sessionOptions?: SessionOptions;
   children: ReactNode;
 }) => {
@@ -68,7 +63,7 @@ export const ChainProvider = ({
     []
   );
 
-  const deps = [];
+  // const deps = [];
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [viewWalletRepo, setViewWalletRepo] = useState<
@@ -91,7 +86,7 @@ export const ChainProvider = ({
         message: setMsg,
       });
     });
-    deps.push(state, msg);
+    // deps.push(state, msg);
   });
 
   const Modal = useMemo(() => {
@@ -115,7 +110,7 @@ export const ChainProvider = ({
     <walletContextV2.Provider
       value={{
         walletManager,
-        deps,
+        // deps,
       }}
     >
       {children}

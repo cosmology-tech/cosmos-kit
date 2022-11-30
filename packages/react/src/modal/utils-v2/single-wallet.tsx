@@ -27,10 +27,11 @@ import { DisplayType, ModalInfo } from '../types';
 export const getSingleWalletView = (
   version: ModalVersion,
   wallet: ChainWalletBase | undefined,
+  display: DisplayType,
   setOpen: (isOpen: boolean) => void,
-  setDisplay: (display: DisplayType | undefined) => void
+  setDisplay: (display: DisplayType) => void
 ) => {
-  if (!wallet) {
+  if (!wallet && display !== 'qrcode') {
     return [void 0, void 0];
   }
 
@@ -56,14 +57,11 @@ export const getSingleWalletView = (
   const {
     walletInfo: { prettyName, name, logo },
     walletStatus: status,
-    isWalletConnected,
-    isConnectingWalletConnect,
     downloadInfo,
     isMobile,
     connect,
     disconnect,
     qrUrl,
-    appUrl,
     rejectMessageTarget,
     message,
     username,
@@ -71,6 +69,21 @@ export const getSingleWalletView = (
   } = wallet;
 
   const displayName = prettyName || name;
+
+  if (status === 'Disconnected' && display === 'qrcode') {
+    return [
+      <ModalHead
+        title={displayName}
+        backButton={true}
+        handleClose={() => {
+          setOpen(false);
+          setDisplay('list');
+        }}
+        handleBack={() => setDisplay('list')}
+      />,
+      <QRCode link={qrUrl} description={`Open ${displayName} App to Scan`} />,
+    ];
+  }
 
   const modalInfo: ModalInfo = {
     NotExist: {
@@ -112,12 +125,13 @@ export const getSingleWalletView = (
       buttonText: 'Disconnect',
       onClick: async () => {
         await disconnect();
+        setDisplay('list');
       },
       icon: <Icon as={RiDoorOpenFill} />,
     },
     Connecting: {
       logoStatus: LogoStatus.Loading,
-      header: 'Requesting Connection',
+      header: `Connecting ${wallet.chain.pretty_name}`,
       desc: qrUrl
         ? `Approve ${displayName} connection request on your mobile.`
         : isMobile
@@ -170,7 +184,7 @@ export const getSingleWalletView = (
   }
 
   function getModalContent() {
-    if (isWalletConnected) {
+    if (status === 'Connected') {
       return (
         <ModalContent
           logo={Astronaut}
@@ -181,12 +195,6 @@ export const getSingleWalletView = (
           }
           bottomButton={getBottomButton()}
         />
-      );
-    }
-
-    if (isConnectingWalletConnect && !appUrl) {
-      return (
-        <QRCode link={qrUrl} description={`Open ${displayName} App to Scan`} />
       );
     }
 
@@ -208,7 +216,13 @@ export const getSingleWalletView = (
     <ModalHead
       title={displayName}
       backButton={true}
-      handleClose={() => setOpen(false)}
+      handleClose={() => {
+        setOpen(false);
+        if (status === 'Connecting') {
+          disconnect();
+        }
+        setDisplay('list');
+      }}
       handleBack={() => setDisplay('list')}
     />,
     getModalContent(),
