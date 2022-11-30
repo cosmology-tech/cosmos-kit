@@ -117,5 +117,5 @@
     "@cosmjs/stargate": ">= 0.28",
     "cosmjs-types": ">= 0.5"
   },
-  "gitHead": "a03b4451b0abe742c27427d09660df9e546c7cc0"
+  "gitHead": "9f66a3ccd6a87de0c74c55b67b12eb1dc9d87a89"
 }
