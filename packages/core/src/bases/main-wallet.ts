@@ -64,11 +64,13 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     return this._chainWallets;
   }
 
-  getChainWallet(chainName: string): ChainWalletBase | undefined {
+  getChainWallet = (chainName: string): ChainWalletBase | undefined => {
     return this.chainWallets?.get(chainName);
-  }
+  };
 
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+    await (callbacks || this.callbacks)?.beforeConnect?.();
+
     if (!this.client) {
       this.setClientNotExist();
       return;
@@ -81,14 +83,15 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
       }, sessionOptions?.duration);
     }
 
-    callbacks?.connect?.();
+    await (callbacks || this.callbacks)?.afterConnect?.();
   }
 
-  disconnect(callbacks?: Callbacks) {
+  disconnect = async (callbacks?: Callbacks) => {
+    await (callbacks || this.callbacks)?.beforeDisconnect?.();
     this.chainWallets?.forEach((chain) => {
       chain.disconnect();
     });
     this.reset();
-    callbacks?.disconnect?.();
-  }
+    await (callbacks || this.callbacks)?.afterDisconnect?.();
+  };
 }

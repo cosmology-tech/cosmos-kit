@@ -129,12 +129,12 @@ export type Wallet = {
   mobileDisabled: boolean;
   rejectMessage?: string;
   downloads?: Downloads;
+  onClick?: () => void;
 };
 export type DisplayWalletListType = {
   initialFocus: RefObject<any>; // eslint-disable-line
   size?: string;
   walletsData: Wallet[];
-  handleClick: (select: Wallet) => void;
 };
 export type DisplayModalControlButtonType = {
   size?: string;

@@ -1,24 +1,21 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
-import { ChainName, ChainRecord, Data, EndpointOptions, SessionOptions, SignerOptions, ViewOptions, WalletName } from './types';
-import { WalletRepo } from './wallet-repo';
+import { MainWalletBase, StateBase } from './bases';
+import { WalletRepo } from './repository';
+import { ChainName, ChainRecord, Data, EndpointOptions, SessionOptions, SignerOptions } from './types';
 export declare class WalletManagerV2 extends StateBase<Data> {
     chainRecords: ChainRecord[];
-    allWallets: ChainWalletBase[];
-    chainToWalletHash: Map<ChainName, Map<WalletName, ChainWalletBase>>;
-    walletToChainHash: Map<WalletName, Map<ChainName, ChainWalletBase>>;
-    viewOptions: ViewOptions;
+    walletRepos: WalletRepo[];
+    options: {
+        synchroMutexWallet: boolean;
+    };
     sessionOptions: SessionOptions;
-    constructor(chains: Chain[], assetLists: AssetList[], wallets: MainWalletBase[], signerOptions?: SignerOptions, viewOptions?: ViewOptions, endpointOptions?: EndpointOptions, sessionOptions?: SessionOptions);
-    get wallets(): ChainWalletBase[];
-    getWalletRepo: (chainName?: ChainName, walletName?: WalletName) => WalletRepo;
+    constructor(chains: Chain[], assetLists: AssetList[], wallets: MainWalletBase[], signerOptions?: SignerOptions, endpointOptions?: EndpointOptions, sessionOptions?: SessionOptions);
+    get walletReposInUse(): WalletRepo[];
+    synchronizeMutexWalletConnection(): Promise<void>;
+    getWalletRepo: (chainName: ChainName) => WalletRepo;
     getChainRecord: (chainName?: ChainName) => ChainRecord | undefined;
     getChainLogo: (chainName?: ChainName) => string | undefined;
-    connect: (chainName?: ChainName, walletName?: WalletName) => Promise<void>;
-    disconnect: (chainName?: ChainName, walletName?: WalletName) => Promise<void>;
-    private _handleTabLoad;
-    private _handleTabClose;
-    private _connectEventLisener;
+    private _handleConnect;
     onMounted: () => void;
     onUnmounted: () => void;
 }

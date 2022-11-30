@@ -6,6 +6,7 @@ export declare abstract class WalletBase<Data> extends StateBase<Data> {
     protected _walletInfo: Wallet;
     protected _appUrl?: string;
     protected _qrUrl?: string;
+    callbacks?: Callbacks;
     constructor(walletInfo: Wallet);
     get walletInfo(): Wallet;
     get downloadInfo(): DownloadInfo | undefined;
@@ -17,11 +18,12 @@ export declare abstract class WalletBase<Data> extends StateBase<Data> {
     rejectMatched(e: Error): boolean;
     get appUrl(): string | undefined;
     get qrUrl(): string | undefined;
-    disconnect(callbacks?: Callbacks): void;
+    updateCallbacks(callbacks: Callbacks): void;
+    disconnect: (callbacks?: Callbacks) => Promise<void>;
     setClientNotExist(): void;
     setRejected(): void;
     setError(e: Error | string): void;
-    connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
+    connect: (sessionOptions?: SessionOptions, callbacks?: Callbacks) => Promise<void>;
     abstract fetchClient(): WalletClient | undefined | Promise<WalletClient | undefined>;
     abstract update(sessionOptions?: SessionOptions, callbacks?: Callbacks): void | Promise<void>;
 }

@@ -10,7 +10,7 @@ export declare abstract class MainWalletBase extends WalletBase<MainWalletData> 
     setChains(chains: ChainRecord[]): void;
     get username(): string | undefined;
     get chainWallets(): Map<string, ChainWalletBase>;
-    getChainWallet(chainName: string): ChainWalletBase | undefined;
+    getChainWallet: (chainName: string) => ChainWalletBase | undefined;
     update(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
-    disconnect(callbacks?: Callbacks): void;
+    disconnect: (callbacks?: Callbacks) => Promise<void>;
 }

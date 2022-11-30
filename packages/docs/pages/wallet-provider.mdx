@@ -8,6 +8,59 @@ Required property of type `Chain[]` (comes from `chain-registry`)
 
 It defines supported chains. Any actions involving chains beyound it might cause errors.
 
+### adding localnet and testnets
+
+Example of adding `localosmosis`
+
+`_app.tsx`:
+
+```ts
+import { WalletProvider } from '@cosmos-kit/react';
+import { wallets } from '@cosmos-kit/keplr';
+import { assets, chains } from 'chain-registry';
+import { getSigningCosmosClientOptions } from 'osmojs';
+import { GasPrice } from '@cosmjs/stargate';
+
+import { SignerOptions } from '@cosmos-kit/core';
+import { Chain, AssetList } from '@chain-registry/types';
+import { localosmosis, localosmosisAssets } from '../config/localosmosis';
+
+function App({ Component, pageProps }: AppProps) {
+
+  const localosmosis: Chain = {...}; // with chain_name: 'localosmosis'
+  const localosmosisAssets: AssetList = {...}; // with chain_name: 'localosmosis'
+
+  const signerOptions: SignerOptions = {
+    signingStargate: (_chain: Chain) => {
+      return getSigningCosmosClientOptions();
+    },
+    signingCosmwasm: (chain: Chain) => {
+      switch (chain.chain_name) {
+        case 'localosmosis':
+          return {
+            gasPrice: GasPrice.fromString('0.0025uosmo')
+          };
+      }
+    }
+  };
+  return (
+      <WalletProvider
+        chains={[...chains, localosmosis]}
+        assetLists={[...assets, localosmosisAssets]}
+        wallets={wallets}
+        signerOptions={signerOptions}
+        endpointOptions={{
+          localosmosis: {
+            rpc: ['http://localhost:343434']
+          }
+        }}
+      >
+        <Component {...pageProps} />
+      </WalletProvider>
+  );
+}
+```
+
 ## assetLists
 
 Required property of type `AssetList[]` (comes from `chain-registry`)

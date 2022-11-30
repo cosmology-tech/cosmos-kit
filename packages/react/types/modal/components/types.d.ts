@@ -117,12 +117,12 @@ export declare type Wallet = {
     mobileDisabled: boolean;
     rejectMessage?: string;
     downloads?: Downloads;
+    onClick?: () => void;
 };
 export declare type DisplayWalletListType = {
     initialFocus: RefObject<any>;
     size?: string;
     walletsData: Wallet[];
-    handleClick: (select: Wallet) => void;
 };
 export declare type DisplayModalControlButtonType = {
     size?: string;

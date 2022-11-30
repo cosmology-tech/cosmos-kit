@@ -1,0 +1,376 @@
+Chain Provider can be regarded as Wallet Provider V2, with most properties unchanged except
+
+- [`walletModal`](#walletmodal) props type modified
+- [`modelTheme`](#modaltheme) newly added
+- `viewOptions` removed
+- `storageOptions` removed
+  
+Chain Provider provides necessary information for `useChain` hook.
+
+Different from `useWallet`, `useChain` supports multiple chains connected at one time. And all the current-chain related functions/properties are removed in result of `useChain`.
+
+> Note: `walletStatus` in `useWallet` is renamed with `status` in `useChain`
+
+# Properties
+
+## chains
+
+Required property of type `Chain[]` (comes from `chain-registry`)
+
+It defines supported chains. Any actions involving chains beyound it might cause errors.
+
+### adding localnet and testnets
+
+Example of adding `localosmosis`
+
+`_app.tsx`:
+
+```ts
+import { ChainProvider } from '@cosmos-kit/react';
+import { wallets } from '@cosmos-kit/keplr';
+import { assets, chains } from 'chain-registry';
+import { getSigningCosmosClientOptions } from 'osmojs';
+import { GasPrice } from '@cosmjs/stargate';
+
+import { SignerOptions } from '@cosmos-kit/core';
+import { Chain, AssetList } from '@chain-registry/types';
+import { localosmosis, localosmosisAssets } from '../config/localosmosis';
+
+function App({ Component, pageProps }: AppProps) {
+
+  const localosmosis: Chain = {...}; // with chain_name: 'localosmosis'
+  const localosmosisAssets: AssetList = {...}; // with chain_name: 'localosmosis'
+
+  const signerOptions: SignerOptions = {
+    signingStargate: (_chain: Chain) => {
+      return getSigningCosmosClientOptions();
+    },
+    signingCosmwasm: (chain: Chain) => {
+      switch (chain.chain_name) {
+        case 'localosmosis':
+          return {
+            gasPrice: GasPrice.fromString('0.0025uosmo')
+          };
+      }
+    }
+  };
+  return (
+      <ChainProvider
+        chains={[...chains, localosmosis]}
+        assetLists={[...assets, localosmosisAssets]}
+        wallets={wallets}
+        signerOptions={signerOptions}
+        endpointOptions={{
+          localosmosis: {
+            rpc: ['http://localhost:343434']
+          }
+        }}
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+```
+
+## assetLists
+
+Required property of type `AssetList[]` (comes from `chain-registry`)
+
+It provides chains related assets information.
+
+## wallets
+
+Required property of type `MainWalletBase[]`
+
+It defines supported wallets. There are several wallets out of box.
+
+```ts
+import { wallets as keplrWallet } from '@cosmos-kit/keplr';
+import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
+import { wallets as leapwallets } from '@cosmos-kit/leap';
+```
+
+If you don't like the default wallet settings such as icon, app name (they would be displayed on default modal), you can choose to provide your own settings by importing wallets like this.
+
+```ts
+import { KeplrExtensionWallet, KeplrMobileWallet } from '@cosmos-kit/keplr';
+
+const keplrExtensionInfo: Wallet = {...};
+const keplrMobileInfo: Wallet = {...};
+
+const keplrExtension = new KeplrExtensionWallet(keplrExtensionInfo);
+const KeplrMobile = new KeplrMobileWallet(keplrMobileInfo);
+
+export const wallets = [keplrExtension, KeplrMobile];
+```
+
+In addition, you can integrate new wallets in a few steps.
+
+🔌 [How to integrate new wallets into Cosmos Kit](https://docs.cosmoskit.com/integrating-wallets/adding-new-wallets)
+
+## walletModal
+
+Optional property of type `ModalVersion | ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
+
+So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
+
+If `walletModal` not provided, by default using `simple_v2` for modal.
+
+<div width="100%" style={{
+  display:'flex',
+  justifyContent:'center',
+  alignItems: 'center',
+  marginTop: '36px'
+  }}>
+    <div style={{marginRight:'56px'}}>
+    simple_v1
+        <img
+        width="300"
+        src="/img/modal_simple_v1.jpg"
+        />
+    </div>
+    <div style={{marginRight:'16px'}}>
+    simple_v2
+        <img
+        width="300"
+        src="/img/modal_simple_v2.jpg"
+        />
+    </div>
+</div>
+
+For `simple_v1`, the order of wallets follows the order of property `wallets` in ChainProvider. And basically `simple_v2` follows the same rule, except that all mobiles are moved to the back.
+
+You can also define your own modal component with required props.
+
+### customize modal
+
+Example of using self-defined modal.
+
+`_app.tsx`:
+
+```tsx
+import * as React from 'react';
+
+import { ChainProvider } from '@cosmos-kit/react';
+
+// Define Modal Component
+const MyModal = ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => {
+  function onCloseModal() {
+    setOpen(false);
+  }
+
+  return (
+    <Modal isOpen={isOpen} onClose={onCloseModal}>
+      <ModalContent>
+        <ModalHeader>Choose Wallet</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {walletRepo.wallets.map(({ chainName, connect }) => (
+            <Button
+              key={chainName}
+              colorScheme="blue"
+              variant="ghost"
+              onClick={() => connect}
+            >
+              {chainName}
+            </Button>
+          ))}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      chains={chains}
+      wallets={wallets}
+      walletModal={MyModal} // Provide walletModal
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+## modalTheme
+
+Optional property. It will overwrite default theme applied in all given modals, including `simple_v1` and `simple_v2`. 
+
+You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
+
+## endpointOptions
+
+Optional property. Define preferred endpoints for each chain.
+
+**Type:** `EndpointOptions`
+
+```tsx
+export type ChainName = string;
+
+export interface Endpoints {
+  rpc?: string[];
+  rest?: string[];
+}
+
+export type EndpointOptions = Record<ChainName, Endpoints>;
+```
+
+**Example:**
+
+```tsx
+<ChainProvider
+  ...
+  endpointOptions={{
+    osmosis: {
+      rpc: ['http://test.com']
+    }
+  }}
+>
+```
+
+## sessionOptions
+
+Define connection session options.
+
+**Type:** `SessionOptions`
+
+```tsx
+export interface SessionOptions {
+  duration?: number; // ms
+  killOnTabClose?: boolean;
+}
+```
+
+**Default:**
+
+```tsx
+const sessionOptions: SessionOptions = {
+  duration: 1800000, // half an hour
+  killOnTabClose: false,
+};
+```
+
+## signerOptions
+
+Optional property.
+
+```ts
+import * as React from "react";
+
+import { Chain } from "@chain-registry/types";
+import { chains } from "chain-registry";
+import { GasPrice } from "@cosmjs/stargate";
+import { getSigningCosmosClientOptions } from "interchain";
+import { SignerOptions } from "@cosmos-kit/core";
+import { ChainProvider } from "@cosmos-kit/react";
+import { wallets } from '@cosmos-kit/keplr';
+
+// construct signer options
+const signerOptions: SignerOptions = {
+  signingStargate: (chain: Chain) => {
+    // return corresponding stargate options or undefined
+    return getSigningCosmosClientOptions();
+  },
+  signingCosmwasm: (chain: Chain) => {
+    // return corresponding cosmwasm options or undefined
+    switch (chain.chain_name) {
+      case "osmosis":
+        return {
+          gasPrice: GasPrice.fromString("0.0025uosmo"),
+        };
+      case "juno":
+        return {
+          gasPrice: GasPrice.fromString("0.0025ujuno"),
+        };
+    }
+  },
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      chains={chains}
+      wallets={wallets}
+      signerOptions={signerOptions} // Provide signerOptions
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+The `SignerOptions` object has `stargate` and `cosmwasm` properties which are functions that return client options:
+
+```ts
+// in '@cosmos-kit/core'
+import { SigningStargateClientOptions } from "@cosmjs/stargate";
+import { SigningCosmWasmClientOptions } from "@cosmjs/cosmwasm-stargate";
+
+export interface SignerOptions {
+  signingStargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
+  signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
+}
+```
+
+## storageOptions
+
+Optional property. Define local storage attributes.
+
+storage key: `cosmos-kit`
+
+storage value attributes:
+
+- `currentWalletName`
+- `currentChainName`
+
+**Type:** `StorageOptions`
+
+```ts
+export interface StorageOptions {
+  disabled?: boolean;
+  duration?: number; // ms
+  clearOnTabClose?: boolean;
+}
+```
+
+**Default:**
+
+```ts
+const storageOptions: StorageOptions = {
+  disabled: false,
+  duration: 1800000, // half an hour
+  clearOnTabClose: false,
+};
+```
+
+## viewOptions
+
+Define automation for view.
+
+**Type:** `ViewOptions`
+
+```ts
+export interface ViewOptions {
+  /**
+   * if alwaysOpenView === true, always open view when `connect` or `disconnect` is called
+   * if alwaysOpenView === false, only open view when necessary. e.g. current wallet is not defined, need to choose wallet in modal.
+   */
+  alwaysOpenView?: boolean;
+  closeViewWhenWalletIsConnected?: boolean;
+  closeViewWhenWalletIsDisconnected?: boolean;
+  closeViewWhenWalletIsRejected?: boolean;
+}
+```
+
+**Default:**
+
+```ts
+const viewOptions: ViewOptions = {
+  alwaysOpenView: false,
+  closeViewWhenWalletIsConnected: false,
+  closeViewWhenWalletIsDisconnected: true,
+  closeViewWhenWalletIsRejected: false,
+};
+```

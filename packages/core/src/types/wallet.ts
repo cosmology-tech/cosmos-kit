@@ -1,18 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import { AssetList, Chain } from '@chain-registry/types';
+import { AminoSignResponse, StdFee, StdSignDoc } from '@cosmjs/amino';
+import {
+  CosmWasmClient,
+  SigningCosmWasmClient,
+} from '@cosmjs/cosmwasm-stargate';
 import {
   Algo,
   DirectSignResponse,
+  EncodeObject,
   OfflineDirectSigner,
   OfflineSigner,
 } from '@cosmjs/proto-signing';
+import {
+  DeliverTxResponse,
+  SigningStargateClient,
+  StargateClient,
+} from '@cosmjs/stargate';
 import { IConnector } from '@walletconnect/types';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainWalletConnect } from '../wallet-connect';
 import { ChainRecord } from './chain';
-import { AppEnv, Data, OS } from './common';
+import { AppEnv, CosmosClientType, Data, OS } from './common';
 
 export type WalletName = string;
 
@@ -138,4 +150,50 @@ export interface IChainWalletConnect {
 
 export interface IWalletConnectClient {
   new (): WalletConnectClient;
+}
+
+export interface ChainContext {
+  // walletRepo: WalletRepo;
+  // wallet: ChainWalletBase | undefined;
+
+  chain: Chain;
+  assets: AssetList | undefined;
+  wallet: Wallet | undefined;
+  logoUrl: string | undefined;
+  address: string | undefined;
+  username: string | undefined;
+  message: string | undefined;
+  status: WalletStatus;
+
+  openView: () => void;
+  connect: (wallet?: WalletName) => Promise<void>;
+  disconnect: () => Promise<void>;
+  getRpcEndpoint: () => Promise<string | undefined>;
+  getRestEndpoint: () => Promise<string | undefined>;
+  getStargateClient: () => Promise<StargateClient | undefined>;
+  getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
+  getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;
+  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
+  estimateFee: (
+    messages: EncodeObject[],
+    type?: CosmosClientType,
+    memo?: string,
+    multiplier?: number
+  ) => Promise<StdFee | undefined>;
+  sign: (
+    messages: EncodeObject[],
+    fee: StdFee,
+    memo?: string,
+    type?: CosmosClientType
+  ) => Promise<TxRaw | undefined>;
+  broadcast: (
+    signedMessages: TxRaw,
+    type?: CosmosClientType
+  ) => Promise<DeliverTxResponse | undefined>;
+  signAndBroadcast: (
+    messages: EncodeObject[],
+    fee?: StdFee,
+    memo?: string,
+    type?: CosmosClientType
+  ) => Promise<DeliverTxResponse | undefined>;
 }

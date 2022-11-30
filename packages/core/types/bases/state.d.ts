@@ -1,4 +1,4 @@
-import { Actions, AppEnv, Mutable, State, StateActions, WalletStatus } from '../types';
+import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
 export declare class StateBase<T> {
     protected _mutable: Mutable<T>;
     actions?: StateActions<T>;
@@ -8,9 +8,6 @@ export declare class StateBase<T> {
     setEnv(env?: AppEnv): void;
     setActions: (actions: Actions) => void;
     get isMobile(): boolean;
-    get emitState(): import("../types").Dispatch<State>;
-    get emitData(): import("../types").Dispatch<T>;
-    get emitMessage(): import("../types").Dispatch<string>;
     get mutable(): Mutable<T>;
     get state(): State;
     get isInit(): boolean;
@@ -23,8 +20,10 @@ export declare class StateBase<T> {
     setData(data: T | undefined): void;
     setMessage(message: string | undefined): void;
     reset(): void;
-    get walletStatus(): WalletStatus;
+    get walletStatus(): import("../types").WalletStatus;
+    get isWalletOnceConnect(): boolean;
     get isWalletConnecting(): boolean;
+    get isConnectingWC(): boolean;
     get isWalletConnected(): boolean;
     get isWalletDisconnected(): boolean;
     get isWalletRejected(): boolean;

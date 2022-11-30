@@ -11,6 +11,6 @@ export declare class WalletConnectWallet extends MainWalletBase {
     get appUrl(): string;
     fetchClient(): WalletConnectClient;
     protected onSetChainsDone(): void;
-    connect(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
-    disconnect(callbacks?: Callbacks): Promise<void>;
+    connect: (sessionOptions?: SessionOptions, callbacks?: Callbacks) => Promise<void>;
+    disconnect: (callbacks?: Callbacks) => Promise<void>;
 }

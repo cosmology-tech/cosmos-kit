@@ -18,6 +18,7 @@ import {
   Callbacks,
   ChainName,
   ChainRecord,
+  CosmosClientType,
   DeviceType,
   EndpointOptions,
   ManagerActions,
@@ -251,7 +252,7 @@ export class WalletManager extends StateBase<WalletData> {
     messages: EncodeObject[],
     fee: StdFee,
     memo?: string,
-    type?: string
+    type?: CosmosClientType
   ): Promise<TxRaw> => {
     return await (this.currentWallet as ChainWalletBase)?.sign?.(
       messages,
@@ -261,7 +262,7 @@ export class WalletManager extends StateBase<WalletData> {
     );
   };
 
-  broadcast = async (signedMessages: TxRaw, type?: string) => {
+  broadcast = async (signedMessages: TxRaw, type?: CosmosClientType) => {
     return await (this.currentWallet as ChainWalletBase)?.broadcast?.(
       signedMessages,
       type
@@ -272,7 +273,7 @@ export class WalletManager extends StateBase<WalletData> {
     messages: EncodeObject[],
     fee?: StdFee,
     memo?: string,
-    type?: string
+    type?: CosmosClientType
   ) => {
     return await (this.currentWallet as ChainWalletBase)?.signAndBroadcast?.(
       messages,
@@ -392,12 +393,12 @@ export class WalletManager extends StateBase<WalletData> {
 
   private get callbacks(): Callbacks {
     return {
-      connect: () => {
+      afterConnect: () => {
         if (!this.isWalletDisconnected) {
           this.updateLocalStorage('wallet');
         }
       },
-      disconnect: () => {
+      afterDisconnect: () => {
         this.setCurrentWallet(undefined);
         this.updateLocalStorage('wallet');
       },
@@ -485,7 +486,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
   };
 
-  private _connectEventLisener = async (event: Event) => {
+  private _connectEventListener = async (event: Event) => {
     event.preventDefault();
     if (!this.isInit) {
       await this.connect();
@@ -523,7 +524,7 @@ export class WalletManager extends StateBase<WalletData> {
 
       this.wallets.forEach((wallet) => {
         wallet.walletInfo.connectEventNames?.forEach((eventName) => {
-          window.addEventListener(eventName, this._connectEventLisener);
+          window.addEventListener(eventName, this._connectEventListener);
         });
       });
     }
@@ -539,7 +540,7 @@ export class WalletManager extends StateBase<WalletData> {
 
     this.wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNames?.forEach((eventName) => {
-        window.removeEventListener(eventName, this._connectEventLisener);
+        window.removeEventListener(eventName, this._connectEventListener);
       });
     });
   };

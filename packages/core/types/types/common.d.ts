@@ -22,8 +22,10 @@ export interface StateActions<T> extends Actions {
     message?: Dispatch<string | undefined>;
 }
 export interface Callbacks {
-    connect?: () => void;
-    disconnect?: () => void;
+    beforeConnect?: () => void;
+    beforeDisconnect?: () => void;
+    afterConnect?: () => void;
+    afterDisconnect?: () => void;
 }
 export declare type OS = 'android' | 'ios' | 'windows' | 'macos';
 export declare type BrowserName = 'chrome' | 'firefox' | 'safari' | string;
@@ -34,3 +36,4 @@ export interface AppEnv {
     browser?: BrowserName;
 }
 export declare type ModalVersion = 'simple_v1' | 'simple_v2';
+export declare type CosmosClientType = 'stargate' | 'cosmwasm';

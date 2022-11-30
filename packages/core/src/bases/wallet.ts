@@ -17,6 +17,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
   protected _walletInfo: Wallet;
   protected _appUrl?: string;
   protected _qrUrl?: string;
+  callbacks?: Callbacks;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -94,10 +95,16 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     return this._qrUrl;
   }
 
-  disconnect(callbacks?: Callbacks) {
-    this.reset();
-    callbacks?.disconnect?.();
+  updateCallbacks(callbacks: Callbacks) {
+    this.callbacks = { ...this.callbacks, ...callbacks };
   }
+
+  disconnect = async (callbacks?: Callbacks) => {
+    await (callbacks || this.callbacks)?.beforeDisconnect?.();
+    this.reset();
+    window.localStorage.removeItem('chain-provider');
+    await (callbacks || this.callbacks)?.afterDisconnect?.();
+  };
 
   setClientNotExist() {
     this.setState(State.Error);
@@ -117,7 +124,9 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     }
   }
 
-  async connect(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+  connect = async (sessionOptions?: SessionOptions, callbacks?: Callbacks) => {
+    await (callbacks || this.callbacks)?.beforeConnect?.();
+
     if (this.isMobile && this.walletInfo.mobileDisabled) {
       this.setError(
         'This wallet is not supported on mobile, please use desktop browsers.'
@@ -145,8 +154,8 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       this.setError(error as Error);
     }
 
-    callbacks?.connect?.();
-  }
+    await (callbacks || this.callbacks)?.afterConnect?.();
+  };
 
   abstract fetchClient():
     | WalletClient

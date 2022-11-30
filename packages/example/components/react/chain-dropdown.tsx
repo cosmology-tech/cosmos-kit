@@ -8,6 +8,7 @@ import {
   SystemStyleObject,
   Text,
   useBreakpointValue,
+  useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import {
@@ -27,6 +28,7 @@ import {
   ChangeChainDropdownType,
   ChangeChainMenuType,
 } from "../types";
+import { handleChangeColorModeValue } from "./handleChangeColor";
 
 const SkeletonOptions = () => {
   return (
@@ -38,11 +40,17 @@ const SkeletonOptions = () => {
 };
 
 const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
+  const { colorMode } = useColorMode();
   const menuHeight = useBreakpointValue({ base: 60, md: 56 });
   const customStyles = {
     control: (provided: SystemStyleObject) => ({
       ...provided,
       height: 12,
+      borderColor: handleChangeColorModeValue(
+        colorMode,
+        "gray.200",
+        "whiteAlpha.300"
+      ),
     }),
     menu: (provided: SystemStyleObject) => ({
       ...provided,
@@ -110,15 +118,15 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               ? "primary.200"
               : "primary.100"
             : state.isFocused
-              ? "blackAlpha.200"
-              : "transparent",
+            ? "blackAlpha.200"
+            : "transparent",
           state.isSelected
             ? state.isFocused
               ? "primary.600"
               : "primary.500"
             : state.isFocused
-              ? "whiteAlpha.200"
-              : "transparent"
+            ? "whiteAlpha.200"
+            : "transparent"
         ),
         _notFirst: {
           mt: 2,

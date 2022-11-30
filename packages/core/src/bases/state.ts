@@ -1,11 +1,4 @@
-import {
-  Actions,
-  AppEnv,
-  Mutable,
-  State,
-  StateActions,
-  WalletStatus,
-} from '../types';
+import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
 import { getWalletStatusFromState } from '../utils';
 
 export class StateBase<T> {
@@ -33,18 +26,6 @@ export class StateBase<T> {
     return this.env?.device === 'mobile';
   }
 
-  get emitState() {
-    return this.actions?.state;
-  }
-
-  get emitData() {
-    return this.actions?.data;
-  }
-
-  get emitMessage() {
-    return this.actions?.message;
-  }
-
   get mutable() {
     return this._mutable;
   }
@@ -54,19 +35,19 @@ export class StateBase<T> {
   }
 
   get isInit() {
-    return this.state === State.Init;
+    return this.state === 'Init';
   }
 
   get isDone() {
-    return this.state === State.Done;
+    return this.state === 'Done';
   }
 
   get isError() {
-    return this.state === State.Error;
+    return this.state === 'Error';
   }
 
   get isPending() {
-    return this.state === State.Pending;
+    return this.state === 'Pending';
   }
 
   get data() {
@@ -79,17 +60,17 @@ export class StateBase<T> {
 
   setState(state: State) {
     this._mutable.state = state;
-    this.emitState?.(state);
+    this.actions?.state?.(state);
   }
 
   setData(data: T | undefined) {
     this._mutable.data = data;
-    this.emitData?.(data);
+    this.actions?.data?.(data);
   }
 
   setMessage(message: string | undefined) {
     this._mutable.message = message;
-    this.emitMessage?.(message);
+    this.actions?.message?.(message);
   }
 
   reset() {
@@ -102,27 +83,40 @@ export class StateBase<T> {
     return getWalletStatusFromState(this.state, this.message);
   }
 
+  get isWalletOnceConnect() {
+    return (
+      this.isWalletConnected || this.isWalletNotExist || this.isWalletError
+    );
+  }
+
   get isWalletConnecting() {
-    return this.walletStatus === WalletStatus.Connecting;
+    return this.walletStatus === 'Connecting';
+  }
+
+  get isConnectingWC() {
+    return (
+      this.walletStatus === 'Disconnected' &&
+      this.message === 'About to connect.'
+    );
   }
 
   get isWalletConnected() {
-    return this.walletStatus === WalletStatus.Connected;
+    return this.walletStatus === 'Connected';
   }
 
   get isWalletDisconnected() {
-    return this.walletStatus === WalletStatus.Disconnected;
+    return this.walletStatus === 'Disconnected';
   }
 
   get isWalletRejected() {
-    return this.walletStatus === WalletStatus.Rejected;
+    return this.walletStatus === 'Rejected';
   }
 
   get isWalletNotExist() {
-    return this.walletStatus === WalletStatus.NotExist;
+    return this.walletStatus === 'NotExist';
   }
 
   get isWalletError() {
-    return this.walletStatus === WalletStatus.Error;
+    return this.walletStatus === 'Error';
   }
 }

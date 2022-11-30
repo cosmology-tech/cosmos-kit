@@ -17,7 +17,7 @@
 
 | Key      | Type | Comment |
 | ----------- | ----------- | -- |
-| **rejectMessage**      | `string`   | error message when reject permission to wallet app/extension |
+| **rejectMessage**      | `string`   | error message thrown by wallet app/extension when user rejects |
 | **connectEventNames**   | `string[]`   | window event names to fire auto-connect |
 | **downloads**   | [`Downloads`](https://github.com/cosmology-tech/cosmos-kit/blob/4c1f4b9a818ca1afa08c2067fe0c29a740d8e5ea/packages/core/src/types/wallet.ts#L32-L37) | wallet app/extension download information |
 | **logo** | `string`   | wallet logo url, display on default modal |

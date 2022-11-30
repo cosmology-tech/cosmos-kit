@@ -22,7 +22,8 @@ import React, {
   useState,
 } from 'react';
 
-import { getModalFromVersion } from './modal';
+import { DefaultModal } from '.';
+import { getModal } from './modal';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -68,20 +69,6 @@ export const WalletProvider = ({
     []
   );
 
-  // const walletManagerV2 = useMemo(
-  //   () =>
-  //     new WalletManagerV2(
-  //       chains,
-  //       assetLists,
-  //       wallets,
-  //       signerOptions,
-  //       viewOptions,
-  //       endpointOptions,
-  //       sessionOptions
-  //     ),
-  //   []
-  // );
-
   const [walletData, setWalletData] = useState<MainWalletData>();
   const [walletState, setWalletState] = useState(walletManager.state);
   const [walletMsg, setWalletMsg] = useState<string | undefined>();
@@ -105,9 +92,9 @@ export const WalletProvider = ({
 
   const Modal = useMemo(() => {
     if (!walletModal) {
-      return getModalFromVersion('simple_v2');
+      return DefaultModal;
     } else if (typeof walletModal === 'string') {
-      return getModalFromVersion(walletModal as ModalVersion);
+      return getModal(walletModal as ModalVersion);
     } else {
       return walletModal;
     }

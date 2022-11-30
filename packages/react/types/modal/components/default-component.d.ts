@@ -1,8 +1,7 @@
 import { ButtonProps, TooltipProps } from '@chakra-ui/react';
-import React from 'react';
 import { DefaultCardType, DefaultIconButtonType, DefaultLinkItemType, DefaultLinkType, IconTypeProps } from './types';
 export declare function handleChangeColorModeValue(colorMode: string, light: string, dark: string): string;
-export declare const DefaultLink: React.ForwardRefExoticComponent<Pick<any, string | number | symbol> & React.RefAttributes<unknown>>;
+export declare const DefaultLink: any;
 export declare const DefaultIconButton: ({ icon, label, showTooltip, chakraButtonProps, chakraTooltipProps, }: {
     chakraButtonProps?: ButtonProps;
     chakraTooltipProps?: TooltipProps;

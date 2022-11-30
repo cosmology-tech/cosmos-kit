@@ -4,7 +4,7 @@ import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, StargateClient, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { MainWalletBase, StateBase } from './bases';
-import { ChainName, ChainRecord, EndpointOptions, ManagerActions, SessionOptions, SignerOptions, State, StorageOptions, ViewOptions, Wallet, WalletAdapter, WalletData, WalletName } from './types';
+import { ChainName, ChainRecord, CosmosClientType, EndpointOptions, ManagerActions, SessionOptions, SignerOptions, State, StorageOptions, ViewOptions, Wallet, WalletAdapter, WalletData, WalletName } from './types';
 export declare class WalletManager extends StateBase<WalletData> {
     private _currentWalletName?;
     private _currentChainName?;
@@ -47,9 +47,9 @@ export declare class WalletManager extends StateBase<WalletData> {
     getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
     getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;
     getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
-    sign: (messages: EncodeObject[], fee: StdFee, memo?: string, type?: string) => Promise<TxRaw>;
-    broadcast: (signedMessages: TxRaw, type?: string) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
-    signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: string) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
+    sign: (messages: EncodeObject[], fee: StdFee, memo?: string, type?: CosmosClientType) => Promise<TxRaw>;
+    broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
+    signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
     reset: () => void;
     private updateLocalStorage;
     setCurrentWallet: (walletName?: WalletName) => void;
@@ -64,7 +64,7 @@ export declare class WalletManager extends StateBase<WalletData> {
     closeView: () => void;
     private _handleTabLoad;
     private _handleTabClose;
-    private _connectEventLisener;
+    private _connectEventListener;
     onMounted: () => void;
     onUnmounted: () => void;
 }
