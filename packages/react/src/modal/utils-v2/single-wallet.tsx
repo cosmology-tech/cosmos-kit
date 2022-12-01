@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Icon, Text } from '@chakra-ui/react';
 import { ChainWalletBase, ModalVersion } from '@cosmos-kit/core';
+import React from 'react';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiDoorOpenFill } from 'react-icons/ri';
@@ -66,7 +68,7 @@ export const getSingleWalletView = (
     message,
     username,
     address,
-  } = wallet;
+  } = wallet!;
 
   const displayName = prettyName || name;
 
@@ -81,7 +83,7 @@ export const getSingleWalletView = (
         }}
         handleBack={() => setDisplay('list')}
       />,
-      <QRCode link={qrUrl} description={`Open ${displayName} App to Scan`} />,
+      <QRCode link={qrUrl!} description={`Open ${displayName} App to Scan`} />,
     ];
   }
 
@@ -131,7 +133,7 @@ export const getSingleWalletView = (
     },
     Connecting: {
       logoStatus: LogoStatus.Loading,
-      header: `Connecting ${wallet.chain.pretty_name}`,
+      header: `Connecting ${wallet?.chain.pretty_name}`,
       desc: qrUrl
         ? `Approve ${displayName} connection request on your mobile.`
         : isMobile
@@ -165,7 +167,7 @@ export const getSingleWalletView = (
             icon={info.icon as IconType}
             text={info.buttonText}
             onClick={info.onClick}
-            disabled={info.buttonDisabled}
+            disabled={info.buttonDisabled || false}
           />
         );
       default:

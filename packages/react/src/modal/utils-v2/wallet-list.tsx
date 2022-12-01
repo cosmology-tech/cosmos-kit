@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChainWalletBase, ModalVersion } from '@cosmos-kit/core';
-import { RefObject } from 'react';
+import React, { RefObject } from 'react';
 
 import {
   DisplayWalletListType,
