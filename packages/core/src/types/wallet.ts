@@ -185,7 +185,7 @@ export interface ChainContext {
   ) => Promise<StdFee | undefined>;
   sign: (
     messages: EncodeObject[],
-    fee: StdFee,
+    fee?: StdFee,
     memo?: string,
     type?: CosmosClientType
   ) => Promise<TxRaw | undefined>;

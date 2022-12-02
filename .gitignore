@@ -10,3 +10,4 @@ packages/example/pages/tmp.tsx
 packages/example/utils/tmp.ts
 .idea
 /.yarnrc
+/.npmrc

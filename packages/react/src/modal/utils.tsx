@@ -171,15 +171,11 @@ export const getModalDetails = (
 
   const { downloadInfo } = wallet;
 
-  // const appType = isMobile ? 'App' : 'Extension';
-
   async function handleDisconnect() {
-    console.info('Disconnecting');
     await disconnect();
   }
 
   async function handleConnect() {
-    console.log('Connecting');
     await connect();
   }
 

@@ -1,1 +1,38 @@
-TODO Soon...
+## Hook - useChain
+
+- required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider)
+
+- return type: [**ChainConext**](#type-chainconext)
+
+## Type - ChainConext
+
+### properties
+
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **chain**      | chain registry information       | `Chain` | - |
+| **assets**   | chain assets information       | `AssetList \| undefined` | `undefined` |
+| **wallet**   | current selected wallet registry information       | `Wallet \| undefined` | `undefined` |
+| **logoUrl**   | chain logo url       | `string \| undefined` | `undefined` |
+| **address**   | chain address from current selected wallet       | `string \| undefined` | `undefined` |
+| **username**   | username from current selected wallet       | `string \| undefined` | `undefined` |
+| **message**   | error/warn/info message       | `string \| undefined` | `undefined` |
+| **status**   | wallet status      | `WalletStatus` | `Disconnected` |
+
+### methods
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| ----------- | ----------- | -- | -- | -- |
+| **openView**      | open modal       | - | `void` | N |
+| **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
+| **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
+| **getRpcEndpoint** | test connection and return valid rpc endpoint    | - | `string \| undefined` | Y |
+| **getRestEndpoint**  | test connection and return valid rest endpoint    | - | `string \| undefined` | Y |
+| **getStargateClient**  | - | - | `StargateClient \| undefined` | Y |
+| **getCosmWasmClient**  | - | - | `CosmWasmClient \| undefined` | Y |
+| **getSigningStargateClient**  | - | - | `SigningStargateClient \| undefined` | Y |
+| **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient \| undefined` | Y |
+| **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee \| undefined` | Y |
+| **sign**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `TxRaw \| undefined` | Y |
+| **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
+| **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
