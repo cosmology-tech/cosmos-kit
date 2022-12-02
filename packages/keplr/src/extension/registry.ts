@@ -12,7 +12,7 @@ export const keplrExtensionInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
-  connectEventNames: ['keplr_keystorechange'],
+  connectEventNamesOnWindow: ['keplr_keystorechange'],
   downloads: [
     {
       device: 'desktop',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   Box,
@@ -112,6 +113,9 @@ export const SimpleDisplayModalContent = ({
     error: {
       color: handleChangeColorModeValue(colorMode, 'red.400', 'red.500'),
     },
+    loading: {
+      color: handleChangeColorModeValue(colorMode, 'inherit', 'inherit'),
+    },
   };
 
   return (
@@ -186,7 +190,7 @@ export const SimpleDisplayModalContent = ({
             fontSize="md"
             fontWeight="semibold"
             color={
-              Style[status]?.color ||
+              Style[status!]?.color ||
               handleChangeColorModeValue(colorMode, 'gray.800', 'white')
             }
             mb={1}
@@ -242,7 +246,7 @@ export const SimpleQRCode = ({
   link: string;
   description?: string;
 }) => {
-  const elementRef = useRef();
+  const elementRef = useRef(null);
   const dimensions = useDimensions(elementRef);
   const { colorMode } = useColorMode();
   return (
@@ -285,7 +289,7 @@ export const SimpleQRCode = ({
           >
             <QRCodeSVG
               value={link}
-              size={dimensions && dimensions.contentBox.width - 24}
+              size={dimensions ? dimensions.contentBox.width - 24 : void 0}
               bgColor={'#ffffff'}
               fgColor={'#000000'}
               level={'L'}
@@ -307,19 +311,18 @@ export const SimpleDisplayWalletList = ({
   const [displayBlur, setDisplayBlur] = useState(false);
 
   useEffect(() => {
-    if (listRef.current) {
-      if (listRef.current.clientHeight >= 311) setDisplayBlur(true);
+    const current = listRef.current as any;
+    if (listRef && current) {
+      if ((current as any).clientHeight >= 311) setDisplayBlur(true);
       const scrollHandler = () => {
         const height = Math.abs(
-          listRef.current.scrollHeight -
-            listRef.current.clientHeight -
-            listRef.current.scrollTop
+          current?.scrollHeight - current?.clientHeight - current?.scrollTop
         );
         if (height < 1) setDisplayBlur(false);
         if (height >= 1) setDisplayBlur(true);
       };
 
-      listRef.current.addEventListener('scroll', scrollHandler);
+      current.addEventListener('scroll', scrollHandler);
     }
   }, [listRef]);
 
@@ -412,7 +415,7 @@ export const SimpleDisplayWalletList = ({
                     mr={{ base: 4, md: i > 1 ? 4 : 0 }}
                     mb={{ base: 0, md: i > 1 ? 0 : 3 }}
                   >
-                    <Image src={typeof logo === 'string' && logo} />
+                    <Image src={typeof logo === 'string' ? logo : void 0} />
                   </Box>
                   <Box textAlign="start" flex={1}>
                     <Text fontSize="sm" fontWeight="normal" lineHeight={1.1}>

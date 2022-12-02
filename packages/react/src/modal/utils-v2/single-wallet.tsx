@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Icon, Text } from '@chakra-ui/react';
 import { ChainWalletBase, ModalVersion } from '@cosmos-kit/core';
+import React from 'react';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiDoorOpenFill } from 'react-icons/ri';
@@ -26,15 +28,12 @@ import { DisplayType, ModalInfo } from '../types';
 
 export const getSingleWalletView = (
   version: ModalVersion,
-  wallet: ChainWalletBase | undefined,
-  display: DisplayType,
+  current: ChainWalletBase | undefined,
+  qrCodeWallet: ChainWalletBase | undefined,
   setOpen: (isOpen: boolean) => void,
-  setDisplay: (display: DisplayType) => void
+  setDisplay: (display: DisplayType) => void,
+  setQRCodeWallet: (wallet: ChainWalletBase | undefined) => void
 ) => {
-  if (!wallet && display !== 'qrcode') {
-    return [void 0, void 0];
-  }
-
   let ModalContent: (props: ConnectModalContentType) => JSX.Element,
     InstallWalletButton: (props: DownloadWalletButtonType) => JSX.Element,
     QRCode: (props: { link: string; description?: string }) => JSX.Element,
@@ -54,6 +53,31 @@ export const getSingleWalletView = (
       break;
   }
 
+  if (qrCodeWallet && qrCodeWallet.walletStatus === 'Disconnected') {
+    const displayName =
+      qrCodeWallet.walletInfo.prettyName || qrCodeWallet.walletName;
+    return [
+      <ModalHead
+        title={displayName}
+        backButton={true}
+        handleClose={() => {
+          setOpen(false);
+          setQRCodeWallet(void 0);
+          setDisplay('list');
+        }}
+        handleBack={() => setDisplay('list')}
+      />,
+      <QRCode
+        link={qrCodeWallet.qrUrl!}
+        description={`Open ${displayName} App to Scan`}
+      />,
+    ];
+  }
+
+  if (!current) {
+    return [void 0, void 0];
+  }
+
   const {
     walletInfo: { prettyName, name, logo },
     walletStatus: status,
@@ -66,24 +90,9 @@ export const getSingleWalletView = (
     message,
     username,
     address,
-  } = wallet;
+  } = current!;
 
   const displayName = prettyName || name;
-
-  if (status === 'Disconnected' && display === 'qrcode') {
-    return [
-      <ModalHead
-        title={displayName}
-        backButton={true}
-        handleClose={() => {
-          setOpen(false);
-          setDisplay('list');
-        }}
-        handleBack={() => setDisplay('list')}
-      />,
-      <QRCode link={qrUrl} description={`Open ${displayName} App to Scan`} />,
-    ];
-  }
 
   const modalInfo: ModalInfo = {
     NotExist: {
@@ -131,7 +140,7 @@ export const getSingleWalletView = (
     },
     Connecting: {
       logoStatus: LogoStatus.Loading,
-      header: `Connecting ${wallet.chain.pretty_name}`,
+      header: `Connecting ${current?.chain.pretty_name}`,
       desc: qrUrl
         ? `Approve ${displayName} connection request on your mobile.`
         : isMobile
@@ -165,7 +174,7 @@ export const getSingleWalletView = (
             icon={info.icon as IconType}
             text={info.buttonText}
             onClick={info.onClick}
-            disabled={info.buttonDisabled}
+            disabled={info.buttonDisabled || false}
           />
         );
       default:
@@ -221,7 +230,8 @@ export const getSingleWalletView = (
         if (status === 'Connecting') {
           disconnect();
         }
-        setDisplay('list');
+        setQRCodeWallet(void 0);
+        setDisplay('single');
       }}
       handleBack={() => setDisplay('list')}
     />,

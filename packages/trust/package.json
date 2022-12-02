@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "cosmos-kit wallet connector",
   "author": "ruslan.serebriakov@binance.com",
   "contributors": [
@@ -69,8 +69,6 @@
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "^7.16.7",
     "@types/jest": "^29.0.3",
-    "@types/react": "18.0.20",
-    "@types/react-dom": "18.0.6",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
     "babel-jest": "29.0.3",
@@ -92,11 +90,9 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.26.2",
+    "@cosmos-kit/core": "^0.27.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "react-icons": "^4.4.0"
   },
   "peerDependencies": {

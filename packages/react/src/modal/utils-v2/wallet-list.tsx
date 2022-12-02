@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChainWalletBase, ModalVersion } from '@cosmos-kit/core';
-import { RefObject } from 'react';
+import React, { RefObject } from 'react';
 
 import {
   DisplayWalletListType,
@@ -15,10 +15,11 @@ import { DisplayType } from '../types';
 
 export const getWalletListView = (
   version: ModalVersion,
+  wallet: ChainWalletBase | undefined,
   wallets: ChainWalletBase[] = [],
   setOpen: (isOpen: boolean) => void,
   setDisplay: (display: DisplayType) => void,
-  setWallet: (wallet: ChainWalletBase | undefined) => void,
+  setQRCodeWallet: (wallet: ChainWalletBase | undefined) => void,
   initialFocus: RefObject<any>
 ) => {
   let ModalHead: (props: SimpleModalHeadType) => JSX.Element,
@@ -39,11 +40,11 @@ export const getWalletListView = (
         ...w.walletInfo,
         downloads: void 0,
         onClick: async () => {
-          setWallet(w);
+          setDisplay('single');
           if (w.walletInfo.mode === 'wallet-connect' && !w.appUrl) {
-            setDisplay('qrcode');
+            setQRCodeWallet(w);
           } else {
-            setDisplay('single');
+            setQRCodeWallet(void 0);
           }
           window.localStorage.setItem('synchronize-mutex-wallet', 'fire');
           await w.connect();
@@ -54,7 +55,13 @@ export const getWalletListView = (
     <ModalHead
       title="Select your wallet"
       backButton={false}
-      handleClose={() => setOpen(false)}
+      handleClose={() => {
+        if (wallet) {
+          setDisplay('single');
+        }
+        setQRCodeWallet(void 0);
+        setOpen(false);
+      }}
     />,
     <DisplayWalletList
       initialFocus={initialFocus}

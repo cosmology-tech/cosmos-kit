@@ -10,8 +10,8 @@ export interface Trust {
     getOfflineSigner(chainId: string): OfflineSigner & OfflineDirectSigner;
     getOfflineSignerOnlyAmino(chainId: string): OfflineSigner;
     getOfflineSignerAuto(chainId: string): Promise<OfflineSigner | OfflineDirectSigner>;
-    signAmino(chainId: string, signer: string, signDoc: StdSignDoc): Promise<AminoSignResponse>;
-    signDirect(chainId: string, signer: string, signDoc: {
+    signAmino(chainId: string, signerAddress: string, signDoc: StdSignDoc): Promise<AminoSignResponse>;
+    signDirect(chainId: string, signerAddress: string, signDoc: {
         /** SignDoc bodyBytes */
         bodyBytes?: Uint8Array | null;
         /** SignDoc authInfoBytes */

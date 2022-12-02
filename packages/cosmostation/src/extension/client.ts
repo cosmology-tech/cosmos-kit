@@ -7,6 +7,10 @@ import { Cosmostation, RequestAccountResponse } from './types';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
+  private eventMap: Map<
+    string,
+    Map<EventListenerOrEventListenerObject, Event>
+  > = new Map();
 
   constructor(client: Cosmostation) {
     this.client = client;
@@ -22,6 +26,21 @@ export class CosmostationClient implements WalletClient {
       address: key.address,
       pubkey: key.publicKey,
     };
+  }
+
+  on(type: string, listener: EventListenerOrEventListenerObject): void {
+    const event = this.client.on(type, listener);
+    const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =
+      this.eventMap.get(type) || new Map();
+    typeEventMap.set(listener, event);
+    this.eventMap.set(type, typeEventMap);
+  }
+
+  off(type: string, listener: EventListenerOrEventListenerObject): void {
+    const event = this.eventMap.get(type)?.get(listener);
+    if (event) {
+      this.client.off(event);
+    }
   }
 
   async getOfflineSigner(chainId: string): Promise<OfflineSigner> {

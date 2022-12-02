@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
@@ -180,9 +181,17 @@ export class WalletManagerV2 extends StateBase<Data> {
     this.walletRepos.forEach((repo) => repo.setEnv(env));
 
     this.walletRepos[0]?.wallets.forEach((wallet) => {
-      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+      wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.addEventListener(eventName, this._handleConnect);
       });
+      wallet.walletInfo.connectEventNamesOnClient?.forEach(
+        async (eventName) => {
+          (wallet.client || (await wallet.clientPromise)).on?.(
+            eventName,
+            this._handleConnect
+          );
+        }
+      );
     });
   };
 
@@ -191,9 +200,17 @@ export class WalletManagerV2 extends StateBase<Data> {
       return;
     }
     this.walletRepos[0]?.wallets.forEach((wallet) => {
-      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+      wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.removeEventListener(eventName, this._handleConnect);
       });
+      wallet.walletInfo.connectEventNamesOnClient?.forEach(
+        async (eventName) => {
+          (wallet.client || (await wallet.clientPromise)).off?.(
+            eventName,
+            this._handleConnect
+          );
+        }
+      );
     });
   };
 }
