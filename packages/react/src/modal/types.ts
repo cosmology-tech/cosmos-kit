@@ -4,7 +4,7 @@ import { IconType } from 'react-icons';
 
 import { LogoStatus } from './components';
 
-export type DisplayType = 'list' | 'single' | 'qrcode';
+export type DisplayType = 'list' | 'single';
 
 export type ModalInfo = {
   [k in WalletStatus]: {

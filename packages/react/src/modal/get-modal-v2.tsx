@@ -16,7 +16,7 @@ export const getModalV2 = (version: ModalVersion) => {
   return ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => {
     const initialFocus = useRef();
     const [display, setDisplay] = useState<DisplayType>('list');
-    const [clickedWallet, setClickedWallet] = useState<
+    const [qrCodeWallet, setQRCodeWallet] = useState<
       ChainWalletBase | undefined
     >();
     const [modalHead, setModalHead] = useState<ReactNode>();
@@ -29,7 +29,7 @@ export const getModalV2 = (version: ModalVersion) => {
       current,
       current?.walletStatus,
       current?.qrUrl,
-      clickedWallet?.qrUrl,
+      qrCodeWallet?.qrUrl,
       display,
     ];
     const listViewDeps = [wallets];
@@ -38,10 +38,11 @@ export const getModalV2 = (version: ModalVersion) => {
       () =>
         getSingleWalletView(
           version,
-          current || clickedWallet,
-          display,
+          current,
+          qrCodeWallet,
           setOpen,
-          setDisplay
+          setDisplay,
+          setQRCodeWallet
         ),
       singleViewDeps
     );
@@ -50,17 +51,18 @@ export const getModalV2 = (version: ModalVersion) => {
       () =>
         getWalletListView(
           version,
+          current,
           wallets,
           setOpen,
           setDisplay,
-          setClickedWallet,
+          setQRCodeWallet,
           initialFocus
         ),
       listViewDeps
     );
 
     useEffect(() => {
-      if (!current && display === 'list') {
+      if (display === 'list') {
         setModalHead(listViewHead);
         setModalContent(listViewContent);
       } else {
@@ -77,7 +79,15 @@ export const getModalV2 = (version: ModalVersion) => {
       >
         <ConnectModal
           modalIsOpen={isOpen}
-          modalOnClose={() => setOpen(false)}
+          modalOnClose={() => {
+            if (!current || current.walletStatus === 'Disconnected') {
+              setDisplay('list');
+            } else {
+              setDisplay('single');
+            }
+            setQRCodeWallet(void 0);
+            setOpen(false);
+          }}
           modalHead={modalHead}
           modalContent={modalContent}
           initialRef={initialFocus}
