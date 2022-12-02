@@ -486,8 +486,7 @@ export class WalletManager extends StateBase<WalletData> {
     }
   };
 
-  private _connectEventListener = async (event: Event) => {
-    event.preventDefault();
+  private _connectEventListener = async () => {
     if (!this.isInit) {
       await this.connect();
     }
@@ -523,9 +522,17 @@ export class WalletManager extends StateBase<WalletData> {
       window.addEventListener('beforeunload', this._handleTabClose);
 
       this.wallets.forEach((wallet) => {
-        wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+        wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
           window.addEventListener(eventName, this._connectEventListener);
         });
+        wallet.walletInfo.connectEventNamesOnClient?.forEach(
+          async (eventName) => {
+            (wallet.client || (await wallet.clientPromise)).on?.(
+              eventName,
+              this._connectEventListener
+            );
+          }
+        );
       });
     }
   };
@@ -539,9 +546,17 @@ export class WalletManager extends StateBase<WalletData> {
     window.removeEventListener('load', this._handleTabLoad);
 
     this.wallets.forEach((wallet) => {
-      wallet.walletInfo.connectEventNames?.forEach((eventName) => {
+      wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.removeEventListener(eventName, this._connectEventListener);
       });
+      wallet.walletInfo.connectEventNamesOnClient?.forEach(
+        async (eventName) => {
+          (wallet.client || (await wallet.clientPromise)).off?.(
+            eventName,
+            this._connectEventListener
+          );
+        }
+      );
     });
   };
 }

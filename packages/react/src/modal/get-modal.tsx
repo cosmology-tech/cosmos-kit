@@ -1,4 +1,8 @@
-import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  createLocalStorageManager,
+  useColorMode,
+} from '@chakra-ui/react';
 import { ModalVersion, WalletModalProps } from '@cosmos-kit/core';
 import React, { useRef } from 'react';
 import { ReactNode, useEffect, useState } from 'react';
@@ -44,19 +48,29 @@ export const getModal = (version: ModalVersion) => {
       }
     }, [walletStatus, modalIsReset, isOpen, currentWallet?.qrUrl]);
 
+    const modal = (
+      <ConnectModal
+        modalIsOpen={isOpen}
+        modalOnClose={handleClose}
+        modalHead={modalHead}
+        modalContent={modalContent}
+        initialRef={initialFocus}
+      />
+    );
+
+    const { colorMode } = useColorMode();
+
+    if (colorMode) {
+      return modal;
+    }
+
     return (
       <ChakraProvider
         theme={defaultThemeWithoutCSSReset}
         resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
       >
-        <ConnectModal
-          modalIsOpen={isOpen}
-          modalOnClose={handleClose}
-          modalHead={modalHead}
-          modalContent={modalContent}
-          initialRef={initialFocus}
-        />
+        {modal}
       </ChakraProvider>
     );
   };

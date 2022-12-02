@@ -30,5 +30,5 @@ export const keplrMobileInfo: Wallet = {
       link: 'https://www.keplr.app/download',
     },
   ],
-  connectEventNames: ['keplr_keystorechange'],
+  connectEventNamesOnWindow: ['keplr_keystorechange'],
 };

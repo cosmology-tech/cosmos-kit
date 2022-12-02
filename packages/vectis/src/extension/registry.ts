@@ -11,7 +11,7 @@ export const vectisExtensionInfo: Wallet = {
     source:
       "The requested action couldn't be completed, it was rejected by the user.",
   },
-  connectEventNames: ['vectis_accountChanged'],
+  connectEventNamesOnWindow: ['vectis_accountChanged'],
   downloads: [
     {
       device: 'desktop',

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   Box,
   Button,
@@ -109,6 +110,9 @@ export const SimpleDisplayModalContentV1 = ({
     error: {
       color: handleChangeColorModeValue(colorMode, 'red.400', 'red.500'),
     },
+    loading: {
+      color: handleChangeColorModeValue(colorMode, 'inherit', 'inherit'),
+    },
   };
 
   return (
@@ -182,7 +186,7 @@ export const SimpleDisplayModalContentV1 = ({
           <Text
             fontSize="lg"
             fontWeight="semibold"
-            color={Style[status]?.color}
+            color={Style[status!]?.color}
             mb={0.5}
           >
             {contentHeader}
@@ -225,7 +229,7 @@ export const SimpleQRCodeV1 = ({
   link: string;
   description?: string;
 }) => {
-  const elementRef = useRef();
+  const elementRef = useRef(null);
   const dimensions = useDimensions(elementRef);
   const { colorMode } = useColorMode();
   return (
@@ -263,7 +267,7 @@ export const SimpleQRCodeV1 = ({
         >
           <QRCodeSVG
             value={link}
-            size={dimensions && dimensions.contentBox.width - 24}
+            size={dimensions ? dimensions.contentBox.width - 24 : void 0}
             bgColor={'#ffffff'}
             fgColor={'#000000'}
             level={'L'}
@@ -385,7 +389,7 @@ export const SimpleDisplayWalletListV1 = ({
                   maxW={9}
                   maxH={9}
                 >
-                  <Image src={typeof logo === 'string' && logo} />
+                  <Image src={typeof logo === 'string' ? logo : void 0} />
                 </Box>
                 <Box textAlign="start" flex={1}>
                   <Text fontSize="xl" fontWeight="semibold" lineHeight={1.1}>
