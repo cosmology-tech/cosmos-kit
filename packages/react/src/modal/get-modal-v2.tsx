@@ -1,4 +1,8 @@
-import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
+import {
+  ChakraProvider,
+  createLocalStorageManager,
+  useColorMode,
+} from '@chakra-ui/react';
 import {
   ChainWalletBase,
   ModalVersion,
@@ -71,27 +75,37 @@ export const getModalV2 = (version: ModalVersion) => {
       }
     }, [...singleViewDeps, ...listViewDeps, display]);
 
+    const modal = (
+      <ConnectModal
+        modalIsOpen={isOpen}
+        modalOnClose={() => {
+          if (!current || current.walletStatus === 'Disconnected') {
+            setDisplay('list');
+          } else {
+            setDisplay('single');
+          }
+          setQRCodeWallet(void 0);
+          setOpen(false);
+        }}
+        modalHead={modalHead}
+        modalContent={modalContent}
+        initialRef={initialFocus}
+      />
+    );
+
+    const { colorMode } = useColorMode();
+
+    if (colorMode) {
+      return modal;
+    }
+
     return (
       <ChakraProvider
         theme={theme || defaultThemeWithoutCSSReset}
         resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
       >
-        <ConnectModal
-          modalIsOpen={isOpen}
-          modalOnClose={() => {
-            if (!current || current.walletStatus === 'Disconnected') {
-              setDisplay('list');
-            } else {
-              setDisplay('single');
-            }
-            setQRCodeWallet(void 0);
-            setOpen(false);
-          }}
-          modalHead={modalHead}
-          modalContent={modalContent}
-          initialRef={initialFocus}
-        />
+        {modal}
       </ChakraProvider>
     );
   };
