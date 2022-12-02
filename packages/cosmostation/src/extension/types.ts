@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CosmostationSignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
@@ -11,6 +12,8 @@ export interface Request {
 
 export interface Cosmostation {
   request(request: Request): Promise<any>;
+  on(type: string, listener: EventListenerOrEventListenerObject): Event;
+  off(event: Event): void;
 }
 
 export type RequestAccountResponse = {

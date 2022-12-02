@@ -27,4 +27,5 @@ export const cosmostationExtensionInfo: Wallet = {
     //   'The requested account and/or method has not been authorized by the user. \n Open Extension/App to authorize this site before retrying.',
   },
   rejectCode: 4001,
+  connectEventNamesOnClient: ['accountChanged'],
 };

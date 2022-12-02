@@ -56,7 +56,8 @@ export interface Wallet {
       }
     | string; // message from wallet app
   rejectCode?: number; // code from wallet app
-  connectEventNames?: string[];
+  connectEventNamesOnWindow?: string[];
+  connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
 }
@@ -78,6 +79,8 @@ export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
+  on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
+  off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
   getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
