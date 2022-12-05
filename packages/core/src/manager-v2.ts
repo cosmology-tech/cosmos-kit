@@ -186,7 +186,7 @@ export class WalletManagerV2 extends StateBase<Data> {
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          (wallet.client || (await wallet.clientPromise)).on?.(
+          (wallet.client || (await wallet.clientPromise))?.on?.(
             eventName,
             this._handleConnect
           );
@@ -205,7 +205,7 @@ export class WalletManagerV2 extends StateBase<Data> {
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          (wallet.client || (await wallet.clientPromise)).off?.(
+          (wallet.client || (await wallet.clientPromise))?.off?.(
             eventName,
             this._handleConnect
           );

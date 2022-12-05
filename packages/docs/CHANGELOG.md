@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.7](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.6...docs@1.8.7) (2022-12-05)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [1.8.6](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.5...docs@1.8.6) (2022-12-05)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [1.8.5](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.4...docs@1.8.5) (2022-12-05)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [1.8.4](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.3...docs@1.8.4) (2022-12-05)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [1.8.3](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.2...docs@1.8.3) (2022-12-05)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [1.8.2](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.1...docs@1.8.2) (2022-12-05)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [1.8.1](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.8.0...docs@1.8.1) (2022-12-02)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
 # [1.8.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.7.0...docs@1.8.0) (2022-12-02)
 
 **Note:** Version bump only for package docs
