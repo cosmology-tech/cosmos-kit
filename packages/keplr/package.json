@@ -121,5 +121,5 @@
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
   },
-  "gitHead": "a1023b2b53039be836f9f79cbdab22ddaebc3f29"
+  "gitHead": "e98f8d3d675190f237e6079b8294d4422a494a4b"
 }
