@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap",
-  "version": "0.13.5",
+  "version": "0.13.6",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -91,7 +91,7 @@
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.27.5",
+    "@cosmos-kit/core": "^0.27.6",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@keplr-wallet/types": "0.11.17",
