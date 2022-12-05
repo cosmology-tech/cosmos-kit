@@ -16,7 +16,11 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 ### 2️⃣ Wrap Provider
 
-First, add the `WalletProvider` to your app, and include the supported chains and supported wallets:
+First, add [`ChainProvider`](https://docs.cosmoskit.com/chain-provider) or [`WalletProvider`](https://docs.cosmoskit.com/wallet-provider) to your app, with supported chains and supported wallets as properties.
+
+> Hint: properties of two providers are slightly different.
+
+Take `WalletProvider` as an example.
 
 ```tsx
 import * as React from 'react';
@@ -43,7 +47,15 @@ function CosmosApp() {
 
 ### 3️⃣ Consume with Hook
 
-Consume `WalletProvider` with the `useWallet` hook. It returns `WalletMananger` object, which provides wallet properties and functions.
+Consume Provider with the corresponding hook. 
+
+- Hook [`useChain`](https://docs.cosmoskit.com/use-chain) consumes [`ChainProvider`](https://docs.cosmoskit.com/chain-provider) and returns type [`ChainContext`](https://docs.cosmoskit.com/use-chain#type-chainconext)
+
+- Hook [`useWallet`](https://docs.cosmoskit.com/use-wallet) consumes [`WalletProvider`](https://docs.cosmoskit.com/wallet-provider) and returns type [`WalletMananger`](https://docs.cosmoskit.com/use-wallet#type---walletmanager)
+
+> Hint: return type properties of two hooks are slightly different.
+
+Take `useWallet` as an example.
 
 ```tsx
 import * as React from 'react';

@@ -1,30 +1,26 @@
-## Hook - useChain
+## Hook - useWallet
 
-- required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider)
+- required provider: [**WalletProvider**](https://docs.cosmoskit.com/wallet-provider)
 
-- return type: [**ChainConext**](#type-chainconext)
+- return type: [**WalletManager**](#type---walletmanager)
 
-## Type - ChainConext
+## Type - WalletManager
 
 ### properties
 
 | Name      | Description | Type | Default |
 | ----------- | ----------- | -- | -- |
-| **chain**      | chain registry information       | `Chain` | - |
-| **assets**   | chain assets information       | `AssetList \| undefined` | `undefined` |
-| **wallet**   | current selected wallet registry information       | `Wallet \| undefined` | `undefined` |
-| **logoUrl**   | chain logo url       | `string \| undefined` | `undefined` |
 | **address**   | chain address from current selected wallet       | `string \| undefined` | `undefined` |
 | **username**   | username from current selected wallet       | `string \| undefined` | `undefined` |
 | **message**   | error/warn/info message       | `string \| undefined` | `undefined` |
-| **status**   | wallet status      | `WalletStatus` | `Disconnected` |
+| **walletStatus**   | wallet status      | `WalletStatus` | `Disconnected` |
 
 ### methods
 
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
 | **openView**      | open modal       | - | `void` | N |
-| **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
+| **connect**      | connect wallet       | - | `void` | Y |
 | **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
 | **getRpcEndpoint** | test connection and return valid rpc endpoint    | - | `string \| undefined` | Y |
 | **getRestEndpoint**  | test connection and return valid rest endpoint    | - | `string \| undefined` | Y |
@@ -32,16 +28,59 @@
 | **getCosmWasmClient**  | - | - | `CosmWasmClient \| undefined` | Y |
 | **getSigningStargateClient**  | - | - | `SigningStargateClient \| undefined` | Y |
 | **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient \| undefined` | Y |
-| **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee \| undefined` | Y |
 | **sign**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `TxRaw \| undefined` | Y |
 | **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
 | **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
 
+## Signing Client
 
-## Examples
+There two signing clients available via `walletManager` functions: `getSigningStargateClient()` and `getSigningCosmWasmClient()`.
 
-🚀 [fetch address](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/chains/index.tsx)
+Using signing client in react component:
 
-🚀 [fetch balance & send tokens](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/chains/tx.tsx)
+```tsx
+import * as React from 'react';
+import { cosmos } from 'interchain';
+import { StdFee } from '@cosmjs/amino';
+import { useWallet } from "@cosmos-kit/react";
 
-🚀 [vote](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/chains/gov.tsx)
+function Component () => {
+    const walletManager = useWallet();
+    const {
+        getSigningStargateClient,
+        getSigningCosmWasmClient,
+        address,
+      } = walletManager;
+
+    const sendTokens = async () => {
+      const stargateClient = await getSigningStargateClient();
+      if (!stargateClient || !address) {
+          console.error('stargateClient undefined or address undefined.')
+          return;
+      }
+
+      const { send } = cosmos.bank.v1beta1.MessageComposer.withTypeUrl;
+
+      const msg = send({
+        amount: [ { denom: 'uatom', amount: '1000' } ],
+        toAddress: address, fromAddress: address
+      });
+
+      const fee: StdFee = { amount: [ { denom: 'uatom', amount: '864' } ], gas: '86364' };
+
+      await stargateClient.signAndBroadcast(address, [msg], fee, memo);
+    }
+}
+```
+
+## Sign & Broadcast
+
+Three methods are provided in `WalletManager`.
+
+```ts
+- sign(messages, fee?, memo?, type?)
+- broadcast(signedMessages, type?)
+- signAndBroadcast(messages, fee?, memo?, type?)
+```
+
+Default to using `StargateSigningClient`. If you want to use `CosmWasmSigningClient` instead, input `type` as `"cosmwasm"`.
