@@ -1,5 +1,6 @@
 import { Wallet } from '@cosmos-kit/core';
-import { RiChromeFill } from 'react-icons/ri';
+import { FaAndroid } from 'react-icons/fa';
+import { RiAppStoreFill } from 'react-icons/ri';
 
 export const trustExtensionInfo: Wallet = {
   name: 'trust-extension',
