@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation",
-  "version": "0.14.6",
+  "version": "0.14.7",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -94,7 +94,7 @@
     "@chain-registry/cosmostation": "1.8.0",
     "@chain-registry/types": "^0.13.1",
     "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.27.6",
+    "@cosmos-kit/core": "^0.27.7",
     "@cosmostation/cosmos-client": "0.0.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
