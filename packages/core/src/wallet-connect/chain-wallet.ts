@@ -66,6 +66,7 @@ export class ChainWalletConnect extends ChainWalletBase {
     this.reset();
     this.emitter.removeAllListeners();
     window.localStorage.removeItem('chain-provider');
+    await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
 }

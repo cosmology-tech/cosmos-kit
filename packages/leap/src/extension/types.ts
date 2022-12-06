@@ -10,6 +10,7 @@ export interface LeapSignOptions {
 }
 
 export interface Leap {
+  disconnect(): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
   mode: 'extension';
   getKey(chainId: string): Promise<Key>;

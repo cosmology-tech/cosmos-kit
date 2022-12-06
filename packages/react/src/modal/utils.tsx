@@ -106,7 +106,6 @@ export const getModalDetails = (
         mobileDisabled,
         onClick: async () => {
           resetModal(false);
-          console.info('Connecting to ' + name);
           if (!isWalletDisconnected) {
             await disconnect();
           }
@@ -169,13 +168,14 @@ export const getModalDetails = (
   /*   selected wallet: modal content   */
   /* ================================== */
 
-  const { downloadInfo } = wallet;
+  const { downloadInfo, walletName } = wallet;
 
   async function handleDisconnect() {
     await disconnect();
   }
 
   async function handleConnect() {
+    setCurrentWallet(walletName);
     await connect();
   }
 

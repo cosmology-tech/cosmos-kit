@@ -3042,6 +3042,15 @@
     long "^4.0.0"
     secretjs "0.17.7"
 
+"@keplr-wallet/types@0.11.21":
+  version "0.11.21"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.21.tgz#42527d05d39178f469a619f01df1f539844d8d97"
+  integrity sha512-oSv8SBBxTQz3hahOWVZmrb3ll0kXVuiUfqnM9q6aWGNOqSiXg8etKQd5c6hSFEYX8iuaAsHa48/NZA0cn+TAgA==
+  dependencies:
+    axios "^0.27.2"
+    long "^4.0.0"
+    secretjs "0.17.7"
+
 "@keplr-wallet/unit@0.11.16":
   version "0.11.16"
   resolved "https://registry.npmjs.org/@keplr-wallet/unit/-/unit-0.11.16.tgz#21c19bd985620b32a6de6f06850e9c0fdeb4f88c"
@@ -4495,10 +4504,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@18.0.20", "@types/react@18.0.25", "@types/react@>=16":
+"@types/react@*", "@types/react@18.0.20", "@types/react@>=16":
   version "18.0.20"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.20.tgz#e4c36be3a55eb5b456ecf501bd4a00fd4fd0c9ab"
   integrity sha512-MWul1teSPxujEHVwZl4a5HxQ9vVNsjTchVA+xRqv/VYGCuKGAU6UhfrTdF5aBefwD1BHUD8i/zq+O/vyCm/FrA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@18.0.25":
+  version "18.0.25"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.25.tgz#8b1dcd7e56fe7315535a4af25435e0bb55c8ae44"
+  integrity sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -11798,12 +11816,7 @@ react-focus-lock@^2.9.1:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-icons@4.7.1:
-  version "4.7.1"
-  resolved "https://registry.npmmirror.com/react-icons/-/react-icons-4.7.1.tgz#0f4b25a5694e6972677cb189d2a72eabea7a8345"
-  integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==
-
-react-icons@^4.4.0:
+react-icons@4.7.1, react-icons@^4.4.0:
   version "4.7.1"
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.7.1.tgz#0f4b25a5694e6972677cb189d2a72eabea7a8345"
   integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==

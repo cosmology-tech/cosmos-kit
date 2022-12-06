@@ -105,8 +105,12 @@ export class WalletConnectWallet extends MainWalletBase {
     if (this.connector.connected) {
       await this.connector.killSession();
     }
+    this.chainWallets?.forEach((chain) => {
+      chain.reset();
+    });
     this.reset();
     this.emitter.removeAllListeners();
+    await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
 }

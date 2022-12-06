@@ -28,6 +28,12 @@ export class CosmostationClient implements WalletClient {
     };
   }
 
+  async disconnect() {
+    await this.client.request({
+      method: 'cos_disconnect',
+    });
+  }
+
   on(type: string, listener: EventListenerOrEventListenerObject): void {
     const event = this.client.on(type, listener);
     const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =

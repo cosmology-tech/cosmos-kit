@@ -89,9 +89,10 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   disconnect = async (callbacks?: Callbacks) => {
     await (callbacks || this.callbacks)?.beforeDisconnect?.();
     this.chainWallets?.forEach((chain) => {
-      chain.disconnect();
+      chain.reset();
     });
     this.reset();
+    await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
 }

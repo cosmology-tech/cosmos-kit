@@ -7,7 +7,7 @@ export interface CosmostationSignOptions {
 
 export interface Request {
   method: string;
-  params: object;
+  params?: object;
 }
 
 export interface Cosmostation {

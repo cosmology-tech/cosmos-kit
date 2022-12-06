@@ -14,6 +14,10 @@ export class LeapClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
+  async disconnect() {
+    await this.client.disconnect();
+  }
+
   async getAccount(chainId: string) {
     const key = await this.client.getKey(chainId);
     return {
