@@ -144,6 +144,12 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
         return;
       }
 
+      console.log(
+        '%cwallet.ts line:147 this.client',
+        'color: #007acc;',
+        this.client
+      );
+
       await this.update();
 
       if (sessionOptions?.duration) {

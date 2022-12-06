@@ -1,6 +1,12 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
+import { StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { ChainRecord, WalletClient } from '@cosmos-kit/core';
+import {
+  ChainRecord,
+  DirectSignDoc,
+  SignOptions,
+  WalletClient,
+} from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
 
 export class KeplrClient implements WalletClient {
@@ -43,5 +49,23 @@ export class KeplrClient implements WalletClient {
     }
 
     await this.client.experimentalSuggestChain(suggestChain);
+  }
+
+  async signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions: SignOptions
+  ) {
+    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+  }
+
+  async signDirect(
+    chainId: string,
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions: SignOptions
+  ) {
+    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
   }
 }

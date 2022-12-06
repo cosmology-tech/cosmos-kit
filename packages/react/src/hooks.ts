@@ -65,9 +65,18 @@ export const useChain = (chainName: ChainName): ChainContext => {
       await current?.getSigningStargateClient(),
     getSigningCosmWasmClient: async () =>
       await current?.getSigningCosmWasmClient(),
-    estimateFee: async (props) => await current?.estimateFee(props),
-    sign: async (props) => await current?.sign(props),
-    broadcast: async (props) => await current?.broadcast(props),
-    signAndBroadcast: async (props) => await current?.signAndBroadcast(props),
+    estimateFee: async (...props: Parameters<ChainContext['estimateFee']>) =>
+      await current?.estimateFee(...props),
+    sign: async (...props: Parameters<ChainContext['sign']>) =>
+      await current?.sign(...props),
+    broadcast: async (...props: Parameters<ChainContext['broadcast']>) =>
+      await current?.broadcast(...props),
+    signAndBroadcast: async (
+      ...props: Parameters<ChainContext['signAndBroadcast']>
+    ) => await current?.signAndBroadcast(...props),
+    signAmino: async (...props: Parameters<ChainContext['signAmino']>) =>
+      await current?.signAmino(...props),
+    signDirect: async (...props: Parameters<ChainContext['signDirect']>) =>
+      await current?.signDirect(...props),
   };
 };

@@ -75,6 +75,17 @@ export interface SignOptions {
   readonly disableBalanceCheck?: boolean;
 }
 
+export interface DirectSignDoc {
+  /** SignDoc bodyBytes */
+  bodyBytes?: Uint8Array | null;
+  /** SignDoc authInfoBytes */
+  authInfoBytes?: Uint8Array | null;
+  /** SignDoc chainId */
+  chainId?: string | null;
+  /** SignDoc accountNumber */
+  accountNumber?: Long | null;
+}
+
 export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
@@ -92,21 +103,13 @@ export interface WalletClient {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: SignOptions
+    signOptions?: SignOptions
   ) => Promise<AminoSignResponse>;
   signDirect?: (
     chainId: string,
     signer: string,
-    signDoc: {
-      /** SignDoc bodyBytes */
-      bodyBytes?: Uint8Array | null;
-      /** SignDoc authInfoBytes */
-      authInfoBytes?: Uint8Array | null;
-      /** SignDoc chainId */
-      chainId?: string | null;
-      /** SignDoc accountNumber */
-      accountNumber?: Long | null;
-    }
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
   getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
   getEnigmaTxEncryptionKey?: (
@@ -200,4 +203,16 @@ export interface ChainContext {
     memo?: string,
     type?: CosmosClientType
   ) => Promise<DeliverTxResponse | undefined>;
+
+  // methods exposed from wallet client
+  signAmino: (
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ) => Promise<AminoSignResponse>;
+  signDirect: (
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) => Promise<DirectSignResponse>;
 }

@@ -33,9 +33,11 @@
 | **getSigningStargateClient**  | - | - | `SigningStargateClient \| undefined` | Y |
 | **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient \| undefined` | Y |
 | **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee \| undefined` | Y |
-| **sign**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `TxRaw \| undefined` | Y |
+| **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw \| undefined` | Y |
 | **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
 | **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
+| **signAmino**  | using `wallet client` |   **signer**: string,<br />**signDoc**: StdSignDoc,<br />**signOptions**?: SignOptions | `AminoSignResponse \| undefined` | Y |
+| **signDirect**  | using `wallet client` |   **signer**: string,<br />**signDoc**: StdSignDoc,<br />**signOptions**?: SignOptions | `DirectSignResponse \| undefined` | Y |
 
 
 ## Examples
