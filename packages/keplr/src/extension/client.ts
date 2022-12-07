@@ -55,7 +55,7 @@ export class KeplrClient implements WalletClient {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: SignOptions
+    signOptions?: SignOptions
   ) {
     return await this.client.signAmino(chainId, signer, signDoc, signOptions);
   }
@@ -64,7 +64,7 @@ export class KeplrClient implements WalletClient {
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,
-    signOptions: SignOptions
+    signOptions?: SignOptions
   ) {
     return await this.client.signDirect(chainId, signer, signDoc, signOptions);
   }

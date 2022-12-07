@@ -66,7 +66,11 @@ export const getModalV2 = (version: ModalVersion) => {
     );
 
     useEffect(() => {
-      if (display === 'list') {
+      if (
+        display === 'list' ||
+        !current ||
+        (current && current.walletStatus === 'Disconnected')
+      ) {
         setModalHead(listViewHead);
         setModalContent(listViewContent);
       } else {

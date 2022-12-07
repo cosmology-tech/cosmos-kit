@@ -373,9 +373,9 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   async signAmino(
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: SignOptions
+    signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(
+    return await this.client?.signAmino?.(
       this.chainId,
       signer,
       signDoc,
@@ -386,9 +386,9 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   async signDirect(
     signer: string,
     signDoc: DirectSignDoc,
-    signOptions: SignOptions
+    signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(
+    return await this.client?.signDirect?.(
       this.chainId,
       signer,
       signDoc,

@@ -56,8 +56,10 @@ export const getWalletListView = (
       title="Select your wallet"
       backButton={false}
       handleClose={() => {
-        if (wallet) {
+        if (wallet && wallet.walletStatus !== 'Disconnected') {
           setDisplay('single');
+        } else {
+          setDisplay('list');
         }
         setQRCodeWallet(void 0);
         setOpen(false);

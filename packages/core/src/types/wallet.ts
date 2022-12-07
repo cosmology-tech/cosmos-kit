@@ -209,10 +209,10 @@ export interface ChainContext {
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ) => Promise<AminoSignResponse>;
+  ) => Promise<AminoSignResponse | undefined>;
   signDirect: (
     signer: string,
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
-  ) => Promise<DirectSignResponse>;
+  ) => Promise<DirectSignResponse | undefined>;
 }
