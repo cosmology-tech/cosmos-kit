@@ -30,16 +30,16 @@
 | **closeView**      | close modal       | - | `void` | N |
 | **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
 | **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
-| **getRpcEndpoint** | test connection and return valid rpc endpoint    | - | `string \| undefined` | Y |
-| **getRestEndpoint**  | test connection and return valid rest endpoint    | - | `string \| undefined` | Y |
-| **getStargateClient**  | - | - | `StargateClient \| undefined` | Y |
-| **getCosmWasmClient**  | - | - | `CosmWasmClient \| undefined` | Y |
-| **getSigningStargateClient**  | - | - | `SigningStargateClient \| undefined` | Y |
-| **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient \| undefined` | Y |
-| **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee \| undefined` | Y |
-| **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw \| undefined` | Y |
-| **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
-| **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
+| **getRpcEndpoint** | test connection and return valid rpc endpoint    | - | `string` | Y |
+| **getRestEndpoint**  | test connection and return valid rest endpoint    | - | `string` | Y |
+| **getStargateClient**  | - | - | `StargateClient` | Y |
+| **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
+| **getSigningStargateClient**  | - | - | `SigningStargateClient` | Y |
+| **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient` | Y |
+| **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee` | Y |
+| **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw` | Y |
+| **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |
+| **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |
 
 
 ### methods from wallet client
@@ -47,10 +47,10 @@
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
 | **enable**  | if `chainIds` is `undefined`, using `chainId` corresponding to `chainName` in hook parameters |   **chainIds**?: `string | string[]` | `void` | Y |
-| **getOfflineSigner**  | - | - | `OfflineSigner \| undefined` | Y |
-| **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse \| undefined` | Y |
-| **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse \| undefined` | Y |
-| **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array \| undefined` | Y |
+| **getOfflineSigner**  | - | - | `OfflineSigner` | Y |
+| **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
+| **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse` | Y |
+| **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array` | Y |
 
 
 ## Examples

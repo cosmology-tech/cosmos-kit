@@ -206,47 +206,47 @@ export interface ChainContext {
   closeView: () => void;
   connect: (wallet?: WalletName) => Promise<void>;
   disconnect: () => Promise<void>;
-  getRpcEndpoint: () => Promise<string | undefined>;
-  getRestEndpoint: () => Promise<string | undefined>;
-  getStargateClient: () => Promise<StargateClient | undefined>;
-  getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
-  getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;
-  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
+  getRpcEndpoint: () => Promise<string>;
+  getRestEndpoint: () => Promise<string>;
+  getStargateClient: () => Promise<StargateClient>;
+  getCosmWasmClient: () => Promise<CosmWasmClient>;
+  getSigningStargateClient: () => Promise<SigningStargateClient>;
+  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
   estimateFee: (
     messages: EncodeObject[],
     type?: CosmosClientType,
     memo?: string,
     multiplier?: number
-  ) => Promise<StdFee | undefined>;
+  ) => Promise<StdFee>;
   sign: (
     messages: EncodeObject[],
     fee?: StdFee,
     memo?: string,
     type?: CosmosClientType
-  ) => Promise<TxRaw | undefined>;
+  ) => Promise<TxRaw>;
   broadcast: (
     signedMessages: TxRaw,
     type?: CosmosClientType
-  ) => Promise<DeliverTxResponse | undefined>;
+  ) => Promise<DeliverTxResponse>;
   signAndBroadcast: (
     messages: EncodeObject[],
     fee?: StdFee,
     memo?: string,
     type?: CosmosClientType
-  ) => Promise<DeliverTxResponse | undefined>;
+  ) => Promise<DeliverTxResponse>;
 
   // methods exposed from wallet client
   enable: (chainIds: string | string[]) => Promise<void>;
-  getOfflineSigner: () => Promise<OfflineSigner | undefined>;
+  getOfflineSigner: () => Promise<OfflineSigner>;
   signAmino: (
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ) => Promise<AminoSignResponse | undefined>;
+  ) => Promise<AminoSignResponse>;
   signDirect: (
     signer: string,
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
-  ) => Promise<DirectSignResponse | undefined>;
-  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array | undefined>;
+  ) => Promise<DirectSignResponse>;
+  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
