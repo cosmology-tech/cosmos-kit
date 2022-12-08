@@ -33,6 +33,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     connect,
     disconnect,
     openView,
+    closeView,
     current,
     chainRecord: { chain, assetList },
     getRpcEndpoint,
@@ -41,11 +42,13 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getCosmWasmClient,
   } = walletRepo;
 
+  const chainId = chain.chain_id;
+
   return {
     // walletRepo: walletRepo,
     // wallet: current,
 
-    chain: chain,
+    chain,
     assets: assetList,
     logoUrl: current?.chainLogoUrl,
     wallet: current?.walletInfo,
@@ -55,6 +58,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     status: current?.walletStatus || WalletStatus.Disconnected,
 
     openView,
+    closeView,
     connect,
     disconnect,
     getRpcEndpoint,
@@ -74,9 +78,17 @@ export const useChain = (chainName: ChainName): ChainContext => {
     signAndBroadcast: async (
       ...props: Parameters<ChainContext['signAndBroadcast']>
     ) => await current?.signAndBroadcast(...props),
+
+    enable: async (chainIds?: string | string[]) => {
+      await current?.client?.enable?.(chainIds || chainId);
+    },
+    getOfflineSigner: async () =>
+      await current?.client?.getOfflineSigner(chainId),
     signAmino: async (...props: Parameters<ChainContext['signAmino']>) =>
       await current?.signAmino(...props),
     signDirect: async (...props: Parameters<ChainContext['signDirect']>) =>
       await current?.signDirect(...props),
+    sendTx: async (...props: Parameters<ChainContext['sendTx']>) =>
+      await current?.client?.sendTx(chainId, ...props),
   };
 };

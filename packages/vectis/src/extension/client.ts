@@ -1,4 +1,12 @@
-import { ChainRecord, WalletClient } from '@cosmos-kit/core';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { StdSignDoc } from '@cosmjs/amino';
+import {
+  ChainRecord,
+  DirectSignDoc,
+  SignOptions,
+  WalletClient,
+} from '@cosmos-kit/core';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import type { Vectis, VectisChainInfo } from './types';
 
@@ -56,5 +64,23 @@ export class VectisClient implements WalletClient {
     if (!result) {
       throw new Error(`Failed to add chain ${name}.`);
     }
+  }
+
+  async signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ) {
+    return await this.client.signAmino(signer, signDoc);
+  }
+
+  async signDirect(
+    chainId: string,
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) {
+    return await this.client.signDirect(signer, signDoc as SignDoc);
   }
 }

@@ -86,6 +86,15 @@ export interface DirectSignDoc {
   accountNumber?: Long | null;
 }
 
+export declare enum BroadcastMode {
+  /** Return after tx commit */
+  Block = 'block',
+  /** Return after CheckTx */
+  Sync = 'sync',
+  /** Return right away */
+  Async = 'async',
+}
+
 export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
@@ -125,6 +134,11 @@ export interface WalletClient {
     chainId: string,
     ciphertext: Uint8Array,
     nonce: Uint8Array
+  ) => Promise<Uint8Array>;
+  sendTx?: (
+    chainId: string,
+    tx: Uint8Array,
+    mode: BroadcastMode
   ) => Promise<Uint8Array>;
 }
 
@@ -173,6 +187,7 @@ export interface ChainContext {
   status: WalletStatus;
 
   openView: () => void;
+  closeView: () => void;
   connect: (wallet?: WalletName) => Promise<void>;
   disconnect: () => Promise<void>;
   getRpcEndpoint: () => Promise<string | undefined>;
@@ -205,6 +220,8 @@ export interface ChainContext {
   ) => Promise<DeliverTxResponse | undefined>;
 
   // methods exposed from wallet client
+  enable: (chainIds: string | string[]) => Promise<void>;
+  getOfflineSigner: () => Promise<OfflineSigner | undefined>;
   signAmino: (
     signer: string,
     signDoc: StdSignDoc,
@@ -215,4 +232,5 @@ export interface ChainContext {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse | undefined>;
+  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array | undefined>;
 }

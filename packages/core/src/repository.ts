@@ -98,6 +98,10 @@ export class WalletRepo extends StateBase<Data> {
     this.actions?.viewOpen?.(true);
   };
 
+  closeView = () => {
+    this.actions?.viewOpen?.(false);
+  };
+
   connect = async (walletName?: WalletName) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);

@@ -1,5 +1,6 @@
+import { StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { WalletClient } from '@cosmos-kit/core';
+import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Leap } from './types';
 
@@ -30,5 +31,23 @@ export class LeapClient implements WalletClient {
 
   getOfflineSigner(chainId: string) {
     return this.client.getOfflineSigner(chainId);
+  }
+
+  async signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ) {
+    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+  }
+
+  async signDirect(
+    chainId: string,
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) {
+    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
   }
 }

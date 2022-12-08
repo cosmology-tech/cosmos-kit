@@ -7,7 +7,7 @@ import {
   SignOptions,
   WalletClient,
 } from '@cosmos-kit/core';
-import { Keplr } from '@keplr-wallet/types';
+import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
@@ -67,5 +67,9 @@ export class KeplrClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+  }
+
+  async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
+    return await this.client.sendTx(chainId, tx, mode);
   }
 }

@@ -2,6 +2,9 @@
 
 - required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider)
 
+- parameters:
+    - **chainName**: `string`;
+
 - return type: [**ChainConext**](#type-chainconext)
 
 ## Type - ChainConext
@@ -24,6 +27,7 @@
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
 | **openView**      | open modal       | - | `void` | N |
+| **closeView**      | close modal       | - | `void` | N |
 | **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
 | **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
 | **getRpcEndpoint** | test connection and return valid rpc endpoint    | - | `string \| undefined` | Y |
@@ -36,8 +40,17 @@
 | **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw \| undefined` | Y |
 | **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
 | **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse \| undefined` | Y |
-| **signAmino**  | using `wallet client` |   **signer**: string,<br />**signDoc**: StdSignDoc,<br />**signOptions**?: SignOptions | `AminoSignResponse \| undefined` | Y |
-| **signDirect**  | using `wallet client` |   **signer**: string,<br />**signDoc**: StdSignDoc,<br />**signOptions**?: SignOptions | `DirectSignResponse \| undefined` | Y |
+
+
+### methods from wallet client
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| ----------- | ----------- | -- | -- | -- |
+| **enable**  | if `chainIds` is `undefined`, using `chainId` corresponding to `chainName` in hook parameters |   **chainIds**?: `string | string[]` | `void` | Y |
+| **getOfflineSigner**  | - | - | `OfflineSigner \| undefined` | Y |
+| **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse \| undefined` | Y |
+| **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse \| undefined` | Y |
+| **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array \| undefined` | Y |
 
 
 ## Examples

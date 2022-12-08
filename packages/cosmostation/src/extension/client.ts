@@ -1,6 +1,13 @@
 import { chainRegistryChainToCosmostation } from '@chain-registry/cosmostation';
+import { StdSignDoc } from '@cosmjs/amino';
 import { OfflineSigner } from '@cosmjs/proto-signing';
-import { ChainRecord, WalletClient } from '@cosmos-kit/core';
+import {
+  BroadcastMode,
+  ChainRecord,
+  DirectSignDoc,
+  SignOptions,
+  WalletClient,
+} from '@cosmos-kit/core';
 import { getExtensionOfflineSigner } from '@cosmostation/cosmos-client';
 
 import { Cosmostation, RequestAccountResponse } from './types';
@@ -16,8 +23,16 @@ export class CosmostationClient implements WalletClient {
     this.client = client;
   }
 
+  get cosmos() {
+    return this.client.cosmos;
+  }
+
+  get keplr() {
+    return this.client.providers.keplr;
+  }
+
   async getAccount(chainId: string) {
-    const key = (await this.client.request({
+    const key = (await this.cosmos.request({
       method: 'cos_requestAccount',
       params: { chainName: chainId },
     })) as RequestAccountResponse;
@@ -29,13 +44,13 @@ export class CosmostationClient implements WalletClient {
   }
 
   async disconnect() {
-    await this.client.request({
+    await this.cosmos.request({
       method: 'cos_disconnect',
     });
   }
 
   on(type: string, listener: EventListenerOrEventListenerObject): void {
-    const event = this.client.on(type, listener);
+    const event = this.cosmos.on(type, listener);
     const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =
       this.eventMap.get(type) || new Map();
     typeEventMap.set(listener, event);
@@ -45,7 +60,7 @@ export class CosmostationClient implements WalletClient {
   off(type: string, listener: EventListenerOrEventListenerObject): void {
     const event = this.eventMap.get(type)?.get(listener);
     if (event) {
-      this.client.off(event);
+      this.cosmos.off(event);
     }
   }
 
@@ -62,7 +77,7 @@ export class CosmostationClient implements WalletClient {
       (suggestChain.restURL as string) =
         chainInfo.preferredEndpoints?.rest?.[0];
     }
-    const result = (await this.client.request({
+    const result = (await this.cosmos.request({
       method: 'cos_addChain',
       params: suggestChain,
     })) as boolean;
@@ -70,5 +85,51 @@ export class CosmostationClient implements WalletClient {
     if (!result) {
       throw new Error(`Failed to add chain ${chainInfo.name}.`);
     }
+  }
+
+  async signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ) {
+    try {
+      return await this.keplr.signAmino(chainId, signer, signDoc, signOptions);
+    } catch (error) {
+      return await this.cosmos.request({
+        method: 'cos_signAmino',
+        params: {
+          chainName: chainId,
+          doc: signDoc,
+          isEditMemo: signOptions?.preferNoSetMemo,
+          isEditFee: signOptions?.preferNoSetFee,
+        },
+      });
+    }
+  }
+
+  async signDirect(
+    chainId: string,
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) {
+    try {
+      return await this.keplr.signDirect(chainId, signer, signDoc, signOptions);
+    } catch (error) {
+      return await this.cosmos.request({
+        method: 'cos_signDirect',
+        params: {
+          chainName: chainId,
+          doc: signDoc,
+          isEditMemo: signOptions?.preferNoSetMemo,
+          isEditFee: signOptions?.preferNoSetFee,
+        },
+      });
+    }
+  }
+
+  async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
+    return await this.keplr.sendTx(chainId, tx, mode);
   }
 }
