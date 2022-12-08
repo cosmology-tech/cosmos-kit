@@ -1,6 +1,6 @@
 /// <reference types="long" />
 import { AssetList, Chain } from '@chain-registry/types';
-import { AminoSignResponse, StdFee, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdFee, StdSignDoc } from '@cosmjs/amino';
 import { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { Algo, DirectSignResponse, EncodeObject, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DeliverTxResponse, SigningStargateClient, StargateClient } from '@cosmjs/stargate';
@@ -46,35 +46,54 @@ export interface WalletAccount {
     name?: string;
     algo?: Algo;
 }
+export interface Key {
+    readonly name: string;
+    readonly algo: string;
+    readonly pubKey: Uint8Array;
+    readonly address: Uint8Array;
+    readonly bech32Address: string;
+    readonly isNanoLedger: boolean;
+}
 export interface SignOptions {
     readonly preferNoSetFee?: boolean;
     readonly preferNoSetMemo?: boolean;
     readonly disableBalanceCheck?: boolean;
 }
+export interface DirectSignDoc {
+    /** SignDoc bodyBytes */
+    bodyBytes?: Uint8Array | null;
+    /** SignDoc authInfoBytes */
+    authInfoBytes?: Uint8Array | null;
+    /** SignDoc chainId */
+    chainId?: string | null;
+    /** SignDoc accountNumber */
+    accountNumber?: Long | null;
+}
+export declare enum BroadcastMode {
+    /** Return after tx commit */
+    Block = "block",
+    /** Return after CheckTx */
+    Sync = "sync",
+    /** Return right away */
+    Async = "async"
+}
 export interface WalletClient {
     getAccount: (chainId: string) => Promise<WalletAccount>;
     getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
+    disconnect?: () => Promise<void>;
     on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     enable?: (chainIds: string | string[]) => Promise<void>;
     addChain?: (chainInfo: ChainRecord) => Promise<void>;
-    getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
-    getOfflineSignerAuto?: (chainId: string) => Promise<OfflineSigner | OfflineDirectSigner>;
-    signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions: SignOptions) => Promise<AminoSignResponse>;
-    signDirect?: (chainId: string, signer: string, signDoc: {
-        /** SignDoc bodyBytes */
-        bodyBytes?: Uint8Array | null;
-        /** SignDoc authInfoBytes */
-        authInfoBytes?: Uint8Array | null;
-        /** SignDoc chainId */
-        chainId?: string | null;
-        /** SignDoc accountNumber */
-        accountNumber?: Long | null;
-    }) => Promise<DirectSignResponse>;
+    getOfflineSignerAmino?: (chainId: string) => Promise<OfflineAminoSigner> | OfflineAminoSigner;
+    getOfflineSignerDirect?: (chainId: string) => Promise<OfflineDirectSigner> | OfflineDirectSigner;
+    signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
+    signDirect?: (chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
     getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
     getEnigmaTxEncryptionKey?: (chainId: string, nonce: Uint8Array) => Promise<Uint8Array>;
     enigmaEncrypt?: (chainId: string, contractCodeHash: string, msg: object) => Promise<Uint8Array>;
     enigmaDecrypt?: (chainId: string, ciphertext: Uint8Array, nonce: Uint8Array) => Promise<Uint8Array>;
+    sendTx?: (chainId: string, tx: Uint8Array, mode: BroadcastMode) => Promise<Uint8Array>;
 }
 export interface WalletConnectClient extends WalletClient {
     readonly connector: IConnector;
@@ -110,6 +129,7 @@ export interface ChainContext {
     message: string | undefined;
     status: WalletStatus;
     openView: () => void;
+    closeView: () => void;
     connect: (wallet?: WalletName) => Promise<void>;
     disconnect: () => Promise<void>;
     getRpcEndpoint: () => Promise<string | undefined>;
@@ -119,7 +139,12 @@ export interface ChainContext {
     getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;
     getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
     estimateFee: (messages: EncodeObject[], type?: CosmosClientType, memo?: string, multiplier?: number) => Promise<StdFee | undefined>;
-    sign: (messages: EncodeObject[], fee: StdFee, memo?: string, type?: CosmosClientType) => Promise<TxRaw | undefined>;
+    sign: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<TxRaw | undefined>;
     broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<DeliverTxResponse | undefined>;
     signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<DeliverTxResponse | undefined>;
+    enable: (chainIds: string | string[]) => Promise<void>;
+    getOfflineSigner: () => Promise<OfflineSigner | undefined>;
+    signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse | undefined>;
+    signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse | undefined>;
+    sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array | undefined>;
 }

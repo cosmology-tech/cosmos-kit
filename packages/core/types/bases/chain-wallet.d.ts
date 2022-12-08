@@ -1,8 +1,9 @@
+import { StdSignDoc } from '@cosmjs/amino';
 import { CosmWasmClient, SigningCosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, SigningStargateClientOptions, StargateClient, StargateClientOptions, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { Callbacks, ChainRecord, ChainWalletData, CosmosClientType, SessionOptions, Wallet, WalletClient } from '../types';
+import { Callbacks, ChainRecord, ChainWalletData, CosmosClientType, DirectSignDoc, SessionOptions, SignOptions, Wallet, WalletClient } from '../types';
 import { WalletBase } from './wallet';
 export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     protected _chainRecord: ChainRecord;
@@ -38,4 +39,6 @@ export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     sign: (messages: EncodeObject[], fee?: StdFee | number, memo?: string, type?: CosmosClientType) => Promise<TxRaw>;
     broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
     signAndBroadcast: (messages: EncodeObject[], fee?: StdFee | number, memo?: string, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
+    signAmino(signer: string, signDoc: StdSignDoc, signOptions?: SignOptions): Promise<import("@cosmjs/amino").AminoSignResponse>;
+    signDirect(signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions): Promise<import("@cosmjs/proto-signing").DirectSignResponse>;
 }

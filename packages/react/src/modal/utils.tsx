@@ -106,7 +106,6 @@ export const getModalDetails = (
         mobileDisabled,
         onClick: async () => {
           resetModal(false);
-          console.info('Connecting to ' + name);
           if (!isWalletDisconnected) {
             await disconnect();
           }
@@ -169,17 +168,14 @@ export const getModalDetails = (
   /*   selected wallet: modal content   */
   /* ================================== */
 
-  const { downloadInfo } = wallet;
-
-  // const appType = isMobile ? 'App' : 'Extension';
+  const { downloadInfo, walletName } = wallet;
 
   async function handleDisconnect() {
-    console.info('Disconnecting');
     await disconnect();
   }
 
   async function handleConnect() {
-    console.log('Connecting');
+    setCurrentWallet(walletName);
     await connect();
   }
 

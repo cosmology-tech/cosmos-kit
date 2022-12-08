@@ -2,13 +2,14 @@
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { Key } from '@keplr-wallet/types';
+import { BroadcastMode, Key } from '@cosmos-kit/core';
 export interface LeapSignOptions {
     readonly preferNoSetFee?: boolean;
     readonly preferNoSetMemo?: boolean;
     readonly disableBalanceCheck?: boolean;
 }
 export interface Leap {
+    disconnect(): Promise<void>;
     enable(chainIds: string | string[]): Promise<void>;
     mode: 'extension';
     getKey(chainId: string): Promise<Key>;
@@ -30,4 +31,5 @@ export interface Leap {
     getEnigmaTxEncryptionKey(chainId: string, nonce: Uint8Array): Promise<Uint8Array>;
     enigmaEncrypt(chainId: string, contractCodeHash: string, msg: object): Promise<Uint8Array>;
     enigmaDecrypt(chainId: string, ciphertext: Uint8Array, nonce: Uint8Array): Promise<Uint8Array>;
+    sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }

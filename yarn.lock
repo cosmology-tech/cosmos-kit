@@ -1273,14 +1273,33 @@
   dependencies:
     "@babel/runtime" "^7.19.4"
 
-"@chain-registry/utils@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.3.0.tgz#31b70f47d4e513c089f18db37e4ca3b9a1a8843c"
-  integrity sha512-IFEQqpNLyMVCVEb7MwYnVXz6fjGfwF4mwuACxyn9+XvLSbtD6Lc+8WgiliVZitkQz3YuSRqVDo0Kx63I0xm0BA==
+"@chain-registry/types@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.14.0.tgz#43ea04992adabdee2a0f03f8a519b01722ab354b"
+  integrity sha512-TlIqc3CijT734no7RiYBfUvCG2fory0blwrBcK4XTYOCi2vANsxfDdiPLFQcaSETYDd14DdjhrdXwMocEeOnLQ==
   dependencies:
     "@babel/runtime" "^7.19.4"
-    "@chain-registry/types" "^0.13.1"
+
+"@chain-registry/utils@^1.3.0":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.4.0.tgz#d3ac6c7bf7d4ac4779f788f0f94eb1be66ad1f44"
+  integrity sha512-VCB9DaEQXVPwwm7tHlxf/pNST7YS4i3PSZG7h23QAwry1LVQUw63P4hv6G0AkKETjIW7GnEOZoCfH4PFm5p7gQ==
+  dependencies:
+    "@babel/runtime" "^7.19.4"
+    "@chain-registry/types" "^0.14.0"
     sha.js "^2.4.11"
+
+"@chakra-ui/accordion@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.npmjs.org/@chakra-ui/accordion/-/accordion-2.0.11.tgz#08818c5c0a3b9ef4f309a730ad5626110b50e7ec"
+  integrity sha512-KTMli2m/piZROhtY9zynfW7h49dkpS4n8Ny3uBcVFCtRg7zUOklMyUKX8I7KqAPAUROPiwT/5kE9hui3XpksQg==
+  dependencies:
+    "@chakra-ui/descendant" "3.0.8"
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/transition" "2.0.9"
 
 "@chakra-ui/accordion@2.1.4":
   version "2.1.4"
@@ -1303,10 +1322,33 @@
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/spinner" "2.0.11"
 
+"@chakra-ui/alert@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/alert/-/alert-2.0.9.tgz#25e88c105e095def374c9fe1e3c8a3f6fab08f6c"
+  integrity sha512-hFRIh6ZzQJ0sAESRym15mW/mcZE/yu4z6lFtdToBhpfSlhZLuE7gDdOTxqGkg417hY//48NiNXOCoQ2dUUuHKw==
+  dependencies:
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/spinner" "2.0.9"
+
+"@chakra-ui/anatomy@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/@chakra-ui/anatomy/-/anatomy-2.0.5.tgz#7a2c1024ab42655c937b0dd50e68ad4ecd960768"
+  integrity sha512-KPnGuRh7/2OjRndRWb1iMww2i8duJT4dtSBjZtKpe/gvgoSfWarVJb8KUc4FZ+EB7sPkFA0VhHVO7m8bJ7D8TQ==
+
 "@chakra-ui/anatomy@2.1.0":
   version "2.1.0"
   resolved "https://registry.npmjs.org/@chakra-ui/anatomy/-/anatomy-2.1.0.tgz#8aeb9b753f0412f262743adf68519dfa85120b3e"
   integrity sha512-E3jMPGqKuGTbt7mKtc8g/MOOenw2c4wqRC1vOypyFgmC8wsewdY+DJJNENF3atXAK7p5VMBKQfZ7ipNlHnDAwA==
+
+"@chakra-ui/avatar@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/avatar/-/avatar-2.0.10.tgz#9816850f4e7d99aaff43529bace35b2387f3fe1d"
+  integrity sha512-5wph1VADNPrIv5Ml6IZskdDMaed99wmAi9IWMxpwaHAgJ3P6Km77/dG0PnI6eLo+r4sytWWdW1mz5+8m1mrNXQ==
+  dependencies:
+    "@chakra-ui/image" "2.0.10"
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
 
 "@chakra-ui/avatar@2.2.1":
   version "2.2.1"
@@ -1317,6 +1359,14 @@
     "@chakra-ui/react-children-utils" "2.0.4"
     "@chakra-ui/react-context" "2.0.5"
 
+"@chakra-ui/breadcrumb@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/breadcrumb/-/breadcrumb-2.0.9.tgz#357e4e2a50cdad87c0b3b59656aafa85671e6142"
+  integrity sha512-cc3WbxrJNRUph4v45qCdcIKJI0xECeV9VikQNIactBB+iexN4d+5P66xZABAkD8wWGmyH5KuSZcd9sFYNmC13w==
+  dependencies:
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
+
 "@chakra-ui/breadcrumb@2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@chakra-ui/breadcrumb/-/breadcrumb-2.1.1.tgz#e8a682a4909cf8ee5771f7b287524df2be383b8a"
@@ -1324,6 +1374,11 @@
   dependencies:
     "@chakra-ui/react-children-utils" "2.0.4"
     "@chakra-ui/react-context" "2.0.5"
+
+"@chakra-ui/breakpoint-utils@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/breakpoint-utils/-/breakpoint-utils-2.0.3.tgz#af7f7603f31a7d8d0166307a47e88cf5902401b4"
+  integrity sha512-smi41ZtaiPw4mXaCgicyAh5M45Drt20wypThP+qQUT2CQ51UFZhYlItRA2lCXKQ9QB83POcHPC/oAwIsNOAfTg==
 
 "@chakra-ui/breakpoint-utils@2.0.5":
   version "2.0.5"
@@ -1339,12 +1394,42 @@
     "@chakra-ui/react-use-merge-refs" "2.0.5"
     "@chakra-ui/spinner" "2.0.11"
 
+"@chakra-ui/button@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/button/-/button-2.0.9.tgz#f005f98bb5f1d5673a244957e6b3e2396acdf395"
+  integrity sha512-4BuDBiBlChHW1rQ9iod9MKs87AY3IyvZQwjV3DZTU4IG0KcDDfLQf++jj4dkg9Ttu+pIWhwF42pzA40JxW1oNg==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/spinner" "2.0.9"
+
 "@chakra-ui/card@2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@chakra-ui/card/-/card-2.1.1.tgz#b981a68d81d0f6447eb0d4d3fdcd7846bab2111f"
   integrity sha512-vvmfuNn6gkfv6bGcXQe6kvWHspziPZgYnnffiEjPaZYtaf98WRszpjyPbFv0oQR/2H1RSE1oaTqa/J1rHrzw3A==
   dependencies:
     "@chakra-ui/react-context" "2.0.5"
+
+"@chakra-ui/card@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/@chakra-ui/card/-/card-2.1.2.tgz#6a8b58d365557fd33da8e257e207fd8ba3640919"
+  integrity sha512-zLfrLe7NP14xWgzS+vVz07yapZNOTm3W0Gh9RCwwoQz7l4FNFNjGPmbktQGGp3fLqDUk9n9ugdFCNmxEcQ8wXA==
+
+"@chakra-ui/checkbox@2.1.8":
+  version "2.1.8"
+  resolved "https://registry.npmjs.org/@chakra-ui/checkbox/-/checkbox-2.1.8.tgz#d04a9a65494cf22e8bcfafa161bb7185d92dc13b"
+  integrity sha512-HhRs3nwTFoIE/UpX4N2AZxxW39Xm/Vw01HjwP/59X60kdKs3RBXlm52cODkfUDfveyT9o5ezLhU/jRf0qA909Q==
+  dependencies:
+    "@chakra-ui/form-control" "2.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
+    "@chakra-ui/visually-hidden" "2.0.9"
+    "@zag-js/focus-visible" "0.1.0"
 
 "@chakra-ui/checkbox@2.2.5":
   version "2.2.5"
@@ -1369,12 +1454,26 @@
   dependencies:
     "@chakra-ui/react-use-merge-refs" "2.0.5"
 
+"@chakra-ui/clickable@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/clickable/-/clickable-2.0.9.tgz#c06486d36f4a4cb517ea75176e05021dfde117cd"
+  integrity sha512-tGXYM6M6I954fif98QkNu5M76oBZmksCTj2mILOan9/BSimpFpu06aPGX3ZIkNsz300nIObn0FdtMvKpIEQueA==
+  dependencies:
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+
 "@chakra-ui/close-button@2.0.13":
   version "2.0.13"
   resolved "https://registry.npmjs.org/@chakra-ui/close-button/-/close-button-2.0.13.tgz#c549d682c66f3e08b1f37e98a83ebe0421846496"
   integrity sha512-ZI/3p84FPlW0xoDCZYqsnIvR6bTc2d/TlhwyTHsDDxq9ZOWp9c2JicVn6WTdWGdshk8itnZZdG50IcnizGnimA==
   dependencies:
     "@chakra-ui/icon" "3.0.13"
+
+"@chakra-ui/close-button@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/close-button/-/close-button-2.0.9.tgz#dab2d66c7a240c4d3d150e370980709336a4a266"
+  integrity sha512-0RI/zLR+/mycGbYCCwDAc9hAVG7IIVmdikmo1ET7+rYip4TN94aWR0hA4dYtWqqghG1oW/pYQ9Yja6fEY90V5w==
+  dependencies:
+    "@chakra-ui/icon" "3.0.9"
 
 "@chakra-ui/color-mode@2.1.10":
   version "2.1.10"
@@ -1383,10 +1482,22 @@
   dependencies:
     "@chakra-ui/react-use-safe-layout-effect" "2.0.3"
 
+"@chakra-ui/color-mode@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@chakra-ui/color-mode/-/color-mode-2.1.7.tgz#91c02e82e551c5448081e4934efeddb10bb732c5"
+  integrity sha512-GAoKJzVRQeuEfCa2i0BZdMwxuOoaGknU3+5wgvLuaSpwlov4OyqpjKMRdSdpjr4IFiqqHK47dsr3H4LQsbO+9w==
+  dependencies:
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
+
 "@chakra-ui/control-box@2.0.11":
   version "2.0.11"
   resolved "https://registry.npmjs.org/@chakra-ui/control-box/-/control-box-2.0.11.tgz#b2deec368fc83f6675964785f823e4c0c1f5d4ac"
   integrity sha512-UJb4vqq+/FPuwTCuaPeHa2lwtk6u7eFvLuwDCST2e/sBWGJC1R+1/Il5pHccnWs09FWxyZ9v/Oxkg/CG3jZR4Q==
+
+"@chakra-ui/control-box@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/control-box/-/control-box-2.0.9.tgz#b3cd98ceb1ce683c00445ab7469e65ba3d90c3cc"
+  integrity sha512-/viS9OBah1wCLNZbgfwkoQOnVRUYgp8Gypjqk9QNQwnNdFUTEgWc1RWN+1RYO85esJzHLkA2hZFIrYu1TZeZ6g==
 
 "@chakra-ui/counter@2.0.11":
   version "2.0.11"
@@ -1396,10 +1507,23 @@
     "@chakra-ui/number-utils" "2.0.5"
     "@chakra-ui/react-use-callback-ref" "2.0.5"
 
+"@chakra-ui/counter@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/counter/-/counter-2.0.9.tgz#b1b7c74c4e5d1ac506d699d93da57d535370a702"
+  integrity sha512-LuqtpyxCOZM19gAmV0vtVeaFd9ccPmEjoGJQ0NoO8CFheltgLC/7m/8YpDbgWiG4+BAkTUfIG+5nLg5hwvvQxw==
+  dependencies:
+    "@chakra-ui/number-utils" "2.0.3"
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+
 "@chakra-ui/css-reset@2.0.10":
   version "2.0.10"
   resolved "https://registry.npmjs.org/@chakra-ui/css-reset/-/css-reset-2.0.10.tgz#cb6cd97ee38f8069789f08c31a828bf3a7e339ea"
   integrity sha512-FwHOfw2P4ckbpSahDZef2KoxcvHPUg09jlicWdp24/MjdsOO5PAB/apm2UBvQflY4WAJyOqYaOdnXFlR6nF4cQ==
+
+"@chakra-ui/css-reset@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.npmjs.org/@chakra-ui/css-reset/-/css-reset-2.0.5.tgz#4d472e0ced60c75b286e061484dc519677303400"
+  integrity sha512-gQTfHL29IG4xsqH4NNDJJzTv1PZ3+FuxqlJwqckV1BvfEYW0+qOFPq9MAI3PbSAucoi1gIL8gg4qpl3wjoPjcw==
 
 "@chakra-ui/descendant@3.0.11":
   version "3.0.11"
@@ -1408,6 +1532,19 @@
   dependencies:
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/react-use-merge-refs" "2.0.5"
+
+"@chakra-ui/descendant@3.0.8":
+  version "3.0.8"
+  resolved "https://registry.npmjs.org/@chakra-ui/descendant/-/descendant-3.0.8.tgz#ffb57219f78fddb49f13e8e23066aa339f91bf47"
+  integrity sha512-71blZpcL8JTKo5ShUwKn6uwCUhdp7QhMxCrdSZ9GTz/9GASiOqcQK8jCgtRha7w8UTyZpsbIJBhnVHyWayR+Vw==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+
+"@chakra-ui/dom-utils@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/dom-utils/-/dom-utils-2.0.1.tgz#3061819ac365f5947423d63a5fcc26a281bbb5c2"
+  integrity sha512-sbob9AHQq1+KIQ3XKslafislwtC8pYcpwM0S1SLzgyZumHRwhDimKwdi4MtRQfOCenub0E3diRjp4RpGRL0JuQ==
 
 "@chakra-ui/dom-utils@2.0.4":
   version "2.0.4"
@@ -1429,10 +1566,37 @@
     "@chakra-ui/react-use-update-effect" "2.0.5"
     "@chakra-ui/shared-utils" "2.0.3"
 
+"@chakra-ui/editable@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/editable/-/editable-2.0.9.tgz#a31d2e1c176c0817574e98a8567314c1a74444ab"
+  integrity sha512-s5F3UMR09s6ga3eVhw0UBMGmegtxg6jCp29VLqaEwP5BuWIEOjcJz358gTlnFr3dhvb31e3rcr+B1XiYv4wxqg==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-focus-on-pointer-down" "2.0.1"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
+    "@chakra-ui/shared-utils" "2.0.1"
+
+"@chakra-ui/event-utils@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/event-utils/-/event-utils-2.0.3.tgz#3b3192d5954a383e7742b3671eaeaf44c82a07fa"
+  integrity sha512-HLUhNKpoo9shW2qdmvZsuIvhrtLhPc/FYCGawPQON3tw1v62PtCIXwWpvdSKfVu6cr8S1BUYhY9Nys7P5ZF0dA==
+
 "@chakra-ui/event-utils@2.0.6":
   version "2.0.6"
   resolved "https://registry.npmjs.org/@chakra-ui/event-utils/-/event-utils-2.0.6.tgz#5e04d68ea070ef52ce212c2a99be9afcc015cfaf"
   integrity sha512-ZIoqUbgJ5TcCbZRchMv4n7rOl1JL04doMebED88LO5mux36iVP9er/nnOY4Oke1bANKKURMrQf5VTT9hoYeA7A==
+
+"@chakra-ui/focus-lock@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/focus-lock/-/focus-lock-2.0.10.tgz#8f17d212786bd2977afc07f72b520aeae30b9434"
+  integrity sha512-LeRZYzwfJp0eq84oO8e1pC2qC8v8fJw/P4nYDrCDjuJU753DV6nVjp5MKMRqbkp+6IAElPc+ojy/sp2a9GCocw==
+  dependencies:
+    "@chakra-ui/dom-utils" "2.0.1"
+    react-focus-lock "^2.9.1"
 
 "@chakra-ui/focus-lock@2.0.13":
   version "2.0.13"
@@ -1452,6 +1616,26 @@
     "@chakra-ui/react-types" "2.0.5"
     "@chakra-ui/react-use-merge-refs" "2.0.5"
 
+"@chakra-ui/form-control@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/form-control/-/form-control-2.0.9.tgz#10678857e6586e7d1be0a34c8d045c6484c1180b"
+  integrity sha512-P8Tr45z/XSAa1m6uAma0eKf1h7Ltg2sLj2jK5YhaXJER9VUUY18iGe96D4JrAXlgEWDhTyWMb63nB+eYO1tKtw==
+  dependencies:
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+
+"@chakra-ui/hooks@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/hooks/-/hooks-2.0.9.tgz#1f6d6157968a60dd9678112763d8f5fd3bdeffad"
+  integrity sha512-0JRgEPtsBaXr9nQW1xEKlWGA7WwFbLNqac7fQXp9zQvoHOWTfNJkK/NJaVBvyFPgfTLxy37WKHooVSwNG/Lwmg==
+  dependencies:
+    "@chakra-ui/react-utils" "2.0.6"
+    "@chakra-ui/utils" "2.0.9"
+    compute-scroll-into-view "1.0.14"
+    copy-to-clipboard "3.3.1"
+
 "@chakra-ui/hooks@2.1.2":
   version "2.1.2"
   resolved "https://registry.npmjs.org/@chakra-ui/hooks/-/hooks-2.1.2.tgz#1e413f6624e97b854569e8a19846c9162a4ec153"
@@ -1468,6 +1652,20 @@
   integrity sha512-RaDLC4psd8qyInY2RX4AlYRfpLBNw3VsMih17BFf8EESVhBXNJcYy7Q9eMV/K4NvZfZT42vuVqGVNFmkG89lBQ==
   dependencies:
     "@chakra-ui/shared-utils" "2.0.3"
+
+"@chakra-ui/icon@3.0.9":
+  version "3.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/icon/-/icon-3.0.9.tgz#ba127d9eefd727f62e9bce07a23eca39ae506744"
+  integrity sha512-P2Pwm/za6m1W1oqL2kGHH6XrrymsBjqYAFwOW2lB5Q6mI1e+RYe/iMxDoPSLHMYhqdfH7vyib/ffE3Vv3a5oTA==
+  dependencies:
+    "@chakra-ui/shared-utils" "2.0.1"
+
+"@chakra-ui/image@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/image/-/image-2.0.10.tgz#712c0e1c579d959225bd8316d8d8f66cbeb95bb8"
+  integrity sha512-Atc1bdog4V5xv7IbpF2F2UkKWfgG/TD74cIac09JuSpQcYyh7lrJ7iVvhTkeP+LDdCs+QCD7SnTUM4Y0ZlaHbA==
+  dependencies:
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
 
 "@chakra-ui/image@2.0.12":
   version "2.0.12"
@@ -1487,6 +1685,17 @@
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/shared-utils" "2.0.3"
 
+"@chakra-ui/input@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/input/-/input-2.0.9.tgz#905b82ed647a20080a25a6a7e6740e3bb65586c1"
+  integrity sha512-6MKydxTyF7JV7PtQHircQ5HBTd6Ik9Vn7p8fCLeAieT0TK8UQTxMWZVPminS7TRWMutrq8W99DcQOBlMz0cKrw==
+  dependencies:
+    "@chakra-ui/form-control" "2.0.9"
+    "@chakra-ui/object-utils" "2.0.3"
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/shared-utils" "2.0.1"
+
 "@chakra-ui/layout@2.1.11":
   version "2.1.11"
   resolved "https://registry.npmjs.org/@chakra-ui/layout/-/layout-2.1.11.tgz#6b0005dd897a901f2fded99c19fe47f60db80cb3"
@@ -1499,6 +1708,23 @@
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/shared-utils" "2.0.3"
 
+"@chakra-ui/layout@2.1.6":
+  version "2.1.6"
+  resolved "https://registry.npmjs.org/@chakra-ui/layout/-/layout-2.1.6.tgz#3dfdd8b3f08d9ff34fc923d44ebe4bc86291b889"
+  integrity sha512-QDNaVu44UI46c+YlSF1KrzJkiwua0UtRXNTnR3jBE1uzcuqRow7xgr3E60dLphY2cPFqAljfQZUNlP3sgvCLww==
+  dependencies:
+    "@chakra-ui/breakpoint-utils" "2.0.3"
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/object-utils" "2.0.3"
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/shared-utils" "2.0.1"
+
+"@chakra-ui/lazy-utils@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/lazy-utils/-/lazy-utils-2.0.1.tgz#6814836552028fa0823563ce3d39d22bccb203e1"
+  integrity sha512-986YjYq+hEzHDLZiqYlYbdqfiKdC3h2g896Eoe5K2UXtAVxqZI3UOnMH781X6N1R7rGJWquskzG681qFigW/BA==
+
 "@chakra-ui/lazy-utils@2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@chakra-ui/lazy-utils/-/lazy-utils-2.0.3.tgz#5ba459a2541ad0c98cd98b20a8054664c129e9b4"
@@ -1509,6 +1735,19 @@
   resolved "https://registry.npmjs.org/@chakra-ui/live-region/-/live-region-2.0.11.tgz#1008c5b629aa4120e5158be53f13d8d34bc2d71a"
   integrity sha512-ltObaKQekP75GCCbN+vt1/mGABSCaRdQELmotHTBc5AioA3iyCDHH69ev+frzEwLvKFqo+RomAdAAgqBIMJ02Q==
 
+"@chakra-ui/live-region@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/live-region/-/live-region-2.0.9.tgz#f26cf1b96df51515cd3a0897f9516f8b5f6bbfec"
+  integrity sha512-ilbo/C5wcUoSHDU5owFPQP3KsabPYGzDEbwV+Z76BlyNdFN2PD0j13RGEH+sBNNZ3HzLyyuuc1YmkVcJi7ycQg==
+
+"@chakra-ui/media-query@3.2.5":
+  version "3.2.5"
+  resolved "https://registry.npmjs.org/@chakra-ui/media-query/-/media-query-3.2.5.tgz#c0b9dc4bc6245d9abddcbe17693e40bf5dfe34f8"
+  integrity sha512-V+Dngi/r7u/uj7JhsZerM1RI597Oo4wED2ojNfclnnEVb/IoqktiuFy6RQgbo3HmE7M/E5B1i4yYzt7tQJhXlg==
+  dependencies:
+    "@chakra-ui/breakpoint-utils" "2.0.3"
+    "@chakra-ui/react-env" "2.0.9"
+
 "@chakra-ui/media-query@3.2.8":
   version "3.2.8"
   resolved "https://registry.npmjs.org/@chakra-ui/media-query/-/media-query-3.2.8.tgz#7d5feccb7ac52891426c060dd2ed1df37420956d"
@@ -1516,6 +1755,26 @@
   dependencies:
     "@chakra-ui/breakpoint-utils" "2.0.5"
     "@chakra-ui/react-env" "2.0.11"
+
+"@chakra-ui/menu@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.npmjs.org/@chakra-ui/menu/-/menu-2.0.11.tgz#bf5be5b287f176df5bf4398b4d214a9aae30ae8c"
+  integrity sha512-AUo1sG+Wowl24Ed6QFxrA/nC1ekntIfULxXw0uMICAW+T/uCu3jJDlTNS5q6eSqE5NSCutKZ8058nobFCkqB0g==
+  dependencies:
+    "@chakra-ui/clickable" "2.0.9"
+    "@chakra-ui/descendant" "3.0.8"
+    "@chakra-ui/lazy-utils" "2.0.1"
+    "@chakra-ui/popper" "3.0.7"
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-animation-state" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-disclosure" "2.0.3"
+    "@chakra-ui/react-use-focus-effect" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/react-use-outside-click" "2.0.3"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
+    "@chakra-ui/transition" "2.0.9"
 
 "@chakra-ui/menu@2.1.5":
   version "2.1.5"
@@ -1537,6 +1796,21 @@
     "@chakra-ui/react-use-update-effect" "2.0.5"
     "@chakra-ui/transition" "2.0.12"
 
+"@chakra-ui/modal@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.npmjs.org/@chakra-ui/modal/-/modal-2.1.7.tgz#dba55bddd407689f4c2bba886b03a5355578a20d"
+  integrity sha512-A+CbvhQYpmLH3SrqJ1wJysUCGm0mNoSDxRjP4wX98j56nMTDAsMYlzttpuLmKaSzvbJ7uEQDLtQV8lZjB0gUuw==
+  dependencies:
+    "@chakra-ui/close-button" "2.0.9"
+    "@chakra-ui/focus-lock" "2.0.10"
+    "@chakra-ui/portal" "2.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/transition" "2.0.9"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "^2.5.4"
+
 "@chakra-ui/modal@2.2.4":
   version "2.2.4"
   resolved "https://registry.npmjs.org/@chakra-ui/modal/-/modal-2.2.4.tgz#dbe884a9245ed840b6511a4f06b4a622fa86de4c"
@@ -1545,6 +1819,21 @@
     "@chakra-ui/close-button" "2.0.13"
     "@chakra-ui/focus-lock" "2.0.13"
     "@chakra-ui/portal" "2.0.11"
+    "@chakra-ui/react-context" "2.0.5"
+    "@chakra-ui/react-types" "2.0.5"
+    "@chakra-ui/react-use-merge-refs" "2.0.5"
+    "@chakra-ui/transition" "2.0.12"
+    aria-hidden "^1.1.1"
+    react-remove-scroll "^2.5.4"
+
+"@chakra-ui/modal@2.2.5":
+  version "2.2.5"
+  resolved "https://registry.npmjs.org/@chakra-ui/modal/-/modal-2.2.5.tgz#adcbf06c29d853b5fa17fec3a91b8096eecffe6b"
+  integrity sha512-QIoN89bT5wnR71wxZFHt7vsS65yF9WCfIwDtFk8ifxJORPi/UkLMwBpjTV2Jfsxd22W6Oo2VOpRR0a5WFeK+jA==
+  dependencies:
+    "@chakra-ui/close-button" "2.0.13"
+    "@chakra-ui/focus-lock" "2.0.13"
+    "@chakra-ui/portal" "2.0.12"
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/react-types" "2.0.5"
     "@chakra-ui/react-use-merge-refs" "2.0.5"
@@ -1569,15 +1858,53 @@
     "@chakra-ui/react-use-safe-layout-effect" "2.0.3"
     "@chakra-ui/react-use-update-effect" "2.0.5"
 
+"@chakra-ui/number-input@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/number-input/-/number-input-2.0.9.tgz#c5ebfa0311f7586fb4c1e5f4284355b1d1f04383"
+  integrity sha512-RsDzoNvSBZMgyXjN543AtQ2v99U1p/0xnGWZy4NCkgCDWMBn3kIXqSzQq5CB9Ot0MD8nnKF5VYdVdXWguXExEQ==
+  dependencies:
+    "@chakra-ui/counter" "2.0.9"
+    "@chakra-ui/form-control" "2.0.9"
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+    "@chakra-ui/react-use-event-listener" "2.0.3"
+    "@chakra-ui/react-use-interval" "2.0.1"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
+
+"@chakra-ui/number-utils@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/number-utils/-/number-utils-2.0.3.tgz#2cf1190647ac5a17c90baaf8176226a98eb3bfff"
+  integrity sha512-oN03kYAUCCp/FNtpLr5mh+cvd/sRTzZWTBoFydmxc955psXq/X950gzs6o5kzoeFCpgXaxMmHAXQm3ReEK2NsQ==
+
 "@chakra-ui/number-utils@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/number-utils/-/number-utils-2.0.5.tgz#c7595fc919fca7c43fe172bfd6c5197c653ee572"
   integrity sha512-Thhohnlqze0i5HBJO9xkfOPq1rv3ji/hNPf2xh1fh4hxrNzdm3HCkz0c6lyRQwGuVoeltEHysYZLH/uWLFTCSQ==
 
+"@chakra-ui/object-utils@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/object-utils/-/object-utils-2.0.3.tgz#0bc8d1c7c452fe1ce8fcda439336e0392e867d7e"
+  integrity sha512-36prckrqTynVD/JTzyCr8OCWVOrMs/awZo3djVbIiNxRIcJ5iEwUVy26h3MWN4ENSopipBtxNfAwPNTLU5Si/g==
+
 "@chakra-ui/object-utils@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/object-utils/-/object-utils-2.0.5.tgz#231602066ddb96ae91dcc7da243b97ad46972398"
   integrity sha512-/rIMoYI3c2uLtFIrnTFOPRAI8StUuu335WszqKM0KAW1lwG9H6uSbxqlpZT1Pxi/VQqZKfheGiMQOx5lfTmM/A==
+
+"@chakra-ui/pin-input@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.npmjs.org/@chakra-ui/pin-input/-/pin-input-2.0.11.tgz#9f11dafd65b68d6e2530862422a61d314dd1c1ec"
+  integrity sha512-Yv+RFcuRCLYhBGRv9JI9IYekD2qHCZh2WOQMutF0sqhDCoITkVelaiBxErENYSPXL2+eBJs7rZAEXulPMVS7pA==
+  dependencies:
+    "@chakra-ui/descendant" "3.0.8"
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
 
 "@chakra-ui/pin-input@2.0.16":
   version "2.0.16"
@@ -1589,6 +1916,20 @@
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/react-use-controllable-state" "2.0.6"
     "@chakra-ui/react-use-merge-refs" "2.0.5"
+
+"@chakra-ui/popover@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/popover/-/popover-2.0.9.tgz#7f2df4cbbc3eee7440c311750e18ba00150f973f"
+  integrity sha512-+7tH4RVuheFQOyAZ5KT9x+qsLvz7rGuKaHtb0427+5bhUzLaSAghtr/afzOKHDwUVBwF2tTUNanR23ipW1fXDg==
+  dependencies:
+    "@chakra-ui/close-button" "2.0.9"
+    "@chakra-ui/hooks" "2.0.9"
+    "@chakra-ui/lazy-utils" "2.0.1"
+    "@chakra-ui/popper" "3.0.7"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-disclosure" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
 
 "@chakra-ui/popover@2.1.4":
   version "2.1.4"
@@ -1615,6 +1956,15 @@
     "@chakra-ui/react-use-merge-refs" "2.0.5"
     "@popperjs/core" "^2.9.3"
 
+"@chakra-ui/popper@3.0.7":
+  version "3.0.7"
+  resolved "https://registry.npmjs.org/@chakra-ui/popper/-/popper-3.0.7.tgz#af3428bf5d64ad9372210a70181f69a9d79eefb2"
+  integrity sha512-xLYhuNsk1gOjymtek1ZdZlG21hmg2a7Iu2KsD9Hi7+aUxc2K5/XxX+/vyjjz8u4s0gmj83pTqnauQRynb/TCXA==
+  dependencies:
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@popperjs/core" "^2.9.3"
+
 "@chakra-ui/portal@2.0.11":
   version "2.0.11"
   resolved "https://registry.npmjs.org/@chakra-ui/portal/-/portal-2.0.11.tgz#7a6b3ebc621bb28b46550fcfb36b94926d0111a5"
@@ -1623,12 +1973,53 @@
     "@chakra-ui/react-context" "2.0.5"
     "@chakra-ui/react-use-safe-layout-effect" "2.0.3"
 
+"@chakra-ui/portal@2.0.12":
+  version "2.0.12"
+  resolved "https://registry.npmjs.org/@chakra-ui/portal/-/portal-2.0.12.tgz#bba0dac00f5610efbf2f15b0e5e6e984135c82c2"
+  integrity sha512-8D/1fFUdbJtzyGL5sCBIb4oyTnPG2v6rx/L/qbG43FcXDrongmzLj0+tJ//PbJr+5hxjXAWFUjpPvyx10pTN6Q==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.5"
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.3"
+
+"@chakra-ui/portal@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/portal/-/portal-2.0.9.tgz#b427c383a9d602c5b52b21312b4b1c0ffecaf583"
+  integrity sha512-9e9S0MLbkpofPGlyYA12jNYSdndugy6ylPi5pC9nr3/VqG2Kn+8VcBChAeXW8K4ms7WFc74rNX1pBY/UVwr4qg==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
+
+"@chakra-ui/progress@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/progress/-/progress-2.0.10.tgz#9191ae9061ef08066d37c5cb8341fedc10214a29"
+  integrity sha512-my0Pi3NG1PYhlvCav4fybg3gL5HBNe+7lO4PVdri4QHEyfJlrDeBWID+1GgqlpUWdTj3sOf7ysku+FEgkeOeSA==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.3"
+
 "@chakra-ui/progress@2.1.1":
   version "2.1.1"
   resolved "https://registry.npmjs.org/@chakra-ui/progress/-/progress-2.1.1.tgz#b94399af12e9324737f9e690201f78546572ac59"
   integrity sha512-ddAXaYGNObGqH1stRAYxkdospf6J4CDOhB0uyw9BeHRSsYkCUQWkUBd/melJuZeGHEH2ItF9T7FZ4JhcepP3GA==
   dependencies:
     "@chakra-ui/react-context" "2.0.5"
+
+"@chakra-ui/progress@2.1.2":
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/@chakra-ui/progress/-/progress-2.1.2.tgz#dc3dcae7ddc94d18c3d7b64c2a84a83055038f4f"
+  integrity sha512-ofhMWTqCxnm1NiP/zH4SV7EvOLogfX15MSMTNfGqZv6t8eSSeTn6oRRzsTSllJfSqDey7oZNCRbP7vDhvx9HtQ==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.5"
+
+"@chakra-ui/provider@2.0.14":
+  version "2.0.14"
+  resolved "https://registry.npmjs.org/@chakra-ui/provider/-/provider-2.0.14.tgz#e381fb6d80d1c3b9d5adb8264afe976b5cbfa0bc"
+  integrity sha512-JEzbfOFdNRXfj/c7c3xTrhb0r12hcAZLErqN+OsJR98u+uc7Grqkd8qwt9HYLeJYVKi5JtaeUTyd7uS1n9yhSg==
+  dependencies:
+    "@chakra-ui/css-reset" "2.0.5"
+    "@chakra-ui/portal" "2.0.9"
+    "@chakra-ui/react-env" "2.0.9"
+    "@chakra-ui/system" "2.2.7"
+    "@chakra-ui/utils" "2.0.9"
 
 "@chakra-ui/provider@2.0.24":
   version "2.0.24"
@@ -1641,6 +2032,28 @@
     "@chakra-ui/system" "2.3.4"
     "@chakra-ui/utils" "2.0.12"
 
+"@chakra-ui/provider@2.0.25":
+  version "2.0.25"
+  resolved "https://registry.npmjs.org/@chakra-ui/provider/-/provider-2.0.25.tgz#6f27abcb8744a7d3c4ebd09409a9e00e0f90c566"
+  integrity sha512-9BQm9aqiUK/5xeYECpD9dfULd/BfxV4nncFGQNXFqZr0Nx54BALndeKdtId3j+36j9MwcKqjHgKyEpv4s+4vkQ==
+  dependencies:
+    "@chakra-ui/css-reset" "2.0.10"
+    "@chakra-ui/portal" "2.0.12"
+    "@chakra-ui/react-env" "2.0.11"
+    "@chakra-ui/system" "2.3.4"
+    "@chakra-ui/utils" "2.0.12"
+
+"@chakra-ui/radio@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/radio/-/radio-2.0.10.tgz#82eb02313efafc460da3030d011bfd434b1ecabc"
+  integrity sha512-LhAWsY22cmb+M/iyhFgkzf2+V9TJmAC77Cd+GbP3M3sxDSEUDtq08KOc3JjoYc3GzeZml3JL1yssbxh+liY3xA==
+  dependencies:
+    "@chakra-ui/form-control" "2.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@zag-js/focus-visible" "0.1.0"
+
 "@chakra-ui/radio@2.0.14":
   version "2.0.14"
   resolved "https://registry.npmjs.org/@chakra-ui/radio/-/radio-2.0.14.tgz#f214f728235782a2ac49c0eb507f151612e31b2e"
@@ -1652,10 +2065,20 @@
     "@chakra-ui/react-use-merge-refs" "2.0.5"
     "@zag-js/focus-visible" "0.1.0"
 
+"@chakra-ui/react-children-utils@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-children-utils/-/react-children-utils-2.0.1.tgz#321ac05362ade1495a34ea74052d3c7da3d9e923"
+  integrity sha512-sEgpuh/vWSt2+W0F49EGYXXUyjmg0lbosjVg6qUKHv9sAyx5tbrOrZ6df/TaMUSAe9m3AUOMGqUIPLpxno0DjA==
+
 "@chakra-ui/react-children-utils@2.0.4":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@chakra-ui/react-children-utils/-/react-children-utils-2.0.4.tgz#6e4284297a8a9b4e6f5f955b099bb6c2c6bbf8b9"
   integrity sha512-qsKUEfK/AhDbMexWo5JhmdlkxLg5WEw2dFh4XorvU1/dTYsRfP6cjFfO8zE+X3F0ZFNsgKz6rbN5oU349GLEFw==
+
+"@chakra-ui/react-context@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-context/-/react-context-2.0.3.tgz#e988be62f5f5fe29d6a8496c79cbf934f840fa5a"
+  integrity sha512-KmPq6sb1y05WsOUqXZtBBC4LsNKZIFrp2thTsLBwcuH7lkXZwPMHmJGKa9K980P+SWEgfH2s2PY2z+QrIuqWGg==
 
 "@chakra-ui/react-context@2.0.5":
   version "2.0.5"
@@ -1667,10 +2090,28 @@
   resolved "https://registry.npmjs.org/@chakra-ui/react-env/-/react-env-2.0.11.tgz#d9d65fb695de7aff15e1d0e97d57bb7bedce5fa2"
   integrity sha512-rPwUHReSWh7rbCw0HePa8Pvc+Q82fUFvVjHTIbXKnE6d+01cCE7j4f1NLeRD9pStKPI6sIZm9xTGvOCzl8F8iw==
 
+"@chakra-ui/react-env@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-env/-/react-env-2.0.9.tgz#d51efc31d77197a3526e2c4b2f2fde557396bb3c"
+  integrity sha512-4AJHNUGBR19hzVyOILYpZZgq8jGrpEcbhvR++CppbvPH7vfPZpoz6L/cBtHxS07YwDtUeBL8yCNiLlTxctV//Q==
+
+"@chakra-ui/react-types@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-types/-/react-types-2.0.3.tgz#dc454c4703b4de585e6461fd607304ede06fe595"
+  integrity sha512-1mJYOQldFTALE0Wr3j6tk/MYvgQIp6CKkJulNzZrI8QN+ox/bJOh8OVP4vhwqvfigdLTui0g0k8M9h+j2ub/Mw==
+
 "@chakra-ui/react-types@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/react-types/-/react-types-2.0.5.tgz#1e4c99ef0e59b5fe9263d0e186cd66afdfb6c87b"
   integrity sha512-GApp+R/VjS1UV5ms5irrij5LOIgUM0dqSVHagyEFEz88LRKkqMD9RuO577ZsVd4Gn0ULsacVJCUA0HtNUBJNzA==
+
+"@chakra-ui/react-use-animation-state@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-animation-state/-/react-use-animation-state-2.0.3.tgz#c10e575de76e907a84358595884a819039b24200"
+  integrity sha512-sjGgzMMmxurwKDSFhDLpLNn3SWUERI5iAZOOa0pYnyOLGVXMowgIjK6jpZxre1vc3A+unjJk5P4qeiyY+C4uwQ==
+  dependencies:
+    "@chakra-ui/dom-utils" "2.0.1"
+    "@chakra-ui/react-use-event-listener" "2.0.3"
 
 "@chakra-ui/react-use-animation-state@2.0.6":
   version "2.0.6"
@@ -1680,10 +2121,22 @@
     "@chakra-ui/dom-utils" "2.0.4"
     "@chakra-ui/react-use-event-listener" "2.0.5"
 
+"@chakra-ui/react-use-callback-ref@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-callback-ref/-/react-use-callback-ref-2.0.3.tgz#532f993ae0dda27b2638d41e98f42c83751cd3b6"
+  integrity sha512-kdYlhgnQKWWLNwl3WSv/Oq3+mlnu2p3y4Xc1AqKVHVcBOdQE9lpW3d7ZaOoK2aIXXWq1rocscOiXBUtM0Vqd2A==
+
 "@chakra-ui/react-use-callback-ref@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-callback-ref/-/react-use-callback-ref-2.0.5.tgz#862430dfbab8e1f0b8e04476e5e25469bd044ec9"
   integrity sha512-vKnXleD2PzB0nGabY35fRtklMid4z7cecbMG0fkasNNsgWmrQcXJOuEKUUVCynL6FBU6gBnpKFi5Aqj6x+K4tw==
+
+"@chakra-ui/react-use-controllable-state@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-controllable-state/-/react-use-controllable-state-2.0.3.tgz#7aa3f9c038513763332f6754e69ece90aed55a9c"
+  integrity sha512-su8efwCWWnY2LQUU6PEnYwSGJX8kvPSO2KyUKuymx8q3fNWuyhzAZriG/TbeeCxESLp70+wuniUlSGRa4vxylQ==
+  dependencies:
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
 
 "@chakra-ui/react-use-controllable-state@2.0.6":
   version "2.0.6"
@@ -1692,6 +2145,13 @@
   dependencies:
     "@chakra-ui/react-use-callback-ref" "2.0.5"
 
+"@chakra-ui/react-use-disclosure@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-disclosure/-/react-use-disclosure-2.0.3.tgz#c27bfc7e3af0728423b9e2def1e1665d0ba941bb"
+  integrity sha512-3IdrzvQZcgjqSx5wTVffInOyhMU+d3ZlIE26JmqejMyN/B+qAs932iKfm0A1mTMPTz38ZnNtuaKazmzyfR1ePg==
+  dependencies:
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+
 "@chakra-ui/react-use-disclosure@2.0.6":
   version "2.0.6"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-disclosure/-/react-use-disclosure-2.0.6.tgz#db707ee119db829e9b21ff1c05e867938f1e27ba"
@@ -1699,12 +2159,28 @@
   dependencies:
     "@chakra-ui/react-use-callback-ref" "2.0.5"
 
+"@chakra-ui/react-use-event-listener@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-event-listener/-/react-use-event-listener-2.0.3.tgz#11b5409c4442888e7981d5288c9e781acdacd685"
+  integrity sha512-m3ZdJjo3QQ1HcQGnehlBTgHaCVewz5fwIRTXVzbZTraVJr4k589Zf87eagW57tT4dyv656lSmdhaFGZ8p5Snww==
+  dependencies:
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+
 "@chakra-ui/react-use-event-listener@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-event-listener/-/react-use-event-listener-2.0.5.tgz#949aa99878b25b23709452d3c80a1570c99747cc"
   integrity sha512-etLBphMigxy/cm7Yg22y29gQ8u/K3PniR5ADZX7WVX61Cgsa8ciCqjTE9sTtlJQWAQySbWxt9+mjlT5zaf+6Zw==
   dependencies:
     "@chakra-ui/react-use-callback-ref" "2.0.5"
+
+"@chakra-ui/react-use-focus-effect@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-focus-effect/-/react-use-focus-effect-2.0.3.tgz#3e221a5e9b06a7b832a6fca1f883e6335fd69f19"
+  integrity sha512-N0rho7P+rH5cn13dbS8GUOye+6RYXAmXhmlS+WW/3lWidGH3HAbMoOVf56UiuSnE1+2or8/U7qRshUryj2H1nA==
+  dependencies:
+    "@chakra-ui/dom-utils" "2.0.1"
+    "@chakra-ui/react-use-event-listener" "2.0.3"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
 
 "@chakra-ui/react-use-focus-effect@2.0.7":
   version "2.0.7"
@@ -1716,12 +2192,26 @@
     "@chakra-ui/react-use-safe-layout-effect" "2.0.3"
     "@chakra-ui/react-use-update-effect" "2.0.5"
 
+"@chakra-ui/react-use-focus-on-pointer-down@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-focus-on-pointer-down/-/react-use-focus-on-pointer-down-2.0.1.tgz#be0668ff844dec8bbfe978d6eaff50534f290c48"
+  integrity sha512-f0qL2iWvajUo+0jwDZyJpUMJ6J6BH3WjDZE2Rp6cns4pgI6uYuv2gj+FqQ5jnoYdXkeER6lBI56a+aIW/1RYiA==
+  dependencies:
+    "@chakra-ui/react-use-event-listener" "2.0.3"
+
 "@chakra-ui/react-use-focus-on-pointer-down@2.0.4":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-focus-on-pointer-down/-/react-use-focus-on-pointer-down-2.0.4.tgz#aeba543c451ac1b0138093234e71d334044daf84"
   integrity sha512-L3YKouIi77QbXH9mSLGEFzJbJDhyrPlcRcuu+TSC7mYaK9E+3Ap+RVSAVxj+CfQz7hCWpikPecKDuspIPWlyuA==
   dependencies:
     "@chakra-ui/react-use-event-listener" "2.0.5"
+
+"@chakra-ui/react-use-interval@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-interval/-/react-use-interval-2.0.1.tgz#a8f5dbf83607f5dc53022aa2a766fdcb09d8a081"
+  integrity sha512-6ZLzKA7Ga894UZcXO3bbGYThlhviiau1oxZ1UcJG5pUXNM9Up7O/4Joq31sL+KcpteCN45vd1etomilsv/blxw==
+  dependencies:
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
 
 "@chakra-ui/react-use-interval@2.0.3":
   version "2.0.3"
@@ -1735,10 +2225,22 @@
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-latest-ref/-/react-use-latest-ref-2.0.3.tgz#27cf703858e65ecb5a0eef26215c794ad2a5353d"
   integrity sha512-exNSQD4rPclDSmNwtcChUCJ4NuC2UJ4amyNGBqwSjyaK5jNHk2kkM7rZ6I0I8ul+26lvrXlSuhyv6c2PFwbFQQ==
 
+"@chakra-ui/react-use-merge-refs@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-merge-refs/-/react-use-merge-refs-2.0.3.tgz#cd8dac79c62dd45daaf4acc4507721d23dc5dc51"
+  integrity sha512-n35BmVbasy5Esa6qxznWmiV3NaRxGpqMpZH0n+X7aXt8VkGAJzRpAVjUmKCLNYyCLpqsQceCmAEK8a5SR6vxqw==
+
 "@chakra-ui/react-use-merge-refs@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-merge-refs/-/react-use-merge-refs-2.0.5.tgz#13181e1a43219c6a04a01f84de0188df042ee92e"
   integrity sha512-uc+MozBZ8asaUpO8SWcK6D4svRPACN63jv5uosUkXJR+05jQJkUofkfQbf2HeGVbrWCr0XZsftLIm4Mt/QMoVw==
+
+"@chakra-ui/react-use-outside-click@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-outside-click/-/react-use-outside-click-2.0.3.tgz#d0136d1c2fb45d86361224e98e3a50648bf9b85f"
+  integrity sha512-r5OohM8lOuZTz6e3vVHvfm/3sEkd06nUPBNU+r3rWh1I7bR9z5Gia/BOQD6GE4jUTanDkHcH76Pf9qJ45kpibQ==
+  dependencies:
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
 
 "@chakra-ui/react-use-outside-click@2.0.5":
   version "2.0.5"
@@ -1746,6 +2248,14 @@
   integrity sha512-WmtXUeVaMtxP9aUGGG+GQaDeUn/Bvf8TI3EU5mE1+TtqLHxyA9wtvQurynrogvpilLaBADwn/JeBeqs2wHpvqA==
   dependencies:
     "@chakra-ui/react-use-callback-ref" "2.0.5"
+
+"@chakra-ui/react-use-pan-event@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-pan-event/-/react-use-pan-event-2.0.3.tgz#8fdc826703a82c8165f69d822f5e1eb4b3d0eee3"
+  integrity sha512-cWdyUiSJIBMvK5GOrYimp9Z9EfZkp8W4RJs+5wRFJ2aUkPoxuUCnm3OyYcdVPd/LsMhOf9f/V8SrnQoL5wCAxA==
+  dependencies:
+    "@chakra-ui/event-utils" "2.0.3"
+    framesync "5.3.0"
 
 "@chakra-ui/react-use-pan-event@2.0.6":
   version "2.0.6"
@@ -1756,15 +2266,32 @@
     "@chakra-ui/react-use-latest-ref" "2.0.3"
     framesync "5.3.0"
 
+"@chakra-ui/react-use-previous@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-previous/-/react-use-previous-2.0.1.tgz#e19f6b363271f62c36c9f3bd91dc60caa4c4e340"
+  integrity sha512-ROi+/puVd8D1QaxBSOcGlJNqV2x02ppSgmXzZZJhM8ryFLZjY9ojV3HhamB2IJ/7SIb1rMSSV1GPedFw7YMCwA==
+
 "@chakra-ui/react-use-previous@2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-previous/-/react-use-previous-2.0.3.tgz#9da3d53fd75f1c3da902bd6af71dcb1a7be37f31"
   integrity sha512-A2ODOa0rm2HM4aqXfxxI0zPLcn5Q7iBEjRyfIQhb+EH+d2OFuj3L2slVoIpp6e/km3Xzv2d+u/WbjgTzdQ3d0w==
 
+"@chakra-ui/react-use-safe-layout-effect@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-safe-layout-effect/-/react-use-safe-layout-effect-2.0.1.tgz#76f8882abaf17078c3b6eb93e1bb26f8c319f3f7"
+  integrity sha512-H+ZOjkPqv3KBPEoP68JKpQBNdLOI0mwzEiTT397UdvBVCCJ+1/ijWVUT+Ub/pYic60O6xUghy5ORaWqJHhnKDA==
+
 "@chakra-ui/react-use-safe-layout-effect@2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-safe-layout-effect/-/react-use-safe-layout-effect-2.0.3.tgz#bf63ac8c94460aa1b20b6b601a0ea873556ffb1b"
   integrity sha512-dlTvQURzmdfyBbNdydgO4Wy2/HV8aJN8LszTtyb5vRZsyaslDM/ftcxo8E8QjHwRLD/V1Epb/A8731QfimfVaQ==
+
+"@chakra-ui/react-use-size@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-size/-/react-use-size-2.0.3.tgz#ae3bd683eb87a40208cf0dd467a5dafb68d87b3e"
+  integrity sha512-hr4hKepPUmM2paXseSZiOTK2y+ZqnSzYNusDEB01f+cDerFjdN1jSfNJKXpiKF0+hNESXfOPQb3Zt0eDusRdoA==
+  dependencies:
+    "@zag-js/element-size" "0.1.0"
 
 "@chakra-ui/react-use-size@2.0.5":
   version "2.0.5"
@@ -1773,6 +2300,13 @@
   dependencies:
     "@zag-js/element-size" "0.1.0"
 
+"@chakra-ui/react-use-timeout@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-timeout/-/react-use-timeout-2.0.1.tgz#acacadfb7c1443aacf634ddce710b1cd7cf3b6ec"
+  integrity sha512-zXh9RH+GciKr8hvaOADHOoHP72B7UZUEymA8CWCV4WEs/9s/PfQJH7X1bwvaj43CcOmfVQg4oODWqCYQM1lSsg==
+  dependencies:
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+
 "@chakra-ui/react-use-timeout@2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-timeout/-/react-use-timeout-2.0.3.tgz#16ca397dbca55a64811575884cb81a348d86d4e2"
@@ -1780,10 +2314,22 @@
   dependencies:
     "@chakra-ui/react-use-callback-ref" "2.0.5"
 
+"@chakra-ui/react-use-update-effect@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-use-update-effect/-/react-use-update-effect-2.0.3.tgz#5b0128fe1325b5b1413690db6bc8dd0712d01e29"
+  integrity sha512-8hkP1o/UUUA49w/R+XyAlPiCjxXTCWCNsHWUOEhAitjJfoCNUjgaNKOD52hT07kc5ACJEcJQHA5327LnwtiIlg==
+
 "@chakra-ui/react-use-update-effect@2.0.5":
   version "2.0.5"
   resolved "https://registry.npmjs.org/@chakra-ui/react-use-update-effect/-/react-use-update-effect-2.0.5.tgz#aede8f13f2b3de254b4ffa3b8cec1b70bd2876c5"
   integrity sha512-y9tCMr1yuDl8ATYdh64Gv8kge5xE1DMykqPDZw++OoBsTaWr3rx40wblA8NIWuSyJe5ErtKP2OeglvJkYhryJQ==
+
+"@chakra-ui/react-utils@2.0.6":
+  version "2.0.6"
+  resolved "https://registry.npmjs.org/@chakra-ui/react-utils/-/react-utils-2.0.6.tgz#bb471ce2bff724b99563685962145a2cc56bf61d"
+  integrity sha512-ZL0FPaolovXOxMzYRSLHgBYtvxIkA/c5GTSYpXL8DcC+TBLZnAmQ8BPTS2b6xys6xvwdQjkZRUeQ0cBNFaryJg==
+  dependencies:
+    "@chakra-ui/utils" "2.0.9"
 
 "@chakra-ui/react-utils@2.0.9":
   version "2.0.9"
@@ -1792,7 +2338,60 @@
   dependencies:
     "@chakra-ui/utils" "2.0.12"
 
-"@chakra-ui/react@2.4.2", "@chakra-ui/react@^2.2.9":
+"@chakra-ui/react@2.2.9":
+  version "2.2.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/react/-/react-2.2.9.tgz#0e5500a4dc4a45ae941def4b1b3b1c1b9aa8dd57"
+  integrity sha512-biW1C8b+pmw9gvpTWZOgSU9qxnOu1/nqjYsCY9eznSHIr50E3jeO987D2KEuegHPb7O0PfRdGmEaZzHnUTNweg==
+  dependencies:
+    "@chakra-ui/accordion" "2.0.11"
+    "@chakra-ui/alert" "2.0.9"
+    "@chakra-ui/avatar" "2.0.10"
+    "@chakra-ui/breadcrumb" "2.0.9"
+    "@chakra-ui/button" "2.0.9"
+    "@chakra-ui/checkbox" "2.1.8"
+    "@chakra-ui/close-button" "2.0.9"
+    "@chakra-ui/control-box" "2.0.9"
+    "@chakra-ui/counter" "2.0.9"
+    "@chakra-ui/css-reset" "2.0.5"
+    "@chakra-ui/editable" "2.0.9"
+    "@chakra-ui/form-control" "2.0.9"
+    "@chakra-ui/hooks" "2.0.9"
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/image" "2.0.10"
+    "@chakra-ui/input" "2.0.9"
+    "@chakra-ui/layout" "2.1.6"
+    "@chakra-ui/live-region" "2.0.9"
+    "@chakra-ui/media-query" "3.2.5"
+    "@chakra-ui/menu" "2.0.11"
+    "@chakra-ui/modal" "2.1.7"
+    "@chakra-ui/number-input" "2.0.9"
+    "@chakra-ui/pin-input" "2.0.11"
+    "@chakra-ui/popover" "2.0.9"
+    "@chakra-ui/popper" "3.0.7"
+    "@chakra-ui/portal" "2.0.9"
+    "@chakra-ui/progress" "2.0.10"
+    "@chakra-ui/provider" "2.0.14"
+    "@chakra-ui/radio" "2.0.10"
+    "@chakra-ui/react-env" "2.0.9"
+    "@chakra-ui/select" "2.0.9"
+    "@chakra-ui/skeleton" "2.0.14"
+    "@chakra-ui/slider" "2.0.9"
+    "@chakra-ui/spinner" "2.0.9"
+    "@chakra-ui/stat" "2.0.9"
+    "@chakra-ui/switch" "2.0.11"
+    "@chakra-ui/system" "2.2.7"
+    "@chakra-ui/table" "2.0.9"
+    "@chakra-ui/tabs" "2.1.0"
+    "@chakra-ui/tag" "2.0.9"
+    "@chakra-ui/textarea" "2.0.10"
+    "@chakra-ui/theme" "2.1.8"
+    "@chakra-ui/toast" "3.0.7"
+    "@chakra-ui/tooltip" "2.0.10"
+    "@chakra-ui/transition" "2.0.9"
+    "@chakra-ui/utils" "2.0.9"
+    "@chakra-ui/visually-hidden" "2.0.9"
+
+"@chakra-ui/react@2.4.2":
   version "2.4.2"
   resolved "https://registry.npmjs.org/@chakra-ui/react/-/react-2.4.2.tgz#60d0cf80965d77ab6e280e28124b800a0d7a5f8c"
   integrity sha512-lPDCCuY3S7XSeIK+P+ypGIL+lFqEZQt8H3Iyq4coblULMsj8skdSUqaoQ4I9fGgOi1koTPe4OlXb+rmqwQQ9MQ==
@@ -1848,6 +2447,62 @@
     "@chakra-ui/utils" "2.0.12"
     "@chakra-ui/visually-hidden" "2.0.13"
 
+"@chakra-ui/react@^2.2.9":
+  version "2.4.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/react/-/react-2.4.3.tgz#c86b92b38ebaa482f22e4515208da429cd4c94bf"
+  integrity sha512-OzeN8lb/yoJZMuLYgnX00ZcrvMwgMomIHvq3lD7v0jtfdzAQKEySgu7/CmHOsvWnDB7Qy9LMlSb8PLUII1aDow==
+  dependencies:
+    "@chakra-ui/accordion" "2.1.4"
+    "@chakra-ui/alert" "2.0.13"
+    "@chakra-ui/avatar" "2.2.1"
+    "@chakra-ui/breadcrumb" "2.1.1"
+    "@chakra-ui/button" "2.0.13"
+    "@chakra-ui/card" "2.1.2"
+    "@chakra-ui/checkbox" "2.2.5"
+    "@chakra-ui/close-button" "2.0.13"
+    "@chakra-ui/control-box" "2.0.11"
+    "@chakra-ui/counter" "2.0.11"
+    "@chakra-ui/css-reset" "2.0.10"
+    "@chakra-ui/editable" "2.0.16"
+    "@chakra-ui/form-control" "2.0.13"
+    "@chakra-ui/hooks" "2.1.2"
+    "@chakra-ui/icon" "3.0.13"
+    "@chakra-ui/image" "2.0.12"
+    "@chakra-ui/input" "2.0.14"
+    "@chakra-ui/layout" "2.1.11"
+    "@chakra-ui/live-region" "2.0.11"
+    "@chakra-ui/media-query" "3.2.8"
+    "@chakra-ui/menu" "2.1.5"
+    "@chakra-ui/modal" "2.2.5"
+    "@chakra-ui/number-input" "2.0.14"
+    "@chakra-ui/pin-input" "2.0.16"
+    "@chakra-ui/popover" "2.1.4"
+    "@chakra-ui/popper" "3.0.10"
+    "@chakra-ui/portal" "2.0.12"
+    "@chakra-ui/progress" "2.1.2"
+    "@chakra-ui/provider" "2.0.25"
+    "@chakra-ui/radio" "2.0.14"
+    "@chakra-ui/react-env" "2.0.11"
+    "@chakra-ui/select" "2.0.14"
+    "@chakra-ui/skeleton" "2.0.19"
+    "@chakra-ui/slider" "2.0.15"
+    "@chakra-ui/spinner" "2.0.11"
+    "@chakra-ui/stat" "2.0.13"
+    "@chakra-ui/styled-system" "2.4.0"
+    "@chakra-ui/switch" "2.0.17"
+    "@chakra-ui/system" "2.3.4"
+    "@chakra-ui/table" "2.0.12"
+    "@chakra-ui/tabs" "2.1.5"
+    "@chakra-ui/tag" "2.0.13"
+    "@chakra-ui/textarea" "2.0.14"
+    "@chakra-ui/theme" "2.2.2"
+    "@chakra-ui/theme-utils" "2.0.5"
+    "@chakra-ui/toast" "4.0.5"
+    "@chakra-ui/tooltip" "2.2.3"
+    "@chakra-ui/transition" "2.0.12"
+    "@chakra-ui/utils" "2.0.12"
+    "@chakra-ui/visually-hidden" "2.0.13"
+
 "@chakra-ui/select@2.0.14":
   version "2.0.14"
   resolved "https://registry.npmjs.org/@chakra-ui/select/-/select-2.0.14.tgz#b2230702e31d2b9b4cc7848b18ba7ae8e4c89bdb"
@@ -1855,15 +2510,43 @@
   dependencies:
     "@chakra-ui/form-control" "2.0.13"
 
+"@chakra-ui/select@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/select/-/select-2.0.9.tgz#e6ae69cb611c491cd0f04acc5a595932936a376b"
+  integrity sha512-Q6kE3MGGRQn0lmU1jOvveGPspe3LooUYBMuS80hpPM+Zvq+Cfjl5tRgTMPirb6i66A+0Qiw5tgUa5dPHdpWL0g==
+  dependencies:
+    "@chakra-ui/form-control" "2.0.9"
+
+"@chakra-ui/shared-utils@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@chakra-ui/shared-utils/-/shared-utils-2.0.1.tgz#41e314e42c96039e8ffb265e73145cf755813ab4"
+  integrity sha512-NXDBl/u4wrSNp0ON5R3r3evkRurrAz2yuO7neooaG+O5HEenVouGqm4CsXd6lUAPmjwiGzA0LQFNCt0Hj92dXg==
+
 "@chakra-ui/shared-utils@2.0.3":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@chakra-ui/shared-utils/-/shared-utils-2.0.3.tgz#97cbc11282e381ebd9f581c603088f9d60ead451"
   integrity sha512-pCU+SUGdXzjAuUiUT8mriekL3tJVfNdwSTIaNeip7k/SWDzivrKGMwAFBxd3XVTDevtVusndkO4GJuQ3yILzDg==
 
+"@chakra-ui/skeleton@2.0.14":
+  version "2.0.14"
+  resolved "https://registry.npmjs.org/@chakra-ui/skeleton/-/skeleton-2.0.14.tgz#5b5ae979236c0d3f014d0d588fb857fc7b681045"
+  integrity sha512-EDcfM0qN51HboHBd33H43WL8VEGQvZXsV6vDyE7eXYYNx2FeJo9j1LIm67321FdbjsQS2L+t11UESyAUmLXrjw==
+  dependencies:
+    "@chakra-ui/media-query" "3.2.5"
+    "@chakra-ui/react-use-previous" "2.0.1"
+
 "@chakra-ui/skeleton@2.0.18":
   version "2.0.18"
   resolved "https://registry.npmjs.org/@chakra-ui/skeleton/-/skeleton-2.0.18.tgz#a2af241f0b1b692db4d10b90a887107a5e401c7d"
   integrity sha512-qjcD8BgVx4kL8Lmb8EvmmDGM2ICl6CqhVE2LShJrgG7PDM6Rt6rYM617kqLurLYZjbJUiwgf9VXWifS0IpT31Q==
+  dependencies:
+    "@chakra-ui/media-query" "3.2.8"
+    "@chakra-ui/react-use-previous" "2.0.3"
+
+"@chakra-ui/skeleton@2.0.19":
+  version "2.0.19"
+  resolved "https://registry.npmjs.org/@chakra-ui/skeleton/-/skeleton-2.0.19.tgz#c2f8619edf06d8411aeb8fac8748134bfba7ea35"
+  integrity sha512-i/U70wB9rX3DdO9i50kQLfPVdLPw8oIZlKynq15DkXEch3uXzLMY8ZzcEQW99B/PnynC1gni0+P9jMfeX7Wi+Q==
   dependencies:
     "@chakra-ui/media-query" "3.2.8"
     "@chakra-ui/react-use-previous" "2.0.3"
@@ -1884,10 +2567,46 @@
     "@chakra-ui/react-use-size" "2.0.5"
     "@chakra-ui/react-use-update-effect" "2.0.5"
 
+"@chakra-ui/slider@2.0.15":
+  version "2.0.15"
+  resolved "https://registry.npmjs.org/@chakra-ui/slider/-/slider-2.0.15.tgz#e574020d3240490b12204a6b1db4f40101567f87"
+  integrity sha512-1PwTBgaPKe8L1aOryGd1i52snqQY615Jd7d1Jyjzr/7s3uvLnpCmTE7bazu/cJU0h1qSpluMv++A+d+fjICdmA==
+  dependencies:
+    "@chakra-ui/number-utils" "2.0.5"
+    "@chakra-ui/react-context" "2.0.5"
+    "@chakra-ui/react-types" "2.0.5"
+    "@chakra-ui/react-use-callback-ref" "2.0.5"
+    "@chakra-ui/react-use-controllable-state" "2.0.6"
+    "@chakra-ui/react-use-latest-ref" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.5"
+    "@chakra-ui/react-use-pan-event" "2.0.6"
+    "@chakra-ui/react-use-size" "2.0.5"
+    "@chakra-ui/react-use-update-effect" "2.0.5"
+
+"@chakra-ui/slider@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/slider/-/slider-2.0.9.tgz#6f63c25b51a00d55ae54c6ea5c812dd13027258a"
+  integrity sha512-i4bDVi7MLO21EvCEflEHCPtIBRGzyrvUfSGI00FMHwW4KMKx/tMmiBBo9wkzT1Wj3WC7zeRAVkNQ4uCVKJXNRQ==
+  dependencies:
+    "@chakra-ui/number-utils" "2.0.3"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-callback-ref" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/react-use-pan-event" "2.0.3"
+    "@chakra-ui/react-use-size" "2.0.3"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
+
 "@chakra-ui/spinner@2.0.11":
   version "2.0.11"
   resolved "https://registry.npmjs.org/@chakra-ui/spinner/-/spinner-2.0.11.tgz#a5dd76b6cb0f3524d9b90b73fa4acfb6adc69f33"
   integrity sha512-piO2ghWdJzQy/+89mDza7xLhPnW7pA+ADNbgCb1vmriInWedS41IBKe+pSPz4IidjCbFu7xwKE0AerFIbrocCA==
+
+"@chakra-ui/spinner@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/spinner/-/spinner-2.0.9.tgz#1d8544cc136699a590c3f5c518ae2c14abb459cf"
+  integrity sha512-9ALl51fiVWptDu2J2xcv0TSfGf4buumpHrEXHvV2Qy+HZ6rYnUmSThBSb/VgoQS+rASG8bAbLUPlQTQ+v9ibFg==
 
 "@chakra-ui/stat@2.0.13":
   version "2.0.13"
@@ -1897,6 +2616,22 @@
     "@chakra-ui/icon" "3.0.13"
     "@chakra-ui/react-context" "2.0.5"
 
+"@chakra-ui/stat@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/stat/-/stat-2.0.9.tgz#cecf35a4392a88227c3b85e80a45f0f5ac5f298d"
+  integrity sha512-C9cytqegWSGJ/hh3/qwsgGlerXLYHrU0iQcJQ+pKSRFJhshXsv3go5IR6kVL72Yf2s4Gs5c3GsMZrLM22ePpDg==
+  dependencies:
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+
+"@chakra-ui/styled-system@2.2.8":
+  version "2.2.8"
+  resolved "https://registry.npmjs.org/@chakra-ui/styled-system/-/styled-system-2.2.8.tgz#d849be1fabc7563d1fedfcfa2fb56a4a7f9804ce"
+  integrity sha512-HvXtCVUt3kY/RTd0sY7k6dX8ZHCOUbtq5TSS+/E9zESZegwxsG84XKdLhRbLaguYyRB81cOgmFmT5WJmcWxMWA==
+  dependencies:
+    csstype "^3.0.11"
+    lodash.mergewith "4.6.2"
+
 "@chakra-ui/styled-system@2.4.0":
   version "2.4.0"
   resolved "https://registry.npmjs.org/@chakra-ui/styled-system/-/styled-system-2.4.0.tgz#4b50079606331e4e8fda7ea59da9db51b446d40c"
@@ -1905,12 +2640,30 @@
     csstype "^3.0.11"
     lodash.mergewith "4.6.2"
 
+"@chakra-ui/switch@2.0.11":
+  version "2.0.11"
+  resolved "https://registry.npmjs.org/@chakra-ui/switch/-/switch-2.0.11.tgz#57117417d1bb072f506c8c30e1a961ee7f78496b"
+  integrity sha512-gY8OGBnoPosZpq7dDNVf432t67pTc/cz5VkGhbtER7bbjXSoXe0DAiAYL+HT2kD7mbTJQzzHK/y0St0WimR1Mw==
+  dependencies:
+    "@chakra-ui/checkbox" "2.1.8"
+
 "@chakra-ui/switch@2.0.17":
   version "2.0.17"
   resolved "https://registry.npmjs.org/@chakra-ui/switch/-/switch-2.0.17.tgz#1d6904b6cde2469212bbd8311b749b96c653a9a3"
   integrity sha512-BQabfC6qYi5xBJvEFPzKq0yl6fTtTNNEHTid5r7h0PWcCnAiHwQJTpQRpxp+AjK569LMLtTXReTZvNBrzEwOrA==
   dependencies:
     "@chakra-ui/checkbox" "2.2.5"
+
+"@chakra-ui/system@2.2.7":
+  version "2.2.7"
+  resolved "https://registry.npmjs.org/@chakra-ui/system/-/system-2.2.7.tgz#ead90c3122f96dea9aa586cd50d70234a59aa21e"
+  integrity sha512-E6eVz6Ghzv5Gy9D3e/J5XWjYheHTCEuenQB4amuiXYAm7bgsjJJl0EHk8kHNW+Gjh4qj9f7F/9C7d/ZpaKpzZQ==
+  dependencies:
+    "@chakra-ui/color-mode" "2.1.7"
+    "@chakra-ui/react-utils" "2.0.6"
+    "@chakra-ui/styled-system" "2.2.8"
+    "@chakra-ui/utils" "2.0.9"
+    react-fast-compare "3.2.0"
 
 "@chakra-ui/system@2.3.4":
   version "2.3.4"
@@ -1930,6 +2683,27 @@
   integrity sha512-TSxzpfrOoB+9LTdNTMnaQC6OTsp36TlCRxJ1+1nAiCmlk+m+FiNzTQsmBalDDhc29rm+6AdRsxSPsjGWB8YVwg==
   dependencies:
     "@chakra-ui/react-context" "2.0.5"
+
+"@chakra-ui/table@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/table/-/table-2.0.9.tgz#2ddb0202e8146e517bf602e62195d13fee8f1b0a"
+  integrity sha512-XRz6+x4dMeQX3xyViyG2H/P1STI/2vwvgU2cjzzwS+5fZ2JdGaTgYzBb+IZoH9agEq1Ma3rlKMUPDrRCFb7kLQ==
+  dependencies:
+    "@chakra-ui/react-context" "2.0.3"
+
+"@chakra-ui/tabs@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/@chakra-ui/tabs/-/tabs-2.1.0.tgz#4efa7128e5552096db7d047fc8ba731224e09673"
+  integrity sha512-CYiejYBgBjVMzeUp+xBIVXmdrY9khH7MizfkprmNkFq/p7zk1ZElhfksO5j4uymFDMeYkF08yoJVXfk6Xv1euw==
+  dependencies:
+    "@chakra-ui/clickable" "2.0.9"
+    "@chakra-ui/descendant" "3.0.8"
+    "@chakra-ui/lazy-utils" "2.0.1"
+    "@chakra-ui/react-children-utils" "2.0.1"
+    "@chakra-ui/react-context" "2.0.3"
+    "@chakra-ui/react-use-controllable-state" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+    "@chakra-ui/react-use-safe-layout-effect" "2.0.1"
 
 "@chakra-ui/tabs@2.1.5":
   version "2.1.5"
@@ -1953,12 +2727,36 @@
     "@chakra-ui/icon" "3.0.13"
     "@chakra-ui/react-context" "2.0.5"
 
+"@chakra-ui/tag@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/tag/-/tag-2.0.9.tgz#bf8530aa766bd6b9196d374ff75b0b1ce62cd0d3"
+  integrity sha512-NKARwhsZ04t2vkrdRhNcakEiVtg1q44yUUsDw2Jwdu4idAWQupZGGochQI2Ac4T2MI1b66zQUkaGnm3l1mhTtg==
+  dependencies:
+    "@chakra-ui/icon" "3.0.9"
+    "@chakra-ui/react-context" "2.0.3"
+
+"@chakra-ui/textarea@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/textarea/-/textarea-2.0.10.tgz#dbbc8df8adddb488d0ee97164917e7be33d6b247"
+  integrity sha512-HSo0EPsY8XKGA+Af6jTob1oe1T6NKZwgjLmX0binK3MMM9pDTXsUTw8GD0g971lxw9oktVMLK/O9QVAgVAm5mw==
+  dependencies:
+    "@chakra-ui/form-control" "2.0.9"
+
 "@chakra-ui/textarea@2.0.14":
   version "2.0.14"
   resolved "https://registry.npmjs.org/@chakra-ui/textarea/-/textarea-2.0.14.tgz#a79a3fdd850a3303e6ebb68d64b7c334de03da4d"
   integrity sha512-r8hF1rCi+GseLtY/IGeVWXFN0Uve2b820UQumRj4qxj7PsPqw1hFg7Cecbbb9zwF38K/m+D3IdwFeJzI1MtgRA==
   dependencies:
     "@chakra-ui/form-control" "2.0.13"
+
+"@chakra-ui/theme-tools@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/theme-tools/-/theme-tools-2.0.10.tgz#25973cc60f67885eafa676e16eb8eb0d99f2bdb1"
+  integrity sha512-w9FaQRIjygJUR/viVkGSYKAe9/5ThZEfaGtnqG4dHY/rAnm73rCqUJsUR4xwZAzr8HpXXuJVmwk8cjSElS3yXw==
+  dependencies:
+    "@chakra-ui/anatomy" "2.0.5"
+    "@chakra-ui/utils" "2.0.9"
+    "@ctrl/tinycolor" "^3.4.0"
 
 "@chakra-ui/theme-tools@2.0.14":
   version "2.0.14"
@@ -1977,6 +2775,15 @@
     "@chakra-ui/theme" "2.2.2"
     lodash.mergewith "4.6.2"
 
+"@chakra-ui/theme@2.1.8":
+  version "2.1.8"
+  resolved "https://registry.npmjs.org/@chakra-ui/theme/-/theme-2.1.8.tgz#c6d8ded8d900ec39b3d8928cddc3d07a44313d35"
+  integrity sha512-ftA8ZRWa48LjRe53o/p4gFzoShe5rwvYfjHluS5hy154SknDcXE0LAKT1/odF0jWidnRUh2Y2IdsYV8/h3U/Dw==
+  dependencies:
+    "@chakra-ui/anatomy" "2.0.5"
+    "@chakra-ui/theme-tools" "2.0.10"
+    "@chakra-ui/utils" "2.0.9"
+
 "@chakra-ui/theme@2.2.2":
   version "2.2.2"
   resolved "https://registry.npmjs.org/@chakra-ui/theme/-/theme-2.2.2.tgz#5ea69adde78ee6ea59f9dce674947ed8be2ebc62"
@@ -1984,6 +2791,18 @@
   dependencies:
     "@chakra-ui/anatomy" "2.1.0"
     "@chakra-ui/theme-tools" "2.0.14"
+
+"@chakra-ui/toast@3.0.7":
+  version "3.0.7"
+  resolved "https://registry.npmjs.org/@chakra-ui/toast/-/toast-3.0.7.tgz#df7a4b8e3bb8b9105d9c7d314d624ef20e66a9b0"
+  integrity sha512-f4/9st2Xl45rTyCB6KBpXq4eITO9slJq72eXxpNXz416+XJpdYkKub801BWvaiL1ZVFHjYb6bUSkycdGda6E4A==
+  dependencies:
+    "@chakra-ui/alert" "2.0.9"
+    "@chakra-ui/close-button" "2.0.9"
+    "@chakra-ui/portal" "2.0.9"
+    "@chakra-ui/react-use-timeout" "2.0.1"
+    "@chakra-ui/react-use-update-effect" "2.0.3"
+    "@chakra-ui/theme" "2.1.8"
 
 "@chakra-ui/toast@4.0.4":
   version "4.0.4"
@@ -1998,6 +2817,31 @@
     "@chakra-ui/styled-system" "2.4.0"
     "@chakra-ui/theme" "2.2.2"
 
+"@chakra-ui/toast@4.0.5":
+  version "4.0.5"
+  resolved "https://registry.npmjs.org/@chakra-ui/toast/-/toast-4.0.5.tgz#b501d7160ab67d9bcfa4df5c8b763d4aa789731e"
+  integrity sha512-avJKRiZZACi6v04cUc2uRcmta3gAes67HGkQhq5sHG/VV2cH9wXV2NMT3DolT8WiU9j7g8lWKxWe7bqFFrX+wA==
+  dependencies:
+    "@chakra-ui/alert" "2.0.13"
+    "@chakra-ui/close-button" "2.0.13"
+    "@chakra-ui/portal" "2.0.12"
+    "@chakra-ui/react-use-timeout" "2.0.3"
+    "@chakra-ui/react-use-update-effect" "2.0.5"
+    "@chakra-ui/styled-system" "2.4.0"
+    "@chakra-ui/theme" "2.2.2"
+
+"@chakra-ui/tooltip@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.npmjs.org/@chakra-ui/tooltip/-/tooltip-2.0.10.tgz#2166753f9f246dd217d3170fd85f95a86392d9b6"
+  integrity sha512-pBILBdZoux2K3EW9V6JuyZYUWz2/Y7oYCVO6AwNOesiEBGAONyzoDwFV728EzPEHe9e+YBcKOSZ9tEpDdrzHMA==
+  dependencies:
+    "@chakra-ui/popper" "3.0.7"
+    "@chakra-ui/portal" "2.0.9"
+    "@chakra-ui/react-types" "2.0.3"
+    "@chakra-ui/react-use-disclosure" "2.0.3"
+    "@chakra-ui/react-use-event-listener" "2.0.3"
+    "@chakra-ui/react-use-merge-refs" "2.0.3"
+
 "@chakra-ui/tooltip@2.2.2":
   version "2.2.2"
   resolved "https://registry.npmjs.org/@chakra-ui/tooltip/-/tooltip-2.2.2.tgz#8ac0759fbc5adacec6e0ac7419c8055a67a95b5c"
@@ -2010,10 +2854,27 @@
     "@chakra-ui/react-use-event-listener" "2.0.5"
     "@chakra-ui/react-use-merge-refs" "2.0.5"
 
+"@chakra-ui/tooltip@2.2.3":
+  version "2.2.3"
+  resolved "https://registry.npmjs.org/@chakra-ui/tooltip/-/tooltip-2.2.3.tgz#92c9ed224e4c16839310acd0759c0017caec3134"
+  integrity sha512-yOne9ofFYfW2XHsbCEPWgLUTnHKm5z21f/cPjwEqtmvCS7aTCOLFiwz2ckRS8yJbIAy+mw0UG6jQsblYKgXj4A==
+  dependencies:
+    "@chakra-ui/popper" "3.0.10"
+    "@chakra-ui/portal" "2.0.12"
+    "@chakra-ui/react-types" "2.0.5"
+    "@chakra-ui/react-use-disclosure" "2.0.6"
+    "@chakra-ui/react-use-event-listener" "2.0.5"
+    "@chakra-ui/react-use-merge-refs" "2.0.5"
+
 "@chakra-ui/transition@2.0.12":
   version "2.0.12"
   resolved "https://registry.npmjs.org/@chakra-ui/transition/-/transition-2.0.12.tgz#876c6ed24e442a720a8570490a93cb1f87008700"
   integrity sha512-ff6eU+m08ccYfCkk0hKfY/XlmGxCrfbBgsKgV4mirZ4SKUL1GVye8CYuHwWQlBJo+8s0yIpsTNxAuX4n/cW9/w==
+
+"@chakra-ui/transition@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/transition/-/transition-2.0.9.tgz#1967fd77f44b57681a9efe4e87561c82420cd2a2"
+  integrity sha512-cVfKdZl128AEj0LDS8M9dzXao4wmTVj3gRJBnm91Qcg243Pm8OlgIBNbHEwsq/Fps+PsN431BtEGfL4w79wQEA==
 
 "@chakra-ui/utils@2.0.12":
   version "2.0.12"
@@ -2025,10 +2886,25 @@
     framesync "5.3.0"
     lodash.mergewith "4.6.2"
 
+"@chakra-ui/utils@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/utils/-/utils-2.0.9.tgz#1af3882b31fb46e0a411998d8e3607656f8d5043"
+  integrity sha512-7ct5562Jw6pZdtj63XfUkEUXXsCCVqdqIXyLtQ9VgOKtRQWwDxzc8uPI5Zjdw9AleEITZFUH8TNKWn75nm54kQ==
+  dependencies:
+    "@types/lodash.mergewith" "4.6.6"
+    css-box-model "1.2.1"
+    framesync "5.3.0"
+    lodash.mergewith "4.6.2"
+
 "@chakra-ui/visually-hidden@2.0.13":
   version "2.0.13"
   resolved "https://registry.npmjs.org/@chakra-ui/visually-hidden/-/visually-hidden-2.0.13.tgz#6553467d93f206d17716bcbe6e895a84eef87472"
   integrity sha512-sDEeeEjLfID333EC46NdCbhK2HyMXlpl5HzcJjuwWIpyVz4E1gKQ9hlwpq6grijvmzeSywQ5D3tTwUrvZck4KQ==
+
+"@chakra-ui/visually-hidden@2.0.9":
+  version "2.0.9"
+  resolved "https://registry.npmjs.org/@chakra-ui/visually-hidden/-/visually-hidden-2.0.9.tgz#b43a3dd0bc1108954ad0eeb50d0261887ab5e31c"
+  integrity sha512-PkNxrRGp9H3bdqEaoo8XGt/AL9UuGRTom0/9XJa+G/Dj8Cy1sDuamOWk3pN/ZQs46RokfK9Uh5LqPY5dwSDweg==
 
 "@confio/ics23@^0.6.8":
   version "0.6.8"
@@ -2068,29 +2944,29 @@
     "@cosmjs/math" "^0.29.1"
     "@cosmjs/utils" "^0.29.1"
 
-"@cosmjs/amino@^0.29.0", "@cosmjs/amino@^0.29.1", "@cosmjs/amino@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/amino/-/amino-0.29.4.tgz#93d5f90033cb2af1573627582cd2cf8a515c3ef4"
-  integrity sha512-FBjaJ4oUKFtH34O7XjUk370x8sF7EbXD29miXrm0Rl5GEtEORJgQwutXQllHo5gBkpOxC+ZQ40CibXhPzH7G7A==
+"@cosmjs/amino@^0.29.0", "@cosmjs/amino@^0.29.1", "@cosmjs/amino@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/amino/-/amino-0.29.5.tgz#053b4739a90b15b9e2b781ccd484faf64bd49aec"
+  integrity sha512-Qo8jpC0BiziTSUqpkNatBcwtKNhCovUnFul9SlT/74JUCdLYaeG5hxr3q1cssQt++l4LvlcpF+OUXL48XjNjLw==
   dependencies:
-    "@cosmjs/crypto" "^0.29.4"
-    "@cosmjs/encoding" "^0.29.4"
-    "@cosmjs/math" "^0.29.4"
-    "@cosmjs/utils" "^0.29.4"
+    "@cosmjs/crypto" "^0.29.5"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
 
 "@cosmjs/cosmwasm-stargate@^0.29.0", "@cosmjs/cosmwasm-stargate@^0.29.1":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/cosmwasm-stargate/-/cosmwasm-stargate-0.29.4.tgz#877ce28b071381e3b2586f71fad20f53634237f5"
-  integrity sha512-/47QmB+fLuzhcoeTTwoGtyz73yH22txfj5r+iZmHbpQ2vwCoeyG1WVNuylDGOELOej74ngCC1LCPr2/6gGHIMQ==
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/cosmwasm-stargate/-/cosmwasm-stargate-0.29.5.tgz#3f257da682658833e0f4eb9e8ff758e4d927663a"
+  integrity sha512-TNdSvm2tEE3XMCuxHxquzls56t40hC8qnLeYJWHsY2ECZmRK3KrnpRReEr7N7bLtODToK7X/riYrV0JaYxjrYA==
   dependencies:
-    "@cosmjs/amino" "^0.29.4"
-    "@cosmjs/crypto" "^0.29.4"
-    "@cosmjs/encoding" "^0.29.4"
-    "@cosmjs/math" "^0.29.4"
-    "@cosmjs/proto-signing" "^0.29.4"
-    "@cosmjs/stargate" "^0.29.4"
-    "@cosmjs/tendermint-rpc" "^0.29.4"
-    "@cosmjs/utils" "^0.29.4"
+    "@cosmjs/amino" "^0.29.5"
+    "@cosmjs/crypto" "^0.29.5"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/proto-signing" "^0.29.5"
+    "@cosmjs/stargate" "^0.29.5"
+    "@cosmjs/tendermint-rpc" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
     cosmjs-types "^0.5.2"
     long "^4.0.0"
     pako "^2.0.2"
@@ -2121,14 +2997,14 @@
     elliptic "^6.5.3"
     libsodium-wrappers "^0.7.6"
 
-"@cosmjs/crypto@^0.29.0", "@cosmjs/crypto@^0.29.1", "@cosmjs/crypto@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/crypto/-/crypto-0.29.4.tgz#2198e1d2da9eb310df9ed8b8609dbf1a370e900b"
-  integrity sha512-PmSxoFl/Won7kHZv3PQUUgdmEiAMqdY7XnEnVh9PbU7Hht6uo7PQ+M0eIGW3NIXYKmn6oVExER+xOfLfq4YNGw==
+"@cosmjs/crypto@^0.29.0", "@cosmjs/crypto@^0.29.1", "@cosmjs/crypto@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/crypto/-/crypto-0.29.5.tgz#ab99fc382b93d8a8db075780cf07487a0f9519fd"
+  integrity sha512-2bKkaLGictaNL0UipQCL6C1afaisv6k8Wr/GCLx9FqiyFkh9ZgRHDyetD64ZsjnWV/N/D44s/esI+k6oPREaiQ==
   dependencies:
-    "@cosmjs/encoding" "^0.29.4"
-    "@cosmjs/math" "^0.29.4"
-    "@cosmjs/utils" "^0.29.4"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
     "@noble/hashes" "^1"
     bn.js "^5.2.0"
     elliptic "^6.5.4"
@@ -2152,21 +3028,21 @@
     bech32 "^1.1.4"
     readonly-date "^1.0.0"
 
-"@cosmjs/encoding@^0.29.0", "@cosmjs/encoding@^0.29.1", "@cosmjs/encoding@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/encoding/-/encoding-0.29.4.tgz#0ae1b78c064dacda7c35eeb7c35ed7b55951d94f"
-  integrity sha512-nlwCh4j+kIqEcwNu8AFSmqXGj0bvF4nLC3J1X0eJyJenlgJBiiAGjYp3nxMf/ZjKkZP65Fq7MXVtAYs3K8xvvQ==
+"@cosmjs/encoding@^0.29.0", "@cosmjs/encoding@^0.29.1", "@cosmjs/encoding@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/encoding/-/encoding-0.29.5.tgz#009a4b1c596cdfd326f30ccfa79f5e56daa264f2"
+  integrity sha512-G4rGl/Jg4dMCw5u6PEZHZcoHnUBlukZODHbm/wcL4Uu91fkn5jVo5cXXZcvs4VCkArVGrEj/52eUgTZCmOBGWQ==
   dependencies:
     base64-js "^1.3.0"
     bech32 "^1.1.4"
     readonly-date "^1.0.0"
 
-"@cosmjs/json-rpc@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/json-rpc/-/json-rpc-0.29.4.tgz#9d71f4277181925ca41e5ccaf9b084606899b08e"
-  integrity sha512-pmb918u7QlLUOX7twJCBC7bK/L87uhknnP2yh9f+n7zmmslBbwENxLdM6KBAb1Yc0tbzSaLLLRoaN8kvfaiwUA==
+"@cosmjs/json-rpc@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/json-rpc/-/json-rpc-0.29.5.tgz#5e483a9bd98a6270f935adf0dfd8a1e7eb777fe4"
+  integrity sha512-C78+X06l+r9xwdM1yFWIpGl03LhB9NdM1xvZpQHwgCOl0Ir/WV8pw48y3Ez2awAoUBRfTeejPe4KvrE6NoIi/w==
   dependencies:
-    "@cosmjs/stream" "^0.29.4"
+    "@cosmjs/stream" "^0.29.5"
     xstream "^11.14.0"
 
 "@cosmjs/math@0.28.13":
@@ -2183,10 +3059,10 @@
   dependencies:
     bn.js "^4.11.8"
 
-"@cosmjs/math@^0.29.0", "@cosmjs/math@^0.29.1", "@cosmjs/math@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/math/-/math-0.29.4.tgz#9e9079826090718de75ff239a63314b0baf63999"
-  integrity sha512-IvT1Cj3qOMGqz7v5FxdDCBEIDL2k9m5rufrkuD4oL9kS79ebnhA0lquX6ApPubUohTXl+5PnLo02W8HEH6Stkg==
+"@cosmjs/math@^0.29.0", "@cosmjs/math@^0.29.1", "@cosmjs/math@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/math/-/math-0.29.5.tgz#722c96e080d6c2b62215ce9f4c70da7625b241b6"
+  integrity sha512-2GjKcv+A9f86MAWYLUkjhw1/WpRl2R1BTb3m9qPG7lzMA7ioYff9jY5SPCfafKdxM4TIQGxXQlYGewQL16O68Q==
   dependencies:
     bn.js "^5.2.0"
 
@@ -2229,25 +3105,25 @@
     cosmjs-types "^0.4.0"
     long "^4.0.0"
 
-"@cosmjs/proto-signing@^0.29.0", "@cosmjs/proto-signing@^0.29.1", "@cosmjs/proto-signing@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/proto-signing/-/proto-signing-0.29.4.tgz#8f314a936f07d15f5414280bec8aabb6de4078db"
-  integrity sha512-GdLOhMd54LZgG+kHf7uAWGYDT628yVhXPMWaG/1i3f3Kq4VsZgFBwJhhziM5kWblmFjBOhooGRwLrBnOxMusCg==
+"@cosmjs/proto-signing@^0.29.0", "@cosmjs/proto-signing@^0.29.1", "@cosmjs/proto-signing@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/proto-signing/-/proto-signing-0.29.5.tgz#af3b62a46c2c2f1d2327d678b13b7262db1fe87c"
+  integrity sha512-QRrS7CiKaoETdgIqvi/7JC2qCwCR7lnWaUsTzh/XfRy3McLkEd+cXbKAW3cygykv7IN0VAEIhZd2lyIfT8KwNA==
   dependencies:
-    "@cosmjs/amino" "^0.29.4"
-    "@cosmjs/crypto" "^0.29.4"
-    "@cosmjs/encoding" "^0.29.4"
-    "@cosmjs/math" "^0.29.4"
-    "@cosmjs/utils" "^0.29.4"
+    "@cosmjs/amino" "^0.29.5"
+    "@cosmjs/crypto" "^0.29.5"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
     cosmjs-types "^0.5.2"
     long "^4.0.0"
 
-"@cosmjs/socket@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/socket/-/socket-0.29.4.tgz#e025ea5d455647529bc7cc9794390e4af3a282fe"
-  integrity sha512-+J79SRVD6VSnGqKmUwLFAxXTiLYw/AmAu+075RenQxzkCxehGrGpaty+T3jJGE2p1458AjgkrmTQnfp6f+HIWw==
+"@cosmjs/socket@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/socket/-/socket-0.29.5.tgz#a48df6b4c45dc6a6ef8e47232725dd4aa556ac2d"
+  integrity sha512-5VYDupIWbIXq3ftPV1LkS5Ya/T7Ol/AzWVhNxZ79hPe/mBfv1bGau/LqIYOm2zxGlgm9hBHOTmWGqNYDwr9LNQ==
   dependencies:
-    "@cosmjs/stream" "^0.29.4"
+    "@cosmjs/stream" "^0.29.5"
     isomorphic-ws "^4.0.1"
     ws "^7"
     xstream "^11.14.0"
@@ -2288,43 +3164,43 @@
     protobufjs "~6.11.3"
     xstream "^11.14.0"
 
-"@cosmjs/stargate@^0.29.0", "@cosmjs/stargate@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/stargate/-/stargate-0.29.4.tgz#d66494ab8de8a886aedd46706a7560482cf18ad5"
-  integrity sha512-MEzBkOhYX0tdGgJg4mxFDjf7NMJYKNtXHX0Fu4HVACdBrxLlStf630KodmzPFlLOHfiz3CB/mqj3TobZZz8mTw==
+"@cosmjs/stargate@^0.29.0", "@cosmjs/stargate@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/stargate/-/stargate-0.29.5.tgz#d597af1c85a3c2af7b5bdbec34d5d40692cc09e4"
+  integrity sha512-hjEv8UUlJruLrYGJcUZXM/CziaINOKwfVm2BoSdUnNTMxGvY/jC1ABHKeZUYt9oXHxEJ1n9+pDqzbKc8pT0nBw==
   dependencies:
     "@confio/ics23" "^0.6.8"
-    "@cosmjs/amino" "^0.29.4"
-    "@cosmjs/encoding" "^0.29.4"
-    "@cosmjs/math" "^0.29.4"
-    "@cosmjs/proto-signing" "^0.29.4"
-    "@cosmjs/stream" "^0.29.4"
-    "@cosmjs/tendermint-rpc" "^0.29.4"
-    "@cosmjs/utils" "^0.29.4"
+    "@cosmjs/amino" "^0.29.5"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/proto-signing" "^0.29.5"
+    "@cosmjs/stream" "^0.29.5"
+    "@cosmjs/tendermint-rpc" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
     cosmjs-types "^0.5.2"
     long "^4.0.0"
     protobufjs "~6.11.3"
     xstream "^11.14.0"
 
-"@cosmjs/stream@^0.29.0", "@cosmjs/stream@^0.29.1", "@cosmjs/stream@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/stream/-/stream-0.29.4.tgz#6f882c0200ba3f5b4e8004eaad9f3c41471cd288"
-  integrity sha512-bCcPIxxyrvtIusmZEOVZT5YS3t+dfB6wfLO6tadumYyPcCBJkXLRK6LSYcsiPjnTNr2UAlCSZX24djM2mFvlWQ==
+"@cosmjs/stream@^0.29.0", "@cosmjs/stream@^0.29.1", "@cosmjs/stream@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/stream/-/stream-0.29.5.tgz#350981cac496d04939b92ee793b9b19f44bc1d4e"
+  integrity sha512-TToTDWyH1p05GBtF0Y8jFw2C+4783ueDCmDyxOMM6EU82IqpmIbfwcdMOCAm0JhnyMh+ocdebbFvnX/sGKzRAA==
   dependencies:
     xstream "^11.14.0"
 
-"@cosmjs/tendermint-rpc@^0.29.0", "@cosmjs/tendermint-rpc@^0.29.1", "@cosmjs/tendermint-rpc@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/tendermint-rpc/-/tendermint-rpc-0.29.4.tgz#1c763f726f26618538b99add5c707392aeac85e0"
-  integrity sha512-ByW5tFK8epc7fx82DogUaLkWSyr9scAY9UmOC9Zn4uFfISOwRdN5c0DvYZ1pI49elMT3/MroIdORotdtYirm1g==
+"@cosmjs/tendermint-rpc@^0.29.0", "@cosmjs/tendermint-rpc@^0.29.1", "@cosmjs/tendermint-rpc@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/tendermint-rpc/-/tendermint-rpc-0.29.5.tgz#f205c10464212bdf843f91bb2e4a093b618cb5c2"
+  integrity sha512-ar80twieuAxsy0x2za/aO3kBr2DFPAXDmk2ikDbmkda+qqfXgl35l9CVAAjKRqd9d+cRvbQyb5M4wy6XQpEV6w==
   dependencies:
-    "@cosmjs/crypto" "^0.29.4"
-    "@cosmjs/encoding" "^0.29.4"
-    "@cosmjs/json-rpc" "^0.29.4"
-    "@cosmjs/math" "^0.29.4"
-    "@cosmjs/socket" "^0.29.4"
-    "@cosmjs/stream" "^0.29.4"
-    "@cosmjs/utils" "^0.29.4"
+    "@cosmjs/crypto" "^0.29.5"
+    "@cosmjs/encoding" "^0.29.5"
+    "@cosmjs/json-rpc" "^0.29.5"
+    "@cosmjs/math" "^0.29.5"
+    "@cosmjs/socket" "^0.29.5"
+    "@cosmjs/stream" "^0.29.5"
+    "@cosmjs/utils" "^0.29.5"
     axios "^0.21.2"
     readonly-date "^1.0.0"
     xstream "^11.14.0"
@@ -2339,10 +3215,10 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.20.1.tgz#4d239b7d93c15523cdf109f225cbf61326fb69cd"
   integrity sha512-xl9YnIrAAaBd6nFffwFbyrnKjqjD9zKGP8OBKxzyglxamHfqAS+PcJPEiaEpt+oUt7HAIOyhL3KK75Dh52hGvA==
 
-"@cosmjs/utils@^0.29.0", "@cosmjs/utils@^0.29.1", "@cosmjs/utils@^0.29.4":
-  version "0.29.4"
-  resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.4.tgz#8a80da006fe2b544a3c36f557e4b782810e532fd"
-  integrity sha512-X1pZWRHDbTPLa6cYW0NHvtig+lSxOdLAX7K/xp67ywBy2knnDOyzz1utGTOowmiM98XuV9quK/BWePKkJOaHpQ==
+"@cosmjs/utils@^0.29.0", "@cosmjs/utils@^0.29.1", "@cosmjs/utils@^0.29.5":
+  version "0.29.5"
+  resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.5.tgz#3fed1b3528ae8c5f1eb5d29b68755bebfd3294ee"
+  integrity sha512-m7h+RXDUxOzEOGt4P+3OVPX7PuakZT3GBmaM/Y2u+abN3xZkziykD/NvedYFvvCCdQo714XcGl33bwifS9FZPQ==
 
 "@cosmostation/cosmos-client@0.0.4":
   version "0.0.4"
@@ -2377,6 +3253,11 @@
     qrcode.react "^1.0.1"
     react "^16.14.0"
     react-dom "^16.14.0"
+
+"@ctrl/tinycolor@^3.4.0":
+  version "3.5.0"
+  resolved "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.5.0.tgz#6e52b3d1c38d13130101771821e09cdd414a16bc"
+  integrity sha512-tlJpwF40DEQcfR/QF+wNMVyGMaO9FQp6Z1Wahj4Gk3CJQYHwA2xVG7iKDFdW6zuxZY9XWOpGcfNCTsX4McOsOg==
 
 "@emotion/babel-plugin@^11.10.5":
   version "11.10.5"
@@ -2635,17 +3516,17 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@floating-ui/core@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.0.2.tgz#d06a66d3ad8214186eda2432ac8b8d81868a571f"
-  integrity sha512-Skfy0YS3NJ5nV9us0uuPN0HDk1Q4edljaOhRBJGDWs9EBa7ZVMYBHRFlhLvvmwEoaIM9BlH6QJFn9/uZg0bACg==
+"@floating-ui/core@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.0.4.tgz#03066eaea8e9b2a2cd3f5aaa60f1e0f580ebe88e"
+  integrity sha512-FPFLbg2b06MIw1dqk2SOEMAMX3xlrreGjcui5OTxfBDtaKTmh0kioOVjT8gcfl58juawL/yF+S+gnq8aUYQx/Q==
 
 "@floating-ui/dom@^1.0.1":
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.0.7.tgz#9e8e6615ce03e5ebc6a4ae879640a199a366f86d"
-  integrity sha512-6RsqvCYe0AYWtsGvuWqCm7mZytnXAZCjWtsWu1Kg8dI3INvj/DbKlDsZO+mKSaQdPT12uxIW9W2dAWJkPx4Y5g==
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.0.9.tgz#3ae1d3e776bc90b9d33b1922f9498fb6f80f3b12"
+  integrity sha512-nF9P6/BoARdt+h+CdUW3td4EUVngeDONCGuzRgnZveRZiJETx63cxhinE0JaPPC2tbcdTY9IGZocS5/7ag3xRg==
   dependencies:
-    "@floating-ui/core" "^1.0.2"
+    "@floating-ui/core" "^1.0.4"
 
 "@headlessui/react@^1.6.6":
   version "1.7.4"
@@ -3033,10 +3914,10 @@
     long "^4.0.0"
     secretjs "0.17.7"
 
-"@keplr-wallet/types@0.11.17":
-  version "0.11.17"
-  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.17.tgz#ac6e1befff2a1c902785083357ebda044038c917"
-  integrity sha512-ks3+L8SR4Wnn/kqafpJB2g/wzgNVoW3Y48Qb8vddnWmgub/ib1g1Xs3RB7lRzvrgWsuj2xmNCK9BFLcdisW6+g==
+"@keplr-wallet/types@0.11.21":
+  version "0.11.21"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.21.tgz#42527d05d39178f469a619f01df1f539844d8d97"
+  integrity sha512-oSv8SBBxTQz3hahOWVZmrb3ll0kXVuiUfqnM9q6aWGNOqSiXg8etKQd5c6hSFEYX8iuaAsHa48/NZA0cn+TAgA==
   dependencies:
     axios "^0.27.2"
     long "^4.0.0"
@@ -3768,13 +4649,13 @@
     "@types/react" ">=16"
 
 "@motionone/animation@^10.13.1":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/animation/-/animation-10.14.0.tgz#2f2a3517183bb58d82e389aac777fe0850079de6"
-  integrity sha512-h+1sdyBP8vbxEBW5gPFDnj+m2DCqdlAuf2g6Iafb1lcMnqjsRXWlPw1AXgvUMXmreyhqmPbJqoNfIKdytampRQ==
+  version "10.15.1"
+  resolved "https://registry.npmjs.org/@motionone/animation/-/animation-10.15.1.tgz#4a85596c31cbc5100ae8eb8b34c459fb0ccf6807"
+  integrity sha512-mZcJxLjHor+bhcPuIFErMDNyrdb2vJur8lSfMCsuCB4UyV8ILZLvK+t+pg56erv8ud9xQGK/1OGPt10agPrCyQ==
   dependencies:
-    "@motionone/easing" "^10.14.0"
-    "@motionone/types" "^10.14.0"
-    "@motionone/utils" "^10.14.0"
+    "@motionone/easing" "^10.15.1"
+    "@motionone/types" "^10.15.1"
+    "@motionone/utils" "^10.15.1"
     tslib "^2.3.1"
 
 "@motionone/dom@10.13.1":
@@ -3789,34 +4670,34 @@
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
-"@motionone/easing@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/easing/-/easing-10.14.0.tgz#d8154b7f71491414f3cdee23bd3838d763fffd00"
-  integrity sha512-2vUBdH9uWTlRbuErhcsMmt1jvMTTqvGmn9fHq8FleFDXBlHFs5jZzHJT9iw+4kR1h6a4SZQuCf72b9ji92qNYA==
+"@motionone/easing@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.npmjs.org/@motionone/easing/-/easing-10.15.1.tgz#95cf3adaef34da6deebb83940d8143ede3deb693"
+  integrity sha512-6hIHBSV+ZVehf9dcKZLT7p5PEKHGhDwky2k8RKkmOvUoYP3S+dXsKupyZpqx5apjd9f+php4vXk4LuS+ADsrWw==
   dependencies:
-    "@motionone/utils" "^10.14.0"
+    "@motionone/utils" "^10.15.1"
     tslib "^2.3.1"
 
 "@motionone/generators@^10.13.1":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/generators/-/generators-10.14.0.tgz#e05d9dd56da78a4b92db99185848a0f3db62242d"
-  integrity sha512-6kRHezoFfIjFN7pPpaxmkdZXD36tQNcyJe3nwVqwJ+ZfC0e3rFmszR8kp9DEVFs9QL/akWjuGPSLBI1tvz+Vjg==
+  version "10.15.1"
+  resolved "https://registry.npmjs.org/@motionone/generators/-/generators-10.15.1.tgz#dc6abb11139d1bafe758a41c134d4c753a9b871c"
+  integrity sha512-67HLsvHJbw6cIbLA/o+gsm7h+6D4Sn7AUrB/GPxvujse1cGZ38F5H7DzoH7PhX+sjvtDnt2IhFYF2Zp1QTMKWQ==
   dependencies:
-    "@motionone/types" "^10.14.0"
-    "@motionone/utils" "^10.14.0"
+    "@motionone/types" "^10.15.1"
+    "@motionone/utils" "^10.15.1"
     tslib "^2.3.1"
 
-"@motionone/types@^10.13.0", "@motionone/types@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/types/-/types-10.14.0.tgz#148c34f3270b175397e49c3058b33fab405c21e3"
-  integrity sha512-3bNWyYBHtVd27KncnJLhksMFQ5o2MSdk1cA/IZqsHtA9DnRM1SYgN01CTcJ8Iw8pCXF5Ocp34tyAjY7WRpOJJQ==
+"@motionone/types@^10.13.0", "@motionone/types@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.npmjs.org/@motionone/types/-/types-10.15.1.tgz#89441b54285012795cbba8612cbaa0fa420db3eb"
+  integrity sha512-iIUd/EgUsRZGrvW0jqdst8st7zKTzS9EsKkP+6c6n4MPZoQHwiHuVtTQLD6Kp0bsBLhNzKIBlHXponn/SDT4hA==
 
-"@motionone/utils@^10.13.1", "@motionone/utils@^10.14.0":
-  version "10.14.0"
-  resolved "https://registry.npmjs.org/@motionone/utils/-/utils-10.14.0.tgz#a19a3464ed35b08506747b062d035c7bc9bbe708"
-  integrity sha512-sLWBLPzRqkxmOTRzSaD3LFQXCPHvDzyHJ1a3VP9PRzBxyVd2pv51/gMOsdAcxQ9n+MIeGJnxzXBYplUHKj4jkw==
+"@motionone/utils@^10.13.1", "@motionone/utils@^10.15.1":
+  version "10.15.1"
+  resolved "https://registry.npmjs.org/@motionone/utils/-/utils-10.15.1.tgz#6b5f51bde75be88b5411e084310299050368a438"
+  integrity sha512-p0YncgU+iklvYr/Dq4NobTRdAPv9PveRDUXabPEeOjBLSO/1FNB2phNTZxOxpi1/GZwYpAoECEa0Wam+nsmhSw==
   dependencies:
-    "@motionone/types" "^10.14.0"
+    "@motionone/types" "^10.15.1"
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
@@ -3990,9 +4871,9 @@
     eslint-scope "5.1.1"
 
 "@noble/hashes@^1", "@noble/hashes@^1.0.0":
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.1.3.tgz#360afc77610e0a61f3417e497dcf36862e4f8111"
-  integrity sha512-CE0FCR57H2acVI5UOzIGSSIYxZ6v/HOhDR0Ro9VLyhnzLwx0o8W1mmgaqlEUx4049qJDlIBRztv5k+MM8vbO3A==
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.1.4.tgz#2611ebf5764c1bf754da7c7794de4fb30512336d"
+  integrity sha512-+PYsVPrTSqtVjatKt2A/Proukn2Yrz61OBThOCKErc5w2/r1Fh37vbDv0Eah7pyNltrmacjwTvdw3JoR+WE4TA==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -4380,9 +5261,9 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/jest@^29.0.0", "@types/jest@^29.0.3":
-  version "29.2.3"
-  resolved "https://registry.npmjs.org/@types/jest/-/jest-29.2.3.tgz#f5fd88e43e5a9e4221ca361e23790d48fcf0a211"
-  integrity sha512-6XwoEbmatfyoCjWRX7z0fKMmgYKe9+/HrviJ5k0X/tjJWHGAezZOfYaxqQKuzG/TvQyr+ktjm4jgbk0s4/oF2w==
+  version "29.2.4"
+  resolved "https://registry.npmjs.org/@types/jest/-/jest-29.2.4.tgz#9c155c4b81c9570dbd183eb8604aa0ae80ba5a5b"
+  integrity sha512-PipFB04k2qTRPePduVLTRiPzQfvMeLwUN3Z21hsAKaB/W9IIzgB2pizCL466ftJlcyZqnHoC9ZHpxLGl3fS86A==
   dependencies:
     expect "^29.0.0"
     pretty-format "^29.0.0"
@@ -4442,9 +5323,9 @@
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
 "@types/node@*", "@types/node@>= 8", "@types/node@>=13.7.0":
-  version "18.11.10"
-  resolved "https://registry.npmjs.org/@types/node/-/node-18.11.10.tgz#4c64759f3c2343b7e6c4b9caf761c7a3a05cee34"
-  integrity sha512-juG3RWMBOqcOuXC643OAdSA525V44cVgGV6dUDuiFtss+8Fk5x1hI93Rsld43VeJVIeqlP9I7Fn9/qaVqoEAuQ==
+  version "18.11.11"
+  resolved "https://registry.npmjs.org/@types/node/-/node-18.11.11.tgz#1d455ac0211549a8409d3cdb371cd55cc971e8dc"
+  integrity sha512-KJ021B1nlQUBLopzZmPBVuGU9un7WJd/W4ya7Ih02B4Uwky5Nja0yGYav2EfYIk0RR2Q9oVhf60S2XR1BCWJ2g==
 
 "@types/node@10.12.18":
   version "10.12.18"
@@ -4495,10 +5376,28 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@18.0.20", "@types/react@18.0.25", "@types/react@>=16":
+"@types/react@*", "@types/react@>=16":
+  version "18.0.26"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.26.tgz#8ad59fc01fef8eaf5c74f4ea392621749f0b7917"
+  integrity sha512-hCR3PJQsAIXyxhTNSiDFY//LhnMZWpNNr5etoCqx/iUfGc5gXWtQR2Phl908jVR6uPXacojQWTg4qRpkxTuGug==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@18.0.20":
   version "18.0.20"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.20.tgz#e4c36be3a55eb5b456ecf501bd4a00fd4fd0c9ab"
   integrity sha512-MWul1teSPxujEHVwZl4a5HxQ9vVNsjTchVA+xRqv/VYGCuKGAU6UhfrTdF5aBefwD1BHUD8i/zq+O/vyCm/FrA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@18.0.25":
+  version "18.0.25"
+  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.25.tgz#8b1dcd7e56fe7315535a4af25435e0bb55c8ae44"
+  integrity sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -4525,9 +5424,9 @@
   integrity sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==
 
 "@types/yargs@^17.0.8":
-  version "17.0.15"
-  resolved "https://registry.npmjs.org/@types/yargs/-/yargs-17.0.15.tgz#5b62c89fb049e2fc8378394a2861a593055f0866"
-  integrity sha512-ZHc4W2dnEQPfhn06TBEdWaiUHEZAocYaiVMfwOipY5jcJt/251wVrKCBWBetGZWO5CF8tdb7L3DmdxVlZ2BOIg==
+  version "17.0.17"
+  resolved "https://registry.npmjs.org/@types/yargs/-/yargs-17.0.17.tgz#5672e5621f8e0fca13f433a8017aae4b7a2a03e7"
+  integrity sha512-72bWxFKTK6uwWJAVT+3rF6Jo6RTojiJ27FQo8Rf60AL+VZbzoVPnMFhKsUnbjR8A3BTCYQ7Mv3hnl8T0A+CX9g==
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -4556,13 +5455,13 @@
     debug "^4.3.4"
 
 "@typescript-eslint/parser@^5.21.0":
-  version "5.45.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-5.45.0.tgz#b18a5f6b3cf1c2b3e399e9d2df4be40d6b0ddd0e"
-  integrity sha512-brvs/WSM4fKUmF5Ot/gEve6qYiCMjm6w4HkHPfS6ZNmxTS0m0iNN4yOChImaCkqc1hRwFGqUyanMXuGal6oyyQ==
+  version "5.46.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-5.46.0.tgz#002d8e67122947922a62547acfed3347cbf2c0b6"
+  integrity sha512-joNO6zMGUZg+C73vwrKXCd8usnsmOYmgW/w5ZW0pG0RGvqeznjtGDk61EqqTpNrFLUYBW2RSBFrxdAZMqA4OZA==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.45.0"
-    "@typescript-eslint/types" "5.45.0"
-    "@typescript-eslint/typescript-estree" "5.45.0"
+    "@typescript-eslint/scope-manager" "5.46.0"
+    "@typescript-eslint/types" "5.46.0"
+    "@typescript-eslint/typescript-estree" "5.46.0"
     debug "^4.3.4"
 
 "@typescript-eslint/scope-manager@5.38.0":
@@ -4573,13 +5472,13 @@
     "@typescript-eslint/types" "5.38.0"
     "@typescript-eslint/visitor-keys" "5.38.0"
 
-"@typescript-eslint/scope-manager@5.45.0":
-  version "5.45.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-5.45.0.tgz#7a4ac1bfa9544bff3f620ab85947945938319a96"
-  integrity sha512-noDMjr87Arp/PuVrtvN3dXiJstQR1+XlQ4R1EvzG+NMgXi8CuMCXpb8JqNtFHKceVSQ985BZhfRdowJzbv4yKw==
+"@typescript-eslint/scope-manager@5.46.0":
+  version "5.46.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/scope-manager/-/scope-manager-5.46.0.tgz#60790b14d0c687dd633b22b8121374764f76ce0d"
+  integrity sha512-7wWBq9d/GbPiIM6SqPK9tfynNxVbfpihoY5cSFMer19OYUA3l4powA2uv0AV2eAZV6KoAh6lkzxv4PoxOLh1oA==
   dependencies:
-    "@typescript-eslint/types" "5.45.0"
-    "@typescript-eslint/visitor-keys" "5.45.0"
+    "@typescript-eslint/types" "5.46.0"
+    "@typescript-eslint/visitor-keys" "5.46.0"
 
 "@typescript-eslint/type-utils@5.38.0":
   version "5.38.0"
@@ -4596,10 +5495,10 @@
   resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.38.0.tgz#8cd15825e4874354e31800dcac321d07548b8a5f"
   integrity sha512-HHu4yMjJ7i3Cb+8NUuRCdOGu2VMkfmKyIJsOr9PfkBVYLYrtMCK/Ap50Rpov+iKpxDTfnqvDbuPLgBE5FwUNfA==
 
-"@typescript-eslint/types@5.45.0":
-  version "5.45.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.45.0.tgz#794760b9037ee4154c09549ef5a96599621109c5"
-  integrity sha512-QQij+u/vgskA66azc9dCmx+rev79PzX8uDHpsqSjEFtfF2gBUTRCpvYMh2gw2ghkJabNkPlSUCimsyBEQZd1DA==
+"@typescript-eslint/types@5.46.0":
+  version "5.46.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/types/-/types-5.46.0.tgz#f4d76622a996b88153bbd829ea9ccb9f7a5d28bc"
+  integrity sha512-wHWgQHFB+qh6bu0IAPAJCdeCdI0wwzZnnWThlmHNY01XJ9Z97oKqKOzWYpR2I83QmshhQJl6LDM9TqMiMwJBTw==
 
 "@typescript-eslint/typescript-estree@5.38.0":
   version "5.38.0"
@@ -4614,13 +5513,13 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/typescript-estree@5.45.0":
-  version "5.45.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-5.45.0.tgz#f70a0d646d7f38c0dfd6936a5e171a77f1e5291d"
-  integrity sha512-maRhLGSzqUpFcZgXxg1qc/+H0bT36lHK4APhp0AEUVrpSwXiRAomm/JGjSG+kNUio5kAa3uekCYu/47cnGn5EQ==
+"@typescript-eslint/typescript-estree@5.46.0":
+  version "5.46.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/typescript-estree/-/typescript-estree-5.46.0.tgz#a6c2b84b9351f78209a1d1f2d99ca553f7fa29a5"
+  integrity sha512-kDLNn/tQP+Yp8Ro2dUpyyVV0Ksn2rmpPpB0/3MO874RNmXtypMwSeazjEN/Q6CTp8D7ExXAAekPEcCEB/vtJkw==
   dependencies:
-    "@typescript-eslint/types" "5.45.0"
-    "@typescript-eslint/visitor-keys" "5.45.0"
+    "@typescript-eslint/types" "5.46.0"
+    "@typescript-eslint/visitor-keys" "5.46.0"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
@@ -4647,12 +5546,12 @@
     "@typescript-eslint/types" "5.38.0"
     eslint-visitor-keys "^3.3.0"
 
-"@typescript-eslint/visitor-keys@5.45.0":
-  version "5.45.0"
-  resolved "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-5.45.0.tgz#e0d160e9e7fdb7f8da697a5b78e7a14a22a70528"
-  integrity sha512-jc6Eccbn2RtQPr1s7th6jJWQHBHI6GBVQkCHoJFQ5UreaKm59Vxw+ynQUPPY2u2Amquc+7tmEoC2G52ApsGNNg==
+"@typescript-eslint/visitor-keys@5.46.0":
+  version "5.46.0"
+  resolved "https://registry.npmjs.org/@typescript-eslint/visitor-keys/-/visitor-keys-5.46.0.tgz#36d87248ae20c61ef72404bcd61f14aa2563915f"
+  integrity sha512-E13gBoIXmaNhwjipuvQg1ByqSAu/GbEpP/qzFihugJ+MomtoJtFAJG/+2DRPByf57B863m0/q7Zt16V9ohhANw==
   dependencies:
-    "@typescript-eslint/types" "5.45.0"
+    "@typescript-eslint/types" "5.46.0"
     eslint-visitor-keys "^3.3.0"
 
 "@vectis/extension-client@^0.6.0":
@@ -5834,9 +6733,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001406:
-  version "1.0.30001435"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001435.tgz#502c93dbd2f493bee73a408fe98e98fb1dad10b2"
-  integrity sha512-kdCkUTjR+v4YAJelyiDTqiu82BDr4W4CP5sgTA0ZBmqn30XfS2ZghPLMowik9TPhS+psWJiUNxsqLyurDbmutA==
+  version "1.0.30001436"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001436.tgz#22d7cbdbbbb60cdc4ca1030ccd6dea9f5de4848b"
+  integrity sha512-ZmWkKsnC2ifEPoWUvSAIGyOYwT+keAaaWPHiQ9DfMqS1t6tfuyFYoWR78TeZtznkEQ64+vGXH9cZrElwR2Mrxg==
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -5849,19 +6748,19 @@ ccount@^2.0.0:
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
 chain-registry@^1.4.0:
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.5.0.tgz#ba6996f8346c5b8644f91a5d5528cf0608077242"
-  integrity sha512-moCAZfKxIS/qNw04FMpoZjVzcYbi7LAvZpkkkqXJX5+G1ecFH8vQXr7vI5bimw/tk8JOEoMUaD23Vm1LiWf2mg==
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.6.0.tgz#2f26ea2af66f0c48ff6716f00d3ea4c7e881560a"
+  integrity sha512-1eZpMNoYwiwH8xmhfcAaa5wbY1bKdEQtUJrjUdWcBZvpwUPJTSAZ8UbCvuA/NP4Mwcrkko5kFcgqWDcxG2+w3w==
   dependencies:
     "@babel/runtime" "^7.19.4"
-    "@chain-registry/types" "^0.13.1"
+    "@chain-registry/types" "^0.14.0"
 
 chakra-react-select@^4.1.4:
-  version "4.4.1"
-  resolved "https://registry.npmjs.org/chakra-react-select/-/chakra-react-select-4.4.1.tgz#2106ed8b0bd181be04d443f81d74f27147472838"
-  integrity sha512-BRPlWGnsoruNSoh/41qlp/sgCpTGu6EOC6CPZMNFQaIXH/D6Kfr2dSLgw4wU1jWOX+TLDrbl2Sy/STotyfLLsw==
+  version "4.4.2"
+  resolved "https://registry.npmjs.org/chakra-react-select/-/chakra-react-select-4.4.2.tgz#a6788065c34f77a08a67c3c23ee9841dce35656a"
+  integrity sha512-igHNj1ijQB4+icl1Atjt3/vOF7p1cJWuFEuognfuDCBkfiANh+/ejj0i5cxwtHBhP9xcFcqFzpNaRLhjiSUulw==
   dependencies:
-    react-select "^5.5.7"
+    react-select "5.7.0"
 
 chalk@2.3.0:
   version "2.3.0"
@@ -6848,9 +7747,9 @@ error-ex@^1.2.0, error-ex@^1.3.1:
     is-arrayish "^0.2.1"
 
 es-abstract@^1.19.0, es-abstract@^1.20.4:
-  version "1.20.4"
-  resolved "https://registry.npmjs.org/es-abstract/-/es-abstract-1.20.4.tgz#1d103f9f8d78d4cf0713edcd6d0ed1a46eed5861"
-  integrity sha512-0UtvRN79eMe2L+UNEF1BwRe364sj/DXhQ/k5FmivgoSdpM90b8Jc0mDzKMGo7QS0BVbOP/bTwBKNnDc9rNzaPA==
+  version "1.20.5"
+  resolved "https://registry.npmjs.org/es-abstract/-/es-abstract-1.20.5.tgz#e6dc99177be37cacda5988e692c3fa8b218e95d2"
+  integrity sha512-7h8MM2EQhsCA7pU/Nv78qOXFpD8Rhqd12gYiSJVkrH9+e8VuA8JlPJK/hQjjlLv6pJvx/z1iRFKzYb0XT/RuAQ==
   dependencies:
     call-bind "^1.0.2"
     es-to-primitive "^1.2.1"
@@ -6858,6 +7757,7 @@ es-abstract@^1.19.0, es-abstract@^1.20.4:
     function.prototype.name "^1.1.5"
     get-intrinsic "^1.1.3"
     get-symbol-description "^1.0.0"
+    gopd "^1.0.1"
     has "^1.0.3"
     has-property-descriptors "^1.0.0"
     has-symbols "^1.0.3"
@@ -6873,8 +7773,8 @@ es-abstract@^1.19.0, es-abstract@^1.20.4:
     object.assign "^4.1.4"
     regexp.prototype.flags "^1.4.3"
     safe-regex-test "^1.0.0"
-    string.prototype.trimend "^1.0.5"
-    string.prototype.trimstart "^1.0.5"
+    string.prototype.trimend "^1.0.6"
+    string.prototype.trimstart "^1.0.6"
     unbox-primitive "^1.0.2"
 
 es-array-method-boxes-properly@^1.0.0:
@@ -7444,9 +8344,9 @@ fast-levenshtein@^2.0.6:
   integrity sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
 
 fastq@^1.6.0:
-  version "1.13.0"
-  resolved "https://registry.npmjs.org/fastq/-/fastq-1.13.0.tgz#616760f88a7526bdfc596b7cab8c18938c36b98c"
-  integrity sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==
+  version "1.14.0"
+  resolved "https://registry.npmjs.org/fastq/-/fastq-1.14.0.tgz#107f69d7295b11e0fccc264e1fc6389f623731ce"
+  integrity sha512-eR2D+V9/ExcbF9ls441yIuN6TI2ED1Y2ZcA5BmMtJsOkWOFRJQ0Jt0g1UwqXJJVAb+V+umH5Dfr8oh4EVP7VVg==
   dependencies:
     reusify "^1.0.4"
 
@@ -7643,14 +8543,13 @@ fragment-cache@^0.2.1:
     map-cache "^0.2.2"
 
 framer-motion@^7.3.6:
-  version "7.6.17"
-  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-7.6.17.tgz#195223e8897f3b9b41c350e3f6309fa9f6db5c32"
-  integrity sha512-NmGBjKMCWlTDT156zR8G+jcpiM8OXbvmlgf1CPsVNk5x2RqJ9tieBKMNr6/OjJhirwyOp9s8bt8TsfrrCBIsEw==
+  version "7.6.19"
+  resolved "https://registry.npmjs.org/framer-motion/-/framer-motion-7.6.19.tgz#a24ea890881374f4184be5abb773ce8e4a0d3734"
+  integrity sha512-U+ogwGwNw6Y+pdq6GZB5xvnvLDlq3FTmcKaG5MCUjXuqRLrjKbKTqN4iwZISv3ajwUfgNHM6+tu31LRbYfF9YQ==
   dependencies:
     "@motionone/dom" "10.13.1"
     framesync "6.1.2"
     hey-listen "^1.0.8"
-    popmotion "11.0.5"
     style-value-types "5.1.2"
     tslib "2.4.0"
   optionalDependencies:
@@ -7999,6 +8898,13 @@ globby@^9.2.0:
     ignore "^4.0.3"
     pify "^4.0.1"
     slash "^2.0.0"
+
+gopd@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz#29ff76de69dac7489b7c0918a5788e56477c332c"
+  integrity sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==
+  dependencies:
+    get-intrinsic "^1.1.3"
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.10, graceful-fs@^4.2.2, graceful-fs@^4.2.4, graceful-fs@^4.2.9:
   version "4.2.10"
@@ -10725,9 +11631,9 @@ neo-async@^2.6.0, neo-async@^2.6.2:
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
 next-seo@^5.5.0:
-  version "5.14.1"
-  resolved "https://registry.npmjs.org/next-seo/-/next-seo-5.14.1.tgz#d07322edc37634fbd9beca51fb04177910d8031c"
-  integrity sha512-NiJeQbxYP3z+EMp52q8k3Q+OfX2+Yv2WehERDj98r2wjXxL+woKpRBdsSVYolTD0Hm8IWs42SzaISE93RoQdOw==
+  version "5.15.0"
+  resolved "https://registry.npmjs.org/next-seo/-/next-seo-5.15.0.tgz#b1a90508599774982909ea44803323c6fb7b50f4"
+  integrity sha512-LGbcY91yDKGMb7YI+28n3g+RuChUkt6pXNpa8FkfKkEmNiJkeRDEXTnnjVtwT9FmMhG6NH8qwHTelGrlYm9rgg==
 
 next-themes@^0.2.0-beta.2:
   version "0.2.1"
@@ -11496,16 +12402,6 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-popmotion@11.0.5:
-  version "11.0.5"
-  resolved "https://registry.npmjs.org/popmotion/-/popmotion-11.0.5.tgz#8e3e014421a0ffa30ecd722564fd2558954e1f7d"
-  integrity sha512-la8gPM1WYeFznb/JqF4GiTkRRPZsfaj2+kCxqQgr2MJylMmIKUwBfWW8Wa5fml/8gmtlD5yI01MP1QCZPWmppA==
-  dependencies:
-    framesync "6.1.2"
-    hey-listen "^1.0.8"
-    style-value-types "5.1.2"
-    tslib "2.4.0"
-
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
@@ -11538,9 +12434,9 @@ prettier@2.7.1:
   integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
 
 prettier@^2.1.2:
-  version "2.8.0"
-  resolved "https://registry.npmjs.org/prettier/-/prettier-2.8.0.tgz#c7df58393c9ba77d6fba3921ae01faf994fb9dc9"
-  integrity sha512-9Lmg8hTFZKG0Asr/kW9Bp8tJjRVluO8EJQVfY2T7FMw9T5jy4I/Uvx0Rca/XWf50QQ1/SS48+6IJWnrb+2yemA==
+  version "2.8.1"
+  resolved "https://registry.npmjs.org/prettier/-/prettier-2.8.1.tgz#4e1fd11c34e2421bc1da9aea9bd8127cd0a35efc"
+  integrity sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==
 
 pretty-format@^29.0.0, pretty-format@^29.3.1:
   version "29.3.1"
@@ -11798,12 +12694,7 @@ react-focus-lock@^2.9.1:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-icons@4.7.1:
-  version "4.7.1"
-  resolved "https://registry.npmmirror.com/react-icons/-/react-icons-4.7.1.tgz#0f4b25a5694e6972677cb189d2a72eabea7a8345"
-  integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==
-
-react-icons@^4.4.0:
+react-icons@4.7.1, react-icons@^4.4.0:
   version "4.7.1"
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.7.1.tgz#0f4b25a5694e6972677cb189d2a72eabea7a8345"
   integrity sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw==
@@ -11837,7 +12728,7 @@ react-remove-scroll@^2.5.4:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-select@^5.5.7:
+react-select@5.7.0:
   version "5.7.0"
   resolved "https://registry.npmjs.org/react-select/-/react-select-5.7.0.tgz#82921b38f1fcf1471a0b62304da01f2896cd8ce6"
   integrity sha512-lJGiMxCa3cqnUr2Jjtg9YHsaytiZqeNOKeibv6WF5zbK/fPegZ1hg3y/9P1RZVLhqBTs0PfqQLKuAACednYGhQ==
@@ -12892,7 +13783,7 @@ string.prototype.matchall@^4.0.8:
     regexp.prototype.flags "^1.4.3"
     side-channel "^1.0.4"
 
-string.prototype.trimend@^1.0.5:
+string.prototype.trimend@^1.0.6:
   version "1.0.6"
   resolved "https://registry.npmjs.org/string.prototype.trimend/-/string.prototype.trimend-1.0.6.tgz#c4a27fa026d979d79c04f17397f250a462944533"
   integrity sha512-JySq+4mrPf9EsDBEDYMOb/lM7XQLulwg5R/m1r0PXEFqrV0qHvl58sdTilSXtKOflCsK2E8jxf+GKC0T07RWwQ==
@@ -12901,7 +13792,7 @@ string.prototype.trimend@^1.0.5:
     define-properties "^1.1.4"
     es-abstract "^1.20.4"
 
-string.prototype.trimstart@^1.0.5:
+string.prototype.trimstart@^1.0.6:
   version "1.0.6"
   resolved "https://registry.npmjs.org/string.prototype.trimstart/-/string.prototype.trimstart-1.0.6.tgz#e90ab66aa8e4007d92ef591bbf3cd422c56bdcf4"
   integrity sha512-omqjMDaY92pbn5HOX7f9IccLA+U1tA9GvtU4JrodiXFfYB7jPzzHpRzpglLAjtUV6bB557zwClJezTqnAiYnQA==
@@ -13135,9 +14026,9 @@ terser-webpack-plugin@^5.1.3:
     terser "^5.14.1"
 
 terser@^5.14.1:
-  version "5.16.0"
-  resolved "https://registry.npmjs.org/terser/-/terser-5.16.0.tgz#29362c6f5506e71545c73b069ccd199bb28f7f54"
-  integrity sha512-KjTV81QKStSfwbNiwlBXfcgMcOloyuRdb62/iLFPGBcVNF4EXjhdYBhYHmbJpiBrVxZhDvltE11j+LBQUxEEJg==
+  version "5.16.1"
+  resolved "https://registry.npmjs.org/terser/-/terser-5.16.1.tgz#5af3bc3d0f24241c7fb2024199d5c461a1075880"
+  integrity sha512-xvQfyfA1ayT0qdK47zskQgRZeWLoOQ8JQ6mIgRGVNwZKdQMU+5FkCBjmv4QjcrTzyZquRw2FVtlJSRUmMKQslw==
   dependencies:
     "@jridgewell/source-map" "^0.3.2"
     acorn "^8.5.0"

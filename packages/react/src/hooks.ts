@@ -33,6 +33,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     connect,
     disconnect,
     openView,
+    closeView,
     current,
     chainRecord: { chain, assetList },
     getRpcEndpoint,
@@ -41,11 +42,34 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getCosmWasmClient,
   } = walletRepo;
 
+  const chainId = chain.chain_id;
+
+  async function clientMethodAssert(
+    func: (...params: any) => any,
+    params: any[],
+    name: string,
+    returnVoid?: boolean
+  ) {
+    if (func) {
+      return await func(...params);
+    }
+
+    if (current?.client) {
+      throw new Error(
+        `Function ${name} not implemented by wallet ${current?.walletInfo.prettyName} yet.`
+      );
+    }
+
+    if (!returnVoid) {
+      return void 0;
+    }
+  }
+
   return {
     // walletRepo: walletRepo,
     // wallet: current,
 
-    chain: chain,
+    chain,
     assets: assetList,
     logoUrl: current?.chainLogoUrl,
     wallet: current?.walletInfo,
@@ -55,19 +79,55 @@ export const useChain = (chainName: ChainName): ChainContext => {
     status: current?.walletStatus || WalletStatus.Disconnected,
 
     openView,
+    closeView,
     connect,
     disconnect,
     getRpcEndpoint,
     getRestEndpoint,
     getStargateClient,
     getCosmWasmClient,
-    getSigningStargateClient: async () =>
-      await current?.getSigningStargateClient(),
-    getSigningCosmWasmClient: async () =>
-      await current?.getSigningCosmWasmClient(),
-    estimateFee: async (props) => await current?.estimateFee(props),
-    sign: async (props) => await current?.sign(props),
-    broadcast: async (props) => await current?.broadcast(props),
-    signAndBroadcast: async (props) => await current?.signAndBroadcast(props),
+    getSigningStargateClient: () => current?.getSigningStargateClient(),
+    getSigningCosmWasmClient: () => current?.getSigningCosmWasmClient(),
+    estimateFee: (...props: Parameters<ChainContext['estimateFee']>) =>
+      current?.estimateFee(...props),
+    sign: (...props: Parameters<ChainContext['sign']>) =>
+      current?.sign(...props),
+    broadcast: (...props: Parameters<ChainContext['broadcast']>) =>
+      current?.broadcast(...props),
+    signAndBroadcast: (
+      ...props: Parameters<ChainContext['signAndBroadcast']>
+    ) => current?.signAndBroadcast(...props),
+
+    enable: (chainIds?: string | string[]) =>
+      clientMethodAssert(
+        current?.client?.enable,
+        [chainIds || chainId],
+        'enable',
+        true
+      ),
+    getOfflineSigner: async () =>
+      clientMethodAssert(
+        current?.client?.getOfflineSigner,
+        [chainId],
+        'getOfflineSigner'
+      ),
+    signAmino: (...props: Parameters<ChainContext['signAmino']>) =>
+      clientMethodAssert(
+        current?.client?.signAmino,
+        [chainId, ...props],
+        'signAmino'
+      ),
+    signDirect: (...props: Parameters<ChainContext['signDirect']>) =>
+      clientMethodAssert(
+        current?.client?.signDirect,
+        [chainId, ...props],
+        'signDirect'
+      ),
+    sendTx: (...props: Parameters<ChainContext['sendTx']>) =>
+      clientMethodAssert(
+        current?.client?.sendTx,
+        [chainId, ...props],
+        'sendTx'
+      ),
   };
 };

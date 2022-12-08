@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { StdSignDoc } from '@cosmjs/amino';
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
@@ -21,7 +22,9 @@ import {
   ChainRecord,
   ChainWalletData,
   CosmosClientType,
+  DirectSignDoc,
   SessionOptions,
+  SignOptions,
   State,
   Wallet,
   WalletAccount,
@@ -366,4 +369,30 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     const signedMessages = await this.sign(messages, fee, memo, type);
     return this.broadcast(signedMessages, type);
   };
+
+  async signAmino(
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ) {
+    return await this.client?.signAmino?.(
+      this.chainId,
+      signer,
+      signDoc,
+      signOptions
+    );
+  }
+
+  async signDirect(
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) {
+    return await this.client?.signDirect?.(
+      this.chainId,
+      signer,
+      signDoc,
+      signOptions
+    );
+  }
 }

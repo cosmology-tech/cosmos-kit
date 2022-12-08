@@ -1,3 +1,5 @@
+import { Keplr } from '@keplr-wallet/types';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface CosmostationSignOptions {
   readonly preferNoSetFee?: boolean;
@@ -7,13 +9,20 @@ export interface CosmostationSignOptions {
 
 export interface Request {
   method: string;
-  params: object;
+  params?: object;
 }
 
-export interface Cosmostation {
+export interface Cosmos {
   request(request: Request): Promise<any>;
   on(type: string, listener: EventListenerOrEventListenerObject): Event;
   off(event: Event): void;
+}
+
+export interface Cosmostation {
+  cosmos: Cosmos;
+  providers: {
+    keplr: Keplr;
+  };
 }
 
 export type RequestAccountResponse = {

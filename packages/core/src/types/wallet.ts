@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AssetList, Chain } from '@chain-registry/types';
-import { AminoSignResponse, StdFee, StdSignDoc } from '@cosmjs/amino';
+import {
+  AminoSignResponse,
+  OfflineAminoSigner,
+  StdFee,
+  StdSignDoc,
+} from '@cosmjs/amino';
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
@@ -69,43 +74,67 @@ export interface WalletAccount {
   algo?: Algo;
 }
 
+export interface Key {
+  readonly name: string;
+  readonly algo: string;
+  readonly pubKey: Uint8Array;
+  readonly address: Uint8Array;
+  readonly bech32Address: string;
+  readonly isNanoLedger: boolean;
+}
+
 export interface SignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
   readonly disableBalanceCheck?: boolean;
 }
 
+export interface DirectSignDoc {
+  /** SignDoc bodyBytes */
+  bodyBytes?: Uint8Array | null;
+  /** SignDoc authInfoBytes */
+  authInfoBytes?: Uint8Array | null;
+  /** SignDoc chainId */
+  chainId?: string | null;
+  /** SignDoc accountNumber */
+  accountNumber?: Long | null;
+}
+
+export declare enum BroadcastMode {
+  /** Return after tx commit */
+  Block = 'block',
+  /** Return after CheckTx */
+  Sync = 'sync',
+  /** Return right away */
+  Async = 'async',
+}
+
 export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
+  disconnect?: () => Promise<void>;
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
-  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
-  getOfflineSignerAuto?: (
+  getOfflineSignerAmino?: (
     chainId: string
-  ) => Promise<OfflineSigner | OfflineDirectSigner>;
+  ) => Promise<OfflineAminoSigner> | OfflineAminoSigner;
+  getOfflineSignerDirect?: (
+    chainId: string
+  ) => Promise<OfflineDirectSigner> | OfflineDirectSigner;
   signAmino?: (
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions: SignOptions
+    signOptions?: SignOptions
   ) => Promise<AminoSignResponse>;
   signDirect?: (
     chainId: string,
     signer: string,
-    signDoc: {
-      /** SignDoc bodyBytes */
-      bodyBytes?: Uint8Array | null;
-      /** SignDoc authInfoBytes */
-      authInfoBytes?: Uint8Array | null;
-      /** SignDoc chainId */
-      chainId?: string | null;
-      /** SignDoc accountNumber */
-      accountNumber?: Long | null;
-    }
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
   getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
   getEnigmaTxEncryptionKey?: (
@@ -121,6 +150,11 @@ export interface WalletClient {
     chainId: string,
     ciphertext: Uint8Array,
     nonce: Uint8Array
+  ) => Promise<Uint8Array>;
+  sendTx?: (
+    chainId: string,
+    tx: Uint8Array,
+    mode: BroadcastMode
   ) => Promise<Uint8Array>;
 }
 
@@ -169,6 +203,7 @@ export interface ChainContext {
   status: WalletStatus;
 
   openView: () => void;
+  closeView: () => void;
   connect: (wallet?: WalletName) => Promise<void>;
   disconnect: () => Promise<void>;
   getRpcEndpoint: () => Promise<string | undefined>;
@@ -185,7 +220,7 @@ export interface ChainContext {
   ) => Promise<StdFee | undefined>;
   sign: (
     messages: EncodeObject[],
-    fee: StdFee,
+    fee?: StdFee,
     memo?: string,
     type?: CosmosClientType
   ) => Promise<TxRaw | undefined>;
@@ -199,4 +234,19 @@ export interface ChainContext {
     memo?: string,
     type?: CosmosClientType
   ) => Promise<DeliverTxResponse | undefined>;
+
+  // methods exposed from wallet client
+  enable: (chainIds: string | string[]) => Promise<void>;
+  getOfflineSigner: () => Promise<OfflineSigner | undefined>;
+  signAmino: (
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ) => Promise<AminoSignResponse | undefined>;
+  signDirect: (
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) => Promise<DirectSignResponse | undefined>;
+  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array | undefined>;
 }

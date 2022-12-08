@@ -3,9 +3,7 @@ import { ClientNotExistError } from '@cosmos-kit/core';
 import { Cosmostation } from './types';
 
 interface CosmostationWindow {
-  cosmostation?: {
-    cosmos: Cosmostation;
-  };
+  cosmostation?: Cosmostation;
 }
 
 export const getCosmostationFromExtension: () => Promise<
@@ -15,7 +13,7 @@ export const getCosmostationFromExtension: () => Promise<
     return void 0;
   }
 
-  const cosmostation = (window as CosmostationWindow).cosmostation?.cosmos;
+  const cosmostation = (window as CosmostationWindow).cosmostation;
 
   if (cosmostation) {
     return cosmostation;

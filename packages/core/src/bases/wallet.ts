@@ -103,6 +103,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     await (callbacks || this.callbacks)?.beforeDisconnect?.();
     this.reset();
     window.localStorage.removeItem('chain-provider');
+    await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
 
@@ -142,6 +143,12 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
         this.setClientNotExist();
         return;
       }
+
+      console.log(
+        '%cwallet.ts line:147 this.client',
+        'color: #007acc;',
+        this.client
+      );
 
       await this.update();
 

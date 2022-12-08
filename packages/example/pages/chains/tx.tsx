@@ -91,7 +91,7 @@ export default function Home() {
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
-      console.log("no rpc endpoint — using a fallback");
+      console.info("no rpc endpoint — using a fallback");
       rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 

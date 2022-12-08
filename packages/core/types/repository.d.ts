@@ -23,6 +23,7 @@ export declare class WalletRepo extends StateBase<Data> {
     get current(): ChainWalletBase | undefined;
     getWallet: (walletName: WalletName) => ChainWalletBase | undefined;
     openView: () => void;
+    closeView: () => void;
     connect: (walletName?: WalletName) => Promise<void>;
     disconnect: (walletName?: WalletName) => Promise<void>;
     getRpcEndpoint: () => Promise<string | undefined>;

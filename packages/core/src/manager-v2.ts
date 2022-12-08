@@ -108,7 +108,6 @@ export class WalletManagerV2 extends StateBase<Data> {
         if (repo.current?.walletName !== walletName) {
           await repo.current?.disconnect();
         }
-        repo.openView();
         await repo.connect(walletName);
       }
     }

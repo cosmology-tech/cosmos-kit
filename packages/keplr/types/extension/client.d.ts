@@ -1,6 +1,7 @@
+import { StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { ChainRecord, WalletClient } from '@cosmos-kit/core';
-import { Keplr } from '@keplr-wallet/types';
+import { ChainRecord, DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
+import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 export declare class KeplrClient implements WalletClient {
     readonly client: Keplr;
     constructor(client: Keplr);
@@ -13,4 +14,7 @@ export declare class KeplrClient implements WalletClient {
     }>;
     getOfflineSigner(chainId: string): import("@keplr-wallet/types").OfflineAminoSigner & import("@keplr-wallet/types").OfflineDirectSigner;
     addChain(chainInfo: ChainRecord): Promise<void>;
+    signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions): Promise<import("@keplr-wallet/types").AminoSignResponse>;
+    signDirect(chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions): Promise<import("@keplr-wallet/types").DirectSignResponse>;
+    sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
