@@ -44,6 +44,27 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
   const chainId = chain.chain_id;
 
+  async function clientMethodAssert(
+    func: (...params: any) => any,
+    params: any[],
+    name: string,
+    returnVoid?: boolean
+  ) {
+    if (func) {
+      return await func(...params);
+    }
+
+    if (current?.client) {
+      throw new Error(
+        `Function ${name} not implemented by wallet ${current?.walletInfo.prettyName} yet.`
+      );
+    }
+
+    if (!returnVoid) {
+      return void 0;
+    }
+  }
+
   return {
     // walletRepo: walletRepo,
     // wallet: current,
@@ -79,16 +100,36 @@ export const useChain = (chainName: ChainName): ChainContext => {
       ...props: Parameters<ChainContext['signAndBroadcast']>
     ) => await current?.signAndBroadcast(...props),
 
-    enable: async (chainIds?: string | string[]) => {
-      await current?.client?.enable?.(chainIds || chainId);
-    },
+    enable: async (chainIds?: string | string[]) =>
+      clientMethodAssert(
+        await current?.client?.enable,
+        [chainIds || chainId],
+        'enable',
+        true
+      ),
     getOfflineSigner: async () =>
-      await current?.client?.getOfflineSigner(chainId),
+      clientMethodAssert(
+        await current?.client?.getOfflineSigner,
+        [chainId],
+        'getOfflineSigner'
+      ),
     signAmino: async (...props: Parameters<ChainContext['signAmino']>) =>
-      await current?.signAmino(...props),
+      clientMethodAssert(
+        await current?.client?.signAmino,
+        [chainId, ...props],
+        'signAmino'
+      ),
     signDirect: async (...props: Parameters<ChainContext['signDirect']>) =>
-      await current?.signDirect(...props),
+      clientMethodAssert(
+        await current?.client?.signDirect,
+        [chainId, ...props],
+        'signDirect'
+      ),
     sendTx: async (...props: Parameters<ChainContext['sendTx']>) =>
-      await current?.client?.sendTx(chainId, ...props),
+      clientMethodAssert(
+        await current?.client?.sendTx,
+        [chainId, ...props],
+        'sendTx'
+      ),
   };
 };

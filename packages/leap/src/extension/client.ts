@@ -1,5 +1,6 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
+import { BroadcastMode } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Leap } from './types';
@@ -49,5 +50,9 @@ export class LeapClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+  }
+
+  async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
+    return await this.client.sendTx(chainId, tx, mode);
   }
 }

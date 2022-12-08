@@ -1,7 +1,7 @@
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { Key } from '@keplr-wallet/types';
+import { BroadcastMode, Key } from '@cosmos-kit/core';
 
 export interface LeapSignOptions {
   readonly preferNoSetFee?: boolean;
@@ -54,5 +54,10 @@ export interface Leap {
     chainId: string,
     ciphertext: Uint8Array,
     nonce: Uint8Array
+  ): Promise<Uint8Array>;
+  sendTx(
+    chainId: string,
+    tx: Uint8Array,
+    mode: BroadcastMode
   ): Promise<Uint8Array>;
 }
