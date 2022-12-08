@@ -68,6 +68,14 @@ export class CosmostationClient implements WalletClient {
     return await getExtensionOfflineSigner(chainId);
   }
 
+  // getOfflineSignerAmino(chainId: string) {
+  //   return this.keplr.getOfflineSignerOnlyAmino(chainId);
+  // }
+
+  // getOfflineSignerDirect(chainId: string) {
+  //   return this.keplr.getOfflineSigner(chainId);
+  // }
+
   async addChain(chainInfo: ChainRecord) {
     const suggestChain = chainRegistryChainToCosmostation(
       chainInfo.chain,

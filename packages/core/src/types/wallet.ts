@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AssetList, Chain } from '@chain-registry/types';
-import { AminoSignResponse, StdFee, StdSignDoc } from '@cosmjs/amino';
+import {
+  AminoSignResponse,
+  OfflineAminoSigner,
+  StdFee,
+  StdSignDoc,
+} from '@cosmjs/amino';
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
@@ -113,10 +118,12 @@ export interface WalletClient {
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
-  getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
-  getOfflineSignerAuto?: (
+  getOfflineSignerAmino?: (
     chainId: string
-  ) => Promise<OfflineSigner | OfflineDirectSigner>;
+  ) => Promise<OfflineAminoSigner> | OfflineAminoSigner;
+  getOfflineSignerDirect?: (
+    chainId: string
+  ) => Promise<OfflineDirectSigner> | OfflineDirectSigner;
   signAmino?: (
     chainId: string,
     signer: string,

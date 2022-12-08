@@ -86,48 +86,46 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getRestEndpoint,
     getStargateClient,
     getCosmWasmClient,
-    getSigningStargateClient: async () =>
-      await current?.getSigningStargateClient(),
-    getSigningCosmWasmClient: async () =>
-      await current?.getSigningCosmWasmClient(),
-    estimateFee: async (...props: Parameters<ChainContext['estimateFee']>) =>
-      await current?.estimateFee(...props),
-    sign: async (...props: Parameters<ChainContext['sign']>) =>
-      await current?.sign(...props),
-    broadcast: async (...props: Parameters<ChainContext['broadcast']>) =>
-      await current?.broadcast(...props),
-    signAndBroadcast: async (
+    getSigningStargateClient: () => current?.getSigningStargateClient(),
+    getSigningCosmWasmClient: () => current?.getSigningCosmWasmClient(),
+    estimateFee: (...props: Parameters<ChainContext['estimateFee']>) =>
+      current?.estimateFee(...props),
+    sign: (...props: Parameters<ChainContext['sign']>) =>
+      current?.sign(...props),
+    broadcast: (...props: Parameters<ChainContext['broadcast']>) =>
+      current?.broadcast(...props),
+    signAndBroadcast: (
       ...props: Parameters<ChainContext['signAndBroadcast']>
-    ) => await current?.signAndBroadcast(...props),
+    ) => current?.signAndBroadcast(...props),
 
-    enable: async (chainIds?: string | string[]) =>
+    enable: (chainIds?: string | string[]) =>
       clientMethodAssert(
-        await current?.client?.enable,
+        current?.client?.enable,
         [chainIds || chainId],
         'enable',
         true
       ),
     getOfflineSigner: async () =>
       clientMethodAssert(
-        await current?.client?.getOfflineSigner,
+        current?.client?.getOfflineSigner,
         [chainId],
         'getOfflineSigner'
       ),
-    signAmino: async (...props: Parameters<ChainContext['signAmino']>) =>
+    signAmino: (...props: Parameters<ChainContext['signAmino']>) =>
       clientMethodAssert(
-        await current?.client?.signAmino,
+        current?.client?.signAmino,
         [chainId, ...props],
         'signAmino'
       ),
-    signDirect: async (...props: Parameters<ChainContext['signDirect']>) =>
+    signDirect: (...props: Parameters<ChainContext['signDirect']>) =>
       clientMethodAssert(
-        await current?.client?.signDirect,
+        current?.client?.signDirect,
         [chainId, ...props],
         'signDirect'
       ),
-    sendTx: async (...props: Parameters<ChainContext['sendTx']>) =>
+    sendTx: (...props: Parameters<ChainContext['sendTx']>) =>
       clientMethodAssert(
-        await current?.client?.sendTx,
+        current?.client?.sendTx,
         [chainId, ...props],
         'sendTx'
       ),

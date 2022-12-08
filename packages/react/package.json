@@ -110,13 +110,16 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "@chain-registry/types": "^0.13.1",
-    "@chakra-ui/react": "^2.2.9",
+    "@chakra-ui/react": "2.2.9",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "bowser": "2.11.0",
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-icons": "^4.4.0"
+  },
+  "resolutions": {
+    "@types/react": "18.0.20"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": ">= 0.28",

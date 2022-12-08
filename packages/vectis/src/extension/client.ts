@@ -29,6 +29,14 @@ export class VectisClient implements WalletClient {
     return this.client.getOfflineSigner(chainId);
   }
 
+  getOfflineSignerAmino(chainId: string) {
+    return this.client.getOfflineSignerAmino(chainId);
+  }
+
+  getOfflineSignerDirect(chainId: string) {
+    return this.client.getOfflineSignerDirect(chainId);
+  }
+
   async addChain({ chain, name, preferredEndpoints }: ChainRecord) {
     const firstFeeToken = chain.fees?.fee_tokens[0];
     const chainInfo: VectisChainInfo = {
