@@ -1,6 +1,6 @@
 /// <reference types="long" />
 import { AssetList, Chain } from '@chain-registry/types';
-import { AminoSignResponse, StdFee, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdFee, StdSignDoc } from '@cosmjs/amino';
 import { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { Algo, DirectSignResponse, EncodeObject, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DeliverTxResponse, SigningStargateClient, StargateClient } from '@cosmjs/stargate';
@@ -85,8 +85,8 @@ export interface WalletClient {
     off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     enable?: (chainIds: string | string[]) => Promise<void>;
     addChain?: (chainInfo: ChainRecord) => Promise<void>;
-    getOfflineSignerOnlyAmino?: (chainId: string) => OfflineSigner;
-    getOfflineSignerAuto?: (chainId: string) => Promise<OfflineSigner | OfflineDirectSigner>;
+    getOfflineSignerAmino?: (chainId: string) => Promise<OfflineAminoSigner> | OfflineAminoSigner;
+    getOfflineSignerDirect?: (chainId: string) => Promise<OfflineDirectSigner> | OfflineDirectSigner;
     signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect?: (chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
     getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
