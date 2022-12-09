@@ -1,8 +1,4 @@
-import {
-  ChakraProvider,
-  createLocalStorageManager,
-  useColorMode,
-} from '@chakra-ui/react';
+import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
 import {
   ChainWalletBase,
   ModalVersion,
@@ -12,7 +8,7 @@ import React, { useMemo, useRef } from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { SimpleConnectModal as ConnectModal } from './components';
-import { defaultThemeWithoutCSSReset } from './theme';
+import { noCssResetTheme } from './theme';
 import { DisplayType } from './types';
 import { getSingleWalletView, getWalletListView } from './utils-v2';
 
@@ -25,6 +21,7 @@ export const getModalV2 = (version: ModalVersion) => {
     >();
     const [modalHead, setModalHead] = useState<ReactNode>();
     const [modalContent, setModalContent] = useState<ReactNode>();
+    const [colorMode, setColorMode] = useState<string | undefined>('light');
 
     const wallets = walletRepo?.wallets;
     const current = walletRepo?.current;
@@ -79,6 +76,10 @@ export const getModalV2 = (version: ModalVersion) => {
       }
     }, [...singleViewDeps, ...listViewDeps, display]);
 
+    useEffect(() => {
+      setColorMode(window.localStorage.getItem('chakra-ui-color-mode'));
+    }, []);
+
     const modal = (
       <ConnectModal
         modalIsOpen={isOpen}
@@ -97,15 +98,13 @@ export const getModalV2 = (version: ModalVersion) => {
       />
     );
 
-    const { colorMode } = useColorMode();
-
     if (colorMode) {
       return modal;
     }
 
     return (
       <ChakraProvider
-        theme={theme || defaultThemeWithoutCSSReset}
+        theme={theme || noCssResetTheme}
         resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
       >

@@ -53,7 +53,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
       throw new Error(`Wallet not connected yet.`);
     }
 
-    return await func(...params);
+    return params ? await func(...params) : await func();
   }
 
   async function clientMethodAssert(

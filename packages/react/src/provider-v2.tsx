@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AssetList, Chain } from '@chain-registry/types';
 import {
@@ -24,7 +25,6 @@ import { getModalV2 } from './modal';
 
 export const walletContextV2 = createContext<{
   walletManager: WalletManagerV2;
-  // deps: State[];
 } | null>(null);
 
 export const ChainProvider = ({
@@ -63,8 +63,6 @@ export const ChainProvider = ({
     []
   );
 
-  // const deps = [];
-
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [viewWalletRepo, setViewWalletRepo] = useState<
     WalletRepo | undefined
@@ -86,7 +84,6 @@ export const ChainProvider = ({
         message: setMsg,
       });
     });
-    // deps.push(state, msg);
   });
 
   const Modal = useMemo(() => {
@@ -110,7 +107,6 @@ export const ChainProvider = ({
     <walletContextV2.Provider
       value={{
         walletManager,
-        // deps,
       }}
     >
       {children}

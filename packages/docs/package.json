@@ -19,21 +19,21 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.2.9",
-    "@cosmos-kit/core": "^0.27.7",
-    "@cosmos-kit/cosmostation": "^0.14.7",
-    "@cosmos-kit/keplr": "^0.32.7",
-    "@cosmos-kit/leap": "^0.13.7",
-    "@cosmos-kit/react": "^0.27.1",
-    "@emotion/react": "^11",
-    "@emotion/styled": "^11",
-    "chain-registry": "^1.4.0",
+    "@chakra-ui/react": "2.2.9",
+    "@cosmos-kit/core": "0.27.7",
+    "@cosmos-kit/cosmostation": "0.14.7",
+    "@cosmos-kit/keplr": "0.32.7",
+    "@cosmos-kit/leap": "0.13.7",
+    "@cosmos-kit/react": "0.27.1",
+    "@emotion/react": "11",
+    "@emotion/styled": "11",
+    "chain-registry": "1.4.0",
     "next": "12.3.1",
     "nextra": "2.0.0-beta.33",
     "nextra-theme-docs": "2.0.0-beta.33",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.4.0"
+    "react-icons": "4.4.0"
   },
   "resolutions": {
     "@types/react": "18.0.25"
