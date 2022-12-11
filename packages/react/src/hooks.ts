@@ -46,19 +46,26 @@ export const useChain = (chainName: ChainName): ChainContext => {
   const chainId = chain.chain_id;
 
   async function connectionAssert(
-    func: (...params: any) => any,
-    params?: any[]
+    func: ((...params: any[]) => any | undefined) | undefined,
+    params: any[] = [],
+    name: string
   ) {
     if (!current) {
       throw new Error(`Wallet not connected yet.`);
     }
 
-    return params ? await func(...params) : await func();
+    if (!func) {
+      throw new Error(
+        `Function ${name} not implemented by ${current?.walletInfo.prettyName} yet.`
+      );
+    }
+
+    return await func(...params);
   }
 
   async function clientMethodAssert(
-    func: (...params: any) => any,
-    params: any[],
+    func: ((...params: any[]) => any | undefined) | undefined,
+    params: any[] = [],
     name: string
   ) {
     if (!current) {
@@ -71,7 +78,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
     if (!func) {
       throw new Error(
-        `Function ${name} not implemented by ${current?.walletInfo.prettyName} yet.`
+        `Function ${name} not implemented by ${current?.walletInfo.prettyName} Client yet.`
       );
     }
 
@@ -100,18 +107,27 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getStargateClient,
     getCosmWasmClient,
     getSigningStargateClient: () =>
-      connectionAssert(current?.getSigningStargateClient),
+      connectionAssert(
+        current?.getSigningStargateClient,
+        [],
+        'getSigningStargateClient'
+      ),
     getSigningCosmWasmClient: () =>
-      connectionAssert(current?.getSigningCosmWasmClient),
+      connectionAssert(
+        current?.getSigningCosmWasmClient,
+        [],
+        'getSigningCosmWasmClient'
+      ),
     estimateFee: (...params: Parameters<ChainContext['estimateFee']>) =>
-      connectionAssert(current?.estimateFee, params),
+      connectionAssert(current?.estimateFee, params, 'estimateFee'),
     sign: (...params: Parameters<ChainContext['sign']>) =>
-      connectionAssert(current?.sign, params),
+      connectionAssert(current?.sign, params, 'sign'),
     broadcast: (...params: Parameters<ChainContext['broadcast']>) =>
-      connectionAssert(current?.broadcast, params),
+      connectionAssert(current?.broadcast, params, 'broadcast'),
     signAndBroadcast: (
       ...params: Parameters<ChainContext['signAndBroadcast']>
-    ) => connectionAssert(current?.signAndBroadcast, params),
+    ) =>
+      connectionAssert(current?.signAndBroadcast, params, 'signAndBroadcast'),
 
     enable: (chainIds?: string | string[]) =>
       clientMethodAssert(

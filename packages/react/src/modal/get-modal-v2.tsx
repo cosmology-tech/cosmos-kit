@@ -21,7 +21,7 @@ export const getModalV2 = (version: ModalVersion) => {
     >();
     const [modalHead, setModalHead] = useState<ReactNode>();
     const [modalContent, setModalContent] = useState<ReactNode>();
-    const [colorMode, setColorMode] = useState<string | undefined>('light');
+    const [colorMode, setColorMode] = useState<string | null>('light');
 
     const wallets = walletRepo?.wallets;
     const current = walletRepo?.current;

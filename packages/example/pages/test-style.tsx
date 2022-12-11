@@ -1,4 +1,4 @@
-import { DefaultModal } from "@cosmos-kit/react/index";
+import { DefaultModal } from "@cosmos-kit/react";
 import { useEffect, useState } from "react";
 
 function TestStyle() {
@@ -20,9 +20,8 @@ function TestStyle() {
 
   // set system color to default color mode
   useEffect(() => {
-    const systemDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)")
+      .matches;
     setColorMode(systemDark ? "dark" : "light");
     window.localStorage.setItem(
       "chakra-ui-color-mode",

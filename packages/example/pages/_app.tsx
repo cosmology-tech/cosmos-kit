@@ -1,4 +1,4 @@
-import "./test-style.css";
+import "../style/test-style.css";
 
 import { Chain } from "@chain-registry/types";
 import { ChakraProvider } from "@chakra-ui/react";
