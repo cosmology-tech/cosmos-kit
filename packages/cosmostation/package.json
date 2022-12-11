@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation",
-  "version": "0.14.8",
+  "version": "0.14.9",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -98,10 +98,10 @@
     "@cosmostation/cosmos-client": "0.0.4",
     "@emotion/react": "11",
     "@emotion/styled": "11",
+    "@keplr-wallet/types": "0.11.21",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/utils": "1.8.0",
-    "react-icons": "4.4.0",
-    "@keplr-wallet/types": "0.11.21"
+    "react-icons": "4.4.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
