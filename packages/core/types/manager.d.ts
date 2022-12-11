@@ -48,8 +48,8 @@ export declare class WalletManager extends StateBase<WalletData> {
     getSigningStargateClient: () => Promise<SigningStargateClient | undefined>;
     getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient | undefined>;
     sign: (messages: EncodeObject[], fee: StdFee, memo?: string, type?: CosmosClientType) => Promise<TxRaw>;
-    broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
-    signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
+    broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/stargate").DeliverTxResponse>;
+    signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<import("@cosmjs/stargate").DeliverTxResponse>;
     reset: () => void;
     private updateLocalStorage;
     setCurrentWallet: (walletName?: WalletName) => void;

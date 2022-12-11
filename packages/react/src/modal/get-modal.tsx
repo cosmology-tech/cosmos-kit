@@ -9,14 +9,18 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { useWallet } from '../hooks';
 import { SimpleConnectModal as ConnectModal } from './components';
-import { defaultThemeWithoutCSSReset } from './theme';
+import { noCssResetTheme } from './theme';
 import { getModalDetails } from './utils';
 
 export const getModal = (version: ModalVersion) => {
   return ({ isOpen, setOpen }: WalletModalProps) => {
     const walletManager = useWallet();
-    const { walletStatus, currentWallet, disconnect, setCurrentWallet } =
-      walletManager;
+    const {
+      walletStatus,
+      currentWallet,
+      disconnect,
+      setCurrentWallet,
+    } = walletManager;
     const [modalHead, setModalHead] = useState<ReactNode>();
     const [modalContent, setModalContent] = useState<ReactNode>();
     const [modalIsReset, resetModal] = useState(false);
@@ -66,7 +70,7 @@ export const getModal = (version: ModalVersion) => {
 
     return (
       <ChakraProvider
-        theme={defaultThemeWithoutCSSReset}
+        theme={noCssResetTheme}
         resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
       >

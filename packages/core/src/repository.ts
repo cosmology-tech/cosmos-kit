@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 /* eslint-disable no-console */
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { StargateClient } from '@cosmjs/stargate';
@@ -124,49 +125,44 @@ export class WalletRepo extends StateBase<Data> {
     }
   };
 
-  getRpcEndpoint = async (): Promise<string | undefined> => {
+  getRpcEndpoint = async (): Promise<string> => {
     for (const wallet of this.wallets) {
-      const endpoint = await wallet.getRpcEndpoint();
-      if (endpoint) {
-        return endpoint;
-      }
+      try {
+        return await wallet.getRpcEndpoint();
+      } catch (error) {}
     }
-    console.warn(
-      `No valid RPC endpoint for chain ${this.chainName} in Wallet Repo!`
+    throw new Error(`No valid RPC endpoint for chain ${this.chainName}!`);
+  };
+
+  getRestEndpoint = async (): Promise<string> => {
+    for (const wallet of this.wallets) {
+      try {
+        return await wallet.getRestEndpoint();
+      } catch (error) {}
+    }
+    throw new Error(`No valid REST endpoint for chain ${this.chainName}!`);
+  };
+
+  getStargateClient = async (): Promise<StargateClient> => {
+    for (const wallet of this.wallets) {
+      try {
+        return await wallet.getStargateClient();
+      } catch (error) {}
+    }
+    throw new Error(
+      `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
     );
-    return void 0;
   };
 
-  getRestEndpoint = async (): Promise<string | undefined> => {
-    for (const wallet of this.wallets) {
-      const endpoint = await wallet.getRestEndpoint();
-      if (endpoint) {
-        return endpoint;
-      }
-    }
-    console.warn(
-      `No valid REST endpoint for chain ${this.chainName} in Wallet Repo!`
-    );
-    return void 0;
-  };
-
-  getStargateClient = async (): Promise<StargateClient | undefined> => {
-    for (const wallet of this.wallets) {
-      const client = await wallet.getStargateClient();
-      if (client) {
-        return client;
-      }
-    }
-    return void 0;
-  };
-
-  getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
+  getCosmWasmClient = async (): Promise<CosmWasmClient> => {
     for (const wallet of this.wallets) {
       const client = await wallet.getCosmWasmClient();
       if (client) {
         return client;
       }
     }
-    return void 0;
+    throw new Error(
+      `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
+    );
   };
 }

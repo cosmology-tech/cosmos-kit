@@ -30,8 +30,15 @@ export default () => {
   const disconnectList: (() => void)[] = [];
 
   const addressInModal = chainNames_1.map((chainName) => {
-    const { chain, openView, username, wallet, status, connect, disconnect } =
-      useChain(chainName);
+    const {
+      chain,
+      openView,
+      username,
+      wallet,
+      status,
+      connect,
+      disconnect,
+    } = useChain(chainName);
     usernames.push(username);
     walletNames.push(wallet?.prettyName);
     statusList.push(status);
@@ -58,8 +65,15 @@ export default () => {
   });
 
   const addressOnPage = chainNames_2.map((chainName) => {
-    const { chain, username, address, connect, status, disconnect, wallet } =
-      useChain(chainName);
+    const {
+      chain,
+      username,
+      address,
+      connect,
+      status,
+      disconnect,
+      wallet,
+    } = useChain(chainName);
     usernames.push(username);
     walletNames.push(wallet?.prettyName);
     statusList.push(status);

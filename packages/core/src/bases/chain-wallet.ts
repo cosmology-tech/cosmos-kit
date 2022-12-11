@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { StdSignDoc } from '@cosmjs/amino';
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
@@ -22,9 +21,7 @@ import {
   ChainRecord,
   ChainWalletData,
   CosmosClientType,
-  DirectSignDoc,
   SessionOptions,
-  SignOptions,
   State,
   Wallet,
   WalletAccount,
@@ -174,95 +171,73 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     await (callbacks || this.callbacks)?.afterConnect?.();
   }
 
-  getRpcEndpoint = async (): Promise<string | undefined> => {
+  getRpcEndpoint = async (): Promise<string> => {
     if (this._rpcEndpoint && (await isValidEndpoint(this._rpcEndpoint))) {
       return this._rpcEndpoint;
     }
     for (const endpoint of this.rpcEndpoints || []) {
       if (await isValidEndpoint(endpoint)) {
         this._rpcEndpoint = endpoint;
+        console.info('Using RPC endpoint ' + endpoint);
         return endpoint;
       }
     }
-    console.warn(
+    throw new Error(
       `No valid RPC endpoint for chain ${this.chainName} in ${this.walletName}!`
     );
-    return void 0;
   };
 
-  getRestEndpoint = async (): Promise<string | undefined> => {
+  getRestEndpoint = async (): Promise<string> => {
     if (this._restEndpoint && (await isValidEndpoint(this._restEndpoint))) {
       return this._restEndpoint;
     }
     for (const endpoint of this.restEndpoints || []) {
       if (await isValidEndpoint(endpoint)) {
         this._restEndpoint = endpoint;
+        console.info('Using REST endpoint ' + endpoint);
         return endpoint;
       }
     }
-    console.warn(
+    throw new Error(
       `No valid Rest endpoint for chain ${this.chainName} in ${this.walletName}!`
     );
-    return void 0;
   };
 
-  getStargateClient = async (): Promise<StargateClient | undefined> => {
+  getStargateClient = async (): Promise<StargateClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
-
-    if (rpcEndpoint) {
-      console.info('Using RPC endpoint ' + rpcEndpoint);
-      return StargateClient.connect(rpcEndpoint, this.stargateOptions);
-    }
-    console.error(
-      `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!.`
-    );
-    return void 0;
+    return StargateClient.connect(rpcEndpoint, this.stargateOptions);
   };
 
   getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
-
-    if (rpcEndpoint) {
-      console.info('Using RPC endpoint ' + rpcEndpoint);
-      return CosmWasmClient.connect(rpcEndpoint);
-    }
-    console.error(
-      `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!`
-    );
-    return void 0;
+    return CosmWasmClient.connect(rpcEndpoint);
   };
 
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (this.offlineSigner && rpcEndpoint) {
-      console.info('Using RPC endpoint ' + rpcEndpoint);
+    if (this.offlineSigner) {
       return SigningStargateClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
         this.signingStargateOptions
       );
     } else {
-      throw new Error(
-        `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!`
-      );
+      throw new Error('Wallet not connected!');
     }
   };
 
   getSigningCosmWasmClient = async (): Promise<SigningCosmWasmClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (this.offlineSigner && rpcEndpoint) {
-      console.info('Using RPC endpoint ' + rpcEndpoint);
+    if (this.offlineSigner) {
       return SigningCosmWasmClient.connectWithSigner(
         rpcEndpoint,
         this.offlineSigner,
         this.signingCosmwasmOptions
       );
     } else {
-      throw new Error(
-        `Undefined offlineSigner or rpcEndpoint for chain ${this.chainName} in ${this.walletName}!`
-      );
+      throw new Error('Wallet not connected!');
     }
   };
 
@@ -369,30 +344,4 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     const signedMessages = await this.sign(messages, fee, memo, type);
     return this.broadcast(signedMessages, type);
   };
-
-  async signAmino(
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) {
-    return await this.client?.signAmino?.(
-      this.chainId,
-      signer,
-      signDoc,
-      signOptions
-    );
-  }
-
-  async signDirect(
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ) {
-    return await this.client?.signDirect?.(
-      this.chainId,
-      signer,
-      signDoc,
-      signOptions
-    );
-  }
 }

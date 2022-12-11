@@ -26,8 +26,8 @@ export declare class WalletRepo extends StateBase<Data> {
     closeView: () => void;
     connect: (walletName?: WalletName) => Promise<void>;
     disconnect: (walletName?: WalletName) => Promise<void>;
-    getRpcEndpoint: () => Promise<string | undefined>;
-    getRestEndpoint: () => Promise<string | undefined>;
-    getStargateClient: () => Promise<StargateClient | undefined>;
-    getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
+    getRpcEndpoint: () => Promise<string>;
+    getRestEndpoint: () => Promise<string>;
+    getStargateClient: () => Promise<StargateClient>;
+    getCosmWasmClient: () => Promise<CosmWasmClient>;
 }
