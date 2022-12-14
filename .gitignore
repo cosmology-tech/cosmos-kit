@@ -11,3 +11,5 @@ packages/example/utils/tmp.ts
 .idea
 /.yarnrc
 /.npmrc
+packages/core/src/wallet-connect-v2
+packages/omni

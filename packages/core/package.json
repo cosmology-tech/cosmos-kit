@@ -107,7 +107,9 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.0",
-    "@walletconnect/types": "1.8.0",
+    "@walletconnect/sign-client": "^2.1.4",
+    "@walletconnect/types": "2.1.4",
+    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
     "bowser": "2.11.0",
     "events": "3.3.0"
   },

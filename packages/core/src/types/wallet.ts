@@ -22,12 +22,17 @@ import {
   SigningStargateClient,
   StargateClient,
 } from '@cosmjs/stargate';
-import { IConnector } from '@walletconnect/types';
+import { CoreTypes } from '@walletconnect/types';
+import { IConnector } from '@walletconnect/types-v1';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { ChainWalletConnect } from '../wallet-connect';
+import { ChainWalletConnect } from '../wallet-connect-v1';
+import {
+  ChainWalletConnectV2,
+  WalletConnectClientV2,
+} from '../wallet-connect-v2';
 import { ChainRecord } from './chain';
 import { AppEnv, CosmosClientType, Data, OS } from './common';
 
@@ -65,6 +70,8 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
+  wcProjectId?: string; // walletconnect project id. can be found here https://explorer.walletconnect.com/
+  wcMetaData?: CoreTypes.Metadata;
 }
 
 export interface WalletAccount {
@@ -185,8 +192,16 @@ export interface IChainWalletConnect {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnect;
 }
 
+export interface IChainWalletConnectV2 {
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnectV2;
+}
+
 export interface IWalletConnectClient {
   new (): WalletConnectClient;
+}
+
+export interface IWalletConnectClientV2 {
+  new (projectId: string, metaData?: CoreTypes.Metadata): WalletConnectClientV2;
 }
 
 export interface ChainContext {
