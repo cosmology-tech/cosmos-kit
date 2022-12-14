@@ -186,7 +186,7 @@ export interface IChainWalletConnect {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnect;
 }
 
-export interface IChainWalletConnectV2 {
+export interface IChainWCV2 {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWCV2;
 }
 

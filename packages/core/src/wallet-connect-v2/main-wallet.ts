@@ -4,7 +4,7 @@ import EventEmitter from 'events';
 
 import {
   Callbacks,
-  IChainWalletConnectV2,
+  IChainWCV2,
   MainWalletBase,
   SessionOptions,
   Wallet,
@@ -18,8 +18,8 @@ export class WCWalletV2 extends MainWalletBase {
   protected _qrUrl = '';
   emitter: EventEmitter;
 
-  constructor(walletInfo: Wallet, ChainWalletConnectV2: IChainWalletConnectV2) {
-    super(walletInfo, ChainWalletConnectV2);
+  constructor(walletInfo: Wallet, ChainWCV2: IChainWCV2) {
+    super(walletInfo, ChainWCV2);
 
     this.emitter = new EventEmitter();
   }
