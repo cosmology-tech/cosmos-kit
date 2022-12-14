@@ -70,7 +70,7 @@ export const getModalV2 = (version: ModalVersion) => {
     useEffect(() => {
       if (
         display === 'list' ||
-        !current ||
+        (!current && !qrCodeWallet) ||
         (current && current.walletStatus === 'Disconnected')
       ) {
         setModalHead(listViewHead);
