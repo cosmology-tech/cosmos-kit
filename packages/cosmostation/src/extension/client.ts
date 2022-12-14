@@ -1,6 +1,6 @@
 import { chainRegistryChainToCosmostation } from '@chain-registry/cosmostation';
 import { StdSignDoc } from '@cosmjs/amino';
-import { OfflineSigner } from '@cosmjs/proto-signing';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
   ChainRecord,
@@ -8,7 +8,6 @@ import {
   SignOptions,
   WalletClient,
 } from '@cosmos-kit/core';
-import { getExtensionOfflineSigner } from '@cosmostation/cosmos-client';
 
 import { Cosmostation, RequestAccountResponse } from './types';
 
@@ -27,7 +26,7 @@ export class CosmostationClient implements WalletClient {
     return this.client.cosmos;
   }
 
-  get keplr() {
+  get ikeplr() {
     return this.client.providers.keplr;
   }
 
@@ -64,17 +63,17 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  async getOfflineSigner(chainId: string): Promise<OfflineSigner> {
-    return await getExtensionOfflineSigner(chainId);
+  getOfflineSigner(chainId: string) {
+    return this.ikeplr.getOfflineSignerAuto(chainId);
   }
 
-  // getOfflineSignerAmino(chainId: string) {
-  //   return this.keplr.getOfflineSignerOnlyAmino(chainId);
-  // }
+  getOfflineSignerAmino(chainId: string) {
+    return this.ikeplr.getOfflineSignerOnlyAmino(chainId);
+  }
 
-  // getOfflineSignerDirect(chainId: string) {
-  //   return this.keplr.getOfflineSigner(chainId);
-  // }
+  getOfflineSignerDirect(chainId: string) {
+    return this.ikeplr.getOfflineSigner(chainId) as OfflineDirectSigner;
+  }
 
   async addChain(chainInfo: ChainRecord) {
     const suggestChain = chainRegistryChainToCosmostation(
@@ -82,8 +81,7 @@ export class CosmostationClient implements WalletClient {
       chainInfo.assetList ? [chainInfo.assetList] : []
     );
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.restURL as string) =
-        chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.restURL as string) = chainInfo.preferredEndpoints?.rest?.[0];
     }
     const result = (await this.cosmos.request({
       method: 'cos_addChain',
@@ -102,7 +100,7 @@ export class CosmostationClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     try {
-      return await this.keplr.signAmino(chainId, signer, signDoc, signOptions);
+      return await this.ikeplr.signAmino(chainId, signer, signDoc, signOptions);
     } catch (error) {
       return await this.cosmos.request({
         method: 'cos_signAmino',
@@ -123,7 +121,12 @@ export class CosmostationClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     try {
-      return await this.keplr.signDirect(chainId, signer, signDoc, signOptions);
+      return await this.ikeplr.signDirect(
+        chainId,
+        signer,
+        signDoc,
+        signOptions
+      );
     } catch (error) {
       return await this.cosmos.request({
         method: 'cos_signDirect',
@@ -138,6 +141,6 @@ export class CosmostationClient implements WalletClient {
   }
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
-    return await this.keplr.sendTx(chainId, tx, mode);
+    return await this.ikeplr.sendTx(chainId, tx, mode);
   }
 }

@@ -5,28 +5,16 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { OS, SignOptions, WalletConnectClient } from '@cosmos-kit/core';
-import { KeplrIntereactionOptions } from '@keplr-wallet/types';
-import WalletConnect from '@walletconnect/client';
-import { IConnector } from '@walletconnect/types-v1';
+import { OS, SignOptions, WalletConnectClientV2 } from '@cosmos-kit/core';
+import { CoreTypes } from '@walletconnect/types';
 import { payloadId, saveMobileLinkInfo } from '@walletconnect/utils';
 import deepmerge from 'deepmerge';
 
-import { KeplrAccount } from './types';
+import { OmniAccount } from './types';
 
-export class KeplrClient implements WalletConnectClient {
-  defaultOptions: KeplrIntereactionOptions = {};
-  readonly connector: IConnector;
-
-  constructor() {
-    this.connector = new WalletConnect({
-      bridge: 'https://bridge.walletconnect.org',
-      signingMethods: [
-        'keplr_enable_wallet_connect_v1',
-        'keplr_get_key_wallet_connect_v1',
-        'keplr_sign_amino_wallet_connect_v1',
-      ],
-    });
+export class OmniClient extends WalletConnectClientV2 {
+  constructor(projectId: string, metaData?: CoreTypes.Metadata) {
+    super(projectId, metaData);
   }
 
   get qrUrl() {
@@ -37,17 +25,17 @@ export class KeplrClient implements WalletConnectClient {
     switch (os) {
       case 'android':
         saveMobileLinkInfo({
-          name: 'Keplr',
+          name: 'Omni',
           href:
-            'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
+            'intent://wcV1#Intent;package=com.chainapsis.omni;scheme=omniwallet;end;',
         });
-        return `intent://wcV1?${this.qrUrl}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
+        return `intent://wcV1?${this.qrUrl}#Intent;package=com.chainapsis.omni;scheme=omniwallet;end;`;
       case 'ios':
         saveMobileLinkInfo({
-          name: 'Keplr',
-          href: 'keplrwallet://wcV1',
+          name: 'Omni',
+          href: 'omniwallet://wcV1',
         });
-        return `keplrwallet://wcV1?${this.qrUrl}`;
+        return `omniwallet://wcV1?${this.qrUrl}`;
       default:
         return void 0;
     }
@@ -61,7 +49,7 @@ export class KeplrClient implements WalletConnectClient {
     await this.connector.sendCustomRequest({
       id: payloadId(),
       jsonrpc: '2.0',
-      method: 'keplr_enable_wallet_connect_v1',
+      method: 'omni_enable_wallet_connect_v1',
       params: chainIds,
     });
   }
@@ -71,10 +59,10 @@ export class KeplrClient implements WalletConnectClient {
       await this.connector.sendCustomRequest({
         id: payloadId(),
         jsonrpc: '2.0',
-        method: 'keplr_get_key_wallet_connect_v1',
+        method: 'omni_get_key_wallet_connect_v1',
         params: [chainId],
       })
-    )[0] as KeplrAccount;
+    )[0] as OmniAccount;
 
     return {
       name: response.name,
@@ -104,7 +92,7 @@ export class KeplrClient implements WalletConnectClient {
       await this.connector.sendCustomRequest({
         id: payloadId(),
         jsonrpc: '2.0',
-        method: 'keplr_sign_amino_wallet_connect_v1',
+        method: 'omni_sign_amino_wallet_connect_v1',
         params: [
           chainId,
           signer,

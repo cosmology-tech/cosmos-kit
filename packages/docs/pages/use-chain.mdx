@@ -47,7 +47,9 @@
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
 | **enable**  | if `chainIds` is `undefined`, using `chainId` corresponding to `chainName` in hook parameters |   **chainIds**?: `string | string[]` | `void` | Y |
-| **getOfflineSigner**  | - | - | `OfflineSigner` | Y |
+| **getOfflineSigner**  | if `isNanoLedger` or indefinite, will return `OfflineAminoSigner`, else return `OfflineDirectSigner` | - | `OfflineSigner` | Y |
+| **getOfflineSignerAmino**  | - | - | `OfflineAminoSigner` | N |
+| **getOfflineSignerDirect**  | - | - | `OfflineDirectSigner` | N |
 | **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
 | **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse` | Y |
 | **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array` | Y |

@@ -22,12 +22,14 @@ import {
   SigningStargateClient,
   StargateClient,
 } from '@cosmjs/stargate';
-import { IConnector } from '@walletconnect/types';
+import { CoreTypes } from '@walletconnect/types';
+import { IConnector } from '@walletconnect/types-v1';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { ChainWalletConnect } from '../wallet-connect';
+import { ChainWalletConnect } from '../wallet-connect-v1';
+import { ChainWCV2, WCClientV2 } from '../wallet-connect-v2';
 import { ChainRecord } from './chain';
 import { AppEnv, CosmosClientType, Data, OS } from './common';
 
@@ -65,6 +67,8 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
+  wcProjectId?: string; // walletconnect project id. can be found here https://explorer.walletconnect.com/
+  wcMetaData?: CoreTypes.Metadata;
 }
 
 export interface WalletAccount {
@@ -72,6 +76,7 @@ export interface WalletAccount {
   pubkey: Uint8Array;
   name?: string;
   algo?: Algo;
+  isNanoLedger?: boolean;
 }
 
 export interface Key {
@@ -118,12 +123,8 @@ export interface WalletClient {
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
-  getOfflineSignerAmino?: (
-    chainId: string
-  ) => Promise<OfflineAminoSigner> | OfflineAminoSigner;
-  getOfflineSignerDirect?: (
-    chainId: string
-  ) => Promise<OfflineDirectSigner> | OfflineDirectSigner;
+  getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
+  getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
   signAmino?: (
     chainId: string,
     signer: string,
@@ -185,8 +186,16 @@ export interface IChainWalletConnect {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnect;
 }
 
+export interface IChainWalletConnectV2 {
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWCV2;
+}
+
 export interface IWalletConnectClient {
   new (): WalletConnectClient;
+}
+
+export interface IWalletConnectClientV2 {
+  new (projectId: string, metaData?: CoreTypes.Metadata): WCClientV2;
 }
 
 export interface ChainContext {
@@ -238,6 +247,8 @@ export interface ChainContext {
   // methods exposed from wallet client
   enable: (chainIds: string | string[]) => Promise<void>;
   getOfflineSigner: () => Promise<OfflineSigner>;
+  getOfflineSignerAmino: () => OfflineAminoSigner;
+  getOfflineSignerDirect: () => OfflineDirectSigner;
   signAmino: (
     signer: string,
     signDoc: StdSignDoc,

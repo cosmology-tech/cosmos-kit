@@ -1,4 +1,8 @@
-import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import {
+  AminoSignResponse,
+  OfflineAminoSigner,
+  StdSignDoc,
+} from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode, Key } from '@cosmos-kit/core';
@@ -14,11 +18,9 @@ export interface Leap {
   enable(chainIds: string | string[]): Promise<void>;
   mode: 'extension';
   getKey(chainId: string): Promise<Key>;
-  getOfflineSigner(chainId: string): OfflineSigner & OfflineDirectSigner;
-  getOfflineSignerOnlyAmino(chainId: string): OfflineSigner;
-  getOfflineSignerAuto(
-    chainId: string
-  ): Promise<OfflineSigner | OfflineDirectSigner>;
+  getOfflineSigner(chainId: string): OfflineAminoSigner & OfflineDirectSigner;
+  getOfflineSignerOnlyAmino(chainId: string): OfflineAminoSigner;
+  getOfflineSignerAuto(chainId: string): Promise<OfflineSigner>;
   signAmino(
     chainId: string,
     signer: string,

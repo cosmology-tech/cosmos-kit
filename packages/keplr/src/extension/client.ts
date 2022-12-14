@@ -1,6 +1,6 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { StdSignDoc } from '@cosmjs/amino';
-import { Algo } from '@cosmjs/proto-signing';
+import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   ChainRecord,
   DirectSignDoc,
@@ -32,6 +32,14 @@ export class KeplrClient implements WalletClient {
 
   getOfflineSigner(chainId: string) {
     return this.client.getOfflineSignerAuto(chainId);
+  }
+
+  getOfflineSignerAmino(chainId: string) {
+    return this.client.getOfflineSignerOnlyAmino(chainId);
+  }
+
+  getOfflineSignerDirect(chainId: string) {
+    return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
   }
 
   async addChain(chainInfo: ChainRecord) {

@@ -102,12 +102,14 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3"
+    "typescript": "4.8.3",
+    "@walletconnect/types": "2.1.4",
+    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
+    "@chain-registry/types": "0.13.0"
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@chain-registry/types": "0.13.0",
-    "@walletconnect/types": "1.8.0",
+    "@walletconnect/sign-client": "^2.1.4",
     "bowser": "2.11.0",
     "events": "3.3.0"
   },

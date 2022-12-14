@@ -1,23 +1,23 @@
+import { chainRegistryChainToOmni } from '@chain-registry/omni';
 import { StdSignDoc } from '@cosmjs/amino';
-import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { BroadcastMode } from '@cosmos-kit/core';
-import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
+import { Algo } from '@cosmjs/proto-signing';
+import {
+  ChainRecord,
+  DirectSignDoc,
+  SignOptions,
+  WalletClient,
+} from '@cosmos-kit/core';
+import { BroadcastMode, Omni } from '@omni-wallet/types';
 
-import { Leap } from './types';
+export class OmniClient implements WalletClient {
+  readonly client: Omni;
 
-export class LeapClient implements WalletClient {
-  readonly client: Leap;
-
-  constructor(client: Leap) {
+  constructor(client: Omni) {
     this.client = client;
   }
 
   async enable(chainIds: string | string[]) {
     await this.client.enable(chainIds);
-  }
-
-  async disconnect() {
-    await this.client.disconnect();
   }
 
   async getAccount(chainId: string) {
@@ -31,15 +31,24 @@ export class LeapClient implements WalletClient {
   }
 
   getOfflineSigner(chainId: string) {
-    return this.client.getOfflineSignerAuto(chainId);
+    return this.client.getOfflineSigner(chainId);
   }
 
-  getOfflineSignerAmino(chainId: string) {
-    return this.client.getOfflineSignerOnlyAmino(chainId);
-  }
+  async addChain(chainInfo: ChainRecord) {
+    const suggestChain = chainRegistryChainToOmni(
+      chainInfo.chain,
+      chainInfo.assetList ? [chainInfo.assetList] : []
+    );
 
-  getOfflineSignerDirect(chainId: string) {
-    return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
+    if (chainInfo.preferredEndpoints?.rest?.[0]) {
+      (suggestChain.rest as string) = chainInfo.preferredEndpoints?.rest?.[0];
+    }
+
+    if (chainInfo.preferredEndpoints?.rpc?.[0]) {
+      (suggestChain.rpc as string) = chainInfo.preferredEndpoints?.rpc?.[0];
+    }
+
+    await this.client.experimentalSuggestChain(suggestChain);
   }
 
   async signAmino(
