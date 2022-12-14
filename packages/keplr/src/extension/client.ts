@@ -31,7 +31,7 @@ export class KeplrClient implements WalletClient {
   }
 
   getOfflineSigner(chainId: string) {
-    return this.client.getOfflineSigner(chainId);
+    return this.client.getOfflineSignerAuto(chainId);
   }
 
   async addChain(chainInfo: ChainRecord) {
