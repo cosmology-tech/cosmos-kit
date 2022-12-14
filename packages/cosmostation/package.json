@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation",
-  "version": "0.14.10",
+  "version": "0.14.11",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -71,9 +71,11 @@
     "@babel/preset-typescript": "7.16.7",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
+    "@keplr-wallet/types": "0.11.21",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
+    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
     "babel-jest": "29.0.3",
     "cross-env": "7.0.2",
     "eslint": "8.23.1",
@@ -87,16 +89,14 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3",
-    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
-    "@keplr-wallet/types": "0.11.21"
+    "typescript": "4.8.3"
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/cosmostation": "1.8.0",
     "@chain-registry/types": "0.13.1",
     "@chakra-ui/react": "2.2.9",
-    "@cosmos-kit/core": "^0.27.9",
+    "@cosmos-kit/core": "^0.27.10",
     "@cosmostation/cosmos-client": "0.0.4",
     "@emotion/react": "11",
     "@emotion/styled": "11",
