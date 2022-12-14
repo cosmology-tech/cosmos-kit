@@ -32,7 +32,7 @@
 
 #### Required properties
 
-| Key      | Type | Comment |
+| Key      | Type | Description |
 | ----------- | ----------- | -- |
 | **name**      | `WalletName = string`   | identifier |
 | **prettyName**   | `string`   | display name |
@@ -43,7 +43,7 @@
 
 #### Optional properties
 
-| Key      | Type | Comment |
+| Key      | Type | Description |
 | ----------- | ----------- | -- |
 | **rejectMessage**      | `string | \{ source: string; target?: string \}`   | `rejectMessage` or `rejectMessage.source` is error message string thrown by wallet app/extension when user rejects, while `rejectMessage.target` is `message` returned by hooks. If not provided, `target` would be `'Request Rejected!'`|
 | **connectEventNamesOnWindow**   | `string[]`   | window event names to fire auto-connect |
@@ -64,10 +64,10 @@
 
 #### Required methods
 
-| Key      | Type |
-| ----------- | ----------- |
-| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   |
-| **getOfflineSigner**   | `(chainId: string) => Promise<OfflineSigner> \| OfflineSigner`   |
+| Key      | Type | Description |
+| ----------- | ----------- | -- |
+| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   | - |
+| **getOfflineSigner**   | `(chainId: string) => Promise<OfflineSigner>`   | if `isNanoLedger` or indefinite, will return `OfflineAminoSigner`, else return `OfflineDirectSigner` |
 
 \* *Type **WalletAccount***
 
@@ -80,7 +80,7 @@ interface WalletAccount {
 
 #### Optional methods
 
-| Key      | Type | Comment |
+| Key      | Type | Description |
 | ----------- | ----------- | -- |
 | **enable**      | `(chainIds: string \| string[]) => Promise<void>`   | give permission for the webpage to access wallet |
 | **addChain**   | `(chainInfo: ChainRecord) => Promise<void>`   | add new Cosmos-SDK based blockchains that isn't natively integrated to wallet app/extension |
@@ -90,7 +90,6 @@ interface WalletAccount {
 #### Examples
 
 - [Keplr Client](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/extension/client.ts)
-
 
 ### 3️⃣ Extend `ChainWalletBase`
 

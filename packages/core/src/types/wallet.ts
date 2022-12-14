@@ -79,6 +79,7 @@ export interface WalletAccount {
   pubkey: Uint8Array;
   name?: string;
   algo?: Algo;
+  isNanoLedger?: boolean;
 }
 
 export interface Key {
@@ -118,19 +119,15 @@ export declare enum BroadcastMode {
 
 export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
-  getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
+  getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
 
   disconnect?: () => Promise<void>;
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
-  getOfflineSignerAmino?: (
-    chainId: string
-  ) => Promise<OfflineAminoSigner> | OfflineAminoSigner;
-  getOfflineSignerDirect?: (
-    chainId: string
-  ) => Promise<OfflineDirectSigner> | OfflineDirectSigner;
+  getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
+  getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
   signAmino?: (
     chainId: string,
     signer: string,
@@ -253,6 +250,8 @@ export interface ChainContext {
   // methods exposed from wallet client
   enable: (chainIds: string | string[]) => Promise<void>;
   getOfflineSigner: () => Promise<OfflineSigner>;
+  getOfflineSignerAmino: () => OfflineAminoSigner;
+  getOfflineSignerDirect: () => OfflineDirectSigner;
   signAmino: (
     signer: string,
     signDoc: StdSignDoc,

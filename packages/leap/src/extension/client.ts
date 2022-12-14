@@ -1,5 +1,5 @@
 import { StdSignDoc } from '@cosmjs/amino';
-import { Algo } from '@cosmjs/proto-signing';
+import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
@@ -31,7 +31,15 @@ export class LeapClient implements WalletClient {
   }
 
   getOfflineSigner(chainId: string) {
-    return this.client.getOfflineSigner(chainId);
+    return this.client.getOfflineSignerAuto(chainId);
+  }
+
+  getOfflineSignerAmino(chainId: string) {
+    return this.client.getOfflineSignerOnlyAmino(chainId);
+  }
+
+  getOfflineSignerDirect(chainId: string) {
+    return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
   }
 
   async signAmino(

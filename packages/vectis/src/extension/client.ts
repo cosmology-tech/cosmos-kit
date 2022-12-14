@@ -25,8 +25,12 @@ export class VectisClient implements WalletClient {
     return await this.client.getKey(chainId);
   }
 
-  getOfflineSigner(chainId: string) {
-    return this.client.getOfflineSigner(chainId);
+  async getOfflineSigner(chainId: string) {
+    const key = await this.getAccount(chainId);
+    if (key.isNanoLedger || typeof key.isNanoLedger === 'undefined') {
+      return this.getOfflineSignerAmino(chainId);
+    }
+    return this.getOfflineSignerDirect(chainId);
   }
 
   getOfflineSignerAmino(chainId: string) {

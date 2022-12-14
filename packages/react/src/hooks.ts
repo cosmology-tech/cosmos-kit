@@ -45,7 +45,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
   const chainId = chain.chain_id;
 
-  async function connectionAssert(
+  function connectionAssert(
     func: ((...params: any[]) => any | undefined) | undefined,
     params: any[] = [],
     name: string
@@ -60,10 +60,10 @@ export const useChain = (chainName: ChainName): ChainContext => {
       );
     }
 
-    return await func(...params);
+    return func(...params);
   }
 
-  async function clientMethodAssert(
+  function clientMethodAssert(
     func: ((...params: any[]) => any | undefined) | undefined,
     params: any[] = [],
     name: string
@@ -82,7 +82,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
       );
     }
 
-    return await func(...params);
+    return func(...params);
   }
 
   return {
@@ -135,11 +135,23 @@ export const useChain = (chainName: ChainName): ChainContext => {
         [chainIds || chainId],
         'enable'
       ),
-    getOfflineSigner: async () =>
+    getOfflineSigner: () =>
       clientMethodAssert(
         current?.client?.getOfflineSigner,
         [chainId],
         'getOfflineSigner'
+      ),
+    getOfflineSignerAmino: () =>
+      clientMethodAssert(
+        current?.client?.getOfflineSignerAmino,
+        [chainId],
+        'getOfflineSignerAmino'
+      ),
+    getOfflineSignerDirect: () =>
+      clientMethodAssert(
+        current?.client?.getOfflineSignerDirect,
+        [chainId],
+        'getOfflineSignerDirect'
       ),
     signAmino: (...params: Parameters<ChainContext['signAmino']>) =>
       clientMethodAssert(
