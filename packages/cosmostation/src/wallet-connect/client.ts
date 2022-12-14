@@ -6,7 +6,7 @@ import {
 import { Algo } from '@cosmjs/proto-signing';
 import { OS, WalletConnectClient } from '@cosmos-kit/core';
 import WalletConnect from '@walletconnect/client';
-import { IConnector } from '@walletconnect/types';
+import { IConnector } from '@walletconnect/types-v1';
 import { payloadId, saveMobileLinkInfo } from '@walletconnect/utils';
 
 import { CosmostationAccount } from './types';
@@ -33,7 +33,8 @@ export class CosmostationClient implements WalletConnectClient {
       case 'android':
         saveMobileLinkInfo({
           name: 'Cosmostation',
-          href: 'intent://wc#Intent;package=wannabit.io.cosmostaion;scheme=cosmostation;end;',
+          href:
+            'intent://wc#Intent;package=wannabit.io.cosmostaion;scheme=cosmostation;end;',
         });
         return `intent://wc?${this.qrUrl}#Intent;package=wannabit.io.cosmostaion;scheme=cosmostation;end;`;
       case 'ios':
@@ -48,7 +49,7 @@ export class CosmostationClient implements WalletConnectClient {
   }
 
   async getAccount(chainId: string) {
-    const response = (
+    const result = (
       await this.connector.sendCustomRequest({
         id: payloadId(),
         jsonrpc: '2.0',
@@ -58,14 +59,15 @@ export class CosmostationClient implements WalletConnectClient {
     )[0] as CosmostationAccount;
 
     return {
-      name: response.name,
-      address: response.bech32Address,
-      algo: response.algo as Algo,
-      pubkey: response.pubKey,
+      name: result.name,
+      address: result.bech32Address,
+      algo: result.algo as Algo,
+      pubkey: result.pubKey,
+      isNanoLedger: result.isNanoLedger,
     };
   }
 
-  getOfflineSigner(chainId: string): OfflineAminoSigner {
+  getOfflineSignerAmino(chainId: string) {
     return {
       getAccounts: async () => {
         return [await this.getAccount(chainId)];
@@ -73,6 +75,10 @@ export class CosmostationClient implements WalletConnectClient {
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
+  }
+
+  async getOfflineSigner(chainId: string) {
+    return this.getOfflineSignerAmino(chainId);
   }
 
   async signAmino(

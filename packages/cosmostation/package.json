@@ -87,7 +87,9 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3"
+    "typescript": "4.8.3",
+    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
+    "@keplr-wallet/types": "0.11.21"
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
@@ -98,7 +100,6 @@
     "@cosmostation/cosmos-client": "0.0.4",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@keplr-wallet/types": "0.11.21",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/utils": "1.8.0",
     "react-icons": "4.4.0"

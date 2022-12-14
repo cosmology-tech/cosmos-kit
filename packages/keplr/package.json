@@ -99,17 +99,18 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3"
+    "typescript": "4.8.3",
+    "@chain-registry/types": "0.13.1",
+    "@keplr-wallet/types": "0.11.21",
+    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0"
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/keplr": "1.8.0",
-    "@chain-registry/types": "0.13.1",
     "@chakra-ui/react": "2.2.9",
     "@cosmos-kit/core": "^0.27.9",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@keplr-wallet/types": "0.11.21",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/utils": "1.8.0",
     "deepmerge": "4.2.2",

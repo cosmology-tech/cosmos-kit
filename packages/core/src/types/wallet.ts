@@ -29,10 +29,7 @@ import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainWalletConnect } from '../wallet-connect-v1';
-import {
-  ChainWalletConnectV2,
-  WalletConnectClientV2,
-} from '../wallet-connect-v2';
+import { ChainWCV2, WCClientV2 } from '../wallet-connect-v2';
 import { ChainRecord } from './chain';
 import { AppEnv, CosmosClientType, Data, OS } from './common';
 
@@ -119,7 +116,7 @@ export declare enum BroadcastMode {
 
 export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
-  getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
+  getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
   disconnect?: () => Promise<void>;
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
@@ -190,7 +187,7 @@ export interface IChainWalletConnect {
 }
 
 export interface IChainWalletConnectV2 {
-  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnectV2;
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWCV2;
 }
 
 export interface IWalletConnectClient {
@@ -198,7 +195,7 @@ export interface IWalletConnectClient {
 }
 
 export interface IWalletConnectClientV2 {
-  new (projectId: string, metaData?: CoreTypes.Metadata): WalletConnectClientV2;
+  new (projectId: string, metaData?: CoreTypes.Metadata): WCClientV2;
 }
 
 export interface ChainContext {
