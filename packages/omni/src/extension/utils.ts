@@ -1,5 +1,10 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
-import { Omni, Window as OmniWindow } from '@omni-wallet/types';
+
+import { Omni } from './types';
+
+interface OmniWindow {
+  omni?: Omni;
+}
 
 export const getOmniFromExtension: () => Promise<
   Omni | undefined
