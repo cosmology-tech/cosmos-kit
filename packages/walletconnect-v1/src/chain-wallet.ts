@@ -1,16 +1,16 @@
-import EventEmitter from 'events';
-
 import {
   Callbacks,
   ChainRecord,
   ChainWalletBase,
   SessionOptions,
   Wallet,
-  WalletConnectClient,
-} from '..';
+} from '@cosmos-kit/core';
+import EventEmitter from 'events';
 
-export class ChainWalletConnect extends ChainWalletBase {
-  client!: WalletConnectClient;
+import { IWCClientV1 } from './types';
+
+export class ChainWCV1 extends ChainWalletBase {
+  client!: IWCClientV1;
   emitter!: EventEmitter;
 
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {

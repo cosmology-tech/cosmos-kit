@@ -5,15 +5,19 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Flex,
   Heading,
   HStack,
+  Icon,
   SimpleGrid,
   Stack,
   StackDivider,
+  useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { WalletStatus } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
+import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
 
@@ -23,6 +27,7 @@ const chainNames_1 = ["cosmoshub", "osmosis"];
 const chainNames_2 = ["stargaze", "chihuahua"];
 
 export default () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const usernames: (string | undefined)[] = [];
   const walletNames: (string | undefined)[] = [];
   const statusList: WalletStatus[] = [];
@@ -155,6 +160,13 @@ export default () => {
 
   return (
     <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
+      <Flex justifyContent="end" mb={4}>
+        <Button variant="outline" px={0} onClick={toggleColorMode}>
+          <Icon
+            as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
+          />
+        </Button>
+      </Flex>
       <VStack spacing="24px" marginTop={30}>
         <Heading size="lg">ChainProvider Test</Heading>
         {getGlobalButton()}

@@ -1,12 +1,12 @@
-import EventEmitter from 'events';
-
 import {
   Callbacks,
   ChainRecord,
   ChainWalletBase,
   SessionOptions,
   Wallet,
-} from '..';
+} from '@cosmos-kit/core';
+import EventEmitter from 'events';
+
 import { WCClientV2 } from './client';
 
 export class ChainWCV2 extends ChainWalletBase {

@@ -1,17 +1,21 @@
 /* eslint-disable no-console */
-import EventEmitter from 'events';
-
-import { ChainWalletConnect, IWalletConnectClient, MainWalletBase } from '..';
 import {
   Callbacks,
-  IChainWalletConnect,
+  ChainWalletConnect,
+  MainWalletBase,
   SessionOptions,
   Wallet,
-  WalletConnectClient,
-} from '..';
+} from '@cosmos-kit/core';
+import EventEmitter from 'events';
 
-export class WalletConnectWallet extends MainWalletBase {
-  client: WalletConnectClient;
+import {
+  IChainWalletConnect,
+  IWalletConnectClient,
+  IWCClientV1,
+} from './types';
+
+export class WCWalletV1 extends MainWalletBase {
+  client: IWCClientV1;
   emitter: EventEmitter;
 
   constructor(

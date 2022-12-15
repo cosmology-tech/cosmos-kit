@@ -7,10 +7,14 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
+import {
+  DirectSignDoc,
+  SignOptions,
+  WalletClient,
+  WCAccount,
+} from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { SessionTypes } from '@walletconnect/types';
-
-import { DirectSignDoc, SignOptions, WalletClient, WCAccount } from '../types';
 
 export class WCClientV2 implements WalletClient {
   readonly signClient: SignClient;

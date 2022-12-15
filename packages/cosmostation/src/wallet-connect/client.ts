@@ -4,14 +4,15 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { OS, WalletConnectClient } from '@cosmos-kit/core';
+import { OS } from '@cosmos-kit/core';
+import { IWCClientV1 } from '@cosmos-kit/walletconnect-v1';
 import WalletConnect from '@walletconnect/client';
 import { IConnector } from '@walletconnect/types-v1';
 import { payloadId, saveMobileLinkInfo } from '@walletconnect/utils';
 
 import { CosmostationAccount } from './types';
 
-export class CosmostationClient implements WalletConnectClient {
+export class CosmostationClient implements IWCClientV1 {
   readonly connector: IConnector;
 
   constructor() {

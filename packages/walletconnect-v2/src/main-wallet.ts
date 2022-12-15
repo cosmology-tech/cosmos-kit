@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
-import { SignClient } from '@walletconnect/sign-client';
-import EventEmitter from 'events';
-
 import {
   Callbacks,
   IChainWalletConnectV2,
   MainWalletBase,
   SessionOptions,
   Wallet,
-} from '..';
+} from '@cosmos-kit/core';
+import { SignClient } from '@walletconnect/sign-client';
+import EventEmitter from 'events';
+
 import { ChainWCV2 } from './chain-wallet';
 import { WCClientV2 } from './client';
 
