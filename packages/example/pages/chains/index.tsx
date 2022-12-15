@@ -160,14 +160,14 @@ export default () => {
 
   return (
     <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
-      <Flex justifyContent="end" mb={4}>
+      <Flex justifyContent="end">
         <Button variant="outline" px={0} onClick={toggleColorMode}>
           <Icon
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button>
       </Flex>
-      <VStack spacing="24px" marginTop={30}>
+      <VStack spacing="24px" marginTop={-2}>
         <Heading size="lg">ChainProvider Test</Heading>
         {getGlobalButton()}
       </VStack>
