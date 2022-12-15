@@ -10,17 +10,19 @@ import EventEmitter from 'events';
 
 import { ChainWCV2 } from './chain-wallet';
 import { WCClientV2 } from './client';
-import { IChainWCV2 } from './types';
+import { IChainWCV2, IWCClientV2 } from './types';
 
 export class WCWalletV2 extends MainWalletBase {
   clientPromise?: Promise<WCClientV2 | undefined>;
   client?: WCClientV2;
+  protected WCClient: IWCClientV2;
   protected _qrUrl = '';
   emitter: EventEmitter;
 
-  constructor(walletInfo: Wallet, ChainWC: IChainWCV2) {
+  constructor(walletInfo: Wallet, ChainWC: IChainWCV2, WCClient: IWCClientV2) {
     super(walletInfo, ChainWC);
 
+    this.WCClient = WCClient;
     this.emitter = new EventEmitter();
   }
 
@@ -46,7 +48,7 @@ export class WCWalletV2 extends MainWalletBase {
         projectId: this.walletInfo.wcProjectId,
         metadata: this.walletInfo.wcMetaData,
       });
-      return new WCClientV2(signClient);
+      return new this.WCClient(signClient);
     } catch (error) {
       this.setClientNotExist();
       return void 0;

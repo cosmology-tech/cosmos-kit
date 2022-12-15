@@ -33,9 +33,9 @@ export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
     getSigningStargateClient: () => Promise<SigningStargateClient>;
     getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
-    protected getSigningClient: (type?: CosmosClientType) => Promise<SigningStargateClient | SigningCosmWasmClient>;
+    protected getSigningClient: (type?: CosmosClientType) => Promise<SigningCosmWasmClient | SigningStargateClient>;
     estimateFee: (messages: EncodeObject[], type?: CosmosClientType, memo?: string, multiplier?: number) => Promise<StdFee>;
     sign: (messages: EncodeObject[], fee?: StdFee | number, memo?: string, type?: CosmosClientType) => Promise<TxRaw>;
-    broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
-    signAndBroadcast: (messages: EncodeObject[], fee?: StdFee | number, memo?: string, type?: CosmosClientType) => Promise<import("@cosmjs/cosmwasm-stargate").DeliverTxResponse>;
+    broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/stargate").DeliverTxResponse>;
+    signAndBroadcast: (messages: EncodeObject[], fee?: StdFee | number, memo?: string, type?: CosmosClientType) => Promise<import("@cosmjs/stargate").DeliverTxResponse>;
 }
