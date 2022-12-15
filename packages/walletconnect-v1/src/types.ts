@@ -9,10 +9,10 @@ export interface IWCClientV1 extends WalletClient {
   readonly qrUrl: string;
 }
 
-export interface IChainWalletConnect {
+export interface IChainWC {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWCV1;
 }
 
-export interface IWalletConnectClient {
+export interface IWCClient {
   new (): IWCClientV1;
 }

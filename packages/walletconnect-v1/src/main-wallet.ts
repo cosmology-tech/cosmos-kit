@@ -1,31 +1,23 @@
 /* eslint-disable no-console */
 import {
   Callbacks,
-  ChainWalletConnect,
   MainWalletBase,
   SessionOptions,
   Wallet,
 } from '@cosmos-kit/core';
 import EventEmitter from 'events';
 
-import {
-  IChainWalletConnect,
-  IWalletConnectClient,
-  IWCClientV1,
-} from './types';
+import { ChainWCV1 } from './chain-wallet';
+import { IChainWC, IWCClient, IWCClientV1 } from './types';
 
 export class WCWalletV1 extends MainWalletBase {
   client: IWCClientV1;
   emitter: EventEmitter;
 
-  constructor(
-    walletInfo: Wallet,
-    _ChainWalletConnect: IChainWalletConnect,
-    _WalletConnectClient: IWalletConnectClient
-  ) {
-    super(walletInfo, _ChainWalletConnect);
+  constructor(walletInfo: Wallet, ChainWC: IChainWC, WCClient: IWCClient) {
+    super(walletInfo, ChainWC);
 
-    this.client = new _WalletConnectClient();
+    this.client = new WCClient();
     this.emitter = new EventEmitter();
     this.connector.on('connect', async (error) => {
       if (error) {
@@ -69,7 +61,7 @@ export class WCWalletV1 extends MainWalletBase {
     this.chainWallets?.forEach((chainWallet) => {
       chainWallet.client = this.client;
       chainWallet.clientPromise = this.clientPromise;
-      (chainWallet as ChainWalletConnect).emitter = this.emitter;
+      (chainWallet as ChainWCV1).emitter = this.emitter;
       // chainWallet.connect = this.connect;
       // chainWallet.disconnect = this.disconnect;
     });

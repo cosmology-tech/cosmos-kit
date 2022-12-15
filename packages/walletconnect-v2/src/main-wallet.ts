@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import {
   Callbacks,
-  IChainWalletConnectV2,
   MainWalletBase,
   SessionOptions,
   Wallet,
@@ -11,6 +10,7 @@ import EventEmitter from 'events';
 
 import { ChainWCV2 } from './chain-wallet';
 import { WCClientV2 } from './client';
+import { IChainWCV2 } from './types';
 
 export class WCWalletV2 extends MainWalletBase {
   clientPromise?: Promise<WCClientV2 | undefined>;
@@ -18,8 +18,8 @@ export class WCWalletV2 extends MainWalletBase {
   protected _qrUrl = '';
   emitter: EventEmitter;
 
-  constructor(walletInfo: Wallet, ChainWalletConnectV2: IChainWalletConnectV2) {
-    super(walletInfo, ChainWalletConnectV2);
+  constructor(walletInfo: Wallet, ChainWC: IChainWCV2) {
+    super(walletInfo, ChainWC);
 
     this.emitter = new EventEmitter();
   }
