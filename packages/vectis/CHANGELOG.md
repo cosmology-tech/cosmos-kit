@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis@0.14.11...@cosmos-kit/vectis@0.14.12) (2022-12-15)
+
+**Note:** Version bump only for package @cosmos-kit/vectis
+
+
+
+
+
+## [0.14.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis@0.14.10...@cosmos-kit/vectis@0.14.11) (2022-12-14)
+
+**Note:** Version bump only for package @cosmos-kit/vectis
+
+
+
+
+
 ## [0.14.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis@0.14.9...@cosmos-kit/vectis@0.14.10) (2022-12-11)
 
 **Note:** Version bump only for package @cosmos-kit/vectis
