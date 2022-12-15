@@ -22,16 +22,12 @@ import {
   SigningStargateClient,
   StargateClient,
 } from '@cosmjs/stargate';
-import { CoreTypes } from '@walletconnect/types';
-import { IConnector } from '@walletconnect/types-v1';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { ChainWalletConnect } from '../wallet-connect-v1';
-import { ChainWCV2, WCClientV2 } from '../wallet-connect-v2';
 import { ChainRecord } from './chain';
-import { AppEnv, CosmosClientType, Data, OS } from './common';
+import { AppEnv, CosmosClientType, Data } from './common';
 
 export type WalletName = string;
 
@@ -51,6 +47,13 @@ export interface DownloadInfo extends AppEnv {
 
 export type WalletMode = 'extension' | 'wallet-connect';
 
+export interface Metadata {
+  name: string;
+  description: string;
+  url: string;
+  icons: string[];
+}
+
 export interface Wallet {
   name: WalletName;
   prettyName: string;
@@ -68,7 +71,7 @@ export interface Wallet {
   downloads?: DownloadInfo[];
   logo?: string;
   wcProjectId?: string; // walletconnect project id. can be found here https://explorer.walletconnect.com/
-  wcMetaData?: CoreTypes.Metadata;
+  wcMetaData?: Metadata;
 }
 
 export interface WalletAccount {
@@ -159,12 +162,6 @@ export interface WalletClient {
   ) => Promise<Uint8Array>;
 }
 
-export interface WalletConnectClient extends WalletClient {
-  readonly connector: IConnector;
-  getAppUrl: (os?: OS) => string | undefined;
-  readonly qrUrl: string;
-}
-
 export interface ChainWalletData extends Data {
   username?: string;
   address?: string;
@@ -180,22 +177,6 @@ export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
-}
-
-export interface IChainWalletConnect {
-  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletConnect;
-}
-
-export interface IChainWCV2 {
-  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWCV2;
-}
-
-export interface IWalletConnectClient {
-  new (): WalletConnectClient;
-}
-
-export interface IWalletConnectClientV2 {
-  new (projectId: string, metaData?: CoreTypes.Metadata): WCClientV2;
 }
 
 export interface ChainContext {

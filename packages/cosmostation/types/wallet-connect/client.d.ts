@@ -1,11 +1,12 @@
 import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { OS, WalletConnectClient } from '@cosmos-kit/core';
+import { OS } from '@cosmos-kit/core';
+import { IWCClientV1 } from '@cosmos-kit/walletconnect-v1';
 import { IConnector } from '@walletconnect/types-v1';
-export declare class CosmostationClient implements WalletConnectClient {
+export declare class CosmostationClient implements IWCClientV1 {
     readonly connector: IConnector;
     constructor();
-    get qrUrl(): any;
+    get qrUrl(): string;
     getAppUrl(os?: OS): string;
     getAccount(chainId: string): Promise<{
         name: string;

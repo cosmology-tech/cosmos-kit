@@ -97,6 +97,7 @@
     "@chain-registry/types": "0.13.1",
     "@chakra-ui/react": "2.2.9",
     "@cosmos-kit/core": "^0.27.11",
+    "@cosmos-kit/walletconnect-v1": "^0.1.0",
     "@cosmostation/cosmos-client": "0.0.4",
     "@emotion/react": "11",
     "@emotion/styled": "11",

@@ -5,7 +5,8 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { OS, SignOptions, WalletConnectClient } from '@cosmos-kit/core';
+import { OS, SignOptions } from '@cosmos-kit/core';
+import { IWCClientV1 } from '@cosmos-kit/walletconnect-v1';
 import { KeplrIntereactionOptions } from '@keplr-wallet/types';
 import WalletConnect from '@walletconnect/client';
 import { IConnector } from '@walletconnect/types-v1';
@@ -14,7 +15,7 @@ import deepmerge from 'deepmerge';
 
 import { KeplrAccount } from './types';
 
-export class KeplrClient implements WalletConnectClient {
+export class KeplrClient implements IWCClientV1 {
   defaultOptions: KeplrIntereactionOptions = {};
   readonly connector: IConnector;
 
