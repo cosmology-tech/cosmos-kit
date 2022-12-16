@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/walletconnect-v1",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "cosmos-kit wallet connector using walletconnect v1",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -84,11 +84,13 @@
     "@babel/plugin-transform-typescript": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
+    "@chain-registry/types": "0.13.0",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.0",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
+    "@walletconnect/types": "1.8.0",
     "babel-jest": "29.0.3",
     "cross-env": "7.0.2",
     "eslint": "8.23.1",
@@ -102,14 +104,12 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3",
-    "@walletconnect/types": "1.8.0",
-    "@chain-registry/types": "0.13.0"
+    "typescript": "4.8.3"
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "events": "3.3.0",
-    "@cosmos-kit/core": "^0.27.9"
+    "@cosmos-kit/core": "^0.27.12",
+    "events": "3.3.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
