@@ -235,17 +235,15 @@ export class WalletManager extends StateBase<WalletData> {
   getSigningStargateClient = async (): Promise<
     SigningStargateClient | undefined
   > => {
-    return await (
-      this.currentWallet as ChainWalletBase
-    )?.getSigningStargateClient?.();
+    return await (this
+      .currentWallet as ChainWalletBase)?.getSigningStargateClient?.();
   };
 
   getSigningCosmWasmClient = async (): Promise<
     SigningCosmWasmClient | undefined
   > => {
-    return await (
-      this.currentWallet as ChainWalletBase
-    )?.getSigningCosmWasmClient?.();
+    return await (this
+      .currentWallet as ChainWalletBase)?.getSigningCosmWasmClient?.();
   };
 
   sign = async (
@@ -412,6 +410,9 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
     if (this.viewOptions?.alwaysOpenView) {
+      this.openView();
+    }
+    if (current.isWalletNotExist || current.isWalletError) {
       this.openView();
     }
     try {
