@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/walletconnect-v1",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "cosmos-kit wallet connector using walletconnect v1",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -108,7 +108,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^0.27.12",
+    "@cosmos-kit/core": "^0.27.13",
     "events": "3.3.0"
   },
   "peerDependencies": {
