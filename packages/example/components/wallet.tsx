@@ -89,9 +89,9 @@ export const WalletSection = () => {
         <Connected buttonText={"My Wallet"} onClick={onClickOpenView} />
       }
       rejected={<Rejected buttonText="Reconnect" onClick={onClickConnect} />}
-      error={<Error buttonText="Change Wallet" onClick={onClickOpenView} />}
+      error={<Error buttonText="Change Wallet" onClick={onClickConnect} />}
       notExist={
-        <NotExist buttonText="Install Wallet" onClick={onClickOpenView} />
+        <NotExist buttonText="Install Wallet" onClick={onClickConnect} />
       }
     />
   );

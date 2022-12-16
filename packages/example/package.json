@@ -1,5 +1,5 @@
 {
-  "name": "@cosmos-kit/example",
+  "name": "example",
   "version": "0.34.13",
   "private": true,
   "scripts": {
