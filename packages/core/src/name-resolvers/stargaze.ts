@@ -1,6 +1,9 @@
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { fromBech32, toBech32 } from '@cosmjs/encoding';
 
+const NAMES_CONTRACT =
+  'stars1fx74nkqkw2748av8j7ew7r3xt9cgjqduwn8m0ur5lhe49uhlsasszc5fhr';
+
 let client = null;
 const getClient = () => {
   if (client) return client;
@@ -8,17 +11,19 @@ const getClient = () => {
 };
 
 export async function resolveName(address: string) {
-  if (!address.startsWith('stars')) {
-    const { data } = fromBech32(address);
-    address = toBech32('stars', data);
-  }
+  try {
+    if (!address.startsWith('stars')) {
+      const { data } = fromBech32(address);
+      address = toBech32('stars', data);
+    }
 
-  const client = await getClient();
-  return client
-    .queryContractSmart(
-      'stars1fx74nkqkw2748av8j7ew7r3xt9cgjqduwn8m0ur5lhe49uhlsasszc5fhr',
-      { name: { address } }
-    )
-    .catch(() => undefined)
-    .then((name) => `${name}.stars`);
+    const client = await getClient();
+    const name = await client.queryContractSmart(NAMES_CONTRACT, {
+      name: { address },
+    });
+    return `${name}.stars`;
+  } catch {
+    // query throws on missing
+    return undefined;
+  }
 }
