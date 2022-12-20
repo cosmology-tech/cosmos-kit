@@ -16,6 +16,7 @@ import {
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
+import { resolveName } from '../name-resolvers';
 import {
   Callbacks,
   ChainRecord,
@@ -144,9 +145,11 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         account = await this.client.getAccount(this.chainId);
       }
 
+      const resolvedName = await resolveName(account.address);
+
       this.setData({
         address: account.address,
-        username: account.name,
+        username: resolvedName ?? account.name,
         offlineSigner: this.chainId
           ? await this.client.getOfflineSigner(this.chainId)
           : void 0,
