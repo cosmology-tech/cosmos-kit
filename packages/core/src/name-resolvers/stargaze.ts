@@ -17,7 +17,7 @@ export async function resolveName(address: string) {
   return client
     .queryContractSmart(
       'stars1fx74nkqkw2748av8j7ew7r3xt9cgjqduwn8m0ur5lhe49uhlsasszc5fhr',
-      { name: { address: 'stars1me6xrxj80cp4smrmy2mwaan67spnsen9yn3kry' } }
+      { name: { address } }
     )
     .catch(() => undefined)
     .then((name) => `${name}.stars`);
