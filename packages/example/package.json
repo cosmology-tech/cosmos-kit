@@ -22,6 +22,7 @@
     "@cosmos-kit/leap": "^0.13.14",
     "@cosmos-kit/react": "^0.27.8",
     "@cosmos-kit/vectis": "^0.14.14",
+    "@cosmos-kit/name-resolvers": "^0.0.1",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "bignumber.js": "9.1.0",

@@ -1,10 +1,18 @@
-import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
+import {
+  Actions,
+  AppEnv,
+  Mutable,
+  NameResolver,
+  State,
+  StateActions,
+} from '../types';
 import { getWalletStatusFromState } from '../utils';
 
 export class StateBase<T> {
   protected _mutable: Mutable<T>;
   actions?: StateActions<T>;
   protected _env?: AppEnv;
+  nameResolver?: NameResolver;
 
   constructor() {
     this._mutable = { state: State.Init };

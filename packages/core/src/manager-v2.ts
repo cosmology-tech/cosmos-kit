@@ -12,6 +12,7 @@ import {
   Data,
   DeviceType,
   EndpointOptions,
+  NameResolver,
   OS,
   SessionOptions,
   SignerOptions,
@@ -36,10 +37,12 @@ export class WalletManagerV2 extends StateBase<Data> {
     wallets: MainWalletBase[],
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
-    sessionOptions?: SessionOptions
+    sessionOptions?: SessionOptions,
+    nameResolver?: NameResolver
   ) {
     super();
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+    this.nameResolver = nameResolver;
 
     console.info(
       `${chains.length} chains and ${wallets.length} wallets are provided!`

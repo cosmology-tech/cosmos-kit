@@ -1,8 +1,9 @@
-import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
+import { Actions, AppEnv, Mutable, NameResolver, State, StateActions } from '../types';
 export declare class StateBase<T> {
     protected _mutable: Mutable<T>;
     actions?: StateActions<T>;
     protected _env?: AppEnv;
+    nameResolver?: NameResolver;
     constructor();
     get env(): AppEnv;
     setEnv(env?: AppEnv): void;
