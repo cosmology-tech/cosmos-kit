@@ -6,6 +6,7 @@ import {
   WalletStatus,
 } from '@cosmos-kit/core';
 import React from 'react';
+import useSWR from 'swr';
 
 import { walletContext } from './provider';
 import { walletContextV2 } from './provider-v2';
@@ -171,5 +172,42 @@ export const useChain = (chainName: ChainName): ChainContext => {
         [chainId, ...params],
         'sendTx'
       ),
+  };
+};
+
+export const useIcnsNames = (
+  // namespaced swr cache key
+  swrNamespace: string = 'cosmos-kit/icns/resolver/icns-names'
+): {
+  icnsNames: {
+    primaryName: string;
+    names: string[];
+  };
+  isLoading: boolean;
+  error: any | undefined;
+} => {
+  const ICNS_RESOLVER_CONTRACT =
+    'osmo1xk0s8xgktn9x5vwcgtjdxqzadg88fgn33p8u9cnpdxwemvxscvast52cdd';
+
+  const { address } = useWallet();
+  const osmosis = useChain('osmosis');
+
+  const { data, error, isLoading } = useSWR(
+    `${swrNamespace}/${address}`,
+    async () => {
+      const client = await osmosis.getCosmWasmClient();
+      return await client.queryContractSmart(ICNS_RESOLVER_CONTRACT, {
+        icns_names: { address },
+      });
+    }
+  );
+
+  return {
+    icnsNames: data && {
+      primaryName: data.primary_name,
+      names: data.names,
+    },
+    error,
+    isLoading,
   };
 };
