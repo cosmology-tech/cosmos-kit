@@ -7,8 +7,8 @@ import {
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useWallet } from "@cosmos-kit/react";
-import { MouseEventHandler, useMemo } from "react";
+import { useChain, useWallet } from "@cosmos-kit/react";
+import { MouseEventHandler, useEffect, useMemo, useState } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 
 import {
@@ -29,6 +29,33 @@ import {
   RejectedWarn,
   WalletConnectComponent,
 } from "../components";
+
+export const useIcns = (): string | undefined => {
+  const ICNS_RESOLVER_CONTRACT =
+    "osmo1xk0s8xgktn9x5vwcgtjdxqzadg88fgn33p8u9cnpdxwemvxscvast52cdd";
+
+  const { address } = useWallet();
+  const [icnsName, setIcnsName] = useState<string>();
+  const osmosis = useChain("osmosis");
+
+  useEffect(() => {
+    if (address) {
+      (async () => {
+        const client = await osmosis.getCosmWasmClient();
+        const { primary_name } = await client.queryContractSmart(
+          ICNS_RESOLVER_CONTRACT,
+          {
+            icns_names: { address },
+          }
+        );
+
+        setIcnsName(primary_name);
+      })();
+    }
+  }, [address]);
+
+  return icnsName;
+};
 
 export const WalletSection = () => {
   const walletManager = useWallet();
@@ -58,6 +85,8 @@ export const WalletSection = () => {
       }),
     [chainRecords, getChainLogo]
   );
+
+  const name = useIcns();
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -121,8 +150,8 @@ export const WalletSection = () => {
     />
   );
 
-  const userInfo = username && (
-    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+  const userInfo = name && (
+    <ConnectedUserInfo username={name} icon={<Astronaut />} />
   );
   const addressBtn = currentChainName && (
     <CopyAddressBtn
