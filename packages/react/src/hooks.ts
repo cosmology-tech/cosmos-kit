@@ -5,6 +5,7 @@ import {
   WalletManager,
   WalletStatus,
 } from '@cosmos-kit/core';
+import { IcnsNamesResponse, resolveIcnsName } from '@cosmos-kit/icns';
 import React from 'react';
 import useSWR from 'swr';
 
@@ -175,38 +176,31 @@ export const useChain = (chainName: ChainName): ChainContext => {
   };
 };
 
+/**
+ * @param swrNamespace - namespace for swr cache key
+ * @returns icnsNames - ICNS names
+ * @returns isLoading - whether or not the data is still loading
+ * @returns error - any error that may have occurred
+ */
 export const useIcnsNames = (
-  // namespaced swr cache key
-  swrNamespace: string = 'cosmos-kit/icns/resolver/icns-names'
+  swrNamespace = 'cosmos-kit/icns/resolver/icns-names'
 ): {
-  icnsNames: {
-    primaryName: string;
-    names: string[];
-  };
+  icnsNames: IcnsNamesResponse;
   isLoading: boolean;
   error: any | undefined;
 } => {
-  const ICNS_RESOLVER_CONTRACT =
-    'osmo1xk0s8xgktn9x5vwcgtjdxqzadg88fgn33p8u9cnpdxwemvxscvast52cdd';
-
   const { address } = useWallet();
   const osmosis = useChain('osmosis');
-
   const { data, error, isLoading } = useSWR(
     `${swrNamespace}/${address}`,
     async () => {
       const client = await osmosis.getCosmWasmClient();
-      return await client.queryContractSmart(ICNS_RESOLVER_CONTRACT, {
-        icns_names: { address },
-      });
+      return resolveIcnsName(client, address);
     }
   );
 
   return {
-    icnsNames: data && {
-      primaryName: data.primary_name,
-      names: data.names,
-    },
+    icnsNames: data,
     error,
     isLoading,
   };

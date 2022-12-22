@@ -127,7 +127,10 @@ export const WalletSection = () => {
   const userInfo = isLoading ? (
     <Spinner></Spinner>
   ) : (
-    <ConnectedUserInfo username={icnsNames?.primaryName} icon={<Astronaut />} />
+    <ConnectedUserInfo
+      username={icnsNames?.primaryName || username}
+      icon={<Astronaut />}
+    />
   );
 
   const addressBtn = currentChainName && (
