@@ -5,9 +5,7 @@ import {
   WalletManager,
   WalletStatus,
 } from '@cosmos-kit/core';
-import { IcnsNamesResponse, resolveIcnsName } from '@cosmos-kit/icns';
 import React from 'react';
-import useSWR from 'swr';
 
 import { walletContext } from './provider';
 import { walletContextV2 } from './provider-v2';
@@ -173,35 +171,5 @@ export const useChain = (chainName: ChainName): ChainContext => {
         [chainId, ...params],
         'sendTx'
       ),
-  };
-};
-
-/**
- * @param swrNamespace - namespace for swr cache key
- * @returns icnsNames - ICNS names
- * @returns isLoading - whether or not the data is still loading
- * @returns error - any error that may have occurred
- */
-export const useIcnsNames = (
-  swrNamespace = 'cosmos-kit/icns/resolver/icns-names'
-): {
-  icnsNames: IcnsNamesResponse;
-  isLoading: boolean;
-  error: any | undefined;
-} => {
-  const { address } = useWallet();
-  const osmosis = useChain('osmosis');
-  const { data, error, isLoading } = useSWR(
-    `${swrNamespace}/${address}`,
-    async () => {
-      const client = await osmosis.getCosmWasmClient();
-      return resolveIcnsName(client, address);
-    }
-  );
-
-  return {
-    icnsNames: data,
-    error,
-    isLoading,
   };
 };

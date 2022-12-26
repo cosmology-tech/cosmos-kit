@@ -111,15 +111,13 @@
     "@babel/runtime": "7.11.2",
     "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^0.27.13",
-    "@cosmos-kit/icns": "^0.0.1",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "bowser": "2.11.0",
     "framer-motion": "7.6.19",
     "qrcode.react": "3.1.0",
     "react": "18.2.0",
-    "react-icons": "4.4.0",
-    "swr": "^2.0.0"
+    "react-icons": "4.4.0"
   },
   "resolutions": {
     "@types/react": "18.0.20"

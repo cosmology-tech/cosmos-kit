@@ -17,3 +17,14 @@ export declare type IcnsNamesResponse = {
  * @returns The icns names associated with the address. Including primary name.
  */
 export declare const resolveIcnsName: (cosmwasmClient: CosmWasmClient, address: string) => Promise<IcnsNamesResponse>;
+/**
+ * @param swrNamespace - namespace for swr cache key
+ * @returns icnsNames - ICNS names
+ * @returns isLoading - whether or not the data is still loading
+ * @returns error - any error that may have occurred
+ */
+export declare const useIcnsNames: (swrNamespace?: string) => {
+    icnsNames: IcnsNamesResponse;
+    isLoading: boolean;
+    error: unknown | undefined;
+};

@@ -8,7 +8,8 @@ import {
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useIcnsNames, useWallet } from "@cosmos-kit/react";
+import { useIcnsNames } from "@cosmos-kit/icns";
+import { useWallet } from "@cosmos-kit/react";
 import { MouseEventHandler, useMemo } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 

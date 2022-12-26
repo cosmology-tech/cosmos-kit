@@ -1,4 +1,6 @@
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import { useChain, useWallet } from '@cosmos-kit/react';
+import useSWR from 'swr';
 
 export const ICNS_RESOLVER_CONTRACT_ADDRESS =
   'osmo1xk0s8xgktn9x5vwcgtjdxqzadg88fgn33p8u9cnpdxwemvxscvast52cdd';
@@ -39,5 +41,35 @@ export const resolveIcnsName = async (
   return {
     primaryName: primary_name,
     names,
+  };
+};
+
+/**
+ * @param swrNamespace - namespace for swr cache key
+ * @returns icnsNames - ICNS names
+ * @returns isLoading - whether or not the data is still loading
+ * @returns error - any error that may have occurred
+ */
+export const useIcnsNames = (
+  swrNamespace = 'cosmos-kit/icns/resolver/icns-names'
+): {
+  icnsNames: IcnsNamesResponse;
+  isLoading: boolean;
+  error: unknown | undefined;
+} => {
+  const { address } = useWallet();
+  const osmosis = useChain('osmosis');
+  const { data, error, isLoading } = useSWR(
+    `${swrNamespace}/${address}`,
+    async () => {
+      const client = await osmosis.getCosmWasmClient();
+      return resolveIcnsName(client, address);
+    }
+  );
+
+  return {
+    icnsNames: data,
+    error,
+    isLoading,
   };
 };
