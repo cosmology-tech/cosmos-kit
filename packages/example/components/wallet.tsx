@@ -4,9 +4,11 @@ import {
   Grid,
   GridItem,
   Icon,
+  Spinner,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useIcnsNames } from "@cosmos-kit/icns";
 import { useWallet } from "@cosmos-kit/react";
 import { MouseEventHandler, useMemo } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
@@ -58,6 +60,8 @@ export const WalletSection = () => {
       }),
     [chainRecords, getChainLogo]
   );
+
+  const { icnsNames, isLoading } = useIcnsNames();
 
   // Events
   const onClickConnect: MouseEventHandler = async (e) => {
@@ -121,9 +125,15 @@ export const WalletSection = () => {
     />
   );
 
-  const userInfo = username && (
-    <ConnectedUserInfo username={username} icon={<Astronaut />} />
+  const userInfo = isLoading ? (
+    <Spinner></Spinner>
+  ) : (
+    <ConnectedUserInfo
+      username={icnsNames?.primaryName || username}
+      icon={<Astronaut />}
+    />
   );
+
   const addressBtn = currentChainName && (
     <CopyAddressBtn
       walletStatus={walletStatus}

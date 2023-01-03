@@ -18,6 +18,7 @@
     "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^0.27.13",
     "@cosmos-kit/cosmostation": "^0.14.14",
+    "@cosmos-kit/icns": "^0.0.1",
     "@cosmos-kit/keplr": "^0.32.14",
     "@cosmos-kit/leap": "^0.13.14",
     "@cosmos-kit/react": "^0.27.8",
