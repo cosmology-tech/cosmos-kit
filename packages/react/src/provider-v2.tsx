@@ -11,6 +11,7 @@ import {
   WalletManagerV2,
   WalletModalPropsV2,
   WalletRepo,
+  NameResolver,
 } from '@cosmos-kit/core';
 import React, {
   createContext,
@@ -37,6 +38,7 @@ export const ChainProvider = ({
   // viewOptions,
   endpointOptions,
   sessionOptions,
+  nameResolver,
   children,
 }: {
   chains: Chain[];
@@ -48,6 +50,7 @@ export const ChainProvider = ({
   // viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
+  nameResolver?: NameResolver;
   children: ReactNode;
 }) => {
   const walletManager = useMemo(
@@ -58,7 +61,8 @@ export const ChainProvider = ({
         wallets,
         signerOptions,
         endpointOptions,
-        sessionOptions
+        sessionOptions,
+        nameResolver
       ),
     []
   );

@@ -144,9 +144,11 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         account = await this.client.getAccount(this.chainId);
       }
 
+      const resolvedName = await this.nameResolver?.(account.address);
+
       this.setData({
         address: account.address,
-        username: account.name,
+        username: resolvedName ?? account.name,
         offlineSigner: this.chainId
           ? await this.client.getOfflineSigner(this.chainId)
           : void 0,

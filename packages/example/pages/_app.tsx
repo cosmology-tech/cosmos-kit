@@ -9,6 +9,7 @@ import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
+import { defaultNameResolver } from "@cosmos-kit/name-resolvers";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
@@ -42,6 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             rpc: ["http://test.com"],
           },
         }}
+        nameResolver={defaultNameResolver}
       >
         <ChainProvider
           chains={chains}
@@ -64,6 +66,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               }
             },
           }}
+          nameResolver={defaultNameResolver}
         >
           <Component {...pageProps} />
         </ChainProvider>

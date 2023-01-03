@@ -146,3 +146,4 @@ export interface ChainContext {
     signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
     sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
+export declare type NameResolver = (address: string) => Promise<string | undefined>;

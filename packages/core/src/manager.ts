@@ -22,6 +22,7 @@ import {
   DeviceType,
   EndpointOptions,
   ManagerActions,
+  NameResolver,
   OS,
   SessionOptions,
   SignerOptions,
@@ -66,7 +67,8 @@ export class WalletManager extends StateBase<WalletData> {
     viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
     storageOptions?: StorageOptions,
-    sessionOptions?: SessionOptions
+    sessionOptions?: SessionOptions,
+    nameResolver?: NameResolver
   ) {
     super();
     this.setWallets(wallets);
@@ -75,6 +77,7 @@ export class WalletManager extends StateBase<WalletData> {
     this.viewOptions = { ...this.viewOptions, ...viewOptions };
     this.storageOptions = { ...this.storageOptions, ...storageOptions };
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+    this.nameResolver = nameResolver;
   }
 
   setChains = (

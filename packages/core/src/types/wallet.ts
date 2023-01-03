@@ -242,3 +242,5 @@ export interface ChainContext {
   ) => Promise<DirectSignResponse>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
+
+export type NameResolver = (address: string) => Promise<string | undefined>;
