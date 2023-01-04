@@ -2,7 +2,6 @@
   "name": "@cosmos-kit/omni-extension",
   "version": "0.32.14",
   "description": "cosmos-kit wallet connector",
-  "private": true,
   "author": "developers@cosmology.tech",
   "contributors": [
     {

@@ -1,6 +1,10 @@
+import {
+  keplrExtensionInfo,
+  KeplrExtensionWallet,
+} from '@cosmos-kit/keplr-extension';
+import { keplrMobileInfo, KeplrMobileWallet } from '@cosmos-kit/keplr-mobile';
+
 import { preferredEndpoints } from './config';
-import { keplrExtensionInfo, KeplrExtensionWallet } from '../../keplr-extension';
-import { keplrMobileInfo, KeplrMobileWallet } from '../../keplr-mobile';
 
 const keplrExtension = new KeplrExtensionWallet(
   keplrExtensionInfo,
