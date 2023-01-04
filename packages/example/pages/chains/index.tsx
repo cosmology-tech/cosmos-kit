@@ -23,8 +23,8 @@ import { IoWalletOutline } from "react-icons/io5";
 
 import { ConnectedShowAddress } from "../../components";
 
-const chainNames_1 = ["cosmoshub", "osmosis"];
-const chainNames_2 = ["stargaze", "chihuahua"];
+const chainNames_1 = ["cosmoshub"];
+const chainNames_2 = ["cosmoshub"];
 
 export default () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -35,15 +35,8 @@ export default () => {
   const disconnectList: (() => void)[] = [];
 
   const addressInModal = chainNames_1.map((chainName) => {
-    const {
-      chain,
-      openView,
-      username,
-      wallet,
-      status,
-      connect,
-      disconnect,
-    } = useChain(chainName);
+    const { chain, openView, username, wallet, status, connect, disconnect } =
+      useChain(chainName);
     usernames.push(username);
     walletNames.push(wallet?.prettyName);
     statusList.push(status);
@@ -70,15 +63,8 @@ export default () => {
   });
 
   const addressOnPage = chainNames_2.map((chainName) => {
-    const {
-      chain,
-      username,
-      address,
-      connect,
-      status,
-      disconnect,
-      wallet,
-    } = useChain(chainName);
+    const { chain, username, address, connect, status, disconnect, wallet } =
+      useChain(chainName);
     usernames.push(username);
     walletNames.push(wallet?.prettyName);
     statusList.push(status);

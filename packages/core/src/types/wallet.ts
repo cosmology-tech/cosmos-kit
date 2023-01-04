@@ -70,8 +70,6 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
-  wcProjectId?: string; // walletconnect project id. can be found here https://explorer.walletconnect.com/
-  wcMetaData?: Metadata;
 }
 
 export interface WalletAccount {

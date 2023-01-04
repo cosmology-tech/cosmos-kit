@@ -6,10 +6,10 @@ import {
 } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
 import { OS, SignOptions } from '@cosmos-kit/core';
-import { IWCClientV1 } from '@cosmos-kit/walletconnect-v1';
+import { IWCClientV1 } from '@cosmos-kit/wcv1';
 import { KeplrIntereactionOptions } from '@keplr-wallet/types';
 import WalletConnect from '@walletconnect/client';
-import { IConnector } from '@walletconnect/types-v1';
+import { IConnector } from '@walletconnect/types';
 import { payloadId, saveMobileLinkInfo } from '@walletconnect/utils';
 import deepmerge from 'deepmerge';
 

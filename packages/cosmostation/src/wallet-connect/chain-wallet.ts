@@ -1,5 +1,5 @@
 import { ChainRecord, Wallet } from '@cosmos-kit/core';
-import { ChainWCV1 } from '@cosmos-kit/walletconnect-v1';
+import { ChainWCV1 } from '@cosmos-kit/wcv1';
 
 export class ChainCosmostationMobile extends ChainWCV1 {
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {

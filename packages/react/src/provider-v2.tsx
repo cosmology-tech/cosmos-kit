@@ -22,6 +22,7 @@ import React, {
 
 import { DefaultModalV2 } from '.';
 import { getModalV2 } from './modal';
+import { SignClientTypes } from '@walletconnect/types';
 
 export const walletContextV2 = createContext<{
   walletManager: WalletManagerV2;
@@ -33,6 +34,7 @@ export const ChainProvider = ({
   wallets,
   walletModal,
   modalTheme,
+  wcSignClientOptions,
   signerOptions,
   // viewOptions,
   endpointOptions,
@@ -44,6 +46,7 @@ export const ChainProvider = ({
   wallets: MainWalletBase[];
   walletModal?: ModalVersion | ((props: WalletModalPropsV2) => JSX.Element);
   modalTheme?: Record<string, any>;
+  wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
   // viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
@@ -56,6 +59,7 @@ export const ChainProvider = ({
         chains,
         assetLists,
         wallets,
+        wcSignClientOptions,
         signerOptions,
         endpointOptions,
         sessionOptions

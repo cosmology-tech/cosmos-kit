@@ -1,5 +1,5 @@
 import { Wallet } from '@cosmos-kit/core';
-import { WCWalletV1 } from '@cosmos-kit/walletconnect-v1';
+import { WCWalletV1 } from '@cosmos-kit/wcv1';
 
 import { ChainCosmostationMobile } from './chain-wallet';
 import { CosmostationClient } from './client';

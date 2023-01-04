@@ -5,8 +5,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as keplrWallet } from "@cosmos-kit/keplr";
+import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as wcv2Wallets } from "@cosmos-kit/wcv2";
 import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
@@ -19,7 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...keplrWallet,
+          ...wcv2Wallets,
+          ...keplrWallets,
           ...cosmostationWallets,
           ...leapWallets,
           ...vectisWallets,
@@ -47,11 +49,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           chains={chains}
           assetLists={assets}
           wallets={[
-            ...keplrWallet,
+            ...wcv2Wallets,
+            ...keplrWallets,
             ...cosmostationWallets,
             ...leapWallets,
             ...vectisWallets,
           ]}
+          wcSignClientOptions={{
+            projectId: "a8510432ebb71e6948cfd6cde54b70f7",
+            relayUrl: "wss://relay.walletconnect.org",
+          }}
           signerOptions={{
             signingStargate: (chain: Chain) => {
               switch (chain.chain_name) {

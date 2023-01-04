@@ -24,6 +24,8 @@
     "@cosmos-kit/vectis": "^0.14.14",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "@web3modal/core": "^2.0.0-rc.1",
+    "@web3modal/ui": "^2.0.0-rc.1",
     "bignumber.js": "9.1.0",
     "chain-registry": "1.4.0",
     "chakra-react-select": "4.1.4",
@@ -40,6 +42,7 @@
     "@types/react": "18.0.20"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.20.7",
     "@babel/plugin-syntax-bigint": "7.8.3",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-react": "7.18.6",

@@ -17,6 +17,7 @@ import {
   SignerOptions,
 } from './types';
 import { convertChain } from './utils';
+import { SignClientTypes } from '@walletconnect/types';
 
 export class WalletManagerV2 extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
@@ -34,6 +35,7 @@ export class WalletManagerV2 extends StateBase<Data> {
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
+    wcSignClientOptions?: SignClientTypes.Options,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
     sessionOptions?: SessionOptions
@@ -54,6 +56,9 @@ export class WalletManagerV2 extends StateBase<Data> {
       )
     );
     wallets.forEach((wallet) => {
+      if ((wallet as any).setWCSignClientOptions) {
+        (wallet as any).setWCSignClientOptions(wcSignClientOptions);
+      }
       wallet.setChains(this.chainRecords);
     });
 
