@@ -107,11 +107,10 @@
     "@chain-registry/keplr": "1.8.0",
     "@chakra-ui/react": "2.2.9",
     "@cosmos-kit/core": "^0.27.13",
-    "@cosmos-kit/walletconnect-v1": "^0.1.2",
+    "@cosmos-kit/keplr-extension": "0.32.14",
+    "@cosmos-kit/keplr-mobile": "0.32.14",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@walletconnect/client": "1.8.0",
-    "@walletconnect/utils": "1.8.0",
     "deepmerge": "4.2.2",
     "react-icons": "4.4.0",
     "@walletconnect/types": "1.8.0",
@@ -122,6 +121,5 @@
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
-  },
-  "gitHead": "dbefecda8345f591bbbdfeeb4204506bc58ded71"
+  }
 }

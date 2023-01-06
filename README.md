@@ -31,23 +31,21 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 
 ## 📦 Packages
 
-#### [@cosmos-kit/react](packages/react)
+| Name | Type | Description |
+|----|----|----|
+| [@cosmos-kit/react](packages/react) | UI | A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem. |
+| [@cosmos-kit/cosmostation](packages/cosmostation) | Root Wallet | Cosmostation Wallet integration. Use this if you want to integrate both extension & mobile wallet connect |
+| [@cosmos-kit/cosmostation-extension/](packages/cosmostation-extension/) | Extension | Cosmostation Web Extension Wallet integration. |
+| [@cosmos-kit/cosmostation-mobile/](packages/cosmostation-mobile/) | WalletConnect | Cosmostation Mobile Wallet integration. |
+| [@cosmos-kit/keplr](packages/keplr) | Root Wallet | Keplr Wallet integration. Use this if you want to integrate both extension & mobile wallet connect |
+| [@cosmos-kit/keplr-extension/](packages/keplr-extension/) | Extension | Keplr Web Extension Wallet integration. |
+| [@cosmos-kit/keplr-mobile/](packages/keplr-mobile/) | WalletConnect | Keplr Mobile Wallet integration. |
+| [@cosmos-kit/leap](packages/leap) | Root Wallet | Leap Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/omni](packages/omni) | Root Wallet | Omni Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/trust](packages/trust) | Root Wallet | Trust Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/vectis](packages/vectis) | Root Wallet | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 
-A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem.
-
-#### [@cosmos-kit/keplr](packages/keplr)
-
-Keplr Wallet integration.
-
-#### [@cosmos-kit/cosmostation](packages/cosmostation)
-
-Cosmostation Wallet integration.
-
-#### [@cosmos-kit/leap](packages/leap)
-
-Leap Wallet integration.
-
-#### [@cosmos-kit/example](packages/example)
+### 📐 BYO Integration: [@cosmos-kit/example](packages/example)
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
