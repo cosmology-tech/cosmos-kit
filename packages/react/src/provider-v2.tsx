@@ -12,6 +12,7 @@ import {
   WalletModalPropsV2,
   WalletRepo,
 } from '@cosmos-kit/core';
+import { SignClientTypes } from '@walletconnect/types';
 import React, {
   createContext,
   ReactNode,
@@ -22,7 +23,6 @@ import React, {
 
 import { DefaultModalV2 } from '.';
 import { getModalV2 } from './modal';
-import { SignClientTypes } from '@walletconnect/types';
 
 export const walletContextV2 = createContext<{
   walletManager: WalletManagerV2;

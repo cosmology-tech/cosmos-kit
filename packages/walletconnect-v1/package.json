@@ -90,7 +90,6 @@
     "@types/jest": "29.0.0",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
-    "@walletconnect/types": "1.8.0",
     "babel-jest": "29.0.3",
     "cross-env": "7.0.2",
     "eslint": "8.23.1",
@@ -109,7 +108,8 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@cosmos-kit/core": "^0.27.13",
-    "events": "3.3.0"
+    "events": "3.3.0",
+    "@walletconnect/types": "1.8.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
