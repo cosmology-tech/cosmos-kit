@@ -1,11 +1,11 @@
 import {
   cosmostationExtensionInfo,
   CosmostationExtensionWallet,
-} from '../../cosmostation-extension';
+} from '@cosmos-kit/cosmostation-extension';
 import {
   cosmostationMobileInfo,
   CosmostationMobileWallet,
-} from '../../cosmostation-mobile';
+} from '@cosmos-kit/cosmostation-mobile';
 
 const cosmostationExtension = new CosmostationExtensionWallet(
   cosmostationExtensionInfo

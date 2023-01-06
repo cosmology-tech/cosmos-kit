@@ -1,4 +1,7 @@
-import { trustExtensionInfo, TrustExtensionWallet } from '../../trust-extension';
+import {
+  trustExtensionInfo,
+  TrustExtensionWallet,
+} from '@cosmos-kit/trust-extension';
 
 const trustExtension = new TrustExtensionWallet(trustExtensionInfo);
 

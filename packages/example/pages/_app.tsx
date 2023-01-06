@@ -12,7 +12,7 @@ import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
-import { wallets as wcv2Wallets } from "../../walletconnect-v2";
+import { wallets as wcv2Wallets } from "@cosmos-kit/walletconnect-v2";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

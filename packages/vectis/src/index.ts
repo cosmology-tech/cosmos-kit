@@ -1,4 +1,7 @@
-import { vectisExtensionInfo, VectisExtensionWallet } from '../../vectis-extension';
+import {
+  vectisExtensionInfo,
+  VectisExtensionWallet,
+} from '@cosmos-kit/vectis-extension';
 
 const vectisExtension = new VectisExtensionWallet(vectisExtensionInfo);
 

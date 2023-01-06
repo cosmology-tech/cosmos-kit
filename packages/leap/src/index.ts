@@ -1,4 +1,7 @@
-import { leapExtensionInfo, LeapExtensionWallet } from '../../leap-extension';
+import {
+  leapExtensionInfo,
+  LeapExtensionWallet,
+} from '@cosmos-kit/leap-extension';
 
 const leapExtension = new LeapExtensionWallet(leapExtensionInfo);
 

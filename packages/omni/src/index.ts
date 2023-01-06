@@ -1,5 +1,5 @@
 import { preferredEndpoints } from './config';
-import { omniMobileInfo, OmniMobileWallet } from '../../omni-extension';
+import { omniMobileInfo, OmniMobileWallet } from '@cosmos-kit/omni-mobile';
 
 const omniMobile = new OmniMobileWallet(omniMobileInfo, preferredEndpoints);
 
