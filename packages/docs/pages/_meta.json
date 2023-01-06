@@ -4,6 +4,7 @@
   "integrating-wallets": "Integrating Wallets",
   "chain-provider": "Chain Provider",
   "use-chain": "Hook - useChain",
-  "wallet-provider": "Wallet Provider",
-  "use-wallet": "Hook - useWallet"
+  "use-manager": "Hook - useManager",
+  "wallet-provider": "Wallet Provider (Expiring soon)",
+  "use-wallet": "Hook - useWallet (Expiring soon)"
 }

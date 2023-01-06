@@ -46,6 +46,12 @@ export const WalletSection = () => {
     setCurrentChain,
   } = walletManager;
 
+  console.log(
+    "%cwallet.tsx line:49 walletStatus",
+    "color: #007acc;",
+    walletStatus
+  );
+
   const chainOptions = useMemo(
     () =>
       chainRecords.map((chainRecord) => {

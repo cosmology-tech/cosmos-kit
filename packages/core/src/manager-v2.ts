@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
+import { SignClientTypes } from '@walletconnect/types';
 import Bowser from 'bowser';
 
 import { MainWalletBase, StateBase } from './bases';
@@ -21,6 +22,7 @@ import { convertChain } from './utils';
 export class WalletManagerV2 extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepo[] = [];
+  private _wallets: MainWalletBase[];
   options = {
     synchroMutexWallet: true,
   };
@@ -34,13 +36,56 @@ export class WalletManagerV2 extends StateBase<Data> {
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
+    wcSignClientOptions?: SignClientTypes.Options,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
     sessionOptions?: SessionOptions
   ) {
     super();
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+    this.init(
+      chains,
+      assetLists,
+      wallets,
+      wcSignClientOptions,
+      signerOptions,
+      endpointOptions
+    );
+  }
 
+  private synchroMutexWallet() {
+    this._wallets.forEach(({ chainWallets }) => {
+      chainWallets?.forEach((w) => {
+        w.updateCallbacks({
+          afterDisconnect: async () => {
+            chainWallets.forEach(async (w2) => {
+              if (!w2.isWalletDisconnected && w2 !== w) {
+                await w2.disconnect();
+              }
+            });
+          },
+          afterConnect: async () => {
+            this.synchronizeMutexWalletConnection();
+          },
+        });
+      });
+    });
+  }
+
+  init(
+    chains: Chain[],
+    assetLists: AssetList[],
+    wallets: MainWalletBase[],
+    wcSignClientOptions?: SignClientTypes.Options,
+    signerOptions?: SignerOptions,
+    endpointOptions?: EndpointOptions
+  ) {
+    if (chains.length === 0) {
+      throw new Error('At least one chain should be provided');
+    }
+    if (wallets.length === 0) {
+      throw new Error('At least one wallet should be provided');
+    }
     console.info(
       `${chains.length} chains and ${wallets.length} wallets are provided!`
     );
@@ -53,30 +98,20 @@ export class WalletManagerV2 extends StateBase<Data> {
         endpointOptions?.[chain.chain_name]
       )
     );
-    wallets.forEach((wallet) => {
+
+    this._wallets = wallets.map((wallet) => {
+      if ((wallet as any).setWCSignClientOptions) {
+        (wallet as any).setWCSignClientOptions(wcSignClientOptions);
+      }
       wallet.setChains(this.chainRecords);
+      return wallet;
     });
 
     if (this.options.synchroMutexWallet) {
-      wallets.forEach(({ chainWallets }) => {
-        chainWallets?.forEach((w) => {
-          w.updateCallbacks({
-            afterDisconnect: async () => {
-              chainWallets.forEach(async (w2) => {
-                if (!w2.isWalletDisconnected && w2 !== w) {
-                  await w2.disconnect();
-                }
-              });
-            },
-            afterConnect: async () => {
-              this.synchronizeMutexWalletConnection();
-            },
-          });
-        });
-      });
+      this.synchroMutexWallet();
     }
 
-    this.chainRecords.map((chainRecord) => {
+    this.chainRecords.forEach((chainRecord) => {
       this.walletRepos.push(
         new WalletRepo(
           chainRecord,
@@ -88,6 +123,50 @@ export class WalletManagerV2 extends StateBase<Data> {
       );
     });
   }
+
+  addChains = (
+    chains: Chain[],
+    assetLists: AssetList[],
+    signerOptions?: SignerOptions,
+    endpointOptions?: EndpointOptions
+  ) => {
+    const newChainRecords = chains.map((chain) =>
+      convertChain(
+        chain,
+        assetLists,
+        signerOptions,
+        endpointOptions?.[chain.chain_name]
+      )
+    );
+    this.chainRecords.push(...newChainRecords);
+
+    this._wallets.forEach((wallet) => {
+      wallet.setChains(newChainRecords, false);
+    });
+
+    if (this.options.synchroMutexWallet) {
+      this.synchroMutexWallet();
+    }
+
+    const newWalletRepos = newChainRecords.map((chainRecord) => {
+      return new WalletRepo(
+        chainRecord,
+        this._wallets.map(
+          ({ getChainWallet }) => getChainWallet(chainRecord.name)!
+        ),
+        this.sessionOptions
+      );
+    });
+
+    newWalletRepos.forEach((wr) => {
+      wr.setActions(this.walletRepos[0].actions);
+      wr.wallets.forEach((w) => {
+        w.setActions(this.walletRepos[0].wallets[0].actions);
+      });
+    });
+
+    this.walletRepos.push(...newWalletRepos);
+  };
 
   get walletReposInUse(): WalletRepo[] {
     return this.walletRepos.filter((repo) => repo.isInUse === true);
@@ -125,11 +204,7 @@ export class WalletManagerV2 extends StateBase<Data> {
     return walletRepo;
   };
 
-  getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
-    if (!chainName) {
-      return void 0;
-    }
-
+  getChainRecord = (chainName: ChainName): ChainRecord => {
     const chainRecord: ChainRecord | undefined = this.chainRecords.find(
       (c) => c.name === chainName
     );
@@ -142,7 +217,7 @@ export class WalletManagerV2 extends StateBase<Data> {
 
   // get chain logo
   getChainLogo = (chainName?: ChainName): string | undefined => {
-    const chainRecord = this.getChainRecord(chainName);
+    const chainRecord = chainName ? this.getChainRecord(chainName) : void 0;
     return (
       // until chain_registry fix this
       // chainRecord?.chain.logo_URIs?.svg ||

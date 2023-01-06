@@ -43,8 +43,6 @@ export interface Wallet {
     connectEventNamesOnClient?: string[];
     downloads?: DownloadInfo[];
     logo?: string;
-    wcProjectId?: string;
-    wcMetaData?: Metadata;
 }
 export interface WalletAccount {
     address: string;

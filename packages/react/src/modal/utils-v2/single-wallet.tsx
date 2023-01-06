@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Icon, Text } from '@chakra-ui/react';
+import { Box, Button, Center, Icon, Skeleton, Text } from '@chakra-ui/react';
 import { ChainWalletBase, ModalVersion } from '@cosmos-kit/core';
 import React from 'react';
 import { IconType } from 'react-icons';
@@ -56,7 +56,8 @@ export const getSingleWalletView = (
   if (qrCodeWallet && qrCodeWallet.walletStatus === 'Disconnected') {
     const displayName =
       qrCodeWallet.walletInfo.prettyName || qrCodeWallet.walletName;
-    return [
+
+    const modalHead = (
       <ModalHead
         title={displayName}
         backButton={true}
@@ -66,7 +67,30 @@ export const getSingleWalletView = (
           setDisplay('list');
         }}
         handleBack={() => setDisplay('list')}
-      />,
+      />
+    );
+
+    if (
+      qrCodeWallet.message === 'Initializing QR code...' &&
+      qrCodeWallet.qrUrl === ''
+    ) {
+      return [
+        modalHead,
+        <Center
+          flexDirection="column"
+          minW={72}
+          minH={40}
+          p={6}
+          textAlign="center"
+        >
+          <Skeleton w={48} h={48} borderRadius="base" />
+          <Text pt={4}>Initializing QRCode</Text>
+        </Center>,
+      ];
+    }
+
+    return [
+      modalHead,
       <QRCode
         link={qrCodeWallet.qrUrl!}
         description={`Open ${displayName} App to Scan`}

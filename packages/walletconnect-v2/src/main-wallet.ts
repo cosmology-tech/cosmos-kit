@@ -6,6 +6,7 @@ import {
   Wallet,
 } from '@cosmos-kit/core';
 import { SignClient } from '@walletconnect/sign-client';
+import { SignClientTypes } from '@walletconnect/types';
 import EventEmitter from 'events';
 
 import { ChainWCV2 } from './chain-wallet';
@@ -15,9 +16,10 @@ import { IChainWCV2, IWCClientV2 } from './types';
 export class WCWalletV2 extends MainWalletBase {
   clientPromise?: Promise<WCClientV2 | undefined>;
   client?: WCClientV2;
-  protected WCClient: IWCClientV2;
+  WCClient: IWCClientV2;
   protected _qrUrl = '';
   emitter: EventEmitter;
+  wcSignClientOptions?: SignClientTypes.Options | undefined;
 
   constructor(walletInfo: Wallet, ChainWC: IChainWCV2, WCClient: IWCClientV2) {
     super(walletInfo, ChainWC);
@@ -38,19 +40,21 @@ export class WCWalletV2 extends MainWalletBase {
     this._qrUrl = value;
   }
 
-  async fetchClient() {
-    if (!this.walletInfo.wcProjectId) {
-      throw new Error('Project ID no found!');
-    }
+  setWCSignClientOptions(
+    wcSignClientOptions: SignClientTypes.Options | undefined
+  ): void {
+    this.wcSignClientOptions = wcSignClientOptions;
+  }
 
+  async fetchClient() {
+    if (!this.wcSignClientOptions) {
+      return void 0;
+    }
     try {
-      const signClient = await SignClient.init({
-        projectId: this.walletInfo.wcProjectId,
-        metadata: this.walletInfo.wcMetaData,
-      });
+      const signClient = await SignClient.init(this.wcSignClientOptions);
       return new this.WCClient(signClient);
     } catch (error) {
-      this.setClientNotExist();
+      this.setError(error as Error);
       return void 0;
     }
   }
@@ -58,9 +62,9 @@ export class WCWalletV2 extends MainWalletBase {
   protected onSetChainsDone(): void {
     this.chainWallets?.forEach((chainWallet) => {
       chainWallet.client = this.client;
-      chainWallet.clientPromise = this.clientPromise;
-      chainWallet.fetchClient = this.fetchClient;
+      (chainWallet as ChainWCV2).WCClient = this.WCClient;
       (chainWallet as ChainWCV2).emitter = this.emitter;
+      (chainWallet as ChainWCV2).wcSignClientOptions = this.wcSignClientOptions;
     });
   }
 
@@ -78,31 +82,6 @@ export class WCWalletV2 extends MainWalletBase {
     });
 
     const pairs = this.client?.signClient.core.pairing.getPairings();
-
-    // if () {
-    //   const { uri, approval } = await signClient.connect({
-    //     // Optionally: pass a known prior pairing (e.g. from `signClient.core.pairing.getPairings()`) to skip the `uri` step.
-    //     pairingTopic: pairing?.topic,
-    //     // Provide the namespaces and chains (e.g. `eip155` for EVM-based chains) we want to use in this session.
-    //     requiredNamespaces: {
-    //       eip155: {
-    //         methods: [
-    //           "eth_sendTransaction",
-    //           "eth_signTransaction",
-    //           "eth_sign",
-    //           "personal_sign",
-    //           "eth_signTypedData",
-    //         ],
-    //         chains: ["eip155:1"],
-    //         events: ["chainChanged", "accountsChanged"],
-    //       },
-    //     },
-    //   });
-    // } else {
-    //   if (!this.isMobile) {
-    //     await this.update(sessionOptions, callbacks);
-    //   }
-    // }
 
     if (this.isMobile) {
       await this.update(sessionOptions, callbacks);

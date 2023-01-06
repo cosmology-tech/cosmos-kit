@@ -7,7 +7,7 @@ export declare abstract class MainWalletBase extends WalletBase<MainWalletData> 
     ChainWallet: IChainWallet;
     constructor(walletInfo: Wallet, ChainWallet: IChainWallet);
     protected onSetChainsDone(): void;
-    setChains(chains: ChainRecord[]): void;
+    setChains(chains: ChainRecord[], overwrite?: boolean): void;
     get username(): string | undefined;
     get chainWallets(): Map<string, ChainWalletBase>;
     getChainWallet: (chainName: string) => ChainWalletBase | undefined;

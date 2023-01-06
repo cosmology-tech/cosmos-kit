@@ -31,27 +31,31 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     });
   }
 
-  setChains(chains: ChainRecord[]): void {
-    this._chainWallets = new Map(
-      chains.map((chain) => {
-        chain.preferredEndpoints = {
-          rpc: [
-            ...(chain.preferredEndpoints?.rpc || []),
-            ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
-            `https://rpc.cosmos.directory/${chain.name}`,
-            ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
-          ],
-          rest: [
-            ...(chain.preferredEndpoints?.rest || []),
-            ...(this.preferredEndpoints?.[chain.name]?.rest || []),
-            `https://rest.cosmos.directory/${chain.name}`,
-            ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
-          ],
-        };
+  setChains(chains: ChainRecord[], overwrite = true): void {
+    if (overwrite || !this._chainWallets) {
+      this._chainWallets = new Map();
+    }
+    chains.forEach((chain) => {
+      chain.preferredEndpoints = {
+        rpc: [
+          ...(chain.preferredEndpoints?.rpc || []),
+          ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
+          `https://rpc.cosmos.directory/${chain.name}`,
+          ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
+        ],
+        rest: [
+          ...(chain.preferredEndpoints?.rest || []),
+          ...(this.preferredEndpoints?.[chain.name]?.rest || []),
+          `https://rest.cosmos.directory/${chain.name}`,
+          ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
+        ],
+      };
 
-        return [chain.name, new this.ChainWallet(this.walletInfo, chain)];
-      })
-    );
+      this._chainWallets.set(
+        chain.name,
+        new this.ChainWallet(this.walletInfo, chain)
+      );
+    });
 
     this.onSetChainsDone();
   }

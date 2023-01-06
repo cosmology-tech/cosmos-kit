@@ -1,8 +1,8 @@
-import { Chain } from '@chain-registry/types';
+import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
 import { WalletRepo } from '../repository';
-import { ChainName } from './chain';
+import { ChainName, ChainRecord } from './chain';
 import { Dispatch, StateActions } from './common';
 import { WalletName } from './wallet';
 export interface SignerOptions {
@@ -44,4 +44,11 @@ export interface ManagerActions<T> extends StateActions<T> {
     walletName?: Dispatch<WalletName | undefined>;
     chainName?: Dispatch<ChainName | undefined>;
     viewOpen?: Dispatch<boolean>;
+}
+export interface ManagerContext {
+    chainRecords: ChainRecord[];
+    walletRepos: WalletRepo[];
+    getChainRecord: (chainName: ChainName) => ChainRecord;
+    getWalletRepo: (chainName: ChainName) => WalletRepo;
+    addChains: (chains: Chain[], assetLists: AssetList[], signerOptions?: SignerOptions, endpointOptions?: EndpointOptions) => void;
 }

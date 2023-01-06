@@ -35,7 +35,9 @@ export const getModalV2 = (version: ModalVersion) => {
       current,
       current?.walletStatus,
       current?.qrUrl,
+      current?.message,
       qrCodeWallet?.qrUrl,
+      qrCodeWallet?.message,
       display,
     ];
     const listViewDeps = [wallets];

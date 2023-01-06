@@ -19,21 +19,21 @@ export class WCWalletV1 extends MainWalletBase {
 
     this.client = new WCClient();
     this.emitter = new EventEmitter();
-    this.connector.on('connect', async (error) => {
+    this.connector.on('connect', async (error: Error | null) => {
       if (error) {
         throw error;
       }
       this.emitter.emit('update');
     });
 
-    this.connector.on('session_update', async (error) => {
+    this.connector.on('session_update', async (error: Error | null) => {
       if (error) {
         throw error;
       }
       this.emitter.emit('update');
     });
 
-    this.connector.on('disconnect', (error) => {
+    this.connector.on('disconnect', (error: Error | null) => {
       if (error) {
         throw error;
       }

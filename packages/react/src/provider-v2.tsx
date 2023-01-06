@@ -8,10 +8,12 @@ import {
   ModalVersion,
   SessionOptions,
   SignerOptions,
+  State,
   WalletManagerV2,
   WalletModalPropsV2,
   WalletRepo,
 } from '@cosmos-kit/core';
+import { SignClientTypes } from '@walletconnect/types';
 import React, {
   createContext,
   ReactNode,
@@ -33,6 +35,7 @@ export const ChainProvider = ({
   wallets,
   walletModal,
   modalTheme,
+  wcSignClientOptions,
   signerOptions,
   // viewOptions,
   endpointOptions,
@@ -44,6 +47,7 @@ export const ChainProvider = ({
   wallets: MainWalletBase[];
   walletModal?: ModalVersion | ((props: WalletModalPropsV2) => JSX.Element);
   modalTheme?: Record<string, any>;
+  wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
   // viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
@@ -56,6 +60,7 @@ export const ChainProvider = ({
         chains,
         assetLists,
         wallets,
+        wcSignClientOptions,
         signerOptions,
         endpointOptions,
         sessionOptions
@@ -68,11 +73,11 @@ export const ChainProvider = ({
     WalletRepo | undefined
   >();
 
-  walletManager.walletRepos.forEach((wr) => {
-    const [, setData] = useState<ChainWalletData>();
-    const [state, setState] = useState(wr.state);
-    const [msg, setMsg] = useState<string | undefined>();
+  const [, setData] = useState<ChainWalletData>();
+  const [, setState] = useState<State>();
+  const [, setMsg] = useState<string | undefined>();
 
+  walletManager.walletRepos.forEach((wr) => {
     wr.setActions({
       viewOpen: setViewOpen,
       viewWalletRepo: setViewWalletRepo,

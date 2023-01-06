@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { Algo, AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 import { DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
@@ -8,9 +8,10 @@ export declare class WCClientV2 implements WalletClient {
     readonly signClient: SignClient;
     constructor(signClient: SignClient);
     get session(): SessionTypes.Struct;
+    disconnect(): Promise<void>;
     getAccount(chainId: string): Promise<{
         address: string;
-        algo: import("@cosmjs/amino").Algo;
+        algo: Algo;
         pubkey: Buffer;
         isNanoLedger: boolean;
     }>;

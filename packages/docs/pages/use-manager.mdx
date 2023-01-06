@@ -1,0 +1,26 @@
+## Hook - useManager
+
+- required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider)
+
+- return type: [**ManagerConext**](#type-managerconext)
+
+## Type - ManagerConext
+
+### properties
+
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **chainRecords**      | contains all chain registry and asssets information       | `ChainRecord[]` | - |
+| **walletRepos**   | contains all chain wallets information, each wallet repo indentified with a chain       | `WalletRepo[]` | - |
+
+### methods
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| ----------- | ----------- | -- | -- | -- |
+| **getChainRecord**      |   get the basic info of a chain, which contains registry and asssets information for this chain    | **chainName**: `ChainName` | `ChainRecord` | N |
+| **getWalletRepo**      |   get the wallet repository of a chain, which stores all chain wallets for this chain    | **chainName**: `ChainName` | `WalletRepo` | N |
+| **addChains**      | add new chains in provider    |  **chains**: `Chain[]`,<br />**assetLists**: `AssetList[]`,<br />**signerOptions**?: `SignerOptions`,<br />**endpointOptions**?: `EndpointOptions` | `void` | N |
+
+## Examples
+
+🚀 [add chain](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/chains/add-chain.tsx)

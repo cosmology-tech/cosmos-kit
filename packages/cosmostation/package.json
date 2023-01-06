@@ -71,11 +71,9 @@
     "@babel/preset-typescript": "7.16.7",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
-    "@keplr-wallet/types": "0.11.21",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
-    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
     "babel-jest": "29.0.3",
     "cross-env": "7.0.2",
     "eslint": "8.23.1",
@@ -103,7 +101,9 @@
     "@emotion/styled": "11",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/utils": "1.8.0",
-    "react-icons": "4.4.0"
+    "react-icons": "4.4.0",
+    "@keplr-wallet/types": "0.11.21",
+    "@walletconnect/types": "1.8.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

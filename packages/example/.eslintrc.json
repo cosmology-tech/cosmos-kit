@@ -22,11 +22,11 @@
   "rules": {
     // "react-hooks/rules-of-hooks": "off",
     // "react/display-name": "off",
-    "simple-import-sort/imports": 2,
+    "simple-import-sort/imports": 1,
     "simple-import-sort/exports": 2,
     // "prettier/prettier": 2,
     "quotes": "off",
-    "unused-imports/no-unused-imports": 2,
+    "unused-imports/no-unused-imports": 1,
     "no-console": 1,
     "no-debugger": 2,
     "no-alert": 2,

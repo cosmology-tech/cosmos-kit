@@ -118,6 +118,26 @@ export const SimpleDisplayModalContent = ({
     },
   };
 
+  const descRef = useRef(null);
+  const [displayBlur, setDisplayBlur] = useState(false);
+
+  useEffect(() => {
+    if (descRef.current) {
+      if (descRef.current.clientHeight >= 96) setDisplayBlur(true);
+      const scrollHandler = () => {
+        const height = Math.abs(
+          descRef.current.scrollHeight -
+            descRef.current.clientHeight -
+            descRef.current.scrollTop
+        );
+        if (height < 1) setDisplayBlur(false);
+        if (height >= 1) setDisplayBlur(true);
+      };
+
+      descRef.current.addEventListener('scroll', scrollHandler);
+    }
+  }, [descRef]);
+
   return (
     <AnimateBox
       initial="hidden"
@@ -199,16 +219,64 @@ export const SimpleDisplayModalContent = ({
           </Text>
         )}
         {contentDesc && (
-          <Text
-            fontSize="sm"
-            lineHeight={1.3}
-            opacity={0.7}
-            whiteSpace="pre-line"
-            color={handleChangeColorModeValue(colorMode, 'gray.800', 'white')}
-            px={8}
-          >
-            {contentDesc}
-          </Text>
+          <Box position="relative">
+            <Box
+              ref={descRef}
+              w="full"
+              maxH={24}
+              overflowY="scroll"
+              css={{
+                // For Firefox
+                scrollbarWidth: 'none',
+                // For Chrome and other browsers except Firefox
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+              }}
+            >
+              <Text
+                fontSize="sm"
+                lineHeight={1.3}
+                opacity={0.7}
+                whiteSpace="pre-line"
+                px={8}
+              >
+                {contentDesc}
+              </Text>
+            </Box>
+            <AnimateBox
+              initial={false}
+              animate={
+                displayBlur
+                  ? {
+                      opacity: 1,
+                      height: 36,
+                      transition: {
+                        type: 'spring',
+                        duration: 0.1,
+                      },
+                    }
+                  : {
+                      height: 0,
+                      opacity: 0,
+                      transition: {
+                        type: 'spring',
+                        duration: 0.2,
+                      },
+                    }
+              }
+              position="absolute"
+              bottom={0}
+              bg={handleChangeColorModeValue(colorMode, '#fff', 'gray.700')}
+              style={{ marginTop: 0 }}
+              w="full"
+              background={handleChangeColorModeValue(
+                colorMode,
+                'linear-gradient(0deg, rgba(255,255,255,1) 6%, rgba(255,255,255,0.95) 16%, rgba(255,255,255,0.85) 24%, rgba(255,255,255,0.75) 32%, rgba(255,255,255,0.65) 48%, rgba(255,255,255,0.4) 65%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.1) 95%)',
+                'linear-gradient(0deg, rgba(45,55,72,1) 6%, rgba(45,55,72,0.95) 16%, rgba(45,55,72,0.85) 36%, rgba(45,55,72,0.75) 45%, rgba(45,55,72,0.65) 55%, rgba(45,55,72,0.4) 70%, rgba(45,55,72,0.2) 80%, rgba(45,55,72,0.1) 95%)'
+              )}
+            ></AnimateBox>
+          </Box>
         )}
         {username && (
           <Stack isInline={true} justifyContent="center" alignItems="center">
