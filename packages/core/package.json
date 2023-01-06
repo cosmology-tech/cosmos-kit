@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/core",
-  "version": "0.27.13",
+  "version": "0.27.14",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -107,8 +107,8 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "bowser": "2.11.0",
-    "@walletconnect/types": "2.2.0"
+    "@walletconnect/types": "2.2.0",
+    "bowser": "2.11.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.1.2 (2023-01-06)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
 ## [0.32.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@0.32.13...@cosmos-kit/omni@0.32.14) (2022-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/omni

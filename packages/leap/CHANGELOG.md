@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.15](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.13.14...@cosmos-kit/leap@0.13.15) (2023-01-06)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
 ## [0.13.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.13.13...@cosmos-kit/leap@0.13.14) (2022-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/leap
