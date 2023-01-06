@@ -3,9 +3,9 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/wcv1@0.1.1...@cosmos-kit/wcv1@0.1.2) (2022-12-16)
+## [0.1.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.1...@cosmos-kit/walletconnect-v1@0.1.2) (2022-12-16)
 
-**Note:** Version bump only for package @cosmos-kit/wcv1
+**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
 
 
 
@@ -13,7 +13,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.1.1 (2022-12-15)
 
-**Note:** Version bump only for package @cosmos-kit/wcv1
+**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
 
 
 

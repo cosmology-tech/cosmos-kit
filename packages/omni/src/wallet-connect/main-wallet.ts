@@ -1,5 +1,5 @@
 import { EndpointOptions, Wallet } from '@cosmos-kit/core';
-import { WCWalletV2 } from '@cosmos-kit/wcv2';
+import { WCWalletV2 } from '@cosmos-kit/walletconnect-v2';
 
 import { ChainOmniMobile } from './chain-wallet';
 import { OmniClient } from './client';

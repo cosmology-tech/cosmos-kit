@@ -5,9 +5,9 @@ import {
 } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
 import { OS } from '@cosmos-kit/core';
-import { IWCClientV1 } from '@cosmos-kit/wcv1';
+import { IWCClientV1 } from '../../../w';
 import WalletConnect from '@walletconnect/client';
-import { IConnector } from '@walletconnect/types';
+import { IConnector } from '../../../w/node_modules/@walletconnect/types';
 import { payloadId, saveMobileLinkInfo } from '@walletconnect/utils';
 
 import { CosmostationAccount } from './types';

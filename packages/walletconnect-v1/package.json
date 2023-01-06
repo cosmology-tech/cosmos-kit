@@ -1,5 +1,5 @@
 {
-  "name": "@cosmos-kit/wcv1",
+  "name": "@cosmos-kit/walletconnect-v1",
   "version": "0.1.2",
   "description": "cosmos-kit wallet connector using walletconnect v1",
   "author": "developers@cosmology.tech",

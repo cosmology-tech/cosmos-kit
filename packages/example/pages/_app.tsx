@@ -7,7 +7,7 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as wcv2Wallets } from "@cosmos-kit/wcv2";
+import { wallets as wcv2Wallets } from "../../walletconnect-v2";
 import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
