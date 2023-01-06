@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainContext,
   ChainName,
+  EndpointOptions,
+  ManagerContext,
+  SignerOptions,
   WalletManager,
   WalletStatus,
 } from '@cosmos-kit/core';
@@ -18,6 +22,32 @@ export const useWallet = (): WalletManager => {
   }
 
   return context.walletManager;
+};
+
+export const useManager = (): ManagerContext => {
+  const context = React.useContext(walletContextV2);
+
+  if (!context) {
+    throw new Error('You have forgot to use WalletProviderV2.');
+  }
+
+  const {
+    walletManager: {
+      addChains,
+      chainRecords,
+      walletRepos,
+      getChainRecord,
+      getWalletRepo,
+    },
+  } = context;
+
+  return {
+    chainRecords,
+    walletRepos,
+    getChainRecord,
+    getWalletRepo,
+    addChains,
+  };
 };
 
 export const useChain = (chainName: ChainName): ChainContext => {

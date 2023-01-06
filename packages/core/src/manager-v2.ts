@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
+import { SignClientTypes } from '@walletconnect/types';
 import Bowser from 'bowser';
 
 import { MainWalletBase, StateBase } from './bases';
@@ -17,7 +18,6 @@ import {
   SignerOptions,
 } from './types';
 import { convertChain } from './utils';
-import { SignClientTypes } from '@walletconnect/types';
 
 export class WalletManagerV2 extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
@@ -80,6 +80,12 @@ export class WalletManagerV2 extends StateBase<Data> {
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) {
+    if (chains.length === 0) {
+      throw new Error('At least one chain should be provided');
+    }
+    if (wallets.length === 0) {
+      throw new Error('At least one wallet should be provided');
+    }
     console.info(
       `${chains.length} chains and ${wallets.length} wallets are provided!`
     );
@@ -142,17 +148,24 @@ export class WalletManagerV2 extends StateBase<Data> {
       this.synchroMutexWallet();
     }
 
-    newChainRecords.forEach((chainRecord) => {
-      this.walletRepos.push(
-        new WalletRepo(
-          chainRecord,
-          this._wallets.map(
-            ({ getChainWallet }) => getChainWallet(chainRecord.name)!
-          ),
-          this.sessionOptions
-        )
+    const newWalletRepos = newChainRecords.map((chainRecord) => {
+      return new WalletRepo(
+        chainRecord,
+        this._wallets.map(
+          ({ getChainWallet }) => getChainWallet(chainRecord.name)!
+        ),
+        this.sessionOptions
       );
     });
+
+    newWalletRepos.forEach((wr) => {
+      wr.setActions(this.walletRepos[0].actions);
+      wr.wallets.forEach((w) => {
+        w.setActions(this.walletRepos[0].wallets[0].actions);
+      });
+    });
+
+    this.walletRepos.push(...newWalletRepos);
   };
 
   get walletReposInUse(): WalletRepo[] {
@@ -191,11 +204,7 @@ export class WalletManagerV2 extends StateBase<Data> {
     return walletRepo;
   };
 
-  getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
-    if (!chainName) {
-      return void 0;
-    }
-
+  getChainRecord = (chainName: ChainName): ChainRecord => {
     const chainRecord: ChainRecord | undefined = this.chainRecords.find(
       (c) => c.name === chainName
     );
@@ -208,7 +217,7 @@ export class WalletManagerV2 extends StateBase<Data> {
 
   // get chain logo
   getChainLogo = (chainName?: ChainName): string | undefined => {
-    const chainRecord = this.getChainRecord(chainName);
+    const chainRecord = chainName ? this.getChainRecord(chainName) : void 0;
     return (
       // until chain_registry fix this
       // chainRecord?.chain.logo_URIs?.svg ||

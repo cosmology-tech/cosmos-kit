@@ -39,8 +39,7 @@ export class KeplrClient implements IWCClientV1 {
       case 'android':
         saveMobileLinkInfo({
           name: 'Keplr',
-          href:
-            'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
+          href: 'intent://wcV1#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;',
         });
         return `intent://wcV1?${this.qrUrl}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
       case 'ios':

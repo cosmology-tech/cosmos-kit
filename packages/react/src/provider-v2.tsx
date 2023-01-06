@@ -8,6 +8,7 @@ import {
   ModalVersion,
   SessionOptions,
   SignerOptions,
+  State,
   WalletManagerV2,
   WalletModalPropsV2,
   WalletRepo,
@@ -72,11 +73,11 @@ export const ChainProvider = ({
     WalletRepo | undefined
   >();
 
-  walletManager.walletRepos.forEach((wr) => {
-    const [, setData] = useState<ChainWalletData>();
-    const [state, setState] = useState(wr.state);
-    const [msg, setMsg] = useState<string | undefined>();
+  const [, setData] = useState<ChainWalletData>();
+  const [, setState] = useState<State>();
+  const [, setMsg] = useState<string | undefined>();
 
+  walletManager.walletRepos.forEach((wr) => {
     wr.setActions({
       viewOpen: setViewOpen,
       viewWalletRepo: setViewWalletRepo,

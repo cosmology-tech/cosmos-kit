@@ -7,11 +7,12 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as wcv2Wallets } from "../../walletconnect-v2";
 import { ChainProvider, defaultTheme, WalletProvider } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
+
+import { wallets as wcv2Wallets } from "../../walletconnect-v2";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -46,6 +47,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <ChainProvider
+          // used when testing add-chain
+          // chains={chains.filter((chain) => chain.chain_name !== "cosmoshub")}
+          // assetLists={assets.filter(
+          //   (assets) => assets.chain_name !== "cosmoshub"
+          // )}
           chains={chains}
           assetLists={assets}
           wallets={[
