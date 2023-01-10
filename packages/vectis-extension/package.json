@@ -88,6 +88,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
+    "@babel/runtime": "7.11.2",
     "@cosmos-kit/core": "^0.27.14",
     "@vectis/extension-client": "0.6.0",
     "react-icons": "4.4.0"

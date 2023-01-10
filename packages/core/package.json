@@ -88,6 +88,8 @@
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.0",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
     "babel-jest": "29.0.3",
