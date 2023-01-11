@@ -80,12 +80,6 @@ export class WalletManagerV2 extends StateBase<Data> {
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) {
-    if (chains.length === 0) {
-      throw new Error('At least one chain should be provided');
-    }
-    if (wallets.length === 0) {
-      throw new Error('At least one wallet should be provided');
-    }
     console.info(
       `${chains.length} chains and ${wallets.length} wallets are provided!`
     );
@@ -138,7 +132,16 @@ export class WalletManagerV2 extends StateBase<Data> {
         endpointOptions?.[chain.chain_name]
       )
     );
-    this.chainRecords.push(...newChainRecords);
+    newChainRecords.forEach((chainRecord) => {
+      const index = this.chainRecords.findIndex(
+        (chainRecord2) => chainRecord2.name !== chainRecord.name
+      );
+      if (index == -1) {
+        this.chainRecords.push(chainRecord);
+      } else {
+        this.chainRecords[index] = chainRecord;
+      }
+    });
 
     this._wallets.forEach((wallet) => {
       wallet.setChains(newChainRecords, false);
@@ -159,13 +162,27 @@ export class WalletManagerV2 extends StateBase<Data> {
     });
 
     newWalletRepos.forEach((wr) => {
-      wr.setActions(this.walletRepos[0].actions);
-      wr.wallets.forEach((w) => {
-        w.setActions(this.walletRepos[0].wallets[0].actions);
+      wr.setActions({
+        viewOpen: this.actions?.viewOpen,
+        viewWalletRepo: this.actions?.viewWalletRepo,
       });
-    });
+      wr.wallets.forEach((w) => {
+        w.setActions({
+          data: this.actions?.data,
+          state: this.actions?.state,
+          message: this.actions?.message,
+        });
+      });
 
-    this.walletRepos.push(...newWalletRepos);
+      const index = this.walletRepos.findIndex(
+        (wr2) => wr2.chainName !== wr.chainName
+      );
+      if (index == -1) {
+        this.walletRepos.push(wr);
+      } else {
+        this.walletRepos[index] = wr;
+      }
+    });
   };
 
   get walletReposInUse(): WalletRepo[] {

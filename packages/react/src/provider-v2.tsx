@@ -77,6 +77,14 @@ export const ChainProvider = ({
   const [, setState] = useState<State>();
   const [, setMsg] = useState<string | undefined>();
 
+  walletManager.setActions({
+    viewOpen: setViewOpen,
+    viewWalletRepo: setViewWalletRepo,
+    data: setData,
+    state: setState,
+    message: setMsg,
+  });
+
   walletManager.walletRepos.forEach((wr) => {
     wr.setActions({
       viewOpen: setViewOpen,

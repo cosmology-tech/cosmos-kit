@@ -23,8 +23,8 @@ import { IoWalletOutline } from "react-icons/io5";
 
 import { ConnectedShowAddress } from "../../components";
 
-const chainNames_1 = ["cosmoshub"];
-const chainNames_2 = ["cosmoshub"];
+const chainNames_1 = ["cosmoshub", "osmosis"];
+const chainNames_2 = ["stargaze", "chihuahua"];
 
 export default () => {
   const { colorMode, toggleColorMode } = useColorMode();
