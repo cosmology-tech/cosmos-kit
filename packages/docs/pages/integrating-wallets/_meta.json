@@ -1,8 +1,8 @@
 {
     "index": "Wallet Integrations",
-    "keplr": "Keplr Wallet",
-    "cosmostation": "Cosmostation Wallet",
-    "leap": "Leap Wallet",
-    "vectis": "Vectis Wallet",
+    "keplr": "@ Keplr Wallet",
+    "cosmostation": "@ Cosmostation Wallet",
+    "leap": "@ Leap Wallet",
+    "vectis": "@ Vectis Wallet",
     "adding-new-wallets": "Adding New Wallets"
 }
