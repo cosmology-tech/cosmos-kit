@@ -3,6 +3,17 @@ import { walletNames } from "@cosmos-kit/leap";
 
 # How to Add Leap wallet to CosmosKit
 
+There are two packages for leap
+
+- `@cosmoskit/leap`
+- `@cosmoskit/leap-extension`
+
+`@cosmoskit/leap` export all available leap wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmoskit/leap-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/leap` for example
+
 ## add `@cosmoskit/leap`
 
 ```

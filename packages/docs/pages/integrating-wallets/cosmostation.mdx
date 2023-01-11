@@ -3,6 +3,18 @@ import { walletNames } from "@cosmos-kit/cosmostation";
 
 # How to Add Cosmostation wallet to CosmosKit
 
+There are three packages for cosmostation
+
+- `@cosmoskit/cosmostation`
+- `@cosmoskit/cosmostation-extension`
+- `@cosmoskit/cosmostation-mobile` (using walletconnect v1, v2 is coming soon)
+
+`@cosmoskit/cosmostation` export all available cosmostation wallets, while if you only want to add a particular one, choose `@cosmoskit/cosmostation-extension` or `@cosmoskit/cosmostation-mobile`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/cosmostation` for example
+
 ## add `@cosmoskit/cosmostation`
 
 ```

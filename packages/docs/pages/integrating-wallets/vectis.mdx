@@ -3,6 +3,17 @@ import { walletNames } from "@cosmos-kit/vectis";
 
 # How to Add Vectis wallet to CosmosKit
 
+There are three packages for vectis
+
+- `@cosmoskit/vectis`
+- `@cosmoskit/vectis-extension`
+
+`@cosmoskit/vectis` export all available vectis wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmoskit/vectis-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/vectis` for example
+
 ## add `@cosmoskit/vectis`
 
 ```

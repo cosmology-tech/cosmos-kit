@@ -3,7 +3,19 @@ import { walletNames } from "@cosmos-kit/keplr";
 
 # How to Add Keplr wallet to CosmosKit
 
-## add `@cosmoskit/keplr`
+There are three packages for keplr
+
+- `@cosmoskit/keplr`
+- `@cosmoskit/keplr-extension`
+- `@cosmoskit/keplr-mobile` (using walletconnect v1)
+
+`@cosmoskit/keplr` export all available keplr wallets, while if you only want to add a particular one, choose `@cosmoskit/keplr-extension` or `@cosmoskit/keplr-mobile`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/keplr` for example
+
+## install `@cosmoskit/keplr`
 
 ```
 yarn add @cosmoskit/keplr
