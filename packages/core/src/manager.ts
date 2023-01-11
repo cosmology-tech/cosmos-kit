@@ -1,58 +1,32 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
-import {
-  CosmWasmClient,
-  SigningCosmWasmClient,
-} from '@cosmjs/cosmwasm-stargate';
-import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
-import {
-  SigningStargateClient,
-  StargateClient,
-  StdFee,
-} from '@cosmjs/stargate';
+import { SignClientTypes } from '@walletconnect/types';
 import Bowser from 'bowser';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
+import { MainWalletBase, StateBase } from './bases';
+import { WalletRepo } from './repository';
 import {
-  Callbacks,
   ChainName,
   ChainRecord,
-  CosmosClientType,
+  Data,
   DeviceType,
   EndpointOptions,
-  ManagerActions,
   OS,
   SessionOptions,
   SignerOptions,
-  State,
-  StorageOptions,
-  ViewOptions,
-  Wallet,
-  WalletAdapter,
-  WalletData,
-  WalletName,
 } from './types';
 import { convertChain } from './utils';
 
-export class WalletManager extends StateBase<WalletData> {
-  private _currentWalletName?: WalletName;
-  private _currentChainName?: ChainName;
-  declare actions?: ManagerActions<WalletData>;
-  private _activeWallets: MainWalletBase[] = [];
-  private _totalWallets: MainWalletBase[] = [];
-  private _chainRecords: ChainRecord[] = [];
-  viewOptions: ViewOptions = {
-    alwaysOpenView: false,
-    closeViewWhenWalletIsConnected: false,
-    closeViewWhenWalletIsDisconnected: true,
-    closeViewWhenWalletIsRejected: false,
+export class WalletManager extends StateBase<Data> {
+  chainRecords: ChainRecord[] = [];
+  walletRepos: WalletRepo[] = [];
+  private _wallets: MainWalletBase[];
+  options = {
+    synchroMutexWallet: true,
   };
-  storageOptions: StorageOptions = {
-    disabled: false,
-    duration: 1800000,
-    clearOnTabClose: false,
-  };
+
   sessionOptions: SessionOptions = {
     duration: 1800000,
     killOnTabClose: false,
@@ -62,28 +36,55 @@ export class WalletManager extends StateBase<WalletData> {
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
+    wcSignClientOptions?: SignClientTypes.Options,
     signerOptions?: SignerOptions,
-    viewOptions?: ViewOptions,
     endpointOptions?: EndpointOptions,
-    storageOptions?: StorageOptions,
     sessionOptions?: SessionOptions
   ) {
     super();
-    this.setWallets(wallets);
-    this.setActiveWalletNames();
-    this.setChains(chains, assetLists, signerOptions, endpointOptions);
-    this.viewOptions = { ...this.viewOptions, ...viewOptions };
-    this.storageOptions = { ...this.storageOptions, ...storageOptions };
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+    this.init(
+      chains,
+      assetLists,
+      wallets,
+      wcSignClientOptions,
+      signerOptions,
+      endpointOptions
+    );
   }
 
-  setChains = (
+  private synchroMutexWallet() {
+    this._wallets.forEach(({ chainWallets }) => {
+      chainWallets?.forEach((w) => {
+        w.updateCallbacks({
+          afterDisconnect: async () => {
+            chainWallets.forEach(async (w2) => {
+              if (!w2.isWalletDisconnected && w2 !== w) {
+                await w2.disconnect();
+              }
+            });
+          },
+          afterConnect: async () => {
+            this.synchronizeMutexWalletConnection();
+          },
+        });
+      });
+    });
+  }
+
+  init(
     chains: Chain[],
     assetLists: AssetList[],
+    wallets: MainWalletBase[],
+    wcSignClientOptions?: SignClientTypes.Options,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
-  ) => {
-    this._chainRecords = chains.map((chain) =>
+  ) {
+    console.info(
+      `${chains.length} chains and ${wallets.length} wallets are provided!`
+    );
+
+    this.chainRecords = chains.map((chain) =>
       convertChain(
         chain,
         assetLists,
@@ -91,280 +92,136 @@ export class WalletManager extends StateBase<WalletData> {
         endpointOptions?.[chain.chain_name]
       )
     );
-    console.info(`${this.chainCount} chains are available!`);
-    this._totalWallets.forEach((wallet) => {
-      wallet.setChains(this._chainRecords);
+
+    this._wallets = wallets.map((wallet) => {
+      if ((wallet as any).setWCSignClientOptions) {
+        (wallet as any).setWCSignClientOptions(wcSignClientOptions);
+      }
+      wallet.setChains(this.chainRecords);
+      return wallet;
     });
-  };
 
-  setWallets = (wallets: MainWalletBase[]) => {
-    this._totalWallets = wallets;
-    console.info(`${this.walletCount} wallets are available!`);
-    this._totalWallets.forEach((wallet) => {
-      wallet.setChains(this._chainRecords);
+    if (this.options.synchroMutexWallet) {
+      this.synchroMutexWallet();
+    }
+
+    this.chainRecords.forEach((chainRecord) => {
+      this.walletRepos.push(
+        new WalletRepo(
+          chainRecord,
+          wallets.map(
+            ({ getChainWallet }) => getChainWallet(chainRecord.name)!
+          ),
+          this.sessionOptions
+        )
+      );
     });
-  };
-
-  setActiveWalletNames = (walletNames?: WalletName[]) => {
-    if (walletNames) {
-      this._activeWallets = this._totalWallets.filter((wallet) =>
-        walletNames.includes(wallet.walletName)
-      );
-    } else {
-      this._activeWallets = this._totalWallets;
-    }
-  };
-
-  get wallets() {
-    if (this.isMobile) {
-      return this._activeWallets.filter(
-        (wallet) => !wallet.walletInfo.mobileDisabled
-      );
-    }
-    return this._activeWallets;
   }
 
-  get chainRecords() {
-    return this._chainRecords;
-  }
-
-  get useStorage() {
-    return !this.storageOptions.disabled;
-  }
-
-  get currentWalletName() {
-    if (!this._currentWalletName && this.walletCount === 1) {
-      return this._totalWallets[0].walletName;
-    }
-    return this._currentWalletName;
-  }
-
-  get currentChainName() {
-    if (!this._currentChainName && this.chainCount === 1) {
-      return this.chainRecords[0].name;
-    }
-    return this._currentChainName;
-  }
-
-  get currentWallet(): WalletAdapter | undefined {
-    return this.currentWalletName
-      ? this.getWallet(this.currentWalletName, this.currentChainName)
-      : void 0;
-  }
-
-  get currentWalletInfo(): Wallet | undefined {
-    return this.currentWallet?.walletInfo;
-  }
-
-  get currentChainRecord(): ChainRecord | undefined {
-    return this.getChainRecord(this.currentChainName);
-  }
-
-  get data(): WalletData | undefined {
-    return this.currentWallet?.data;
-  }
-
-  get state() {
-    return this.currentWallet?.state || State.Init;
-  }
-
-  get message() {
-    return this.currentWallet?.message;
-  }
-
-  get username(): string | undefined {
-    return this.data?.username;
-  }
-
-  get address(): string | undefined {
-    return this.data?.address;
-  }
-
-  get offlineSigner(): OfflineSigner | undefined {
-    return this.data?.offlineSigner;
-  }
-
-  get walletNames() {
-    return this._totalWallets.map((wallet) => wallet.walletName);
-  }
-
-  get walletCount() {
-    return this.walletNames.length;
-  }
-
-  get chainNames() {
-    return this.chainRecords.map((chain) => chain.name);
-  }
-
-  get chainCount() {
-    return this.chainNames.length;
-  }
-
-  private get emitWalletName() {
-    return this.actions?.walletName;
-  }
-
-  private get emitChainName() {
-    return this.actions?.chainName;
-  }
-
-  private get emitViewOpen() {
-    return this.actions?.viewOpen;
-  }
-
-  enable = async (chainIds: string | string[]): Promise<void> => {
-    await this.currentWallet?.client?.enable?.(chainIds);
-  };
-
-  getRpcEndpoint = async (): Promise<string | undefined> => {
-    return await (this.currentWallet as ChainWalletBase)?.getRpcEndpoint?.();
-  };
-
-  getRestEndpoint = async (): Promise<string | undefined> => {
-    return await (this.currentWallet as ChainWalletBase)?.getRestEndpoint?.();
-  };
-
-  getStargateClient = async (): Promise<StargateClient | undefined> => {
-    return await (this.currentWallet as ChainWalletBase)?.getStargateClient?.();
-  };
-
-  getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
-    return await (this.currentWallet as ChainWalletBase)?.getCosmWasmClient?.();
-  };
-
-  getSigningStargateClient = async (): Promise<
-    SigningStargateClient | undefined
-  > => {
-    return await (this
-      .currentWallet as ChainWalletBase)?.getSigningStargateClient?.();
-  };
-
-  getSigningCosmWasmClient = async (): Promise<
-    SigningCosmWasmClient | undefined
-  > => {
-    return await (this
-      .currentWallet as ChainWalletBase)?.getSigningCosmWasmClient?.();
-  };
-
-  sign = async (
-    messages: EncodeObject[],
-    fee: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ): Promise<TxRaw> => {
-    return await (this.currentWallet as ChainWalletBase)?.sign?.(
-      messages,
-      fee,
-      memo,
-      type
-    );
-  };
-
-  broadcast = async (signedMessages: TxRaw, type?: CosmosClientType) => {
-    return await (this.currentWallet as ChainWalletBase)?.broadcast?.(
-      signedMessages,
-      type
-    );
-  };
-
-  signAndBroadcast = async (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
+  addChains = (
+    chains: Chain[],
+    assetLists: AssetList[],
+    signerOptions?: SignerOptions,
+    endpointOptions?: EndpointOptions
   ) => {
-    return await (this.currentWallet as ChainWalletBase)?.signAndBroadcast?.(
-      messages,
-      fee,
-      memo,
-      type
+    const newChainRecords = chains.map((chain) =>
+      convertChain(
+        chain,
+        assetLists,
+        signerOptions,
+        endpointOptions?.[chain.chain_name]
+      )
     );
+    newChainRecords.forEach((chainRecord) => {
+      const index = this.chainRecords.findIndex(
+        (chainRecord2) => chainRecord2.name !== chainRecord.name
+      );
+      if (index == -1) {
+        this.chainRecords.push(chainRecord);
+      } else {
+        this.chainRecords[index] = chainRecord;
+      }
+    });
+
+    this._wallets.forEach((wallet) => {
+      wallet.setChains(newChainRecords, false);
+    });
+
+    if (this.options.synchroMutexWallet) {
+      this.synchroMutexWallet();
+    }
+
+    const newWalletRepos = newChainRecords.map((chainRecord) => {
+      return new WalletRepo(
+        chainRecord,
+        this._wallets.map(
+          ({ getChainWallet }) => getChainWallet(chainRecord.name)!
+        ),
+        this.sessionOptions
+      );
+    });
+
+    newWalletRepos.forEach((wr) => {
+      wr.setActions({
+        viewOpen: this.actions?.viewOpen,
+        viewWalletRepo: this.actions?.viewWalletRepo,
+      });
+      wr.wallets.forEach((w) => {
+        w.setActions({
+          data: this.actions?.data,
+          state: this.actions?.state,
+          message: this.actions?.message,
+        });
+      });
+
+      const index = this.walletRepos.findIndex(
+        (wr2) => wr2.chainName !== wr.chainName
+      );
+      if (index == -1) {
+        this.walletRepos.push(wr);
+      } else {
+        this.walletRepos[index] = wr;
+      }
+    });
   };
 
-  reset = () => {
-    this.currentWallet?.reset();
-  };
+  get walletReposInUse(): WalletRepo[] {
+    return this.walletRepos.filter((repo) => repo.isInUse === true);
+  }
 
-  private updateLocalStorage = (target: string) => {
-    if (!this.useStorage) {
+  async synchronizeMutexWalletConnection() {
+    if (typeof window === 'undefined') {
       return;
     }
-
-    let storeObj = {};
-    const storeStr = window?.localStorage.getItem('cosmos-kit');
-    if (storeStr) {
-      storeObj = JSON.parse(storeStr);
+    const ls = window.localStorage;
+    if (ls.getItem('synchronize-mutex-wallet') === 'done') {
+      return;
     }
-    switch (target) {
-      case 'chain':
-        storeObj = {
-          ...storeObj,
-          currentChainName: this.currentChainName,
-        };
-        break;
-      case 'wallet':
-        storeObj = {
-          ...storeObj,
-          currentWalletName: this.currentWalletName,
-        };
-        break;
-      default:
-        storeObj = {
-          ...storeObj,
-          currentWalletName: this.currentWalletName,
-          currentChainName: this.currentChainName,
-        };
-        break;
-    }
-
-    window?.localStorage.setItem('cosmos-kit', JSON.stringify(storeObj));
-    if (this.storageOptions.duration) {
-      setTimeout(() => {
-        window?.localStorage.removeItem('cosmos-kit');
-      }, this.storageOptions.duration);
-    }
-  };
-
-  setCurrentWallet = (walletName?: WalletName) => {
-    this.reset();
-    this._currentWalletName = walletName;
-    this.emitWalletName?.(walletName);
-  };
-
-  setCurrentChain = (chainName?: ChainName) => {
-    this.reset();
-    this._currentChainName = chainName;
-    this.emitChainName?.(chainName);
-    this.updateLocalStorage('chain');
-  };
-
-  getWallet = (
-    walletName: WalletName,
-    chainName?: ChainName
-  ): WalletAdapter => {
-    let wallet: WalletAdapter | undefined = this._totalWallets.find(
-      (w) => w.walletName === walletName
-    );
-
-    if (!wallet) {
-      throw new Error(`${walletName} is not provided!`);
-    }
-    if (chainName) {
-      wallet = (wallet as MainWalletBase).getChainWallet(chainName);
-      if (!wallet) {
-        throw new Error(`Unknown chain name: ${chainName}`);
+    ls.setItem('synchronize-mutex-wallet', 'done');
+    const walletName = ls.getItem('chain-provider');
+    for (const repo of this.walletReposInUse) {
+      if (walletName) {
+        if (repo.current?.walletName !== walletName) {
+          await repo.current?.disconnect();
+        }
+        await repo.connect(walletName);
       }
     }
+  }
 
-    wallet.actions = this.actions;
-    return wallet as WalletAdapter;
-  };
+  getWalletRepo = (chainName: ChainName): WalletRepo => {
+    const walletRepo = this.walletRepos.find(
+      (wr) => wr.chainName === chainName
+    );
 
-  getChainRecord = (chainName?: ChainName): ChainRecord | undefined => {
-    if (!chainName) {
-      return void 0;
+    if (!walletRepo) {
+      throw new Error(`Chain ${chainName} is not provided.`);
     }
 
+    return walletRepo;
+  };
+
+  getChainRecord = (chainName: ChainName): ChainRecord => {
     const chainRecord: ChainRecord | undefined = this.chainRecords.find(
       (c) => c.name === chainName
     );
@@ -377,7 +234,7 @@ export class WalletManager extends StateBase<WalletData> {
 
   // get chain logo
   getChainLogo = (chainName?: ChainName): string | undefined => {
-    const chainRecord = this.getChainRecord(chainName);
+    const chainRecord = chainName ? this.getChainRecord(chainName) : void 0;
     return (
       // until chain_registry fix this
       // chainRecord?.chain.logo_URIs?.svg ||
@@ -389,107 +246,12 @@ export class WalletManager extends StateBase<WalletData> {
     );
   };
 
-  private get callbacks(): Callbacks {
-    return {
-      afterConnect: () => {
-        if (!this.isWalletDisconnected) {
-          this.updateLocalStorage('wallet');
-        }
-      },
-      afterDisconnect: () => {
-        this.setCurrentWallet(undefined);
-        this.updateLocalStorage('wallet');
-      },
-    };
-  }
-
-  connect = async () => {
-    const current = this.currentWallet;
-    if (!current) {
-      this.openView();
-      return;
-    }
-    if (this.viewOptions?.alwaysOpenView) {
-      this.openView();
-    }
-    if (current.isWalletNotExist || current.isWalletError) {
-      this.openView();
-    }
-    try {
-      current.setEnv(this.env);
-      await current.connect(this.sessionOptions, this.callbacks);
-      if (
-        this.isWalletConnected &&
-        this.viewOptions?.closeViewWhenWalletIsConnected
-      ) {
-        this.closeView();
-      }
-    } catch (error) {
-      console.error(error);
-      if (
-        this.isWalletRejected &&
-        this.viewOptions?.closeViewWhenWalletIsRejected
-      ) {
-        this.closeView();
-      }
-    }
-  };
-
-  disconnect = async () => {
-    const current = this.currentWallet;
-    if (!current) {
-      this.setMessage('Current Wallet not defined.');
-      return;
-    }
-    if (this.viewOptions?.alwaysOpenView) {
-      this.openView();
-    }
-    try {
-      await current.disconnect(this.callbacks);
-
-      if (
-        this.isWalletConnected &&
-        this.viewOptions?.closeViewWhenWalletIsDisconnected
-      ) {
-        this.closeView();
-      }
-    } catch (e) {
-      this.setMessage((e as Error).message);
-      if (
-        this.isWalletRejected &&
-        this.viewOptions?.closeViewWhenWalletIsRejected
-      ) {
-        this.closeView();
-      }
-    }
-  };
-
-  openView = () => {
-    this.emitViewOpen?.(true);
-  };
-
-  closeView = () => {
-    this.emitViewOpen?.(false);
-  };
-
-  private _handleTabLoad = (event?: Event) => {
-    event?.preventDefault();
-    this.connect();
-  };
-
-  private _handleTabClose = (event: Event) => {
-    event.preventDefault();
-    if (this.storageOptions.clearOnTabClose) {
-      window.localStorage.removeItem('cosmos-kit');
-    }
-    if (this.sessionOptions.killOnTabClose || this.isWalletConnecting) {
-      this.disconnect();
-    }
-  };
-
-  private _connectEventListener = async () => {
-    if (!this.isInit) {
-      await this.connect();
+  private _handleConnect = async () => {
+    const ls = window.localStorage;
+    const walletName = ls.getItem('chain-provider');
+    if (walletName) {
+      ls.setItem('synchronize-mutex-wallet', 'fire');
+      await this.walletReposInUse[0]?.connect(walletName);
     }
   };
 
@@ -498,63 +260,45 @@ export class WalletManager extends StateBase<WalletData> {
       return;
     }
 
+    this._handleConnect();
+
     const parser = Bowser.getParser(window.navigator.userAgent);
-    this.setEnv({
+    const env = {
       browser: parser.getBrowserName(true),
       device: (parser.getPlatform().type || 'desktop') as DeviceType,
       os: parser.getOSName(true) as OS,
-    });
+    };
+    this.setEnv(env);
+    this.walletRepos.forEach((repo) => repo.setEnv(env));
 
-    if (this.useStorage) {
-      const storeStr = window.localStorage.getItem('cosmos-kit');
-      if (storeStr) {
-        const { currentWalletName, currentChainName } = JSON.parse(storeStr);
-        this.setCurrentWallet(currentWalletName);
-        this.setCurrentChain(currentChainName);
-        if (currentWalletName) {
-          if (document.readyState !== 'complete') {
-            window.addEventListener('load', this._handleTabLoad);
-          } else {
-            this._handleTabLoad();
-          }
-        }
-      }
-
-      window.addEventListener('beforeunload', this._handleTabClose);
-
-      this.wallets.forEach((wallet) => {
-        wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-          window.addEventListener(eventName, this._connectEventListener);
-        });
-        wallet.walletInfo.connectEventNamesOnClient?.forEach(
-          async (eventName) => {
-            (wallet.client || (await wallet.clientPromise))?.on?.(
-              eventName,
-              this._connectEventListener
-            );
-          }
-        );
+    this.walletRepos[0]?.wallets.forEach((wallet) => {
+      wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
+        window.addEventListener(eventName, this._handleConnect);
       });
-    }
+      wallet.walletInfo.connectEventNamesOnClient?.forEach(
+        async (eventName) => {
+          (wallet.client || (await wallet.clientPromise))?.on?.(
+            eventName,
+            this._handleConnect
+          );
+        }
+      );
+    });
   };
 
   onUnmounted = () => {
     if (typeof window === 'undefined') {
       return;
     }
-
-    window.removeEventListener('beforeunload', this._handleTabClose);
-    window.removeEventListener('load', this._handleTabLoad);
-
-    this.wallets.forEach((wallet) => {
+    this.walletRepos[0]?.wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-        window.removeEventListener(eventName, this._connectEventListener);
+        window.removeEventListener(eventName, this._handleConnect);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
           (wallet.client || (await wallet.clientPromise))?.off?.(
             eventName,
-            this._connectEventListener
+            this._handleConnect
           );
         }
       );

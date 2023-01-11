@@ -3,66 +3,107 @@ import {
   createLocalStorageManager,
   useColorMode,
 } from '@chakra-ui/react';
-import { ModalVersion, WalletModalProps } from '@cosmos-kit/core';
-import React, { useRef } from 'react';
+import {
+  ChainWalletBase,
+  ModalVersion,
+  WalletModalProps,
+} from '@cosmos-kit/core';
+import React, { useMemo, useRef } from 'react';
 import { ReactNode, useEffect, useState } from 'react';
 
-import { useWallet } from '../hooks';
 import { SimpleConnectModal as ConnectModal } from './components';
 import { noCssResetTheme } from './theme';
-import { getModalDetails } from './utils';
+import { DisplayType } from './types';
+import { getSingleWalletView, getWalletListView } from './utils';
 
 export const getModal = (version: ModalVersion) => {
-  return ({ isOpen, setOpen }: WalletModalProps) => {
-    const walletManager = useWallet();
-    const {
-      walletStatus,
-      currentWallet,
-      disconnect,
-      setCurrentWallet,
-    } = walletManager;
+  return ({ isOpen, setOpen, walletRepo, theme }: WalletModalProps) => {
+    const initialFocus = useRef();
+    const [display, setDisplay] = useState<DisplayType>('list');
+    const [qrCodeWallet, setQRCodeWallet] = useState<
+      ChainWalletBase | undefined
+    >();
     const [modalHead, setModalHead] = useState<ReactNode>();
     const [modalContent, setModalContent] = useState<ReactNode>();
-    const [modalIsReset, resetModal] = useState(false);
-    const initialFocus = useRef();
+    const [colorMode, setColorMode] = useState<string | null>('light');
+    const { colorMode: _colorMode } = useColorMode();
 
-    function handleClose() {
-      setOpen(false);
-      if (walletManager.isWalletConnecting) {
-        disconnect();
-      } else if (walletManager.isWalletDisconnected) {
-        setCurrentWallet(undefined);
-      }
-    }
+    const wallets = walletRepo?.wallets;
+    const current = walletRepo?.current;
+
+    const singleViewDeps = [
+      current,
+      current?.walletStatus,
+      current?.qrUrl,
+      current?.message,
+      qrCodeWallet?.qrUrl,
+      qrCodeWallet?.message,
+      display,
+    ];
+    const listViewDeps = [wallets];
+
+    const [singleViewHead, singleViewContent] = useMemo(
+      () =>
+        getSingleWalletView(
+          version,
+          current,
+          qrCodeWallet,
+          setOpen,
+          setDisplay,
+          setQRCodeWallet
+        ),
+      singleViewDeps
+    );
+
+    const [listViewHead, listViewContent] = useMemo(
+      () =>
+        getWalletListView(
+          version,
+          current,
+          wallets,
+          setOpen,
+          setDisplay,
+          setQRCodeWallet,
+          initialFocus
+        ),
+      listViewDeps
+    );
 
     useEffect(() => {
-      const [_modalHead, _modalContent] = getModalDetails(
-        walletManager,
-        modalIsReset,
-        resetModal,
-        handleClose,
-        initialFocus,
-        version
-      );
-
-      setModalHead(_modalHead);
-      setModalContent(_modalContent);
-      if (!isOpen) {
-        resetModal(false);
+      if (
+        display === 'list' ||
+        (!current && !qrCodeWallet) ||
+        (current && current.walletStatus === 'Disconnected')
+      ) {
+        setModalHead(listViewHead);
+        setModalContent(listViewContent);
+      } else {
+        setModalHead(singleViewHead);
+        setModalContent(singleViewContent);
       }
-    }, [walletStatus, modalIsReset, isOpen, currentWallet?.qrUrl]);
+    }, [...singleViewDeps, ...listViewDeps, display]);
+
+    useEffect(() => {
+      setColorMode(window.localStorage.getItem('chakra-ui-color-mode'));
+    }, [_colorMode]);
 
     const modal = (
       <ConnectModal
         modalIsOpen={isOpen}
-        modalOnClose={handleClose}
+        modalOnClose={() => {
+          if (!current || current.walletStatus === 'Disconnected') {
+            setDisplay('list');
+          } else {
+            setDisplay('single');
+          }
+          setQRCodeWallet(void 0);
+          setOpen(false);
+        }}
         modalHead={modalHead}
         modalContent={modalContent}
         initialRef={initialFocus}
       />
     );
-
-    const { colorMode } = useColorMode();
 
     if (colorMode) {
       return modal;
@@ -70,7 +111,7 @@ export const getModal = (version: ModalVersion) => {
 
     return (
       <ChakraProvider
-        theme={noCssResetTheme}
+        theme={theme || noCssResetTheme}
         resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')} // let modal get global color mode
       >

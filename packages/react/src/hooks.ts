@@ -1,34 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainContext,
   ChainName,
-  EndpointOptions,
   ManagerContext,
-  SignerOptions,
-  WalletManager,
   WalletStatus,
 } from '@cosmos-kit/core';
 import React from 'react';
 
 import { walletContext } from './provider';
-import { walletContextV2 } from './provider-v2';
-
-export const useWallet = (): WalletManager => {
-  const context = React.useContext(walletContext);
-
-  if (!context || !context.walletManager) {
-    throw new Error('You have forgot to use WalletProvider.');
-  }
-
-  return context.walletManager;
-};
 
 export const useManager = (): ManagerContext => {
-  const context = React.useContext(walletContextV2);
+  const context = React.useContext(walletContext);
 
   if (!context) {
-    throw new Error('You have forgot to use WalletProviderV2.');
+    throw new Error('You have forgot to use ChainProvider.');
   }
 
   const {
@@ -51,10 +36,10 @@ export const useManager = (): ManagerContext => {
 };
 
 export const useChain = (chainName: ChainName): ChainContext => {
-  const context = React.useContext(walletContextV2);
+  const context = React.useContext(walletContext);
 
   if (!context) {
-    throw new Error('You have forgot to use WalletProviderV2.');
+    throw new Error('You have forgot to use ChainProvider.');
   }
 
   const { walletManager } = context;

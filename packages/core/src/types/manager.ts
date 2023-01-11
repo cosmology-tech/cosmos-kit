@@ -41,11 +41,6 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 export interface WalletModalProps {
   isOpen: boolean;
   setOpen: Dispatch<boolean>;
-}
-
-export interface WalletModalPropsV2 {
-  isOpen: boolean;
-  setOpen: Dispatch<boolean>;
   walletRepo?: WalletRepo;
   theme?: Record<string, any>;
 }

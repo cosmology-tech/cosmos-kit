@@ -1,2 +1,2 @@
 export * from './get-modal';
-export * from './get-modal-v2';
+export * from './get-modal';
