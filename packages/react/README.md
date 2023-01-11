@@ -33,18 +33,9 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 - [ChainProvider](https://docs.cosmoskit.com/chain-provider)
 
-- [WalletProvider](https://docs.cosmoskit.com/wallet-provider)
-
-Compared to `WalletProvider`, which limits connection of only one chain with one wallet type at a time, `ChainProvider` allows multipule chains connected at a time, but limits one wallet type. It means if you choose to connect `Keplr`, you cannot connect `Cosmostation` at the same time.
-
 ## Hooks
 
 - [useChain](https://docs.cosmoskit.com/use-chain)
-  
-- [useWallet](https://docs.cosmoskit.com/use-wallet)
-
-Basically these two hooks have most same functionalities, except `useChain` consumes `ChainProvider` while `useWallet` consumes `WalletProvider`.
-
 
 ## Credits
 

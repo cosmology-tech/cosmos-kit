@@ -23,6 +23,7 @@ export const useManager = (): ManagerContext => {
       walletRepos,
       getChainRecord,
       getWalletRepo,
+      getChainLogo,
     },
   } = context;
 
@@ -32,6 +33,7 @@ export const useManager = (): ManagerContext => {
     getChainRecord,
     getWalletRepo,
     addChains,
+    getChainLogo,
   };
 };
 

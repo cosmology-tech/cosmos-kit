@@ -3,13 +3,13 @@ import { Asset, AssetList } from "@chain-registry/types";
 import { Center, Container } from "@chakra-ui/react";
 import { StdFee } from "@cosmjs/amino";
 import { SigningStargateClient } from "@cosmjs/stargate";
-import { useWallet } from "@cosmos-kit/react";
+import { useChain } from "@cosmos-kit/react";
 import BigNumber from "bignumber.js";
 import { assets } from "chain-registry";
 import { cosmos } from "juno-network";
 import { useState } from "react";
 
-import { SendTokensCard, TXWalletSection } from "../components";
+import { ChainsTXWalletSection, SendTokensCard } from "../components";
 
 const chainName = "juno";
 
@@ -75,8 +75,8 @@ const sendTokens = (
 };
 
 export default function Home() {
-  const { getSigningStargateClient, address, walletStatus, getRpcEndpoint } =
-    useWallet();
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(chainName);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [isFetchingBalance, setFetchingBalance] = useState(false);
@@ -120,11 +120,11 @@ export default function Home() {
 
   return (
     <Container maxW="5xl" py={10}>
-      <TXWalletSection chainName={chainName} />
+      <ChainsTXWalletSection chainName={chainName} />
 
       <Center mb={16}>
         <SendTokensCard
-          isConnectWallet={walletStatus === "Connected"}
+          isConnectWallet={status === "Connected"}
           balance={balance.toNumber()}
           isFetchingBalance={isFetchingBalance}
           response={resp}

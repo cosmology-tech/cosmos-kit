@@ -233,8 +233,8 @@ export class WalletManager extends StateBase<Data> {
   };
 
   // get chain logo
-  getChainLogo = (chainName?: ChainName): string | undefined => {
-    const chainRecord = chainName ? this.getChainRecord(chainName) : void 0;
+  getChainLogo = (chainName: ChainName): string | undefined => {
+    const chainRecord = this.getChainRecord(chainName);
     return (
       // until chain_registry fix this
       // chainRecord?.chain.logo_URIs?.svg ||

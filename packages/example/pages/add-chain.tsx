@@ -22,7 +22,7 @@ import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
 
-import { ConnectedShowAddress } from "../../components";
+import { ConnectedShowAddress } from "../components";
 
 const chainNames_1 = ["osmosis"];
 const chainNames_2 = ["osmosis", "chihuahua"];

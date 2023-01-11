@@ -109,7 +109,7 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chakra-ui/react": "2.4.3",
-    "@cosmos-kit/core": "^0.27.15",
+    "@cosmos-kit/core": "^1.0.0",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@walletconnect/types": "2.2.0",

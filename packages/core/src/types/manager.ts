@@ -62,4 +62,5 @@ export interface ManagerContext {
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) => void;
+  getChainLogo: (chainName: ChainName) => string | undefined;
 }

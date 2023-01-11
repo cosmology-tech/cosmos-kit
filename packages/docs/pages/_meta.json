@@ -5,6 +5,6 @@
   "chain-provider": "Chain Provider",
   "use-chain": "Hook - useChain",
   "use-manager": "Hook - useManager",
-  "wallet-provider": "Wallet Provider (Expiring soon)",
-  "use-wallet": "Hook - useWallet (Expiring soon)"
+  "wallet-provider": "Wallet Provider (Expired in V1)",
+  "use-wallet": "Hook - useWallet (Expired in V1)"
 }

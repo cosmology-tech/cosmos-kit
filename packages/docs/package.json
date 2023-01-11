@@ -20,11 +20,11 @@
   },
   "dependencies": {
     "@chakra-ui/react": "2.2.9",
-    "@cosmos-kit/core": "^0.27.15",
+    "@cosmos-kit/core": "^1.0.0",
     "@cosmos-kit/cosmostation": "^0.14.16",
     "@cosmos-kit/keplr": "^0.32.16",
     "@cosmos-kit/leap": "^0.13.16",
-    "@cosmos-kit/react": "^0.27.10",
+    "@cosmos-kit/react": "^1.0.0",
     "@cosmos-kit/vectis": "^0.14.16",
     "@emotion/react": "11",
     "@emotion/styled": "11",

@@ -55,37 +55,24 @@ Consume Provider with the corresponding hook.
 
 > Hint: return type properties of two hooks are slightly different.
 
-Take `useWallet` as an example.
+Take `useChain` as an example.
 
 ```tsx
 import * as React from 'react';
 
-import { useWallet } from "@cosmos-kit/react";
+import { useChain } from "@cosmos-kit/react";
 
-function Component ({ chainName }: { chainName?: string }) => {
-    const walletManager = useWallet();
+function Component ({ chainName }: { chainName: string }) => {
+    const chainContext = useChain(chainName);
 
-    // Get wallet properties
     const {
-      currentChainName,
-      currentWalletName,
-      walletStatus,
+      status,
       username,
       address,
       message,
-    } = walletManager;
-
-    // Get wallet functions
-    const {
-        connect,
-        disconnect,
-        openView,
-        setCurrentChain,
-    } = walletManager;
-
-    // if `chainName` in component props, `setCurrentChain` in `useEffect`
-    React.useEffect(() => {
-        setCurrentChain(chainName);
-    }, [chainName]);
+      connect,
+      disconnect,
+      openView,
+    } = chainContext;
 }
 ```
