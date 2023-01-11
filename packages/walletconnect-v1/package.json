@@ -107,7 +107,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^0.27.15",
+    "@cosmos-kit/core": "^1.0.0",
     "@walletconnect/types": "1.8.0",
     "events": "3.3.0"
   },
