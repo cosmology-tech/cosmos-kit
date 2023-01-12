@@ -31,7 +31,8 @@
     "prettier": "2.7.1"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "wallets/*"
   ],
   "repository": {
     "type": "git",
