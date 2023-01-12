@@ -1,11 +1,11 @@
 {
-  "name": "@cosmos-kit/vectis",
-  "version": "0.14.17",
+  "name": "@cosmos-kit/leap",
+  "version": "0.13.17",
   "description": "cosmos-kit wallet connector",
-  "author": "jonlitech@gmail.com",
+  "author": "mayank.yadav@leapwallet.io",
   "contributors": [
     {
-      "name": "Javier Aceña"
+      "name": "Mayank Yadav"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -45,7 +45,7 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "vectis",
+    "leap",
     "wallet"
   ],
   "bugs": {
@@ -90,11 +90,12 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@chakra-ui/react": "2.2.9",
+    "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.1",
+    "@cosmos-kit/leap-extension": "^0.13.17",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@vectis/extension-client": "0.6.0",
+    "@walletconnect/client": "1.8.0",
     "react-icons": "4.4.0"
   },
   "peerDependencies": {

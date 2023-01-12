@@ -1,11 +1,23 @@
 {
-  "name": "@cosmos-kit/vectis-extension",
-  "version": "0.14.17",
+  "name": "@cosmos-kit/omni",
+  "version": "0.32.17",
   "description": "cosmos-kit wallet connector",
-  "author": "jonlitech@gmail.com",
+  "author": "developers@cosmology.tech",
   "contributors": [
     {
-      "name": "Javier Aceña"
+      "name": "Jun Liu"
+    },
+    {
+      "name": "Dan Lynch"
+    },
+    {
+      "name": "Noah Saso"
+    },
+    {
+      "name": "Eliot Baker"
+    },
+    {
+      "name": "Delivan Jeonghyeok Yoo"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -43,9 +55,9 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
   "keywords": [
-    "cosmos-kit",
     "cosmos",
-    "vectis",
+    "cosmos-kit",
+    "omni",
     "wallet"
   ],
   "bugs": {
@@ -69,6 +81,8 @@
     "@babel/plugin-transform-runtime": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
+    "@cosmjs/cosmwasm-stargate": "0.29.0",
+    "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -90,11 +104,15 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@chakra-ui/react": "2.2.9",
+    "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.1",
+    "@cosmos-kit/omni-mobile": "^0.1.4",
+    "@cosmos-kit/walletconnect-v2": "^0.1.5",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@vectis/extension-client": "0.6.0",
+    "@walletconnect/sign-client": "2.2.0",
+    "@walletconnect/types": "^2.1.4",
+    "deepmerge": "4.2.2",
     "react-icons": "4.4.0"
   },
   "peerDependencies": {

@@ -1,11 +1,10 @@
 {
-  "name": "@cosmos-kit/leap-extension",
+  "name": "@cosmos-kit/trust-extension",
   "version": "0.13.17",
   "description": "cosmos-kit wallet connector",
-  "author": "mayank.yadav@leapwallet.io",
   "contributors": [
     {
-      "name": "Mayank Yadav"
+      "name": "Ruslan Serebriakov"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -43,9 +42,8 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
   "keywords": [
-    "cosmos-kit",
     "cosmos",
-    "leap",
+    "trust",
     "wallet"
   ],
   "bugs": {
@@ -90,11 +88,10 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@chakra-ui/react": "2.2.9",
+    "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.1",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@walletconnect/client": "1.8.0",
     "react-icons": "4.4.0"
   },
   "peerDependencies": {
