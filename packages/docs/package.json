@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "1.8.17",
+  "version": "1.8.18",
   "private": true,
   "main": "index.js",
   "license": "MIT",
@@ -21,11 +21,11 @@
   "dependencies": {
     "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.1",
-    "@cosmos-kit/cosmostation": "^0.14.17",
-    "@cosmos-kit/keplr": "^0.32.17",
-    "@cosmos-kit/leap": "^0.13.17",
+    "@cosmos-kit/cosmostation": "^0.14.18",
+    "@cosmos-kit/keplr": "^0.32.18",
+    "@cosmos-kit/leap": "^0.13.18",
     "@cosmos-kit/react": "^1.0.1",
-    "@cosmos-kit/vectis": "^0.14.17",
+    "@cosmos-kit/vectis": "^0.14.18",
     "@emotion/react": "11",
     "@emotion/styled": "11",
     "chain-registry": "1.4.0",

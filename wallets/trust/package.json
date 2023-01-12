@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust",
-  "version": "0.13.17",
+  "version": "0.13.18",
   "description": "cosmos-kit wallet connector",
   "contributors": [
     {
@@ -90,8 +90,8 @@
     "@chain-registry/types": "0.13.1",
     "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.1",
-    "@cosmos-kit/trust-extension": "^0.13.17",
-    "@cosmos-kit/trust-mobile": "^0.1.4",
+    "@cosmos-kit/trust-extension": "^0.13.18",
+    "@cosmos-kit/trust-mobile": "^0.1.5",
     "@emotion/react": "11",
     "@emotion/styled": "11",
     "react-icons": "4.4.0"
