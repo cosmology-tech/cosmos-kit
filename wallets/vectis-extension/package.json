@@ -90,7 +90,7 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@chakra-ui/react": "2.2.9",
+    "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.1",
     "@emotion/react": "11",
     "@emotion/styled": "11",
