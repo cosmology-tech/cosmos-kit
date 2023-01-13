@@ -273,7 +273,7 @@ export class WalletManager extends StateBase<Data> {
       _chainName = chainName;
     }
 
-    return await this.getWalletRepo(chainName).getNameService();
+    return await this.getWalletRepo(_chainName).getNameService();
   };
 
   private _handleConnect = async () => {
