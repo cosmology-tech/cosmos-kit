@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...leapWallets,
           ...vectisWallets,
         ]}
+        defaultNameService={"stargaze"}
         wcSignClientOptions={{
           projectId: "a8510432ebb71e6948cfd6cde54b70f7",
           relayUrl: "wss://relay.walletconnect.org",

@@ -21,6 +21,12 @@
 | **username**   | username from current selected wallet       | `string \| undefined` | `undefined` |
 | **message**   | error/warn/info message       | `string \| undefined` | `undefined` |
 | **status**   | wallet status      | `WalletStatus` | `Disconnected` |
+| **isWalletDisconnected**   |  if `status === 'Disconnected'`   | `boolean` | `true` |
+| **isWalletConnecting**   |  if `status === 'Connecting'`   | `boolean` | `false` |
+| **isWalletConnected**   |  if `status === 'Connected'`   | `boolean` | `false` |
+| **isWalletRejected**   |  if `status === 'Rejected'`   | `boolean` | `false` |
+| **isWalletNotExist**   |  if `status === 'NotExist'`   | `boolean` | `false` |
+| **isWalletError**   |  if `status === 'Error'`   | `boolean` | `false` |
 
 ### methods
 
@@ -36,6 +42,7 @@
 | **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
 | **getSigningStargateClient**  | - | - | `SigningStargateClient` | Y |
 | **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient` | Y |
+| **getNameService**  | get name service object supported on provided chain  | - | `NameService` | Y |
 | **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee` | Y |
 | **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw` | Y |
 | **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |

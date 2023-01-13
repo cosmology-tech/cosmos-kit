@@ -6,6 +6,8 @@ import { SignClientTypes } from '@walletconnect/types';
 import Bowser from 'bowser';
 
 import { MainWalletBase, StateBase } from './bases';
+import { nameServiceRegistries } from './config';
+import { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
   ChainName,
@@ -13,6 +15,7 @@ import {
   Data,
   DeviceType,
   EndpointOptions,
+  NameServiceName,
   OS,
   SessionOptions,
   SignerOptions,
@@ -22,6 +25,7 @@ import { convertChain } from './utils';
 export class WalletManager extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepo[] = [];
+  defaultNameService?: NameServiceName;
   private _wallets: MainWalletBase[];
   options = {
     synchroMutexWallet: true,
@@ -36,12 +40,14 @@ export class WalletManager extends StateBase<Data> {
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
+    defaultNameService?: NameServiceName,
     wcSignClientOptions?: SignClientTypes.Options,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
     sessionOptions?: SessionOptions
   ) {
     super();
+    this.defaultNameService = defaultNameService;
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
     this.init(
       chains,
@@ -244,6 +250,30 @@ export class WalletManager extends StateBase<Data> {
       chainRecord?.assetList?.assets[0]?.logo_URIs?.png ||
       undefined
     );
+  };
+
+  getNameService = async (
+    chainName?: ChainName
+  ): Promise<NameService | undefined> => {
+    let _chainName: ChainName;
+    if (!chainName) {
+      if (!this.defaultNameService) {
+        throw new Error('defaultNameService is undefined');
+      }
+      const registry = nameServiceRegistries.find(
+        (s) => s.name === this.defaultNameService
+      );
+      if (!registry) {
+        throw new Error(
+          'Unknown defaultNameService ' + this.defaultNameService
+        );
+      }
+      _chainName = registry.chainName;
+    } else {
+      _chainName = chainName;
+    }
+
+    return await this.getWalletRepo(_chainName).getNameService();
   };
 
   private _handleConnect = async () => {

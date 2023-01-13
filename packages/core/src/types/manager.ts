@@ -1,6 +1,7 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
+import { NameService } from '../name-service';
 
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
@@ -63,4 +64,5 @@ export interface ManagerContext {
     endpointOptions?: EndpointOptions
   ) => void;
   getChainLogo: (chainName: ChainName) => string | undefined;
+  getNameService: (chainName?: ChainName) => Promise<NameService>;
 }
