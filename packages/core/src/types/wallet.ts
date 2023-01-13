@@ -190,6 +190,13 @@ export interface ChainContext {
   message: string | undefined;
   status: WalletStatus;
 
+  isWalletDisconnected: boolean;
+  isWalletConnecting: boolean;
+  isWalletConnected: boolean;
+  isWalletRejected: boolean;
+  isWalletNotExist: boolean;
+  isWalletError: boolean;
+
   openView: () => void;
   closeView: () => void;
   connect: (wallet?: WalletName) => Promise<void>;

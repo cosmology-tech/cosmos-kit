@@ -21,6 +21,12 @@
 | **username**   | username from current selected wallet       | `string \| undefined` | `undefined` |
 | **message**   | error/warn/info message       | `string \| undefined` | `undefined` |
 | **status**   | wallet status      | `WalletStatus` | `Disconnected` |
+| **isWalletDisconnected**   |  if `status === 'Disconnected'`   | `boolean` | `true` |
+| **isWalletConnecting**   |  if `status === 'Connecting'`   | `boolean` | `false` |
+| **isWalletConnected**   |  if `status === 'Connected'`   | `boolean` | `false` |
+| **isWalletRejected**   |  if `status === 'Rejected'`   | `boolean` | `false` |
+| **isWalletNotExist**   |  if `status === 'NotExist'`   | `boolean` | `false` |
+| **isWalletError**   |  if `status === 'Error'`   | `boolean` | `false` |
 
 ### methods
 

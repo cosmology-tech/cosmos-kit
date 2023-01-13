@@ -102,6 +102,8 @@ export const useChain = (chainName: ChainName): ChainContext => {
     return func(...params);
   }
 
+  const status = current?.walletStatus || WalletStatus.Disconnected;
+
   return {
     // walletRepo: walletRepo,
     // wallet: current,
@@ -113,7 +115,14 @@ export const useChain = (chainName: ChainName): ChainContext => {
     address: current?.address,
     username: current?.username,
     message: current ? current.message : 'No wallet is connected currently.',
-    status: current?.walletStatus || WalletStatus.Disconnected,
+    status,
+
+    isWalletDisconnected: status === 'Disconnected',
+    isWalletConnecting: status === 'Connecting',
+    isWalletConnected: status === 'Connected',
+    isWalletRejected: status === 'Rejected',
+    isWalletNotExist: status === 'NotExist',
+    isWalletError: status === 'Error',
 
     openView,
     closeView,
