@@ -15,6 +15,8 @@ import {
   StdFee,
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { nameServiceRegistries } from '../config';
+import { NameService } from '../name-service';
 
 import {
   Callbacks,
@@ -211,6 +213,14 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
     const rpcEndpoint = await this.getRpcEndpoint();
     return CosmWasmClient.connect(rpcEndpoint);
+  };
+
+  getNameService = async (): Promise<NameService | undefined> => {
+    const client = await this.getCosmWasmClient();
+    const registry = nameServiceRegistries.find(
+      (s) => s.chainName === this.chainName
+    );
+    return registry ? new NameService(client, registry) : undefined;
   };
 
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {

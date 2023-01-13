@@ -24,6 +24,7 @@ export const useManager = (): ManagerContext => {
       getChainRecord,
       getWalletRepo,
       getChainLogo,
+      getNameService,
     },
   } = context;
 
@@ -34,6 +35,7 @@ export const useManager = (): ManagerContext => {
     getWalletRepo,
     addChains,
     getChainLogo,
+    getNameService,
   };
 };
 
@@ -58,6 +60,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     getRestEndpoint,
     getStargateClient,
     getCosmWasmClient,
+    getNameService,
   } = walletRepo;
 
   const chainId = chain.chain_id;
@@ -144,6 +147,8 @@ export const useChain = (chainName: ChainName): ChainContext => {
         [],
         'getSigningCosmWasmClient'
       ),
+    getNameService,
+
     estimateFee: (...params: Parameters<ChainContext['estimateFee']>) =>
       connectionAssert(current?.estimateFee, params, 'estimateFee'),
     sign: (...params: Parameters<ChainContext['sign']>) =>

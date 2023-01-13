@@ -42,6 +42,7 @@
 | **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
 | **getSigningStargateClient**  | - | - | `SigningStargateClient` | Y |
 | **getSigningCosmWasmClient**  | - | - | `SigningCosmWasmClient` | Y |
+| **getNameService**  | get name service object supported on provided chain  | - | `NameService` | Y |
 | **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee` | Y |
 | **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw` | Y |
 | **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |

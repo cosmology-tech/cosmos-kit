@@ -5,6 +5,7 @@ import { StargateClient } from '@cosmjs/stargate';
 
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
+import { NameService } from './name-service';
 import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
 
 /**
@@ -163,6 +164,18 @@ export class WalletRepo extends StateBase<Data> {
     }
     throw new Error(
       `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
+    );
+  };
+
+  getNameService = async (): Promise<NameService> => {
+    for (const wallet of this.wallets) {
+      const service = await wallet.getNameService();
+      if (service) {
+        return service;
+      }
+    }
+    throw new Error(
+      `Something wrong! Probably no valid RPC endpoint or name service is not registered for chain ${this.chainName}.`
     );
   };
 }

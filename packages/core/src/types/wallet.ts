@@ -26,7 +26,8 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { ChainRecord } from './chain';
+import { NameService } from '../name-service';
+import { ChainName, ChainRecord } from './chain';
 import { AppEnv, CosmosClientType, Data } from './common';
 
 export type WalletName = string;
@@ -72,8 +73,10 @@ export interface Wallet {
   logo?: string;
 }
 
+export type Bech32Address = string;
+
 export interface WalletAccount {
-  address: string;
+  address: Bech32Address;
   pubkey: Uint8Array;
   name?: string;
   algo?: Algo;
@@ -177,6 +180,16 @@ export interface IChainWallet {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
 }
 
+export type NameServiceName = 'icns' | 'stargaze';
+
+export interface NameServiceRegistry {
+  name: NameServiceName;
+  contract: string;
+  chainName: ChainName;
+  getQueryMsg: (address: Bech32Address) => any;
+  slip173: string;
+}
+
 export interface ChainContext {
   // walletRepo: WalletRepo;
   // wallet: ChainWalletBase | undefined;
@@ -207,6 +220,8 @@ export interface ChainContext {
   getCosmWasmClient: () => Promise<CosmWasmClient>;
   getSigningStargateClient: () => Promise<SigningStargateClient>;
   getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
+  getNameService: () => Promise<NameService>;
+
   estimateFee: (
     messages: EncodeObject[],
     type?: CosmosClientType,
