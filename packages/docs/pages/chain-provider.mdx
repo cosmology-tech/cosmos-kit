@@ -206,7 +206,7 @@ You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are usin
 
 **Type:** `NameServiceName` = `'icns'` | `'stargaze'`;
 
-default to be `icns`
+default to be `icns`. This property is only used in `getNameService` of `useManager`, when prarameter `chainName` is undefined. Otherwise it will return the name service object corresponding to provided chain. It won't affect `getNameService` method returned by `useChain`, since `chainName` is always provide in `useChain`.
 
 ## endpointOptions
 
