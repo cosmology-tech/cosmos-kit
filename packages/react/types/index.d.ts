@@ -1,4 +1,3 @@
-/// <reference types="react" />
 export * from './hooks';
 export * from './modal/get-modal';
 export * from './modal/theme';

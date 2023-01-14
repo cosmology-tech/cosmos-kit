@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2015",
+    "skipLibCheck": true,
     "declaration": true,
     "declarationDir": "./types",
     "emitDeclarationOnly": true,
@@ -10,6 +11,10 @@
     "downlevelIteration": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
