@@ -45,7 +45,7 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 | [@cosmos-kit/trust](packages/trust) | Root Wallet | Trust Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/vectis](packages/vectis) | Root Wallet | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 
-### 📐 BYO Integration: [@cosmos-kit/example](packages/example)
+### ✨ Example: [@cosmos-kit/example](packages/example)
 
 An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 

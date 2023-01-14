@@ -14,8 +14,7 @@
   "module": "module/index.js",
   "typings": "types/index.d.ts",
   "directories": {
-    "lib": "src",
-    "test": "__tests__"
+    "lib": "src"
   },
   "files": [
     "types",
@@ -51,13 +50,6 @@
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "main/",
-      "module/",
-      "types/"
-    ]
-  },
   "devDependencies": {
     "@babel/cli": "7.18.10",
     "@babel/core": "7.19.1",
@@ -69,9 +61,14 @@
     "@babel/plugin-transform-runtime": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
+    "@chain-registry/types": "0.13.1",
+    "@cosmjs/cosmwasm-stargate": "0.29.0",
+    "@cosmjs/stargate": "0.29.0",
+    "@keplr-wallet/types": "0.11.21",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
+    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
     "babel-jest": "29.0.3",
     "cross-env": "7.0.2",
     "eslint": "8.23.1",
@@ -89,20 +86,12 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@chain-registry/types": "0.13.1",
-    "@chakra-ui/react": "2.4.3",
-    "@cosmos-kit/core": "^1.0.2",
-    "@cosmos-kit/leap-extension": "^0.13.19",
-    "@emotion/react": "11",
-    "@emotion/styled": "11",
-    "@walletconnect/client": "1.8.0",
-    "react-icons": "4.4.0"
+    "@cosmos-kit/leap-extension": "^0.13.19"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
-  },
-  "gitHead": "dbefecda8345f591bbbdfeeb4204506bc58ded71"
+  }
 }

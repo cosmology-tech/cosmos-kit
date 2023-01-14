@@ -100,6 +100,7 @@
     "eslint-plugin-unused-imports": "2.0.0",
     "jest": "29.0.2",
     "jest-in-case": "1.0.2",
+    "react-icons": "4.4.0",
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
@@ -116,6 +117,5 @@
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28",
     "cosmjs-types": ">= 0.5"
-  },
-  "gitHead": "dbefecda8345f591bbbdfeeb4204506bc58ded71"
+  }
 }

@@ -8,4 +8,3 @@ const cosmostationExtension = new CosmostationExtensionWallet(
 );
 
 export const wallets = [cosmostationExtension];
-export const walletNames = wallets.map((wallet) => wallet.walletName);
