@@ -35,7 +35,7 @@ export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     getNameService: () => Promise<NameService | undefined>;
     getSigningStargateClient: () => Promise<SigningStargateClient>;
     getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
-    protected getSigningClient: (type?: CosmosClientType) => Promise<SigningCosmWasmClient | SigningStargateClient>;
+    protected getSigningClient: (type?: CosmosClientType) => Promise<SigningStargateClient | SigningCosmWasmClient>;
     estimateFee: (messages: EncodeObject[], type?: CosmosClientType, memo?: string, multiplier?: number) => Promise<StdFee>;
     sign: (messages: EncodeObject[], fee?: StdFee | number, memo?: string, type?: CosmosClientType) => Promise<TxRaw>;
     broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<import("@cosmjs/stargate").DeliverTxResponse>;

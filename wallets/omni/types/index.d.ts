@@ -1,3 +1,1 @@
-import { OmniMobileWallet } from '@cosmos-kit/omni-mobile';
-export declare const wallets: OmniMobileWallet[];
-export declare const walletNames: string[];
+export declare const wallets: import("@cosmos-kit/omni-mobile").OmniMobileWallet[];

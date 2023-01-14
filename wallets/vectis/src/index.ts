@@ -1,9 +1,5 @@
 import {
-  vectisExtensionInfo,
-  VectisExtensionWallet,
+  wallets as ext
 } from '@cosmos-kit/vectis-extension';
 
-const vectisExtension = new VectisExtensionWallet(vectisExtensionInfo);
-
-export const wallets = [vectisExtension];
-export const walletNames = wallets.map((wallet) => wallet.walletName);
+export const wallets = [...ext];

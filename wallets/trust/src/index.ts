@@ -1,9 +1,5 @@
 import {
-  trustExtensionInfo,
-  TrustExtensionWallet,
-} from '@cosmos-kit/trust-extension';
+  wallets as mobile
+} from '@cosmos-kit/trust-mobile';
 
-const trustExtension = new TrustExtensionWallet(trustExtensionInfo);
-
-export const wallets = [trustExtension];
-export const walletNames = wallets.map((wallet) => wallet.walletName);
+export const wallets = [...mobile];

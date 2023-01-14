@@ -7,4 +7,3 @@ const keplrExtension = new KeplrExtensionWallet(
 );
 
 export const wallets = [keplrExtension];
-export const walletNames = wallets.map((wallet) => wallet.walletName);

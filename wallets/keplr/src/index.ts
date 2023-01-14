@@ -1,16 +1,6 @@
 import {
-  keplrExtensionInfo,
-  KeplrExtensionWallet,
+  wallets as ext,
 } from '@cosmos-kit/keplr-extension';
-import { keplrMobileInfo, KeplrMobileWallet } from '@cosmos-kit/keplr-mobile';
+import { wallets as mobile } from '@cosmos-kit/keplr-mobile';
 
-import { preferredEndpoints } from './config';
-
-const keplrExtension = new KeplrExtensionWallet(
-  keplrExtensionInfo,
-  preferredEndpoints
-);
-const keplrMobile = new KeplrMobileWallet(keplrMobileInfo, preferredEndpoints);
-
-export const wallets = [keplrExtension, keplrMobile];
-export const walletNames = wallets.map((wallet) => wallet.walletName);
+export const wallets = [...ext, ...mobile];

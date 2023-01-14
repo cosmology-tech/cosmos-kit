@@ -1,16 +1,6 @@
 import {
-  cosmostationExtensionInfo,
-  CosmostationExtensionWallet,
+  wallets as ext,
 } from '@cosmos-kit/cosmostation-extension';
-import {
-  cosmostationMobileInfo,
-  CosmostationMobileWallet,
-} from '@cosmos-kit/cosmostation-mobile';
+import { wallets as mobile } from '@cosmos-kit/cosmostation-mobile';
 
-const cosmostationExtension = new CosmostationExtensionWallet(
-  cosmostationExtensionInfo
-);
-const cosmostationMobile = new CosmostationMobileWallet(cosmostationMobileInfo);
-
-export const wallets = [cosmostationExtension, cosmostationMobile];
-export const walletNames = wallets.map((wallet) => wallet.walletName);
+export const wallets = [...ext, ...mobile];

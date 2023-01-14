@@ -1,4 +1,1 @@
-import { CosmostationExtensionWallet } from '@cosmos-kit/cosmostation-extension';
-import { CosmostationMobileWallet } from '@cosmos-kit/cosmostation-mobile';
-export declare const wallets: (CosmostationExtensionWallet | CosmostationMobileWallet)[];
-export declare const walletNames: string[];
+export declare const wallets: (import("@cosmos-kit/cosmostation-extension").CosmostationExtensionWallet | import("@cosmos-kit/cosmostation-mobile").CosmostationMobileWallet)[];

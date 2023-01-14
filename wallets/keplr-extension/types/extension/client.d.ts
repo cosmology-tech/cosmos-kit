@@ -12,7 +12,7 @@ export declare class KeplrClient implements WalletClient {
         algo: Algo;
         pubkey: Uint8Array;
     }>;
-    getOfflineSigner(chainId: string): Promise<import("@keplr-wallet/types").OfflineDirectSigner | import("@keplr-wallet/types").OfflineAminoSigner>;
+    getOfflineSigner(chainId: string): Promise<import("@keplr-wallet/types").OfflineAminoSigner | import("@keplr-wallet/types").OfflineDirectSigner>;
     getOfflineSignerAmino(chainId: string): import("@keplr-wallet/types").OfflineAminoSigner;
     getOfflineSignerDirect(chainId: string): OfflineDirectSigner;
     addChain(chainInfo: ChainRecord): Promise<void>;
