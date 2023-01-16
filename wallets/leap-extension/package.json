@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-extension",
-  "version": "0.13.20",
+  "version": "0.13.21",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -90,7 +90,7 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^1.0.3",
+    "@cosmos-kit/core": "^1.0.4",
     "react-icons": "4.4.0"
   },
   "peerDependencies": {
