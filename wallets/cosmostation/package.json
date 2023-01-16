@@ -104,8 +104,7 @@
     "@keplr-wallet/types": "0.11.21",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/types": "1.8.0",
-    "@walletconnect/utils": "1.8.0",
-    "react-icons": "4.4.0"
+    "@walletconnect/utils": "1.8.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

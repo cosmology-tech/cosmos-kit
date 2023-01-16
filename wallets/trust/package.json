@@ -93,8 +93,7 @@
     "@cosmos-kit/trust-extension": "^0.13.19",
     "@cosmos-kit/trust-mobile": "^0.1.6",
     "@emotion/react": "11",
-    "@emotion/styled": "11",
-    "react-icons": "4.4.0"
+    "@emotion/styled": "11"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

@@ -95,8 +95,7 @@
     "@cosmos-kit/leap-extension": "^0.13.19",
     "@emotion/react": "11",
     "@emotion/styled": "11",
-    "@walletconnect/client": "1.8.0",
-    "react-icons": "4.4.0"
+    "@walletconnect/client": "1.8.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

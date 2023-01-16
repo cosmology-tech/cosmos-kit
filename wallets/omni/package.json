@@ -111,8 +111,7 @@
     "@emotion/react": "11",
     "@emotion/styled": "11",
     "@walletconnect/types": "^2.1.4",
-    "deepmerge": "4.2.2",
-    "react-icons": "4.4.0"
+    "deepmerge": "4.2.2"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
