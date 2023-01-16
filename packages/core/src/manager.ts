@@ -20,7 +20,7 @@ import {
   SessionOptions,
   SignerOptions,
 } from './types';
-import { convertChain } from './utils';
+import { convertChain, getNameServiceRegistryFromName } from './utils';
 
 export class WalletManager extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
@@ -260,9 +260,7 @@ export class WalletManager extends StateBase<Data> {
       if (!this.defaultNameService) {
         throw new Error('defaultNameService is undefined');
       }
-      const registry = nameServiceRegistries.find(
-        (s) => s.name === this.defaultNameService
-      );
+      const registry = getNameServiceRegistryFromName(this.defaultNameService);
       if (!registry) {
         throw new Error(
           'Unknown defaultNameService ' + this.defaultNameService

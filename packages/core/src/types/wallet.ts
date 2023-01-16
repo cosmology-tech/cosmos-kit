@@ -180,7 +180,7 @@ export interface IChainWallet {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
 }
 
-export type NameServiceName = 'icns' | 'stargaze';
+export type NameServiceName = string;
 
 export interface NameServiceRegistry {
   name: NameServiceName;

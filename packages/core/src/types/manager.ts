@@ -6,7 +6,7 @@ import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
 import { Dispatch, StateActions } from './common';
-import { WalletName } from './wallet';
+import { NameServiceName, WalletName } from './wallet';
 
 export interface SignerOptions {
   stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
@@ -55,6 +55,7 @@ export interface ManagerActions<T> extends StateActions<T> {
 export interface ManagerContext {
   chainRecords: ChainRecord[];
   walletRepos: WalletRepo[];
+  defaultNameService: NameServiceName;
   getChainRecord: (chainName: ChainName) => ChainRecord;
   getWalletRepo: (chainName: ChainName) => WalletRepo;
   addChains: (

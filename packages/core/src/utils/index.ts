@@ -5,3 +5,4 @@ export * from './error';
 export * from './map';
 export * from './math';
 export * from './status';
+export * from './name-service';
