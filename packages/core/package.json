@@ -84,7 +84,6 @@
     "@babel/plugin-transform-typescript": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
-    "@chain-registry/types": "0.13.0",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.0",
@@ -101,7 +100,6 @@
     "jest": "29.0.2",
     "jest-in-case": "1.0.2",
     "prettier": "2.1.2",
-    "react-icons": "4.4.0",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
     "typescript": "4.8.3"
@@ -109,7 +107,9 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@walletconnect/types": "2.2.0",
-    "bowser": "2.11.0"
+    "bowser": "2.11.0",
+    "react-icons": "4.4.0",
+    "@chain-registry/types": "0.13.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

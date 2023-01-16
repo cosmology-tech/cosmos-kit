@@ -2,10 +2,15 @@
 import {
   ChainContext,
   ChainName,
+  getNameServiceRegistryFromName,
   ManagerContext,
+  Mutable,
+  NameService,
+  NameServiceName,
+  State,
   WalletStatus,
 } from '@cosmos-kit/core';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { walletContext } from './provider';
 
@@ -18,11 +23,12 @@ export const useManager = (): ManagerContext => {
 
   const {
     walletManager: {
-      addChains,
       chainRecords,
       walletRepos,
+      defaultNameService,
       getChainRecord,
       getWalletRepo,
+      addChains,
       getChainLogo,
       getNameService,
     },
@@ -31,11 +37,48 @@ export const useManager = (): ManagerContext => {
   return {
     chainRecords,
     walletRepos,
+    defaultNameService,
     getChainRecord,
     getWalletRepo,
     addChains,
     getChainLogo,
     getNameService,
+  };
+};
+
+export const useNameService = (
+  name?: NameServiceName
+): Mutable<NameService> => {
+  const [state, setState] = useState<State>(State.Pending);
+  const [ns, setNs] = useState<NameService>();
+  const [msg, setMsg] = useState<string>();
+
+  const { defaultNameService } = useManager();
+  const registry = getNameServiceRegistryFromName(name || defaultNameService);
+  if (!registry) {
+    throw new Error('No such name service: ' + (name || defaultNameService));
+  }
+
+  const { getCosmWasmClient } = useChain(registry.chainName);
+
+  getCosmWasmClient()
+    .then((client) => {
+      setNs(new NameService(client, registry));
+      setState(State.Done);
+    })
+    .catch((e) => {
+      setMsg((e as Error).message);
+      setState(State.Error);
+    })
+    .finally(() => {
+      if (state === 'Pending') {
+        setState(State.Init);
+      }
+    });
+  return {
+    state,
+    data: ns,
+    message: msg,
   };
 };
 

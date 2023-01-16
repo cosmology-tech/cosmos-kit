@@ -29,7 +29,7 @@ import {
   WalletAccount,
   WalletClient,
 } from '../types';
-import { isValidEndpoint } from '../utils';
+import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
 
 export class ChainWalletBase extends WalletBase<ChainWalletData> {
@@ -217,9 +217,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
 
   getNameService = async (): Promise<NameService | undefined> => {
     const client = await this.getCosmWasmClient();
-    const registry = nameServiceRegistries.find(
-      (s) => s.chainName === this.chainName
-    );
+    const registry = getNameServiceRegistryFromChainName(this.chainName);
     return registry ? new NameService(client, registry) : undefined;
   };
 

@@ -5,6 +5,7 @@
   "chain-provider": "Chain Provider",
   "use-chain": "Hook - useChain",
   "use-manager": "Hook - useManager",
+  "use-name-service": "Hook - useNameService",
   "wallet-provider": "Wallet Provider (Deprecated since v1.0.0)",
   "use-wallet": "Hook - useWallet (Deprecated since v1.0.0)"
 }
