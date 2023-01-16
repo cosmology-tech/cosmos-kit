@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.32.20](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@0.32.19...@cosmos-kit/omni@0.32.20) (2023-01-14)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
+
+
+
+
 ## [0.32.19](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@0.32.18...@cosmos-kit/omni@0.32.19) (2023-01-13)
 
 **Note:** Version bump only for package @cosmos-kit/omni

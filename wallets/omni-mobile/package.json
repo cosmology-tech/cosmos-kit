@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/omni-mobile",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -103,21 +103,11 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@chain-registry/types": "0.13.1",
     "@chakra-ui/react": "2.4.3",
-    "@cosmos-kit/core": "^1.0.2",
-    "@emotion/react": "11",
-    "@emotion/styled": "11",
+    "@cosmos-kit/core": "^1.0.3",
+    "@cosmos-kit/walletconnect-v2": "^0.1.7",
     "@walletconnect/sign-client": "2.2.0",
     "@walletconnect/types": "^2.1.4",
-    "deepmerge": "4.2.2",
     "react-icons": "4.4.0"
-  },
-  "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28",
-    "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/proto-signing": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
-  },
-  "gitHead": "dbefecda8345f591bbbdfeeb4204506bc58ded71"
+  }
 }

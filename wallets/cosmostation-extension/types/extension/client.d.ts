@@ -16,7 +16,7 @@ export declare class CosmostationClient implements WalletClient {
     disconnect(): Promise<void>;
     on(type: string, listener: EventListenerOrEventListenerObject): void;
     off(type: string, listener: EventListenerOrEventListenerObject): void;
-    getOfflineSigner(chainId: string): Promise<import("@keplr-wallet/types").OfflineDirectSigner | import("@keplr-wallet/types").OfflineAminoSigner>;
+    getOfflineSigner(chainId: string): Promise<import("@keplr-wallet/types").OfflineAminoSigner | import("@keplr-wallet/types").OfflineDirectSigner>;
     getOfflineSignerAmino(chainId: string): import("@keplr-wallet/types").OfflineAminoSigner;
     getOfflineSignerDirect(chainId: string): OfflineDirectSigner;
     addChain(chainInfo: ChainRecord): Promise<void>;

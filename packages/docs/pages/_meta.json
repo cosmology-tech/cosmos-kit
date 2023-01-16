@@ -6,6 +6,6 @@
   "use-chain": "Hook - useChain",
   "use-manager": "Hook - useManager",
   "use-name-service": "Hook - useNameService",
-  "wallet-provider": "Wallet Provider (Expired in V1)",
-  "use-wallet": "Hook - useWallet (Expired in V1)"
+  "wallet-provider": "Wallet Provider (Deprecated since v1.0.0)",
+  "use-wallet": "Hook - useWallet (Deprecated since v1.0.0)"
 }

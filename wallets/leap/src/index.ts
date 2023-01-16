@@ -1,9 +1,3 @@
-import {
-  leapExtensionInfo,
-  LeapExtensionWallet,
-} from '@cosmos-kit/leap-extension';
+import { wallets as ext } from '@cosmos-kit/leap-extension';
 
-const leapExtension = new LeapExtensionWallet(leapExtensionInfo);
-
-export const wallets = [leapExtension];
-export const walletNames = wallets.map((wallet) => wallet.walletName);
+export const wallets = [...ext];

@@ -1,3 +1,1 @@
-import { VectisExtensionWallet } from '@cosmos-kit/vectis-extension';
-export declare const wallets: VectisExtensionWallet[];
-export declare const walletNames: string[];
+export declare const wallets: import("@cosmos-kit/vectis-extension").VectisExtensionWallet[];
