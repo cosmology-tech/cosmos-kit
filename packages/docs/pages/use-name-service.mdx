@@ -2,6 +2,11 @@
 
 - required provider: [**ChainProvider**](/chain-provider)
 
+- parameters:
+    - **name?**: `NameServiceName` ( = `string` );
+
+> Note: `name` is optional. if `name` is not provided, using the `defaultNameService` in `ChainProvider`
+
 - return type: [**Mutable\<NameService>**](#type---mutablenameservice)
 
 ## Type - Mutable\<NameService>
@@ -13,3 +18,9 @@
 | **state**      |    -    | `State` | `State.Init` |
 | **data**   | - | `NameService` | `undefined` |
 | **message**   |  -  | `string` | `undefined` |
+
+> Note: `state`, `data` and `message` are react states.
+
+## Examples
+
+🚀 [name service](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/ns2.tsx)
