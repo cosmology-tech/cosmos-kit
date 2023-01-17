@@ -3,7 +3,7 @@ import { Bech32Address, NameServiceRegistry } from './types';
 
 export class NameService {
   client: CosmWasmClient;
-  registry: NameServiceRegistry | undefined;
+  registry: NameServiceRegistry;
 
   constructor(client: CosmWasmClient, registry: NameServiceRegistry) {
     this.client = client;

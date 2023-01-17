@@ -210,15 +210,15 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return StargateClient.connect(rpcEndpoint, this.stargateOptions);
   };
 
-  getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
+  getCosmWasmClient = async (): Promise<CosmWasmClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
     return CosmWasmClient.connect(rpcEndpoint);
   };
 
-  getNameService = async (): Promise<NameService | undefined> => {
+  getNameService = async (): Promise<NameService> => {
     const client = await this.getCosmWasmClient();
     const registry = getNameServiceRegistryFromChainName(this.chainName);
-    return registry ? new NameService(client, registry) : undefined;
+    return new NameService(client, registry);
   };
 
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {

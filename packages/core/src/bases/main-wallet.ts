@@ -51,7 +51,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
         ],
       };
 
-      this._chainWallets.set(
+      this._chainWallets!.set(
         chain.name,
         new this.ChainWallet(this.walletInfo, chain)
       );

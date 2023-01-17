@@ -25,8 +25,8 @@ import { convertChain, getNameServiceRegistryFromName } from './utils';
 export class WalletManager extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepo[] = [];
-  defaultNameService?: NameServiceName;
-  private _wallets: MainWalletBase[];
+  defaultNameService: NameServiceName = 'icns';
+  private _wallets: MainWalletBase[] = [];
   options = {
     synchroMutexWallet: true,
   };
@@ -47,7 +47,9 @@ export class WalletManager extends StateBase<Data> {
     sessionOptions?: SessionOptions
   ) {
     super();
-    this.defaultNameService = defaultNameService;
+    if (defaultNameService) {
+      this.defaultNameService = defaultNameService;
+    }
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
     this.init(
       chains,
@@ -252,9 +254,7 @@ export class WalletManager extends StateBase<Data> {
     );
   };
 
-  getNameService = async (
-    chainName?: ChainName
-  ): Promise<NameService | undefined> => {
+  getNameService = async (chainName?: ChainName): Promise<NameService> => {
     let _chainName: ChainName;
     if (!chainName) {
       if (!this.defaultNameService) {

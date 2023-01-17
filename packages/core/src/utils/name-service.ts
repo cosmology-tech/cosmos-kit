@@ -3,8 +3,12 @@ import { ChainName, NameServiceName, NameServiceRegistry } from '../types';
 
 export const getNameServiceRegistryFromChainName = (
   chainName: ChainName
-): NameServiceRegistry | undefined => {
-  return nameServiceRegistries.find((r) => r.chainName === chainName);
+): NameServiceRegistry => {
+  const registry = nameServiceRegistries.find((r) => r.chainName === chainName);
+  if (!registry) {
+    throw new Error('No such name service registered with chain ' + chainName);
+  }
+  return registry;
 };
 
 export const getNameServiceRegistryFromName = (
