@@ -39,7 +39,6 @@ export const ChainProvider = ({
   defaultNameService = 'icns',
   wcSignClientOptions,
   signerOptions,
-  // viewOptions,
   endpointOptions,
   sessionOptions,
   children,
@@ -52,7 +51,6 @@ export const ChainProvider = ({
   defaultNameService?: NameServiceName;
   wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
-  // viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   children: ReactNode;

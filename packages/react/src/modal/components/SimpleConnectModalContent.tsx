@@ -122,19 +122,18 @@ export const SimpleDisplayModalContent = ({
   const [displayBlur, setDisplayBlur] = useState(false);
 
   useEffect(() => {
-    if (descRef.current) {
-      if (descRef.current.clientHeight >= 96) setDisplayBlur(true);
+    const current = descRef.current as any;
+    if (current) {
+      if (current.clientHeight >= 96) setDisplayBlur(true);
       const scrollHandler = () => {
         const height = Math.abs(
-          descRef.current.scrollHeight -
-            descRef.current.clientHeight -
-            descRef.current.scrollTop
+          current.scrollHeight - current.clientHeight - current.scrollTop
         );
         if (height < 1) setDisplayBlur(false);
         if (height >= 1) setDisplayBlur(true);
       };
 
-      descRef.current.addEventListener('scroll', scrollHandler);
+      current.addEventListener('scroll', scrollHandler);
     }
   }, [descRef]);
 
