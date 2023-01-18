@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Algo,
   AminoSignResponse,
@@ -8,20 +5,39 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
+import {
+  DirectSignDoc,
+  SignOptions,
+  Wallet,
+  WalletClient,
+} from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
-import { SessionTypes } from '@walletconnect/types';
+import { SessionTypes, SignClientTypes } from '@walletconnect/types';
+import { CoreUtil } from './utils';
 
-import { WCAccount } from './types';
+const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
 export class WCClientV2 implements WalletClient {
-  readonly signClient: SignClient;
+  readonly walletInfo: Wallet;
+  readonly projectId: string; // wallet connect dapp project id
+  signClient?: SignClient;
+  qrUrl?: string;
+  appUrl?: string;
+  wcWalletInfo?: any;
 
-  constructor(signClient: SignClient) {
-    this.signClient = signClient;
+  constructor(walletInfo: Wallet, projectId: string) {
+    this.walletInfo = walletInfo;
+    this.projectId = projectId;
+  }
+
+  get walletName() {
+    return this.walletInfo.name;
   }
 
   get session(): SessionTypes.Struct {
+    if (!this.signClient) {
+      throw new Error('Sign client not initialized.');
+    }
     const ss = this.signClient.session;
     if (ss.length) {
       const lastKeyIndex = ss.keys.length - 1;
@@ -31,8 +47,75 @@ export class WCClientV2 implements WalletClient {
     throw new Error('Session is not proposed yet.');
   }
 
+  async initWCWalletInfo() {
+    const fetcUrl = `${EXPLORER_API}/v3/wallets?projectId=${this.projectId}&sdks=sign_v2&search=${this.walletName}`;
+    const fetched = await fetch(fetcUrl);
+    this.wcWalletInfo = await fetched.json();
+  }
+
+  async initSignClient(options: SignClientTypes.Options) {
+    this.signClient = await SignClient.init(options);
+  }
+
+  async connect(chainId: string, isMobile: boolean) {
+    if (!this.signClient) {
+      throw new Error('Sign client not initialized.');
+    }
+
+    const namespaces = {
+      cosmos: {
+        methods: [
+          'cosmos_getAccounts',
+          'cosmos_signAmino',
+          'cosmos_signDirect',
+        ],
+        chains: [`cosmos:${chainId}`],
+        events: [],
+      },
+    };
+    const { uri, approval } = await this.signClient.connect({
+      requiredNamespaces: namespaces,
+    });
+    this.qrUrl = uri;
+    this.appUrl = await this.getAppUrl();
+    if (isMobile && this.appUrl) {
+      CoreUtil.openHref(this.appUrl);
+    }
+    await approval();
+  }
+
+  async getAppUrl(): Promise<string | undefined> {
+    if (!this.qrUrl) {
+      throw new Error('Sign client not connected.');
+    }
+
+    if (!this.wcWalletInfo) {
+      throw new Error(
+        'wcWalletInfo is not initialized. Try call initWCWalletInfo.'
+      );
+    }
+
+    const { native, universal } = this.wcWalletInfo.listings[
+      this.walletInfo.wcProjectId!
+    ].mobile as { native: string | null; universal: string | null };
+
+    let href: string | undefined;
+    if (universal) {
+      href = CoreUtil.formatUniversalUrl(
+        universal,
+        this.qrUrl,
+        this.walletName
+      );
+    } else if (native) {
+      href = CoreUtil.formatNativeUrl(native, this.qrUrl, this.walletName);
+    }
+    return href;
+  }
+
   async disconnect() {
-    console.log('%cclient.ts line:35 123', 'color: #007acc;', 123);
+    if (!this.signClient) {
+      throw new Error('Sign client not initialized.');
+    }
     await this.signClient.disconnect({
       topic: this.session.topic,
       reason: {
@@ -43,6 +126,9 @@ export class WCClientV2 implements WalletClient {
   }
 
   async getAccount(chainId: string) {
+    // if (!this.signClient) {
+    //   throw new Error('Sign client not initialized.');
+    // }
     // const resp = await this.signClient.request({
     //   topic: this.session.topic,
     //   chainId: `cosmos:${chainId}`,
@@ -104,17 +190,22 @@ export class WCClientV2 implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ): Promise<AminoSignResponse> {
-    return ((await this.signClient.request({
-      topic: this.session.topic,
-      chainId: `cosmos:${chainId}`,
-      request: {
-        method: 'cosmos_signAmino',
-        params: {
-          signerAddress: signer,
-          signDoc,
+    if (!this.signClient) {
+      throw new Error('Sign client not initialized.');
+    }
+    return (
+      (await this.signClient.request({
+        topic: this.session.topic,
+        chainId: `cosmos:${chainId}`,
+        request: {
+          method: 'cosmos_signAmino',
+          params: {
+            signerAddress: signer,
+            signDoc,
+          },
         },
-      },
-    })) as any)['result'] as AminoSignResponse;
+      })) as any
+    )['result'] as AminoSignResponse;
   }
 
   async signDirect(
@@ -123,16 +214,21 @@ export class WCClientV2 implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ): Promise<DirectSignResponse> {
-    return ((await this.signClient.request({
-      topic: this.session.topic,
-      chainId: `cosmos:${chainId}`,
-      request: {
-        method: 'cosmos_signDirect',
-        params: {
-          signerAddress: signer,
-          signDoc,
+    if (!this.signClient) {
+      throw new Error('Sign client not initialized.');
+    }
+    return (
+      (await this.signClient.request({
+        topic: this.session.topic,
+        chainId: `cosmos:${chainId}`,
+        request: {
+          method: 'cosmos_signDirect',
+          params: {
+            signerAddress: signer,
+            signDoc,
+          },
         },
-      },
-    })) as any)['result'] as DirectSignResponse;
+      })) as any
+    )['result'] as DirectSignResponse;
   }
 }

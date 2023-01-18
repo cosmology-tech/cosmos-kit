@@ -71,6 +71,7 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
+  wcProjectId?: string;
 }
 
 export type Bech32Address = string;
@@ -122,7 +123,8 @@ export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
-  disconnect?: () => Promise<void>;
+  connect?: (chainId: string, isMobile: boolean) => Promise<void>; // called when chain wallet connect is called
+  disconnect?: () => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;

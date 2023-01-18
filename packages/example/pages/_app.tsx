@@ -10,7 +10,6 @@ import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-import { wallets as wcv2Wallets } from "@cosmos-kit/walletconnect-v2";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
@@ -26,7 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...wcv2Wallets,
           ...keplrWallets,
           ...cosmostationWallets,
           ...leapWallets,

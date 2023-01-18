@@ -15,7 +15,6 @@ import {
   StdFee,
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { nameServiceRegistries } from '../config';
 import { NameService } from '../name-service';
 
 import {
@@ -130,6 +129,8 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
 
     this.setState(State.Pending);
     try {
+      await this.client.connect?.(this.chainId, this.isMobile);
+
       let account: WalletAccount;
       if (this.client.addChain) {
         try {

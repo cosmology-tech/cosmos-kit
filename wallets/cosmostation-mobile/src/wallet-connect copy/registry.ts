@@ -6,14 +6,16 @@ import { RiAppStoreFill } from 'react-icons/ri';
 export const cosmostationMobileInfo: Wallet = {
   name: 'cosmostation-mobile',
   prettyName: 'Cosmostation Mobile',
-  logo: 'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation-wc.png',
+  logo:
+    'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation-wc.png',
   mode: 'wallet-connect',
   downloads: [
     {
       device: 'mobile',
       os: 'android',
       icon: FaAndroid,
-      link: 'https://play.google.com/store/apps/details?id=wannabit.io.cosmostaion',
+      link:
+        'https://play.google.com/store/apps/details?id=wannabit.io.cosmostaion',
     },
     {
       device: 'mobile',
@@ -27,6 +29,4 @@ export const cosmostationMobileInfo: Wallet = {
     },
   ],
   mobileDisabled: false,
-  wcProjectId:
-    'feb6ff1fb426db18110f5a80c7adbde846d0a7e96b2bc53af4b73aaf32552bea',
 };
