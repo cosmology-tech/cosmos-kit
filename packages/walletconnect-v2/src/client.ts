@@ -166,36 +166,36 @@ export class WCClientV2 implements WalletClient {
     };
   }
 
-  getOfflineSignerAmino = (chainId: string) => {
+  getOfflineSignerAmino(chainId: string) {
     return {
       getAccounts: async () => [await this.getKey(chainId)],
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
-  };
+  }
 
-  getOfflineSignerDirect = (chainId: string) => {
+  getOfflineSignerDirect(chainId: string) {
     return {
       getAccounts: async () => [await this.getKey(chainId)],
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;
-  };
+  }
 
-  getOfflineSigner = async (chainId: string) => {
+  async getOfflineSigner(chainId: string) {
     const key = await this.getAccount(chainId);
     if (key.isNanoLedger) {
       return this.getOfflineSignerAmino(chainId);
     }
     return this.getOfflineSignerDirect(chainId);
-  };
+  }
 
-  signAmino = async (
+  async signAmino(
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ): Promise<AminoSignResponse> => {
+  ): Promise<AminoSignResponse> {
     if (!this.signClient) {
       throw new Error('Sign client not initialized.');
     }
@@ -210,14 +210,14 @@ export class WCClientV2 implements WalletClient {
         },
       },
     })) as any)['result'] as AminoSignResponse;
-  };
+  }
 
-  signDirect = async (
+  async signDirect(
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
-  ): Promise<DirectSignResponse> => {
+  ): Promise<DirectSignResponse> {
     if (!this.signClient) {
       throw new Error('Sign client not initialized.');
     }
@@ -232,5 +232,5 @@ export class WCClientV2 implements WalletClient {
         },
       },
     })) as any)['result'] as DirectSignResponse;
-  };
+  }
 }
