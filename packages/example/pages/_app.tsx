@@ -8,6 +8,8 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
+import { wallets as omniWallets } from "@cosmos-kit/omni";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
@@ -30,6 +32,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...leapWallets,
           ...vectisWallets,
           ...xdefiWallets,
+          ...omniWallets,
+          ...trustWallets,
         ]}
         defaultNameService={"stargaze"}
         wcSignClientOptions={{
@@ -48,6 +52,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             }
           },
         }}
+        verbose={true}
       >
         <Component {...pageProps} />
       </ChainProvider>

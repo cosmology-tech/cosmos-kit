@@ -6,7 +6,6 @@ import { SignClientTypes } from '@walletconnect/types';
 import Bowser from 'bowser';
 
 import { MainWalletBase, StateBase } from './bases';
-import { nameServiceRegistries } from './config';
 import { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
@@ -88,9 +87,11 @@ export class WalletManager extends StateBase<Data> {
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) {
-    console.info(
-      `${chains.length} chains and ${wallets.length} wallets are provided!`
-    );
+    if (this.verbose) {
+      console.info(
+        `${chains.length} chains and ${wallets.length} wallets are provided!`
+      );
+    }
 
     this.chainRecords = chains.map((chain) =>
       convertChain(
@@ -102,6 +103,7 @@ export class WalletManager extends StateBase<Data> {
     );
 
     this._wallets = wallets.map((wallet) => {
+      wallet.verbose = this.verbose;
       if ((wallet as any).setWCSignClientOptions) {
         (wallet as any).setWCSignClientOptions(wcSignClientOptions);
       }
@@ -114,15 +116,13 @@ export class WalletManager extends StateBase<Data> {
     }
 
     this.chainRecords.forEach((chainRecord) => {
-      this.walletRepos.push(
-        new WalletRepo(
-          chainRecord,
-          wallets.map(
-            ({ getChainWallet }) => getChainWallet(chainRecord.name)!
-          ),
-          this.sessionOptions
-        )
+      const repo = new WalletRepo(
+        chainRecord,
+        wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!),
+        this.sessionOptions
       );
+      repo.verbose = this.verbose;
+      this.walletRepos.push(repo);
     });
   }
 

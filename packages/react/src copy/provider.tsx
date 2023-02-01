@@ -5,6 +5,7 @@ import {
   ChainWalletData,
   EndpointOptions,
   MainWalletBase,
+  ModalVersion,
   NameServiceName,
   SessionOptions,
   SignerOptions,
@@ -23,6 +24,7 @@ import React, {
 } from 'react';
 
 import { DefaultModal } from '.';
+import { getModal } from './modal';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -39,36 +41,34 @@ export const ChainProvider = ({
   signerOptions,
   endpointOptions,
   sessionOptions,
-  verbose = false,
   children,
 }: {
   chains: Chain[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
-  walletModal?: (props: WalletModalProps) => JSX.Element;
+  walletModal?: ModalVersion | ((props: WalletModalProps) => JSX.Element);
   modalTheme?: Record<string, any>;
   defaultNameService?: NameServiceName;
   wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
-  verbose?: boolean;
   children: ReactNode;
 }) => {
-  const walletManager = useMemo(() => {
-    const m = new WalletManager(
-      chains,
-      assetLists,
-      wallets,
-      defaultNameService,
-      wcSignClientOptions,
-      signerOptions,
-      endpointOptions,
-      sessionOptions
-    );
-    m.verbose = verbose;
-    return m;
-  }, []);
+  const walletManager = useMemo(
+    () =>
+      new WalletManager(
+        chains,
+        assetLists,
+        wallets,
+        defaultNameService,
+        wcSignClientOptions,
+        signerOptions,
+        endpointOptions,
+        sessionOptions
+      ),
+    []
+  );
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [viewWalletRepo, setViewWalletRepo] = useState<
@@ -101,7 +101,15 @@ export const ChainProvider = ({
     });
   });
 
-  const Modal = walletModal || DefaultModal;
+  const Modal = useMemo(() => {
+    if (!walletModal) {
+      return DefaultModal;
+    } else if (typeof walletModal === 'string') {
+      return getModal(walletModal as ModalVersion);
+    } else {
+      return walletModal;
+    }
+  }, [walletModal]);
 
   useEffect(() => {
     walletManager.onMounted();

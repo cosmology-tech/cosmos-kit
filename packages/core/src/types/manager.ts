@@ -6,7 +6,7 @@ import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
 import { Dispatch, StateActions } from './common';
-import { NameServiceName, WalletName } from './wallet';
+import { NameServiceName, WalletClient, WalletName } from './wallet';
 
 export interface SignerOptions {
   stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;

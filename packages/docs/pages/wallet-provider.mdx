@@ -101,11 +101,9 @@ In addition, you can integrate new wallets in a few steps.
 
 ## walletModal
 
-Optional property of type `ModalVersion | ({ isOpen, setOpen }: WalletModalProps) => JSX.Element`
+Optional property of type `({ isOpen, setOpen }: WalletModalProps) => JSX.Element`
 
-So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
-
-If `walletModal` not provided, by default using `simple_v2` for modal.
+If `walletModal` not provided, by default using modal as follows.
 
 <div width="100%" style={{
   display:'flex',
@@ -113,23 +111,13 @@ If `walletModal` not provided, by default using `simple_v2` for modal.
   alignItems: 'center',
   marginTop: '36px'
   }}>
-    <div style={{marginRight:'56px'}}>
-    simple_v1
-        <img
-        width="300"
-        src="/img/modal_simple_v1.jpg"
-        />
-    </div>
-    <div style={{marginRight:'16px'}}>
-    simple_v2
         <img
         width="300"
         src="/img/modal_simple_v2.jpg"
         />
-    </div>
 </div>
 
-For `simple_v1`, the order of wallets follows the order of property `wallets` in WalletProvider. And basically `simple_v2` follows the same rule, except that all mobiles are moved to the back.
+The order of wallets follows the order of property `wallets` in WalletProvider, except that all mobiles are moved to the back.
 
 ### customize modal
 
@@ -152,7 +140,6 @@ const MyModal = ({ isOpen, setOpen }: WalletModalProps) => {
 
   function onWalletClicked(name: string) {
     return async () => {
-      console.info('Connecting ' + name);
       walletManager.setCurrentWallet(name);
       await walletManager.connect();
     };

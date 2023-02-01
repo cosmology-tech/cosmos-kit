@@ -112,7 +112,7 @@ In addition, you can integrate new wallets in a few steps.
 
 ## walletModal
 
-Optional property of type `ModalVersion | ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
+Optional property of type `({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
 
 So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
 
@@ -321,3 +321,7 @@ export interface SignerOptions {
   signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
 }
 ```
+
+## verbose
+
+Optional property. By default `false`. If set `true`, will print `LOG`, `INFO` or `WARNING` on console.

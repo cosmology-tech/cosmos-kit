@@ -113,9 +113,11 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   }
 
   fetchClient(): WalletClient | Promise<WalletClient | undefined> | undefined {
-    console.warn(
-      'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
-    );
+    if (this.verbose) {
+      console.warn(
+        'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
+      );
+    }
     return void 0;
   }
 
@@ -175,13 +177,15 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   }
 
   getRpcEndpoint = async (): Promise<string> => {
-    if (this._rpcEndpoint && (await isValidEndpoint(this._rpcEndpoint))) {
+    if (this._rpcEndpoint && (await isValidEndpoint(this._rpcEndpoint, this.verbose))) {
       return this._rpcEndpoint;
     }
     for (const endpoint of this.rpcEndpoints || []) {
-      if (await isValidEndpoint(endpoint)) {
+      if (await isValidEndpoint(endpoint, this.verbose)) {
         this._rpcEndpoint = endpoint;
-        console.info('Using RPC endpoint ' + endpoint);
+        if (this.verbose) {
+          console.info('Using RPC endpoint ' + endpoint);
+        }
         return endpoint;
       }
     }
@@ -191,13 +195,15 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   };
 
   getRestEndpoint = async (): Promise<string> => {
-    if (this._restEndpoint && (await isValidEndpoint(this._restEndpoint))) {
+    if (this._restEndpoint && (await isValidEndpoint(this._restEndpoint, this.verbose))) {
       return this._restEndpoint;
     }
     for (const endpoint of this.restEndpoints || []) {
-      if (await isValidEndpoint(endpoint)) {
+      if (await isValidEndpoint(endpoint, this.verbose)) {
         this._restEndpoint = endpoint;
-        console.info('Using REST endpoint ' + endpoint);
+        if (this.verbose) {
+          console.info('Using REST endpoint ' + endpoint);
+        }
         return endpoint;
       }
     }

@@ -9,7 +9,6 @@ import {
   NameServiceName,
   State,
   WalletStatus,
-  WalletClient,
 } from '@cosmos-kit/core';
 import React, { useState } from 'react';
 
@@ -163,7 +162,6 @@ export const useChain = (chainName: ChainName): ChainContext => {
     username: current?.username,
     message: current ? current.message : 'No wallet is connected currently.',
     status,
-    client: current?.client,
 
     isWalletDisconnected: status === 'Disconnected',
     isWalletConnecting: status === 'Connecting',

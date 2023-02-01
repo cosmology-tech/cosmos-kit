@@ -5,6 +5,7 @@ export class StateBase<T> {
   protected _mutable: Mutable<T>;
   actions?: StateActions<T>;
   protected _env?: AppEnv;
+  verbose: boolean = false;
 
   constructor() {
     this._mutable = { state: State.Init };

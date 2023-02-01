@@ -23,7 +23,7 @@ export class WalletRepo extends StateBase<Data> {
   constructor(
     chainRecord: ChainRecord,
     wallets: ChainWalletBase[] = [],
-    sessionOptions?: SessionOptions
+    sessionOptions?: SessionOptions,
   ) {
     super();
     this.chainRecord = chainRecord;
@@ -83,9 +83,11 @@ export class WalletRepo extends StateBase<Data> {
   // you should never use current when `uniqueWallet` is set false
   get current(): ChainWalletBase | undefined {
     if (!this.options.mutexWallet) {
-      console.warn(
-        "It's meaningless to use current when `uniqueWallet` is set false."
-      );
+      if (this.verbose) {
+        console.warn(
+          "It's meaningless to use current when `uniqueWallet` is set false."
+        );
+      }
       return void 0;
     }
     return this.wallets.find((w) => !w.isWalletDisconnected);

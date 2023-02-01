@@ -38,23 +38,23 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     chains.forEach((chain) => {
       chain.preferredEndpoints = {
         rpc: [
-          ...(chain.preferredEndpoints?.rpc || []),
-          ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
-          `https://rpc.cosmos.directory/${chain.name}`,
           ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
+          `https://rpc.cosmos.directory/${chain.name}`,
+          ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
+          ...(chain.preferredEndpoints?.rpc || []),
         ],
         rest: [
-          ...(chain.preferredEndpoints?.rest || []),
-          ...(this.preferredEndpoints?.[chain.name]?.rest || []),
-          `https://rest.cosmos.directory/${chain.name}`,
           ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
+          `https://rest.cosmos.directory/${chain.name}`,
+          ...(this.preferredEndpoints?.[chain.name]?.rest || []),
+          ...(chain.preferredEndpoints?.rest || []),
         ],
       };
 
-      this._chainWallets!.set(
-        chain.name,
-        new this.ChainWallet(this.walletInfo, chain)
-      );
+      const chainWallet = new this.ChainWallet(this.walletInfo, chain);
+      chainWallet.verbose = this.verbose;
+
+      this._chainWallets!.set(chain.name, chainWallet);
     });
 
     this.onSetChainsDone();

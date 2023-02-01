@@ -1,5 +1,4 @@
 import {
-  Algo,
   AminoSignResponse,
   OfflineAminoSigner,
   StdSignDoc,
@@ -13,6 +12,7 @@ import {
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { SessionTypes, SignClientTypes } from '@walletconnect/types';
+import { WCAccount } from './types';
 import { CoreUtil } from './utils';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
@@ -57,7 +57,7 @@ export class WCClientV2 implements WalletClient {
     this.signClient = await SignClient.init(options);
   }
 
-  async connect(chainId: string, isMobile: boolean) {
+  async connect(chainIds: string | string[], isMobile: boolean) {
     if (!this.signClient) {
       throw new Error('Sign client not initialized.');
     }
@@ -69,7 +69,10 @@ export class WCClientV2 implements WalletClient {
           'cosmos_signAmino',
           'cosmos_signDirect',
         ],
-        chains: [`cosmos:${chainId}`],
+        chains:
+          typeof chainIds === 'string'
+            ? [`cosmos:${chainIds}`]
+            : chainIds.map((id) => `cosmos:${id}`),
         events: [],
       },
     };
@@ -78,7 +81,7 @@ export class WCClientV2 implements WalletClient {
     });
     this.qrUrl = uri;
     this.appUrl = await this.getAppUrl();
-    if (isMobile && this.appUrl) {
+    if (isMobile) {
       CoreUtil.openHref(this.appUrl);
     }
     await approval();
@@ -126,109 +129,108 @@ export class WCClientV2 implements WalletClient {
   }
 
   async getAccount(chainId: string) {
-    // if (!this.signClient) {
-    //   throw new Error('Sign client not initialized.');
-    // }
-    // const resp = await this.signClient.request({
-    //   topic: this.session.topic,
-    //   chainId: `cosmos:${chainId}`,
-    //   request: {
-    //     method: 'cosmos_getAccounts',
-    //     params: {},
-    //   },
-    // });
-    // const result = (resp as any)['result'][0] as WCAccount;
-
-    // return {
-    //   address: result.address,
-    //   algo: result.algo,
-    //   pubkey: Buffer.from(result.pubkey, 'hex'),
-    //   isNanoLedger: result.isNanoLedger,
-    // };
-
-    const { namespaces, self } = this.session;
-
+    const { namespaces } = this.session;
+    const id2addr = namespaces.cosmos.accounts.reduce((p, c) => {
+      const [, id, addr] = c.split(':');
+      return { ...p, [id]: addr };
+    }, {});
+    if (!id2addr[chainId]) {
+      throw new Error(
+        `Chain ${chainId} is not connected yet, please check the session approval namespaces`
+      );
+    }
     return {
-      address: namespaces.cosmos.accounts[0].split(':')[2],
-      algo: 'secp256k1' as Algo,
-      pubkey: Buffer.from(self.publicKey, 'hex'),
+      address: id2addr[chainId],
       isNanoLedger: false,
     };
   }
 
-  getOfflineSignerAmino(chainId: string) {
-    return {
-      getAccounts: async () => {
-        return [await this.getAccount(chainId)];
+  async getKey(chainId: string) {
+    if (!this.signClient) {
+      throw new Error('Sign client not initialized.');
+    }
+    const resp = await this.signClient.request({
+      topic: this.session.topic,
+      chainId: `cosmos:${chainId}`,
+      request: {
+        method: 'cosmos_getAccounts',
+        params: {},
       },
+    });
+    const result = (resp as any)['result'][0] as WCAccount;
+
+    return {
+      address: result.address,
+      algo: result.algo,
+      pubkey: Buffer.from(result.pubkey, 'hex'),
+    };
+  }
+
+  getOfflineSignerAmino = (chainId: string) => {
+    return {
+      getAccounts: async () => [await this.getKey(chainId)],
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
-  }
+  };
 
-  getOfflineSignerDirect(chainId: string) {
+  getOfflineSignerDirect = (chainId: string) => {
     return {
-      getAccounts: async () => {
-        return [await this.getAccount(chainId)];
-      },
+      getAccounts: async () => [await this.getKey(chainId)],
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;
-  }
+  };
 
-  async getOfflineSigner(chainId: string) {
+  getOfflineSigner = async (chainId: string) => {
     const key = await this.getAccount(chainId);
-    if (key.isNanoLedger || typeof key.isNanoLedger === 'undefined') {
+    if (key.isNanoLedger) {
       return this.getOfflineSignerAmino(chainId);
     }
     return this.getOfflineSignerDirect(chainId);
-  }
+  };
 
-  async signAmino(
+  signAmino = async (
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ): Promise<AminoSignResponse> {
+  ): Promise<AminoSignResponse> => {
     if (!this.signClient) {
       throw new Error('Sign client not initialized.');
     }
-    return (
-      (await this.signClient.request({
-        topic: this.session.topic,
-        chainId: `cosmos:${chainId}`,
-        request: {
-          method: 'cosmos_signAmino',
-          params: {
-            signerAddress: signer,
-            signDoc,
-          },
+    return ((await this.signClient.request({
+      topic: this.session.topic,
+      chainId: `cosmos:${chainId}`,
+      request: {
+        method: 'cosmos_signAmino',
+        params: {
+          signerAddress: signer,
+          signDoc,
         },
-      })) as any
-    )['result'] as AminoSignResponse;
-  }
+      },
+    })) as any)['result'] as AminoSignResponse;
+  };
 
-  async signDirect(
+  signDirect = async (
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
-  ): Promise<DirectSignResponse> {
+  ): Promise<DirectSignResponse> => {
     if (!this.signClient) {
       throw new Error('Sign client not initialized.');
     }
-    return (
-      (await this.signClient.request({
-        topic: this.session.topic,
-        chainId: `cosmos:${chainId}`,
-        request: {
-          method: 'cosmos_signDirect',
-          params: {
-            signerAddress: signer,
-            signDoc,
-          },
+    return ((await this.signClient.request({
+      topic: this.session.topic,
+      chainId: `cosmos:${chainId}`,
+      request: {
+        method: 'cosmos_signDirect',
+        params: {
+          signerAddress: signer,
+          signDoc,
         },
-      })) as any
-    )['result'] as DirectSignResponse;
-  }
+      },
+    })) as any)['result'] as DirectSignResponse;
+  };
 }
