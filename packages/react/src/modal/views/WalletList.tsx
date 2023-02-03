@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 
 import {
-  SimpleConnectModal,
   SimpleDisplayWalletList,
   SimpleModalHead,
+  SimpleModalView,
   Wallet,
 } from '@cosmology-ui/react';
 import { ChainWalletBase } from '@cosmos-kit/core';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 export const WalletList = ({
   onClose,
@@ -29,25 +29,30 @@ export const WalletList = ({
   );
 
   const walletsData = wallets
+    .sort((a, b) => {
+      if (a.walletInfo.mode === b.walletInfo.mode) {
+        return 0;
+      } else if (a.walletInfo.mode !== 'wallet-connect') {
+        return -1;
+      } else {
+        return 1;
+      }
+    })
     .map(
-      (w) =>
+      (w, i) =>
         ({
           ...w.walletInfo,
           downloads: void 0,
           onClick: async () => {
             onWalletClicked(w.walletName);
           },
+          buttonShape: i < 2 ? 'Square' : 'Rectangle',
+          subLogo:
+            w.walletInfo.mode === 'wallet-connect'
+              ? 'https://user-images.githubusercontent.com/545047/202090621-bb110635-f6ce-4aa0-a4e5-a03beac29bd1.svg'
+              : void 0,
         } as Wallet)
-    )
-    .sort((a, b) => {
-      if (a.mode === b.mode) {
-        return 0;
-      } else if (a.mode !== 'wallet-connect') {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
+    );
 
   const modalContent = (
     <SimpleDisplayWalletList
@@ -56,13 +61,5 @@ export const WalletList = ({
     />
   );
 
-  return (
-    <SimpleConnectModal
-      modalOpen={true}
-      modalOnClose={onClose}
-      modalHead={modalHead}
-      modalContent={modalContent}
-      initialRef={initialFocus}
-    />
-  );
+  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
 };

@@ -3,11 +3,11 @@ import {
   Astronaut,
   ConnectWalletButton,
   CopyAddressButton,
-  SimpleConnectModal,
   SimpleDisplayModalContent,
   SimpleModalHead,
+  SimpleModalView,
 } from '@cosmology-ui/react';
-import { useRef } from 'react';
+import React from 'react';
 import { RiDoorOpenFill } from 'react-icons/ri';
 
 export const Connected = ({
@@ -27,8 +27,6 @@ export const Connected = ({
   username?: string;
   address?: string;
 }) => {
-  const initialFocus = useRef();
-
   const modalHead = (
     <SimpleModalHead
       title={name}
@@ -56,13 +54,5 @@ export const Connected = ({
     />
   );
 
-  return (
-    <SimpleConnectModal
-      modalOpen={true}
-      modalOnClose={onClose}
-      modalHead={modalHead}
-      modalContent={modalContent}
-      initialRef={initialFocus}
-    />
-  );
+  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
 };

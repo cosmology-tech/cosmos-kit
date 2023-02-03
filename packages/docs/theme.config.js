@@ -75,11 +75,13 @@ export default {
         { content: "#fff", name: "msapplication-TileColor" },
         { content: "/ms-icon-144x144.png", name: "msapplication-TileImage" },
       ],
-      description:
-        frontMatter.description ||
-        "CosmosKit: A wallet connector for the Cosmos ",
+      description: "CosmosKit: A wallet connector for the Cosmos ",
       openGraph: {
-        images: [{ url: frontMatter.image }],
+        images: [
+          {
+            url: "https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg",
+          },
+        ],
       },
       titleTemplate: "%s – CosmosKit",
       twitter: {

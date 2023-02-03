@@ -1,11 +1,11 @@
 import {
   InstallWalletButton,
   LogoStatus,
-  SimpleConnectModal,
   SimpleDisplayModalContent,
   SimpleModalHead,
+  SimpleModalView,
 } from '@cosmology-ui/react';
-import { useRef } from 'react';
+import React from 'react';
 import { IconType } from 'react-icons';
 import { GoDesktopDownload } from 'react-icons/go';
 
@@ -24,8 +24,6 @@ export const NotExist = ({
   name: string;
   buttonIcon?: IconType;
 }) => {
-  const initialFocus = useRef();
-
   const modalHead = (
     <SimpleModalHead
       title={name}
@@ -56,13 +54,5 @@ export const NotExist = ({
     />
   );
 
-  return (
-    <SimpleConnectModal
-      modalOpen={true}
-      modalOnClose={onClose}
-      modalHead={modalHead}
-      modalContent={modalContent}
-      initialRef={initialFocus}
-    />
-  );
+  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
 };

@@ -6,7 +6,7 @@ import { RiAppStoreFill } from 'react-icons/ri';
 export const cosmostationMobileInfo: Wallet = {
   name: 'cosmostation-mobile',
   prettyName: 'Cosmostation Mobile',
-  logo: 'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation-wc.png',
+  logo: 'https://user-images.githubusercontent.com/74940804/202999324-fa2faf40-5ead-4896-b865-e97f052fc6f9.png',
   mode: 'wallet-connect',
   downloads: [
     {

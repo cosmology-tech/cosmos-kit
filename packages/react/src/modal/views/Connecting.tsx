@@ -1,10 +1,10 @@
 import {
   LogoStatus,
-  SimpleConnectModal,
   SimpleDisplayModalContent,
   SimpleModalHead,
+  SimpleModalView,
 } from '@cosmology-ui/react';
-import { useRef } from 'react';
+import React from 'react';
 
 export const Connecting = ({
   onClose,
@@ -21,8 +21,6 @@ export const Connecting = ({
   title: string;
   subtitle: string;
 }) => {
-  const initialFocus = useRef();
-
   const modalHead = (
     <SimpleModalHead
       title={name}
@@ -41,13 +39,5 @@ export const Connecting = ({
     />
   );
 
-  return (
-    <SimpleConnectModal
-      modalOpen={true}
-      modalOnClose={onClose}
-      modalHead={modalHead}
-      modalContent={modalContent}
-      initialRef={initialFocus}
-    />
-  );
+  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
 };

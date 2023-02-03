@@ -1,11 +1,23 @@
 import {
+  SimpleConnectModal,
+  ThemeContext,
+  ThemeProvider,
+} from '@cosmology-ui/react';
+import {
   ChainWalletBase,
   WalletModalProps,
   WalletStatus,
 } from '@cosmos-kit/core';
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+} from 'react';
 import { noCssResetTheme } from './theme/config';
-import { ThemeWrapper } from './theme/wrapper';
+import { ChakraThemeWrapper } from './theme/wrapper';
 
 import { ModalView } from './types';
 import {
@@ -24,6 +36,7 @@ export const DefaultModal = ({
   walletRepo,
   theme,
 }: WalletModalProps) => {
+  const initialFocus = useRef();
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
@@ -82,7 +95,7 @@ export const DefaultModal = ({
     }
   }, [setOpen]);
 
-  const modal = useMemo(() => {
+  const modalView = useMemo(() => {
     switch (currentView) {
       case ModalView.WalletList:
         return (
@@ -181,5 +194,16 @@ export const DefaultModal = ({
     }
   }, [currentView, onCloseModal, onWalletClicked, walletInfo, current]);
 
-  return <ThemeWrapper theme={theme || noCssResetTheme}>{modal}</ThemeWrapper>;
+  return (
+    <ThemeProvider>
+      <ChakraThemeWrapper theme={theme || noCssResetTheme}>
+        <SimpleConnectModal
+          modalOpen={isOpen}
+          modalOnClose={onCloseModal}
+          modalView={modalView}
+          initialRef={initialFocus}
+        />
+      </ChakraThemeWrapper>
+    </ThemeProvider>
+  );
 };

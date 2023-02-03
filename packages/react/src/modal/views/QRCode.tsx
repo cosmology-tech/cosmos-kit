@@ -1,9 +1,9 @@
 import {
-  SimpleConnectModal,
   SimpleModalHead,
   QRCode as SimpleQRCode,
+  SimpleModalView,
 } from '@cosmology-ui/react';
-import { useRef } from 'react';
+import React from 'react';
 
 export const QRCode = ({
   onClose,
@@ -18,8 +18,6 @@ export const QRCode = ({
   name: string;
   loading: boolean;
 }) => {
-  const initialFocus = useRef();
-
   const modalHead = (
     <SimpleModalHead
       title={name}
@@ -37,13 +35,5 @@ export const QRCode = ({
     />
   );
 
-  return (
-    <SimpleConnectModal
-      modalOpen={true}
-      modalOnClose={onClose}
-      modalHead={modalHead}
-      modalContent={modalContent}
-      initialRef={initialFocus}
-    />
-  );
+  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
 };

@@ -5,8 +5,16 @@ import {
 } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { BroadcastMode, Key } from '@cosmos-kit/core';
+import { BroadcastMode } from '@cosmos-kit/core';
 
+export interface Key {
+  readonly name: string;
+  readonly algo: string;
+  readonly pubKey: Uint8Array;
+  readonly address: Uint8Array;
+  readonly bech32Address: string;
+  readonly isNanoLedger: boolean;
+}
 export interface LeapSignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
