@@ -91,7 +91,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
   const { walletManager } = context;
   const walletRepo = walletManager.getWalletRepo(chainName);
-  walletRepo.isInUse = true;
+  walletRepo.isActive = true;
   const {
     connect,
     disconnect,

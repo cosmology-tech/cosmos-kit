@@ -1,20 +1,11 @@
-import {
-  SimpleConnectModal,
-  ThemeContext,
-  ThemeProvider,
-} from '@cosmology-ui/react';
-import {
-  ChainWalletBase,
-  WalletModalProps,
-  WalletStatus,
-} from '@cosmos-kit/core';
+import { SimpleConnectModal, ThemeProvider } from '@cosmology-ui/react';
+import { WalletModalProps, WalletStatus } from '@cosmos-kit/core';
 import React, {
   useCallback,
   useMemo,
   useEffect,
   useState,
   useRef,
-  useContext,
 } from 'react';
 import { noCssResetTheme } from './theme/config';
 import { ChakraThemeWrapper } from './theme/wrapper';
@@ -40,21 +31,26 @@ export const DefaultModal = ({
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
   );
-  const [qrWallet, setQRWallet] = useState<ChainWalletBase | undefined>();
 
   const current = walletRepo?.current;
   const walletInfo = current?.walletInfo;
   const status = current?.walletStatus || WalletStatus.Disconnected;
   const walletName = current?.walletName;
+  const message = current?.message;
 
   useEffect(() => {
+    console.log('%cmodal.tsx line:42 status', 'color: #007acc;', status);
     if (isOpen) {
       switch (status) {
         case WalletStatus.Disconnected:
           setCurrentView(ModalView.WalletList);
           break;
         case WalletStatus.Connecting:
-          setCurrentView(ModalView.Connecting);
+          if (message === 'QRCode') {
+            setCurrentView(ModalView.QRCode);
+          } else {
+            setCurrentView(ModalView.Connecting);
+          }
           break;
         case WalletStatus.Connected:
           setCurrentView(ModalView.Connected);
@@ -74,16 +70,7 @@ export const DefaultModal = ({
 
   const onWalletClicked = useCallback(
     (name: string) => {
-      walletRepo?.connect(name);
-
-      // 1ms timeout prevents modal from determining the view to show first
-      setTimeout(() => {
-        const wallet = walletRepo?.getWallet(name);
-        if (wallet?.walletInfo.mode === 'wallet-connect' && !wallet.isMobile) {
-          setCurrentView(ModalView.QRCode);
-          setQRWallet(wallet);
-        }
-      }, 1);
+      walletRepo?.connect(name, true);
     },
     [walletRepo]
   );
@@ -110,7 +97,7 @@ export const DefaultModal = ({
           <Connected
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
-            onDisconnect={() => current?.disconnect()}
+            onDisconnect={() => current?.disconnect(void 0, true)}
             name={walletInfo?.prettyName!}
             logo={walletInfo?.logo!}
             username={current?.username}
@@ -144,9 +131,9 @@ export const DefaultModal = ({
           <QRCode
             onClose={onCloseModal}
             onReturn={() => setCurrentView(ModalView.WalletList)}
-            qrUrl={qrWallet?.qrUrl}
-            name={qrWallet?.walletInfo.prettyName}
-            loading={Boolean(qrWallet?.qrUrl)}
+            qrUrl={current?.qrUrl}
+            name={current?.walletInfo.prettyName}
+            loading={Boolean(current?.qrUrl)}
           />
         );
       case ModalView.Error:

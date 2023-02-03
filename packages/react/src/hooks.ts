@@ -92,7 +92,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
   const { walletManager } = context;
   const walletRepo = walletManager.getWalletRepo(chainName);
-  walletRepo.isInUse = true;
+  walletRepo.activate();
   const {
     connect,
     disconnect,
@@ -175,7 +175,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     openView,
     closeView,
     connect,
-    disconnect,
+    disconnect: () => disconnect(void 0, true),
     getRpcEndpoint,
     getRestEndpoint,
     getStargateClient,

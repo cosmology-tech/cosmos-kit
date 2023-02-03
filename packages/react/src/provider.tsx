@@ -9,6 +9,7 @@ import {
   SessionOptions,
   SignerOptions,
   State,
+  WalletConnectOptions,
   WalletManager,
   WalletModalProps,
   WalletRepo,
@@ -35,7 +36,7 @@ export const ChainProvider = ({
   walletModal,
   modalTheme,
   defaultNameService = 'icns',
-  wcSignClientOptions,
+  walletConnectOptions,
   signerOptions,
   endpointOptions,
   sessionOptions,
@@ -48,27 +49,28 @@ export const ChainProvider = ({
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
   defaultNameService?: NameServiceName;
-  wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
+  walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   verbose?: boolean;
   children: ReactNode;
 }) => {
-  const walletManager = useMemo(() => {
-    const m = new WalletManager(
-      chains,
-      assetLists,
-      wallets,
-      defaultNameService,
-      wcSignClientOptions,
-      signerOptions,
-      endpointOptions,
-      sessionOptions
-    );
-    m.verbose = verbose;
-    return m;
-  }, []);
+  const walletManager = useMemo(
+    () =>
+      new WalletManager(
+        chains,
+        assetLists,
+        wallets,
+        defaultNameService,
+        walletConnectOptions,
+        signerOptions,
+        endpointOptions,
+        sessionOptions,
+        verbose
+      ),
+    []
+  );
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [viewWalletRepo, setViewWalletRepo] = useState<

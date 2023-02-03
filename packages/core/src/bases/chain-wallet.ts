@@ -37,6 +37,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   restEndpoints?: string[];
   protected _rpcEndpoint?: string;
   protected _restEndpoint?: string;
+  isActive = false;
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
@@ -112,6 +113,10 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return this.data?.offlineSigner;
   }
 
+  activate() {
+    this.isActive = true;
+  }
+
   fetchClient(): WalletClient | Promise<WalletClient | undefined> | undefined {
     if (this.verbose) {
       console.warn(
@@ -130,6 +135,9 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     }
 
     this.setState(State.Pending);
+    if (this.walletInfo.mode === 'wallet-connect' && !this.isMobile) {
+      this.setMessage('QRCode');
+    }
     try {
       await this.client.connect?.(this.chainId, this.isMobile);
 
@@ -157,6 +165,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
           : void 0,
       });
       this.setState(State.Done);
+      this.setMessage(void 0);
 
       if (sessionOptions?.duration) {
         setTimeout(() => {
@@ -177,7 +186,10 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   }
 
   getRpcEndpoint = async (): Promise<string> => {
-    if (this._rpcEndpoint && (await isValidEndpoint(this._rpcEndpoint, this.verbose))) {
+    if (
+      this._rpcEndpoint &&
+      (await isValidEndpoint(this._rpcEndpoint, this.verbose))
+    ) {
       return this._rpcEndpoint;
     }
     for (const endpoint of this.rpcEndpoints || []) {
@@ -195,7 +207,10 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   };
 
   getRestEndpoint = async (): Promise<string> => {
-    if (this._restEndpoint && (await isValidEndpoint(this._restEndpoint, this.verbose))) {
+    if (
+      this._restEndpoint &&
+      (await isValidEndpoint(this._restEndpoint, this.verbose))
+    ) {
       return this._restEndpoint;
     }
     for (const endpoint of this.restEndpoints || []) {

@@ -169,7 +169,7 @@ export default () => {
               assets.filter((assets) => assets.chain_name === "cosmoshub")
             );
             const walletRepo = getWalletRepo("cosmoshub");
-            walletRepo.isInUse = true;
+            walletRepo.isActive = true;
             walletRepo.connect();
           }}
         >

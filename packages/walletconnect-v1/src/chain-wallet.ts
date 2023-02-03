@@ -11,7 +11,7 @@ import { IWCClientV1 } from './types';
 
 export class ChainWCV1 extends ChainWalletBase {
   client!: IWCClientV1;
-  emitter!: EventEmitter;
+  wcemitter!: EventEmitter;
 
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
     super(walletInfo, chainInfo);
@@ -34,11 +34,11 @@ export class ChainWCV1 extends ChainWalletBase {
     callbacks?: Callbacks
   ): Promise<void> => {
     this.setMessage('About to connect.');
-    this.emitter.removeAllListeners();
-    this.emitter.on('update', async () => {
+    this.wcemitter.removeAllListeners();
+    this.wcemitter.on('update', async () => {
       await this.update(sessionOptions, callbacks);
     });
-    this.emitter.on('disconnect', async () => {
+    this.wcemitter.on('disconnect', async () => {
       await this.disconnect(callbacks);
     });
 
@@ -64,7 +64,7 @@ export class ChainWCV1 extends ChainWalletBase {
       await this.connector.killSession();
     }
     this.reset();
-    this.emitter.removeAllListeners();
+    this.wcemitter.removeAllListeners();
     window.localStorage.removeItem('chain-provider');
     await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();

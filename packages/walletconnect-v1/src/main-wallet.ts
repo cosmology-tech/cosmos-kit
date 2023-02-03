@@ -12,32 +12,32 @@ import { IChainWC, IWCClient, IWCClientV1 } from './types';
 
 export class WCWalletV1 extends MainWalletBase {
   client: IWCClientV1;
-  emitter: EventEmitter;
+  wcemitter: EventEmitter;
 
   constructor(walletInfo: Wallet, ChainWC: IChainWC, WCClient: IWCClient) {
     super(walletInfo, ChainWC);
 
     this.client = new WCClient();
-    this.emitter = new EventEmitter();
+    this.wcemitter = new EventEmitter();
     this.connector.on('connect', async (error: Error | null) => {
       if (error) {
         throw error;
       }
-      this.emitter.emit('update');
+      this.wcemitter.emit('update');
     });
 
     this.connector.on('session_update', async (error: Error | null) => {
       if (error) {
         throw error;
       }
-      this.emitter.emit('update');
+      this.wcemitter.emit('update');
     });
 
     this.connector.on('disconnect', (error: Error | null) => {
       if (error) {
         throw error;
       }
-      this.emitter.emit('disconnect');
+      this.wcemitter.emit('disconnect');
     });
   }
 
@@ -60,10 +60,7 @@ export class WCWalletV1 extends MainWalletBase {
   protected onSetChainsDone(): void {
     this.chainWallets?.forEach((chainWallet) => {
       chainWallet.client = this.client;
-      chainWallet.clientPromise = this.clientPromise;
-      (chainWallet as ChainWCV1).emitter = this.emitter;
-      // chainWallet.connect = this.connect;
-      // chainWallet.disconnect = this.disconnect;
+      (chainWallet as ChainWCV1).wcemitter = this.wcemitter;
     });
   }
 
@@ -72,11 +69,11 @@ export class WCWalletV1 extends MainWalletBase {
     callbacks?: Callbacks
   ): Promise<void> => {
     this.setMessage('About to connect.');
-    this.emitter.removeAllListeners();
-    this.emitter.on('update', async () => {
+    this.wcemitter.removeAllListeners();
+    this.wcemitter.on('update', async () => {
       await this.update(sessionOptions, callbacks);
     });
-    this.emitter.on('disconnect', async () => {
+    this.wcemitter.on('disconnect', async () => {
       await this.disconnect(callbacks);
     });
 
@@ -105,7 +102,7 @@ export class WCWalletV1 extends MainWalletBase {
       chain.reset();
     });
     this.reset();
-    this.emitter.removeAllListeners();
+    this.wcemitter.removeAllListeners();
     await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };

@@ -27,6 +27,6 @@ export const cosmostationMobileInfo: Wallet = {
     },
   ],
   mobileDisabled: false,
-  wcProjectId:
+  walletConnectProjectId:
     'feb6ff1fb426db18110f5a80c7adbde846d0a7e96b2bc53af4b73aaf32552bea',
 };

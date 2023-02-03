@@ -12,7 +12,7 @@ import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
  * Store all ChainWallets for a particular Chain.
  */
 export class WalletRepo extends StateBase<Data> {
-  isInUse = false;
+  isActive = false;
   chainRecord: ChainRecord;
   private _wallets: ChainWalletBase[];
   options = {
@@ -23,7 +23,7 @@ export class WalletRepo extends StateBase<Data> {
   constructor(
     chainRecord: ChainRecord,
     wallets: ChainWalletBase[] = [],
-    sessionOptions?: SessionOptions,
+    sessionOptions?: SessionOptions
   ) {
     super();
     this.chainRecord = chainRecord;
@@ -49,6 +49,11 @@ export class WalletRepo extends StateBase<Data> {
   setEnv(env?: AppEnv): void {
     this._env = env;
     this.wallets.forEach((w) => w.setEnv(env));
+  }
+
+  activate() {
+    this.isActive = true;
+    this.wallets.forEach((w) => w.activate());
   }
 
   get chainName() {
@@ -106,24 +111,24 @@ export class WalletRepo extends StateBase<Data> {
     this.actions?.viewOpen?.(false);
   };
 
-  connect = async (walletName?: WalletName) => {
+  connect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
-      await wallet?.connect(this.sessionOptions);
+      await wallet?.connect(this.sessionOptions, void 0, sync);
     } else if (this.isSingleWallet) {
       const wallet = this.wallets[0];
-      await wallet?.connect(this.sessionOptions);
+      await wallet?.connect(this.sessionOptions, void 0, sync);
     } else {
       this.openView();
     }
   };
 
-  disconnect = async (walletName?: WalletName) => {
+  disconnect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
-      await this.getWallet(walletName)?.disconnect();
+      await this.getWallet(walletName)?.disconnect(void 0, sync);
     } else {
       for (const w of this.wallets) {
-        await w.disconnect();
+        await w.disconnect(void 0, sync);
       }
     }
   };

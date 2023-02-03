@@ -80,8 +80,8 @@ export class WCClientV2 implements WalletClient {
       requiredNamespaces: namespaces,
     });
     this.qrUrl = uri;
-    this.appUrl = await this.getAppUrl();
     if (isMobile) {
+      this.appUrl = await this.getAppUrl();
       CoreUtil.openHref(this.appUrl);
     }
     await approval();
@@ -99,7 +99,7 @@ export class WCClientV2 implements WalletClient {
     }
 
     const { native, universal } = this.wcWalletInfo.listings[
-      this.walletInfo.wcProjectId!
+      this.walletInfo.walletConnectProjectId!
     ].mobile as { native: string | null; universal: string | null };
 
     let href: string | undefined;

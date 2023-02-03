@@ -5,11 +5,11 @@ import {
   ChainWalletData,
   EndpointOptions,
   MainWalletBase,
-  ModalVersion,
   NameServiceName,
   SessionOptions,
   SignerOptions,
   State,
+  WalletConnectOptions,
   WalletManager,
   WalletModalProps,
   WalletRepo,
@@ -37,7 +37,7 @@ export const ChainProvider = ({
   walletModal,
   modalTheme,
   defaultNameService = 'icns',
-  wcSignClientOptions,
+  walletConnectOptions,
   signerOptions,
   endpointOptions,
   sessionOptions,
@@ -46,10 +46,10 @@ export const ChainProvider = ({
   chains: Chain[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
-  walletModal?: ModalVersion | ((props: WalletModalProps) => JSX.Element);
+  walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
   defaultNameService?: NameServiceName;
-  wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
+  walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
@@ -62,7 +62,7 @@ export const ChainProvider = ({
         assetLists,
         wallets,
         defaultNameService,
-        wcSignClientOptions,
+        walletConnectOptions,
         signerOptions,
         endpointOptions,
         sessionOptions

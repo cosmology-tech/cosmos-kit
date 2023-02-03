@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
-import { SignClientTypes } from '@walletconnect/types';
 import Bowser from 'bowser';
 
 import { MainWalletBase, StateBase } from './bases';
@@ -18,6 +17,7 @@ import {
   OS,
   SessionOptions,
   SignerOptions,
+  WalletConnectOptions,
 } from './types';
 import { convertChain, getNameServiceRegistryFromName } from './utils';
 
@@ -26,64 +26,46 @@ export class WalletManager extends StateBase<Data> {
   walletRepos: WalletRepo[] = [];
   defaultNameService: NameServiceName = 'icns';
   private _wallets: MainWalletBase[] = [];
-  options = {
-    synchroMutexWallet: true,
-  };
 
   sessionOptions: SessionOptions = {
     duration: 1800000,
     killOnTabClose: false,
   };
+  walletConnectOptions?: WalletConnectOptions;
 
   constructor(
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
     defaultNameService?: NameServiceName,
-    wcSignClientOptions?: SignClientTypes.Options,
+    walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
-    sessionOptions?: SessionOptions
+    sessionOptions?: SessionOptions,
+    verbose?: boolean
   ) {
     super();
+    if (verbose) this.verbose = verbose;
     if (defaultNameService) {
       this.defaultNameService = defaultNameService;
     }
     this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+    this.walletConnectOptions = walletConnectOptions;
     this.init(
       chains,
       assetLists,
       wallets,
-      wcSignClientOptions,
+      walletConnectOptions,
       signerOptions,
       endpointOptions
     );
-  }
-
-  private synchroMutexWallet() {
-    this._wallets.forEach(({ chainWallets }) => {
-      chainWallets?.forEach((w) => {
-        w.updateCallbacks({
-          afterDisconnect: async () => {
-            chainWallets.forEach(async (w2) => {
-              if (!w2.isWalletDisconnected && w2 !== w) {
-                await w2.disconnect();
-              }
-            });
-          },
-          afterConnect: async () => {
-            this.synchronizeMutexWalletConnection();
-          },
-        });
-      });
-    });
   }
 
   init(
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
-    wcSignClientOptions?: SignClientTypes.Options,
+    walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) {
@@ -104,16 +86,12 @@ export class WalletManager extends StateBase<Data> {
 
     this._wallets = wallets.map((wallet) => {
       wallet.verbose = this.verbose;
-      if ((wallet as any).setWCSignClientOptions) {
-        (wallet as any).setWCSignClientOptions(wcSignClientOptions);
+      if ((wallet as any).setWalletConnectOptions) {
+        (wallet as any).setWalletConnectOptions(walletConnectOptions);
       }
       wallet.setChains(this.chainRecords);
       return wallet;
     });
-
-    if (this.options.synchroMutexWallet) {
-      this.synchroMutexWallet();
-    }
 
     this.chainRecords.forEach((chainRecord) => {
       const repo = new WalletRepo(
@@ -155,10 +133,6 @@ export class WalletManager extends StateBase<Data> {
       wallet.setChains(newChainRecords, false);
     });
 
-    if (this.options.synchroMutexWallet) {
-      this.synchroMutexWallet();
-    }
-
     const newWalletRepos = newChainRecords.map((chainRecord) => {
       return new WalletRepo(
         chainRecord,
@@ -193,28 +167,8 @@ export class WalletManager extends StateBase<Data> {
     });
   };
 
-  get walletReposInUse(): WalletRepo[] {
-    return this.walletRepos.filter((repo) => repo.isInUse === true);
-  }
-
-  async synchronizeMutexWalletConnection() {
-    if (typeof window === 'undefined') {
-      return;
-    }
-    const ls = window.localStorage;
-    if (ls.getItem('synchronize-mutex-wallet') === 'done') {
-      return;
-    }
-    ls.setItem('synchronize-mutex-wallet', 'done');
-    const walletName = ls.getItem('chain-provider');
-    for (const repo of this.walletReposInUse) {
-      if (walletName) {
-        if (repo.current?.walletName !== walletName) {
-          await repo.current?.disconnect();
-        }
-        await repo.connect(walletName);
-      }
-    }
+  get activeRepos(): WalletRepo[] {
+    return this.walletRepos.filter((repo) => repo.isActive === true);
   }
 
   getWalletRepo = (chainName: ChainName): WalletRepo => {
@@ -278,8 +232,7 @@ export class WalletManager extends StateBase<Data> {
     const ls = window.localStorage;
     const walletName = ls.getItem('chain-provider');
     if (walletName) {
-      ls.setItem('synchronize-mutex-wallet', 'fire');
-      await this.walletReposInUse[0]?.connect(walletName);
+      await this.activeRepos[0]?.connect(walletName);
     }
   };
 
@@ -305,7 +258,7 @@ export class WalletManager extends StateBase<Data> {
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          (wallet.client || (await wallet.clientPromise))?.on?.(
+          (wallet.client || (await wallet.fetchClient()))?.on?.(
             eventName,
             this._handleConnect
           );
@@ -324,7 +277,7 @@ export class WalletManager extends StateBase<Data> {
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          (wallet.client || (await wallet.clientPromise))?.off?.(
+          (wallet.client || (await wallet.fetchClient()))?.off?.(
             eventName,
             this._handleConnect
           );

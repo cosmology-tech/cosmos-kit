@@ -22,6 +22,7 @@ import {
   SigningStargateClient,
   StargateClient,
 } from '@cosmjs/stargate';
+import { SignClientTypes } from '@walletconnect/types';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
@@ -71,7 +72,7 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
-  wcProjectId?: string;
+  walletConnectProjectId?: string;
 }
 
 export type Bech32Address = string;
@@ -255,4 +256,8 @@ export interface ChainContext {
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
+}
+
+export interface WalletConnectOptions {
+  signClient: SignClientTypes.Options;
 }

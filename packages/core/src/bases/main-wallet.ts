@@ -11,6 +11,7 @@ import {
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
+import EventEmitter from 'events';
 
 export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   protected _chainWallets?: Map<ChainName, ChainWalletBase>;
@@ -20,14 +21,25 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   constructor(walletInfo: Wallet, ChainWallet: IChainWallet) {
     super(walletInfo);
     this.ChainWallet = ChainWallet;
-    this.clientPromise = this.fetchClient();
+    this.emitter = new EventEmitter();
+    this.emitter.on('broadcast_client', (client) => {
+      this.client = client;
+    });
+    this.emitter.on('sync_connect', () => {
+      this.connectActive();
+    });
+    this.emitter.on('sync_disconnect', () => {
+      this.disconnectActive();
+    });
   }
 
   protected onSetChainsDone(): void {
     this.chainWallets?.forEach((chainWallet) => {
-      chainWallet.client = this.client;
-      chainWallet.clientPromise = this.clientPromise;
+      chainWallet.emitter = this.emitter;
       chainWallet.fetchClient = this.fetchClient;
+      if ((chainWallet as any).setWalletConnectOptions) {
+        (chainWallet as any).setWalletConnectOptions((this as any).options);
+      }
     });
   }
 
@@ -97,5 +109,23 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.setData(undefined);
     this.setMessage(undefined);
     this.setState(State.Init);
+  }
+
+  connectActive() {
+    this.chainWallets.forEach((w) => {
+      if (w.isActive && !w.isWalletConnected) {
+        console.log('%cmain-wallet.ts line:117 3', 'color: #007acc;', 3);
+        w.connect();
+        console.log('%cmain-wallet.ts line:117 3', 'color: #007acc;', 4);
+      }
+    });
+  }
+
+  disconnectActive() {
+    this.chainWallets.forEach((w) => {
+      if (w.isActive && !w.isWalletDisconnected) {
+        w.disconnect();
+      }
+    });
   }
 }
