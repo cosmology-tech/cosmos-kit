@@ -19,7 +19,7 @@ import {
   SignerOptions,
   WalletConnectOptions,
 } from './types';
-import { convertChain, getNameServiceRegistryFromName } from './utils';
+import { convertChain, getNameServiceRegistryFromName, Logger } from './utils';
 
 export class WalletManager extends StateBase<Data> {
   chainRecords: ChainRecord[] = [];
@@ -37,15 +37,15 @@ export class WalletManager extends StateBase<Data> {
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
+    logger: Logger,
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
-    sessionOptions?: SessionOptions,
-    verbose?: boolean
+    sessionOptions?: SessionOptions
   ) {
     super();
-    if (verbose) this.verbose = verbose;
+    this.logger = logger;
     if (defaultNameService) {
       this.defaultNameService = defaultNameService;
     }
@@ -69,11 +69,9 @@ export class WalletManager extends StateBase<Data> {
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) {
-    if (this.verbose) {
-      console.info(
-        `${chains.length} chains and ${wallets.length} wallets are provided!`
-      );
-    }
+    this.logger.info(
+      `${chains.length} chains and ${wallets.length} wallets are provided!`
+    );
 
     this.chainRecords = chains.map((chain) =>
       convertChain(
@@ -85,10 +83,7 @@ export class WalletManager extends StateBase<Data> {
     );
 
     this._wallets = wallets.map((wallet) => {
-      wallet.verbose = this.verbose;
-      if ((wallet as any).setWalletConnectOptions) {
-        (wallet as any).setWalletConnectOptions(walletConnectOptions);
-      }
+      wallet.logger = this.logger;
       wallet.setChains(this.chainRecords);
       return wallet;
     });
@@ -99,7 +94,7 @@ export class WalletManager extends StateBase<Data> {
         wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!),
         this.sessionOptions
       );
-      repo.verbose = this.verbose;
+      repo.logger = this.logger;
       this.walletRepos.push(repo);
     });
   }
@@ -230,15 +225,23 @@ export class WalletManager extends StateBase<Data> {
 
   private _handleConnect = async () => {
     const ls = window.localStorage;
-    const walletName = ls.getItem('chain-provider');
+    const walletName = ls.getItem('current-wallet-name');
     if (walletName) {
       await this.activeRepos[0]?.connect(walletName);
     }
   };
 
-  onMounted = () => {
+  onMounted = async () => {
     if (typeof window === 'undefined') {
       return;
+    }
+
+    for (const wallet of this._wallets) {
+      if (wallet.walletInfo.mode === 'wallet-connect') {
+        await wallet.initClient(this.walletConnectOptions);
+      } else {
+        await wallet.initClient();
+      }
     }
 
     this._handleConnect();
@@ -252,16 +255,13 @@ export class WalletManager extends StateBase<Data> {
     this.setEnv(env);
     this.walletRepos.forEach((repo) => repo.setEnv(env));
 
-    this.walletRepos[0]?.wallets.forEach((wallet) => {
+    this._wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.addEventListener(eventName, this._handleConnect);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          (wallet.client || (await wallet.fetchClient()))?.on?.(
-            eventName,
-            this._handleConnect
-          );
+          wallet.client?.on?.(eventName, this._handleConnect);
         }
       );
     });
@@ -271,16 +271,13 @@ export class WalletManager extends StateBase<Data> {
     if (typeof window === 'undefined') {
       return;
     }
-    this.walletRepos[0]?.wallets.forEach((wallet) => {
+    this._wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.removeEventListener(eventName, this._handleConnect);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          (wallet.client || (await wallet.fetchClient()))?.off?.(
-            eventName,
-            this._handleConnect
-          );
+          wallet.client?.off?.(eventName, this._handleConnect);
         }
       );
     });

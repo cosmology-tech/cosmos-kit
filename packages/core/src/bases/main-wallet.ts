@@ -25,21 +25,20 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.emitter.on('broadcast_client', (client) => {
       this.client = client;
     });
-    this.emitter.on('sync_connect', () => {
-      this.connectActive();
+    this.emitter.on('sync_connect', (chainName?: ChainName) => {
+      this.connectActive(chainName);
     });
-    this.emitter.on('sync_disconnect', () => {
-      this.disconnectActive();
+    this.emitter.on('sync_disconnect', (chainName?: ChainName) => {
+      this.disconnectActive(chainName);
     });
   }
 
   protected onSetChainsDone(): void {
     this.chainWallets?.forEach((chainWallet) => {
       chainWallet.emitter = this.emitter;
-      chainWallet.fetchClient = this.fetchClient;
-      if ((chainWallet as any).setWalletConnectOptions) {
-        (chainWallet as any).setWalletConnectOptions((this as any).options);
-      }
+      chainWallet.client = this.client;
+      chainWallet.initClient = this.initClient;
+      (chainWallet as any).setOptions?.((this as any).options);
     });
   }
 
@@ -64,7 +63,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
       };
 
       const chainWallet = new this.ChainWallet(this.walletInfo, chain);
-      chainWallet.verbose = this.verbose;
+      chainWallet.logger = this.logger;
 
       this._chainWallets!.set(chain.name, chainWallet);
     });
@@ -111,19 +110,17 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.setState(State.Init);
   }
 
-  connectActive() {
+  connectActive(exclude?: ChainName) {
     this.chainWallets.forEach((w) => {
-      if (w.isActive && !w.isWalletConnected) {
-        console.log('%cmain-wallet.ts line:117 3', 'color: #007acc;', 3);
+      if (w.isActive && !w.isWalletConnected && w.chainName !== exclude) {
         w.connect();
-        console.log('%cmain-wallet.ts line:117 3', 'color: #007acc;', 4);
       }
     });
   }
 
-  disconnectActive() {
+  disconnectActive(exclude?: ChainName) {
     this.chainWallets.forEach((w) => {
-      if (w.isActive && !w.isWalletDisconnected) {
+      if (w.isActive && !w.isWalletDisconnected && w.chainName !== exclude) {
         w.disconnect();
       }
     });

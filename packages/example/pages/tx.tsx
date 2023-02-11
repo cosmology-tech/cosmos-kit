@@ -35,7 +35,7 @@ const sendTokens = (
   return async () => {
     const stargateClient = await getSigningStargateClient();
     if (!stargateClient || !address) {
-      console.error("stargateClient undefined or address undefined.");
+      this.logger?.error("stargateClient undefined or address undefined.");
       return;
     }
 
@@ -91,7 +91,7 @@ export default function Home() {
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
-      console.info("no rpc endpoint — using a fallback");
+      this.logger?.info("no rpc endpoint — using a fallback");
       rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 

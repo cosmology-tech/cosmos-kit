@@ -17,7 +17,8 @@ export const trustMobileInfo: Wallet = {
       device: 'mobile',
       os: 'android',
       icon: FaAndroid,
-      link: 'https://play.google.com/store/apps/details?id=com.chainapsis.trust&hl=en&gl=US&pli=1',
+      link:
+        'https://play.google.com/store/apps/details?id=com.chainapsis.trust&hl=en&gl=US&pli=1',
     },
     {
       device: 'mobile',
@@ -31,6 +32,9 @@ export const trustMobileInfo: Wallet = {
     },
   ],
   connectEventNamesOnWindow: ['trust_keystorechange'],
-  walletConnectProjectId:
-    '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0',
+  walletconnect: {
+    name: 'Trust Wallet',
+    projectId:
+      '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0',
+  },
 };

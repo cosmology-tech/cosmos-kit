@@ -1,7 +1,7 @@
 import "../style/test-style.css";
 
 import { Chain } from "@chain-registry/types";
-import { Button, ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
@@ -27,12 +27,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...keplrWallets,
-          ...cosmostationWallets,
-          ...leapWallets,
-          ...vectisWallets,
-          ...xdefiWallets,
-          ...omniWallets,
+          // ...keplrWallets,
+          // ...cosmostationWallets,
+          // ...leapWallets,
+          // ...vectisWallets,
+          // ...xdefiWallets,
+          // ...omniWallets,
           ...trustWallets,
         ]}
         defaultNameService={"stargaze"}
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             }
           },
         }}
-        verbose={true}
+        logLevel={"TRACE"}
       >
         <Component {...pageProps} />
       </ChainProvider>

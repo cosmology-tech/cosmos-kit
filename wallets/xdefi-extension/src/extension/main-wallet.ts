@@ -10,13 +10,12 @@ export class XDEFIExtensionWallet extends MainWalletBase {
     super(walletInfo, ChainXDEFIExtension);
   }
 
-  async fetchClient() {
+  async initClient() {
     try {
       const xdefi = await getXDEFIFromExtension();
-      return xdefi ? new XDEFIClient(xdefi) : undefined;
+      this.client = xdefi ? new XDEFIClient(xdefi) : undefined;
     } catch (error) {
       this.setClientNotExist();
-      return void 0;
     }
   }
 }

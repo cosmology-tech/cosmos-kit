@@ -3,57 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.1.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.7...@cosmos-kit/walletconnect-v1@0.1.8) (2023-01-16)
+## [0.1.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.7...@cosmos-kit/walletconnect@0.1.8) (2023-01-16)
 
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
-
-
-
-
-
-## [0.1.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.6...@cosmos-kit/walletconnect-v1@0.1.7) (2023-01-14)
-
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
+**Note:** Version bump only for package @cosmos-kit/walletconnect
 
 
 
 
 
-## [0.1.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.5...@cosmos-kit/walletconnect-v1@0.1.6) (2023-01-13)
+## [0.1.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.6...@cosmos-kit/walletconnect@0.1.7) (2023-01-14)
 
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
-
-
-
-
-
-## [0.1.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.4...@cosmos-kit/walletconnect-v1@0.1.5) (2023-01-11)
-
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
+**Note:** Version bump only for package @cosmos-kit/walletconnect
 
 
 
 
 
-## [0.1.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.3...@cosmos-kit/walletconnect-v1@0.1.4) (2023-01-11)
+## [0.1.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.5...@cosmos-kit/walletconnect@0.1.6) (2023-01-13)
 
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
-
-
-
-
-
-## [0.1.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.2...@cosmos-kit/walletconnect-v1@0.1.3) (2023-01-06)
-
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
+**Note:** Version bump only for package @cosmos-kit/walletconnect
 
 
 
 
 
-## [0.1.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect-v1@0.1.1...@cosmos-kit/walletconnect-v1@0.1.2) (2022-12-16)
+## [0.1.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.4...@cosmos-kit/walletconnect@0.1.5) (2023-01-11)
 
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
+**Note:** Version bump only for package @cosmos-kit/walletconnect
+
+
+
+
+
+## [0.1.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.3...@cosmos-kit/walletconnect@0.1.4) (2023-01-11)
+
+**Note:** Version bump only for package @cosmos-kit/walletconnect
+
+
+
+
+
+## [0.1.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.2...@cosmos-kit/walletconnect@0.1.3) (2023-01-06)
+
+**Note:** Version bump only for package @cosmos-kit/walletconnect
+
+
+
+
+
+## [0.1.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.1.1...@cosmos-kit/walletconnect@0.1.2) (2022-12-16)
+
+**Note:** Version bump only for package @cosmos-kit/walletconnect
 
 
 
@@ -61,7 +61,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.1.1 (2022-12-15)
 
-**Note:** Version bump only for package @cosmos-kit/walletconnect-v1
+**Note:** Version bump only for package @cosmos-kit/walletconnect
 
 
 

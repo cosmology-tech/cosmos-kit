@@ -167,14 +167,14 @@ const MyModal = ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => 
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletRepo.wallets.map(({ chainName, connect }) => (
+          {walletRepo.wallets.map(({ walletName, connect }) => (
             <Button
-              key={chainName}
+              key={walletName}
               colorScheme="blue"
               variant="ghost"
               onClick={() => connect}
             >
-              {chainName}
+              {walletName}
             </Button>
           ))}
         </ModalBody>
@@ -322,6 +322,8 @@ export interface SignerOptions {
 }
 ```
 
-## verbose (coming soon)
+## logLevel (coming soon)
 
-Optional property. By default `false`. If set `true`, will print `LOG`, `INFO` or `WARNING` on console.
+Optional property. By default `WARN`.
+
+**Type:** `LogLevel`

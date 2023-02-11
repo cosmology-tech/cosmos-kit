@@ -57,7 +57,7 @@ function Component () => {
     const sendTokens = async () => {
       const stargateClient = await getSigningStargateClient();
       if (!stargateClient || !address) {
-          console.error('stargateClient undefined or address undefined.')
+          this.logger?.error('stargateClient undefined or address undefined.')
           return;
       }
 

@@ -105,7 +105,7 @@
     "@babel/runtime": "7.11.2",
     "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^1.0.4",
-    "@cosmos-kit/walletconnect-v2": "^0.1.8",
+    "@cosmos-kit/walletconnect": "^0.1.8",
     "@walletconnect/sign-client": "2.2.0",
     "@walletconnect/types": "^2.1.4",
     "react-icons": "4.4.0"

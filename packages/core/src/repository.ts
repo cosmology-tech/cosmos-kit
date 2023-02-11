@@ -88,11 +88,9 @@ export class WalletRepo extends StateBase<Data> {
   // you should never use current when `uniqueWallet` is set false
   get current(): ChainWalletBase | undefined {
     if (!this.options.mutexWallet) {
-      if (this.verbose) {
-        console.warn(
-          "It's meaningless to use current when `uniqueWallet` is set false."
-        );
-      }
+      this.logger.warn(
+        "It's meaningless to use current when `uniqueWallet` is set false."
+      );
       return void 0;
     }
     return this.wallets.find((w) => !w.isWalletDisconnected);
@@ -127,9 +125,7 @@ export class WalletRepo extends StateBase<Data> {
     if (walletName) {
       await this.getWallet(walletName)?.disconnect(void 0, sync);
     } else {
-      for (const w of this.wallets) {
-        await w.disconnect(void 0, sync);
-      }
+      await this.current.disconnect(void 0, sync);
     }
   };
 

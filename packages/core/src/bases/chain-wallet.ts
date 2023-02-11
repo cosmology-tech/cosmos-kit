@@ -117,27 +117,18 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     this.isActive = true;
   }
 
-  fetchClient(): WalletClient | Promise<WalletClient | undefined> | undefined {
-    if (this.verbose) {
-      console.warn(
-        'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
-      );
-    }
-    return void 0;
+  initClient() {
+    this.logger?.warn(
+      'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
+    );
   }
 
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+    this.logger?.info('%cwallet.ts line:127 1222', 'color: #007acc;', 1233);
+    this.setState(State.Pending);
+
     await (callbacks || this.callbacks)?.beforeConnect?.();
 
-    if (!this.client) {
-      this.setClientNotExist();
-      return;
-    }
-
-    this.setState(State.Pending);
-    if (this.walletInfo.mode === 'wallet-connect' && !this.isMobile) {
-      this.setMessage('QRCode');
-    }
     try {
       await this.client.connect?.(this.chainId, this.isMobile);
 
@@ -173,14 +164,15 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         }, sessionOptions?.duration);
       }
     } catch (e) {
-      if (this.rejectMatched(e as Error)) {
+      this.logger?.error(e);
+      if (e && this.rejectMatched(e as Error)) {
         this.setRejected();
       } else {
         this.setError(e as Error);
       }
     }
     if (!this.isWalletRejected) {
-      window?.localStorage.setItem('chain-provider', this.walletName);
+      window?.localStorage.setItem('current-wallet-name', this.walletName);
     }
     await (callbacks || this.callbacks)?.afterConnect?.();
   }
@@ -188,16 +180,14 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   getRpcEndpoint = async (): Promise<string> => {
     if (
       this._rpcEndpoint &&
-      (await isValidEndpoint(this._rpcEndpoint, this.verbose))
+      (await isValidEndpoint(this._rpcEndpoint, this.logger))
     ) {
       return this._rpcEndpoint;
     }
     for (const endpoint of this.rpcEndpoints || []) {
-      if (await isValidEndpoint(endpoint, this.verbose)) {
+      if (await isValidEndpoint(endpoint, this.logger)) {
         this._rpcEndpoint = endpoint;
-        if (this.verbose) {
-          console.info('Using RPC endpoint ' + endpoint);
-        }
+        this.logger?.info('Using RPC endpoint ' + endpoint);
         return endpoint;
       }
     }
@@ -209,16 +199,14 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   getRestEndpoint = async (): Promise<string> => {
     if (
       this._restEndpoint &&
-      (await isValidEndpoint(this._restEndpoint, this.verbose))
+      (await isValidEndpoint(this._restEndpoint, this.logger))
     ) {
       return this._restEndpoint;
     }
     for (const endpoint of this.restEndpoints || []) {
-      if (await isValidEndpoint(endpoint, this.verbose)) {
+      if (await isValidEndpoint(endpoint, this.logger)) {
         this._restEndpoint = endpoint;
-        if (this.verbose) {
-          console.info('Using REST endpoint ' + endpoint);
-        }
+        this.logger?.info('Using REST endpoint ' + endpoint);
         return endpoint;
       }
     }

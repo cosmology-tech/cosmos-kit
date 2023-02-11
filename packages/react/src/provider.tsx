@@ -4,6 +4,8 @@ import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainWalletData,
   EndpointOptions,
+  Logger,
+  LogLevel,
   MainWalletBase,
   NameServiceName,
   SessionOptions,
@@ -40,7 +42,7 @@ export const ChainProvider = ({
   signerOptions,
   endpointOptions,
   sessionOptions,
-  verbose = false,
+  logLevel = 'WARN',
   children,
 }: {
   chains: Chain[];
@@ -53,21 +55,22 @@ export const ChainProvider = ({
   signerOptions?: SignerOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
-  verbose?: boolean;
+  logLevel?: LogLevel;
   children: ReactNode;
 }) => {
+  const logger = useMemo(() => new Logger(console, logLevel), []);
   const walletManager = useMemo(
     () =>
       new WalletManager(
         chains,
         assetLists,
         wallets,
+        logger,
         defaultNameService,
         walletConnectOptions,
         signerOptions,
         endpointOptions,
-        sessionOptions,
-        verbose
+        sessionOptions
       ),
     []
   );
@@ -78,7 +81,7 @@ export const ChainProvider = ({
   >();
 
   const [, setData] = useState<ChainWalletData>();
-  const [, setState] = useState<State>();
+  const [, setState] = useState<State>(State.Init);
   const [, setMsg] = useState<string | undefined>();
 
   walletManager.setActions({

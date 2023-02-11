@@ -19,7 +19,7 @@ export class NameService {
       );
       return result;
     } catch (e) {
-      console.error(e);
+      this.logger?.error(e);
       return undefined;
     }
   }

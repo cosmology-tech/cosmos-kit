@@ -29,7 +29,13 @@ import { IconType } from 'react-icons';
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, CosmosClientType, Data } from './common';
+import {
+  AppEnv,
+  CosmosClientType,
+  Data,
+  Mutable,
+  WalletClientActions,
+} from './common';
 
 export type WalletName = string;
 
@@ -72,7 +78,10 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
-  walletConnectProjectId?: string;
+  walletconnect?: {
+    name: string;
+    projectId: string;
+  };
 }
 
 export type Bech32Address = string;
@@ -114,6 +123,11 @@ export declare enum BroadcastMode {
 export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
+
+  actions?: WalletClientActions;
+  setActions?: (actions: WalletClientActions) => void;
+  qrUrl?: Mutable<string>;
+  appUrl?: Mutable<string>;
 
   connect?: (chainIds: string | string[], isMobile: boolean) => Promise<void>; // called when chain wallet connect is called
   disconnect?: () => Promise<void>; // called when wallet disconnect is called

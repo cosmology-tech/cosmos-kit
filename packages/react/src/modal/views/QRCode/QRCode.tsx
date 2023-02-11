@@ -10,13 +10,11 @@ export const QRCode = ({
   onReturn,
   qrUrl,
   name,
-  loading,
 }: {
   onClose: () => void;
   onReturn: () => void;
   qrUrl?: string;
   name: string;
-  loading: boolean;
 }) => {
   const modalHead = (
     <SimpleModalHead
@@ -31,7 +29,7 @@ export const QRCode = ({
     <SimpleQRCode
       link={qrUrl || ''}
       description={`Open ${name} App to Scan`}
-      loading={loading}
+      loading={false}
     />
   );
 
