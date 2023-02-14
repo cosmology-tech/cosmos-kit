@@ -1,6 +1,6 @@
 import { SimpleConnectModal, ThemeProvider } from '@cosmology-ui/react';
 import {
-  ExpireError,
+  ExpiredError,
   State,
   WalletModalProps,
   WalletStatus,
@@ -64,7 +64,7 @@ export const DefaultModal = ({
               setCurrentView(ModalView.QRCode);
               break;
             case State.Error:
-              if (qrMsg === ExpireError.message) {
+              if (qrMsg === ExpiredError.message) {
                 setCurrentView(ModalView.ExpiredQRCode);
               } else {
                 setCurrentView(ModalView.ErrorQRCode);
@@ -79,6 +79,12 @@ export const DefaultModal = ({
           setCurrentView(ModalView.Connected);
           break;
         case WalletStatus.Error:
+          if (qrMsg === ExpiredError.message) {
+            setCurrentView(ModalView.ExpiredQRCode);
+          } else {
+            setCurrentView(ModalView.Error);
+          }
+          break;
           setCurrentView(ModalView.Error);
           break;
         case WalletStatus.Rejected:
@@ -95,7 +101,7 @@ export const DefaultModal = ({
           break;
       }
     }
-  }, [isOpen, qrState, walletStatus]);
+  }, [isOpen, qrState, walletStatus, qrMsg]);
 
   const onWalletClicked = useCallback(
     (name: string) => {
@@ -115,7 +121,7 @@ export const DefaultModal = ({
     if (walletStatus === 'Connecting') {
       current?.disconnect();
     }
-  }, [setOpen]);
+  }, [setOpen, walletStatus, current]);
 
   const onReturn = useCallback(() => {
     setCurrentView(ModalView.WalletList);

@@ -124,7 +124,6 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   }
 
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
-    this.logger?.info('%cwallet.ts line:127 1222', 'color: #007acc;', 1233);
     this.setState(State.Pending);
 
     await (callbacks || this.callbacks)?.beforeConnect?.();

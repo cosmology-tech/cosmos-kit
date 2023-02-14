@@ -6,9 +6,10 @@ import {
 import { DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   DirectSignDoc,
-  ExpireError,
+  ExpiredError,
   Logger,
   Mutable,
+  RejectedError,
   SignOptions,
   State,
   Wallet,
@@ -40,7 +41,7 @@ export class WCClient implements WalletClient {
   qrUrl: Mutable<string>;
   appUrl: Mutable<string>;
 
-  pairings?: PairingTypes.Struct[];
+  pairings?: PairingTypes.Struct[] = [];
   session?: SessionTypes.Struct;
   emitter!: EventEmitter;
   logger?: Logger;
@@ -62,6 +63,9 @@ export class WCClient implements WalletClient {
   }
 
   get accounts(): [Namespace, ChainId, Address][] {
+    if (!this.session) {
+      return [];
+    }
     const accounts = [];
     Object.entries(this.session.namespaces).forEach(([, nsValue]) => {
       nsValue.accounts.forEach((account) => {
@@ -86,12 +90,25 @@ export class WCClient implements WalletClient {
       this.logger?.info('EVENT', 'session_ping', args);
     });
 
-    this.signClient.on('session_event', (args) => {
+    this.signClient.on('session_event', async (args) => {
       this.logger?.info('EVENT', 'session_event', args);
+      const {
+        topic,
+        params: { event, chainId },
+      } = args;
+      if (this.session?.topic != topic) return;
+      if (event.name === 'accountsChanged') {
+        await this.connect(
+          this.accounts.map(([, chainId]) => chainId),
+          false
+        );
+      }
     });
 
     this.signClient.on('session_update', ({ topic, params }) => {
       this.logger?.info('EVENT', 'session_update', { topic, params });
+      if (this.session?.topic != topic) return;
+
       const { namespaces } = params;
       const _session = this.signClient.session.get(topic);
       const updatedSession = { ..._session, namespaces };
@@ -118,16 +135,38 @@ export class WCClient implements WalletClient {
 
     this.signClient.on('proposal_expire', (args) => {
       this.logger?.info('EVENT', 'proposal_expire', args);
-      this.setQRError(ExpireError);
+      this.setQRError(ExpiredError);
     });
+  }
+
+  async deleteInactivePairings() {
+    if (typeof this.signClient === 'undefined') {
+      throw new Error('WalletConnect is not initialized');
+    }
+    for (const pairing of this.signClient.pairing.getAll({ active: false })) {
+      await this.signClient.pairing.delete(pairing.topic, {
+        code: 7001,
+        message: 'Clear inactive pairings.',
+      });
+    }
   }
 
   restorePairings() {
     if (typeof this.signClient === 'undefined') {
       throw new Error('WalletConnect is not initialized');
     }
-    this.pairings = this.signClient.pairing.getAll({ active: true });
+    this.pairings = this.signClient.pairing
+      .getAll({ active: true })
+      .filter(
+        (p) =>
+          p.peerMetadata?.name === this.walletWCName &&
+          p.expiry * 1000 > Date.now() + 1000
+      );
     this.logger?.info('RESTORED PAIRINGS: ', this.pairings);
+  }
+
+  get pairing(): PairingTypes.Struct | undefined {
+    return this.pairings[0];
   }
 
   restoreSession() {
@@ -136,11 +175,16 @@ export class WCClient implements WalletClient {
     }
     if (typeof this.session !== 'undefined') return;
 
-    if (this.signClient.session.length) {
-      const lastKeyIndex = this.signClient.session.keys.length - 1;
-      this.session = this.signClient.session.get(
-        this.signClient.session.keys[lastKeyIndex]
+    const targetKey = this.signClient.session.keys.reverse().find((key) => {
+      const session = this.signClient.session.get(key);
+      return (
+        session.peer.metadata.name === this.walletWCName &&
+        session.expiry * 1000 > Date.now() + 1000
       );
+    });
+
+    if (targetKey) {
+      this.session = this.signClient.session.get(targetKey);
       this.logger?.info('RESTORED SESSION:', this.session);
     }
   }
@@ -151,15 +195,6 @@ export class WCClient implements WalletClient {
 
   get dappProjectId() {
     return this.options?.signClient.projectId;
-  }
-
-  get pairing(): PairingTypes.Struct | undefined {
-    const pairing = this.pairings?.filter(
-      (p) =>
-        p.peerMetadata?.name === this.walletWCName &&
-        p.expiry * 1000 > Date.now() + 1000
-    )[0];
-    return pairing;
   }
 
   async fetchWCWalletInfo() {
@@ -204,12 +239,6 @@ export class WCClient implements WalletClient {
     this.subscribeToEvents();
     this.restorePairings();
     this.restoreSession();
-
-    this.signClient.on('session_delete', () => {
-      this.logger?.info('session_delete');
-      this.session = void 0;
-      this.emitter.emit('sync_disconnect');
-    });
   }
 
   async connect(chainIds: string | string[], isMobile: boolean) {
@@ -217,10 +246,23 @@ export class WCClient implements WalletClient {
       throw new Error('WalletConnect is not initialized');
     }
 
-    const _chainIds =
+    if (this.qrUrl.state !== 'Init') {
+      this.setQRState(State.Init);
+    }
+
+    const chainIdsWithNS =
       typeof chainIds === 'string'
-        ? [chainIds]
-        : chainIds.map((chainId) => chainId);
+        ? [`cosmos:${chainIds}`]
+        : chainIds.map((chainId) => `cosmos:${chainId}`);
+
+    if (
+      this.session &&
+      this.accounts.filter((account) =>
+        chainIdsWithNS.includes(`${account[0]}:${account[1]}`)
+      )
+    ) {
+      return;
+    }
 
     const pairing = this.pairing;
 
@@ -235,28 +277,22 @@ export class WCClient implements WalletClient {
           'cosmos_signAmino',
           'cosmos_signDirect',
         ],
-        chains: _chainIds.map((chainId) => `cosmos:${chainId}`),
+        chains: chainIdsWithNS,
         events: ['chainChanged', 'accountsChanged'],
       },
     };
     let connectResp: any;
     try {
-      this.logger?.info(
-        '%cclient.ts line:166 beforeConnect',
-        'color: #007acc;',
-        1
-      );
+      await this.deleteInactivePairings();
       connectResp = await this.signClient.connect({
         pairingTopic: pairing?.topic,
         requiredNamespaces,
       });
-
-      this.logger?.info('%cclient.ts line:166 afterConnect', 'color: #007acc;');
-
       this.qrUrl.data = connectResp.uri;
+      this.logger?.info('Using QR URI:', connectResp.uri);
       if (!pairing) this.setQRState(State.Done);
     } catch (error) {
-      this.logger?.error(error);
+      this.logger?.error('Client connect error: ', error);
       if (!pairing) this.setQRError(error);
       return;
     }
@@ -268,9 +304,25 @@ export class WCClient implements WalletClient {
       CoreUtil.openHref(this.appUrl.data);
     }
 
-    this.session = await connectResp.approval();
-    this.logger?.info('Established session:', this.session);
-    this.pairings = this.signClient.pairing.getAll({ active: true });
+    try {
+      this.session = await connectResp.approval();
+      this.logger?.info('Established session:', this.session);
+      this.restorePairings();
+    } catch (error) {
+      this.logger?.error('Session approval error: ', error);
+      if (!error) {
+        this.setQRError(ExpiredError);
+        throw new Error('QRCode Expired');
+      } else if (error.code == 5001) {
+        throw RejectedError;
+      } else {
+        throw error;
+      }
+    } finally {
+      if (!pairing && this.qrUrl.message !== ExpiredError.message) {
+        this.setQRState(State.Init);
+      }
+    }
   }
 
   async getAppUrl(): Promise<string | undefined> {
@@ -301,9 +353,10 @@ export class WCClient implements WalletClient {
       throw new Error('WalletConnect is not initialized');
     }
     if (typeof this.session === 'undefined') {
-      throw new Error('Session is not connected');
+      return;
     }
 
+    this.logger?.info('Delete session:', this.session);
     try {
       await this.signClient.disconnect({
         topic: this.session.topic,

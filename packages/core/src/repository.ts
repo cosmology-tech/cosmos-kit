@@ -112,10 +112,12 @@ export class WalletRepo extends StateBase<Data> {
   connect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
+      this.openView();
       await wallet?.connect(this.sessionOptions, void 0, sync);
     } else if (this.isSingleWallet) {
-      const wallet = this.wallets[0];
-      await wallet?.connect(this.sessionOptions, void 0, sync);
+      // const wallet = this.wallets[0];
+      this.openView();
+      // await wallet?.connect(this.sessionOptions, void 0, sync);
     } else {
       this.openView();
     }
