@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation-mobile",
-  "version": "1.0.0",
+  "version": "0.14.22-beta.2+f2b8572",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -95,8 +95,8 @@
     "@babel/runtime": "7.11.2",
     "@chain-registry/cosmostation": "1.8.0",
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^1.0.4",
-    "@cosmos-kit/walletconnect": "^0.1.8",
+    "@cosmos-kit/core": "^1.0.5-beta.2+f2b8572",
+    "@cosmos-kit/walletconnect": "^0.1.9-beta.689+f2b8572",
     "@walletconnect/client": "1.8.0",
     "@walletconnect/utils": "1.8.0",
     "react-icons": "4.4.0"
@@ -104,5 +104,6 @@
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
-  }
+  },
+  "gitHead": "f2b8572288918ec584a43a21081231daeed4fe1e"
 }

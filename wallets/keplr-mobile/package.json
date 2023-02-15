@@ -1,7 +1,6 @@
 {
   "name": "@cosmos-kit/keplr-mobile",
   "version": "1.0.0",
-  "private": true,
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [

@@ -2,6 +2,7 @@ import { WalletModalProps } from '@cosmos-kit/core';
 import { DefaultModal } from './modal';
 import { semanticTokens } from '@cosmology-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
+import React from 'react';
 
 export function getDefaultModal(theme?: Record<string, any>) {
   const colors = {
