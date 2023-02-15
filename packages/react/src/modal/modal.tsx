@@ -12,8 +12,6 @@ import React, {
   useState,
   useRef,
 } from 'react';
-import { noCssResetTheme } from './theme/config';
-import { ChakraThemeWrapper } from './theme/wrapper';
 
 import { ModalView } from './types';
 import {
@@ -33,7 +31,6 @@ export const DefaultModal = ({
   isOpen,
   setOpen,
   walletRepo,
-  theme,
 }: WalletModalProps) => {
   const initialFocus = useRef();
   const [currentView, setCurrentView] = useState<ModalView>(
@@ -79,13 +76,18 @@ export const DefaultModal = ({
           setCurrentView(ModalView.Connected);
           break;
         case WalletStatus.Error:
-          if (qrMsg === ExpiredError.message) {
-            setCurrentView(ModalView.ExpiredQRCode);
-          } else {
-            setCurrentView(ModalView.Error);
+          switch (qrState) {
+            case State.Error:
+              if (qrMsg === ExpiredError.message) {
+                setCurrentView(ModalView.ExpiredQRCode);
+              } else {
+                setCurrentView(ModalView.ErrorQRCode);
+              }
+              break;
+            default:
+              setCurrentView(ModalView.Error);
+              break;
           }
-          break;
-          setCurrentView(ModalView.Error);
           break;
         case WalletStatus.Rejected:
           setCurrentView(ModalView.Rejected);
@@ -261,14 +263,12 @@ export const DefaultModal = ({
 
   return (
     <ThemeProvider>
-      <ChakraThemeWrapper theme={theme || noCssResetTheme}>
-        <SimpleConnectModal
-          modalOpen={isOpen}
-          modalOnClose={onCloseModal}
-          modalView={modalView}
-          initialRef={initialFocus}
-        />
-      </ChakraThemeWrapper>
+      <SimpleConnectModal
+        modalOpen={isOpen}
+        modalOnClose={onCloseModal}
+        modalView={modalView}
+        initialRef={initialFocus}
+      />
     </ThemeProvider>
   );
 };

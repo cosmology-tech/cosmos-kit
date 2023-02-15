@@ -142,8 +142,6 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
         this.setClientNotExist();
         return;
       }
-
-      this.emitter.emit('broadcast_client', this.client);
       await this.update();
 
       if (sessionOptions?.duration) {

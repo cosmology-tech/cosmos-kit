@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainWalletData,
@@ -16,16 +14,17 @@ import {
   WalletModalProps,
   WalletRepo,
 } from '@cosmos-kit/core';
-import { SignClientTypes } from '@walletconnect/types';
+import { ThemeContext } from '@emotion/react';
 import React, {
   createContext,
   ReactNode,
+  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
 
-import { DefaultModal } from '.';
+import { getDefaultModal, noCssResetTheme } from '.';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -37,6 +36,7 @@ export const ChainProvider = ({
   wallets,
   walletModal,
   modalTheme,
+  wrappedWithChakra = false,
   defaultNameService = 'icns',
   walletConnectOptions,
   signerOptions,
@@ -50,6 +50,7 @@ export const ChainProvider = ({
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
+  wrappedWithChakra?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
@@ -59,6 +60,11 @@ export const ChainProvider = ({
   children: ReactNode;
 }) => {
   const logger = useMemo(() => new Logger(console, logLevel), []);
+  if (wrappedWithChakra && modalTheme) {
+    logger.warn(
+      'Your are sugguesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
+    );
+  }
   const walletManager = useMemo(
     () =>
       new WalletManager(
@@ -106,7 +112,16 @@ export const ChainProvider = ({
     });
   });
 
-  const Modal = walletModal || DefaultModal;
+  const outerTheme = useContext(ThemeContext);
+
+  const Modal = useMemo(
+    () =>
+      walletModal ||
+      getDefaultModal(
+        wrappedWithChakra ? outerTheme : modalTheme || noCssResetTheme
+      ),
+    []
+  );
 
   useEffect(() => {
     walletManager.onMounted();
@@ -126,7 +141,6 @@ export const ChainProvider = ({
         isOpen={isViewOpen}
         setOpen={setViewOpen}
         walletRepo={viewWalletRepo}
-        theme={modalTheme}
       />
     </walletContext.Provider>
   );

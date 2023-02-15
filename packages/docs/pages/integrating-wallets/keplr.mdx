@@ -4,7 +4,14 @@ There are three packages for keplr
 
 - `@cosmoskit/keplr`
 - `@cosmoskit/keplr-extension`
-- `@cosmoskit/keplr-mobile` (using walletconnect v1)
+- `@cosmoskit/keplr-mobile`
+
+> Attention! Keplr Wallet app only support wallet connect v1 currently. If you want to use `keplr-mobile`, make sure your dependencies versions no higher than below if they are imported.
+> 
+>  -  "@cosmos-kit/core": "1.0.3",
+>  -  "@cosmos-kit/keplr": "0.32.21",
+>  -  "@cosmos-kit/keplr-mobile": "0.32.21",
+>  -  "@cosmos-kit/react": "1.0.4",
 
 `@cosmoskit/keplr` export all available keplr wallets, while if you only want to add a particular one, choose `@cosmoskit/keplr-extension` or `@cosmoskit/keplr-mobile`
 

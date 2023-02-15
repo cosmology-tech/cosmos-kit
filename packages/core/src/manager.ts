@@ -239,8 +239,10 @@ export class WalletManager extends StateBase<Data> {
     for (const wallet of this._wallets) {
       if (wallet.walletInfo.mode === 'wallet-connect') {
         await wallet.initClient(this.walletConnectOptions);
+        wallet.emitter?.emit('broadcast_client', wallet.client);
       } else {
         await wallet.initClient();
+        wallet.emitter?.emit('broadcast_client', wallet.client);
       }
     }
 

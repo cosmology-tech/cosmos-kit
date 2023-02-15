@@ -1,4 +1,4 @@
-# @cosmos-kit/leap
+# @cosmos-kit/leap-extension
 
 <p align="center" width="100%">
     <img height="90" src="https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg" />

@@ -266,7 +266,7 @@ export class WCClient implements WalletClient {
 
     const pairing = this.pairing;
 
-    this.logger?.info('connect, pairing topic is:', pairing?.topic);
+    this.logger?.info('Restored active pairing topic is:', pairing?.topic);
 
     if (!pairing) this.setQRState(State.Pending);
 
@@ -401,7 +401,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerAmino(chainId: string) {
     return {
-      getAccounts: async () => [await this.getKey(chainId)],
+      getAccounts: async () => [await this.getAccount(chainId)],
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
@@ -409,11 +409,27 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerDirect(chainId: string) {
     return {
-      getAccounts: async () => [await this.getKey(chainId)],
+      getAccounts: async () => [await this.getAccount(chainId)],
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;
   }
+
+  // getOfflineSignerAmino(chainId: string) {
+  //   return {
+  //     getAccounts: async () => [await this.getKey(chainId)],
+  //     signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
+  //       this.signAmino(chainId, signerAddress, signDoc),
+  //   } as OfflineAminoSigner;
+  // }
+
+  // getOfflineSignerDirect(chainId: string) {
+  //   return {
+  //     getAccounts: async () => [await this.getKey(chainId)],
+  //     signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
+  //       this.signDirect(chainId, signerAddress, signDoc),
+  //   } as OfflineDirectSigner;
+  // }
 
   async getOfflineSigner(chainId: string) {
     const key = await this.getAccount(chainId);

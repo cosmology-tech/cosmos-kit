@@ -43,7 +43,6 @@ export interface WalletModalProps {
   isOpen: boolean;
   setOpen: Dispatch<boolean>;
   walletRepo?: WalletRepo;
-  theme?: Record<string, any>;
 }
 
 export interface ManagerActions<T> extends StateActions<T> {

@@ -11,21 +11,15 @@ import { useState } from "react";
 
 import { ChainsTXWalletSection, SendTokensCard } from "../components";
 
-const chainName = "juno";
+const chainName = "cosmoshub";
 
 const chainassets: AssetList = assets.find(
   (chain) => chain.chain_name === chainName
 ) as AssetList;
 
 const coin: Asset = chainassets.assets.find(
-  (asset) => asset.base === "ujuno"
+  (asset) => asset.base === "uatom"
 ) as Asset;
-
-const library = {
-  title: "Juno Network",
-  text: "Typescript libraries for the Juno ecosystem",
-  href: "https://github.com/CosmosContracts/typescript",
-};
 
 const sendTokens = (
   getSigningStargateClient: () => Promise<SigningStargateClient>,
@@ -35,7 +29,7 @@ const sendTokens = (
   return async () => {
     const stargateClient = await getSigningStargateClient();
     if (!stargateClient || !address) {
-      this.logger?.error("stargateClient undefined or address undefined.");
+      console.error("stargateClient undefined or address undefined.");
       return;
     }
 
@@ -69,7 +63,7 @@ const sendTokens = (
       );
       setResp(JSON.stringify(response, null, 2));
     } catch (error) {
-      alert(`Error! ${(error as Error).message}`);
+      console.error(error);
     }
   };
 };
@@ -91,7 +85,7 @@ export default function Home() {
     let rpcEndpoint = await getRpcEndpoint();
 
     if (!rpcEndpoint) {
-      this.logger?.info("no rpc endpoint — using a fallback");
+      console.info("no rpc endpoint — using a fallback");
       rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
     }
 

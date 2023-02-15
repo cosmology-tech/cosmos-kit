@@ -26,7 +26,6 @@ import {
   State,
   Wallet,
   WalletAccount,
-  WalletClient,
 } from '../types';
 import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
@@ -119,7 +118,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
 
   initClient() {
     this.logger?.warn(
-      'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
+      'This is chain-wallet, call initClient from main-wallet.'
     );
   }
 

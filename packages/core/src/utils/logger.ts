@@ -57,13 +57,13 @@ export class Logger implements TsLogger {
 
   public warn(message?: any, ...optionalParams: any[]): void {
     if (this.compare('WARN', this.level) >= 0) {
-      this.logger.trace(...wrap('WARN', message), ...optionalParams);
+      this.logger.warn(...wrap('WARN', message), ...optionalParams);
     }
   }
 
   public error(message?: any, ...optionalParams: any[]): void {
     if (this.compare('ERROR', this.level) >= 0) {
-      this.logger.trace(...wrap('ERROR', message), ...optionalParams);
+      this.logger.error(...wrap('ERROR', message), ...optionalParams);
     }
   }
 }

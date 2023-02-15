@@ -23,7 +23,9 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.ChainWallet = ChainWallet;
     this.emitter = new EventEmitter();
     this.emitter.on('broadcast_client', (client) => {
-      this.client = client;
+      this.chainWallets?.forEach((chainWallet) => {
+        chainWallet.client = client;
+      });
     });
     this.emitter.on('sync_connect', (chainName?: ChainName) => {
       this.connectActive(chainName);
@@ -37,8 +39,6 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.chainWallets?.forEach((chainWallet) => {
       chainWallet.emitter = this.emitter;
       chainWallet.client = this.client;
-      chainWallet.initClient = this.initClient;
-      (chainWallet as any).setOptions?.((this as any).options);
     });
   }
 
