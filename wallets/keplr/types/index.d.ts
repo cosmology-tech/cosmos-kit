@@ -1,1 +1,1 @@
-export declare const wallets: (import("@cosmos-kit/keplr-mobile").KeplrMobileWallet | import("@cosmos-kit/keplr-extension").KeplrExtensionWallet)[];
+export declare const wallets: (import("@cosmos-kit/keplr-extension").KeplrExtensionWallet | import("@cosmos-kit/keplr-mobile").KeplrMobileWallet)[];

@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust-mobile",
-  "version": "0.1.9-beta.2+f2b8572",
+  "version": "0.1.9-beta.3+ef4aeaf",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -103,11 +103,11 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^1.0.5-beta.2+f2b8572",
-    "@cosmos-kit/walletconnect": "^0.1.9-beta.689+f2b8572",
+    "@cosmos-kit/core": "^1.0.5-beta.3+ef4aeaf",
+    "@cosmos-kit/walletconnect": "^0.1.9-beta.690+ef4aeaf",
     "@walletconnect/sign-client": "2.2.0",
     "@walletconnect/types": "^2.1.4",
     "react-icons": "4.4.0"
   },
-  "gitHead": "f2b8572288918ec584a43a21081231daeed4fe1e"
+  "gitHead": "ef4aeaf1dccc4cb17c0a1d98e75b3fcdcdc1a47f"
 }
