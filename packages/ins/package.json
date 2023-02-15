@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/ins",
-  "version": "0.1.2-beta.693+4808ab0",
+  "version": "0.1.2-beta.694+8e8eacf",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -98,5 +98,5 @@
   "dependencies": {
     "@babel/runtime": "7.11.2"
   },
-  "gitHead": "4808ab02a89447701a53973579880d0aec73d92f"
+  "gitHead": "8e8eacfbe18d284fd335ab337075488d30398e2a"
 }
