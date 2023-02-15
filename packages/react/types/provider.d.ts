@@ -1,20 +1,21 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { EndpointOptions, MainWalletBase, ModalVersion, NameServiceName, SessionOptions, SignerOptions, WalletManager, WalletModalProps } from '@cosmos-kit/core';
-import { SignClientTypes } from '@walletconnect/types';
+import { EndpointOptions, LogLevel, MainWalletBase, NameServiceName, SessionOptions, SignerOptions, WalletConnectOptions, WalletManager, WalletModalProps } from '@cosmos-kit/core';
 import React, { ReactNode } from 'react';
 export declare const walletContext: React.Context<{
     walletManager: WalletManager;
 }>;
-export declare const ChainProvider: ({ chains, assetLists, wallets, walletModal, modalTheme, defaultNameService, wcSignClientOptions, signerOptions, endpointOptions, sessionOptions, children, }: {
+export declare const ChainProvider: ({ chains, assetLists, wallets, walletModal, modalTheme, wrappedWithChakra, defaultNameService, walletConnectOptions, signerOptions, endpointOptions, sessionOptions, logLevel, children, }: {
     chains: Chain[];
     assetLists: AssetList[];
     wallets: MainWalletBase[];
-    walletModal?: ModalVersion | ((props: WalletModalProps) => JSX.Element);
+    walletModal?: (props: WalletModalProps) => JSX.Element;
     modalTheme?: Record<string, any>;
+    wrappedWithChakra?: boolean;
     defaultNameService?: NameServiceName;
-    wcSignClientOptions?: SignClientTypes.Options;
+    walletConnectOptions?: WalletConnectOptions;
     signerOptions?: SignerOptions;
     endpointOptions?: EndpointOptions;
     sessionOptions?: SessionOptions;
+    logLevel?: LogLevel;
     children: ReactNode;
 }) => JSX.Element;

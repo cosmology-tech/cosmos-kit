@@ -11,6 +11,7 @@ import {
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
+import EventEmitter from 'events';
 
 export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   protected _chainWallets?: Map<ChainName, ChainWalletBase>;
@@ -20,14 +21,24 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
   constructor(walletInfo: Wallet, ChainWallet: IChainWallet) {
     super(walletInfo);
     this.ChainWallet = ChainWallet;
-    this.clientPromise = this.fetchClient();
+    this.emitter = new EventEmitter();
+    this.emitter.on('broadcast_client', (client) => {
+      this.chainWallets?.forEach((chainWallet) => {
+        chainWallet.client = client;
+      });
+    });
+    this.emitter.on('sync_connect', (chainName?: ChainName) => {
+      this.connectActive(chainName);
+    });
+    this.emitter.on('sync_disconnect', (chainName?: ChainName) => {
+      this.disconnectActive(chainName);
+    });
   }
 
   protected onSetChainsDone(): void {
     this.chainWallets?.forEach((chainWallet) => {
+      chainWallet.emitter = this.emitter;
       chainWallet.client = this.client;
-      chainWallet.clientPromise = this.clientPromise;
-      chainWallet.fetchClient = this.fetchClient;
     });
   }
 
@@ -38,23 +49,23 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     chains.forEach((chain) => {
       chain.preferredEndpoints = {
         rpc: [
-          ...(chain.preferredEndpoints?.rpc || []),
-          ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
-          `https://rpc.cosmos.directory/${chain.name}`,
           ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
+          `https://rpc.cosmos.directory/${chain.name}`,
+          ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
+          ...(chain.preferredEndpoints?.rpc || []),
         ],
         rest: [
-          ...(chain.preferredEndpoints?.rest || []),
-          ...(this.preferredEndpoints?.[chain.name]?.rest || []),
-          `https://rest.cosmos.directory/${chain.name}`,
           ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
+          `https://rest.cosmos.directory/${chain.name}`,
+          ...(this.preferredEndpoints?.[chain.name]?.rest || []),
+          ...(chain.preferredEndpoints?.rest || []),
         ],
       };
 
-      this._chainWallets.set(
-        chain.name,
-        new this.ChainWallet(this.walletInfo, chain)
-      );
+      const chainWallet = new this.ChainWallet(this.walletInfo, chain);
+      chainWallet.logger = this.logger;
+
+      this._chainWallets!.set(chain.name, chainWallet);
     });
 
     this.onSetChainsDone();
@@ -97,5 +108,21 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.setData(undefined);
     this.setMessage(undefined);
     this.setState(State.Init);
+  }
+
+  connectActive(exclude?: ChainName) {
+    this.chainWallets.forEach((w) => {
+      if (w.isActive && !w.isWalletConnected && w.chainName !== exclude) {
+        w.connect();
+      }
+    });
+  }
+
+  disconnectActive(exclude?: ChainName) {
+    this.chainWallets.forEach((w) => {
+      if (w.isActive && !w.isWalletDisconnected && w.chainName !== exclude) {
+        w.disconnect();
+      }
+    });
   }
 }

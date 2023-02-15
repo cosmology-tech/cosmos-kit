@@ -1,30 +1,30 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AssetList, Chain } from '@chain-registry/types';
 import {
   ChainWalletData,
   EndpointOptions,
+  Logger,
+  LogLevel,
   MainWalletBase,
-  ModalVersion,
   NameServiceName,
   SessionOptions,
   SignerOptions,
   State,
+  WalletConnectOptions,
   WalletManager,
   WalletModalProps,
   WalletRepo,
 } from '@cosmos-kit/core';
-import { SignClientTypes } from '@walletconnect/types';
+import { ThemeContext } from '@emotion/react';
 import React, {
   createContext,
   ReactNode,
+  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
 
-import { DefaultModal } from '.';
-import { getModal } from './modal';
+import { getDefaultModal, noCssResetTheme } from '.';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -36,35 +36,44 @@ export const ChainProvider = ({
   wallets,
   walletModal,
   modalTheme,
+  wrappedWithChakra = false,
   defaultNameService = 'icns',
-  wcSignClientOptions,
+  walletConnectOptions,
   signerOptions,
-  // viewOptions,
   endpointOptions,
   sessionOptions,
+  logLevel = 'WARN',
   children,
 }: {
   chains: Chain[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
-  walletModal?: ModalVersion | ((props: WalletModalProps) => JSX.Element);
+  walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
+  wrappedWithChakra?: boolean;
   defaultNameService?: NameServiceName;
-  wcSignClientOptions?: SignClientTypes.Options; // SignClientOptions is required if using wallet connect v2
+  walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
-  // viewOptions?: ViewOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
+  logLevel?: LogLevel;
   children: ReactNode;
 }) => {
+  const logger = useMemo(() => new Logger(console, logLevel), []);
+  if (wrappedWithChakra && modalTheme) {
+    logger.warn(
+      'Your are sugguesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
+    );
+  }
   const walletManager = useMemo(
     () =>
       new WalletManager(
         chains,
         assetLists,
         wallets,
+        logger,
         defaultNameService,
-        wcSignClientOptions,
+        walletConnectOptions,
         signerOptions,
         endpointOptions,
         sessionOptions
@@ -78,7 +87,7 @@ export const ChainProvider = ({
   >();
 
   const [, setData] = useState<ChainWalletData>();
-  const [, setState] = useState<State>();
+  const [, setState] = useState<State>(State.Init);
   const [, setMsg] = useState<string | undefined>();
 
   walletManager.setActions({
@@ -103,15 +112,16 @@ export const ChainProvider = ({
     });
   });
 
-  const Modal = useMemo(() => {
-    if (!walletModal) {
-      return DefaultModal;
-    } else if (typeof walletModal === 'string') {
-      return getModal(walletModal as ModalVersion);
-    } else {
-      return walletModal;
-    }
-  }, [walletModal]);
+  const outerTheme = useContext(ThemeContext);
+
+  const Modal = useMemo(
+    () =>
+      walletModal ||
+      getDefaultModal(
+        wrappedWithChakra ? outerTheme : modalTheme || noCssResetTheme
+      ),
+    []
+  );
 
   useEffect(() => {
     walletManager.onMounted();
@@ -131,7 +141,6 @@ export const ChainProvider = ({
         isOpen={isViewOpen}
         setOpen={setViewOpen}
         walletRepo={viewWalletRepo}
-        theme={modalTheme}
       />
     </walletContext.Provider>
   );

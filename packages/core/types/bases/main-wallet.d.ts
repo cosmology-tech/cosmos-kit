@@ -13,4 +13,6 @@ export declare abstract class MainWalletBase extends WalletBase<MainWalletData> 
     getChainWallet: (chainName: string) => ChainWalletBase | undefined;
     update(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
     reset(): void;
+    connectActive(exclude?: ChainName): void;
+    disconnectActive(exclude?: ChainName): void;
 }

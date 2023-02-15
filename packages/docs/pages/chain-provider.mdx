@@ -11,7 +11,9 @@ Chain Provider provides necessary information for `useChain` hook and `useManage
 
 - [`useManager`](https://docs.cosmoskit.com/use-manager): manage all supported chains and wallets.
 
-> Note: `walletStatus` in `useWallet` is renamed with `status` in `useChain`
+> Note: 
+> 1. `walletStatus` in `useWallet` is renamed with `status` in `useChain`
+> 2. If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
 
 # Properties
 
@@ -112,7 +114,7 @@ In addition, you can integrate new wallets in a few steps.
 
 ## walletModal
 
-Optional property of type `ModalVersion | ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
+Optional property of type `({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
 
 So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
 
@@ -167,14 +169,14 @@ const MyModal = ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => 
         <ModalHeader>Choose Wallet</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          {walletRepo.wallets.map(({ chainName, connect }) => (
+          {walletRepo.wallets.map(({ walletName, connect }) => (
             <Button
-              key={chainName}
+              key={walletName}
               colorScheme="blue"
               variant="ghost"
               onClick={() => connect}
             >
-              {chainName}
+              {walletName}
             </Button>
           ))}
         </ModalBody>
@@ -198,9 +200,15 @@ function CosmosApp() {
 
 ## modalTheme
 
-Optional property. It will overwrite default theme applied in all given modals, including `simple_v1` and `simple_v2`. 
+Optional property. It will overwrite default theme applied in `DefaultModal`. 
 
 You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
+
+## wrappedWithChakra
+
+Optional property. By default `false`.
+
+If you wrapped `ChainProvider` with `ChakraProvider`, make sure `wrappedWithChakra` is set `true`. 
 
 ## defaultNameService
 
@@ -321,3 +329,9 @@ export interface SignerOptions {
   signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
 }
 ```
+
+## logLevel (coming soon)
+
+Optional property. By default `WARN`.
+
+**Type:** `LogLevel`

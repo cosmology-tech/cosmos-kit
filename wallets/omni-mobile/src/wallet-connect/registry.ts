@@ -7,7 +7,7 @@ export const omniMobileInfo: Wallet = {
   name: 'omni-mobile',
   prettyName: 'Omni Mobile',
   logo:
-    'https://user-images.githubusercontent.com/545047/191616515-eee176d0-9e50-4325-9529-6c0019d5c71a.png',
+    'https://explorer-api.walletconnect.com/v3/logo/lg/2cd67b4c-282b-4809-e7c0-a88cd5116f00?projectId=a8510432ebb71e6948cfd6cde54b70f7',
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {
@@ -33,4 +33,9 @@ export const omniMobileInfo: Wallet = {
     },
   ],
   connectEventNamesOnWindow: ['omni_keystorechange'],
+  walletconnect: {
+    name: 'Omni',
+    projectId:
+      'afbd95522f4041c71dd4f1a065f971fd32372865b416f95a0b1db759ae33f2a7',
+  },
 };

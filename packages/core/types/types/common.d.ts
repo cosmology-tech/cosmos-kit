@@ -21,6 +21,10 @@ export interface StateActions<T> extends Actions {
     data?: Dispatch<T | undefined>;
     message?: Dispatch<string | undefined>;
 }
+export interface WalletClientActions {
+    qrUrl?: StateActions<string>;
+    appUrl?: StateActions<string>;
+}
 export interface Callbacks {
     beforeConnect?: () => void;
     beforeDisconnect?: () => void;
@@ -35,5 +39,5 @@ export interface AppEnv {
     os?: OS;
     browser?: BrowserName;
 }
-export declare type ModalVersion = 'simple_v1' | 'simple_v2';
 export declare type CosmosClientType = 'stargate' | 'cosmwasm';
+export declare type LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';

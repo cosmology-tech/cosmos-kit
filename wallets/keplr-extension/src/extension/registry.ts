@@ -5,7 +5,7 @@ import { RiChromeFill } from 'react-icons/ri';
 
 export const keplrExtensionInfo: Wallet = {
   name: 'keplr-extension',
-  logo: 'https://pbs.twimg.com/profile_images/1498228570862219266/uctq7aeh_400x400.png',
+  logo: 'https://user-images.githubusercontent.com/545047/202085372-579be3f3-36e0-4e0b-b02f-48182af6e577.svg',
   prettyName: 'Keplr',
   mode: 'extension',
   mobileDisabled: true,

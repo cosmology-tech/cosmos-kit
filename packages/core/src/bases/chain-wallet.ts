@@ -15,7 +15,6 @@ import {
   StdFee,
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { nameServiceRegistries } from '../config';
 import { NameService } from '../name-service';
 
 import {
@@ -27,7 +26,6 @@ import {
   State,
   Wallet,
   WalletAccount,
-  WalletClient,
 } from '../types';
 import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
@@ -38,6 +36,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   restEndpoints?: string[];
   protected _rpcEndpoint?: string;
   protected _restEndpoint?: string;
+  isActive = false;
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
@@ -113,23 +112,24 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return this.data?.offlineSigner;
   }
 
-  fetchClient(): WalletClient | Promise<WalletClient | undefined> | undefined {
-    console.warn(
-      'This method should keep the same with the main walllet. If you see this message, please check your "onSetChainsDone" method in main wallet.'
+  activate() {
+    this.isActive = true;
+  }
+
+  initClient() {
+    this.logger?.warn(
+      'This is chain-wallet, call initClient from main-wallet.'
     );
-    return void 0;
   }
 
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+    this.setState(State.Pending);
+
     await (callbacks || this.callbacks)?.beforeConnect?.();
 
-    if (!this.client) {
-      this.setClientNotExist();
-      return;
-    }
-
-    this.setState(State.Pending);
     try {
+      await this.client.connect?.(this.chainId, this.isMobile);
+
       let account: WalletAccount;
       if (this.client.addChain) {
         try {
@@ -154,6 +154,7 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
           : void 0,
       });
       this.setState(State.Done);
+      this.setMessage(void 0);
 
       if (sessionOptions?.duration) {
         setTimeout(() => {
@@ -161,26 +162,30 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
         }, sessionOptions?.duration);
       }
     } catch (e) {
-      if (this.rejectMatched(e as Error)) {
+      this.logger?.error(e);
+      if (e && this.rejectMatched(e as Error)) {
         this.setRejected();
       } else {
         this.setError(e as Error);
       }
     }
     if (!this.isWalletRejected) {
-      window?.localStorage.setItem('chain-provider', this.walletName);
+      window?.localStorage.setItem('current-wallet-name', this.walletName);
     }
     await (callbacks || this.callbacks)?.afterConnect?.();
   }
 
   getRpcEndpoint = async (): Promise<string> => {
-    if (this._rpcEndpoint && (await isValidEndpoint(this._rpcEndpoint))) {
+    if (
+      this._rpcEndpoint &&
+      (await isValidEndpoint(this._rpcEndpoint, this.logger))
+    ) {
       return this._rpcEndpoint;
     }
     for (const endpoint of this.rpcEndpoints || []) {
-      if (await isValidEndpoint(endpoint)) {
+      if (await isValidEndpoint(endpoint, this.logger)) {
         this._rpcEndpoint = endpoint;
-        console.info('Using RPC endpoint ' + endpoint);
+        this.logger?.info('Using RPC endpoint ' + endpoint);
         return endpoint;
       }
     }
@@ -190,13 +195,16 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
   };
 
   getRestEndpoint = async (): Promise<string> => {
-    if (this._restEndpoint && (await isValidEndpoint(this._restEndpoint))) {
+    if (
+      this._restEndpoint &&
+      (await isValidEndpoint(this._restEndpoint, this.logger))
+    ) {
       return this._restEndpoint;
     }
     for (const endpoint of this.restEndpoints || []) {
-      if (await isValidEndpoint(endpoint)) {
+      if (await isValidEndpoint(endpoint, this.logger)) {
         this._restEndpoint = endpoint;
-        console.info('Using REST endpoint ' + endpoint);
+        this.logger?.info('Using REST endpoint ' + endpoint);
         return endpoint;
       }
     }
@@ -210,15 +218,15 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return StargateClient.connect(rpcEndpoint, this.stargateOptions);
   };
 
-  getCosmWasmClient = async (): Promise<CosmWasmClient | undefined> => {
+  getCosmWasmClient = async (): Promise<CosmWasmClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
     return CosmWasmClient.connect(rpcEndpoint);
   };
 
-  getNameService = async (): Promise<NameService | undefined> => {
+  getNameService = async (): Promise<NameService> => {
     const client = await this.getCosmWasmClient();
     const registry = getNameServiceRegistryFromChainName(this.chainName);
-    return registry ? new NameService(client, registry) : undefined;
+    return new NameService(client, registry);
   };
 
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {

@@ -1,8 +1,10 @@
 import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
+import { Logger } from '../utils';
 export declare class StateBase<T> {
     protected _mutable: Mutable<T>;
     actions?: StateActions<T>;
     protected _env?: AppEnv;
+    logger?: Logger;
     constructor();
     get env(): AppEnv;
     setEnv(env?: AppEnv): void;

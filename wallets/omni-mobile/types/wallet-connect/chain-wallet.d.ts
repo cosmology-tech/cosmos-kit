@@ -1,5 +1,5 @@
 import { ChainRecord, Wallet } from '@cosmos-kit/core';
-import { ChainWCV2 } from '@cosmos-kit/walletconnect-v2';
-export declare class ChainOmniMobile extends ChainWCV2 {
+import { ChainWC } from '@cosmos-kit/walletconnect';
+export declare class ChainOmniMobile extends ChainWC {
     constructor(walletInfo: Wallet, chainInfo: ChainRecord);
 }

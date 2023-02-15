@@ -7,7 +7,7 @@ export const cosmostationMobileInfo: Wallet = {
   name: 'cosmostation-mobile',
   prettyName: 'Cosmostation Mobile',
   logo:
-    'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/dapps/cosmostation/cosmoskit/cosmostation-wc.png',
+    'https://user-images.githubusercontent.com/74940804/202999324-fa2faf40-5ead-4896-b865-e97f052fc6f9.png',
   mode: 'wallet-connect',
   downloads: [
     {
@@ -29,4 +29,9 @@ export const cosmostationMobileInfo: Wallet = {
     },
   ],
   mobileDisabled: false,
+  walletconnect: {
+    name: 'Cosmostation',
+    projectId:
+      'feb6ff1fb426db18110f5a80c7adbde846d0a7e96b2bc53af4b73aaf32552bea',
+  },
 };

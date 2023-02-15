@@ -109,7 +109,9 @@
     "@chain-registry/types": "0.13.0",
     "@walletconnect/types": "2.2.0",
     "bowser": "2.11.0",
-    "react-icons": "4.4.0"
+    "react-icons": "4.4.0",
+    "events": "3.3.0",
+    "ts-log": "^2.2.5"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

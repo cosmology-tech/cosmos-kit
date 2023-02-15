@@ -9,6 +9,7 @@ import {
   NameServiceName,
   State,
   WalletStatus,
+  WalletClient,
 } from '@cosmos-kit/core';
 import React, { useState } from 'react';
 
@@ -91,7 +92,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
   const { walletManager } = context;
   const walletRepo = walletManager.getWalletRepo(chainName);
-  walletRepo.isInUse = true;
+  walletRepo.activate();
   const {
     connect,
     disconnect,
@@ -162,6 +163,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     username: current?.username,
     message: current ? current.message : 'No wallet is connected currently.',
     status,
+    client: current?.client,
 
     isWalletDisconnected: status === 'Disconnected',
     isWalletConnecting: status === 'Connecting',
@@ -173,7 +175,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
     openView,
     closeView,
     connect,
-    disconnect,
+    disconnect: () => disconnect(void 0, true),
     getRpcEndpoint,
     getRestEndpoint,
     getStargateClient,
@@ -205,7 +207,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
 
     enable: (chainIds?: string | string[]) =>
       clientMethodAssert(
-        current?.client?.enable,
+        current?.client?.enable.bind(current.client),
         [chainIds || chainId],
         'enable'
       ),
@@ -217,31 +219,31 @@ export const useChain = (chainName: ChainName): ChainContext => {
       ),
     getOfflineSignerAmino: () =>
       clientMethodAssert(
-        current?.client?.getOfflineSignerAmino,
+        current?.client?.getOfflineSignerAmino.bind(current.client),
         [chainId],
         'getOfflineSignerAmino'
       ),
     getOfflineSignerDirect: () =>
       clientMethodAssert(
-        current?.client?.getOfflineSignerDirect,
+        current?.client?.getOfflineSignerDirect.bind(current.client),
         [chainId],
         'getOfflineSignerDirect'
       ),
     signAmino: (...params: Parameters<ChainContext['signAmino']>) =>
       clientMethodAssert(
-        current?.client?.signAmino,
+        current?.client?.signAmino.bind(current.client),
         [chainId, ...params],
         'signAmino'
       ),
     signDirect: (...params: Parameters<ChainContext['signDirect']>) =>
       clientMethodAssert(
-        current?.client?.signDirect,
+        current?.client?.signDirect.bind(current.client),
         [chainId, ...params],
         'signDirect'
       ),
     sendTx: (...params: Parameters<ChainContext['sendTx']>) =>
       clientMethodAssert(
-        current?.client?.sendTx,
+        current?.client?.sendTx.bind(current.client),
         [chainId, ...params],
         'sendTx'
       ),

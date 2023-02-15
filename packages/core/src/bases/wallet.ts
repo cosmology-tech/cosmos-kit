@@ -10,13 +10,12 @@ import {
 } from '../types';
 import { ClientNotExistError, RejectedError } from '../utils';
 import { StateBase } from './state';
+import EventEmitter from 'events';
 
 export abstract class WalletBase<Data> extends StateBase<Data> {
-  clientPromise?: WalletClient | Promise<WalletClient | undefined>;
   client?: WalletClient;
+  emitter?: EventEmitter;
   protected _walletInfo: Wallet;
-  protected _appUrl?: string;
-  protected _qrUrl?: string;
   callbacks?: Callbacks;
 
   constructor(walletInfo: Wallet) {
@@ -87,22 +86,17 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     );
   }
 
-  get appUrl(): string | undefined {
-    return this._appUrl;
-  }
-
-  get qrUrl(): string | undefined {
-    return this._qrUrl;
-  }
-
   updateCallbacks(callbacks: Callbacks) {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  disconnect = async (callbacks?: Callbacks) => {
+  disconnect = async (callbacks?: Callbacks, sync?: boolean) => {
+    if (sync) {
+      this.emitter?.emit('sync_disconnect', (this as any).chainName);
+    }
     await (callbacks || this.callbacks)?.beforeDisconnect?.();
     this.reset();
-    window.localStorage.removeItem('chain-provider');
+    window.localStorage.removeItem('current-wallet-name');
     await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
@@ -117,15 +111,23 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     this.setMessage(RejectedError.message);
   }
 
-  setError(e: Error | string) {
+  setError(e?: Error | string) {
     this.setState(State.Error);
-    this.setMessage(typeof e === 'string' ? e : e.message);
-    if (typeof e !== 'string' && e.stack) {
-      console.error(e.stack);
+    this.setMessage(typeof e === 'string' ? e : e?.message);
+    if (typeof e !== 'string' && e?.stack) {
+      this.logger?.error(e.stack);
     }
   }
 
-  connect = async (sessionOptions?: SessionOptions, callbacks?: Callbacks) => {
+  connect = async (
+    sessionOptions?: SessionOptions,
+    callbacks?: Callbacks,
+    sync?: boolean
+  ) => {
+    if (sync) {
+      this.emitter?.emit('sync_connect', (this as any).chainName);
+    }
+
     await (callbacks || this.callbacks)?.beforeConnect?.();
 
     if (this.isMobile && this.walletInfo.mobileDisabled) {
@@ -136,14 +138,10 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     }
 
     try {
-      this.client =
-        this.client || (await this.clientPromise) || (await this.fetchClient());
-
       if (!this.client) {
         this.setClientNotExist();
         return;
       }
-
       await this.update();
 
       if (sessionOptions?.duration) {
@@ -154,14 +152,10 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     } catch (error) {
       this.setError(error as Error);
     }
-
     await (callbacks || this.callbacks)?.afterConnect?.();
   };
 
-  abstract fetchClient():
-    | WalletClient
-    | undefined
-    | Promise<WalletClient | undefined>;
+  abstract initClient(options?: any): void | Promise<void>;
 
   abstract update(
     sessionOptions?: SessionOptions,

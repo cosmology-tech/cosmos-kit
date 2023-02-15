@@ -1,11 +1,11 @@
+/// <reference types="node" />
 import { Callbacks, DownloadInfo, SessionOptions, Wallet, WalletClient } from '../types';
 import { StateBase } from './state';
+import EventEmitter from 'events';
 export declare abstract class WalletBase<Data> extends StateBase<Data> {
-    clientPromise?: WalletClient | Promise<WalletClient | undefined>;
     client?: WalletClient;
+    emitter?: EventEmitter;
     protected _walletInfo: Wallet;
-    protected _appUrl?: string;
-    protected _qrUrl?: string;
     callbacks?: Callbacks;
     constructor(walletInfo: Wallet);
     get walletInfo(): Wallet;
@@ -16,14 +16,12 @@ export declare abstract class WalletBase<Data> extends StateBase<Data> {
     get rejectMessageTarget(): string;
     get rejectCode(): number;
     rejectMatched(e: Error): boolean;
-    get appUrl(): string | undefined;
-    get qrUrl(): string | undefined;
     updateCallbacks(callbacks: Callbacks): void;
-    disconnect: (callbacks?: Callbacks) => Promise<void>;
+    disconnect: (callbacks?: Callbacks, sync?: boolean) => Promise<void>;
     setClientNotExist(): void;
     setRejected(): void;
-    setError(e: Error | string): void;
-    connect: (sessionOptions?: SessionOptions, callbacks?: Callbacks) => Promise<void>;
-    abstract fetchClient(): WalletClient | undefined | Promise<WalletClient | undefined>;
+    setError(e?: Error | string): void;
+    connect: (sessionOptions?: SessionOptions, callbacks?: Callbacks, sync?: boolean) => Promise<void>;
+    abstract initClient(options?: any): void | Promise<void>;
     abstract update(sessionOptions?: SessionOptions, callbacks?: Callbacks): void | Promise<void>;
 }

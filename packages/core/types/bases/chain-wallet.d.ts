@@ -3,7 +3,7 @@ import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, SigningStargateClientOptions, StargateClient, StargateClientOptions, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { NameService } from '../name-service';
-import { Callbacks, ChainRecord, ChainWalletData, CosmosClientType, SessionOptions, Wallet, WalletClient } from '../types';
+import { Callbacks, ChainRecord, ChainWalletData, CosmosClientType, SessionOptions, Wallet } from '../types';
 import { WalletBase } from './wallet';
 export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     protected _chainRecord: ChainRecord;
@@ -11,6 +11,7 @@ export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     restEndpoints?: string[];
     protected _rpcEndpoint?: string;
     protected _restEndpoint?: string;
+    isActive: boolean;
     constructor(walletInfo: Wallet, chainRecord: ChainRecord);
     get chainRecord(): ChainRecord;
     get chainName(): string;
@@ -26,13 +27,14 @@ export declare class ChainWalletBase extends WalletBase<ChainWalletData> {
     get username(): string | undefined;
     get address(): string | undefined;
     get offlineSigner(): OfflineSigner | undefined;
-    fetchClient(): WalletClient | Promise<WalletClient | undefined> | undefined;
+    activate(): void;
+    initClient(): void;
     update(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;
     getRpcEndpoint: () => Promise<string>;
     getRestEndpoint: () => Promise<string>;
     getStargateClient: () => Promise<StargateClient>;
-    getCosmWasmClient: () => Promise<CosmWasmClient | undefined>;
-    getNameService: () => Promise<NameService | undefined>;
+    getCosmWasmClient: () => Promise<CosmWasmClient>;
+    getNameService: () => Promise<NameService>;
     getSigningStargateClient: () => Promise<SigningStargateClient>;
     getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
     protected getSigningClient: (type?: CosmosClientType) => Promise<SigningStargateClient | SigningCosmWasmClient>;

@@ -1,18 +1,12 @@
-import { WalletStatus } from '@cosmos-kit/core';
-import { ReactNode } from 'react';
-import { IconType } from 'react-icons';
-import { LogoStatus } from './components';
-export declare type DisplayType = 'list' | 'single';
-export interface StatusInfo {
-    logoStatus?: LogoStatus;
-    header?: string;
-    desc?: string;
-    buttonText?: string;
-    onClick?: () => void;
-    buttonDisabled?: boolean;
-    icon?: IconType | JSX.Element;
-    bottomLink?: ReactNode;
+export declare enum ModalView {
+    WalletList = 0,
+    QRCode = 1,
+    LoadingQRCode = 2,
+    Connecting = 3,
+    Connected = 4,
+    Error = 5,
+    NotExist = 6,
+    Rejected = 7,
+    ExpiredQRCode = 8,
+    ErrorQRCode = 9
 }
-export declare type ModalInfo = {
-    [k in WalletStatus]: StatusInfo;
-};

@@ -22,13 +22,29 @@ import {
   SigningStargateClient,
   StargateClient,
 } from '@cosmjs/stargate';
+import { SignClientTypes } from '@walletconnect/types';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, CosmosClientType, Data } from './common';
+import {
+  AppEnv,
+  CosmosClientType,
+  Data,
+  Mutable,
+  WalletClientActions,
+} from './common';
+
+export interface Key {
+  readonly name: string;
+  readonly algo: string;
+  readonly pubKey: Uint8Array;
+  readonly address: Uint8Array;
+  readonly bech32Address: string;
+  readonly isNanoLedger: boolean;
+}
 
 export type WalletName = string;
 
@@ -71,25 +87,20 @@ export interface Wallet {
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
   logo?: string;
+  walletconnect?: {
+    name: string;
+    projectId: string;
+  };
 }
 
 export type Bech32Address = string;
 
 export interface WalletAccount {
   address: Bech32Address;
-  pubkey: Uint8Array;
+  pubkey?: Uint8Array;
+  algo?: Algo | undefined;
   name?: string;
-  algo?: Algo;
   isNanoLedger?: boolean;
-}
-
-export interface Key {
-  readonly name: string;
-  readonly algo: string;
-  readonly pubKey: Uint8Array;
-  readonly address: Uint8Array;
-  readonly bech32Address: string;
-  readonly isNanoLedger: boolean;
 }
 
 export interface SignOptions {
@@ -122,7 +133,13 @@ export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
-  disconnect?: () => Promise<void>;
+  actions?: WalletClientActions;
+  setActions?: (actions: WalletClientActions) => void;
+  qrUrl?: Mutable<string>;
+  appUrl?: Mutable<string>;
+
+  connect?: (chainIds: string | string[], isMobile: boolean) => Promise<void>; // called when chain wallet connect is called
+  disconnect?: () => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
@@ -202,6 +219,7 @@ export interface ChainContext {
   username: string | undefined;
   message: string | undefined;
   status: WalletStatus;
+  client: WalletClient | undefined;
 
   isWalletDisconnected: boolean;
   isWalletConnecting: boolean;
@@ -261,4 +279,8 @@ export interface ChainContext {
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
+}
+
+export interface WalletConnectOptions {
+  signClient: SignClientTypes.Options;
 }

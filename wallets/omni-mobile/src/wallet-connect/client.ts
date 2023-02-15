@@ -1,8 +1,8 @@
-import { WCClientV2 } from '@cosmos-kit/walletconnect-v2';
-import SignClient from '@walletconnect/sign-client';
+import { Wallet } from '@cosmos-kit/core';
+import { WCClient } from '@cosmos-kit/walletconnect';
 
-export class OmniClient extends WCClientV2 {
-  constructor(signClient: SignClient) {
-    super(signClient);
+export class OmniClient extends WCClient {
+  constructor(walletInfo: Wallet) {
+    super(walletInfo);
   }
 }

@@ -8,7 +8,7 @@ import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
  * Store all ChainWallets for a particular Chain.
  */
 export declare class WalletRepo extends StateBase<Data> {
-    isInUse: boolean;
+    isActive: boolean;
     chainRecord: ChainRecord;
     private _wallets;
     options: {
@@ -17,6 +17,7 @@ export declare class WalletRepo extends StateBase<Data> {
     sessionOptions?: SessionOptions;
     constructor(chainRecord: ChainRecord, wallets?: ChainWalletBase[], sessionOptions?: SessionOptions);
     setEnv(env?: AppEnv): void;
+    activate(): void;
     get chainName(): string;
     get chainLogo(): string | undefined;
     get wallets(): ChainWalletBase[];
@@ -25,8 +26,8 @@ export declare class WalletRepo extends StateBase<Data> {
     getWallet: (walletName: WalletName) => ChainWalletBase | undefined;
     openView: () => void;
     closeView: () => void;
-    connect: (walletName?: WalletName) => Promise<void>;
-    disconnect: (walletName?: WalletName) => Promise<void>;
+    connect: (walletName?: WalletName, sync?: boolean) => Promise<void>;
+    disconnect: (walletName?: WalletName, sync?: boolean) => Promise<void>;
     getRpcEndpoint: () => Promise<string>;
     getRestEndpoint: () => Promise<string>;
     getStargateClient: () => Promise<StargateClient>;

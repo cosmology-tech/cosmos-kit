@@ -1,5 +1,5 @@
 import { EndpointOptions, Wallet } from '@cosmos-kit/core';
-import { WCWalletV1 } from '@cosmos-kit/walletconnect-v1';
-export declare class KeplrMobileWallet extends WCWalletV1 {
+import { WCWallet } from '@cosmos-kit/walletconnect';
+export declare class KeplrMobileWallet extends WCWallet {
     constructor(walletInfo: Wallet, preferredEndpoints?: EndpointOptions);
 }

@@ -4,12 +4,21 @@ import { AminoSignResponse, OfflineAminoSigner, StdFee, StdSignDoc } from '@cosm
 import { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { Algo, DirectSignResponse, EncodeObject, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DeliverTxResponse, SigningStargateClient, StargateClient } from '@cosmjs/stargate';
+import { SignClientTypes } from '@walletconnect/types';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, CosmosClientType, Data } from './common';
+import { AppEnv, CosmosClientType, Data, Mutable, WalletClientActions } from './common';
+export interface Key {
+    readonly name: string;
+    readonly algo: string;
+    readonly pubKey: Uint8Array;
+    readonly address: Uint8Array;
+    readonly bech32Address: string;
+    readonly isNanoLedger: boolean;
+}
 export declare type WalletName = string;
 export declare enum WalletStatus {
     Disconnected = "Disconnected",
@@ -44,22 +53,18 @@ export interface Wallet {
     connectEventNamesOnClient?: string[];
     downloads?: DownloadInfo[];
     logo?: string;
+    walletconnect?: {
+        name: string;
+        projectId: string;
+    };
 }
 export declare type Bech32Address = string;
 export interface WalletAccount {
     address: Bech32Address;
-    pubkey: Uint8Array;
+    pubkey?: Uint8Array;
+    algo?: Algo | undefined;
     name?: string;
-    algo?: Algo;
     isNanoLedger?: boolean;
-}
-export interface Key {
-    readonly name: string;
-    readonly algo: string;
-    readonly pubKey: Uint8Array;
-    readonly address: Uint8Array;
-    readonly bech32Address: string;
-    readonly isNanoLedger: boolean;
 }
 export interface SignOptions {
     readonly preferNoSetFee?: boolean;
@@ -87,6 +92,11 @@ export declare enum BroadcastMode {
 export interface WalletClient {
     getAccount: (chainId: string) => Promise<WalletAccount>;
     getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
+    actions?: WalletClientActions;
+    setActions?: (actions: WalletClientActions) => void;
+    qrUrl?: Mutable<string>;
+    appUrl?: Mutable<string>;
+    connect?: (chainIds: string | string[], isMobile: boolean) => Promise<void>;
     disconnect?: () => Promise<void>;
     on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
@@ -132,6 +142,7 @@ export interface ChainContext {
     username: string | undefined;
     message: string | undefined;
     status: WalletStatus;
+    client: WalletClient | undefined;
     isWalletDisconnected: boolean;
     isWalletConnecting: boolean;
     isWalletConnected: boolean;
@@ -160,4 +171,7 @@ export interface ChainContext {
     signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
     sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
+}
+export interface WalletConnectOptions {
+    signClient: SignClientTypes.Options;
 }
