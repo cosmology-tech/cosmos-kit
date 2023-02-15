@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust",
-  "version": "0.13.22-beta.3+ef4aeaf",
+  "version": "0.13.22-beta.4+4ba1e78",
   "description": "cosmos-kit wallet connector",
   "contributors": [
     {
@@ -84,7 +84,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/trust-mobile": "^0.1.9-beta.3+ef4aeaf"
+    "@cosmos-kit/trust-mobile": "^0.1.9-beta.4+4ba1e78"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
@@ -92,5 +92,5 @@
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
   },
-  "gitHead": "ef4aeaf1dccc4cb17c0a1d98e75b3fcdcdc1a47f"
+  "gitHead": "4ba1e786de1523c62890235e2b2fee1194acb219"
 }

@@ -136,12 +136,12 @@ export const ChainProvider = ({
         walletManager,
       }}
     >
-      {children}
       <Modal
         isOpen={isViewOpen}
         setOpen={setViewOpen}
         walletRepo={viewWalletRepo}
       />
+      {children}
     </walletContext.Provider>
   );
 };

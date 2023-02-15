@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr-mobile",
-  "version": "0.32.22-beta.3+ef4aeaf",
+  "version": "0.32.22-beta.4+4ba1e78",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -118,5 +118,5 @@
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
   },
-  "gitHead": "ef4aeaf1dccc4cb17c0a1d98e75b3fcdcdc1a47f"
+  "gitHead": "4ba1e786de1523c62890235e2b2fee1194acb219"
 }
