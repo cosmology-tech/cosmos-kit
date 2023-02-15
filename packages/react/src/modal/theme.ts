@@ -32,9 +32,9 @@ const themeWithoutReset = {
         transitionDuration: '',
         lineHeight: '',
         WebkitTextSizeAdjust: '100%',
-        WebkitFontSmoothing: 'antialiased',
+        WebkitFontSmoothing: '',
         textRendering: 'optimizeLegibility',
-        MozOsxFontSmoothing: 'grayscale',
+        MozOsxFontSmoothing: '',
         touchAction: 'manipulation',
       },
       body: {
@@ -43,7 +43,7 @@ const themeWithoutReset = {
         bg: '',
         position: 'relative',
         minHeight: '100%',
-        fontFeatureSettings: 'kern',
+        fontFeatureSettings: '',
       },
       '*::placeholder': {
         color: '',

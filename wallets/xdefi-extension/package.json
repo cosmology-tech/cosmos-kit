@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/xdefi-extension",
-  "version": "0.13.21-beta.692+2535f9c",
+  "version": "0.13.21-beta.693+4808ab0",
   "description": "cosmos-kit wallet connector",
   "author": "dp@xdefi.io",
   "contributors": [
@@ -90,12 +90,12 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^1.0.5-beta.5+2535f9c",
+    "@cosmos-kit/core": "^1.0.5-beta.6+4808ab0",
     "react-icons": "4.4.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
   },
-  "gitHead": "2535f9ced7120fa4f6523011853df7703c675c4b"
+  "gitHead": "4808ab02a89447701a53973579880d0aec73d92f"
 }

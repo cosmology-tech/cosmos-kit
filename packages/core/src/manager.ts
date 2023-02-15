@@ -267,6 +267,8 @@ export class WalletManager extends StateBase<Data> {
         }
       );
     });
+
+    this.actions?.viewOpen?.(true);
   };
 
   onUnmounted = () => {
