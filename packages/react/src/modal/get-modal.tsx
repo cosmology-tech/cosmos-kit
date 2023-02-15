@@ -28,6 +28,7 @@ export function getDefaultModal(theme?: Record<string, any>) {
           ...theme,
           ...mergedSemanticTokens,
         }}
+        resetCSS={true}
         colorModeManager={createLocalStorageManager('chakra-ui-color-mode')}
       >
         <DefaultModal
