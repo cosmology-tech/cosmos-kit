@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/core",
-  "version": "1.0.5-beta.8+7ac9697",
+  "version": "1.0.5",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [

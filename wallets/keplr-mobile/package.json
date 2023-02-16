@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr-mobile",
-  "version": "0.32.22-beta.8+7ac9697",
+  "version": "0.32.22",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
