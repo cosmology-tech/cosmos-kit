@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react",
-  "version": "1.0.5-beta.7+8e8eacf",
+  "version": "1.0.5-beta.8+7ac9697",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -110,7 +110,7 @@
     "@chain-registry/types": "0.13.1",
     "@chakra-ui/react": "2.4.3",
     "@cosmology-ui/react": "^0.1.9",
-    "@cosmos-kit/core": "^1.0.5-beta.7+8e8eacf",
+    "@cosmos-kit/core": "^1.0.5-beta.8+7ac9697",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@walletconnect/types": "2.2.0",
@@ -129,5 +129,5 @@
     "react": "18",
     "react-dom": "18"
   },
-  "gitHead": "8e8eacfbe18d284fd335ab337075488d30398e2a"
+  "gitHead": "7ac9697baeac9874d405b26d27b3403e9194213d"
 }
