@@ -50,7 +50,7 @@ export declare class WCClient implements WalletClient {
     }>;
     getOfflineSignerAmino(chainId: string): OfflineAminoSigner;
     getOfflineSignerDirect(chainId: string): OfflineDirectSigner;
-    getOfflineSigner(chainId: string): Promise<OfflineAminoSigner | OfflineDirectSigner>;
+    getOfflineSigner(chainId: string): Promise<OfflineDirectSigner>;
     signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions): Promise<AminoSignResponse>;
     signDirect(chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions): Promise<DirectSignResponse>;
 }

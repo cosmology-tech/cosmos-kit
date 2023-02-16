@@ -36,6 +36,6 @@ export const keplrMobileInfo: Wallet = {
   walletconnect: {
     name: 'Keplr',
     projectId:
-      'afbd95522f4041c71dd4f1a065f971fd32372865b416f95a0b1db759ae33f2a7',
+      '6adb6082c909901b9e7189af3a4a0223102cd6f8d5c39e39f3d49acb92b578bb',
   },
 };

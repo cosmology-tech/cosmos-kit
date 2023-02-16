@@ -401,7 +401,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerAmino(chainId: string) {
     return {
-      getAccounts: async () => [await this.getAccount(chainId)],
+      getAccounts: async () => [await this.getKey(chainId)],
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
@@ -409,33 +409,13 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerDirect(chainId: string) {
     return {
-      getAccounts: async () => [await this.getAccount(chainId)],
+      getAccounts: async () => [await this.getKey(chainId)],
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;
   }
 
-  // getOfflineSignerAmino(chainId: string) {
-  //   return {
-  //     getAccounts: async () => [await this.getKey(chainId)],
-  //     signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
-  //       this.signAmino(chainId, signerAddress, signDoc),
-  //   } as OfflineAminoSigner;
-  // }
-
-  // getOfflineSignerDirect(chainId: string) {
-  //   return {
-  //     getAccounts: async () => [await this.getKey(chainId)],
-  //     signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
-  //       this.signDirect(chainId, signerAddress, signDoc),
-  //   } as OfflineDirectSigner;
-  // }
-
   async getOfflineSigner(chainId: string) {
-    const key = await this.getAccount(chainId);
-    if (key.isNanoLedger) {
-      return this.getOfflineSignerAmino(chainId);
-    }
     return this.getOfflineSignerDirect(chainId);
   }
 
