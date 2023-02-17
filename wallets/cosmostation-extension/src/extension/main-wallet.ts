@@ -17,7 +17,7 @@ export class CosmostationExtensionWallet extends MainWalletBase {
         ? new CosmostationClient(cosmostation)
         : undefined;
     } catch (error) {
-      this.setClientNotExist();
+      this.logger?.error(error);
     }
   }
 }

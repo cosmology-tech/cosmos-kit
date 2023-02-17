@@ -1,10 +1,18 @@
 import { WalletModalProps } from '@cosmos-kit/core';
-import { DefaultModal } from './modal';
-import { semanticTokens } from '@cosmology-ui/react';
-import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
-import React from 'react';
+import { WalletModal } from './modal';
+import {
+  semanticTokens,
+  ThemeContext,
+  ThemeProvider,
+} from '@cosmology-ui/react';
+import {
+  ChakraProvider,
+  createLocalStorageManager,
+  useColorMode,
+} from '@chakra-ui/react';
+import React, { useContext, useEffect } from 'react';
 
-export function getDefaultModal(theme?: Record<string, any>) {
+export function getWalletModal(theme?: Record<string, any>) {
   const colors = {
     ...(semanticTokens as any).semanticTokens.colors,
     ...(theme as any)?.semanticTokens?.colors,
@@ -22,21 +30,38 @@ export function getDefaultModal(theme?: Record<string, any>) {
   };
 
   return ({ isOpen, setOpen, walletRepo }: WalletModalProps) => {
+    // const { colorMode } = useColorMode();
+    // const context = useContext(ThemeContext);
+
+    // useEffect(() => {
+    //   context.handleTheme(colorMode);
+    //   console.log(
+    //     '%cget-modal.tsx line:33 colorMode',
+    //     'color: #007acc;',
+    //     colorMode,
+    //     context.theme
+    //   );
+    // }, [context, colorMode]);
+
     return (
-      <ChakraProvider
-        theme={{
-          ...theme,
-          ...mergedSemanticTokens,
-        }}
-        resetCSS={true}
-        colorModeManager={createLocalStorageManager('chakra-ui-color-mode')}
-      >
-        <DefaultModal
-          isOpen={isOpen}
-          setOpen={setOpen}
-          walletRepo={walletRepo}
-        />
-      </ChakraProvider>
+      <ThemeProvider>
+        <ChakraProvider
+          theme={{
+            ...theme,
+            ...mergedSemanticTokens,
+          }}
+          // resetCSS={true}
+          // colorModeManager={createLocalStorageManager('chakra-ui-color-mode')}
+        >
+          <WalletModal
+            isOpen={isOpen}
+            setOpen={setOpen}
+            walletRepo={walletRepo}
+          />
+        </ChakraProvider>
+      </ThemeProvider>
     );
   };
 }
+
+export const DefautModal = getWalletModal();

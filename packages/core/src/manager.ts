@@ -10,28 +10,36 @@ import { WalletRepo } from './repository';
 import {
   ChainName,
   ChainRecord,
-  Data,
   DeviceType,
   EndpointOptions,
   NameServiceName,
   OS,
   SessionOptions,
   SignerOptions,
+  SimpleAccount,
+  State,
   WalletConnectOptions,
 } from './types';
-import { convertChain, getNameServiceRegistryFromName, Logger } from './utils';
+import {
+  convertChain,
+  getNameServiceRegistryFromName,
+  Logger,
+  Session,
+} from './utils';
 
-export class WalletManager extends StateBase<Data> {
+export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepo[] = [];
   defaultNameService: NameServiceName = 'icns';
   private _wallets: MainWalletBase[] = [];
 
-  sessionOptions: SessionOptions = {
+  readonly sessionOptions: SessionOptions = {
     duration: 1800000,
-    killOnTabClose: false,
+    callback: () =>
+      window?.localStorage.removeItem('cosmos-kit@1:core//accounts'),
   };
   walletConnectOptions?: WalletConnectOptions;
+  readonly session: Session;
 
   constructor(
     chains: Chain[],
@@ -46,10 +54,9 @@ export class WalletManager extends StateBase<Data> {
   ) {
     super();
     this.logger = logger;
-    if (defaultNameService) {
-      this.defaultNameService = defaultNameService;
-    }
-    this.sessionOptions = { ...this.sessionOptions, ...sessionOptions };
+    if (defaultNameService) this.defaultNameService = defaultNameService;
+    if (sessionOptions) this.sessionOptions = sessionOptions;
+    this.session = new Session(this.sessionOptions);
     this.walletConnectOptions = walletConnectOptions;
     this.init(
       chains,
@@ -84,6 +91,8 @@ export class WalletManager extends StateBase<Data> {
 
     this._wallets = wallets.map((wallet) => {
       wallet.logger = this.logger;
+      wallet.session = this.session;
+      wallet.walletConnectOptions = this.walletConnectOptions;
       wallet.setChains(this.chainRecords);
       return wallet;
     });
@@ -224,29 +233,40 @@ export class WalletManager extends StateBase<Data> {
   };
 
   private _handleConnect = async () => {
-    const ls = window.localStorage;
-    const walletName = ls.getItem('current-wallet-name');
+    const walletName = window.localStorage.getItem(
+      'cosmos-kit@1:core//current-wallet'
+    );
     if (walletName) {
       await this.activeRepos[0]?.connect(walletName);
     }
   };
 
+  private _restoreAccounts = async () => {
+    const walletName = window.localStorage.getItem(
+      'cosmos-kit@1:core//current-wallet'
+    );
+    const accountsStr = window.localStorage.getItem(
+      'cosmos-kit@1:core//accounts'
+    );
+    if (accountsStr) {
+      const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+      accounts.forEach((data) => {
+        if (data.namespace !== 'cosmos') return;
+
+        const chainWallet = this.walletRepos
+          .find((repo) => repo.chainRecord.chain.chain_id === data.chainId)
+          ?.wallets.find((cw) => cw.walletName === walletName);
+
+        chainWallet.setData(data);
+        chainWallet.setState(State.Done);
+      });
+    }
+  };
+
   onMounted = async () => {
-    if (typeof window === 'undefined') {
-      return;
-    }
+    if (typeof window === 'undefined') return;
 
-    for (const wallet of this._wallets) {
-      if (wallet.walletInfo.mode === 'wallet-connect') {
-        await wallet.initClient(this.walletConnectOptions);
-        wallet.emitter?.emit('broadcast_client', wallet.client);
-      } else {
-        await wallet.initClient();
-        wallet.emitter?.emit('broadcast_client', wallet.client);
-      }
-    }
-
-    this._handleConnect();
+    this._restoreAccounts();
 
     const parser = Bowser.getParser(window.navigator.userAgent);
     const env = {

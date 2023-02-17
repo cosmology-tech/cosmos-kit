@@ -6,12 +6,12 @@ import { StargateClient } from '@cosmjs/stargate';
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
-import { AppEnv, ChainRecord, Data, SessionOptions, WalletName } from './types';
+import { AppEnv, ChainRecord, SessionOptions, WalletName } from './types';
 
 /**
  * Store all ChainWallets for a particular Chain.
  */
-export class WalletRepo extends StateBase<Data> {
+export class WalletRepo extends StateBase {
   isActive = false;
   chainRecord: ChainRecord;
   private _wallets: ChainWalletBase[];

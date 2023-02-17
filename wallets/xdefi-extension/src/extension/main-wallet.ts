@@ -15,7 +15,7 @@ export class XDEFIExtensionWallet extends MainWalletBase {
       const xdefi = await getXDEFIFromExtension();
       this.client = xdefi ? new XDEFIClient(xdefi) : undefined;
     } catch (error) {
-      this.setClientNotExist();
+      this.logger?.error(error);
     }
   }
 }

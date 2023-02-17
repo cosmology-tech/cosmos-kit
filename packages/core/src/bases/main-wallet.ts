@@ -4,7 +4,6 @@ import {
   ChainRecord,
   EndpointOptions,
   IChainWallet,
-  MainWalletData,
   SessionOptions,
   State,
   Wallet,
@@ -13,7 +12,7 @@ import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 import EventEmitter from 'events';
 
-export abstract class MainWalletBase extends WalletBase<MainWalletData> {
+export abstract class MainWalletBase extends WalletBase {
   protected _chainWallets?: Map<ChainName, ChainWalletBase>;
   preferredEndpoints?: EndpointOptions;
   ChainWallet: IChainWallet;
@@ -33,14 +32,16 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.emitter.on('sync_disconnect', (chainName?: ChainName) => {
       this.disconnectActive(chainName);
     });
-  }
-
-  protected onSetChainsDone(): void {
-    this.chainWallets?.forEach((chainWallet) => {
-      chainWallet.emitter = this.emitter;
-      chainWallet.client = this.client;
+    this.emitter.on('reset', (chainIds: string[]) => {
+      chainIds.forEach((chainId) =>
+        Array.from(this.chainWallets.values())
+          .find((cw) => cw.chainId === chainId)
+          ?.reset()
+      );
     });
   }
+
+  protected onSetChainsDone(): void {}
 
   setChains(chains: ChainRecord[], overwrite = true): void {
     if (overwrite || !this._chainWallets) {
@@ -63,7 +64,12 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
       };
 
       const chainWallet = new this.ChainWallet(this.walletInfo, chain);
+
+      chainWallet.emitter = this.emitter;
       chainWallet.logger = this.logger;
+      chainWallet.session = this.session;
+      chainWallet.walletConnectOptions = this.walletConnectOptions;
+      chainWallet.initClient = this.initClient;
 
       this._chainWallets!.set(chain.name, chainWallet);
     });
@@ -91,6 +97,7 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
       return;
     }
     this.setState(State.Done);
+    this.setMessage(void 0);
 
     if (sessionOptions?.duration) {
       setTimeout(() => {
@@ -110,12 +117,12 @@ export abstract class MainWalletBase extends WalletBase<MainWalletData> {
     this.setState(State.Init);
   }
 
-  connectActive(exclude?: ChainName) {
-    this.chainWallets.forEach((w) => {
+  async connectActive(exclude?: ChainName) {
+    for (const [, w] of this.chainWallets) {
       if (w.isActive && !w.isWalletConnected && w.chainName !== exclude) {
-        w.connect();
+        await w.connect();
       }
-    });
+    }
   }
 
   disconnectActive(exclude?: ChainName) {

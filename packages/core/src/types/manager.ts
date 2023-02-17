@@ -28,8 +28,8 @@ export interface StorageOptions {
 }
 
 export interface SessionOptions {
-  duration?: number; // ms
-  killOnTabClose?: boolean;
+  duration: number; // ms
+  callback?: () => void;
 }
 
 export interface Endpoints {

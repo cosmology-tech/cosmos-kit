@@ -2,6 +2,7 @@ import {
   SimpleModalHead,
   QRCode as SimpleQRCode,
   SimpleModalView,
+  QRCodeStatus,
 } from '@cosmology-ui/react';
 import React from 'react';
 
@@ -27,7 +28,7 @@ export const LoadingQRCode = ({
     <SimpleQRCode
       link={''}
       description={`Open ${name} App to Scan`}
-      loading={true}
+      status={QRCodeStatus.Pending}
     />
   );
 

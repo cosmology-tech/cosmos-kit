@@ -1,9 +1,9 @@
-import { Actions, AppEnv, Mutable, State, StateActions } from '../types';
+import { Actions, AppEnv, Data, Mutable, State, StateActions } from '../types';
 import { getWalletStatusFromState, Logger } from '../utils';
 
-export class StateBase<T> {
-  protected _mutable: Mutable<T>;
-  actions?: StateActions<T>;
+export class StateBase {
+  protected _mutable: Mutable<Data>;
+  actions?: StateActions<Data>;
   protected _env?: AppEnv;
   logger?: Logger;
 
@@ -64,7 +64,7 @@ export class StateBase<T> {
     this.actions?.state?.(state);
   }
 
-  setData(data: T | undefined) {
+  setData(data: Data | undefined) {
     this._mutable.data = data;
     this.actions?.data?.(data);
   }
@@ -92,13 +92,6 @@ export class StateBase<T> {
 
   get isWalletConnecting() {
     return this.walletStatus === 'Connecting';
-  }
-
-  get isConnectingWC() {
-    return (
-      this.walletStatus === 'Disconnected' &&
-      this.message === 'About to connect.'
-    );
   }
 
   get isWalletConnected() {

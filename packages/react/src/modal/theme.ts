@@ -1,5 +1,4 @@
 import { extendTheme } from '@chakra-ui/react';
-import { semanticTokens } from '@cosmology-ui/react';
 
 /* ====================================================== */
 /*       NOTICE: Chakra resets global CSS by default      */

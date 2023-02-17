@@ -20,9 +20,10 @@ import { NameService } from '../name-service';
 import {
   Callbacks,
   ChainRecord,
-  ChainWalletData,
   CosmosClientType,
+  Data,
   SessionOptions,
+  SimpleAccount,
   State,
   Wallet,
   WalletAccount,
@@ -30,13 +31,14 @@ import {
 import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
 
-export class ChainWalletBase extends WalletBase<ChainWalletData> {
+export abstract class ChainWalletBase extends WalletBase {
   protected _chainRecord: ChainRecord;
   rpcEndpoints?: string[];
   restEndpoints?: string[];
   protected _rpcEndpoint?: string;
   protected _restEndpoint?: string;
   isActive = false;
+  offlineSigner?: OfflineSigner;
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
@@ -108,22 +110,33 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return this.data?.address;
   }
 
-  get offlineSigner(): OfflineSigner | undefined {
-    return this.data?.offlineSigner;
-  }
-
   activate() {
     this.isActive = true;
   }
 
-  initClient() {
-    this.logger?.warn(
-      'This is chain-wallet, call initClient from main-wallet.'
+  setData(data: SimpleAccount | undefined) {
+    this._mutable.data = data;
+    this.actions?.data?.(data);
+    const accountsStr = window.localStorage.getItem(
+      'cosmos-kit@1:core//accounts'
     );
+    let accounts: SimpleAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
+    if (typeof data === 'undefined') {
+      accounts = accounts.filter((a) => a.chainId !== this.chainId);
+    } else {
+      accounts.push(data);
+    }
+
+    window?.localStorage.setItem(
+      'cosmos-kit@1:core//accounts',
+      JSON.stringify(accounts)
+    );
+    this.session?.update();
   }
 
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     this.setState(State.Pending);
+    this.setMessage(void 0);
 
     await (callbacks || this.callbacks)?.beforeConnect?.();
 
@@ -131,27 +144,24 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
       await this.client.connect?.(this.chainId, this.isMobile);
 
       let account: WalletAccount;
-      if (this.client.addChain) {
-        try {
-          account = await this.client.getAccount(this.chainId);
-        } catch (error) {
-          if (this.rejectMatched(error as Error)) {
-            this.setRejected();
-            return;
-          }
+      try {
+        account = await this.client.getAccount(this.chainId);
+      } catch (error) {
+        if (this.rejectMatched(error as Error)) {
+          this.setRejected();
+          return;
+        }
+        if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
           account = await this.client.getAccount(this.chainId);
         }
-      } else {
-        account = await this.client.getAccount(this.chainId);
       }
 
       this.setData({
+        namespace: 'cosmos',
+        chainId: this.chainId,
         address: account.address,
         username: account.name,
-        offlineSigner: this.chainId
-          ? await this.client.getOfflineSigner(this.chainId)
-          : void 0,
       });
       this.setState(State.Done);
       this.setMessage(void 0);
@@ -170,7 +180,10 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
       }
     }
     if (!this.isWalletRejected) {
-      window?.localStorage.setItem('current-wallet-name', this.walletName);
+      window?.localStorage.setItem(
+        'cosmos-kit@1:core//current-wallet',
+        this.walletName
+      );
     }
     await (callbacks || this.callbacks)?.afterConnect?.();
   }
@@ -229,32 +242,39 @@ export class ChainWalletBase extends WalletBase<ChainWalletData> {
     return new NameService(client, registry);
   };
 
+  async initOfflineSigner() {
+    if (typeof this.client === 'undefined') {
+      throw new Error('WalletClient is not initialized');
+    }
+    this.offlineSigner = await this.client.getOfflineSigner(this.chainId);
+  }
+
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (this.offlineSigner) {
-      return SigningStargateClient.connectWithSigner(
-        rpcEndpoint,
-        this.offlineSigner,
-        this.signingStargateOptions
-      );
-    } else {
-      throw new Error('Wallet not connected!');
+    if (!this.offlineSigner) {
+      await this.initOfflineSigner();
     }
+
+    return SigningStargateClient.connectWithSigner(
+      rpcEndpoint,
+      this.offlineSigner,
+      this.signingStargateOptions
+    );
   };
 
   getSigningCosmWasmClient = async (): Promise<SigningCosmWasmClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (this.offlineSigner) {
-      return SigningCosmWasmClient.connectWithSigner(
-        rpcEndpoint,
-        this.offlineSigner,
-        this.signingCosmwasmOptions
-      );
-    } else {
-      throw new Error('Wallet not connected!');
+    if (!this.offlineSigner) {
+      await this.initOfflineSigner();
     }
+
+    return SigningCosmWasmClient.connectWithSigner(
+      rpcEndpoint,
+      this.offlineSigner,
+      this.signingCosmwasmOptions
+    );
   };
 
   protected getSigningClient = async (type?: CosmosClientType) => {

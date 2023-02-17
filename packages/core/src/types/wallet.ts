@@ -32,7 +32,6 @@ import { ChainName, ChainRecord } from './chain';
 import {
   AppEnv,
   CosmosClientType,
-  Data,
   Mutable,
   WalletClientActions,
 } from './common';
@@ -44,6 +43,13 @@ export interface Key {
   readonly address: Uint8Array;
   readonly bech32Address: string;
   readonly isNanoLedger: boolean;
+}
+
+export interface SimpleAccount {
+  namespace: string;
+  chainId: string;
+  address: string;
+  username?: string;
 }
 
 export type WalletName = string;
@@ -180,17 +186,6 @@ export interface WalletClient {
   ) => Promise<Uint8Array>;
 }
 
-export interface ChainWalletData extends Data {
-  username?: string;
-  address?: string;
-  offlineSigner?: OfflineSigner;
-}
-
-export interface MainWalletData extends Data {
-  username?: string;
-}
-
-export type WalletData = ChainWalletData & MainWalletData;
 export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {

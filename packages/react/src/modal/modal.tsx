@@ -1,4 +1,4 @@
-import { SimpleConnectModal, ThemeProvider } from '@cosmology-ui/react';
+import { SimpleConnectModal } from '@cosmology-ui/react';
 import {
   ExpiredError,
   State,
@@ -27,7 +27,7 @@ import {
   ErrorQRCode,
 } from './views';
 
-export const DefaultModal = ({
+export const WalletModal = ({
   isOpen,
   setOpen,
   walletRepo,
@@ -169,8 +169,12 @@ export const DefaultModal = ({
             onReturn={onReturn}
             name={walletInfo!.prettyName}
             logo={walletInfo!.logo}
-            title="Requesting Connection"
-            subtitle={subtitle}
+            title={
+              current?.message === 'InitClient'
+                ? 'Initializing Wallet Client'
+                : 'Requesting Connection'
+            }
+            subtitle={current?.message === 'InitClient' ? '' : subtitle}
           />
         );
       case ModalView.QRCode:
@@ -193,6 +197,7 @@ export const DefaultModal = ({
       case ModalView.ExpiredQRCode:
         return (
           <ExpiredQRCode
+            qrUrl={current?.client?.qrUrl.data}
             onClose={onCloseModal}
             onReturn={onReturn}
             onRefresh={onReconnect}
@@ -258,17 +263,16 @@ export const DefaultModal = ({
     onWalletClicked,
     walletInfo,
     current,
+    current?.message,
     qrState,
   ]);
 
   return (
-    <ThemeProvider>
-      <SimpleConnectModal
-        modalOpen={isOpen}
-        modalOnClose={onCloseModal}
-        modalView={modalView}
-        initialRef={initialFocus}
-      />
-    </ThemeProvider>
+    <SimpleConnectModal
+      modalOpen={isOpen}
+      modalOnClose={onCloseModal}
+      modalView={modalView}
+      initialRef={initialFocus}
+    />
   );
 };

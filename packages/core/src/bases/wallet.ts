@@ -7,16 +7,19 @@ import {
   State,
   Wallet,
   WalletClient,
+  WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, RejectedError } from '../utils';
+import { ClientNotExistError, RejectedError, Session } from '../utils';
 import { StateBase } from './state';
 import EventEmitter from 'events';
 
-export abstract class WalletBase<Data> extends StateBase<Data> {
+export abstract class WalletBase extends StateBase {
   client?: WalletClient;
   emitter?: EventEmitter;
   protected _walletInfo: Wallet;
   callbacks?: Callbacks;
+  session?: Session;
+  walletConnectOptions?: WalletConnectOptions;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -96,7 +99,7 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     }
     await (callbacks || this.callbacks)?.beforeDisconnect?.();
     this.reset();
-    window.localStorage.removeItem('current-wallet-name');
+    window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
     await this.client?.disconnect?.();
     await (callbacks || this.callbacks)?.afterDisconnect?.();
   };
@@ -124,10 +127,6 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
     callbacks?: Callbacks,
     sync?: boolean
   ) => {
-    if (sync) {
-      this.emitter?.emit('sync_connect', (this as any).chainName);
-    }
-
     await (callbacks || this.callbacks)?.beforeConnect?.();
 
     if (this.isMobile && this.walletInfo.mobileDisabled) {
@@ -139,8 +138,18 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
 
     try {
       if (!this.client) {
-        this.setClientNotExist();
-        return;
+        this.setState(State.Pending);
+        this.setMessage('InitClient');
+        await this.initClient(
+          this.walletInfo.mode === 'wallet-connect'
+            ? this.walletConnectOptions
+            : void 0
+        );
+        this.emitter?.emit('broadcast_client', this.client);
+        if (!this.client) {
+          this.setClientNotExist();
+          return;
+        }
       }
       await this.update();
 
@@ -153,6 +162,10 @@ export abstract class WalletBase<Data> extends StateBase<Data> {
       this.setError(error as Error);
     }
     await (callbacks || this.callbacks)?.afterConnect?.();
+
+    if (sync) {
+      this.emitter?.emit('sync_connect', (this as any).chainName);
+    }
   };
 
   abstract initClient(options?: any): void | Promise<void>;

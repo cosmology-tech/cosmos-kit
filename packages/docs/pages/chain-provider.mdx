@@ -254,8 +254,8 @@ Define connection session options.
 
 ```tsx
 export interface SessionOptions {
-  duration?: number; // ms
-  killOnTabClose?: boolean;
+  duration: number; // ms
+  callback?: () => void;
 }
 ```
 
@@ -264,7 +264,6 @@ export interface SessionOptions {
 ```tsx
 const sessionOptions: SessionOptions = {
   duration: 1800000, // half an hour
-  killOnTabClose: false,
 };
 ```
 

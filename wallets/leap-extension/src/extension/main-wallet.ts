@@ -15,7 +15,7 @@ export class LeapExtensionWallet extends MainWalletBase {
       const leap = await getLeapFromExtension();
       this.client = leap ? new LeapClient(leap) : undefined;
     } catch (error) {
-      this.setClientNotExist();
+      this.logger?.error(error);
     }
   }
 }

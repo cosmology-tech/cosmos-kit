@@ -1,8 +1,8 @@
-import { Square } from '@chakra-ui/react';
 import {
   SimpleModalHead,
-  QRCode as SimpleQRCode,
+  QRCode,
   SimpleModalView,
+  QRCodeStatus,
 } from '@cosmology-ui/react';
 import React from 'react';
 
@@ -29,15 +29,13 @@ export const ErrorQRCode = ({
   );
 
   const modalContent = (
-    // <SimpleQRCode
-    //   link={''}
-    //   description={`QRCode expired. Click to refresh.`}
-    //   loading={false}
-    // />
-    <Square minW={'100px'} onClick={onRefresh}>
-      QRCode error. Click to try again.
-      <div>{message}</div>
-    </Square>
+    <QRCode
+      link=""
+      status={QRCodeStatus.Error}
+      errorTitle={'QRCode Error'}
+      errorDesc={message}
+      onRefresh={onRefresh}
+    />
   );
 
   return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;

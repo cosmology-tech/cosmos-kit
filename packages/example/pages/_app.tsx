@@ -28,11 +28,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[
           ...keplrWallets,
-          ...cosmostationWallets,
-          ...leapWallets,
-          ...vectisWallets,
-          ...xdefiWallets,
-          ...omniWallets,
+          // ...cosmostationWallets,
+          // ...leapWallets,
+          // ...vectisWallets,
+          // ...xdefiWallets,
+          // ...omniWallets,
           ...trustWallets,
         ]}
         defaultNameService={"stargaze"}
@@ -56,6 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
         logLevel={"TRACE"}
         wrappedWithChakra={true}
+        // modalTheme={defaultTheme}
       >
         <Component {...pageProps} />
       </ChainProvider>

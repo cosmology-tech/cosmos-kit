@@ -1,6 +1,6 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import {
-  ChainWalletData,
+  Data,
   EndpointOptions,
   Logger,
   LogLevel,
@@ -24,7 +24,7 @@ import React, {
   useState,
 } from 'react';
 
-import { getDefaultModal, noCssResetTheme } from '.';
+import { getWalletModal, noCssResetTheme } from '.';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -86,7 +86,7 @@ export const ChainProvider = ({
     WalletRepo | undefined
   >();
 
-  const [, setData] = useState<ChainWalletData>();
+  const [, setData] = useState<Data>();
   const [, setState] = useState<State>(State.Init);
   const [, setMsg] = useState<string | undefined>();
 
@@ -117,7 +117,7 @@ export const ChainProvider = ({
   const Modal = useMemo(
     () =>
       walletModal ||
-      getDefaultModal(
+      getWalletModal(
         wrappedWithChakra ? outerTheme : modalTheme || noCssResetTheme
       ),
     []
