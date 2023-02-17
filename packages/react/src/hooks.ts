@@ -213,7 +213,7 @@ export const useChain = (chainName: ChainName): ChainContext => {
       ),
     getOfflineSigner: () =>
       clientMethodAssert(
-        current?.client?.getOfflineSigner,
+        current?.client?.getOfflineSigner.bind(current.client),
         [chainId],
         'getOfflineSigner'
       ),
