@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "1.8.23",
+  "version": "1.8.24",
   "private": true,
   "main": "index.js",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "@cosmos-kit/cosmostation": "^0.14.24",
     "@cosmos-kit/keplr": "^0.32.24",
     "@cosmos-kit/leap": "^0.13.24",
-    "@cosmos-kit/react": "^1.0.7",
+    "@cosmos-kit/react": "^1.0.8",
     "@cosmos-kit/vectis": "^0.14.24",
     "@emotion/react": "11",
     "@emotion/styled": "11",
