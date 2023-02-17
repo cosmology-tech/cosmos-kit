@@ -134,6 +134,10 @@ export abstract class ChainWalletBase extends WalletBase {
     this.session?.update();
   }
 
+  initClient(options?: any): void | Promise<void> {
+    throw new Error('initClient not implemented');
+  }
+
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     this.setState(State.Pending);
     this.setMessage(void 0);
