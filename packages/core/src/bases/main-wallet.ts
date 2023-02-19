@@ -7,6 +7,7 @@ import {
   SessionOptions,
   State,
   Wallet,
+  WalletClient,
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
@@ -21,9 +22,9 @@ export abstract class MainWalletBase extends WalletBase {
     super(walletInfo);
     this.ChainWallet = ChainWallet;
     this.emitter = new EventEmitter();
-    this.emitter.on('broadcast_client', (client) => {
+    this.emitter.on('broadcast_client', (client: WalletClient) => {
       this.chainWallets?.forEach((chainWallet) => {
-        chainWallet.client = client;
+        chainWallet.initClientDone(client);
       });
     });
     this.emitter.on('sync_connect', (chainName?: ChainName) => {

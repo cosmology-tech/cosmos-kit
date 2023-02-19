@@ -69,8 +69,12 @@ const sendTokens = (
 };
 
 export default function Home() {
-  const { getSigningStargateClient, address, status, getRpcEndpoint } =
-    useChain(chainName);
+  const {
+    getSigningStargateClient,
+    address,
+    status,
+    getRpcEndpoint,
+  } = useChain(chainName);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [isFetchingBalance, setFetchingBalance] = useState(false);

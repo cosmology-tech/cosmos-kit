@@ -3,6 +3,7 @@
 import {
   Callbacks,
   DownloadInfo,
+  Mutable,
   SessionOptions,
   State,
   Wallet,
@@ -14,7 +15,7 @@ import { StateBase } from './state';
 import EventEmitter from 'events';
 
 export abstract class WalletBase extends StateBase {
-  client?: WalletClient;
+  clientMutable: Mutable<WalletClient> = { state: State.Init };
   emitter?: EventEmitter;
   protected _walletInfo: Wallet;
   callbacks?: Callbacks;
@@ -24,6 +25,24 @@ export abstract class WalletBase extends StateBase {
   constructor(walletInfo: Wallet) {
     super();
     this._walletInfo = walletInfo;
+  }
+
+  get client() {
+    return this.clientMutable?.data;
+  }
+
+  initingClient() {
+    this.clientMutable.state = State.Pending;
+  }
+
+  initClientDone(client: WalletClient | undefined) {
+    this.clientMutable.data = client;
+    this.clientMutable.state = State.Done;
+  }
+
+  initClientError(error: Error | undefined) {
+    this.clientMutable.message = error?.message;
+    this.clientMutable.state = State.Error;
   }
 
   get walletInfo(): Wallet {

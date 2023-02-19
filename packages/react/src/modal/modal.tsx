@@ -40,7 +40,7 @@ export const WalletModal = ({
   const [qrMsg, setQRMsg] = useState<string>(''); // message of QRCode error
 
   const current = walletRepo?.current;
-  current?.client?.setActions?.({
+  (current?.client as any)?.setActions?.({
     qrUrl: {
       state: setQRState,
       message: setQRMsg,

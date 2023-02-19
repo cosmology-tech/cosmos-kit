@@ -1,13 +1,18 @@
-import { Wallet, WalletConnectOptions } from '@cosmos-kit/core';
+import {
+  Mutable,
+  State,
+  Wallet,
+  WalletClient,
+  WalletConnectOptions,
+} from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
-import { SignClientTypes } from '@walletconnect/types';
 import { WCClient } from './client';
 
 import { IChainWC, IWCClient } from './types';
 
 export class WCWallet extends MainWalletBase {
   WCClient: IWCClient;
-  client?: WCClient;
+  clientMutable: Mutable<WCClient> = { state: State.Init };
 
   constructor(walletInfo: Wallet, ChainWC: IChainWC, WCClient: IWCClient) {
     if (!walletInfo.walletconnect) {
@@ -21,16 +26,28 @@ export class WCWallet extends MainWalletBase {
   }
 
   async initClient(options?: WalletConnectOptions) {
-    if (!this.client && this.WCClient) {
-      this.client = new this.WCClient(this.walletInfo);
-      this.client.emitter = this.emitter;
-    }
+    this.initingClient();
 
-    this.client.logger = this.logger;
+    try {
+      let client: WCClient;
+      if (this.client) {
+        client = this.client as WCClient;
+      } else {
+        client = new this.WCClient(this.walletInfo);
+        client.emitter = this.emitter;
+      }
 
-    if (options) {
-      this.client.options = options;
-      await this.client.initSignClient();
+      client.logger = this.logger;
+
+      if (options) {
+        client.options = options;
+        await client.initSignClient();
+      }
+
+      this.initClientDone(client);
+    } catch (error) {
+      this.logger?.error(error);
+      this.initClientError(error);
     }
   }
 }

@@ -11,11 +11,13 @@ export class LeapExtensionWallet extends MainWalletBase {
   }
 
   async initClient() {
+    this.initingClient();
     try {
       const leap = await getLeapFromExtension();
-      this.client = leap ? new LeapClient(leap) : undefined;
+      this.initClientDone(leap ? new LeapClient(leap) : undefined);
     } catch (error) {
       this.logger?.error(error);
+      this.initClientError(error);
     }
   }
 }
