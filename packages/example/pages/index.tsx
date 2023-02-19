@@ -33,7 +33,14 @@ const chainNames_2 = ["cosmoshub"];
 
 export default () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
+  const {
+    username,
+    connect,
+    disconnect,
+    wallet,
+    getOfflineSigner,
+    isWalletConnected,
+  } = useChain(chainNames_1[0]);
   const [globalStatus, setGlobalStatus] = useState<WalletStatus>(
     WalletStatus.Disconnected
   );

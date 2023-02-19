@@ -28,13 +28,9 @@ import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
+import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import {
-  AppEnv,
-  CosmosClientType,
-  Mutable,
-  WalletClientActions,
-} from './common';
+import { AppEnv, CosmosClientType, Mutable, State } from './common';
 
 export interface Key {
   readonly name: string;
@@ -139,8 +135,6 @@ export interface WalletClient {
   getAccount: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
 
-  actions?: WalletClientActions;
-  setActions?: (actions: WalletClientActions) => void;
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<string>;
 
@@ -203,8 +197,11 @@ export interface NameServiceRegistry {
 }
 
 export interface ChainContext {
-  // walletRepo: WalletRepo;
-  // wallet: ChainWalletBase | undefined;
+  walletRepo: WalletRepo;
+  chainWallet: ChainWalletBase | undefined;
+  client: WalletClient | undefined;
+  clientStatus: State;
+  clientMessage: string | undefined;
 
   chain: Chain;
   assets: AssetList | undefined;
@@ -214,7 +211,6 @@ export interface ChainContext {
   username: string | undefined;
   message: string | undefined;
   status: WalletStatus;
-  client: WalletClient | undefined;
 
   isWalletDisconnected: boolean;
   isWalletConnecting: boolean;
@@ -260,9 +256,9 @@ export interface ChainContext {
 
   // methods exposed from wallet client
   enable: (chainIds: string | string[]) => Promise<void>;
-  getOfflineSigner: () => Promise<OfflineSigner>;
-  getOfflineSignerAmino: () => OfflineAminoSigner;
-  getOfflineSignerDirect: () => OfflineDirectSigner;
+  getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
+  getOfflineSignerAmino: (chainId: string) => OfflineAminoSigner;
+  getOfflineSignerDirect: (chainId: string) => OfflineDirectSigner;
   signAmino: (
     signer: string,
     signDoc: StdSignDoc,

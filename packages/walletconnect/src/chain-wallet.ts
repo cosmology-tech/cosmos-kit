@@ -1,6 +1,7 @@
 import {
   ChainRecord,
   ChainWalletBase,
+  Mutable,
   State,
   Wallet,
   WalletConnectOptions,
@@ -11,7 +12,7 @@ import { IWCClient } from './types';
 
 export class ChainWC extends ChainWalletBase {
   WCClient: IWCClient;
-  client?: WCClient;
+  clientMutable: Mutable<WCClient> = { state: State.Init };
   options?: WalletConnectOptions;
 
   constructor(walletInfo: Wallet, chainInfo: ChainRecord, WCClient: IWCClient) {

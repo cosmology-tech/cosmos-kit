@@ -9,7 +9,6 @@ import {
   NameServiceName,
   State,
   WalletStatus,
-  WalletClient,
 } from '@cosmos-kit/core';
 import React, { useState } from 'react';
 
@@ -152,8 +151,11 @@ export const useChain = (chainName: ChainName): ChainContext => {
   const status = current?.walletStatus || WalletStatus.Disconnected;
 
   return {
-    // walletRepo: walletRepo,
-    // wallet: current,
+    walletRepo: walletRepo,
+    chainWallet: current,
+    client: current?.client,
+    clientStatus: current?.clientMutable.state,
+    clientMessage: current?.clientMutable.message,
 
     chain,
     assets: assetList,
@@ -163,7 +165,6 @@ export const useChain = (chainName: ChainName): ChainContext => {
     username: current?.username,
     message: current ? current.message : 'No wallet is connected currently.',
     status,
-    client: current?.client,
 
     isWalletDisconnected: status === 'Disconnected',
     isWalletConnecting: status === 'Connecting',
@@ -211,19 +212,19 @@ export const useChain = (chainName: ChainName): ChainContext => {
         [chainIds || chainId],
         'enable'
       ),
-    getOfflineSigner: () =>
+    getOfflineSigner: (chainId: string) =>
       clientMethodAssert(
         current?.client?.getOfflineSigner.bind(current.client),
         [chainId],
         'getOfflineSigner'
       ),
-    getOfflineSignerAmino: () =>
+    getOfflineSignerAmino: (chainId: string) =>
       clientMethodAssert(
         current?.client?.getOfflineSignerAmino.bind(current.client),
         [chainId],
         'getOfflineSignerAmino'
       ),
-    getOfflineSignerDirect: () =>
+    getOfflineSignerDirect: (chainId: string) =>
       clientMethodAssert(
         current?.client?.getOfflineSignerDirect.bind(current.client),
         [chainId],

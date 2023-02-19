@@ -5,7 +5,7 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { NameService } from '../name-service';
 import { Callbacks, ChainRecord, CosmosClientType, SessionOptions, SimpleAccount, Wallet } from '../types';
 import { WalletBase } from './wallet';
-export declare abstract class ChainWalletBase extends WalletBase {
+export declare class ChainWalletBase extends WalletBase {
     protected _chainRecord: ChainRecord;
     rpcEndpoints?: string[];
     restEndpoints?: string[];
@@ -14,6 +14,8 @@ export declare abstract class ChainWalletBase extends WalletBase {
     isActive: boolean;
     offlineSigner?: OfflineSigner;
     constructor(walletInfo: Wallet, chainRecord: ChainRecord);
+    get appUrl(): import("../types").Mutable<string>;
+    get qrUrl(): import("../types").Mutable<string>;
     get chainRecord(): ChainRecord;
     get chainName(): string;
     get chainLogoUrl(): string | undefined;

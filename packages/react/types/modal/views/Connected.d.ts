@@ -1,4 +1,3 @@
-/// <reference types="react" />
 export declare const Connected: ({ onClose, onReturn, onDisconnect, name, logo, username, address, }: {
     onClose: () => void;
     onReturn: () => void;

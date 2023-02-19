@@ -21,7 +21,6 @@ import {
   Callbacks,
   ChainRecord,
   CosmosClientType,
-  Data,
   SessionOptions,
   SimpleAccount,
   State,
@@ -31,7 +30,7 @@ import {
 import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
 
-export abstract class ChainWalletBase extends WalletBase {
+export class ChainWalletBase extends WalletBase {
   protected _chainRecord: ChainRecord;
   rpcEndpoints?: string[];
   restEndpoints?: string[];
@@ -45,6 +44,14 @@ export abstract class ChainWalletBase extends WalletBase {
     this._chainRecord = chainRecord;
     this.rpcEndpoints = chainRecord.preferredEndpoints?.rpc;
     this.restEndpoints = chainRecord.preferredEndpoints?.rest;
+  }
+
+  get appUrl() {
+    return this.client?.appUrl;
+  }
+
+  get qrUrl() {
+    return this.client?.qrUrl;
   }
 
   get chainRecord() {

@@ -1,16 +1,20 @@
 /// <reference types="node" />
-import { Callbacks, DownloadInfo, SessionOptions, Wallet, WalletClient, WalletConnectOptions } from '../types';
+import { Callbacks, DownloadInfo, Mutable, SessionOptions, Wallet, WalletClient, WalletConnectOptions } from '../types';
 import { Session } from '../utils';
 import { StateBase } from './state';
 import EventEmitter from 'events';
 export declare abstract class WalletBase extends StateBase {
-    client?: WalletClient;
+    clientMutable: Mutable<WalletClient>;
     emitter?: EventEmitter;
     protected _walletInfo: Wallet;
     callbacks?: Callbacks;
     session?: Session;
     walletConnectOptions?: WalletConnectOptions;
     constructor(walletInfo: Wallet);
+    get client(): WalletClient;
+    initingClient(): void;
+    initClientDone(client: WalletClient | undefined): void;
+    initClientError(error: Error | undefined): void;
     get walletInfo(): Wallet;
     get downloadInfo(): DownloadInfo | undefined;
     get walletName(): string;

@@ -9,7 +9,7 @@
 
 ## Type - ChainContext
 
-### properties
+### Properties
 
 | Name      | Description | Type | Default |
 | ----------- | ----------- | -- | -- |
@@ -21,7 +21,6 @@
 | **username**   | username from current selected wallet       | `string \| undefined` | `undefined` |
 | **message**   | error/warn/info message       | `string \| undefined` | `undefined` |
 | **status**   | wallet status      | `WalletStatus` | `Disconnected` |
-| **client**   | wallet client (coming soon)     | `WalletClient | undefined` | `undefined` |
 | **isWalletDisconnected**   |  if `status === 'Disconnected'`   | `boolean` | `true` |
 | **isWalletConnecting**   |  if `status === 'Connecting'`   | `boolean` | `false` |
 | **isWalletConnected**   |  if `status === 'Connected'`   | `boolean` | `false` |
@@ -29,7 +28,7 @@
 | **isWalletNotExist**   |  if `status === 'NotExist'`   | `boolean` | `false` |
 | **isWalletError**   |  if `status === 'Error'`   | `boolean` | `false` |
 
-### methods
+### Methods
 
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
@@ -50,7 +49,7 @@
 | **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |
 
 
-### methods from wallet client
+### Methods from wallet client
 
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
@@ -61,6 +60,18 @@
 | **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
 | **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse` | Y |
 | **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array` | Y |
+
+
+### Advance
+
+**Used for deeper dive into the chain and wallet related objects**
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| **chainWallet**   | current chainWallet   | `ChainWalletBase | undefined` | `undefined` |
+| **walletRepo**   | wallet repository, you can get all the chainWallets from this repo   | `WalletRepo` | - |
+| **client**   | current wallet client     | `WalletClient | undefined` | `undefined` |
+| **clientStatus**   | current wallet client status     | `State` | `State.Init` |
+| **clientMessage**   | error message if current wallet client is undefined    | `string | undefined` | `undefined` |
 
 
 ## Examples

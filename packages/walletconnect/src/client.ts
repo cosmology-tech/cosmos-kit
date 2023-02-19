@@ -397,16 +397,10 @@ export class WCClient implements WalletClient {
   }
 
   async getKey(chainId: string) {
-    console.log(
-      '%cclient.ts line:388 this.sessions',
-      'color: #007acc;',
-      this.sessions
-    );
     const session = this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    console.log('%cclient.ts line:397 1256', 'color: #007acc;', 1256);
     const resp = await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
@@ -433,7 +427,6 @@ export class WCClient implements WalletClient {
   }
 
   getOfflineSignerDirect(chainId: string) {
-    console.log('%cclient.ts line:429 123', 'color: #007acc;', 123);
     return {
       getAccounts: async () => [await this.getKey(chainId)],
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
@@ -478,7 +471,6 @@ export class WCClient implements WalletClient {
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    console.log('%cclient.ts line:469 direct', 'color: #007acc;');
     return ((await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,

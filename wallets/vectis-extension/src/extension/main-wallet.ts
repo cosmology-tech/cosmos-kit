@@ -11,11 +11,13 @@ export class VectisExtensionWallet extends MainWalletBase {
   }
 
   async initClient() {
+    this.initingClient();
     try {
       const vectis = await getVectisFromExtension();
-      this.client = vectis ? new VectisClient(vectis) : undefined;
+      this.initClientDone(vectis ? new VectisClient(vectis) : undefined);
     } catch (error) {
       this.logger?.error(error);
+      this.initClientError(error);
     }
   }
 }

@@ -9,8 +9,9 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
+import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, CosmosClientType, Mutable, WalletClientActions } from './common';
+import { AppEnv, CosmosClientType, Mutable, State } from './common';
 export interface Key {
     readonly name: string;
     readonly algo: string;
@@ -98,8 +99,6 @@ export declare enum BroadcastMode {
 export interface WalletClient {
     getAccount: (chainId: string) => Promise<WalletAccount>;
     getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
-    actions?: WalletClientActions;
-    setActions?: (actions: WalletClientActions) => void;
     qrUrl?: Mutable<string>;
     appUrl?: Mutable<string>;
     connect?: (chainIds: string | string[], isMobile: boolean) => Promise<void>;
@@ -131,6 +130,11 @@ export interface NameServiceRegistry {
     slip173: string;
 }
 export interface ChainContext {
+    walletRepo: WalletRepo;
+    chainWallet: ChainWalletBase | undefined;
+    client: WalletClient | undefined;
+    clientStatus: State;
+    clientMessage: string | undefined;
     chain: Chain;
     assets: AssetList | undefined;
     wallet: Wallet | undefined;
@@ -139,7 +143,6 @@ export interface ChainContext {
     username: string | undefined;
     message: string | undefined;
     status: WalletStatus;
-    client: WalletClient | undefined;
     isWalletDisconnected: boolean;
     isWalletConnecting: boolean;
     isWalletConnected: boolean;
@@ -162,9 +165,9 @@ export interface ChainContext {
     broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<DeliverTxResponse>;
     signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<DeliverTxResponse>;
     enable: (chainIds: string | string[]) => Promise<void>;
-    getOfflineSigner: () => Promise<OfflineSigner>;
-    getOfflineSignerAmino: () => OfflineAminoSigner;
-    getOfflineSignerDirect: () => OfflineDirectSigner;
+    getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
+    getOfflineSignerAmino: (chainId: string) => OfflineAminoSigner;
+    getOfflineSignerDirect: (chainId: string) => OfflineDirectSigner;
     signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
     sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;

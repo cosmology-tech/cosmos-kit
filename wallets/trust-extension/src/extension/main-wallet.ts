@@ -11,11 +11,13 @@ export class TrustExtensionWallet extends MainWalletBase {
   }
 
   async initClient() {
+    this.initingClient();
     try {
       const trust = await getTrustFromExtension();
-      this.client = trust ? new TrustClient(trust) : undefined;
+      this.initClientDone(trust ? new TrustClient(trust) : undefined);
     } catch (error) {
       this.logger?.error(error);
+      this.initClientError(error);
     }
   }
 }

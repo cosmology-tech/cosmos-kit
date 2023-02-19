@@ -268,6 +268,16 @@ export class WalletManager extends StateBase {
 
     this._restoreAccounts();
 
+    this._wallets.forEach(async (wallet) => {
+      if (wallet.walletInfo.mode === 'wallet-connect') {
+        await wallet.initClient(this.walletConnectOptions);
+        wallet.emitter?.emit('broadcast_client', wallet.client);
+      } else {
+        await wallet.initClient();
+        wallet.emitter?.emit('broadcast_client', wallet.client);
+      }
+    });
+
     const parser = Bowser.getParser(window.navigator.userAgent);
     const env = {
       browser: parser.getBrowserName(true),
