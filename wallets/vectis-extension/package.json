@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/vectis-extension",
-  "version": "0.14.25",
+  "version": "0.14.26",
   "description": "cosmos-kit wallet connector",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -89,7 +89,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^1.0.8",
+    "@cosmos-kit/core": "^1.0.9",
     "@vectis/extension-client": "0.6.0",
     "react-icons": "4.4.0"
   },
