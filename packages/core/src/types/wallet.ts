@@ -1,36 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { AssetList, Chain } from '@chain-registry/types';
 import {
   AminoSignResponse,
   OfflineAminoSigner,
-  StdFee,
   StdSignDoc,
 } from '@cosmjs/amino';
 import {
-  CosmWasmClient,
-  SigningCosmWasmClient,
-} from '@cosmjs/cosmwasm-stargate';
-import {
   Algo,
   DirectSignResponse,
-  EncodeObject,
   OfflineDirectSigner,
   OfflineSigner,
 } from '@cosmjs/proto-signing';
-import {
-  DeliverTxResponse,
-  SigningStargateClient,
-  StargateClient,
-} from '@cosmjs/stargate';
 import { SignClientTypes } from '@walletconnect/types';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { NameService } from '../name-service';
-import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, CosmosClientType, Mutable, State } from './common';
+import { AppEnv, Mutable } from './common';
 
 export interface Key {
   readonly name: string;
@@ -194,82 +178,6 @@ export interface NameServiceRegistry {
   chainName: ChainName;
   getQueryMsg: (address: Bech32Address) => any;
   slip173: string;
-}
-
-export interface ChainContext {
-  walletRepo: WalletRepo;
-  chainWallet: ChainWalletBase | undefined;
-  client: WalletClient | undefined;
-  clientStatus: State;
-  clientMessage: string | undefined;
-
-  chain: Chain;
-  assets: AssetList | undefined;
-  wallet: Wallet | undefined;
-  logoUrl: string | undefined;
-  address: string | undefined;
-  username: string | undefined;
-  message: string | undefined;
-  status: WalletStatus;
-
-  isWalletDisconnected: boolean;
-  isWalletConnecting: boolean;
-  isWalletConnected: boolean;
-  isWalletRejected: boolean;
-  isWalletNotExist: boolean;
-  isWalletError: boolean;
-
-  openView: () => void;
-  closeView: () => void;
-  connect: (wallet?: WalletName) => Promise<void>;
-  disconnect: () => Promise<void>;
-  getRpcEndpoint: () => Promise<string>;
-  getRestEndpoint: () => Promise<string>;
-  getStargateClient: () => Promise<StargateClient>;
-  getCosmWasmClient: () => Promise<CosmWasmClient>;
-  getSigningStargateClient: () => Promise<SigningStargateClient>;
-  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
-  getNameService: () => Promise<NameService>;
-
-  estimateFee: (
-    messages: EncodeObject[],
-    type?: CosmosClientType,
-    memo?: string,
-    multiplier?: number
-  ) => Promise<StdFee>;
-  sign: (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ) => Promise<TxRaw>;
-  broadcast: (
-    signedMessages: TxRaw,
-    type?: CosmosClientType
-  ) => Promise<DeliverTxResponse>;
-  signAndBroadcast: (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ) => Promise<DeliverTxResponse>;
-
-  // methods exposed from wallet client
-  enable: (chainIds: string | string[]) => Promise<void>;
-  getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
-  getOfflineSignerAmino: (chainId: string) => OfflineAminoSigner;
-  getOfflineSignerDirect: (chainId: string) => OfflineDirectSigner;
-  signAmino: (
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<AminoSignResponse>;
-  signDirect: (
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<DirectSignResponse>;
-  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
 
 export interface WalletConnectOptions {

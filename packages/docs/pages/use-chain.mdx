@@ -66,12 +66,13 @@
 
 **Used for deeper dive into the chain and wallet related objects**
 
-| Name      | Description | Parameters | Return Type | Is Async |
-| **chainWallet**   | current chainWallet   | `ChainWalletBase | undefined` | `undefined` |
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **chainWallet**   | current chainWallet   | `ChainWalletBase \| undefined` | `undefined` |
 | **walletRepo**   | wallet repository, you can get all the chainWallets from this repo   | `WalletRepo` | - |
-| **client**   | current wallet client     | `WalletClient | undefined` | `undefined` |
+| **client**   | current wallet client     | `WalletClient \| undefined` | `undefined` |
 | **clientStatus**   | current wallet client status     | `State` | `State.Init` |
-| **clientMessage**   | error message if current wallet client is undefined    | `string | undefined` | `undefined` |
+| **clientMessage**   | error message if current wallet client is undefined    | `string \| undefined` | `undefined` |
 
 
 ## Examples

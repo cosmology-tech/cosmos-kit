@@ -1,4 +1,5 @@
 import { AssetList, Chain } from '@chain-registry/types';
+import { ThemeProvider } from '@cosmology-ui/react';
 import {
   Data,
   EndpointOptions,
@@ -24,7 +25,7 @@ import React, {
   useState,
 } from 'react';
 
-import { getWalletModal, noCssResetTheme } from '.';
+import { getWrappedWalletModal, noCssResetTheme } from '.';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -117,7 +118,7 @@ export const ChainProvider = ({
   const Modal = useMemo(
     () =>
       walletModal ||
-      getWalletModal(
+      getWrappedWalletModal(
         wrappedWithChakra ? outerTheme : modalTheme || noCssResetTheme
       ),
     []
@@ -131,17 +132,19 @@ export const ChainProvider = ({
   }, []);
 
   return (
-    <walletContext.Provider
-      value={{
-        walletManager,
-      }}
-    >
-      <Modal
-        isOpen={isViewOpen}
-        setOpen={setViewOpen}
-        walletRepo={viewWalletRepo}
-      />
-      {children}
-    </walletContext.Provider>
+    <ThemeProvider>
+      <walletContext.Provider
+        value={{
+          walletManager,
+        }}
+      >
+        <Modal
+          isOpen={isViewOpen}
+          setOpen={setViewOpen}
+          walletRepo={viewWalletRepo}
+        />
+        {children}
+      </walletContext.Provider>
+    </ThemeProvider>
   );
 };

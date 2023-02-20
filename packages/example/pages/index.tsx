@@ -14,8 +14,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { WalletStatus } from "@cosmos-kit/core";
-import { useChain } from "@cosmos-kit/react";
-import { useState } from "react";
+import { useChain, useModalTheme } from "@cosmos-kit/react";
+import { useCallback, useState } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
@@ -32,18 +32,27 @@ const chainNames_1 = ["osmosis"];
 const chainNames_2 = ["cosmoshub"];
 
 export default () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const {
-    username,
-    connect,
-    disconnect,
-    wallet,
-    getOfflineSigner,
-    isWalletConnected,
-  } = useChain(chainNames_1[0]);
+  const { colorMode, setColorMode } = useColorMode();
+  const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
+  const { modalTheme, setModalTheme } = useModalTheme();
   const [globalStatus, setGlobalStatus] = useState<WalletStatus>(
     WalletStatus.Disconnected
   );
+
+  const toggleTheme = useCallback(() => {
+    switch (colorMode) {
+      case "light":
+        setColorMode("dark");
+        setModalTheme("dark");
+        break;
+      case "dark":
+        setColorMode("light");
+        setModalTheme("light");
+        break;
+      default:
+        throw new Error("Unknown colorMode");
+    }
+  }, [setColorMode, setModalTheme, colorMode]);
 
   const addressInModal = chainNames_1.map((chainName) => {
     return (
@@ -130,7 +139,7 @@ export default () => {
   return (
     <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
       <Flex justifyContent="end">
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
+        <Button variant="outline" px={0} onClick={toggleTheme}>
           <Icon
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />

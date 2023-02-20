@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ThemeContext as themeContext, Themes } from '@cosmology-ui/react';
 import {
   ChainContext,
   ChainName,
@@ -8,11 +8,35 @@ import {
   NameService,
   NameServiceName,
   State,
+  ModalThemeContext,
   WalletStatus,
+  ModalTheme,
 } from '@cosmos-kit/core';
 import React, { useState } from 'react';
 
 import { walletContext } from './provider';
+
+export const useModalTheme = (): ModalThemeContext => {
+  const context = React.useContext(themeContext);
+
+  if (!context) {
+    throw new Error('You have forgot to use ThemeProvider.');
+  }
+
+  return {
+    modalTheme: context.theme.toString() as ModalTheme,
+    setModalTheme: (theme: ModalTheme) => {
+      switch (theme) {
+        case 'dark':
+          context.setTheme(Themes.Dark);
+          break;
+        case 'light':
+          context.setTheme(Themes.Light);
+          break;
+      }
+    },
+  };
+};
 
 export const useManager = (): ManagerContext => {
   const context = React.useContext(walletContext);
