@@ -7,8 +7,8 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import React from 'react';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+// import { CacheProvider } from '@emotion/react';
+// import createCache from '@emotion/cache';
 
 export function getWrappedWalletModal(theme?: Record<string, any>) {
   const colors = {
@@ -27,29 +27,29 @@ export function getWrappedWalletModal(theme?: Record<string, any>) {
     },
   };
 
-  const emotionCache = createCache({
-    key: 'emotion-css-cache',
-    prepend: true, // ensures styles are prepended to the <head>, instead of appended
-  });
+  // const emotionCache = createCache({
+  //   key: 'emotion-css-cache',
+  //   prepend: true, // ensures styles are prepended to the <head>, instead of appended
+  // });
 
   return ({ isOpen, setOpen, walletRepo }: WalletModalProps) => {
     return (
-      <CacheProvider value={emotionCache}>
-        <ChakraProvider
-          theme={{
-            ...theme,
-            ...mergedSemanticTokens,
-          }}
-          // resetCSS={true}
-          // colorModeManager={createLocalStorageManager('chakra-ui-color-mode')}
-        >
-          <WalletModal
-            isOpen={isOpen}
-            setOpen={setOpen}
-            walletRepo={walletRepo}
-          />
-        </ChakraProvider>
-      </CacheProvider>
+      // <CacheProvider value={emotionCache}>
+      <ChakraProvider
+        theme={{
+          ...theme,
+          ...mergedSemanticTokens,
+        }}
+        // resetCSS={true}
+        // colorModeManager={createLocalStorageManager('chakra-ui-color-mode')}
+      >
+        <WalletModal
+          isOpen={isOpen}
+          setOpen={setOpen}
+          walletRepo={walletRepo}
+        />
+      </ChakraProvider>
+      // </CacheProvider>
     );
   };
 }
