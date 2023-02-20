@@ -1,11 +1,7 @@
 import { WalletModalProps } from '@cosmos-kit/core';
 import { WalletModal } from './modal';
 import { semanticTokens } from '@cosmology-ui/react';
-import {
-  ChakraProvider,
-  createLocalStorageManager,
-  useColorMode,
-} from '@chakra-ui/react';
+import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
 import React from 'react';
 // import { CacheProvider } from '@emotion/react';
 // import createCache from '@emotion/cache';
