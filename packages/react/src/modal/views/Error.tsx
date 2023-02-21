@@ -6,26 +6,18 @@ import {
   SimpleModalHead,
   SimpleModalView,
 } from '@cosmology-ui/react';
+import { WalletViewProps } from '@cosmos-kit/core';
 import React from 'react';
 
-export const Error = ({
-  onClose,
-  onReturn,
-  onChangeWallet,
-  logo,
-  name,
-  message,
-}: {
-  onClose: () => void;
-  onReturn: () => void;
-  onChangeWallet: () => void;
-  logo?: string;
-  name: string;
-  message: string;
-}) => {
+export const ErrorView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName, logo },
+    message,
+  } = wallet;
+
   const modalHead = (
     <SimpleModalHead
-      title={name}
+      title={prettyName}
       backButton={true}
       onClose={onClose}
       onBack={onReturn}
@@ -42,7 +34,7 @@ export const Error = ({
         <Box px={6}>
           <ConnectWalletButton
             buttonText={'Change Wallet'}
-            onClick={onChangeWallet}
+            onClick={onReturn}
           />
         </Box>
       }

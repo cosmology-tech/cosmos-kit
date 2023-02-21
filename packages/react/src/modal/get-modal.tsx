@@ -1,12 +1,15 @@
-import { WalletModalProps } from '@cosmos-kit/core';
+import { ModalViews, WalletModalProps } from '@cosmos-kit/core';
 import { WalletModal } from './modal';
 import { semanticTokens } from '@cosmology-ui/react';
-import { ChakraProvider, createLocalStorageManager } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-// import { CacheProvider } from '@emotion/react';
-// import createCache from '@emotion/cache';
+import { defaultModalViews } from './views';
+import { noCssResetTheme } from './theme';
 
-export function getWrappedWalletModal(theme?: Record<string, any>) {
+export function getWrappedWalletModal(
+  theme: Record<string, any> = noCssResetTheme,
+  modalViews: ModalViews = defaultModalViews
+) {
   const colors = {
     ...(semanticTokens as any).semanticTokens.colors,
     ...(theme as any)?.semanticTokens?.colors,
@@ -23,31 +26,25 @@ export function getWrappedWalletModal(theme?: Record<string, any>) {
     },
   };
 
-  // const emotionCache = createCache({
-  //   key: 'emotion-css-cache',
-  //   prepend: true, // ensures styles are prepended to the <head>, instead of appended
-  // });
-
   return ({ isOpen, setOpen, walletRepo }: WalletModalProps) => {
     return (
-      // <CacheProvider value={emotionCache}>
       <ChakraProvider
         theme={{
           ...theme,
           ...mergedSemanticTokens,
         }}
-        // resetCSS={true}
-        // colorModeManager={createLocalStorageManager('chakra-ui-color-mode')}
+        resetCSS={true}
       >
         <WalletModal
           isOpen={isOpen}
           setOpen={setOpen}
           walletRepo={walletRepo}
+          modalViews={{
+            ...defaultModalViews,
+            ...modalViews,
+          }}
         />
       </ChakraProvider>
-      // </CacheProvider>
     );
   };
 }
-
-export const DefautModal = getWrappedWalletModal();

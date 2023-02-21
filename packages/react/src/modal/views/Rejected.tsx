@@ -6,26 +6,25 @@ import {
   SimpleModalHead,
   SimpleModalView,
 } from '@cosmology-ui/react';
-import React from 'react';
+import { WalletViewProps } from '@cosmos-kit/core';
+import React, { useCallback } from 'react';
 
-export const Rejected = ({
+export const RejectedView = ({
   onClose,
   onReturn,
-  onReconnect,
-  logo,
-  name,
-  message,
-}: {
-  onClose: () => void;
-  onReturn: () => void;
-  onReconnect: () => void;
-  logo?: string;
-  name: string;
-  message: string;
-}) => {
+  wallet,
+}: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName, logo },
+  } = wallet;
+
+  const onReconnect = useCallback(() => {
+    wallet.connect(void 0, void 0, false);
+  }, [wallet]);
+
   const modalHead = (
     <SimpleModalHead
-      title={name}
+      title={prettyName}
       backButton={true}
       onClose={onClose}
       onBack={onReturn}
@@ -37,7 +36,9 @@ export const Rejected = ({
       status={LogoStatus.Error}
       logo={logo}
       contentHeader={'Request Rejected'}
-      contentDesc={message}
+      contentDesc={
+        wallet.rejectMessageTarget || 'Connection permission is denied.'
+      }
       bottomButton={
         <Box px={6}>
           <ConnectWalletButton buttonText={'Reconnect'} onClick={onReconnect} />

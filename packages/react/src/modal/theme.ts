@@ -24,17 +24,17 @@ const colors = {
 /* ----- this theme is for without Chakra CSS reset ----- */
 const themeWithoutReset = {
   styles: {
-    global: () => ({
+    global: {
       html: {
         fontFamily: '',
         transitionProperty: '',
         transitionDuration: '',
-        lineHeight: '',
-        WebkitTextSizeAdjust: '100%',
-        WebkitFontSmoothing: '',
-        textRendering: 'optimizeLegibility',
+        lineHeight: 'normal',
+        WebkitTextSizeAdjust: '',
+        WebkitFontSmoothing: 'auto',
+        textRendering: '',
         MozOsxFontSmoothing: '',
-        touchAction: 'manipulation',
+        touchAction: '',
       },
       body: {
         fontFamily: '',
@@ -112,11 +112,10 @@ const themeWithoutReset = {
       'button, select': {
         textTransform: '',
       },
-      'button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner':
-        {
-          borderStyle: '',
-          padding: '',
-        },
+      'button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner': {
+        borderStyle: '',
+        padding: '',
+      },
       fieldset: {
         margin: '',
         padding: '',
@@ -140,10 +139,9 @@ const themeWithoutReset = {
         boxSizing: '',
         padding: '',
       },
-      '[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button':
-        {
-          WebkitAppearance: '',
-        },
+      '[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button': {
+        WebkitAppearance: '',
+      },
       'input[type="number"]': {
         MozAppearance: '',
       },
@@ -206,15 +204,14 @@ const themeWithoutReset = {
         maxWidth: '',
         height: '',
       },
-      '[data-js-focus-visible] :focus:not([data-focus-visible-added]):not([data-focus-visible-disabled])':
-        {
-          outline: '',
-          boxShadow: '',
-        },
+      '[data-js-focus-visible] :focus:not([data-focus-visible-added]):not([data-focus-visible-disabled])': {
+        outline: '',
+        boxShadow: '',
+      },
       'select::-ms-expand': {
         display: '',
       },
-    }),
+    },
   },
   ...colors,
 };

@@ -5,28 +5,29 @@ import {
   SimpleModalHead,
   SimpleModalView,
 } from '@cosmology-ui/react';
-import React from 'react';
-import { IconType } from 'react-icons';
+import { WalletViewProps } from '@cosmos-kit/core';
+import React, { useCallback } from 'react';
 import { GoDesktopDownload } from 'react-icons/go';
 
-export const NotExist = ({
+export const NotExistView = ({
   onClose,
   onReturn,
-  onInstall,
-  logo,
-  name,
-  buttonIcon,
-}: {
-  onClose: () => void;
-  onReturn: () => void;
-  onInstall?: () => void;
-  logo?: string;
-  name: string;
-  buttonIcon?: IconType;
-}) => {
+  wallet,
+}: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName, logo },
+    downloadInfo,
+  } = wallet;
+
+  const onInstall = useCallback(() => {
+    if (downloadInfo?.link) {
+      window.open(downloadInfo?.link, '_blank');
+    }
+  }, [downloadInfo]);
+
   const modalHead = (
     <SimpleModalHead
-      title={name}
+      title={prettyName}
       backButton={true}
       onClose={onClose}
       onBack={onReturn}
@@ -37,16 +38,16 @@ export const NotExist = ({
     <SimpleDisplayModalContent
       status={LogoStatus.Error}
       logo={logo}
-      contentHeader={`${name} Not Installed`}
+      contentHeader={`${prettyName} Not Installed`}
       contentDesc={
         onInstall
-          ? `If ${name.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
+          ? `If ${prettyName.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
           : `Download link not provided. Try searching it or consulting the developer team.`
       }
       bottomButton={
         <InstallWalletButton
-          icon={(buttonIcon as IconType) || GoDesktopDownload}
-          buttonText={`Install ${name}`}
+          icon={downloadInfo?.icon || GoDesktopDownload}
+          buttonText={`Install ${prettyName}`}
           onClick={onInstall}
           disabled={Boolean(onInstall)}
         />

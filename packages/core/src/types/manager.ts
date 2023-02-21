@@ -38,12 +38,6 @@ export interface Endpoints {
 
 export type EndpointOptions = Record<ChainName, Endpoints>;
 
-export interface WalletModalProps {
-  isOpen: boolean;
-  setOpen: Dispatch<boolean>;
-  walletRepo?: WalletRepo;
-}
-
 export interface ManagerActions<T> extends StateActions<T> {
   walletName?: Dispatch<WalletName | undefined>;
   chainName?: Dispatch<ChainName | undefined>;

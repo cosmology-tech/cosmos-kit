@@ -14,6 +14,17 @@ import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
+import { WalletViewProps } from "@cosmos-kit/core";
+
+// const ConnectedView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
+//   const {
+//     walletInfo: { prettyName },
+//     username,
+//     address,
+//   } = wallet;
+
+//   return <div>{`${prettyName}/${username}/${address}`}</div>;
+// };
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -33,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...vectisWallets,
           // ...xdefiWallets,
           // ...omniWallets,
-          ...trustWallets,
+          // ...trustWallets,
         ]}
         defaultNameService={"stargaze"}
         walletConnectOptions={{
@@ -56,7 +67,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
         logLevel={"TRACE"}
         wrappedWithChakra={true}
-        // modalTheme={defaultTheme}
+        // modalViews={{
+        //   Connected: ConnectedView,
+        // }}
       >
         <Component {...pageProps} />
       </ChainProvider>
