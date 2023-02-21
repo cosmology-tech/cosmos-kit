@@ -1,9 +1,12 @@
 import { SimpleConnectModal } from '@cosmology-ui/react';
 import {
-  ExpiredError,
+  ModalView,
+  ModalViews,
   State,
+  WalletListViewProps,
   WalletModalProps,
   WalletStatus,
+  WalletViewProps,
 } from '@cosmos-kit/core';
 import React, {
   useCallback,
@@ -13,25 +16,12 @@ import React, {
   useRef,
 } from 'react';
 
-import { ModalView } from './types';
-import {
-  Connected,
-  Connecting,
-  NotExist,
-  QRCode,
-  WalletList,
-  Error,
-  Rejected,
-  LoadingQRCode,
-  ExpiredQRCode,
-  ErrorQRCode,
-} from './views';
-
 export const WalletModal = ({
   isOpen,
   setOpen,
   walletRepo,
-}: WalletModalProps) => {
+  modalViews,
+}: WalletModalProps & { modalViews: ModalViews }) => {
   const initialFocus = useRef();
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
@@ -46,47 +36,26 @@ export const WalletModal = ({
       message: setQRMsg,
     },
   });
-  const walletInfo = current?.walletInfo;
   const walletStatus = current?.walletStatus;
 
   useEffect(() => {
     if (isOpen) {
       switch (walletStatus) {
         case WalletStatus.Connecting:
-          switch (qrState) {
-            case State.Pending:
-              setCurrentView(ModalView.LoadingQRCode);
-              break;
-            case State.Done:
-              setCurrentView(ModalView.QRCode);
-              break;
-            case State.Error:
-              if (qrMsg === ExpiredError.message) {
-                setCurrentView(ModalView.ExpiredQRCode);
-              } else {
-                setCurrentView(ModalView.ErrorQRCode);
-              }
-              break;
-            default:
-              setCurrentView(ModalView.Connecting);
-              break;
+          if (qrState === State.Init) {
+            setCurrentView(ModalView.Connecting);
+          } else {
+            setCurrentView(ModalView.QRCode);
           }
           break;
         case WalletStatus.Connected:
           setCurrentView(ModalView.Connected);
           break;
         case WalletStatus.Error:
-          switch (qrState) {
-            case State.Error:
-              if (qrMsg === ExpiredError.message) {
-                setCurrentView(ModalView.ExpiredQRCode);
-              } else {
-                setCurrentView(ModalView.ErrorQRCode);
-              }
-              break;
-            default:
-              setCurrentView(ModalView.Error);
-              break;
+          if (qrState === State.Init) {
+            setCurrentView(ModalView.Error);
+          } else {
+            setCurrentView(ModalView.QRCode);
           }
           break;
         case WalletStatus.Rejected:
@@ -105,19 +74,6 @@ export const WalletModal = ({
     }
   }, [isOpen, qrState, walletStatus, qrMsg]);
 
-  const onWalletClicked = useCallback(
-    (name: string) => {
-      walletRepo?.connect(name, true);
-    },
-    [walletRepo]
-  );
-
-  const onReconnect = useCallback(() => {
-    if (walletInfo?.name) {
-      walletRepo?.connect(walletInfo.name!, false);
-    }
-  }, [walletRepo, walletInfo]);
-
   const onCloseModal = useCallback(() => {
     setOpen(false);
     if (walletStatus === 'Connecting') {
@@ -130,141 +86,40 @@ export const WalletModal = ({
   }, [setCurrentView]);
 
   const modalView = useMemo(() => {
+    let ViewComponent;
     switch (currentView) {
       case ModalView.WalletList:
+        ViewComponent = modalViews[`${currentView}`] as (
+          props: WalletListViewProps
+        ) => JSX.Element;
         return (
-          <WalletList
+          <ViewComponent
             onClose={onCloseModal}
-            onWalletClicked={onWalletClicked}
             wallets={walletRepo?.wallets || []}
           />
         );
-      case ModalView.Connected:
-        return (
-          <Connected
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            onDisconnect={() => current?.disconnect(void 0, true)}
-            name={walletInfo?.prettyName!}
-            logo={walletInfo?.logo!}
-            username={current?.username}
-            address={current?.address}
-          />
-        );
-      case ModalView.Connecting:
-        let subtitle: string;
-        if (walletInfo!.mode === 'wallet-connect') {
-          subtitle = `Approve ${
-            walletInfo!.prettyName
-          } connection request on your mobile.`;
-        } else {
-          subtitle = `Open the ${
-            walletInfo!.prettyName
-          } browser extension to connect your wallet.`;
-        }
+      default:
+        if (!current) return <div />;
 
+        ViewComponent = modalViews[`${currentView}`] as (
+          props: WalletViewProps
+        ) => JSX.Element;
         return (
-          <Connecting
+          <ViewComponent
             onClose={onCloseModal}
             onReturn={onReturn}
-            name={walletInfo!.prettyName}
-            logo={walletInfo!.logo}
-            title={
-              current?.message === 'InitClient'
-                ? 'Initializing Wallet Client'
-                : 'Requesting Connection'
-            }
-            subtitle={current?.message === 'InitClient' ? '' : subtitle}
-          />
-        );
-      case ModalView.QRCode:
-        return (
-          <QRCode
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            qrUrl={current?.client?.qrUrl.data}
-            name={current?.walletInfo.prettyName}
-          />
-        );
-      case ModalView.LoadingQRCode:
-        return (
-          <LoadingQRCode
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            name={current?.walletInfo.prettyName}
-          />
-        );
-      case ModalView.ExpiredQRCode:
-        return (
-          <ExpiredQRCode
-            qrUrl={current?.client?.qrUrl.data}
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            onRefresh={onReconnect}
-            name={current?.walletInfo.prettyName}
-          />
-        );
-      case ModalView.ErrorQRCode:
-        return (
-          <ErrorQRCode
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            onRefresh={onReconnect}
-            name={current?.walletInfo.prettyName}
-            message={qrMsg}
-          />
-        );
-      case ModalView.Error:
-        return (
-          <Error
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            logo={walletInfo!.logo}
-            onChangeWallet={onReturn}
-            name={walletInfo!.prettyName}
-            message={current.message!}
-          />
-        );
-      case ModalView.Rejected:
-        return (
-          <Rejected
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            logo={walletInfo!.logo}
-            onReconnect={onReconnect}
-            name={walletInfo!.prettyName}
-            message={
-              current.rejectMessageTarget || 'Connection permission is denied.'
-            }
-          />
-        );
-      case ModalView.NotExist:
-        const downloadInfo = current?.downloadInfo;
-        return (
-          <NotExist
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            onInstall={
-              downloadInfo?.link
-                ? () => {
-                    window.open(downloadInfo?.link, '_blank');
-                  }
-                : undefined
-            }
-            logo={walletInfo!.logo}
-            name={walletInfo!.prettyName}
-            buttonIcon={downloadInfo?.icon}
+            wallet={current}
           />
         );
     }
   }, [
     currentView,
+    onReturn,
     onCloseModal,
-    onWalletClicked,
-    walletInfo,
     current,
-    current?.message,
     qrState,
+    walletStatus,
+    walletRepo,
   ]);
 
   return (

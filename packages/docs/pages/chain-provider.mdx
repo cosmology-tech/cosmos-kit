@@ -114,7 +114,7 @@ In addition, you can integrate new wallets in a few steps.
 
 ## walletModal
 
-Optional property of type `({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => JSX.Element`
+Optional property of type `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
 
 So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
 
@@ -146,7 +146,7 @@ For `simple_v1`, the order of wallets follows the order of property `wallets` in
 
 You can also define your own modal component with required props.
 
-### customize modal
+### customize modal with `walletModal`
 
 Example of using self-defined modal.
 
@@ -191,6 +191,77 @@ function CosmosApp() {
       chains={chains}
       wallets={wallets}
       walletModal={MyModal} // Provide walletModal
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+## modalViews
+
+Optional property of type `ModalViews`. If you only need to customize modal UI without involving any data logic, use `modalViews` instead of `walletModal`.
+
+**Type**
+
+```tsx
+type ModalViews = {
+    Connecting?: (props: WalletViewProps) => JSX.Element;
+    Connected?: (props: WalletViewProps) => JSX.Element;
+    Error?: (props: WalletViewProps) => JSX.Element;
+    NotExist?: (props: WalletViewProps) => JSX.Element;
+    Rejected?: (props: WalletViewProps) => JSX.Element;
+    QRCode?: (props: WalletViewProps) => JSX.Element;
+} & {
+    WalletList?: (props: WalletListViewProps) => JSX.Element;
+}
+
+export interface WalletViewProps {
+  onClose: () => void;
+  onReturn: () => void;
+  wallet: ChainWalletBase;
+}
+
+export interface WalletListViewProps {
+  onClose: () => void;
+  wallets: ChainWalletBase[];
+}
+```
+### customize modal with `modalViews`
+
+Example of using self-defined modal views.
+
+`_app.tsx`:
+
+```tsx
+import * as React from 'react';
+
+import { ChainProvider } from '@cosmos-kit/react';
+
+// Define Modal Connected View Component
+const ConnectedView = ({
+  onClose,
+  onReturn,
+  wallet,
+}: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName },
+    username,
+    address,
+  } = wallet;
+
+  return <div>{`${prettyName}/${username}/${address}`}</div>;
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      chains={chains}
+      wallets={wallets}
+      // Provide modalView
+      modalViews={{
+        Connected: ConnectedView,
+      }}
     >
       <YourWalletRelatedComponents />
     </ChainProvider>

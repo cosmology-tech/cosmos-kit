@@ -1,4 +1,4 @@
-import { WalletModal } from "@cosmos-kit/react";
+// import { WalletModal } from "@cosmos-kit/react";
 import { useEffect, useState } from "react";
 
 function TestStyle() {
@@ -44,7 +44,8 @@ function TestStyle() {
       >
         color mode
       </button>
-      <WalletModal isOpen={open} setOpen={handleOpen} />
+      {/* <WalletModal isOpen={open} setOpen={handleOpen} /> */}
+      <p>test weight</p>
     </div>
   );
 }

@@ -4,26 +4,33 @@ import {
   SimpleModalHead,
   SimpleModalView,
 } from '@cosmology-ui/react';
+import { WalletViewProps } from '@cosmos-kit/core';
 import React from 'react';
 
-export const Connecting = ({
+export const ConnectingView = ({
   onClose,
   onReturn,
-  name,
-  logo,
-  title,
-  subtitle,
-}: {
-  onClose: () => void;
-  onReturn: () => void;
-  name: string;
-  logo: string;
-  title: string;
-  subtitle: string;
-}) => {
+  wallet,
+}: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName, logo, mode },
+    message,
+  } = wallet;
+
+  let title: string = 'Requesting Connection';
+  let desc: string =
+    mode === 'wallet-connect'
+      ? `Approve ${prettyName} connection request on your mobile.`
+      : `Open the ${prettyName} browser extension to connect your wallet.`;
+
+  if (message === 'InitClient') {
+    title = 'Initializing Wallet Client';
+    desc = '';
+  }
+
   const modalHead = (
     <SimpleModalHead
-      title={name}
+      title={prettyName}
       backButton={true}
       onClose={onClose}
       onBack={onReturn}
@@ -35,7 +42,7 @@ export const Connecting = ({
       status={LogoStatus.Loading}
       logo={logo}
       contentHeader={title}
-      contentDesc={subtitle}
+      contentDesc={desc}
     />
   );
 

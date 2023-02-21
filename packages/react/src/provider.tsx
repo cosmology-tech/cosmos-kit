@@ -6,6 +6,7 @@ import {
   Logger,
   LogLevel,
   MainWalletBase,
+  ModalViews,
   NameServiceName,
   SessionOptions,
   SignerOptions,
@@ -25,7 +26,7 @@ import React, {
   useState,
 } from 'react';
 
-import { getWrappedWalletModal, noCssResetTheme } from '.';
+import { getWrappedWalletModal } from '.';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -37,6 +38,7 @@ export const ChainProvider = ({
   wallets,
   walletModal,
   modalTheme,
+  modalViews,
   wrappedWithChakra = false,
   defaultNameService = 'icns',
   walletConnectOptions,
@@ -51,6 +53,7 @@ export const ChainProvider = ({
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
+  modalViews?: ModalViews;
   wrappedWithChakra?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
@@ -63,7 +66,7 @@ export const ChainProvider = ({
   const logger = useMemo(() => new Logger(console, logLevel), []);
   if (wrappedWithChakra && modalTheme) {
     logger.warn(
-      'Your are sugguesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
+      'Your are suggesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
     );
   }
   const walletManager = useMemo(
@@ -115,14 +118,15 @@ export const ChainProvider = ({
 
   const outerTheme = useContext(ThemeContext);
 
-  const Modal = useMemo(
-    () =>
+  const Modal = useMemo(() => {
+    return (
       walletModal ||
       getWrappedWalletModal(
-        wrappedWithChakra ? outerTheme : modalTheme || noCssResetTheme
-      ),
-    []
-  );
+        wrappedWithChakra ? outerTheme : modalTheme,
+        modalViews
+      )
+    );
+  }, []);
 
   useEffect(() => {
     walletManager.onMounted();
