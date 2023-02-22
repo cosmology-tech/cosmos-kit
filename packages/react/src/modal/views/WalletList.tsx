@@ -9,8 +9,12 @@ import {
 import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
 import React, { useCallback, useRef } from 'react';
 
-export const WalletListView = ({ onClose, wallets }: WalletListViewProps) => {
-  const initialFocus = useRef();
+export const WalletListView = ({
+  onClose,
+  wallets,
+  initialFocus,
+}: WalletListViewProps) => {
+  const defaultInitialFocus = useRef();
 
   const onWalletClicked = useCallback((wallet: ChainWalletBase) => {
     wallet.connect(void 0, void 0, true);
@@ -52,7 +56,7 @@ export const WalletListView = ({ onClose, wallets }: WalletListViewProps) => {
 
   const modalContent = (
     <SimpleDisplayWalletList
-      initialFocus={initialFocus}
+      initialFocus={initialFocus || defaultInitialFocus}
       walletsData={walletsData}
     />
   );

@@ -96,6 +96,7 @@ export const WalletModal = ({
           <ViewComponent
             onClose={onCloseModal}
             wallets={walletRepo?.wallets || []}
+            initialFocus={initialFocus}
           />
         );
       default:

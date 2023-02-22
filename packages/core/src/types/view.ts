@@ -1,3 +1,5 @@
+import { RefObject } from 'react';
+
 import { ChainWalletBase } from '../bases';
 import { WalletRepo } from '../repository';
 import { Dispatch } from './common';
@@ -27,6 +29,7 @@ export interface WalletViewProps {
 export interface WalletListViewProps {
   onClose: () => void;
   wallets: ChainWalletBase[];
+  initialFocus?: RefObject<HTMLButtonElement>;
 }
 
 type SingleWalletView = `${Exclude<ModalView, ModalView.WalletList>}`;
