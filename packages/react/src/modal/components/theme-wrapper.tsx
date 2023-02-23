@@ -4,6 +4,7 @@ import { Logger } from '@cosmos-kit/core';
 import { ThemeContext } from '@emotion/react';
 import { useContext, useMemo } from 'react';
 import { addSemanticTokens, noCssResetTheme } from '../theme';
+import React from 'react';
 
 export function WrapperWithOuterTheme({
   logger,
