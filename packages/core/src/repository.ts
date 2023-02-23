@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { StargateClient } from '@cosmjs/stargate';
+import EventEmitter from 'events';
 
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
@@ -114,10 +115,6 @@ export class WalletRepo extends StateBase {
       const wallet = this.getWallet(walletName);
       this.openView();
       await wallet?.connect(this.sessionOptions, void 0, sync);
-    } else if (this.isSingleWallet) {
-      // const wallet = this.wallets[0];
-      this.openView();
-      // await wallet?.connect(this.sessionOptions, void 0, sync);
     } else {
       this.openView();
     }

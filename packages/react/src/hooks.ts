@@ -55,6 +55,8 @@ export const useManager = (): ManagerContext => {
       addChains,
       getChainLogo,
       getNameService,
+      on,
+      off,
     },
   } = context;
 
@@ -67,6 +69,8 @@ export const useManager = (): ManagerContext => {
     addChains,
     getChainLogo,
     getNameService,
+    on,
+    off,
   };
 };
 

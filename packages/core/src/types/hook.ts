@@ -128,6 +128,8 @@ export interface ManagerContext {
   ) => void;
   getChainLogo: (chainName: ChainName) => string | undefined;
   getNameService: (chainName?: ChainName) => Promise<NameService>;
+  on: (event: string, handler: (params: any) => void) => void;
+  off: (event: string, handler: (params: any) => void) => void;
 }
 
 export type ModalTheme = 'light' | 'dark';

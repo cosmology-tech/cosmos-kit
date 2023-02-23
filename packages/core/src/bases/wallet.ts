@@ -115,6 +115,7 @@ export abstract class WalletBase extends StateBase {
   disconnect = async (callbacks?: Callbacks, sync?: boolean) => {
     if (sync) {
       this.emitter?.emit('sync_disconnect', (this as any).chainName);
+      this.logger?.info('[WALLET EVENT] Emit `sync_disconnect`');
     }
     await (callbacks || this.callbacks)?.beforeDisconnect?.();
     this.reset();
@@ -165,6 +166,7 @@ export abstract class WalletBase extends StateBase {
             : void 0
         );
         this.emitter?.emit('broadcast_client', this.client);
+        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
         if (!this.client) {
           this.setClientNotExist();
           return;
@@ -184,6 +186,7 @@ export abstract class WalletBase extends StateBase {
 
     if (sync) {
       this.emitter?.emit('sync_connect', (this as any).chainName);
+      this.logger?.info('[WALLET EVENT] Emit `sync_connect`');
     }
   };
 

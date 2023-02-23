@@ -40,7 +40,7 @@ export class WCClient implements WalletClient {
 
   pairings: PairingTypes.Struct[] = [];
   sessions: SessionTypes.Struct[] = [];
-  emitter!: EventEmitter;
+  emitter?: EventEmitter;
   logger?: Logger;
   options?: WalletConnectOptions;
   relayUrl?: string;
@@ -89,7 +89,8 @@ export class WCClient implements WalletClient {
         return true;
       }
     });
-    this.emitter.emit('reset', chainIds);
+    this.emitter?.emit('reset', chainIds);
+    this.logger?.info('[WALLET EVENT] Emit `reset`');
   }
 
   subscribeToEvents() {
@@ -381,7 +382,8 @@ export class WCClient implements WalletClient {
       }
     }
     this.sessions = [];
-    this.emitter.emit('sync_disconnect');
+    this.emitter?.emit('sync_disconnect');
+    this.logger?.info('[WALLET EVENT] Emit `sync_disconnect`');
   }
 
   async getAccount(chainId: string): Promise<WalletAccount> {

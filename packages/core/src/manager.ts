@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable no-console */
 import { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
+import EventEmitter from 'events';
 
 import { MainWalletBase, StateBase } from './bases';
 import { NameService } from './name-service';
@@ -32,6 +30,7 @@ export class WalletManager extends StateBase {
   walletRepos: WalletRepo[] = [];
   defaultNameService: NameServiceName = 'icns';
   private _wallets: MainWalletBase[] = [];
+  coreEmitter: EventEmitter;
 
   readonly sessionOptions: SessionOptions = {
     duration: 1800000,
@@ -53,6 +52,7 @@ export class WalletManager extends StateBase {
     sessionOptions?: SessionOptions
   ) {
     super();
+    this.coreEmitter = new EventEmitter();
     this.logger = logger;
     if (defaultNameService) this.defaultNameService = defaultNameService;
     if (sessionOptions) this.sessionOptions = sessionOptions;
@@ -147,29 +147,38 @@ export class WalletManager extends StateBase {
       );
     });
 
-    newWalletRepos.forEach((wr) => {
-      wr.setActions({
+    newWalletRepos.forEach((repo) => {
+      repo.setActions({
         viewOpen: this.actions?.viewOpen,
         viewWalletRepo: this.actions?.viewWalletRepo,
       });
-      wr.wallets.forEach((w) => {
+      repo.wallets.forEach((w) => {
         w.setActions({
           data: this.actions?.data,
           state: this.actions?.state,
           message: this.actions?.message,
         });
       });
+      repo.logger = this.logger;
 
       const index = this.walletRepos.findIndex(
-        (wr2) => wr2.chainName !== wr.chainName
+        (repo2) => repo2.chainName !== repo.chainName
       );
       if (index == -1) {
-        this.walletRepos.push(wr);
+        this.walletRepos.push(repo);
       } else {
-        this.walletRepos[index] = wr;
+        this.walletRepos[index] = repo;
       }
     });
   };
+
+  on(event: string, handler: (params: any) => void) {
+    this.coreEmitter.on(event, handler);
+  }
+
+  off(event: string, handler: (params: any) => void) {
+    this.coreEmitter.off(event, handler);
+  }
 
   get activeRepos(): WalletRepo[] {
     return this.walletRepos.filter((repo) => repo.isActive === true);
@@ -233,6 +242,8 @@ export class WalletManager extends StateBase {
   };
 
   private _handleConnect = async () => {
+    this.logger?.info('[CORE EVENT] Emit `refresh_connection`');
+    this.coreEmitter.emit('refresh_connection');
     const walletName = window.localStorage.getItem(
       'cosmos-kit@1:core//current-wallet'
     );
@@ -273,9 +284,11 @@ export class WalletManager extends StateBase {
       if (wallet.walletInfo.mode === 'wallet-connect') {
         await wallet.initClient(this.walletConnectOptions);
         wallet.emitter?.emit('broadcast_client', wallet.client);
+        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
       } else {
         await wallet.initClient();
         wallet.emitter?.emit('broadcast_client', wallet.client);
+        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
       }
     });
 

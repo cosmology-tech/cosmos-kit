@@ -144,6 +144,23 @@ export const ChainProvider = ({
     };
   }, []);
 
+  if (!wrappedWithChakra && walletModal) {
+    return (
+      <walletContext.Provider
+        value={{
+          walletManager,
+        }}
+      >
+        <Modal
+          isOpen={isViewOpen}
+          setOpen={setViewOpen}
+          walletRepo={viewWalletRepo}
+        />
+        {children}
+      </walletContext.Provider>
+    );
+  }
+
   return (
     <ThemeProvider>
       <walletContext.Provider
