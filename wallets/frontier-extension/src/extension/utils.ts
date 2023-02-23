@@ -3,7 +3,9 @@ import { ClientNotExistError } from '@cosmos-kit/core';
 import { Frontier } from './types';
 
 interface FrontierWindow {
-  frontier?: Frontier;
+  frontier?: {
+    cosmos: Frontier;
+  };
 }
 
 export const getFrontierFromExtension: () => Promise<
@@ -13,7 +15,7 @@ export const getFrontierFromExtension: () => Promise<
     return void 0;
   }
 
-  const frontier = (window as FrontierWindow).frontier;
+  const frontier = (window as FrontierWindow).frontier.cosmos;
 
   if (frontier) {
     return frontier;

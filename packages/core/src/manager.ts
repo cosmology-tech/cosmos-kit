@@ -257,8 +257,8 @@ export class WalletManager extends StateBase {
           .find((repo) => repo.chainRecord.chain.chain_id === data.chainId)
           ?.wallets.find((cw) => cw.walletName === walletName);
 
-        chainWallet.setData(data);
-        chainWallet.setState(State.Done);
+        chainWallet?.setData(data);
+        chainWallet?.setState(State.Done);
       });
     }
   };
@@ -266,6 +266,7 @@ export class WalletManager extends StateBase {
   onMounted = async () => {
     if (typeof window === 'undefined') return;
 
+    // console.log('%cmanager.ts line:269 window', 'color: #007acc;', window);
     this._restoreAccounts();
 
     this._wallets.forEach(async (wallet) => {

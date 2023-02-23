@@ -10,8 +10,9 @@ import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
-import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
+import { wallets as frontierWallets } from "@cosmos-kit/frontier-extension";
+import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { WalletViewProps } from "@cosmos-kit/core";
@@ -38,13 +39,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...keplrWallets,
+          // ...keplrWallets,
           // ...cosmostationWallets,
-          // ...leapWallets,
+          ...leapWallets,
           // ...vectisWallets,
           // ...xdefiWallets,
           // ...omniWallets,
           // ...trustWallets,
+          // ...frontierWallets,
         ]}
         defaultNameService={"stargaze"}
         walletConnectOptions={{

@@ -10,13 +10,14 @@ export class FrontierExtensionWallet extends MainWalletBase {
     super(walletInfo, ChainFrontierExtension);
   }
 
-  async fetchClient() {
+  async initClient() {
+    this.initingClient();
     try {
       const frontier = await getFrontierFromExtension();
-      return frontier ? new FrontierClient(frontier) : undefined;
+      this.initClientDone(frontier ? new FrontierClient(frontier) : undefined);
     } catch (error) {
-      this.setClientNotExist();
-      return void 0;
+      this.logger?.error(error);
+      this.initClientError(error);
     }
   }
 }

@@ -20,9 +20,7 @@ export const NotExistView = ({
   } = wallet;
 
   const onInstall = useCallback(() => {
-    if (downloadInfo?.link) {
-      window.open(downloadInfo?.link, '_blank');
-    }
+    window.open(downloadInfo?.link, '_blank');
   }, [downloadInfo]);
 
   const modalHead = (
@@ -41,7 +39,7 @@ export const NotExistView = ({
       contentHeader={`${prettyName} Not Installed`}
       contentDesc={
         onInstall
-          ? `If ${prettyName.toLowerCase()} is installed on your device, please refresh this page or follow the browser instructions.`
+          ? `If ${prettyName.toLowerCase()} is installed on your device, please refresh this page or follow the browser instruction.`
           : `Download link not provided. Try searching it or consulting the developer team.`
       }
       bottomButton={
@@ -49,7 +47,7 @@ export const NotExistView = ({
           icon={downloadInfo?.icon || GoDesktopDownload}
           buttonText={`Install ${prettyName}`}
           onClick={onInstall}
-          disabled={Boolean(onInstall)}
+          disabled={!downloadInfo?.link}
         />
       }
     />

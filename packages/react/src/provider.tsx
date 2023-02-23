@@ -118,12 +118,21 @@ export const ChainProvider = ({
 
   const outerTheme = useContext(ThemeContext);
 
+  logger.info(
+    wrappedWithChakra
+      ? 'ChainProvider is wrapped with ChakraProvider. Apply ChakraProvider theme to wallet modal.'
+      : modalTheme
+      ? 'Apply ChainProvider `modalTheme` to wallet modal'
+      : 'ChainProvider is NOT wrapped with ChakraProvider, and NO `modalTheme` is provided in ChainProvider. Apply noCssResetTheme to wallet modal'
+  );
   const Modal = useMemo(() => {
     return (
       walletModal ||
       getWrappedWalletModal(
         wrappedWithChakra ? outerTheme : modalTheme,
-        modalViews
+        modalViews,
+        wrappedWithChakra ? true : false,
+        logger
       )
     );
   }, []);

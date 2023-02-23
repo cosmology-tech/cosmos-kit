@@ -1,4 +1,4 @@
-import { ModalViews, WalletModalProps } from '@cosmos-kit/core';
+import { Logger, ModalViews, WalletModalProps } from '@cosmos-kit/core';
 import { WalletModal } from './modal';
 import { semanticTokens } from '@cosmology-ui/react';
 import { ChakraProvider } from '@chakra-ui/react';
@@ -8,7 +8,9 @@ import { noCssResetTheme } from './theme';
 
 export function getWrappedWalletModal(
   theme: Record<string, any> = noCssResetTheme,
-  modalViews: ModalViews = defaultModalViews
+  modalViews: ModalViews = defaultModalViews,
+  resetCSS: boolean,
+  logger?: Logger
 ) {
   const colors = {
     ...(semanticTokens as any).semanticTokens.colors,
@@ -25,16 +27,17 @@ export function getWrappedWalletModal(
       shadows,
     },
   };
+  const themeObject = {
+    ...theme,
+    ...mergedSemanticTokens,
+  };
+
+  logger?.debug('[WalletModal] Applied ChakraProvider `theme`:', themeObject);
+  logger?.info('[WalletModal] Applied ChakraProvider `resetCSS`:', resetCSS);
 
   return ({ isOpen, setOpen, walletRepo }: WalletModalProps) => {
     return (
-      <ChakraProvider
-        theme={{
-          ...theme,
-          ...mergedSemanticTokens,
-        }}
-        resetCSS={true}
-      >
+      <ChakraProvider theme={themeObject} resetCSS={resetCSS}>
         <WalletModal
           isOpen={isOpen}
           setOpen={setOpen}
