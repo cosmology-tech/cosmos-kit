@@ -1,4 +1,5 @@
 import { extendTheme } from '@chakra-ui/react';
+import { semanticTokens } from '@cosmology-ui/react';
 
 /* ====================================================== */
 /*       NOTICE: Chakra resets global CSS by default      */
@@ -225,7 +226,31 @@ const themeWithReset = {
   ...colors,
 };
 
-export const defaultTheme = extendTheme(themeWithReset);
+export function addSemanticTokens(theme: Record<string, any>) {
+  const colors = {
+    ...(semanticTokens as any).semanticTokens.colors,
+    ...(theme as any)?.semanticTokens?.colors,
+  };
+  const shadows = {
+    ...(semanticTokens as any).semanticTokens.shadows,
+    ...(theme as any)?.semanticTokens?.shadows,
+  };
+  const mergedSemanticTokens = {
+    semanticTokens: {
+      ...(theme as any)?.semanticTokens,
+      colors,
+      shadows,
+    },
+  };
+  return {
+    ...theme,
+    ...mergedSemanticTokens,
+  };
+}
+
+export const defaultTheme = addSemanticTokens(extendTheme(themeWithReset));
 
 // noCssResetTheme removed most global css reset made by chakra
-export const noCssResetTheme = extendTheme(themeWithoutReset);
+export const noCssResetTheme = addSemanticTokens(
+  extendTheme(themeWithoutReset)
+);

@@ -67,7 +67,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             }
           },
         }}
-        logLevel={"INFO"}
+        logLevel={"TRACE"}
         wrappedWithChakra={true}
         // modalViews={{
         //   Connected: ConnectedView,

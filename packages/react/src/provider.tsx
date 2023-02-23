@@ -1,5 +1,4 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { ThemeProvider } from '@cosmology-ui/react';
 import {
   Data,
   EndpointOptions,
@@ -16,17 +15,20 @@ import {
   WalletModalProps,
   WalletRepo,
 } from '@cosmos-kit/core';
-import { ThemeContext } from '@emotion/react';
 import React, {
   createContext,
   ReactNode,
-  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
 
-import { getWrappedWalletModal } from '.';
+import { WalletModal } from '.';
+import {
+  WrapperWithProvidedTheme,
+  WrapperWithOuterTheme,
+} from './modal/components';
+import { defaultModalViews } from './modal/components/views';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
@@ -36,7 +38,7 @@ export const ChainProvider = ({
   chains,
   assetLists,
   wallets,
-  walletModal,
+  walletModal: ProvidedWalletModal,
   modalTheme,
   modalViews,
   wrappedWithChakra = false,
@@ -116,27 +118,6 @@ export const ChainProvider = ({
     });
   });
 
-  const outerTheme = useContext(ThemeContext);
-
-  logger.info(
-    wrappedWithChakra
-      ? 'ChainProvider is wrapped with ChakraProvider. Apply ChakraProvider theme to wallet modal.'
-      : modalTheme
-      ? 'Apply ChainProvider `modalTheme` to wallet modal'
-      : 'ChainProvider is NOT wrapped with ChakraProvider, and NO `modalTheme` is provided in ChainProvider. Apply noCssResetTheme to wallet modal'
-  );
-  const Modal = useMemo(() => {
-    return (
-      walletModal ||
-      getWrappedWalletModal(
-        wrappedWithChakra ? outerTheme : modalTheme,
-        modalViews,
-        wrappedWithChakra ? true : false,
-        logger
-      )
-    );
-  }, []);
-
   useEffect(() => {
     walletManager.onMounted();
     return () => {
@@ -144,14 +125,11 @@ export const ChainProvider = ({
     };
   }, []);
 
-  if (!wrappedWithChakra && walletModal) {
+  if (ProvidedWalletModal) {
+    logger.debug('Using provided wallet modal.');
     return (
-      <walletContext.Provider
-        value={{
-          walletManager,
-        }}
-      >
-        <Modal
+      <walletContext.Provider value={{ walletManager }}>
+        <ProvidedWalletModal
           isOpen={isViewOpen}
           setOpen={setViewOpen}
           walletRepo={viewWalletRepo}
@@ -161,20 +139,33 @@ export const ChainProvider = ({
     );
   }
 
-  return (
-    <ThemeProvider>
-      <walletContext.Provider
-        value={{
-          walletManager,
+  logger.debug('Using default wallet modal.');
+  const rawJSX = (
+    <walletContext.Provider value={{ walletManager }}>
+      <WalletModal
+        isOpen={isViewOpen}
+        setOpen={setViewOpen}
+        walletRepo={viewWalletRepo}
+        modalViews={{
+          ...defaultModalViews,
+          ...modalViews,
         }}
-      >
-        <Modal
-          isOpen={isViewOpen}
-          setOpen={setViewOpen}
-          walletRepo={viewWalletRepo}
-        />
-        {children}
-      </walletContext.Provider>
-    </ThemeProvider>
+      />
+      {children}
+    </walletContext.Provider>
   );
+
+  if (wrappedWithChakra) {
+    logger.debug('Wrap with <WrapperWithOuterTheme>.');
+    return (
+      <WrapperWithOuterTheme logger={logger}>{rawJSX}</WrapperWithOuterTheme>
+    );
+  } else {
+    logger.debug('Wrap with <WrapperWithProvidedTheme>.');
+    return (
+      <WrapperWithProvidedTheme theme={modalTheme} logger={logger}>
+        {rawJSX}
+      </WrapperWithProvidedTheme>
+    );
+  }
 };

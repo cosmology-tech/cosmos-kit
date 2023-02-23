@@ -7,7 +7,7 @@ import {
   WalletListView,
   ErrorView,
   NotExistView,
-} from '.';
+} from './components/views';
 
 export const defaultModalViews: ModalViews = {
   Connecting: ConnectingView,

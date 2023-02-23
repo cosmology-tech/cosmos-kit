@@ -5,4 +5,4 @@ export * from './NotExist';
 export * from './QRCode';
 export * from './WalletList';
 export * from './Rejected';
-export * from './config';
+export * from '../../config';

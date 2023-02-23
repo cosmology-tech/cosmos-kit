@@ -15,6 +15,25 @@ import React, {
   useState,
   useRef,
 } from 'react';
+import { WrapperWithProvidedTheme } from './components';
+import { defaultModalViews } from './components/views';
+
+export const DefaultModal = ({
+  isOpen,
+  setOpen,
+  walletRepo,
+}: WalletModalProps) => {
+  return (
+    <WrapperWithProvidedTheme>
+      <WalletModal
+        isOpen={isOpen}
+        setOpen={setOpen}
+        walletRepo={walletRepo}
+        modalViews={defaultModalViews}
+      />
+    </WrapperWithProvidedTheme>
+  );
+};
 
 export const WalletModal = ({
   isOpen,
