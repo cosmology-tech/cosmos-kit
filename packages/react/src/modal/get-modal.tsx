@@ -9,7 +9,7 @@ import { noCssResetTheme } from './theme';
 export function getWrappedWalletModal(
   theme: Record<string, any> = noCssResetTheme,
   modalViews: ModalViews = defaultModalViews,
-  resetCSS: boolean,
+  resetCSS: boolean = true,
   logger?: Logger
 ) {
   const colors = {

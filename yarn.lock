@@ -3143,14 +3143,14 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.5.tgz#3fed1b3528ae8c5f1eb5d29b68755bebfd3294ee"
   integrity sha512-m7h+RXDUxOzEOGt4P+3OVPX7PuakZT3GBmaM/Y2u+abN3xZkziykD/NvedYFvvCCdQo714XcGl33bwifS9FZPQ==
 
-"@cosmology-ui/react@^0.1.15":
-  version "0.1.15"
-  resolved "https://registry.npmjs.org/@cosmology-ui/react/-/react-0.1.15.tgz#b2c7918226b1e373f81c41492ddd6669191efe1e"
-  integrity sha512-PvYZXXmDjzqj1881+m/04CwVhrxtei4dkg5jOrhs3Q8L6RuW/S+72ScyMC7dAMET0Qts3jGh/ukP2gmomB50LA==
+"@cosmology-ui/react@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.npmjs.org/@cosmology-ui/react/-/react-0.1.17.tgz#b46091641dc910911ae6c8ddf4ca85e27411cbd9"
+  integrity sha512-6WNb2I/BB1fY2xvLFl0BxPUDli8qW1p1Ejjoqj074vCWLRIUlvxj9WSXLqdS8Tp8uj/APjW3d06DbACJ8/q6WQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.4.2"
-    "@cosmology-ui/utils" "^0.1.18"
+    "@cosmology-ui/utils" "^0.1.20"
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11"
     bowser "2.11.0"
@@ -3163,14 +3163,14 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
-"@cosmology-ui/utils@^0.1.18":
-  version "0.1.18"
-  resolved "https://registry.npmjs.org/@cosmology-ui/utils/-/utils-0.1.18.tgz#e162345ea49cabdc240bd8b63f16fc12015bc064"
-  integrity sha512-EL0yxh6msOH2gFGx/bPzoAsLa6u95FCIpVhTtAASLCaSBPw3zo96hMSkPzkY4y95WEILSk7vHSGSWAfXgGdkUw==
+"@cosmology-ui/utils@^0.1.20":
+  version "0.1.20"
+  resolved "https://registry.npmjs.org/@cosmology-ui/utils/-/utils-0.1.20.tgz#bc03e22c0cc0f4ba3c528339b3dbd6ae394e6a3d"
+  integrity sha512-he+FsD7NAa6r9AliSHmbT0ZyE8G2Zvd/wFfJVvMZMF66npSYB45m1fzWl1inrTPgatMSF2ozVOoBRECZ6KY+gA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.4.2"
-    "@cosmology-ui/utils" "^0.1.18"
+    "@cosmology-ui/utils" "^0.1.20"
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11"
     bowser "2.11.0"
