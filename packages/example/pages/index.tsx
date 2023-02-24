@@ -40,19 +40,19 @@ export default () => {
   );
 
   const toggleTheme = useCallback(() => {
-    setModalTheme("dark");
-    // switch (colorMode) {
-    //   case "light":
-    //     setColorMode("dark");
-    //     setModalTheme("dark");
-    //     break;
-    //   case "dark":
-    //     setColorMode("light");
-    //     setModalTheme("light");
-    //     break;
-    //   default:
-    //     throw new Error(`Unknown colorMode: ${colorMode}`);
-    // }
+    // setModalTheme("dark");
+    switch (colorMode) {
+      case "light":
+        setColorMode("dark");
+        setModalTheme("dark");
+        break;
+      case "dark":
+        setColorMode("light");
+        setModalTheme("light");
+        break;
+      default:
+        throw new Error(`Unknown colorMode: ${colorMode}`);
+    }
   }, [setColorMode, setModalTheme, colorMode]);
 
   const addressInModal = chainNames_1.map((chainName) => {

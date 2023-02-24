@@ -1,24 +1,27 @@
-import { extendTheme } from '@chakra-ui/react';
+import { extendTheme, ThemeConfig } from '@chakra-ui/react';
 import { semanticTokens } from '@cosmology-ui/react';
 
 /* ====================================================== */
 /*       NOTICE: Chakra resets global CSS by default      */
 /* ====================================================== */
 
+const config: ThemeConfig = {
+  initialColorMode: 'light',
+  useSystemColorMode: false,
+};
+
 const colors = {
-  colors: {
-    primary: {
-      '50': '#e5e7f9',
-      '100': '#bec4ef',
-      '200': '#929ce4',
-      '300': '#6674d9',
-      '400': '#4657d1',
-      '500': '#2539c9',
-      '600': '#2133c3',
-      '700': '#1b2cbc',
-      '800': '#1624b5',
-      '900': '#0d17a9',
-    },
+  primary: {
+    '50': '#e5e7f9',
+    '100': '#bec4ef',
+    '200': '#929ce4',
+    '300': '#6674d9',
+    '400': '#4657d1',
+    '500': '#2539c9',
+    '600': '#2133c3',
+    '700': '#1b2cbc',
+    '800': '#1624b5',
+    '900': '#0d17a9',
   },
 };
 
@@ -214,7 +217,8 @@ const themeWithoutReset = {
       },
     },
   },
-  ...colors,
+  colors,
+  config,
 };
 
 /* ------- this theme is for with Chakra CSS reset ------ */
@@ -223,7 +227,8 @@ const themeWithReset = {
     body: 'Inter, system-ui, sans-serif',
     heading: 'Work Sans, system-ui, sans-serif',
   },
-  ...colors,
+  colors,
+  config,
 };
 
 export function addSemanticTokens(theme: Record<string, any>) {

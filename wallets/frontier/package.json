@@ -1,8 +1,8 @@
 {
-  "name": "@cosmos-kit/leap",
-  "version": "0.13.31",
+  "name": "@cosmos-kit/frontier",
+  "version": "0.0.1",
   "description": "cosmos-kit wallet connector",
-  "author": "mayank.yadav@leapwallet.io",
+  "author": "mayank.yadav@frontierwallet.io",
   "contributors": [
     {
       "name": "Mayank Yadav"
@@ -44,7 +44,7 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "leap",
+    "frontier",
     "wallet"
   ],
   "bugs": {
@@ -64,7 +64,6 @@
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
-    "@walletconnect/types-v1": "npm:@walletconnect/types@1.8.0",
     "babel-jest": "29.0.3",
     "cross-env": "7.0.2",
     "eslint": "8.23.1",
@@ -82,7 +81,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/leap-extension": "^0.13.31"
+    "@cosmos-kit/frontier-extension": "^0.0.5"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
