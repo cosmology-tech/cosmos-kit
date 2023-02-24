@@ -26,6 +26,7 @@
     "@cosmos-kit/leap": "^0.13.31",
     "@cosmos-kit/react": "^1.1.1",
     "@cosmos-kit/vectis": "^0.14.31",
+    "@cosmos-kit/frontier": "^0.0.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "chain-registry": "1.4.0",

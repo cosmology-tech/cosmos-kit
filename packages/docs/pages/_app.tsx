@@ -6,6 +6,7 @@ import { assets, chains } from "chain-registry";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallet } from "@cosmos-kit/keplr-extension";
 import { wallets as leapwallets } from "@cosmos-kit/leap";
+import { wallets as frontierwallets } from "@cosmos-kit/frontier";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...xdefiWallets,
           ...omniWallets,
           ...trustWallets,
+          ...frontierwallets,
         ]}
       >
         <Component {...pageProps} />
