@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { WalletStatus } from "@cosmos-kit/core";
 import { useChain, useModalTheme } from "@cosmos-kit/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
@@ -39,20 +39,25 @@ export default () => {
     WalletStatus.Disconnected
   );
 
+  // useEffect(() => {
+  //   setModalTheme("dark");
+  //   console.log("%c_app.tsx line:42 123", "color: #007acc;", modalTheme);
+  // }, []);
+
   const toggleTheme = useCallback(() => {
-    // setModalTheme("dark");
-    switch (colorMode) {
-      case "light":
-        setColorMode("dark");
-        setModalTheme("dark");
-        break;
-      case "dark":
-        setColorMode("light");
-        setModalTheme("light");
-        break;
-      default:
-        throw new Error(`Unknown colorMode: ${colorMode}`);
-    }
+    setModalTheme("dark");
+    // switch (colorMode) {
+    //   case "light":
+    //     setColorMode("dark");
+    //     setModalTheme("dark");
+    //     break;
+    //   case "dark":
+    //     setColorMode("light");
+    //     setModalTheme("light");
+    //     break;
+    //   default:
+    //     throw new Error(`Unknown colorMode: ${colorMode}`);
+    // }
   }, [setColorMode, setModalTheme, colorMode]);
 
   const addressInModal = chainNames_1.map((chainName) => {

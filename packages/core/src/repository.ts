@@ -113,7 +113,6 @@ export class WalletRepo extends StateBase {
   connect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
-      this.openView();
       await wallet?.connect(this.sessionOptions, void 0, sync);
     } else {
       this.openView();

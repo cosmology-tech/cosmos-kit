@@ -23,8 +23,8 @@
 | **getWalletRepo**      |   get the wallet repository of a chain, which stores all chain wallets for this chain    | **chainName**: `ChainName` | `WalletRepo` | N |
 | **getNameService**      |   get name service object supported on provided chain, if chain not provided, using `defaultNameService` in `ChainProvider`    | **chainName?**: `ChainName` | `NameService` | Y |
 | **addChains**      | add new chains in provider    |  **chains**: `Chain[]`,<br />**assetLists**: `AssetList[]`,<br />**signerOptions**?: `SignerOptions`,<br />**endpointOptions**?: `EndpointOptions` | `void` | N |
-| **on**      | registry event handler    |  **event**: `string`,<br />**handler**: `(params: any) => void` | `void` | N |
-| **off**      | remove event handler    |  **event**: `string`,<br />**handler**: `(params: any) => void` | `void` | N |
+| **on**      | attach event handler to [events](#events)  |  **event**: `EventName`,<br />**handler**: `(params: any) => void` | `void` | N |
+| **off**      | remove attached event handler    |  **event**: `EventName`,<br />**handler**: `(params: any) => void` | `void` | N |
 
 ## Events
 

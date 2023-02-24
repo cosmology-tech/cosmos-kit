@@ -43,3 +43,5 @@ export interface ManagerActions<T> extends StateActions<T> {
   chainName?: Dispatch<ChainName | undefined>;
   viewOpen?: Dispatch<boolean>;
 }
+
+export type EventName = 'refresh_connection';

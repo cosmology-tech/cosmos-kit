@@ -26,7 +26,7 @@ import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
 import { CosmosClientType, State } from './common';
-import { EndpointOptions, SignerOptions } from './manager';
+import { EndpointOptions, EventName, SignerOptions } from './manager';
 import {
   BroadcastMode,
   DirectSignDoc,
@@ -128,8 +128,8 @@ export interface ManagerContext {
   ) => void;
   getChainLogo: (chainName: ChainName) => string | undefined;
   getNameService: (chainName?: ChainName) => Promise<NameService>;
-  on: (event: string, handler: (params: any) => void) => void;
-  off: (event: string, handler: (params: any) => void) => void;
+  on: (event: EventName, handler: (params: any) => void) => void;
+  off: (event: EventName, handler: (params: any) => void) => void;
 }
 
 export type ModalTheme = 'light' | 'dark';

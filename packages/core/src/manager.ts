@@ -10,6 +10,7 @@ import {
   ChainRecord,
   DeviceType,
   EndpointOptions,
+  EventName,
   NameServiceName,
   OS,
   SessionOptions,
@@ -172,13 +173,13 @@ export class WalletManager extends StateBase {
     });
   };
 
-  on(event: string, handler: (params: any) => void) {
+  on = (event: EventName, handler: (params: any) => void) => {
     this.coreEmitter.on(event, handler);
-  }
+  };
 
-  off(event: string, handler: (params: any) => void) {
+  off = (event: EventName, handler: (params: any) => void) => {
     this.coreEmitter.off(event, handler);
-  }
+  };
 
   get activeRepos(): WalletRepo[] {
     return this.walletRepos.filter((repo) => repo.isActive === true);
@@ -310,8 +311,6 @@ export class WalletManager extends StateBase {
         }
       );
     });
-
-    this.actions?.viewOpen?.(false);
   };
 
   onUnmounted = () => {
