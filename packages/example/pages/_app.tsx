@@ -41,9 +41,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           // ...keplrWallets,
           // ...cosmostationWallets,
-          ...leapWallets,
+          // ...leapWallets,
           // ...vectisWallets,
-          // ...xdefiWallets,
+          ...xdefiWallets,
           // ...omniWallets,
           // ...trustWallets,
           // ...frontierWallets,
@@ -67,7 +67,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             }
           },
         }}
-        logLevel={"TRACE"}
+        logLevel={"INFO"}
         wrappedWithChakra={true}
         // modalViews={{
         //   Connected: ConnectedView,

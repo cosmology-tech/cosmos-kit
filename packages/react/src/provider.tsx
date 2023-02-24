@@ -1,4 +1,5 @@
 import { AssetList, Chain } from '@chain-registry/types';
+import { ThemeProvider } from '@cosmology-ui/react';
 import {
   Data,
   EndpointOptions,
@@ -18,6 +19,7 @@ import {
 import React, {
   createContext,
   ReactNode,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -25,8 +27,8 @@ import React, {
 
 import { WalletModal } from '.';
 import {
-  WrapperWithProvidedTheme,
-  WrapperWithOuterTheme,
+  ChakraProviderWithGivenTheme,
+  ChakraProviderWithOuterTheme,
 } from './modal/components';
 import { defaultModalViews } from './modal/components/views';
 
@@ -140,32 +142,51 @@ export const ChainProvider = ({
   }
 
   logger.debug('Using default wallet modal.');
-  const rawJSX = (
-    <walletContext.Provider value={{ walletManager }}>
-      <WalletModal
-        isOpen={isViewOpen}
-        setOpen={setViewOpen}
-        walletRepo={viewWalletRepo}
-        modalViews={{
-          ...defaultModalViews,
-          ...modalViews,
-        }}
-      />
-      {children}
-    </walletContext.Provider>
+
+  const Provider = useCallback(
+    ({ children }: { children: ReactNode }) => {
+      return (
+        <ThemeProvider>
+          <walletContext.Provider value={{ walletManager }}>
+            {children}
+          </walletContext.Provider>
+        </ThemeProvider>
+      );
+    },
+    [walletManager]
+  );
+
+  const modal = (
+    <WalletModal
+      isOpen={isViewOpen}
+      setOpen={setViewOpen}
+      walletRepo={viewWalletRepo}
+      modalViews={{
+        ...defaultModalViews,
+        ...modalViews,
+      }}
+    />
   );
 
   if (wrappedWithChakra) {
-    logger.debug('Wrap with <WrapperWithOuterTheme>.');
+    logger.debug('Wrap with <ChakraProviderWithOuterTheme>.');
     return (
-      <WrapperWithOuterTheme logger={logger}>{rawJSX}</WrapperWithOuterTheme>
+      <Provider>
+        <ChakraProviderWithOuterTheme logger={logger}>
+          {modal}
+        </ChakraProviderWithOuterTheme>
+        {children}
+      </Provider>
     );
   } else {
-    logger.debug('Wrap with <WrapperWithProvidedTheme>.');
+    logger.debug('Wrap with <ChakraProviderWithGivenTheme>.');
     return (
-      <WrapperWithProvidedTheme theme={modalTheme} logger={logger}>
-        {rawJSX}
-      </WrapperWithProvidedTheme>
+      <Provider>
+        <ChakraProviderWithGivenTheme theme={modalTheme} logger={logger}>
+          {modal}
+        </ChakraProviderWithGivenTheme>
+        {children}
+      </Provider>
     );
   }
 };

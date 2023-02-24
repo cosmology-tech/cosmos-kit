@@ -156,13 +156,7 @@ export class ChainWalletBase extends WalletBase {
 
       let account: WalletAccount;
       try {
-        // console.log('%cchain-wallet.ts line:159 12', 'color: #007acc;', 12);
         account = await this.client.getAccount(this.chainId);
-        // console.log(
-        //   '%cchain-wallet.ts line:160 account',
-        //   'color: #007acc;',
-        //   account
-        // );
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
@@ -172,12 +166,6 @@ export class ChainWalletBase extends WalletBase {
           await this.client.addChain(this.chainRecord);
           account = await this.client.getAccount(this.chainId);
         } else {
-          // console.log(
-          //   '%cchain-wallet.ts line:175 23, error',
-          //   'color: #007acc;',
-          //   23,
-          //   error
-          // );
           throw error;
         }
       }

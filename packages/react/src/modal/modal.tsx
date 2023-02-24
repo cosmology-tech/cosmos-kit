@@ -15,7 +15,7 @@ import React, {
   useState,
   useRef,
 } from 'react';
-import { WrapperWithProvidedTheme } from './components';
+import { ChakraProviderWithGivenTheme } from './components';
 import { defaultModalViews } from './components/views';
 
 export const DefaultModal = ({
@@ -24,14 +24,14 @@ export const DefaultModal = ({
   walletRepo,
 }: WalletModalProps) => {
   return (
-    <WrapperWithProvidedTheme>
+    <ChakraProviderWithGivenTheme>
       <WalletModal
         isOpen={isOpen}
         setOpen={setOpen}
         walletRepo={walletRepo}
         modalViews={defaultModalViews}
       />
-    </WrapperWithProvidedTheme>
+    </ChakraProviderWithGivenTheme>
   );
 };
 

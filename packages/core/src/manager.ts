@@ -277,7 +277,6 @@ export class WalletManager extends StateBase {
   onMounted = async () => {
     if (typeof window === 'undefined') return;
 
-    // console.log('%cmanager.ts line:269 window', 'color: #007acc;', window);
     this._restoreAccounts();
 
     this._wallets.forEach(async (wallet) => {

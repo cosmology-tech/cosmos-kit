@@ -22,7 +22,7 @@ export class FrontierClient implements WalletClient {
 
   async getAccount(chainId: string) {
     const key = await this.client.getKey(chainId);
-    // console.log('%cclient.ts line:25 key', 'color: #007acc;', key);
+    console.log('%cclient.ts line:25 key', 'color: #007acc;', key);
     return {
       name: key.name,
       address: key.bech32Address,
