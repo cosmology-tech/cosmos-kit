@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust-mobile",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -103,8 +103,8 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^1.0.13",
-    "@cosmos-kit/walletconnect": "^0.1.17",
+    "@cosmos-kit/core": "^1.0.14",
+    "@cosmos-kit/walletconnect": "^0.1.18",
     "@walletconnect/sign-client": "2.2.0",
     "@walletconnect/types": "^2.1.4",
     "react-icons": "4.4.0"
