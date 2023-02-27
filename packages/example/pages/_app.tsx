@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           ...keplrWallets,
           // ...cosmostationWallets,
-          // ...leapWallets,
+          ...leapWallets,
           // ...vectisWallets,
           // ...xdefiWallets,
           // ...omniWallets,

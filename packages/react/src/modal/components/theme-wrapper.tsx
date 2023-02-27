@@ -16,8 +16,8 @@ export function ChakraProviderWithOuterTheme({
   const outerTheme = useContext(ThemeContext);
   const theme = useMemo(() => addSemanticTokens(outerTheme), [outerTheme]);
 
-  logger?.debug('[WalletModal] ChakraProvider `theme`:', theme);
-  logger?.debug('[WalletModal] ChakraProvider `resetCSS`:', true);
+  // logger?.debug('[WalletModal] ChakraProvider `theme`:', theme);
+  // logger?.debug('[WalletModal] ChakraProvider `resetCSS`:', true);
 
   return (
     <ChakraProvider theme={theme} resetCSS={true}>
@@ -43,8 +43,8 @@ export function ChakraProviderWithGivenTheme({
     }
   }, [theme]);
 
-  logger?.debug('[WalletModal] ChakraProvider `theme`:', _theme);
-  logger?.debug('[WalletModal] ChakraProvider `resetCSS`:', false);
+  // logger?.debug('[WalletModal] ChakraProvider `theme`:', _theme);
+  // logger?.debug('[WalletModal] ChakraProvider `resetCSS`:', false);
 
   return (
     <ChakraProvider theme={_theme} resetCSS={false}>

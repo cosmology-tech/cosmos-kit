@@ -38,6 +38,7 @@ export class ChainWalletBase extends WalletBase {
   protected _restEndpoint?: string;
   isActive = false;
   offlineSigner?: OfflineSigner;
+  namespace = 'cosmos';
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
@@ -129,8 +130,13 @@ export class ChainWalletBase extends WalletBase {
     );
     let accounts: SimpleAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
     if (typeof data === 'undefined') {
-      accounts = accounts.filter((a) => a.chainId !== this.chainId);
+      accounts = accounts.filter(
+        (a) => a.chainId !== this.chainId || a.namespace !== this.namespace
+      );
     } else {
+      accounts = accounts.filter(
+        (a) => a.chainId !== this.chainId || a.namespace !== this.namespace
+      );
       accounts.push(data);
     }
 
@@ -156,6 +162,9 @@ export class ChainWalletBase extends WalletBase {
 
       let account: WalletAccount;
       try {
+        this.logger?.info(
+          `Fetching ${this.walletName} ${this.chainId} account.`
+        );
         account = await this.client.getAccount(this.chainId);
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
@@ -171,7 +180,7 @@ export class ChainWalletBase extends WalletBase {
       }
 
       this.setData({
-        namespace: 'cosmos',
+        namespace: this.namespace,
         chainId: this.chainId,
         address: account.address,
         username: account.name,

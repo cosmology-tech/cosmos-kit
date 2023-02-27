@@ -242,14 +242,14 @@ export class WalletManager extends StateBase {
     return await this.getWalletRepo(_chainName).getNameService();
   };
 
-  private _handleConnect = async () => {
+  private _reconnect = async () => {
     this.logger?.info('[CORE EVENT] Emit `refresh_connection`');
     this.coreEmitter.emit('refresh_connection');
     const walletName = window.localStorage.getItem(
       'cosmos-kit@1:core//current-wallet'
     );
     if (walletName) {
-      await this.activeRepos[0]?.connect(walletName);
+      await this.activeRepos[0]?.connect(walletName, true);
     }
   };
 
@@ -303,11 +303,11 @@ export class WalletManager extends StateBase {
 
     this._wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-        window.addEventListener(eventName, this._handleConnect);
+        window.addEventListener(eventName, this._reconnect);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          wallet.client?.on?.(eventName, this._handleConnect);
+          wallet.client?.on?.(eventName, this._reconnect);
         }
       );
     });
@@ -319,11 +319,11 @@ export class WalletManager extends StateBase {
     }
     this._wallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-        window.removeEventListener(eventName, this._handleConnect);
+        window.removeEventListener(eventName, this._reconnect);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          wallet.client?.off?.(eventName, this._handleConnect);
+          wallet.client?.off?.(eventName, this._reconnect);
         }
       );
     });

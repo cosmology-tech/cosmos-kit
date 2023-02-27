@@ -120,7 +120,7 @@ export abstract class MainWalletBase extends WalletBase {
 
   async connectActive(exclude?: ChainName) {
     for (const [, w] of this.chainWallets) {
-      if (w.isActive && !w.isWalletConnected && w.chainName !== exclude) {
+      if (w.isActive && w.chainName !== exclude) {
         await w.connect();
       }
     }
@@ -128,7 +128,7 @@ export abstract class MainWalletBase extends WalletBase {
 
   disconnectActive(exclude?: ChainName) {
     this.chainWallets.forEach((w) => {
-      if (w.isActive && !w.isWalletDisconnected && w.chainName !== exclude) {
+      if (w.isActive && w.chainName !== exclude) {
         w.disconnect();
       }
     });

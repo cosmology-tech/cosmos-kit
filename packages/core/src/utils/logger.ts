@@ -2,10 +2,17 @@ import { dummyLogger, Logger as TsLogger } from 'ts-log';
 import { LogLevel } from '../types';
 
 function wrap(logLevel: LogLevel, message?: any) {
-  if (typeof message === 'string') {
-    return [`${logLevel} - ${message}`];
-  } else {
-    return [`${logLevel} -`, message];
+  switch (logLevel) {
+    case 'ERROR':
+      return [`%c${logLevel} -`, 'color: Red;', message];
+    case 'WARN':
+      return [`%c${logLevel} -`, 'color: Orange;', message];
+    case 'INFO':
+      return [`%c${logLevel} -`, 'color: Blue;', message];
+    case 'DEBUG':
+      return [`%c${logLevel} -`, 'color: Purple;', message];
+    case 'TRACE':
+      return [`%c${logLevel} -`, 'color: Brown;', message];
   }
 }
 

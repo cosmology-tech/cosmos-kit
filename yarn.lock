@@ -3145,7 +3145,7 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.29.5.tgz#3fed1b3528ae8c5f1eb5d29b68755bebfd3294ee"
   integrity sha512-m7h+RXDUxOzEOGt4P+3OVPX7PuakZT3GBmaM/Y2u+abN3xZkziykD/NvedYFvvCCdQo714XcGl33bwifS9FZPQ==
 
-"@cosmology-ui/react@^0.1.19":
+"@cosmology-ui/react@0.1.19":
   version "0.1.19"
   resolved "https://registry.npmjs.org/@cosmology-ui/react/-/react-0.1.19.tgz#1a1977486c769bd66391c8031ca051dca5c6f7eb"
   integrity sha512-Otc2DKYsWVMIbaCc0KmbJNwY/9UJU0fsZspgdwLraxaxb1EyjcarOamWLAaHkR9AUnUAoMTOFPllm81k+dUA7A==
@@ -3165,14 +3165,14 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
-"@cosmology-ui/utils@^0.1.22":
-  version "0.1.22"
-  resolved "https://registry.npmjs.org/@cosmology-ui/utils/-/utils-0.1.22.tgz#e3089b29d3031f04834d5c40ffc148c9d002929d"
-  integrity sha512-JwyEuaTQVE8/tI232ewTUF9rbVCTDpPrSHYfFd6a/d/dWZhTDQcI83F2wh7sbFLrhw2zHFNLgDd6fLigHB2wJw==
+"@cosmology-ui/utils@^0.1.22", "@cosmology-ui/utils@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.npmjs.org/@cosmology-ui/utils/-/utils-0.1.23.tgz#7ccdebeda55e4c21d2a0c70b5d0f74ccd9a9cc8a"
+  integrity sha512-AouXQfibHJv036NuCiumpdJlSsgaovb118MvLgkBOhmIx8WJ5EsTQ2ItVviq26x6ktL2dJMuPzshtFhpNGF4BA==
   dependencies:
     "@babel/runtime" "^7.11.2"
     "@chakra-ui/react" "^2.5.1"
-    "@cosmology-ui/utils" "^0.1.22"
+    "@cosmology-ui/utils" "^0.1.23"
     "@emotion/react" "^11.10.6"
     "@emotion/styled" "^11.10.6"
     bowser "2.11.0"
@@ -5583,28 +5583,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=16":
-  version "18.0.28"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.28.tgz#accaeb8b86f4908057ad629a26635fe641480065"
-  integrity sha512-RD0ivG1kEztNBdoAK7lekI9M+azSnitIn85h4iOiaLjaTrMjzslhaqCGaI4IyCJ1RljWiLCEu4jyrLLgqxBTew==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@18.0.20":
+"@types/react@*", "@types/react@18.0.20", "@types/react@18.0.25", "@types/react@>=16":
   version "18.0.20"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.20.tgz#e4c36be3a55eb5b456ecf501bd4a00fd4fd0c9ab"
   integrity sha512-MWul1teSPxujEHVwZl4a5HxQ9vVNsjTchVA+xRqv/VYGCuKGAU6UhfrTdF5aBefwD1BHUD8i/zq+O/vyCm/FrA==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@18.0.25":
-  version "18.0.25"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.0.25.tgz#8b1dcd7e56fe7315535a4af25435e0bb55c8ae44"
-  integrity sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -6048,6 +6030,7 @@
     tslib "1.14.1"
 
 "@walletconnect/types-v1@npm:@walletconnect/types@1.8.0", "@walletconnect/types@^1.8.0":
+  name "@walletconnect/types-v1"
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz#3f5e85b2d6b149337f727ab8a71b8471d8d9a195"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==

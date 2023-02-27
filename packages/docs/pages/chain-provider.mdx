@@ -116,37 +116,13 @@ In addition, you can integrate new wallets in a few steps.
 
 Optional property of type `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
 
-So far there are two versions of modal available: `'simple_v1' | 'simple_v2'`.
-
-If `walletModal` not provided, by default using `simple_v2` for modal.
-
-<div width="100%" style={{
-  display:'flex',
-  justifyContent:'center',
-  alignItems: 'center',
-  marginTop: '36px'
-  }}>
-    <div style={{marginRight:'56px'}}>
-    simple_v1
-        <img
-        width="300"
-        src="/img/modal_simple_v1.jpg"
-        />
-    </div>
-    <div style={{marginRight:'16px'}}>
-    simple_v2
-        <img
-        width="300"
-        src="/img/modal_simple_v2.jpg"
-        />
-    </div>
-</div>
-
-For `simple_v1`, the order of wallets follows the order of property `wallets` in ChainProvider. And basically `simple_v2` follows the same rule, except that all mobiles are moved to the back.
+Basically the order of wallets follows the order of property `wallets` in ChainProvider, except that all mobiles are moved to the back.
 
 You can also define your own modal component with required props.
 
 ### customize modal with `walletModal`
+
+> Hint: suggest using [`modalViews`](#modalviews) to customize modal instead if you only need to customize modal UI without involving any customized data logic. `modalViews` provides an easy and fast way to partially change the default modal UI.
 
 Example of using self-defined modal.
 
@@ -200,7 +176,7 @@ function CosmosApp() {
 
 ## modalViews
 
-Optional property of type `ModalViews`. If you only need to customize modal UI without involving any data logic, use `modalViews` instead of `walletModal`.
+Optional property of type `ModalViews`.
 
 **Type**
 
