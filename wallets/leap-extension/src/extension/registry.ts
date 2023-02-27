@@ -11,6 +11,7 @@ export const leapExtensionInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
+  connectEventNamesOnWindow: ['leap_keystorechange'],
   downloads: [
     {
       device: 'desktop',
