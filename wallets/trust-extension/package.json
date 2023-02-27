@@ -84,12 +84,11 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3"
+    "typescript": "4.8.3",
+    "@babel/runtime": "7.11.2"
   },
   "dependencies": {
-    "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^1.1.0",
-    "react-icons": "4.4.0"
+    "@cosmos-kit/core": "^1.1.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

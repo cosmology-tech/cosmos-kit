@@ -1,6 +1,4 @@
 import { Wallet } from '@cosmos-kit/core';
-import { GoDesktopDownload } from 'react-icons/go';
-import { RiChromeFill } from 'react-icons/ri';
 
 export const cosmostationExtensionInfo: Wallet = {
   name: 'cosmostation-extension',
@@ -11,11 +9,9 @@ export const cosmostationExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      icon: RiChromeFill,
       link: 'https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf?hl=en',
     },
     {
-      icon: GoDesktopDownload,
       link: 'https://cosmostation.io/wallet/#extension',
     },
   ],

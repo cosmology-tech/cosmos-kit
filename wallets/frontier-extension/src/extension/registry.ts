@@ -1,6 +1,4 @@
 import { Wallet } from '@cosmos-kit/core';
-import { GoDesktopDownload } from 'react-icons/go';
-import { RiChromeFill } from 'react-icons/ri';
 
 export const frontierExtensionInfo: Wallet = {
   name: 'frontier-extension',
@@ -15,14 +13,10 @@ export const frontierExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      icon: RiChromeFill,
-      link:
-        'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
+      link: 'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
     },
     {
-      icon: GoDesktopDownload,
-      link:
-        'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
+      link: 'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
     },
   ],
 };

@@ -10,7 +10,6 @@ import {
   OfflineSigner,
 } from '@cosmjs/proto-signing';
 import { SignClientTypes } from '@walletconnect/types';
-import { IconType } from 'react-icons';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainName, ChainRecord } from './chain';
@@ -44,7 +43,7 @@ export enum WalletStatus {
 }
 
 export interface DownloadInfo extends AppEnv {
-  icon: IconType;
+  icon?: (props: any) => JSX.Element; // currenly only support { IconType } from 'react-icons';
   link: string;
 }
 

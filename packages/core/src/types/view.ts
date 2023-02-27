@@ -1,5 +1,3 @@
-import { RefObject } from 'react';
-
 import { ChainWalletBase } from '../bases';
 import { WalletRepo } from '../repository';
 import { Dispatch } from './common';
@@ -26,6 +24,10 @@ export interface WalletViewProps {
   wallet: ChainWalletBase;
 }
 
+interface RefObject<T> {
+  readonly current: T | null;
+}
+
 export interface WalletListViewProps {
   onClose: () => void;
   wallets: ChainWalletBase[];
@@ -35,7 +37,7 @@ export interface WalletListViewProps {
 type SingleWalletView = `${Exclude<ModalView, ModalView.WalletList>}`;
 
 export type ModalViews = {
-    [p in SingleWalletView]?: (props: WalletViewProps) => JSX.Element;
+  [p in SingleWalletView]?: (props: WalletViewProps) => JSX.Element;
 } & {
-    WalletList?: (props: WalletListViewProps) => JSX.Element;
+  WalletList?: (props: WalletListViewProps) => JSX.Element;
 };

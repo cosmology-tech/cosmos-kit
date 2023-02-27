@@ -6,8 +6,12 @@ import {
   SimpleModalView,
 } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { GoDesktopDownload } from 'react-icons/go';
+import { RiChromeFill } from 'react-icons/ri';
+import { FaAndroid } from 'react-icons/fa';
+import { RiAppStoreFill } from 'react-icons/ri';
+import { GrFirefox } from 'react-icons/gr';
 
 export const NotExistView = ({
   onClose,
@@ -21,6 +25,14 @@ export const NotExistView = ({
 
   const onInstall = useCallback(() => {
     window.open(downloadInfo?.link, '_blank');
+  }, [downloadInfo]);
+
+  const icon = useMemo(() => {
+    if (downloadInfo?.browser === 'chrome') return RiChromeFill;
+    if (downloadInfo?.browser === 'firefox') return GrFirefox;
+    if (downloadInfo?.os === 'android') return FaAndroid;
+    if (downloadInfo?.os === 'ios') return RiAppStoreFill;
+    return GoDesktopDownload;
   }, [downloadInfo]);
 
   const modalHead = (
@@ -44,7 +56,7 @@ export const NotExistView = ({
       }
       bottomButton={
         <InstallWalletButton
-          icon={downloadInfo?.icon || GoDesktopDownload}
+          icon={icon}
           buttonText={`Install ${prettyName}`}
           onClick={onInstall}
           disabled={!downloadInfo?.link}

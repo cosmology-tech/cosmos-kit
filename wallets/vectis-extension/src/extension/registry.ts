@@ -1,5 +1,4 @@
 import { Wallet } from '@cosmos-kit/core';
-import { RiChromeFill } from 'react-icons/ri';
 
 export const vectisExtensionInfo: Wallet = {
   name: 'vectis-extension',
@@ -16,7 +15,6 @@ export const vectisExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      icon: RiChromeFill,
       link: 'https://chrome.google.com/webstore/detail/vectis-wallet/cgkaddoglojnmfiblgmlinfaijcdpfjm',
     },
   ],
