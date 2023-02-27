@@ -1,6 +1,3 @@
-/* eslint-disable no-empty */
-/* eslint-disable no-console */
-
 import { Logger } from './logger';
 
 export const isValidEndpoint = async (

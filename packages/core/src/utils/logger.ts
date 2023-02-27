@@ -1,4 +1,3 @@
-import { dummyLogger, Logger as TsLogger } from 'ts-log';
 import { LogLevel } from '../types';
 
 function wrap(logLevel: LogLevel, message?: any) {
@@ -16,8 +15,8 @@ function wrap(logLevel: LogLevel, message?: any) {
   }
 }
 
-export class Logger implements TsLogger {
-  private readonly logger: TsLogger;
+export class Logger {
+  private readonly logger: Console;
   public readonly level: LogLevel;
   public readonly levelOrder: LogLevel[] = [
     'TRACE',
@@ -27,8 +26,8 @@ export class Logger implements TsLogger {
     'ERROR',
   ];
 
-  public constructor(logger: TsLogger = dummyLogger, level: LogLevel = 'INFO') {
-    this.logger = logger;
+  public constructor(level: LogLevel = 'INFO') {
+    this.logger = console;
     this.level = level;
   }
 

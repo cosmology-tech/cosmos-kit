@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           ...keplrWallets,
           // ...cosmostationWallets,
-          ...leapWallets,
+          // ...leapWallets,
           // ...vectisWallets,
           // ...xdefiWallets,
           // ...omniWallets,
@@ -53,6 +53,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           signClient: {
             projectId: "a8510432ebb71e6948cfd6cde54b70f7",
             relayUrl: "wss://relay.walletconnect.org",
+            metadata: {
+              name: "CosmosKit Example",
+              description: "CosmosKit test dapp",
+              url: "https://test.cosmoskit.com/",
+              icons: [],
+            },
           },
         }}
         signerOptions={{

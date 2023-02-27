@@ -43,7 +43,7 @@ export const QRCodeView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
         }
         break;
       default:
-        throw new Error(`No corresponding QRCodeStatus for State ${state}.`);
+        status = QRCodeStatus.Error;
     }
 
     return [desc, errorTitle, errorDesc, status];

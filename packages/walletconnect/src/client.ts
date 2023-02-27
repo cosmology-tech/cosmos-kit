@@ -411,7 +411,7 @@ export class WCClient implements WalletClient {
         params: {},
       },
     });
-    const result = (resp as any)['result'][0] as WCAccount;
+    const result = (resp as any)[0] as WCAccount;
 
     return {
       address: result.address,
@@ -450,7 +450,7 @@ export class WCClient implements WalletClient {
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    return ((await this.signClient.request({
+    const resp = await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
       request: {
@@ -460,7 +460,8 @@ export class WCClient implements WalletClient {
           signDoc,
         },
       },
-    })) as any)['result'] as AminoSignResponse;
+    });
+    return resp as any as AminoSignResponse;
   }
 
   async signDirect(
@@ -473,7 +474,7 @@ export class WCClient implements WalletClient {
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    return ((await this.signClient.request({
+    const resp = await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
       request: {
@@ -483,7 +484,8 @@ export class WCClient implements WalletClient {
           signDoc,
         },
       },
-    })) as any)['result'] as DirectSignResponse;
+    });
+    return resp as any as DirectSignResponse;
   }
 
   // restoreLatestSession() {

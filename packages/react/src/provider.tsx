@@ -67,7 +67,7 @@ export const ChainProvider = ({
   logLevel?: LogLevel;
   children: ReactNode;
 }) => {
-  const logger = useMemo(() => new Logger(console, logLevel), []);
+  const logger = useMemo(() => new Logger(logLevel), []);
   if (wrappedWithChakra && modalTheme) {
     logger.warn(
       'Your are suggesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
