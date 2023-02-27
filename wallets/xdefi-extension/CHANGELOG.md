@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi-extension@0.14.10...@cosmos-kit/xdefi-extension@0.15.0) (2023-02-27)
+
+
+### Features
+
+* leap account change and debug ([9006aac](https://github.com/cosmology-tech/cosmos-kit/commit/9006aac6c453262e9ac890c34616622b50dc5766))
+
+
+
+
+
 ## [0.14.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi-extension@0.14.9...@cosmos-kit/xdefi-extension@0.14.10) (2023-02-24)
 
 **Note:** Version bump only for package @cosmos-kit/xdefi-extension

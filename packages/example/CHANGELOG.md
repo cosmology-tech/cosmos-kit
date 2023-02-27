@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.35.21...example@0.36.0) (2023-02-27)
+
+
+### Features
+
+* leap account change and debug ([9006aac](https://github.com/cosmology-tech/cosmos-kit/commit/9006aac6c453262e9ac890c34616622b50dc5766))
+
+
+
+
+
 ## [0.35.21](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.35.20...example@0.35.21) (2023-02-24)
 
 **Note:** Version bump only for package example
