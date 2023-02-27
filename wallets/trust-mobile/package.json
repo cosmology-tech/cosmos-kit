@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust-mobile",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -81,6 +81,7 @@
     "@babel/plugin-transform-runtime": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
+    "@babel/runtime": "7.11.2",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.3",
@@ -99,12 +100,11 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3",
-    "@babel/runtime": "7.11.2"
+    "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/core": "^1.1.0",
-    "@cosmos-kit/walletconnect": "^0.2.0"
+    "@cosmos-kit/core": "^1.1.1",
+    "@cosmos-kit/walletconnect": "^0.2.1"
   },
   "gitHead": "7ac9697baeac9874d405b26d27b3403e9194213d"
 }
