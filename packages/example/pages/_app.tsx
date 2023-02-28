@@ -39,13 +39,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...keplrWallets,
+          // ...keplrWallets,
           // ...cosmostationWallets,
           // ...leapWallets,
           // ...vectisWallets,
           // ...xdefiWallets,
           // ...omniWallets,
-          // ...trustWallets,
+          ...trustWallets,
           // ...frontierWallets,
         ]}
         defaultNameService={"stargaze"}

@@ -416,7 +416,7 @@ export class WCClient implements WalletClient {
     return {
       address: result.address,
       algo: result.algo,
-      pubkey: Buffer.from(result.pubkey, 'hex'),
+      pubkey: new Uint8Array(Buffer.from(result.pubkey)),
     };
   }
 
@@ -450,7 +450,7 @@ export class WCClient implements WalletClient {
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    const resp = await this.signClient.request({
+    const resp = (await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
       request: {
@@ -460,8 +460,11 @@ export class WCClient implements WalletClient {
           signDoc,
         },
       },
-    });
-    return resp as any as AminoSignResponse;
+    })) as any;
+    return {
+      signed: resp.signDoc || signDoc,
+      signature: resp.signature,
+    } as AminoSignResponse;
   }
 
   async signDirect(
@@ -474,18 +477,26 @@ export class WCClient implements WalletClient {
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    const resp = await this.signClient.request({
+    const resp = (await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
       request: {
         method: 'cosmos_signDirect',
         params: {
           signerAddress: signer,
-          signDoc,
+          signDoc: {
+            ...signDoc,
+            bodyBytes: Buffer.from(signDoc.bodyBytes).toString('hex'),
+            authInfoBytes: Buffer.from(signDoc.authInfoBytes).toString('hex'),
+            accountNumber: signDoc.accountNumber.toString(),
+          },
         },
       },
-    });
-    return resp as any as DirectSignResponse;
+    })) as any;
+    return {
+      signed: resp.signDoc || signDoc,
+      signature: resp.signature,
+    } as DirectSignResponse;
   }
 
   // restoreLatestSession() {
