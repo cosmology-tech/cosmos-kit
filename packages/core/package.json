@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/core",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -84,6 +84,7 @@
     "@babel/plugin-transform-typescript": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
+    "@babel/runtime": "7.11.2",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.0",
@@ -102,8 +103,7 @@
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
-    "typescript": "4.8.3",
-    "@babel/runtime": "7.11.2"
+    "typescript": "4.8.3"
   },
   "dependencies": {
     "@chain-registry/types": "0.13.0",

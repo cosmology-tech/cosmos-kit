@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.36.1",
+  "version": "0.36.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,12 +16,12 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
-    "@cosmos-kit/core": "^1.1.1",
-    "@cosmos-kit/cosmostation": "^0.15.1",
-    "@cosmos-kit/keplr": "^0.33.1",
-    "@cosmos-kit/leap": "^0.14.1",
-    "@cosmos-kit/react": "^1.2.1",
-    "@cosmos-kit/vectis": "^0.15.1",
+    "@cosmos-kit/core": "^1.1.2",
+    "@cosmos-kit/cosmostation": "^0.15.2",
+    "@cosmos-kit/keplr": "^0.33.2",
+    "@cosmos-kit/leap": "^0.14.2",
+    "@cosmos-kit/react": "^1.2.2",
+    "@cosmos-kit/vectis": "^0.15.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@web3modal/core": "^2.0.0-rc.1",
