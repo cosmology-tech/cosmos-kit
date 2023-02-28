@@ -1,10 +1,10 @@
 import {
+  AccountData,
   AminoSignResponse,
   OfflineAminoSigner,
   StdSignDoc,
 } from '@cosmjs/amino';
 import {
-  Algo,
   DirectSignResponse,
   OfflineDirectSigner,
   OfflineSigner,
@@ -80,11 +80,8 @@ export interface Wallet {
 
 export type Bech32Address = string;
 
-export interface WalletAccount {
-  address: Bech32Address;
-  pubkey?: Uint8Array;
-  algo?: Algo | undefined;
-  name?: string;
+export interface WalletAccount extends AccountData {
+  username?: string;
   isNanoLedger?: boolean;
 }
 
@@ -115,8 +112,7 @@ export declare enum BroadcastMode {
 }
 
 export interface WalletClient {
-  getAccount: (chainId: string) => Promise<WalletAccount>;
-  getOfflineSigner: (chainId: string) => Promise<OfflineSigner> | OfflineSigner;
+  getSimpleAccount: (chainId: string) => Promise<SimpleAccount>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<string>;
@@ -127,6 +123,10 @@ export interface WalletClient {
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
+  getAccount?: (chainId: string) => Promise<WalletAccount>;
+  getOfflineSigner?: (
+    chainId: string
+  ) => Promise<OfflineSigner> | OfflineSigner;
   getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
   getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
   signAmino?: (

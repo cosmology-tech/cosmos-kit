@@ -14,10 +14,20 @@ export class TrustClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
+  async getSimpleAccount(chainId: string) {
+    const { address, username } = await this.getAccount(chainId);
+    return {
+      namespace: 'cosmos',
+      chainId,
+      address,
+      username,
+    };
+  }
+
   async getAccount(chainId: string) {
     const key = await this.client.getKey(chainId);
     return {
-      name: key.name,
+      username: key.name,
       address: key.bech32Address,
       algo: key.algo as Algo,
       pubkey: key.pubKey,

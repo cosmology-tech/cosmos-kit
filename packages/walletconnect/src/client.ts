@@ -3,7 +3,11 @@ import {
   OfflineAminoSigner,
   StdSignDoc,
 } from '@cosmjs/amino';
-import { DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
+import {
+  Algo,
+  DirectSignResponse,
+  OfflineDirectSigner,
+} from '@cosmjs/proto-signing';
 import {
   DirectSignDoc,
   ExpiredError,
@@ -23,8 +27,9 @@ import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
 import { PairingTypes, SessionTypes } from '@walletconnect/types';
 import EventEmitter from 'events';
-import { WCAccount } from './types';
 import { CoreUtil } from './utils';
+import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
+import Long from 'long';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -386,19 +391,37 @@ export class WCClient implements WalletClient {
     this.logger?.info('[WALLET EVENT] Emit `sync_disconnect`');
   }
 
-  async getAccount(chainId: string): Promise<WalletAccount> {
+  async getSimpleAccount(chainId: string): Promise<SimpleAccount> {
     const account = this.accounts.find(({ chainId: id }) => id === chainId);
     if (!account) {
       throw new Error(
         `Chain ${chainId} is not connected yet, please check the session approval namespaces`
       );
     }
-    return {
-      address: account.address,
-    };
+    return account;
   }
 
-  async getKey(chainId: string) {
+  getOfflineSignerAmino(chainId: string) {
+    return {
+      getAccounts: async () => [await this.getAccount(chainId)],
+      signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
+        this.signAmino(chainId, signerAddress, signDoc),
+    } as OfflineAminoSigner;
+  }
+
+  getOfflineSignerDirect(chainId: string) {
+    return {
+      getAccounts: async () => [await this.getAccount(chainId)],
+      signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
+        this.signDirect(chainId, signerAddress, signDoc),
+    } as OfflineDirectSigner;
+  }
+
+  async getOfflineSigner(chainId: string) {
+    return this.getOfflineSignerDirect(chainId);
+  }
+
+  protected async _getAccount(chainId: string) {
     const session = this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
@@ -411,46 +434,32 @@ export class WCClient implements WalletClient {
         params: {},
       },
     });
-    const result = (resp as any)[0] as WCAccount;
+    this.logger?.info(`Response of cosmos_getAccounts`, resp);
+    return resp;
+  }
 
+  async getAccount(chainId: string): Promise<WalletAccount> {
+    const { address, algo, pubkey } = (
+      await this._getAccount(chainId)
+    )[0] as WCAccount;
     return {
-      address: result.address,
-      algo: result.algo,
-      pubkey: new Uint8Array(Buffer.from(result.pubkey)),
+      address,
+      algo: algo as Algo,
+      pubkey: new Uint8Array(Buffer.from(pubkey, 'hex')),
     };
   }
 
-  getOfflineSignerAmino(chainId: string) {
-    return {
-      getAccounts: async () => [await this.getKey(chainId)],
-      signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
-        this.signAmino(chainId, signerAddress, signDoc),
-    } as OfflineAminoSigner;
-  }
-
-  getOfflineSignerDirect(chainId: string) {
-    return {
-      getAccounts: async () => [await this.getKey(chainId)],
-      signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
-        this.signDirect(chainId, signerAddress, signDoc),
-    } as OfflineDirectSigner;
-  }
-
-  async getOfflineSigner(chainId: string) {
-    return this.getOfflineSignerDirect(chainId);
-  }
-
-  async signAmino(
+  protected async _signAmino(
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ): Promise<AminoSignResponse> {
+  ) {
     const session = this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
-    const resp = (await this.signClient.request({
+    const resp = await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
       request: {
@@ -460,11 +469,55 @@ export class WCClient implements WalletClient {
           signDoc,
         },
       },
-    })) as any;
-    return {
-      signed: resp.signDoc || signDoc,
-      signature: resp.signature,
-    } as AminoSignResponse;
+    });
+    this.logger?.info(`Response of cosmos_signAmino`, resp);
+    return resp;
+  }
+
+  async signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    signOptions?: SignOptions
+  ): Promise<AminoSignResponse> {
+    const result = (await this._signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions
+    )) as AminoSignResponse;
+    return result;
+  }
+
+  protected async _signDirect(
+    chainId: string,
+    signer: string,
+    signDoc: DirectSignDoc,
+    signOptions?: SignOptions
+  ) {
+    const session = this.getSession('cosmos', chainId);
+    if (!session) {
+      throw new Error(`Session for ${chainId} not established yet.`);
+    }
+    const signDocValue: WCSignDirectRequest = {
+      signerAddress: signer,
+      signDoc: {
+        chainId: signDoc.chainId,
+        bodyBytes: Buffer.from(signDoc.bodyBytes).toString('hex'),
+        authInfoBytes: Buffer.from(signDoc.authInfoBytes).toString('hex'),
+        accountNumber: signDoc.accountNumber.toString(),
+      },
+    };
+    const resp = await this.signClient.request({
+      topic: session.topic,
+      chainId: `cosmos:${chainId}`,
+      request: {
+        method: 'cosmos_signDirect',
+        params: signDocValue,
+      },
+    });
+    this.logger?.info(`Response of cosmos_signDirect`, resp);
+    return resp;
   }
 
   async signDirect(
@@ -473,30 +526,21 @@ export class WCClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ): Promise<DirectSignResponse> {
-    const session = this.getSession('cosmos', chainId);
-    if (!session) {
-      throw new Error(`Session for ${chainId} not established yet.`);
-    }
-    const resp = (await this.signClient.request({
-      topic: session.topic,
-      chainId: `cosmos:${chainId}`,
-      request: {
-        method: 'cosmos_signDirect',
-        params: {
-          signerAddress: signer,
-          signDoc: {
-            ...signDoc,
-            bodyBytes: Buffer.from(signDoc.bodyBytes).toString('hex'),
-            authInfoBytes: Buffer.from(signDoc.authInfoBytes).toString('hex'),
-            accountNumber: signDoc.accountNumber.toString(),
-          },
-        },
-      },
-    })) as any;
+    const { signed, signature } = (await this._signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions
+    )) as WCSignDirectResponse;
     return {
-      signed: resp.signDoc || signDoc,
-      signature: resp.signature,
-    } as DirectSignResponse;
+      signed: {
+        chainId: signed.chainId,
+        accountNumber: Long.fromString(signed.accountNumber, false),
+        authInfoBytes: new Uint8Array(Buffer.from(signed.authInfoBytes, 'hex')),
+        bodyBytes: new Uint8Array(Buffer.from(signed.bodyBytes, 'hex')),
+      },
+      signature,
+    };
   }
 
   // restoreLatestSession() {

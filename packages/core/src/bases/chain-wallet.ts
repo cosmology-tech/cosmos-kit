@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
@@ -25,7 +24,6 @@ import {
   SimpleAccount,
   State,
   Wallet,
-  WalletAccount,
 } from '../types';
 import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
@@ -160,12 +158,12 @@ export class ChainWalletBase extends WalletBase {
     try {
       await this.client.connect?.(this.chainId, this.isMobile);
 
-      let account: WalletAccount;
+      let account: SimpleAccount;
       try {
         this.logger?.info(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getAccount(this.chainId);
+        account = await this.client.getSimpleAccount(this.chainId);
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
@@ -173,18 +171,13 @@ export class ChainWalletBase extends WalletBase {
         }
         if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
-          account = await this.client.getAccount(this.chainId);
+          account = await this.client.getSimpleAccount(this.chainId);
         } else {
           throw error;
         }
       }
 
-      this.setData({
-        namespace: this.namespace,
-        chainId: this.chainId,
-        address: account.address,
-        username: account.name,
-      });
+      this.setData(account);
       this.setState(State.Done);
       this.setMessage(void 0);
 

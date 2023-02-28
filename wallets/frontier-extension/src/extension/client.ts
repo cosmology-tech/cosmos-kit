@@ -20,11 +20,21 @@ export class FrontierClient implements WalletClient {
     await this.client.disconnect();
   }
 
+  async getSimpleAccount(chainId: string) {
+    const { address, username } = await this.getAccount(chainId);
+    return {
+      namespace: 'cosmos',
+      chainId,
+      address,
+      username,
+    };
+  }
+
   async getAccount(chainId: string) {
     const key = await this.client.getKey(chainId);
     console.log('%cclient.ts line:25 key', 'color: #007acc;', key);
     return {
-      name: key.name,
+      username: key.name,
       address: key.bech32Address,
       algo: key.algo as Algo,
       pubkey: key.pubKey,

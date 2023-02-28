@@ -39,7 +39,7 @@ const sendTokens = (
       amount: [
         {
           denom: coin.base,
-          amount: "1000",
+          amount: "1",
         },
       ],
       toAddress: address,
@@ -69,8 +69,13 @@ const sendTokens = (
 };
 
 export default function Home() {
-  const { getSigningStargateClient, address, status, getRpcEndpoint, client } =
-    useChain(chainName);
+  const {
+    getSigningStargateClient,
+    address,
+    status,
+    getRpcEndpoint,
+    client,
+  } = useChain(chainName);
 
   const [balance, setBalance] = useState(new BigNumber(0));
   const [isFetchingBalance, setFetchingBalance] = useState(false);
@@ -112,7 +117,7 @@ export default function Home() {
     setFetchingBalance(false);
   };
 
-  const signDoc = {
+  const directSignDoc = {
     bodyBytes:
       "0a90010a1c2f636f736d6f732e62616e6b2e763162657461312e4d736753656e6412700a2d636f736d6f7331706b707472653766646b6c366766727a6c65736a6a766878686c63337234676d6d6b38727336122d636f736d6f7331717970717870713971637273737a673270767871367273307a716733797963356c7a763778751a100a0575636f736d120731323334353637",
     authInfoBytes:
@@ -121,7 +126,14 @@ export default function Home() {
     accountNumber: "1",
   };
 
-  // const signDoc = {
+  const aminoSignDoc = {
+    msgs: [],
+    fee: { amount: [], gas: "23" },
+    chain_id: "foochain",
+    memo: "hello, world",
+    account_number: "7",
+    sequence: "54",
+  };
   //   bodyBytes: {
   //     "0": 10,
   //     "1": 141,
@@ -402,7 +414,7 @@ export default function Home() {
         />
         <Button
           onClick={async () => {
-            const r = await (client as any).getKey("cosmoshub-4");
+            const r = await (client as any).getAccount("cosmoshub-4");
             console.log(
               "%ctx.tsx line:396 cosmos_getAccounts",
               "color: #007acc;",
@@ -415,10 +427,10 @@ export default function Home() {
         <Button
           onClick={async () => {
             if (address) {
-              const r = await client?.signDirect?.(
+              const r = await client?.signAmino?.(
                 "cosmoshub-4",
                 address,
-                signDoc
+                aminoSignDoc
               );
               console.log(
                 "%ctx.tsx line:396 cosmos_signDirect",
@@ -428,7 +440,7 @@ export default function Home() {
             }
           }}
         >
-          cosmos_signDirect
+          cosmos_signAmino
         </Button>
       </Center>
     </Container>

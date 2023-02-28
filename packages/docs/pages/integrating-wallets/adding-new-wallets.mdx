@@ -67,22 +67,14 @@
 
 | Key      | Type | Description |
 | ----------- | ----------- | -- |
-| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   | - |
-| **getOfflineSigner**   | `(chainId: string) => Promise<OfflineSigner>`   | if `isNanoLedger` or indefinite, will return `OfflineAminoSigner`, else return `OfflineDirectSigner` |
-
-\* *Type **WalletAccount***
-
-```ts
-interface WalletAccount {
-  name?: string; // username
-  address: string;
-}
-```
+| **getSimpleAccount**      | `(chainId: string) => Promise<SimpleAccount>`   | - |
 
 #### Optional methods
 
 | Key      | Type | Description |
 | ----------- | ----------- | -- |
+| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   | - |
+| **getOfflineSigner**   | `(chainId: string) => Promise<OfflineSigner>`   | if `isNanoLedger` or indefinite, will return `OfflineAminoSigner`, else return `OfflineDirectSigner` |
 | **enable**      | `(chainIds: string \| string[]) => Promise<void>`   | give permission for the webpage to access wallet |
 | **addChain**   | `(chainInfo: ChainRecord) => Promise<void>`   | add new Cosmos-SDK based blockchains that isn't natively integrated to wallet app/extension |
 | **on**   | `(type: string, listener: EventListenerOrEventListenerObject) => void`   | add event listener |

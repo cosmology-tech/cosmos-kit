@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { StdSignDoc } from '@cosmjs/amino';
+import { Algo, StdSignDoc } from '@cosmjs/amino';
 import {
   ChainRecord,
   DirectSignDoc,
@@ -21,8 +21,31 @@ export class VectisClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
+  async getSimpleAccount(chainId: string) {
+    const { address, username } = await this.getAccount(chainId);
+    return {
+      namespace: 'cosmos',
+      chainId,
+      address,
+      username,
+    };
+  }
+
   async getAccount(chainId: string) {
-    return await this.client.getKey(chainId);
+    const {
+      address,
+      algo,
+      pubkey,
+      name,
+      isNanoLedger,
+    } = await this.client.getKey(chainId);
+    return {
+      username: name,
+      address,
+      algo: algo as Algo,
+      pubkey,
+      isNanoLedger,
+    };
   }
 
   async getOfflineSigner(chainId: string) {

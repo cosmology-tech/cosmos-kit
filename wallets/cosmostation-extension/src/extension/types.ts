@@ -1,3 +1,4 @@
+import { Algo } from '@cosmjs/proto-signing';
 import { Keplr } from '@keplr-wallet/types';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -30,4 +31,5 @@ export type RequestAccountResponse = {
   address: string;
   publicKey: Uint8Array;
   isLedger: boolean;
+  algo: Algo;
 };

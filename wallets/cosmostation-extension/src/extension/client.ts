@@ -30,15 +30,26 @@ export class CosmostationClient implements WalletClient {
     return this.client.providers.keplr;
   }
 
+  async getSimpleAccount(chainId: string) {
+    const { address, username } = await this.getAccount(chainId);
+    return {
+      namespace: 'cosmos',
+      chainId,
+      address,
+      username,
+    };
+  }
+
   async getAccount(chainId: string) {
     const key = (await this.cosmos.request({
       method: 'cos_requestAccount',
       params: { chainName: chainId },
     })) as RequestAccountResponse;
     return {
-      name: key.name,
+      username: key.name,
       address: key.address,
       pubkey: key.publicKey,
+      algo: key.algo,
     };
   }
 
