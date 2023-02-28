@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-mobile@0.15.2...@cosmos-kit/cosmostation-mobile@0.15.3) (2023-02-28)
+
+**Note:** Version bump only for package @cosmos-kit/cosmostation-mobile
+
+
+
+
+
 ## [0.15.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-mobile@0.15.1...@cosmos-kit/cosmostation-mobile@0.15.2) (2023-02-28)
 
 **Note:** Version bump only for package @cosmos-kit/cosmostation-mobile
