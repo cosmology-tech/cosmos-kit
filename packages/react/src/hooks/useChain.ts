@@ -1,114 +1,7 @@
-import { ThemeContext as themeContext, Themes } from '@cosmology-ui/react';
-import {
-  ChainContext,
-  ChainName,
-  getNameServiceRegistryFromName,
-  ManagerContext,
-  Mutable,
-  NameService,
-  NameServiceName,
-  State,
-  ModalThemeContext,
-  WalletStatus,
-  ModalTheme,
-} from '@cosmos-kit/core';
-import React, { useState } from 'react';
+import { ChainContext, ChainName, WalletStatus } from '@cosmos-kit/core';
+import React from 'react';
 
-import { walletContext } from './provider';
-
-export const useModalTheme = (): ModalThemeContext => {
-  const context = React.useContext(themeContext);
-
-  if (!context) {
-    throw new Error('You have forgot to use ThemeProvider.');
-  }
-
-  return {
-    modalTheme: context.theme.toString() as ModalTheme,
-    setModalTheme: (theme: ModalTheme) => {
-      switch (theme) {
-        case 'dark':
-          context.setTheme(Themes.Dark);
-          break;
-        case 'light':
-          context.setTheme(Themes.Light);
-          break;
-      }
-    },
-  };
-};
-
-export const useManager = (): ManagerContext => {
-  const context = React.useContext(walletContext);
-
-  if (!context) {
-    throw new Error('You have forgot to use ChainProvider.');
-  }
-
-  const {
-    walletManager: {
-      chainRecords,
-      walletRepos,
-      defaultNameService,
-      getChainRecord,
-      getWalletRepo,
-      addChains,
-      getChainLogo,
-      getNameService,
-      on,
-      off,
-    },
-  } = context;
-
-  return {
-    chainRecords,
-    walletRepos,
-    defaultNameService,
-    getChainRecord,
-    getWalletRepo,
-    addChains,
-    getChainLogo,
-    getNameService,
-    on,
-    off,
-  };
-};
-
-export const useNameService = (
-  name?: NameServiceName
-): Mutable<NameService> => {
-  const [state, setState] = useState<State>(State.Pending);
-  const [ns, setNs] = useState<NameService>();
-  const [msg, setMsg] = useState<string>();
-
-  const { defaultNameService } = useManager();
-  const registry = getNameServiceRegistryFromName(name || defaultNameService);
-  if (!registry) {
-    throw new Error('No such name service: ' + (name || defaultNameService));
-  }
-
-  const { getCosmWasmClient } = useChain(registry.chainName);
-
-  getCosmWasmClient()
-    .then((client) => {
-      setNs(new NameService(client, registry));
-      setState(State.Done);
-    })
-    .catch((e) => {
-      setMsg((e as Error).message);
-      setState(State.Error);
-    })
-    .finally(() => {
-      if (state === 'Pending') {
-        setState(State.Init);
-      }
-    });
-  return {
-    state,
-    data: ns,
-    message: msg,
-  };
-};
+import { walletContext } from '../provider';
 
 export const useChain = (chainName: ChainName): ChainContext => {
   const context = React.useContext(walletContext);
@@ -181,9 +74,9 @@ export const useChain = (chainName: ChainName): ChainContext => {
   return {
     walletRepo: walletRepo,
     chainWallet: current,
-    client: current?.client,
-    clientStatus: current?.clientMutable.state,
-    clientMessage: current?.clientMutable.message,
+    // client: current?.client,
+    // clientStatus: current?.clientMutable.state,
+    // clientMessage: current?.clientMutable.message,
 
     chain,
     assets: assetList,
@@ -234,25 +127,31 @@ export const useChain = (chainName: ChainName): ChainContext => {
     ) =>
       connectionAssert(current?.signAndBroadcast, params, 'signAndBroadcast'),
 
-    enable: (chainIds?: string | string[]) =>
+    enable: () =>
       clientMethodAssert(
         current?.client?.enable.bind(current.client),
-        [chainIds || chainId],
+        [chainId],
         'enable'
       ),
-    getOfflineSigner: (chainId: string) =>
+    getAccount: () =>
+      clientMethodAssert(
+        current?.client?.getAccount.bind(current.client),
+        [chainId],
+        'getAccount'
+      ),
+    getOfflineSigner: () =>
       clientMethodAssert(
         current?.client?.getOfflineSigner.bind(current.client),
         [chainId],
         'getOfflineSigner'
       ),
-    getOfflineSignerAmino: (chainId: string) =>
+    getOfflineSignerAmino: () =>
       clientMethodAssert(
         current?.client?.getOfflineSignerAmino.bind(current.client),
         [chainId],
         'getOfflineSignerAmino'
       ),
-    getOfflineSignerDirect: (chainId: string) =>
+    getOfflineSignerDirect: () =>
       clientMethodAssert(
         current?.client?.getOfflineSignerDirect.bind(current.client),
         [chainId],

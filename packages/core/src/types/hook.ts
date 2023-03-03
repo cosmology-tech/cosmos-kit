@@ -25,7 +25,7 @@ import { ChainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { CosmosClientType, State } from './common';
+import { CosmosClientType, ModalTheme, State } from './common';
 import { EndpointOptions, EventName, SignerOptions } from './manager';
 import {
   BroadcastMode,
@@ -33,6 +33,7 @@ import {
   NameServiceName,
   SignOptions,
   Wallet,
+  WalletAccount,
   WalletClient,
   WalletName,
   WalletStatus,
@@ -41,9 +42,9 @@ import {
 export interface ChainContext {
   walletRepo: WalletRepo;
   chainWallet: ChainWalletBase | undefined;
-  client: WalletClient | undefined;
-  clientStatus: State;
-  clientMessage: string | undefined;
+  // client: WalletClient | undefined;
+  // clientStatus: State;
+  // clientMessage: string | undefined;
 
   chain: Chain;
   assets: AssetList | undefined;
@@ -97,10 +98,11 @@ export interface ChainContext {
   ) => Promise<DeliverTxResponse>;
 
   // methods exposed from wallet client
-  enable: (chainIds: string | string[]) => Promise<void>;
-  getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
-  getOfflineSignerAmino: (chainId: string) => OfflineAminoSigner;
-  getOfflineSignerDirect: (chainId: string) => OfflineDirectSigner;
+  enable: () => Promise<void>;
+  getAccount: () => Promise<WalletAccount>;
+  getOfflineSigner: () => Promise<OfflineSigner>;
+  getOfflineSignerAmino: () => OfflineAminoSigner;
+  getOfflineSignerDirect: () => OfflineDirectSigner;
   signAmino: (
     signer: string,
     signDoc: StdSignDoc,
@@ -132,9 +134,20 @@ export interface ManagerContext {
   off: (event: EventName, handler: (params: any) => void) => void;
 }
 
-export type ModalTheme = 'light' | 'dark';
-
 export interface ModalThemeContext {
   modalTheme: ModalTheme;
   setModalTheme: (theme: ModalTheme) => void;
+}
+
+export interface WalletContext {
+  chainWallets: ChainWalletBase[];
+  wallet: Wallet | undefined;
+  status: WalletStatus;
+  message: string | undefined;
+}
+
+export interface WalletClientContext {
+  client: WalletClient | undefined;
+  status: State;
+  message: string | undefined;
 }

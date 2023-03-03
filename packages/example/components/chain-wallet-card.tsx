@@ -1,28 +1,16 @@
 import { Box, Button, Heading, HStack } from "@chakra-ui/react";
-import { ChainName, WalletStatus } from "@cosmos-kit/core";
+import { ChainName } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
-import { useEffect } from "react";
 import { ConnectedShowAddress } from "./react";
 
 export const ChainWalletCard = ({
   chainName,
   type = "address-on-page",
-  setGlobalStatus,
 }: {
   chainName: ChainName;
   type: string;
-  setGlobalStatus?: (status: WalletStatus) => void;
 }) => {
   const { chain, status, address, openView } = useChain(chainName);
-  useEffect(() => {
-    if (status == "Connecting") {
-      setGlobalStatus?.(WalletStatus.Connecting);
-    } else if (status == "Connected") {
-      setGlobalStatus?.(WalletStatus.Connected);
-    } else {
-      setGlobalStatus?.(WalletStatus.Disconnected);
-    }
-  }, [status]);
 
   switch (type) {
     case "address-in-modal":

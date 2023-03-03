@@ -51,3 +51,5 @@ export interface AppEnv {
 export type CosmosClientType = 'stargate' | 'cosmwasm';
 
 export type LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
+
+export type ModalTheme = 'light' | 'dark';

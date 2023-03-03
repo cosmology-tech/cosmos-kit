@@ -1,19 +1,11 @@
-Chain Provider can be regarded as Wallet Provider V2, with most properties unchanged except
+Chain Provider provides necessary information for hooks.
 
-- [`walletModal`](#walletmodal) props type modified
-- [`modelTheme`](#modaltheme) newly added
-- `viewOptions` removed
-- `storageOptions` removed
-  
-Chain Provider provides necessary information for `useChain` hook and `useManager` hook.
+- [`useChain`](https://docs.cosmoskit.com/use-chain): Provides chain wallet related properties and methods, and supports multiple chains connected at one time. When `useChain` is called, corresponding chain wallet will be activated.
 
-- [`useChain`](https://docs.cosmoskit.com/use-chain): provide chain wallet related properties and methods, most of which are similar with [`useWallet`](https://docs.cosmoskit.com/use-wallet), but `useChain` supports multiple chains connected at one time. And all the current-chain related functions/properties are removed in result of `useChain`.
-
-- [`useManager`](https://docs.cosmoskit.com/use-manager): manage all supported chains and wallets.
+- [`useManager`](https://docs.cosmoskit.com/use-manager): Manager for all chains and wallets.
 
 > Note: 
-> 1. `walletStatus` in `useWallet` is renamed with `status` in `useChain`
-> 2. If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
+> 1. If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
 
 # Properties
 

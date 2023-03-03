@@ -14,6 +14,7 @@ import {
   WalletConnectOptions,
   WalletManager,
   WalletModalProps,
+  WalletName,
   WalletRepo,
 } from '@cosmos-kit/core';
 import React, {

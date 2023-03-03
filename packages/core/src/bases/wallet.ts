@@ -21,10 +21,19 @@ export abstract class WalletBase extends StateBase {
   callbacks?: Callbacks;
   session?: Session;
   walletConnectOptions?: WalletConnectOptions;
+  isActive = false;
 
   constructor(walletInfo: Wallet) {
     super();
     this._walletInfo = walletInfo;
+  }
+
+  activate() {
+    this.isActive = true;
+  }
+
+  inactivate() {
+    this.isActive = false;
   }
 
   get client() {
@@ -156,6 +165,11 @@ export abstract class WalletBase extends StateBase {
       return;
     }
 
+    if (sync) {
+      this.emitter?.emit('sync_connect', (this as any).chainName);
+      this.logger?.info('[WALLET EVENT] Emit `sync_connect`');
+    }
+
     try {
       if (!this.client) {
         this.setState(State.Pending);
@@ -183,11 +197,6 @@ export abstract class WalletBase extends StateBase {
       this.setError(error as Error);
     }
     await (callbacks || this.callbacks)?.afterConnect?.();
-
-    if (sync) {
-      this.emitter?.emit('sync_connect', (this as any).chainName);
-      this.logger?.info('[WALLET EVENT] Emit `sync_connect`');
-    }
   };
 
   abstract initClient(options?: any): void | Promise<void>;

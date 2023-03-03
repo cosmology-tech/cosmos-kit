@@ -20,6 +20,7 @@ export class WalletRepo extends StateBase {
     mutexWallet: true, // only allow one wallet type to connect one time
   };
   sessionOptions?: SessionOptions;
+  namespace = 'cosmos';
 
   constructor(
     chainRecord: ChainRecord,
