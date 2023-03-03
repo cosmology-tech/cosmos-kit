@@ -3,10 +3,10 @@
   "get-started": "Get Started",
   "integrating-wallets": "Integrating Wallets",
   "chain-provider": "Chain Provider",
-  "use-chain": "Hook - useChain",
-  "use-wallet": "Hook - useWallet",
-  "use-wallet-client": "Hook - useWalletClient",
-  "use-manager": "Hook - useManager",
-  "use-name-service": "Hook - useNameService",
-  "use-modal-theme": "Hook - useModalTheme"
+  "use-chain": "🪝 useChain",
+  "use-manager": "🪝 useManager",
+  "use-modal-theme": "🪝 useModalTheme",
+  "use-name-service": "🪝 useNameService",
+  "use-wallet": "🪝 useWallet",
+  "use-wallet-client": "🪝 useWalletClient"
 }

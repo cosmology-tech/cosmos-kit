@@ -1,11 +1,18 @@
 Chain Provider provides necessary information for hooks.
 
-- [`useChain`](https://docs.cosmoskit.com/use-chain): Provides chain wallet related properties and methods, and supports multiple chains connected at one time. When `useChain` is called, corresponding chain wallet will be activated.
+- [`useChain`](https://docs.cosmoskit.com/use-chain): Provide chainWallet related properties and methods, and supports multiple chains connected at one time. When `useChain` is called, corresponding chain wallet will be activated.
 
-- [`useManager`](https://docs.cosmoskit.com/use-manager): Manager for all chains and wallets.
+- [`useManager`](https://docs.cosmoskit.com/use-manager): Manage all chains and wallets.
 
-> Note: 
-> 1. If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
+- [`useModalTheme`](https://docs.cosmoskit.com/use-modal-theme): Manage default modal themes.
+
+- [`useNameService`](https://docs.cosmoskit.com/use-name-service): Get alias name of address from a particular name server.
+
+- [`useWallet`](https://docs.cosmoskit.com/use-wallet): Manage all chainWallets and the global status for a particular wallet.
+
+- [`useWalletClient`](https://docs.cosmoskit.com/use-manager): Get the wallet client for a particular wallet.
+
+> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
 
 # Properties
 
@@ -114,7 +121,7 @@ You can also define your own modal component with required props.
 
 ### customize modal with `walletModal`
 
-> Hint: suggest using [`modalViews`](#modalviews) to customize modal instead if you only need to customize modal UI without involving any customized data logic. `modalViews` provides an easy and fast way to partially change the default modal UI.
+> Suggest customizing modal with [`modalViews`](#modalviews) instead if you only need to customize modal UI without involving any customized data logic. [`modalViews`](#modalviews) provides an easy and fast way to partially change the default modal UI.
 
 Example of using self-defined modal.
 
@@ -247,7 +254,7 @@ You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are usin
 
 Optional property. By default `false`.
 
-If you wrapped `ChainProvider` with `ChakraProvider`, make sure `wrappedWithChakra` is set `true`. 
+This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
 
 ## defaultNameService
 
