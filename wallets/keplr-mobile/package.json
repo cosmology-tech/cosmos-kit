@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr-mobile",
-  "version": "0.33.3",
+  "version": "0.33.4",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -105,8 +105,8 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.8.0",
-    "@cosmos-kit/core": "^1.1.3",
-    "@cosmos-kit/walletconnect": "^0.2.3"
+    "@cosmos-kit/core": "^1.1.4",
+    "@cosmos-kit/walletconnect": "^0.2.4"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
