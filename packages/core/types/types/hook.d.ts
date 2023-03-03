@@ -8,15 +8,12 @@ import { ChainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { CosmosClientType, State } from './common';
+import { CosmosClientType, ModalTheme, State } from './common';
 import { EndpointOptions, EventName, SignerOptions } from './manager';
-import { BroadcastMode, DirectSignDoc, NameServiceName, SignOptions, Wallet, WalletClient, WalletName, WalletStatus } from './wallet';
+import { BroadcastMode, DirectSignDoc, NameServiceName, SignOptions, Wallet, WalletAccount, WalletClient, WalletName, WalletStatus } from './wallet';
 export interface ChainContext {
     walletRepo: WalletRepo;
     chainWallet: ChainWalletBase | undefined;
-    client: WalletClient | undefined;
-    clientStatus: State;
-    clientMessage: string | undefined;
     chain: Chain;
     assets: AssetList | undefined;
     wallet: Wallet | undefined;
@@ -46,10 +43,11 @@ export interface ChainContext {
     sign: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<TxRaw>;
     broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<DeliverTxResponse>;
     signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<DeliverTxResponse>;
-    enable: (chainIds: string | string[]) => Promise<void>;
-    getOfflineSigner: (chainId: string) => Promise<OfflineSigner>;
-    getOfflineSignerAmino: (chainId: string) => OfflineAminoSigner;
-    getOfflineSignerDirect: (chainId: string) => OfflineDirectSigner;
+    enable: () => Promise<void>;
+    getAccount: () => Promise<WalletAccount>;
+    getOfflineSigner: () => Promise<OfflineSigner>;
+    getOfflineSignerAmino: () => OfflineAminoSigner;
+    getOfflineSignerDirect: () => OfflineDirectSigner;
     signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
     sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
@@ -66,8 +64,18 @@ export interface ManagerContext {
     on: (event: EventName, handler: (params: any) => void) => void;
     off: (event: EventName, handler: (params: any) => void) => void;
 }
-export declare type ModalTheme = 'light' | 'dark';
 export interface ModalThemeContext {
     modalTheme: ModalTheme;
     setModalTheme: (theme: ModalTheme) => void;
+}
+export interface WalletContext {
+    chainWallets: ChainWalletBase[];
+    wallet: Wallet | undefined;
+    status: WalletStatus;
+    message: string | undefined;
+}
+export interface WalletClientContext {
+    client: WalletClient | undefined;
+    status: State;
+    message: string | undefined;
 }

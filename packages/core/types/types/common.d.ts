@@ -39,3 +39,4 @@ export interface AppEnv {
 }
 export declare type CosmosClientType = 'stargate' | 'cosmwasm';
 export declare type LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
+export declare type ModalTheme = 'light' | 'dark';

@@ -4,13 +4,13 @@ import EventEmitter from 'events';
 import { MainWalletBase, StateBase } from './bases';
 import { NameService } from './name-service';
 import { WalletRepo } from './repository';
-import { ChainName, ChainRecord, EndpointOptions, EventName, NameServiceName, SessionOptions, SignerOptions, WalletConnectOptions } from './types';
+import { ChainName, ChainRecord, EndpointOptions, EventName, NameServiceName, SessionOptions, SignerOptions, WalletConnectOptions, WalletName } from './types';
 import { Logger, Session } from './utils';
 export declare class WalletManager extends StateBase {
     chainRecords: ChainRecord[];
     walletRepos: WalletRepo[];
     defaultNameService: NameServiceName;
-    private _wallets;
+    mainWallets: MainWalletBase[];
     coreEmitter: EventEmitter;
     readonly sessionOptions: SessionOptions;
     walletConnectOptions?: WalletConnectOptions;
@@ -21,6 +21,7 @@ export declare class WalletManager extends StateBase {
     on: (event: EventName, handler: (params: any) => void) => void;
     off: (event: EventName, handler: (params: any) => void) => void;
     get activeRepos(): WalletRepo[];
+    getMainWallet: (walletName: WalletName) => MainWalletBase;
     getWalletRepo: (chainName: ChainName) => WalletRepo;
     getChainRecord: (chainName: ChainName) => ChainRecord;
     getChainLogo: (chainName: ChainName) => string | undefined;

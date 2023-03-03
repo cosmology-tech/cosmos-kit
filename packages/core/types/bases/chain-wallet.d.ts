@@ -11,7 +11,6 @@ export declare class ChainWalletBase extends WalletBase {
     restEndpoints?: string[];
     protected _rpcEndpoint?: string;
     protected _restEndpoint?: string;
-    isActive: boolean;
     offlineSigner?: OfflineSigner;
     namespace: string;
     constructor(walletInfo: Wallet, chainRecord: ChainRecord);
@@ -30,7 +29,6 @@ export declare class ChainWalletBase extends WalletBase {
     get cosmwasmEnabled(): boolean;
     get username(): string | undefined;
     get address(): string | undefined;
-    activate(): void;
     setData(data: SimpleAccount | undefined): void;
     initClient(options?: any): void | Promise<void>;
     update(sessionOptions?: SessionOptions, callbacks?: Callbacks): Promise<void>;

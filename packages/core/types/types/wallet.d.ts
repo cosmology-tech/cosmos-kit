@@ -29,7 +29,7 @@ export declare enum WalletStatus {
     Error = "Error"
 }
 export interface DownloadInfo extends AppEnv {
-    icon?: (props: any) => JSX.Element;
+    icon?: string | ((props: any) => JSX.Element);
     link: string;
 }
 export declare type WalletMode = 'extension' | 'wallet-connect';

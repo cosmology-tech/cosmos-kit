@@ -10,7 +10,10 @@ export declare abstract class WalletBase extends StateBase {
     callbacks?: Callbacks;
     session?: Session;
     walletConnectOptions?: WalletConnectOptions;
+    isActive: boolean;
     constructor(walletInfo: Wallet);
+    activate(): void;
+    inactivate(): void;
     get client(): WalletClient;
     initingClient(): void;
     initClientDone(client: WalletClient | undefined): void;

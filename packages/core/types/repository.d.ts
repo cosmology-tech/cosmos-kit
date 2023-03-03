@@ -15,6 +15,7 @@ export declare class WalletRepo extends StateBase {
         mutexWallet: boolean;
     };
     sessionOptions?: SessionOptions;
+    namespace: string;
     constructor(chainRecord: ChainRecord, wallets?: ChainWalletBase[], sessionOptions?: SessionOptions);
     setEnv(env?: AppEnv): void;
     activate(): void;
