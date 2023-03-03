@@ -8,13 +8,14 @@ import {
   State,
   Wallet,
   WalletClient,
+  WalletStatus,
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 import EventEmitter from 'events';
 
 export abstract class MainWalletBase extends WalletBase {
-  protected _chainWallets?: Map<ChainName, ChainWalletBase>;
+  protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
   preferredEndpoints?: EndpointOptions;
   ChainWallet: IChainWallet;
 
@@ -23,19 +24,21 @@ export abstract class MainWalletBase extends WalletBase {
     this.ChainWallet = ChainWallet;
     this.emitter = new EventEmitter();
     this.emitter.on('broadcast_client', (client: WalletClient) => {
-      this.chainWallets?.forEach((chainWallet) => {
+      this.chainWalletMap?.forEach((chainWallet) => {
         chainWallet.initClientDone(client);
       });
     });
     this.emitter.on('sync_connect', (chainName?: ChainName) => {
-      this.connectActive(chainName);
+      this.connectAll(true, chainName);
+      this.activate();
     });
     this.emitter.on('sync_disconnect', (chainName?: ChainName) => {
-      this.disconnectActive(chainName);
+      this.disconnectAll(true, chainName);
+      this.inactivate();
     });
     this.emitter.on('reset', (chainIds: string[]) => {
       chainIds.forEach((chainId) =>
-        Array.from(this.chainWallets.values())
+        Array.from(this.chainWalletMap.values())
           .find((cw) => cw.chainId === chainId)
           ?.reset()
       );
@@ -45,8 +48,8 @@ export abstract class MainWalletBase extends WalletBase {
   protected onSetChainsDone(): void {}
 
   setChains(chains: ChainRecord[], overwrite = true): void {
-    if (overwrite || !this._chainWallets) {
-      this._chainWallets = new Map();
+    if (overwrite || !this._chainWalletMap) {
+      this._chainWalletMap = new Map();
     }
     chains.forEach((chain) => {
       chain.preferredEndpoints = {
@@ -72,65 +75,66 @@ export abstract class MainWalletBase extends WalletBase {
       chainWallet.walletConnectOptions = this.walletConnectOptions;
       chainWallet.initClient = this.initClient;
 
-      this._chainWallets!.set(chain.name, chainWallet);
+      this._chainWalletMap!.set(chain.name, chainWallet);
     });
 
     this.onSetChainsDone();
   }
 
-  get username(): string | undefined {
-    return this.data?.username;
-  }
-
-  get chainWallets() {
-    return this._chainWallets;
+  get chainWalletMap() {
+    return this._chainWalletMap;
   }
 
   getChainWallet = (chainName: string): ChainWalletBase | undefined => {
-    return this.chainWallets?.get(chainName);
+    return this.chainWalletMap?.get(chainName);
   };
 
-  async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
-    await (callbacks || this.callbacks)?.beforeConnect?.();
+  getChainWalletList = (activeOnly: boolean = true) => {
+    const allChainWallets = Array.from(this.chainWalletMap.values());
+    return activeOnly
+      ? allChainWallets.filter((w) => w.isActive)
+      : allChainWallets;
+  };
 
-    if (!this.client) {
-      this.setClientNotExist();
-      return;
+  getGlobalStatusAndMessage = (
+    activeOnly: boolean = true
+  ): [WalletStatus, string | undefined] => {
+    const chainWalletList = this.getChainWalletList(activeOnly);
+
+    let wallet = chainWalletList.find((w) => w.isWalletNotExist);
+    if (wallet) return [wallet.walletStatus, wallet.message];
+
+    wallet = chainWalletList.find((w) => w.isWalletConnecting);
+    if (wallet) return [WalletStatus.Connecting, void 0];
+
+    wallet = chainWalletList.find((w) => w.isWalletDisconnected);
+    if (wallet) {
+      return [WalletStatus.Disconnected, 'Exist disconnected wallets'];
     }
-    this.setState(State.Done);
-    this.setMessage(void 0);
 
-    if (sessionOptions?.duration) {
-      setTimeout(() => {
-        this.disconnect(callbacks);
-      }, sessionOptions?.duration);
-    }
+    wallet = chainWalletList.find((w) => w.isError || w.isWalletRejected);
+    if (wallet) return [wallet.walletStatus, wallet.message];
 
-    await (callbacks || this.callbacks)?.afterConnect?.();
-  }
+    return [WalletStatus.Connected, void 0];
+  };
 
-  reset(): void {
-    this.chainWallets?.forEach((chain) => {
-      chain.reset();
-    });
-    this.setData(undefined);
-    this.setMessage(undefined);
-    this.setState(State.Init);
-  }
+  async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {}
 
-  async connectActive(exclude?: ChainName) {
-    for (const [, w] of this.chainWallets) {
-      if (w.isActive && w.chainName !== exclude) {
+  async connectAll(activeOnly: boolean = true, exclude?: ChainName) {
+    const chainWalletList = this.getChainWalletList(activeOnly);
+    for (const w of chainWalletList) {
+      if (w.chainName !== exclude) {
         await w.connect();
       }
     }
   }
 
-  disconnectActive(exclude?: ChainName) {
-    this.chainWallets.forEach((w) => {
-      if (w.isActive && w.chainName !== exclude) {
-        w.disconnect();
+  async disconnectAll(activeOnly: boolean = true, exclude?: ChainName) {
+    const chainWalletList = this.getChainWalletList(activeOnly);
+    for (const w of chainWalletList) {
+      if (w.chainName !== exclude) {
+        await w.disconnect();
       }
-    });
+    }
   }
 }

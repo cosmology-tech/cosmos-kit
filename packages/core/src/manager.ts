@@ -18,6 +18,7 @@ import {
   SimpleAccount,
   State,
   WalletConnectOptions,
+  WalletName,
 } from './types';
 import {
   convertChain,
@@ -30,7 +31,7 @@ export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepo[] = [];
   defaultNameService: NameServiceName = 'icns';
-  private _wallets: MainWalletBase[] = [];
+  mainWallets: MainWalletBase[] = [];
   coreEmitter: EventEmitter;
 
   readonly sessionOptions: SessionOptions = {
@@ -90,7 +91,7 @@ export class WalletManager extends StateBase {
       )
     );
 
-    this._wallets = wallets.map((wallet) => {
+    this.mainWallets = wallets.map((wallet) => {
       wallet.logger = this.logger;
       wallet.session = this.session;
       wallet.walletConnectOptions = this.walletConnectOptions;
@@ -134,14 +135,14 @@ export class WalletManager extends StateBase {
       }
     });
 
-    this._wallets.forEach((wallet) => {
+    this.mainWallets.forEach((wallet) => {
       wallet.setChains(newChainRecords, false);
     });
 
     const newWalletRepos = newChainRecords.map((chainRecord) => {
       return new WalletRepo(
         chainRecord,
-        this._wallets.map(
+        this.mainWallets.map(
           ({ getChainWallet }) => getChainWallet(chainRecord.name)!
         ),
         this.sessionOptions
@@ -184,6 +185,16 @@ export class WalletManager extends StateBase {
   get activeRepos(): WalletRepo[] {
     return this.walletRepos.filter((repo) => repo.isActive === true);
   }
+
+  getMainWallet = (walletName: WalletName): MainWalletBase => {
+    const wallet = this.mainWallets.find((w) => w.walletName === walletName);
+
+    if (!wallet) {
+      throw new Error(`Wallet ${walletName} is not provided.`);
+    }
+
+    return wallet;
+  };
 
   getWalletRepo = (chainName: ChainName): WalletRepo => {
     const walletRepo = this.walletRepos.find(
@@ -260,15 +271,18 @@ export class WalletManager extends StateBase {
     const accountsStr = window.localStorage.getItem(
       'cosmos-kit@1:core//accounts'
     );
-    if (accountsStr) {
+    if (walletName && accountsStr) {
       const accounts: SimpleAccount[] = JSON.parse(accountsStr);
       accounts.forEach((data) => {
-        if (data.namespace !== 'cosmos') return;
-
-        const chainWallet = this.walletRepos
-          .find((repo) => repo.chainRecord.chain.chain_id === data.chainId)
-          ?.wallets.find((cw) => cw.walletName === walletName);
-
+        const mainWallet = this.getMainWallet(walletName);
+        mainWallet.activate();
+        const chainWallet = mainWallet
+          .getChainWalletList(false)
+          .find(
+            (w) =>
+              w.chainRecord.chain.chain_id === data.chainId &&
+              w.namespace === data.namespace
+          );
         chainWallet?.setData(data);
         chainWallet?.setState(State.Done);
       });
@@ -280,7 +294,7 @@ export class WalletManager extends StateBase {
 
     this._restoreAccounts();
 
-    this._wallets.forEach(async (wallet) => {
+    this.mainWallets.forEach(async (wallet) => {
       if (wallet.walletInfo.mode === 'wallet-connect') {
         await wallet.initClient(this.walletConnectOptions);
         wallet.emitter?.emit('broadcast_client', wallet.client);
@@ -301,7 +315,7 @@ export class WalletManager extends StateBase {
     this.setEnv(env);
     this.walletRepos.forEach((repo) => repo.setEnv(env));
 
-    this._wallets.forEach((wallet) => {
+    this.mainWallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.addEventListener(eventName, this._reconnect);
       });
@@ -317,7 +331,7 @@ export class WalletManager extends StateBase {
     if (typeof window === 'undefined') {
       return;
     }
-    this._wallets.forEach((wallet) => {
+    this.mainWallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.removeEventListener(eventName, this._reconnect);
       });

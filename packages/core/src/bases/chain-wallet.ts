@@ -34,7 +34,6 @@ export class ChainWalletBase extends WalletBase {
   restEndpoints?: string[];
   protected _rpcEndpoint?: string;
   protected _restEndpoint?: string;
-  isActive = false;
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
 
@@ -116,10 +115,6 @@ export class ChainWalletBase extends WalletBase {
     return this.data?.address;
   }
 
-  activate() {
-    this.isActive = true;
-  }
-
   setData(data: SimpleAccount | undefined) {
     this._mutable.data = data;
     this.actions?.data?.(data);
@@ -152,8 +147,6 @@ export class ChainWalletBase extends WalletBase {
   async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
     this.setState(State.Pending);
     this.setMessage(void 0);
-
-    await (callbacks || this.callbacks)?.beforeConnect?.();
 
     try {
       await this.client.connect?.(this.chainId, this.isMobile);
@@ -200,7 +193,6 @@ export class ChainWalletBase extends WalletBase {
         this.walletName
       );
     }
-    await (callbacks || this.callbacks)?.afterConnect?.();
   }
 
   getRpcEndpoint = async (): Promise<string> => {

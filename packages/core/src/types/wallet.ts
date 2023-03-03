@@ -43,7 +43,7 @@ export enum WalletStatus {
 }
 
 export interface DownloadInfo extends AppEnv {
-  icon?: (props: any) => JSX.Element; // currenly only support { IconType } from 'react-icons';
+  icon?: string | ((props: any) => JSX.Element); // i.e. { IconType } from 'react-icons';
   link: string;
 }
 

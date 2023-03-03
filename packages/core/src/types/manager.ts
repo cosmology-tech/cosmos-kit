@@ -2,7 +2,6 @@ import { Chain } from '@chain-registry/types';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { SigningStargateClientOptions } from '@cosmjs/stargate';
 
-import { WalletRepo } from '../repository';
 import { ChainName } from './chain';
 import { Dispatch, StateActions } from './common';
 import { WalletName } from './wallet';

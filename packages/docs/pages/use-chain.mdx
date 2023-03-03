@@ -51,10 +51,13 @@
 
 ### Methods from wallet client
 
+> These methods are equal to wallet client methods with argument `chainId` assigned as `chainId` corresponding to hook argument `chainName`. If you want to directly use wallet client methods, choose hook [`useWalletClient`](/use-wallet-client) instead.
+
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
-| **enable**  | if `chainIds` is `undefined`, using `chainId` corresponding to `chainName` in hook parameters |   **chainIds**?: `string | string[]` | `void` | Y |
-| **getOfflineSigner**  | if `isNanoLedger` or indefinite, will return `OfflineAminoSigner`, else return `OfflineDirectSigner` | - | `OfflineSigner` | Y |
+| **enable**  | - | - | `void` | Y |
+| **getAccount**  | - | - | `WalletAccount` | Y |
+| **getOfflineSigner**  | by default return `OfflineDirectSigner`, but if `isNanoLedger` is true, return `OfflineAminoSigner` | - | `OfflineSigner` | Y |
 | **getOfflineSignerAmino**  | - | - | `OfflineAminoSigner` | N |
 | **getOfflineSignerDirect**  | - | - | `OfflineDirectSigner` | N |
 | **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
@@ -70,9 +73,6 @@
 | ----------- | ----------- | -- | -- |
 | **chainWallet**   | current chainWallet   | `ChainWalletBase \| undefined` | `undefined` |
 | **walletRepo**   | wallet repository, you can get all the chainWallets from this repo   | `WalletRepo` | - |
-| **client**   | current wallet client     | `WalletClient \| undefined` | `undefined` |
-| **clientStatus**   | current wallet client status     | `State` | `State.Init` |
-| **clientMessage**   | error message if current wallet client is undefined    | `string \| undefined` | `undefined` |
 
 
 ## Examples

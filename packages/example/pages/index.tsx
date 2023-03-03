@@ -13,9 +13,9 @@ import {
   useColorMode,
   VStack,
 } from "@chakra-ui/react";
-import { WalletStatus } from "@cosmos-kit/core";
-import { useChain, useModalTheme } from "@cosmos-kit/react";
-import { useCallback, useEffect, useState } from "react";
+import { useChain, useModalTheme, useWallet } from "@cosmos-kit/react";
+import React from "react";
+import { useCallback } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
@@ -35,37 +35,28 @@ export default () => {
   const { colorMode, setColorMode } = useColorMode();
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
   const { modalTheme, setModalTheme } = useModalTheme();
-  const [globalStatus, setGlobalStatus] = useState<WalletStatus>(
-    WalletStatus.Disconnected
-  );
-
-  // useEffect(() => {
-  //   setModalTheme("dark");
-  //   console.log("%c_app.tsx line:42 123", "color: #007acc;", modalTheme);
-  // }, []);
+  const { status: globalStatus } = useWallet();
 
   const toggleTheme = useCallback(() => {
-    setModalTheme("dark");
-    // switch (colorMode) {
-    //   case "light":
-    //     setColorMode("dark");
-    //     setModalTheme("dark");
-    //     break;
-    //   case "dark":
-    //     setColorMode("light");
-    //     setModalTheme("light");
-    //     break;
-    //   default:
-    //     throw new Error(`Unknown colorMode: ${colorMode}`);
-    // }
-  }, [setColorMode, setModalTheme, colorMode]);
+    switch (modalTheme) {
+      case "light":
+        // setColorMode("dark");
+        setModalTheme("dark");
+        break;
+      case "dark":
+        // setColorMode("light");
+        setModalTheme("light");
+        break;
+      default:
+        throw new Error(`Unknown modalTheme: ${modalTheme}`);
+    }
+  }, [setColorMode, setModalTheme, colorMode, modalTheme]);
 
   const addressInModal = chainNames_1.map((chainName) => {
     return (
       <ChainWalletCard
         key={chainName}
         chainName={chainName}
-        setGlobalStatus={setGlobalStatus}
         type="address-in-modal"
       />
     );
@@ -76,7 +67,6 @@ export default () => {
       <ChainWalletCard
         key={chainName}
         chainName={chainName}
-        setGlobalStatus={setGlobalStatus}
         type="address-on-page"
       />
     );
@@ -118,7 +108,7 @@ export default () => {
             colorScheme="teal"
             onClick={async () => {
               await disconnect();
-              setGlobalStatus(WalletStatus.Disconnected);
+              // setGlobalStatus(WalletStatus.Disconnected);
             }}
           >
             Disconnect

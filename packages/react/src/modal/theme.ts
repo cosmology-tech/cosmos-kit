@@ -7,7 +7,7 @@ import { semanticTokens } from '@cosmology-ui/react';
 
 const config: ThemeConfig = {
   initialColorMode: 'light',
-  useSystemColorMode: false,
+  useSystemColorMode: true,
 };
 
 const colors = {
