@@ -1,7 +1,5 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { ThemeProvider } from '@cosmology-ui/react';
 import {
-  Data,
   EndpointOptions,
   Logger,
   LogLevel,
@@ -10,21 +8,11 @@ import {
   NameServiceName,
   SessionOptions,
   SignerOptions,
-  State,
   WalletConnectOptions,
-  WalletManager,
   WalletModalProps,
-  WalletName,
-  WalletRepo,
 } from '@cosmos-kit/core';
-import React, {
-  createContext,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { ChainProvider as ChainProviderLite } from '@cosmos-kit/react-lite';
+import React, { ReactNode, useCallback, useMemo } from 'react';
 
 import { WalletModal } from '.';
 import {
@@ -33,15 +21,11 @@ import {
 } from './modal/components';
 import { defaultModalViews } from './modal/components/views';
 
-export const walletContext = createContext<{
-  walletManager: WalletManager;
-} | null>(null);
-
 export const ChainProvider = ({
   chains,
   assetLists,
   wallets,
-  walletModal: ProvidedWalletModal,
+  walletModal,
   modalTheme,
   modalViews,
   wrappedWithChakra = false,
@@ -74,120 +58,59 @@ export const ChainProvider = ({
       'Your are suggesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
     );
   }
-  const walletManager = useMemo(
-    () =>
-      new WalletManager(
-        chains,
-        assetLists,
-        wallets,
-        logger,
-        defaultNameService,
-        walletConnectOptions,
-        signerOptions,
-        endpointOptions,
-        sessionOptions
-      ),
-    []
+
+  const getChainProvider = (
+    modal: (props: WalletModalProps) => JSX.Element
+  ) => (
+    <ChainProviderLite
+      chains={chains}
+      assetLists={assetLists}
+      wallets={wallets}
+      walletModal={modal}
+      defaultNameService={defaultNameService}
+      walletConnectOptions={walletConnectOptions}
+      signerOptions={signerOptions}
+      endpointOptions={endpointOptions}
+      sessionOptions={sessionOptions}
+      logLevel={logLevel}
+    >
+      {children}
+    </ChainProviderLite>
   );
 
-  const [isViewOpen, setViewOpen] = useState<boolean>(false);
-  const [viewWalletRepo, setViewWalletRepo] = useState<
-    WalletRepo | undefined
-  >();
-
-  const [, setData] = useState<Data>();
-  const [, setState] = useState<State>(State.Init);
-  const [, setMsg] = useState<string | undefined>();
-
-  walletManager.setActions({
-    viewOpen: setViewOpen,
-    viewWalletRepo: setViewWalletRepo,
-    data: setData,
-    state: setState,
-    message: setMsg,
-  });
-
-  walletManager.walletRepos.forEach((wr) => {
-    wr.setActions({
-      viewOpen: setViewOpen,
-      viewWalletRepo: setViewWalletRepo,
-    });
-    wr.wallets.forEach((w) => {
-      w.setActions({
-        data: setData,
-        state: setState,
-        message: setMsg,
-      });
-    });
-  });
-
-  useEffect(() => {
-    walletManager.onMounted();
-    return () => {
-      walletManager.onUnmounted();
-    };
-  }, []);
-
-  if (ProvidedWalletModal) {
+  if (walletModal) {
     logger.debug('Using provided wallet modal.');
-    return (
-      <walletContext.Provider value={{ walletManager }}>
-        <ProvidedWalletModal
-          isOpen={isViewOpen}
-          setOpen={setViewOpen}
-          walletRepo={viewWalletRepo}
-        />
-        {children}
-      </walletContext.Provider>
-    );
+    return getChainProvider(walletModal);
   }
 
   logger.debug('Using default wallet modal.');
 
-  const Provider = useCallback(
-    ({ children }: { children: ReactNode }) => {
-      return (
-        <ThemeProvider>
-          <walletContext.Provider value={{ walletManager }}>
-            {children}
-          </walletContext.Provider>
-        </ThemeProvider>
-      );
-    },
-    [walletManager]
-  );
-
-  const modal = (
-    <WalletModal
-      isOpen={isViewOpen}
-      setOpen={setViewOpen}
-      walletRepo={viewWalletRepo}
-      modalViews={{
-        ...defaultModalViews,
-        ...modalViews,
-      }}
-    />
+  const defaultModal = useCallback(
+    (props: WalletModalProps) => (
+      <WalletModal
+        {...props}
+        modalViews={{
+          ...defaultModalViews,
+          ...modalViews,
+        }}
+      />
+    ),
+    [defaultModalViews]
   );
 
   if (wrappedWithChakra) {
     logger.debug('Wrap with <ChakraProviderWithOuterTheme>.');
     return (
-      <Provider>
-        <ChakraProviderWithOuterTheme logger={logger}>
-          {modal}
-        </ChakraProviderWithOuterTheme>
-        {children}
-      </Provider>
+      <ChakraProviderWithOuterTheme logger={logger}>
+        {getChainProvider(defaultModal)}
+      </ChakraProviderWithOuterTheme>
     );
   } else {
     logger.debug('Wrap with <ChakraProviderWithGivenTheme>.');
     return (
-      <Provider>
-        <ChakraProviderWithGivenTheme theme={modalTheme} logger={logger}>
-          {modal}
-        </ChakraProviderWithGivenTheme>
-        {children}
-      </Provider>
+      <ChakraProviderWithGivenTheme theme={modalTheme} logger={logger}>
+        {getChainProvider(defaultModal)}
+      </ChakraProviderWithGivenTheme>
     );
   }
 };

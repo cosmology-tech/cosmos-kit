@@ -489,7 +489,7 @@ export class WCClient implements WalletClient {
     return result;
   }
 
-  protected async _signDirect(
+  async _signDirect(
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,

@@ -6,7 +6,7 @@
     - **walletName?**: `WalletName` ( = `string` );
     - **activeOnly**: `boolean` (default to be `true`);
 
-> If `walletName` is undefined, using `currentWallet` instead. See LocalStorage key `cosmos-kit@1:core//current-wallet`. If `currentWallet` is also undefined, return default values.
+> If `walletName` is `undefined`, using `currentWallet` instead. See LocalStorage key `cosmos-kit@1:core//current-wallet`. If `currentWallet` is also undefined, return default values.
 
 > If `activeOnly` is `true`, only look at chainWallets with `isActive` true. When `useChain` is called, corresponding chainWallet will be activated.
 

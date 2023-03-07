@@ -1,28 +1,30 @@
 Chain Provider provides necessary information for hooks.
 
-- [`useChain`](https://docs.cosmoskit.com/use-chain): Provide chainWallet related properties and methods, and supports multiple chains connected at one time. When `useChain` is called, corresponding chain wallet will be activated.
+- [`useChain`](/use-chain): Provide chainWallet related properties and methods, and supports multiple chains connected at one time. When `useChain` is called, corresponding chain wallet will be activated.
 
-- [`useManager`](https://docs.cosmoskit.com/use-manager): Manage all chains and wallets.
+- [`useManager`](/use-manager): Manage all chains and wallets.
 
-- [`useModalTheme`](https://docs.cosmoskit.com/use-modal-theme): Manage default modal themes.
+- [`useModalTheme`](/use-modal-theme): Manage default modal themes.
 
-- [`useNameService`](https://docs.cosmoskit.com/use-name-service): Get alias name of address from a particular name server.
+- [`useNameService`](/use-name-service): Get alias name of address from a particular name server.
 
-- [`useWallet`](https://docs.cosmoskit.com/use-wallet): Manage all chainWallets and the global status for a particular wallet.
+- [`useWallet`](/use-wallet): Manage all chainWallets and the global status for a particular wallet.
 
-- [`useWalletClient`](https://docs.cosmoskit.com/use-manager): Get the wallet client for a particular wallet.
+- [`useWalletClient`](/use-manager): Get the wallet client for a particular wallet.
 
-> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
+There are two `ChainProvider` from two packages (`@cosmos-kit/react` and `@cosmos-kit/react-lite`) respectively. They are basically the same only except that `ChainProvider` from `@cosmos-kit/react` has more properties of `default modal` (See [Properties for default modal ](#properties-for-default-modal) below).
 
-# Properties
+## Shared Properties
 
-## chains
+These properties are shared by `ChainProvider` from `@cosmos-kit/react` and `@cosmos-kit/react-lite`.
 
-Required property of type `Chain[]` (comes from `chain-registry`)
+### chains
+
+Required property of type `Chain[]` (imported from `chain-registry`)
 
 It defines supported chains. Any actions involving chains beyound it might cause errors.
 
-### adding localnet and testnets
+#### adding localnet and testnets
 
 Example of adding `localosmosis`
 
@@ -75,13 +77,13 @@ function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-## assetLists
+### assetLists
 
 Required property of type `AssetList[]` (comes from `chain-registry`)
 
 It provides chains related assets information.
 
-## wallets
+### wallets
 
 Required property of type `MainWalletBase[]`
 
@@ -111,15 +113,17 @@ In addition, you can integrate new wallets in a few steps.
 
 🔌 [How to integrate new wallets into CosmosKit](https://docs.cosmoskit.com/integrating-wallets/adding-new-wallets)
 
-## walletModal
+### walletModal
 
-Optional property of type `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
+> This property is **required** if `ChainProvider` is imported from `@comos-kit/react-lite`, and is **optional** if imported from `@comos-kit/react`.
+
+**Type:** `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
 
 Basically the order of wallets follows the order of property `wallets` in ChainProvider, except that all mobiles are moved to the back.
 
 You can also define your own modal component with required props.
 
-### customize modal with `walletModal`
+#### customize modal with `walletModal`
 
 > Suggest customizing modal with [`modalViews`](#modalviews) instead if you only need to customize modal UI without involving any customized data logic. [`modalViews`](#modalviews) provides an easy and fast way to partially change the default modal UI.
 
@@ -173,96 +177,13 @@ function CosmosApp() {
 }
 ```
 
-## modalViews
-
-Optional property of type `ModalViews`.
-
-**Type**
-
-```tsx
-type ModalViews = {
-    Connecting?: (props: WalletViewProps) => JSX.Element;
-    Connected?: (props: WalletViewProps) => JSX.Element;
-    Error?: (props: WalletViewProps) => JSX.Element;
-    NotExist?: (props: WalletViewProps) => JSX.Element;
-    Rejected?: (props: WalletViewProps) => JSX.Element;
-    QRCode?: (props: WalletViewProps) => JSX.Element;
-} & {
-    WalletList?: (props: WalletListViewProps) => JSX.Element;
-}
-
-export interface WalletViewProps {
-  onClose: () => void;
-  onReturn: () => void;
-  wallet: ChainWalletBase;
-}
-
-export interface WalletListViewProps {
-  onClose: () => void;
-  wallets: ChainWalletBase[];
-}
-```
-### customize modal with `modalViews`
-
-Example of using self-defined modal views.
-
-`_app.tsx`:
-
-```tsx
-import * as React from 'react';
-
-import { ChainProvider } from '@cosmos-kit/react';
-
-// Define Modal Connected View Component
-const ConnectedView = ({
-  onClose,
-  onReturn,
-  wallet,
-}: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName },
-    username,
-    address,
-  } = wallet;
-
-  return <div>{`${prettyName}/${username}/${address}`}</div>;
-};
-
-function CosmosApp() {
-  return (
-    <ChainProvider
-      chains={chains}
-      wallets={wallets}
-      // Provide modalView
-      modalViews={{
-        Connected: ConnectedView,
-      }}
-    >
-      <YourWalletRelatedComponents />
-    </ChainProvider>
-  );
-}
-```
-
-## modalTheme
-
-Optional property. It will overwrite default theme applied in `DefaultModal`. 
-
-You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
-
-## wrappedWithChakra
-
-Optional property. By default `false`.
-
-This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
-
-## defaultNameService
+### defaultNameService
 
 **Type:** `NameServiceName` = `string`;
 
 Currently two name services are registered: `'icns'` and `'stargaze'`. The default name service is `icns`. This property is only used in `getNameService` of `useManager` when prarameter `chainName` is undefined, and in `useNameService` when the prarameter `name` is not provided. Otherwise it will return the name service object corresponding to provided chain. Therefore it won't affect `getNameService` method returned by `useChain`, since `chainName` is always provide in `useChain`.
 
-## endpointOptions
+### endpointOptions
 
 Optional property. Define preferred endpoints for each chain.
 
@@ -292,7 +213,7 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 >
 ```
 
-## sessionOptions
+### sessionOptions
 
 Define connection session options.
 
@@ -313,7 +234,7 @@ const sessionOptions: SessionOptions = {
 };
 ```
 
-## signerOptions
+### signerOptions
 
 Optional property.
 
@@ -375,10 +296,115 @@ export interface SignerOptions {
 }
 ```
 
-## logLevel
+### logLevel
 
 Optional property. By default `WARN`.
 
 **Type:** `LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'`
 
 Will disable logs lower than the value of `logLevel` (The log level order is the same with the order above).
+
+## Properties for default modal
+
+These properties only exist in `ChainProvider` from `@cosmos-kit/react`.
+
+> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
+
+### modalViews
+
+Optional property of type `ModalViews`.
+
+**Type**
+
+```tsx
+type ModalViews = {
+    Connecting?: (props: WalletViewProps) => JSX.Element;
+    Connected?: (props: WalletViewProps) => JSX.Element;
+    Error?: (props: WalletViewProps) => JSX.Element;
+    NotExist?: (props: WalletViewProps) => JSX.Element;
+    Rejected?: (props: WalletViewProps) => JSX.Element;
+    QRCode?: (props: WalletViewProps) => JSX.Element;
+} & {
+    WalletList?: (props: WalletListViewProps) => JSX.Element;
+}
+
+export interface WalletViewProps {
+  onClose: () => void;
+  onReturn: () => void;
+  wallet: ChainWalletBase;
+}
+
+export interface WalletListViewProps {
+  onClose: () => void;
+  wallets: ChainWalletBase[];
+}
+```
+#### customize modal with `modalViews`
+
+Example of using self-defined modal views.
+
+`_app.tsx`:
+
+```tsx
+import * as React from 'react';
+
+import { ChainProvider } from '@cosmos-kit/react';
+
+// Define Modal Connected View Component
+const ConnectedView = ({
+  onClose,
+  onReturn,
+  wallet,
+}: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName },
+    username,
+    address,
+  } = wallet;
+
+  return <div>{`${prettyName}/${username}/${address}`}</div>;
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      chains={chains}
+      wallets={wallets}
+      // Provide modalView
+      modalViews={{
+        Connected: ConnectedView,
+      }}
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+### modalTheme
+
+Optional property. It will overwrite default theme applied in `DefaultModal`. 
+
+You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
+
+### wrappedWithChakra
+
+Optional property. By default `false`.
+
+This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
+
+## Localstorage
+
+### current wallet
+
+- **Key**: `cosmos-kit@1:core//current-wallet`
+- **Type**: `string`
+
+It records current wallet name. You can use this key to implement auto-connection in dapp.
+
+### accounts
+
+- **Key**: `cosmos-kit@1:core//accounts`
+- **Type**: `SimpleAccount[]`
+
+It records the connected chains' account information. It's used for account restore when refreshing in CosmosKit. And it will expire after provided [session duration](#sessionoptions).

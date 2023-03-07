@@ -20,9 +20,11 @@ export function ChakraProviderWithOuterTheme({
   // logger?.debug('[WalletModal] ChakraProvider `resetCSS`:', true);
 
   return (
-    <ChakraProvider theme={theme} resetCSS={true}>
-      {children}
-    </ChakraProvider>
+    <ThemeProvider>
+      <ChakraProvider theme={theme} resetCSS={true}>
+        {children}
+      </ChakraProvider>
+    </ThemeProvider>
   );
 }
 
@@ -47,8 +49,10 @@ export function ChakraProviderWithGivenTheme({
   // logger?.debug('[WalletModal] ChakraProvider `resetCSS`:', false);
 
   return (
-    <ChakraProvider theme={_theme} resetCSS={false}>
-      {children}
-    </ChakraProvider>
+    <ThemeProvider>
+      <ChakraProvider theme={_theme} resetCSS={false}>
+        {children}
+      </ChakraProvider>
+    </ThemeProvider>
   );
 }

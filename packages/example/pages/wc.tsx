@@ -1,6 +1,5 @@
 import SignClient from "@walletconnect/sign-client";
 import { useEffect, useState } from "react";
-import { QRCodeSVG } from "qrcode.react";
 
 import { Web3Modal } from "../wc/client";
 

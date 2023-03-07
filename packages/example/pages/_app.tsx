@@ -12,7 +12,8 @@ import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier-extension";
-import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
+import { ChainProvider } from "@cosmos-kit/react-lite";
+import { defaultTheme, DefaultModal } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { WalletViewProps } from "@cosmos-kit/core";
@@ -39,8 +40,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...keplrWallets,
-          // ...cosmostationWallets,
+          // ...keplrWallets,
+          ...cosmostationWallets,
           // ...leapWallets,
           // ...vectisWallets,
           // ...xdefiWallets,
@@ -48,6 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...trustWallets,
           // ...frontierWallets,
         ]}
+        walletModal={DefaultModal}
         defaultNameService={"stargaze"}
         walletConnectOptions={{
           signClient: {
@@ -74,7 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         logLevel={"INFO"}
-        wrappedWithChakra={true}
+        // wrappedWithChakra={true} // required if `ChainProvider` is imported from `@cosmos-kit/react`
         // modalViews={{
         //   Connected: ConnectedView,
         // }}
