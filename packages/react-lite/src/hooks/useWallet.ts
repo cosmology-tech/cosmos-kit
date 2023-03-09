@@ -1,5 +1,4 @@
-import { WalletStatus } from '@cosmology-ui/react';
-import { WalletName, WalletContext } from '@cosmos-kit/core';
+import { WalletName, WalletContext, WalletStatus } from '@cosmos-kit/core';
 import React from 'react';
 
 import { walletContext } from '../provider';

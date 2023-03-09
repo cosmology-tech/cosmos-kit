@@ -1,6 +1,8 @@
 Chain Provider provides necessary information for hooks.
 
-- [`useChain`](/use-chain): Provide chainWallet related properties and methods, and supports multiple chains connected at one time. When `useChain` is called, corresponding chain wallet will be activated.
+- [`useChain`](/use-chain): Provide chainWallet related properties and methods, and support multiple chains connected at one time. When `useChain` is called, corresponding chainWallets will be activated.
+
+- [`useChainWallet`](/use-chain-wallet): Provide chainWallet related properties and methods, and support multiple chains and wallets connected at one time. When `useChainWallet` is called, corresponding chainWallet will be activated.
 
 - [`useManager`](/use-manager): Manage all chains and wallets.
 
@@ -111,13 +113,13 @@ export const wallets = [keplrExtension, KeplrMobile];
 
 In addition, you can integrate new wallets in a few steps.
 
-🔌 [How to integrate new wallets into CosmosKit](https://docs.cosmoskit.com/integrating-wallets/adding-new-wallets)
+🔌 [How to integrate new wallets into CosmosKit](/integrating-wallets/adding-new-wallets)
 
 ### walletModal
 
-> This property is **required** if `ChainProvider` is imported from `@comos-kit/react-lite`, and is **optional** if imported from `@comos-kit/react`.
+Optional in most cases (Exception see [useChain](/use-chain)).
 
-**Type:** `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
+**Type**: `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
 
 Basically the order of wallets follows the order of property `wallets` in ChainProvider, except that all mobiles are moved to the back.
 
@@ -408,3 +410,10 @@ It records current wallet name. You can use this key to implement auto-connectio
 - **Type**: `SimpleAccount[]`
 
 It records the connected chains' account information. It's used for account restore when refreshing in CosmosKit. And it will expire after provided [session duration](#sessionoptions).
+
+## Differences between `useChain` and `useChainWallet`
+
+1. `useChainWallet` requires an extra prarameter `walletName`.
+2. `useChain` will pop up a wallet modal to connect while `useChainWallet` not.
+3. `useChain` exposes extra `openView` and `closeView` methods and `walletRepo` property.
+4. the return value of methods `getRpcEndpoint`, `getRestEndpoint`, `getStargateClient`, `getCosmWasmClient`, `getNameService` can be different between `useChain` and `useChainWallet`, because `useChain` explores all `chainWallets` related to the prarameter `chainName`.

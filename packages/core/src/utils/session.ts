@@ -1,11 +1,11 @@
 import { SessionOptions } from '../types';
 
 export class Session {
-  sesessionOptions: SessionOptions;
+  sessionOptions: SessionOptions;
   timeoutId?: string | number | NodeJS.Timeout;
 
   constructor(sessionOptions: SessionOptions) {
-    this.sesessionOptions = sessionOptions;
+    this.sessionOptions = sessionOptions;
   }
 
   update() {
@@ -13,7 +13,7 @@ export class Session {
       clearTimeout(this.timeoutId);
     }
     this.timeoutId = setTimeout(() => {
-      this.sesessionOptions.callback?.();
-    }, this.sesessionOptions.duration);
+      this.sessionOptions.callback?.();
+    }, this.sessionOptions.duration);
   }
 }

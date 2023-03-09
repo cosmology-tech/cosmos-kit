@@ -17,7 +17,7 @@ export const WalletListView = ({
   const defaultInitialFocus = useRef();
 
   const onWalletClicked = useCallback((wallet: ChainWalletBase) => {
-    wallet.connect(void 0, void 0, true);
+    wallet.connect(void 0, true);
   }, []);
 
   const modalHead = (

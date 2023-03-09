@@ -2,12 +2,12 @@
 /* eslint-disable no-console */
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { StargateClient } from '@cosmjs/stargate';
-import EventEmitter from 'events';
 
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
-import { AppEnv, ChainRecord, SessionOptions, WalletName } from './types';
+import { AppEnv, ChainRecord, WalletName } from './types';
+import { Session } from './utils';
 
 /**
  * Store all ChainWallets for a particular Chain.
@@ -16,23 +16,16 @@ export class WalletRepo extends StateBase {
   isActive = false;
   chainRecord: ChainRecord;
   private _wallets: ChainWalletBase[];
-  options = {
-    mutexWallet: true, // only allow one wallet type to connect one time
-  };
-  sessionOptions?: SessionOptions;
   namespace = 'cosmos';
+  session: Session;
+  repelWallet: boolean = true;
 
-  constructor(
-    chainRecord: ChainRecord,
-    wallets: ChainWalletBase[] = [],
-    sessionOptions?: SessionOptions
-  ) {
+  constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
     super();
     this.chainRecord = chainRecord;
-    this.sessionOptions = sessionOptions;
     this._wallets = wallets;
 
-    if (this.options.mutexWallet) {
+    if (this.repelWallet) {
       this.wallets.forEach((w) => {
         w.updateCallbacks({
           ...w.callbacks,
@@ -87,11 +80,10 @@ export class WalletRepo extends StateBase {
     return this.wallets.length === 1;
   }
 
-  // you should never use current when `uniqueWallet` is set false
   get current(): ChainWalletBase | undefined {
-    if (!this.options.mutexWallet) {
+    if (!this.repelWallet) {
       this.logger.warn(
-        "It's meaningless to use current when `uniqueWallet` is set false."
+        'when `repelWallet` is set false, `current` is always undefined.'
       );
       return void 0;
     }
@@ -114,7 +106,7 @@ export class WalletRepo extends StateBase {
   connect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
-      await wallet?.connect(this.sessionOptions, void 0, sync);
+      await wallet?.connect(void 0, sync);
     } else {
       this.openView();
     }

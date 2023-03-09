@@ -1,18 +1,17 @@
-## Hook - useChain
+## Hook - useChainWallet
 
 - required provider: [**ChainProvider**](/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite`
 
-> To use `useChain` with `ChainProvider` from `@cosmos-kit/react-lite`, property [`walletModal`](/chain-provider#walletmodal) must be provided. Or you can choose `ChainProvider` from `@cosmos-kit/react`, which provides `DefaultModal`. Or you can use [`useChainWallet`](/use-chain-wallet) instead.
-
 - parameters:
     - **chainName**: `ChainName` ( = `string` );
+    - **walletName**: `WalletName` ( = `string` );
     - **sync**: `boolean` = `true`
 
 > prarameter `sync` means whether to synchronize connection and disconnection to all other activated chainWallets.
 
-- return type: [**ChainContext**](#type-chaincontext)
+- return type: [**ChainWalletContext**](#type-chainwalletcontext)
 
-## Type - ChainContext
+## Type - ChainWalletContext
 
 ### Properties
 
@@ -37,8 +36,6 @@
 
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
-| **openView**      | open modal       | - | `void` | N |
-| **closeView**      | close modal       | - | `void` | N |
 | **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
 | **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
 | **getRpcEndpoint** | test connection and return valid rpc endpoint    | - | `string` | Y |
@@ -57,8 +54,8 @@
 
 | Name      | Description | Type | Default |
 | ----------- | ----------- | -- | -- |
-| **qrUrl**      |  -  | `Mutable<string> | undefined` | `undefined` |
-| **appUrl**   | -   | `Mutable<string> | undefined` | `undefined` |
+| **qrUrl**      |  -  | `Mutable\<string\> | undefined` | `undefined` |
+| **appUrl**   | -   | `Mutable\<string\> | undefined` | `undefined` |
 
 ### Methods from Wallet Client
 
@@ -83,13 +80,7 @@
 | Name      | Description | Type | Default |
 | ----------- | ----------- | -- | -- |
 | **chainWallet**   | current chainWallet   | `ChainWalletBase \| undefined` | `undefined` |
-| **walletRepo**   | wallet repository, you can get all the chainWallets from this repo   | `WalletRepo` | - |
-
 
 ## Examples
 
-🚀 [fetch address](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/index.tsx)
-
-🚀 [fetch balance & send tokens](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/tx.tsx)
-
-🚀 [vote](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/gov.tsx)
+🚀 [fetch address](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/use-chain-wallet.tsx)

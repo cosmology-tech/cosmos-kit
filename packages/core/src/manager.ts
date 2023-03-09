@@ -2,7 +2,7 @@ import { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
-import { MainWalletBase, StateBase } from './bases';
+import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
 import { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
@@ -33,14 +33,9 @@ export class WalletManager extends StateBase {
   defaultNameService: NameServiceName = 'icns';
   mainWallets: MainWalletBase[] = [];
   coreEmitter: EventEmitter;
-
-  readonly sessionOptions: SessionOptions = {
-    duration: 1800000,
-    callback: () =>
-      window?.localStorage.removeItem('cosmos-kit@1:core//accounts'),
-  };
   walletConnectOptions?: WalletConnectOptions;
   readonly session: Session;
+  repelWallet: boolean = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
 
   constructor(
     chains: Chain[],
@@ -57,8 +52,14 @@ export class WalletManager extends StateBase {
     this.coreEmitter = new EventEmitter();
     this.logger = logger;
     if (defaultNameService) this.defaultNameService = defaultNameService;
-    if (sessionOptions) this.sessionOptions = sessionOptions;
-    this.session = new Session(this.sessionOptions);
+    this.session = new Session({
+      duration: 1800000,
+      callback: () => {
+        this.mainWallets.forEach((w) => w.disconnectAll(false));
+        window?.localStorage.removeItem('cosmos-kit@1:core//accounts');
+      },
+      ...sessionOptions,
+    });
     this.walletConnectOptions = walletConnectOptions;
     this.init(
       chains,
@@ -102,12 +103,22 @@ export class WalletManager extends StateBase {
     this.chainRecords.forEach((chainRecord) => {
       const repo = new WalletRepo(
         chainRecord,
-        wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!),
-        this.sessionOptions
+        wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!)
       );
       repo.logger = this.logger;
+      repo.repelWallet = this.repelWallet;
+      repo.session = this.session;
       this.walletRepos.push(repo);
     });
+  }
+
+  setWalletRepel(value: boolean) {
+    this.repelWallet = value;
+    this.walletRepos.forEach((repo) => (repo.repelWallet = value));
+    window?.localStorage.setItem(
+      'cosmos-kit@1:core//repel-wallet',
+      value.toString()
+    );
   }
 
   addChains = (
@@ -139,17 +150,13 @@ export class WalletManager extends StateBase {
       wallet.setChains(newChainRecords, false);
     });
 
-    const newWalletRepos = newChainRecords.map((chainRecord) => {
-      return new WalletRepo(
+    newChainRecords.forEach((chainRecord) => {
+      const repo = new WalletRepo(
         chainRecord,
         this.mainWallets.map(
           ({ getChainWallet }) => getChainWallet(chainRecord.name)!
-        ),
-        this.sessionOptions
+        )
       );
-    });
-
-    newWalletRepos.forEach((repo) => {
       repo.setActions({
         viewOpen: this.actions?.viewOpen,
         viewWalletRepo: this.actions?.viewWalletRepo,
@@ -162,6 +169,8 @@ export class WalletManager extends StateBase {
         });
       });
       repo.logger = this.logger;
+      repo.repelWallet = this.repelWallet;
+      repo.session = this.session;
 
       const index = this.walletRepos.findIndex(
         (repo2) => repo2.chainName !== repo.chainName
@@ -206,6 +215,20 @@ export class WalletManager extends StateBase {
     }
 
     return walletRepo;
+  };
+
+  getChainWallet = (
+    chainName: ChainName,
+    walletName: WalletName
+  ): ChainWalletBase => {
+    const chainWallet: ChainWalletBase | undefined = this.getMainWallet(
+      walletName
+    ).getChainWallet(chainName);
+
+    if (!chainWallet) {
+      throw new Error(`${chainName} is not provided!`);
+    }
+    return chainWallet;
   };
 
   getChainRecord = (chainName: ChainName): ChainRecord => {

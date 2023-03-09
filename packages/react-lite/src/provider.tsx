@@ -24,6 +24,7 @@ import React, {
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
+  modalProvided: boolean;
 } | null>(null);
 
 export const ChainProvider = ({
@@ -42,7 +43,7 @@ export const ChainProvider = ({
   chains: Chain[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
-  walletModal: (props: WalletModalProps) => JSX.Element;
+  walletModal?: (props: WalletModalProps) => JSX.Element;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
@@ -107,12 +108,16 @@ export const ChainProvider = ({
   }, []);
 
   return (
-    <walletContext.Provider value={{ walletManager }}>
-      <ProvidedWalletModal
-        isOpen={isViewOpen}
-        setOpen={setViewOpen}
-        walletRepo={viewWalletRepo}
-      />
+    <walletContext.Provider
+      value={{ walletManager, modalProvided: Boolean(ProvidedWalletModal) }}
+    >
+      {ProvidedWalletModal && (
+        <ProvidedWalletModal
+          isOpen={isViewOpen}
+          setOpen={setViewOpen}
+          walletRepo={viewWalletRepo}
+        />
+      )}
       {children}
     </walletContext.Provider>
   );

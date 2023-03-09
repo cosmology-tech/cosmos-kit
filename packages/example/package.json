@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
+    "@cosmology-ui/react": "^0.1.21",
     "@cosmos-kit/core": "^1.1.4",
     "@cosmos-kit/cosmostation": "^0.15.5",
     "@cosmos-kit/keplr": "^0.33.5",

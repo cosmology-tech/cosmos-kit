@@ -151,11 +151,7 @@ export abstract class WalletBase extends StateBase {
     }
   }
 
-  connect = async (
-    sessionOptions?: SessionOptions,
-    callbacks?: Callbacks,
-    sync?: boolean
-  ) => {
+  connect = async (callbacks?: Callbacks, sync?: boolean) => {
     await (callbacks || this.callbacks)?.beforeConnect?.();
 
     if (this.isMobile && this.walletInfo.mobileDisabled) {
@@ -187,12 +183,6 @@ export abstract class WalletBase extends StateBase {
         }
       }
       await this.update();
-
-      if (sessionOptions?.duration) {
-        setTimeout(() => {
-          this.disconnect(callbacks);
-        }, sessionOptions?.duration);
-      }
     } catch (error) {
       this.setError(error as Error);
     }
@@ -201,8 +191,5 @@ export abstract class WalletBase extends StateBase {
 
   abstract initClient(options?: any): void | Promise<void>;
 
-  abstract update(
-    sessionOptions?: SessionOptions,
-    callbacks?: Callbacks
-  ): void | Promise<void>;
+  abstract update(callbacks?: Callbacks): void | Promise<void>;
 }

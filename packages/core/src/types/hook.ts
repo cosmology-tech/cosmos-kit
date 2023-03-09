@@ -25,7 +25,7 @@ import { ChainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { CosmosClientType, ModalTheme, State } from './common';
+import { CosmosClientType, ModalTheme, Mutable, State } from './common';
 import { EndpointOptions, EventName, SignerOptions } from './manager';
 import {
   BroadcastMode,
@@ -39,16 +39,12 @@ import {
   WalletStatus,
 } from './wallet';
 
-export interface ChainContext {
-  walletRepo: WalletRepo;
+export interface ChainWalletContext {
   chainWallet: ChainWalletBase | undefined;
-  // client: WalletClient | undefined;
-  // clientStatus: State;
-  // clientMessage: string | undefined;
 
   chain: Chain;
   assets: AssetList | undefined;
-  wallet: Wallet | undefined;
+  wallet: Wallet;
   logoUrl: string | undefined;
   address: string | undefined;
   username: string | undefined;
@@ -62,9 +58,7 @@ export interface ChainContext {
   isWalletNotExist: boolean;
   isWalletError: boolean;
 
-  openView: () => void;
-  closeView: () => void;
-  connect: (wallet?: WalletName) => Promise<void>;
+  connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   getRpcEndpoint: () => Promise<string>;
   getRestEndpoint: () => Promise<string>;
@@ -97,7 +91,10 @@ export interface ChainContext {
     type?: CosmosClientType
   ) => Promise<DeliverTxResponse>;
 
-  // methods exposed from wallet client
+  // from wallet client
+  qrUrl: Mutable<string> | undefined;
+  appUrl: Mutable<string> | undefined;
+
   enable: () => Promise<void>;
   getAccount: () => Promise<WalletAccount>;
   getOfflineSigner: () => Promise<OfflineSigner>;
@@ -114,6 +111,13 @@ export interface ChainContext {
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
+}
+
+export interface ChainContext extends ChainWalletContext {
+  wallet: Wallet | undefined;
+  walletRepo: WalletRepo;
+  openView: () => void;
+  closeView: () => void;
 }
 
 export interface ManagerContext {

@@ -144,7 +144,7 @@ export class ChainWalletBase extends WalletBase {
     throw new Error('initClient not implemented');
   }
 
-  async update(sessionOptions?: SessionOptions, callbacks?: Callbacks) {
+  async update(callbacks?: Callbacks) {
     this.setState(State.Pending);
     this.setMessage(void 0);
 
@@ -173,12 +173,6 @@ export class ChainWalletBase extends WalletBase {
       this.setData(account);
       this.setState(State.Done);
       this.setMessage(void 0);
-
-      if (sessionOptions?.duration) {
-        setTimeout(() => {
-          this.disconnect(callbacks);
-        }, sessionOptions?.duration);
-      }
     } catch (e) {
       this.logger?.error(e);
       if (e && this.rejectMatched(e as Error)) {
