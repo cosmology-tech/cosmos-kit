@@ -144,7 +144,7 @@ export class ChainWalletBase extends WalletBase {
     throw new Error('initClient not implemented');
   }
 
-  async update(callbacks?: Callbacks) {
+  async update() {
     this.setState(State.Pending);
     this.setMessage(void 0);
 

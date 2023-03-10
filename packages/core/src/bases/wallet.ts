@@ -121,16 +121,16 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  disconnect = async (callbacks?: Callbacks, sync?: boolean) => {
+  disconnect = async (sync?: boolean) => {
     if (sync) {
       this.emitter?.emit('sync_disconnect', (this as any).chainName);
       this.logger?.info('[WALLET EVENT] Emit `sync_disconnect`');
     }
-    await (callbacks || this.callbacks)?.beforeDisconnect?.();
+    await this.callbacks?.beforeDisconnect?.();
     this.reset();
     window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
     await this.client?.disconnect?.();
-    await (callbacks || this.callbacks)?.afterDisconnect?.();
+    await this.callbacks?.afterDisconnect?.();
   };
 
   setClientNotExist() {
@@ -151,8 +151,8 @@ export abstract class WalletBase extends StateBase {
     }
   }
 
-  connect = async (callbacks?: Callbacks, sync?: boolean) => {
-    await (callbacks || this.callbacks)?.beforeConnect?.();
+  connect = async (sync?: boolean) => {
+    await this.callbacks?.beforeConnect?.();
 
     if (this.isMobile && this.walletInfo.mobileDisabled) {
       this.setError(
@@ -186,10 +186,10 @@ export abstract class WalletBase extends StateBase {
     } catch (error) {
       this.setError(error as Error);
     }
-    await (callbacks || this.callbacks)?.afterConnect?.();
+    await this.callbacks?.afterConnect?.();
   };
 
   abstract initClient(options?: any): void | Promise<void>;
 
-  abstract update(callbacks?: Callbacks): void | Promise<void>;
+  abstract update(): void | Promise<void>;
 }

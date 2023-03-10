@@ -50,7 +50,7 @@ export const QRCodeView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
   }, [state, message]);
 
   const onRefresh = useCallback(() => {
-    wallet.connect(void 0, false);
+    wallet.connect(false);
   }, [wallet]);
 
   const modalHead = (

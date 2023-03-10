@@ -118,7 +118,7 @@ export abstract class MainWalletBase extends WalletBase {
     return [WalletStatus.Connected, void 0];
   };
 
-  async update(callbacks?: Callbacks) {}
+  async update() {}
 
   async connectAll(activeOnly: boolean = true, exclude?: ChainName) {
     const chainWalletList = this.getChainWalletList(activeOnly);
