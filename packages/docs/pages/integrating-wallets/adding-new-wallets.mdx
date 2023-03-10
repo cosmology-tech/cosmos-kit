@@ -38,7 +38,7 @@
 | **prettyName**   | `string`   | display name |
 | **mode**   | `WalletMode = 'extension' \| 'wallet-connect'`   | wallet client type |
 | **mobileDisabled**<sup>*</sup>  | `boolean`   | display on mobile or not |
-| **walletconnect** | `{ name: string; projectId: string }`   | only required when you are using `@cosmos-kit/walletconnect` |
+| **walletconnect** | `{ name: string; projectId: string; encoding?: BufferEncoding }`   | only required when you are integrating mobile wallets based on [walletconnect](https://walletconnect.com/). If `encoding` is undefined, by default using `hex` to encode bytes |
 
 \* <span style={{fontSize: '0.85rem'}}> Usually `true` when **mode** is `wallet-connect`,  `false` when **mode** is `extension`.</span>
 

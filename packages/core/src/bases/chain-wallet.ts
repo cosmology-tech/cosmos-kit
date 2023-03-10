@@ -149,7 +149,7 @@ export class ChainWalletBase extends WalletBase {
     this.setMessage(void 0);
 
     try {
-      await this.client.connect?.(this.chainId, this.isMobile);
+      await this.client.connect?.(this.chainId);
 
       let account: SimpleAccount;
       try {

@@ -56,6 +56,7 @@ export const WalletModal = ({
     },
   });
   const walletStatus = current?.walletStatus;
+  const message = current?.message;
 
   useEffect(() => {
     if (isOpen) {
@@ -91,7 +92,7 @@ export const WalletModal = ({
           break;
       }
     }
-  }, [isOpen, qrState, walletStatus, qrMsg]);
+  }, [isOpen, qrState, walletStatus, qrMsg, message]);
 
   const onCloseModal = useCallback(() => {
     setOpen(false);
@@ -140,6 +141,8 @@ export const WalletModal = ({
     qrState,
     walletStatus,
     walletRepo,
+    message,
+    qrMsg,
   ]);
 
   return (

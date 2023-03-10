@@ -1,6 +1,13 @@
 /* eslint-disable no-alert */
 import { Asset, AssetList } from "@chain-registry/types";
-import { Button, Center, Container } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  Center,
+  Container,
+  Text,
+} from "@chakra-ui/react";
 import { StdFee } from "@cosmjs/amino";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { useChain, useWalletClient } from "@cosmos-kit/react";
@@ -50,7 +57,7 @@ const sendTokens = (
       amount: [
         {
           denom: coin.base,
-          amount: "2000",
+          amount: "1",
         },
       ],
       gas: "86364",
@@ -69,6 +76,13 @@ const sendTokens = (
 };
 
 export default function Home() {
+  const [cosmo_getAccount, setCosmo_getAccount] = useState<
+    string | undefined
+  >();
+  const [cosmos_signAmino, setCosmos_signAmino] = useState<
+    string | undefined
+  >();
+
   const { getSigningStargateClient, address, status, getRpcEndpoint } =
     useChain(chainName);
 
@@ -136,7 +150,7 @@ export default function Home() {
     <Container maxW="5xl" py={10}>
       <ChainsTXWalletSection chainName={chainName} />
 
-      <Center mb={16}>
+      <Center mb={16} flexDirection="column">
         <SendTokensCard
           isConnectWallet={status === "Connected"}
           balance={balance.toNumber()}
@@ -153,54 +167,56 @@ export default function Home() {
             getBalance();
           }}
         />
-        <Button
-          onClick={async () => {
-            const r = await (client as any).getAccount("cosmoshub-4");
-            console.log(
-              "%ctx.tsx line:396 cosmos_getAccounts",
-              "color: #007acc;",
-              r
-            );
-          }}
-        >
-          cosmos_getAccounts
-        </Button>
-        <Button
-          onClick={async () => {
-            if (address) {
-              const r = await client?._signDirect?.(
-                "cosmoshub-4",
-                address,
-                directSignDoc
-              );
+        <Center marginY={16} flexDirection="column">
+          <Button
+            onClick={async () => {
+              const r = await (client as any).getAccount("cosmoshub-4");
+              setCosmo_getAccount(JSON.stringify(r));
               console.log(
-                "%ctx.tsx line:396 cosmos_signDirect",
+                "%ctx.tsx line:396 cosmos_getAccounts",
                 "color: #007acc;",
                 r
               );
-            }
-          }}
-        >
-          cosmos_signDirect
-        </Button>
-        <Button
-          onClick={async () => {
-            if (address) {
-              const r = await client?.signAmino?.(
-                "cosmoshub-4",
-                address,
-                aminoSignDoc
-              );
-              console.log(
-                "%ctx.tsx line:396 cosmos_signAmino",
-                "color: #007acc;",
-                r
-              );
-            }
-          }}
-        >
-          cosmos_signAmino
-        </Button>
+            }}
+          >
+            cosmos_getAccounts
+          </Button>
+          {cosmo_getAccount && (
+            <Card>
+              <CardBody>
+                <Text>{cosmo_getAccount}</Text>
+              </CardBody>
+            </Card>
+          )}
+        </Center>
+        <Center mb={16} flexDirection="column">
+          <Button
+            onClick={async () => {
+              if (address) {
+                const r = await client?.signAmino?.(
+                  "cosmoshub-4",
+                  address,
+                  aminoSignDoc
+                );
+                setCosmos_signAmino(JSON.stringify(r));
+                console.log(
+                  "%ctx.tsx line:396 cosmos_signAmino",
+                  "color: #007acc;",
+                  r
+                );
+              }
+            }}
+          >
+            cosmos_signAmino
+          </Button>
+          {cosmos_signAmino && (
+            <Card>
+              <CardBody>
+                <Text>{cosmos_signAmino}</Text>
+              </CardBody>
+            </Card>
+          )}
+        </Center>
       </Center>
     </Container>
   );

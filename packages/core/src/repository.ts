@@ -6,7 +6,7 @@ import { StargateClient } from '@cosmjs/stargate';
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
-import { AppEnv, ChainRecord, WalletName } from './types';
+import { DappEnv, ChainRecord, WalletName } from './types';
 import { Session } from './utils';
 
 /**
@@ -41,7 +41,7 @@ export class WalletRepo extends StateBase {
     }
   }
 
-  setEnv(env?: AppEnv): void {
+  setEnv(env?: DappEnv): void {
     this._env = env;
     this.wallets.forEach((w) => w.setEnv(env));
   }

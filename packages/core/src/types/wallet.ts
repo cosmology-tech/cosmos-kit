@@ -13,7 +13,7 @@ import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, Mutable } from './common';
+import { DappEnv, Mutable } from './common';
 
 export interface Key {
   readonly name: string;
@@ -42,7 +42,7 @@ export enum WalletStatus {
   Error = 'Error',
 }
 
-export interface DownloadInfo extends AppEnv {
+export interface DownloadInfo extends DappEnv {
   icon?: string | ((props: any) => JSX.Element); // i.e. { IconType } from 'react-icons';
   link: string;
 }
@@ -54,6 +54,11 @@ export interface Metadata {
   description: string;
   url: string;
   icons: string[];
+}
+
+export interface AppUrl {
+  native?: string;
+  universal?: string;
 }
 
 export interface Wallet {
@@ -75,6 +80,14 @@ export interface Wallet {
   walletconnect?: {
     name: string;
     projectId: string;
+    encoding?: BufferEncoding; // encoding for bytes, default 'hex'
+    mobile?: AppUrl; // redirect link on mobile
+    formatNativeUrl?: (appUrl: string, wcUri: string, name: string) => string;
+    formatUniversalUrl?: (
+      appUrl: string,
+      wcUri: string,
+      name: string
+    ) => string;
   };
 }
 
@@ -115,9 +128,9 @@ export interface WalletClient {
   getSimpleAccount: (chainId: string) => Promise<SimpleAccount>;
 
   qrUrl?: Mutable<string>;
-  appUrl?: Mutable<string>;
+  appUrl?: Mutable<AppUrl>;
 
-  connect?: (chainIds: string | string[], isMobile: boolean) => Promise<void>; // called when chain wallet connect is called
+  connect?: (chainIds: string | string[]) => Promise<void>; // called when chain wallet connect is called
   disconnect?: () => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
