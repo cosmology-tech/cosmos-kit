@@ -1,11 +1,9 @@
 import {
-  Callbacks,
   ChainName,
   ChainRecord,
+  DappEnv,
   EndpointOptions,
   IChainWallet,
-  SessionOptions,
-  State,
   Wallet,
   WalletClient,
   WalletStatus,
@@ -26,6 +24,11 @@ export abstract class MainWalletBase extends WalletBase {
     this.emitter.on('broadcast_client', (client: WalletClient) => {
       this.chainWalletMap?.forEach((chainWallet) => {
         chainWallet.initClientDone(client);
+      });
+    });
+    this.emitter.on('broadcast_env', (env: DappEnv) => {
+      this.chainWalletMap?.forEach((chainWallet) => {
+        chainWallet.setEnv(env);
       });
     });
     this.emitter.on('sync_connect', (chainName?: ChainName) => {
@@ -118,7 +121,7 @@ export abstract class MainWalletBase extends WalletBase {
     return [WalletStatus.Connected, void 0];
   };
 
-  async update(callbacks?: Callbacks) {}
+  async update() {}
 
   async connectAll(activeOnly: boolean = true, exclude?: ChainName) {
     const chainWalletList = this.getChainWalletList(activeOnly);

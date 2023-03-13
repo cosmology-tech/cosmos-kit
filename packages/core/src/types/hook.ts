@@ -28,6 +28,7 @@ import { ChainName, ChainRecord } from './chain';
 import { CosmosClientType, ModalTheme, Mutable, State } from './common';
 import { EndpointOptions, EventName, SignerOptions } from './manager';
 import {
+  AppUrl,
   BroadcastMode,
   DirectSignDoc,
   NameServiceName,
@@ -93,7 +94,7 @@ export interface ChainWalletContext {
 
   // from wallet client
   qrUrl: Mutable<string> | undefined;
-  appUrl: Mutable<string> | undefined;
+  appUrl: Mutable<AppUrl> | undefined;
 
   enable: () => Promise<void>;
   getAccount: () => Promise<WalletAccount>;

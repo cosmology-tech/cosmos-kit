@@ -1,4 +1,4 @@
-import { Callbacks, ChainName, ChainRecord, EndpointOptions, IChainWallet, Wallet, WalletStatus } from '../types';
+import { ChainName, ChainRecord, EndpointOptions, IChainWallet, Wallet, WalletStatus } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 export declare abstract class MainWalletBase extends WalletBase {
@@ -12,7 +12,7 @@ export declare abstract class MainWalletBase extends WalletBase {
     getChainWallet: (chainName: string) => ChainWalletBase | undefined;
     getChainWalletList: (activeOnly?: boolean) => ChainWalletBase[];
     getGlobalStatusAndMessage: (activeOnly?: boolean) => [WalletStatus, string | undefined];
-    update(callbacks?: Callbacks): Promise<void>;
+    update(): Promise<void>;
     connectAll(activeOnly?: boolean, exclude?: ChainName): Promise<void>;
     disconnectAll(activeOnly?: boolean, exclude?: ChainName): Promise<void>;
 }

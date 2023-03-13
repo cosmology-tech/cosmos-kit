@@ -317,18 +317,6 @@ export class WalletManager extends StateBase {
 
     this._restoreAccounts();
 
-    this.mainWallets.forEach(async (wallet) => {
-      if (wallet.walletInfo.mode === 'wallet-connect') {
-        await wallet.initClient(this.walletConnectOptions);
-        wallet.emitter?.emit('broadcast_client', wallet.client);
-        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
-      } else {
-        await wallet.initClient();
-        wallet.emitter?.emit('broadcast_client', wallet.client);
-        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
-      }
-    });
-
     const parser = Bowser.getParser(window.navigator.userAgent);
     const env = {
       browser: parser.getBrowserName(true),
@@ -338,7 +326,10 @@ export class WalletManager extends StateBase {
     this.setEnv(env);
     this.walletRepos.forEach((repo) => repo.setEnv(env));
 
-    this.mainWallets.forEach((wallet) => {
+    this.mainWallets.forEach(async (wallet) => {
+      wallet.setEnv(env);
+      wallet.emitter?.emit('broadcast_env', env);
+
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.addEventListener(eventName, this._reconnect);
       });
@@ -347,6 +338,16 @@ export class WalletManager extends StateBase {
           wallet.client?.on?.(eventName, this._reconnect);
         }
       );
+
+      if (wallet.walletInfo.mode === 'wallet-connect') {
+        await wallet.initClient(this.walletConnectOptions);
+        wallet.emitter?.emit('broadcast_client', wallet.client);
+        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
+      } else {
+        await wallet.initClient();
+        wallet.emitter?.emit('broadcast_client', wallet.client);
+        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
+      }
     });
   };
 

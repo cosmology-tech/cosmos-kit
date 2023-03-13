@@ -6,7 +6,7 @@ import { StargateClient } from '@cosmjs/stargate';
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
-import { AppEnv, ChainRecord, WalletName } from './types';
+import { DappEnv, ChainRecord, WalletName } from './types';
 import { Session } from './utils';
 
 /**
@@ -41,7 +41,7 @@ export class WalletRepo extends StateBase {
     }
   }
 
-  setEnv(env?: AppEnv): void {
+  setEnv(env?: DappEnv): void {
     this._env = env;
     this.wallets.forEach((w) => w.setEnv(env));
   }
@@ -106,7 +106,7 @@ export class WalletRepo extends StateBase {
   connect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
-      await wallet?.connect(void 0, sync);
+      await wallet?.connect(sync);
     } else {
       this.openView();
     }
@@ -114,9 +114,9 @@ export class WalletRepo extends StateBase {
 
   disconnect = async (walletName?: WalletName, sync?: boolean) => {
     if (walletName) {
-      await this.getWallet(walletName)?.disconnect(void 0, sync);
+      await this.getWallet(walletName)?.disconnect(sync);
     } else {
-      await this.current.disconnect(void 0, sync);
+      await this.current.disconnect(sync);
     }
   };
 

@@ -10,7 +10,7 @@ import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
 import { CosmosClientType, ModalTheme, Mutable, State } from './common';
 import { EndpointOptions, EventName, SignerOptions } from './manager';
-import { BroadcastMode, DirectSignDoc, NameServiceName, SignOptions, Wallet, WalletAccount, WalletClient, WalletStatus } from './wallet';
+import { AppUrl, BroadcastMode, DirectSignDoc, NameServiceName, SignOptions, Wallet, WalletAccount, WalletClient, WalletStatus } from './wallet';
 export interface ChainWalletContext {
     chainWallet: ChainWalletBase | undefined;
     chain: Chain;
@@ -41,7 +41,7 @@ export interface ChainWalletContext {
     broadcast: (signedMessages: TxRaw, type?: CosmosClientType) => Promise<DeliverTxResponse>;
     signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) => Promise<DeliverTxResponse>;
     qrUrl: Mutable<string> | undefined;
-    appUrl: Mutable<string> | undefined;
+    appUrl: Mutable<AppUrl> | undefined;
     enable: () => Promise<void>;
     getAccount: () => Promise<WalletAccount>;
     getOfflineSigner: () => Promise<OfflineSigner>;

@@ -1,13 +1,13 @@
-import { Actions, AppEnv, Data, Mutable, State, StateActions } from '../types';
+import { Actions, DappEnv, Data, Mutable, State, StateActions } from '../types';
 import { Logger } from '../utils';
 export declare class StateBase {
     protected _mutable: Mutable<Data>;
     actions?: StateActions<Data>;
-    protected _env?: AppEnv;
+    protected _env?: DappEnv;
     logger?: Logger;
     constructor();
-    get env(): AppEnv;
-    setEnv(env?: AppEnv): void;
+    get env(): DappEnv;
+    setEnv(env?: DappEnv): void;
     setActions: (actions: Actions) => void;
     get isMobile(): boolean;
     get mutable(): Mutable<Data>;

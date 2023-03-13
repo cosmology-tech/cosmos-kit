@@ -12,6 +12,7 @@ import {
   DirectSignDoc,
   ExpiredError,
   Logger,
+  AppUrl,
   Mutable,
   RejectedError,
   SignOptions,
@@ -22,6 +23,7 @@ import {
   WalletClient,
   WalletClientActions,
   WalletConnectOptions,
+  DappEnv,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -35,13 +37,12 @@ const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
 export class WCClient implements WalletClient {
   readonly walletInfo: Wallet;
-  walletProjectId: string; // walletconnect wallet project id
-  walletWCName: string; // walletconnect wallet name
+
   signClient?: SignClient;
-  wcWalletInfo?: any;
+  wcCloudInfo?: any; // info from WalletConnect Cloud Explorer
   actions?: WalletClientActions;
   qrUrl: Mutable<string>;
-  appUrl: Mutable<string>;
+  appUrl: Mutable<AppUrl>;
 
   pairings: PairingTypes.Struct[] = [];
   sessions: SessionTypes.Struct[] = [];
@@ -49,6 +50,7 @@ export class WCClient implements WalletClient {
   logger?: Logger;
   options?: WalletConnectOptions;
   relayUrl?: string;
+  env?: DappEnv;
 
   constructor(walletInfo: Wallet) {
     if (!walletInfo.walletconnect) {
@@ -57,11 +59,33 @@ export class WCClient implements WalletClient {
       );
     }
     this.walletInfo = walletInfo;
-    this.walletProjectId = walletInfo.walletconnect!.projectId;
-    this.walletWCName = walletInfo.walletconnect!.name;
 
     this.qrUrl = { state: State.Init };
     this.appUrl = { state: State.Init };
+  }
+
+  get isMobile() {
+    return this.env?.device === 'mobile';
+  }
+
+  // walletconnect wallet name
+  get wcName(): string {
+    return this.walletInfo.walletconnect.name;
+  }
+
+  // wallet defined bytes encoding
+  get wcEncoding(): BufferEncoding {
+    return this.walletInfo.walletconnect.encoding || 'hex';
+  }
+
+  // walletconnect wallet project id
+  get wcProjectId(): string {
+    return this.walletInfo.walletconnect.projectId;
+  }
+
+  // walletconnect wallet mobile link
+  get wcMobile() {
+    return this.walletInfo.walletconnect.mobile;
   }
 
   get accounts(): SimpleAccount[] {
@@ -176,7 +200,7 @@ export class WCClient implements WalletClient {
       .getAll({ active: true })
       .filter(
         (p) =>
-          p.peerMetadata?.name === this.walletWCName &&
+          p.peerMetadata?.name === this.wcName &&
           p.expiry * 1000 > Date.now() + 1000
       );
     this.logger?.info('RESTORED PAIRINGS: ', this.pairings);
@@ -194,7 +218,7 @@ export class WCClient implements WalletClient {
       .getAll()
       .filter(
         (s) =>
-          s.peer.metadata.name === this.walletWCName &&
+          s.peer.metadata.name === this.wcName &&
           s.expiry * 1000 > Date.now() + 1000
       );
     this.logger?.info('RESTORED SESSIONS: ', this.sessions);
@@ -216,13 +240,6 @@ export class WCClient implements WalletClient {
     return this.options?.signClient.projectId;
   }
 
-  async fetchWCWalletInfo() {
-    const fetcUrl = `${EXPLORER_API}/v3/wallets?projectId=${this.dappProjectId}&sdks=sign_v2&search=${this.walletWCName}`;
-    const fetched = await (await fetch(fetcUrl)).json();
-    this.wcWalletInfo =
-      fetched.listings[this.walletInfo.walletconnect?.projectId!];
-  }
-
   setActions(actions: WalletClientActions) {
     this.actions = actions;
   }
@@ -238,6 +255,13 @@ export class WCClient implements WalletClient {
     this.actions?.qrUrl?.message(this.qrUrl.message);
     if (typeof e !== 'string' && e?.stack) {
       this.logger?.error(e.stack);
+    }
+  }
+
+  async init() {
+    await this.initSignClient();
+    if (this.isMobile) {
+      await this.initAppUrl();
     }
   }
 
@@ -260,7 +284,78 @@ export class WCClient implements WalletClient {
     this.restoreSessions();
   }
 
-  async connect(chainIds: string | string[], isMobile: boolean) {
+  async initWCCloudInfo() {
+    const fetcUrl = `${EXPLORER_API}/v3/wallets?projectId=${this.dappProjectId}&sdks=sign_v2&search=${this.wcName}`;
+    const fetched = await (await fetch(fetcUrl)).json();
+    this.wcCloudInfo =
+      fetched.listings[this.walletInfo.walletconnect?.projectId!];
+    this.logger?.info('WalletConnect Info:', this.wcCloudInfo);
+  }
+
+  async initAppUrl() {
+    this.appUrl.state = State.Pending;
+
+    if (!this.wcCloudInfo) await this.initWCCloudInfo();
+
+    const native = this.wcCloudInfo.mobile.native || this.wcMobile?.native;
+    const universal =
+      this.wcCloudInfo.mobile.universal || this.wcMobile?.universal;
+
+    this.appUrl.data = { native, universal };
+    this.appUrl.state = State.Done;
+  }
+
+  get nativeUrl() {
+    return this.appUrl.data?.native;
+  }
+
+  get universalUrl() {
+    return this.appUrl.data?.universal;
+  }
+
+  get redirectHref(): string | undefined {
+    return this.nativeUrl || this.universalUrl;
+  }
+
+  get redirectHrefWithWCUri(): string | undefined {
+    let href: string | undefined;
+    if (this.nativeUrl) {
+      href = (
+        this.walletInfo.walletconnect.formatNativeUrl ||
+        CoreUtil.formatNativeUrl
+      )(this.nativeUrl, this.qrUrl.data, this.walletName);
+    } else if (this.universalUrl) {
+      href = (
+        this.walletInfo.walletconnect.formatNativeUrl ||
+        CoreUtil.formatUniversalUrl
+      )(this.universalUrl, this.qrUrl.data, this.walletName);
+    }
+    return href;
+  }
+
+  get displayQRCode() {
+    if (this.pairing || this.redirect) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  get redirect() {
+    return Boolean(this.isMobile && (this.nativeUrl || this.universalUrl));
+  }
+
+  openApp(withWCUri: boolean = true) {
+    const href = withWCUri ? this.redirectHrefWithWCUri : this.redirectHref;
+    if (href) {
+      this.logger?.info('Redirecting:', href);
+      CoreUtil.openHref(href);
+    } else {
+      this.logger?.error('No redirecting href.');
+    }
+  }
+
+  async connect(chainIds: string | string[]) {
     if (typeof this.signClient === 'undefined') {
       throw new Error('WalletConnect is not initialized');
     }
@@ -278,7 +373,7 @@ export class WCClient implements WalletClient {
     const pairing = this.pairing;
     this.logger?.info('Restored active pairing topic is:', pairing?.topic);
 
-    if (!pairing) this.setQRState(State.Pending);
+    if (this.displayQRCode) this.setQRState(State.Pending);
 
     const requiredNamespaces = {
       cosmos: {
@@ -300,23 +395,14 @@ export class WCClient implements WalletClient {
       });
       this.qrUrl.data = connectResp.uri;
       this.logger?.info('Using QR URI:', connectResp.uri);
-      if (!pairing) this.setQRState(State.Done);
+      if (this.displayQRCode) this.setQRState(State.Done);
     } catch (error) {
       this.logger?.error('Client connect error: ', error);
-      if (!pairing) this.setQRError(error);
+      if (this.displayQRCode) this.setQRError(error);
       return;
     }
 
-    if (isMobile) {
-      this.appUrl.state = State.Pending;
-      this.appUrl.data = await this.getAppUrl();
-      this.appUrl.state = State.Done;
-      if (this.appUrl.data) {
-        CoreUtil.openHref(this.appUrl.data);
-      } else {
-        this.logger?.warn("Can't get app url:", this.walletName);
-      }
-    }
+    if (this.redirect) this.openApp();
 
     try {
       const session = await connectResp.approval();
@@ -327,8 +413,8 @@ export class WCClient implements WalletClient {
       this.logger?.error('Session approval error: ', error);
       await this.deleteInactivePairings();
       if (!error) {
-        this.setQRError(ExpiredError);
-        throw new Error('QRCode Expired');
+        if (this.displayQRCode) this.setQRError(ExpiredError);
+        throw new Error('Proposal Expired');
       } else if (error.code == 5001) {
         throw RejectedError;
       } else {
@@ -339,29 +425,6 @@ export class WCClient implements WalletClient {
         this.setQRState(State.Init);
       }
     }
-  }
-
-  async getAppUrl(): Promise<string | undefined> {
-    if (!this.wcWalletInfo) {
-      await this.fetchWCWalletInfo();
-    }
-
-    const { native, universal } = this.wcWalletInfo.mobile as {
-      native: string | null;
-      universal: string | null;
-    };
-
-    let href: string | undefined;
-    if (universal) {
-      href = CoreUtil.formatUniversalUrl(
-        universal,
-        this.qrUrl.data,
-        this.walletName
-      );
-    } else if (native) {
-      href = CoreUtil.formatNativeUrl(native, this.qrUrl.data, this.walletName);
-    }
-    return href;
   }
 
   async disconnect() {
@@ -445,7 +508,7 @@ export class WCClient implements WalletClient {
     return {
       address,
       algo: algo as Algo,
-      pubkey: new Uint8Array(Buffer.from(pubkey, 'hex')),
+      pubkey: new Uint8Array(Buffer.from(pubkey, this.wcEncoding)),
     };
   }
 
@@ -459,6 +522,9 @@ export class WCClient implements WalletClient {
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
+
+    if (this.redirect) this.openApp();
+
     const resp = await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
@@ -489,7 +555,7 @@ export class WCClient implements WalletClient {
     return result;
   }
 
-  async _signDirect(
+  protected async _signDirect(
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,
@@ -503,11 +569,16 @@ export class WCClient implements WalletClient {
       signerAddress: signer,
       signDoc: {
         chainId: signDoc.chainId,
-        bodyBytes: Buffer.from(signDoc.bodyBytes).toString('hex'),
-        authInfoBytes: Buffer.from(signDoc.authInfoBytes).toString('hex'),
+        bodyBytes: Buffer.from(signDoc.bodyBytes).toString(this.wcEncoding),
+        authInfoBytes: Buffer.from(signDoc.authInfoBytes).toString(
+          this.wcEncoding
+        ),
         accountNumber: signDoc.accountNumber.toString(),
       },
     };
+
+    if (this.redirect) this.openApp();
+
     const resp = await this.signClient.request({
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
@@ -536,8 +607,12 @@ export class WCClient implements WalletClient {
       signed: {
         chainId: signed.chainId,
         accountNumber: Long.fromString(signed.accountNumber, false),
-        authInfoBytes: new Uint8Array(Buffer.from(signed.authInfoBytes, 'hex')),
-        bodyBytes: new Uint8Array(Buffer.from(signed.bodyBytes, 'hex')),
+        authInfoBytes: new Uint8Array(
+          Buffer.from(signed.authInfoBytes, this.wcEncoding)
+        ),
+        bodyBytes: new Uint8Array(
+          Buffer.from(signed.bodyBytes, this.wcEncoding)
+        ),
       },
       signature,
     };

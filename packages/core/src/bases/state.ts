@@ -1,10 +1,10 @@
-import { Actions, AppEnv, Data, Mutable, State, StateActions } from '../types';
+import { Actions, DappEnv, Data, Mutable, State, StateActions } from '../types';
 import { getWalletStatusFromState, Logger } from '../utils';
 
 export class StateBase {
   protected _mutable: Mutable<Data>;
   actions?: StateActions<Data>;
-  protected _env?: AppEnv;
+  protected _env?: DappEnv;
   logger?: Logger;
 
   constructor() {
@@ -15,7 +15,7 @@ export class StateBase {
     return this._env;
   }
 
-  setEnv(env?: AppEnv) {
+  setEnv(env?: DappEnv) {
     this._env = env;
   }
 

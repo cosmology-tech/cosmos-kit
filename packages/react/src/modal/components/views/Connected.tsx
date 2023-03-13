@@ -22,9 +22,7 @@ export const ConnectedView = ({
     address,
   } = wallet;
 
-  const onDisconnect = useCallback(() => wallet.disconnect(void 0, true), [
-    wallet,
-  ]);
+  const onDisconnect = useCallback(() => wallet.disconnect(true), [wallet]);
 
   const modalHead = (
     <SimpleModalHead

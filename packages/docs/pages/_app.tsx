@@ -4,7 +4,7 @@ import { defaultTheme, ChainProvider } from "@cosmos-kit/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { assets, chains } from "chain-registry";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as keplrWallet } from "@cosmos-kit/keplr-extension";
+import { wallets as keplrWallet } from "@cosmos-kit/keplr";
 import { wallets as leapwallets } from "@cosmos-kit/leap";
 import { wallets as frontierwallets } from "@cosmos-kit/frontier";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
@@ -30,6 +30,19 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...trustWallets,
           ...frontierwallets,
         ]}
+        wrappedWithChakra={true}
+        walletConnectOptions={{
+          signClient: {
+            projectId: "61e6745dc9a852e0ed9ba60d28212357",
+            relayUrl: "wss://relay.walletconnect.org",
+            metadata: {
+              name: "CosmosKit Example",
+              description: "CosmosKit Docs",
+              url: "https://docs.cosmoskit.com/",
+              icons: [],
+            },
+          },
+        }}
       >
         <Component {...pageProps} />
       </ChainProvider>

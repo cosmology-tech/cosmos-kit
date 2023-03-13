@@ -34,14 +34,15 @@ export class WCWallet extends MainWalletBase {
         client = this.client as WCClient;
       } else {
         client = new this.WCClient(this.walletInfo);
-        client.emitter = this.emitter;
       }
 
       client.logger = this.logger;
+      client.emitter = this.emitter;
+      client.env = this.env;
 
       if (options) {
         client.options = options;
-        await client.initSignClient();
+        await client.init();
       }
 
       this.initClientDone(client);

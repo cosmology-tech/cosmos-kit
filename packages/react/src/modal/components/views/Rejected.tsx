@@ -19,7 +19,7 @@ export const RejectedView = ({
   } = wallet;
 
   const onReconnect = useCallback(() => {
-    wallet.connect(void 0, false);
+    wallet.connect(false);
   }, [wallet]);
 
   const modalHead = (

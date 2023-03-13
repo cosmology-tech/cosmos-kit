@@ -3,7 +3,7 @@ import { StargateClient } from '@cosmjs/stargate';
 import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
-import { AppEnv, ChainRecord, WalletName } from './types';
+import { DappEnv, ChainRecord, WalletName } from './types';
 import { Session } from './utils';
 /**
  * Store all ChainWallets for a particular Chain.
@@ -16,7 +16,7 @@ export declare class WalletRepo extends StateBase {
     session: Session;
     repelWallet: boolean;
     constructor(chainRecord: ChainRecord, wallets?: ChainWalletBase[]);
-    setEnv(env?: AppEnv): void;
+    setEnv(env?: DappEnv): void;
     activate(): void;
     get chainName(): string;
     get chainLogo(): string | undefined;

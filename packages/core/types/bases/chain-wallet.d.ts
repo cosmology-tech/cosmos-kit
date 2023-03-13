@@ -3,7 +3,7 @@ import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import { SigningStargateClient, SigningStargateClientOptions, StargateClient, StargateClientOptions, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { NameService } from '../name-service';
-import { Callbacks, ChainRecord, CosmosClientType, SimpleAccount, Wallet } from '../types';
+import { ChainRecord, CosmosClientType, SimpleAccount, Wallet } from '../types';
 import { WalletBase } from './wallet';
 export declare class ChainWalletBase extends WalletBase {
     protected _chainRecord: ChainRecord;
@@ -14,7 +14,7 @@ export declare class ChainWalletBase extends WalletBase {
     offlineSigner?: OfflineSigner;
     namespace: string;
     constructor(walletInfo: Wallet, chainRecord: ChainRecord);
-    get appUrl(): import("../types").Mutable<string>;
+    get appUrl(): import("../types").Mutable<import("../types").AppUrl>;
     get qrUrl(): import("../types").Mutable<string>;
     get chainRecord(): ChainRecord;
     get chainName(): string;
@@ -31,7 +31,7 @@ export declare class ChainWalletBase extends WalletBase {
     get address(): string | undefined;
     setData(data: SimpleAccount | undefined): void;
     initClient(options?: any): void | Promise<void>;
-    update(callbacks?: Callbacks): Promise<void>;
+    update(): Promise<void>;
     getRpcEndpoint: () => Promise<string>;
     getRestEndpoint: () => Promise<string>;
     getStargateClient: () => Promise<StargateClient>;

@@ -44,12 +44,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           wallets={[
             ...keplrWallets,
             ...cosmostationWallets,
-            // ...leapWallets,
-            // ...vectisWallets,
+            ...leapWallets,
+            ...vectisWallets,
             // ...xdefiWallets,
-            // ...omniWallets,
-            // ...trustWallets,
-            // ...frontierWallets,
+            ...omniWallets,
+            ...trustWallets,
+            ...frontierWallets,
           ]}
           walletModal={DefaultModal}
           defaultNameService={"stargaze"}

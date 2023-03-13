@@ -1,11 +1,12 @@
 /// <reference types="react" />
+/// <reference types="node" />
 /// <reference types="long" />
 import { AccountData, AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 import { DirectSignResponse, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { SignClientTypes } from '@walletconnect/types';
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainName, ChainRecord } from './chain';
-import { AppEnv, Mutable } from './common';
+import { DappEnv, Mutable } from './common';
 export interface Key {
     readonly name: string;
     readonly algo: string;
@@ -29,7 +30,7 @@ export declare enum WalletStatus {
     Rejected = "Rejected",
     Error = "Error"
 }
-export interface DownloadInfo extends AppEnv {
+export interface DownloadInfo extends DappEnv {
     icon?: string | ((props: any) => JSX.Element);
     link: string;
 }
@@ -39,6 +40,10 @@ export interface Metadata {
     description: string;
     url: string;
     icons: string[];
+}
+export interface AppUrl {
+    native?: string;
+    universal?: string;
 }
 export interface Wallet {
     name: WalletName;
@@ -57,6 +62,10 @@ export interface Wallet {
     walletconnect?: {
         name: string;
         projectId: string;
+        encoding?: BufferEncoding;
+        mobile?: AppUrl;
+        formatNativeUrl?: (appUrl: string, wcUri: string, name: string) => string;
+        formatUniversalUrl?: (appUrl: string, wcUri: string, name: string) => string;
     };
 }
 export declare type Bech32Address = string;
@@ -90,8 +99,8 @@ export declare enum BroadcastMode {
 export interface WalletClient {
     getSimpleAccount: (chainId: string) => Promise<SimpleAccount>;
     qrUrl?: Mutable<string>;
-    appUrl?: Mutable<string>;
-    connect?: (chainIds: string | string[], isMobile: boolean) => Promise<void>;
+    appUrl?: Mutable<AppUrl>;
+    connect?: (chainIds: string | string[]) => Promise<void>;
     disconnect?: () => Promise<void>;
     on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
