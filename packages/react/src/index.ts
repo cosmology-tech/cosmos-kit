@@ -5,6 +5,7 @@ export {
   useManager,
   useWallet,
   useWalletClient,
+  useNameService,
 } from '@cosmos-kit/react-lite';
 export * from './modal';
 export * from './provider';

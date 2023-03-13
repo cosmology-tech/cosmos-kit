@@ -314,6 +314,10 @@ export class WCClient implements WalletClient {
   }
 
   get redirectHref(): string | undefined {
+    return this.nativeUrl || this.universalUrl;
+  }
+
+  get redirectHrefWithWCUri(): string | undefined {
     let href: string | undefined;
     if (this.nativeUrl) {
       href = (
@@ -341,9 +345,14 @@ export class WCClient implements WalletClient {
     return Boolean(this.isMobile && (this.nativeUrl || this.universalUrl));
   }
 
-  openApp() {
-    this.logger?.info('Redirecting:', this.redirectHref);
-    CoreUtil.openHref(this.redirectHref);
+  openApp(withWCUri: boolean = true) {
+    const href = withWCUri ? this.redirectHrefWithWCUri : this.redirectHref;
+    if (href) {
+      this.logger?.info('Redirecting:', href);
+      CoreUtil.openHref(href);
+    } else {
+      this.logger?.error('No redirecting href.');
+    }
   }
 
   async connect(chainIds: string | string[]) {

@@ -1,14 +1,16 @@
 /* eslint-disable no-alert */
 import { Button, Center } from "@chakra-ui/react";
-import { useChain } from "@cosmos-kit/react";
+import { useChainWallet } from "@cosmos-kit/react";
 import { useEffect } from "react";
 
 const Test = () => {
-  const walletManager = useChain("osmosis");
-  const { signAndBroadcast, connect, address } = walletManager;
+  const { signAndBroadcast, connect, address } = useChainWallet(
+    "osmosis",
+    "keplr-extension"
+  );
 
   useEffect(() => {
-    connect("keplr-extension");
+    connect();
   }, []);
 
   const onClick = async () => {

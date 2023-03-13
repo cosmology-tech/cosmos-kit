@@ -46,9 +46,10 @@ export declare class WCClient implements WalletClient {
     get nativeUrl(): string;
     get universalUrl(): string;
     get redirectHref(): string | undefined;
+    get redirectHrefWithWCUri(): string | undefined;
     get displayQRCode(): boolean;
     get redirect(): boolean;
-    openApp(): void;
+    openApp(withWCUri?: boolean): void;
     connect(chainIds: string | string[]): Promise<void>;
     disconnect(): Promise<void>;
     getSimpleAccount(chainId: string): Promise<SimpleAccount>;
