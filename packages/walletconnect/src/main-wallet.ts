@@ -25,6 +25,12 @@ export class WCWallet extends MainWalletBase {
   }
 
   async initClient(options?: WalletConnectOptions) {
+    if (!options) {
+      throw new Error(
+        'Please provide `walletconnectOptions` in `ChainProvider` Properties.'
+      );
+    }
+
     this.initingClient();
 
     try {
