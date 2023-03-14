@@ -277,7 +277,7 @@ export class WalletManager extends StateBase {
   };
 
   private _reconnect = async () => {
-    this.logger?.info('[CORE EVENT] Emit `refresh_connection`');
+    this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
     this.coreEmitter.emit('refresh_connection');
     const walletName = window.localStorage.getItem(
       'cosmos-kit@1:core//current-wallet'
@@ -342,11 +342,11 @@ export class WalletManager extends StateBase {
       if (wallet.walletInfo.mode === 'wallet-connect') {
         await wallet.initClient(this.walletConnectOptions);
         wallet.emitter?.emit('broadcast_client', wallet.client);
-        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
+        this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
       } else {
         await wallet.initClient();
         wallet.emitter?.emit('broadcast_client', wallet.client);
-        this.logger?.info('[WALLET EVENT] Emit `broadcast_client`');
+        this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
       }
     });
   };

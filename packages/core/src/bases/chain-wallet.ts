@@ -156,7 +156,7 @@ export class ChainWalletBase extends WalletBase {
 
       let account: SimpleAccount;
       try {
-        this.logger?.info(
+        this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
         account = await this.client.getSimpleAccount(this.chainId);
@@ -202,7 +202,7 @@ export class ChainWalletBase extends WalletBase {
     for (const endpoint of this.rpcEndpoints || []) {
       if (await isValidEndpoint(endpoint, this.logger)) {
         this._rpcEndpoint = endpoint;
-        this.logger?.info('Using RPC endpoint ' + endpoint);
+        this.logger?.debug('Using RPC endpoint ' + endpoint);
         return endpoint;
       }
     }
@@ -221,7 +221,7 @@ export class ChainWalletBase extends WalletBase {
     for (const endpoint of this.restEndpoints || []) {
       if (await isValidEndpoint(endpoint, this.logger)) {
         this._restEndpoint = endpoint;
-        this.logger?.info('Using REST endpoint ' + endpoint);
+        this.logger?.debug('Using REST endpoint ' + endpoint);
         return endpoint;
       }
     }

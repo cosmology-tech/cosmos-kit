@@ -39,7 +39,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               name: "CosmosKit Example",
               description: "CosmosKit Docs",
               url: "https://docs.cosmoskit.com/",
-              icons: [],
+              icons: [
+                "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
+              ],
             },
           },
         }}

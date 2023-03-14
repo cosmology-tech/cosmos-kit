@@ -194,5 +194,5 @@ export interface NameServiceRegistry {
 }
 
 export interface WalletConnectOptions {
-  signClient: SignClientTypes.Options;
+  signClient: { projectId: string } & SignClientTypes.Options;
 }

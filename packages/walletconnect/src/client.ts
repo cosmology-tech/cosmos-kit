@@ -120,7 +120,7 @@ export class WCClient implements WalletClient {
       }
     });
     this.emitter?.emit('reset', chainIds);
-    this.logger?.info('[WALLET EVENT] Emit `reset`');
+    this.logger?.debug('[WALLET EVENT] Emit `reset`');
   }
 
   subscribeToEvents() {
@@ -129,11 +129,11 @@ export class WCClient implements WalletClient {
     }
 
     this.signClient.on('session_ping', (args) => {
-      this.logger?.info('EVENT', 'session_ping', args);
+      this.logger?.debug('EVENT', 'session_ping', args);
     });
 
     this.signClient.on('session_event', async (args) => {
-      this.logger?.info('EVENT', 'session_event', args);
+      this.logger?.debug('EVENT', 'session_event', args);
       // const {
       //   topic,
       //   params: { event, chainId },
@@ -148,7 +148,7 @@ export class WCClient implements WalletClient {
     });
 
     this.signClient.on('session_update', ({ topic, params }) => {
-      this.logger?.info('EVENT', 'session_update', { topic, params });
+      this.logger?.debug('EVENT', 'session_update', { topic, params });
       // if (this.session?.topic != topic) return;
 
       // const { namespaces } = params;
@@ -157,25 +157,25 @@ export class WCClient implements WalletClient {
     });
 
     this.signClient.on('session_delete', (args) => {
-      this.logger?.info('EVENT', 'session_delete', args);
+      this.logger?.debug('EVENT', 'session_delete', args);
       this.deleteSession(args.topic);
     });
 
     this.signClient.on('session_expire', (args) => {
-      this.logger?.info('EVENT', 'session_expire', args);
+      this.logger?.debug('EVENT', 'session_expire', args);
       this.deleteSession(args.topic);
     });
 
     this.signClient.on('session_proposal', (args) => {
-      this.logger?.info('EVENT', 'session_proposal', args);
+      this.logger?.debug('EVENT', 'session_proposal', args);
     });
 
     this.signClient.on('session_request', (args) => {
-      this.logger?.info('EVENT', 'session_request', args);
+      this.logger?.debug('EVENT', 'session_request', args);
     });
 
     this.signClient.on('proposal_expire', (args) => {
-      this.logger?.info('EVENT', 'proposal_expire', args);
+      this.logger?.debug('EVENT', 'proposal_expire', args);
     });
   }
 
@@ -189,7 +189,7 @@ export class WCClient implements WalletClient {
         code: 7001,
         message: 'Clear inactive pairings.',
       });
-      this.logger?.info('Delete inactive pairing:', pairing.topic);
+      this.logger?.debug('Delete inactive pairing:', pairing.topic);
     }
   }
 
@@ -204,7 +204,7 @@ export class WCClient implements WalletClient {
           p.peerMetadata?.name === this.wcName &&
           p.expiry * 1000 > Date.now() + 1000
       );
-    this.logger?.info('RESTORED PAIRINGS: ', this.pairings);
+    this.logger?.debug('RESTORED PAIRINGS: ', this.pairings);
   }
 
   get pairing(): PairingTypes.Struct | undefined {
@@ -222,7 +222,7 @@ export class WCClient implements WalletClient {
           s.peer.metadata.name === this.wcName &&
           s.expiry * 1000 > Date.now() + 1000
       );
-    this.logger?.info('RESTORED SESSIONS: ', this.sessions);
+    this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
   }
 
   getSession(namespace: string, chainId: string) {
@@ -277,8 +277,8 @@ export class WCClient implements WalletClient {
     this.signClient = await SignClient.init(this.options?.signClient);
     this.relayUrl = this.options?.signClient.relayUrl;
 
-    this.logger?.info('CREATED CLIENT: ', this.signClient);
-    this.logger?.info('relayerRegion ', this.options?.signClient.relayUrl);
+    this.logger?.debug('CREATED CLIENT: ', this.signClient);
+    this.logger?.debug('relayerRegion ', this.options?.signClient.relayUrl);
 
     this.subscribeToEvents();
     this.restorePairings();
@@ -290,7 +290,7 @@ export class WCClient implements WalletClient {
     const fetched = await (await fetch(fetcUrl)).json();
     this.wcCloudInfo =
       fetched.listings[this.walletInfo.walletconnect?.projectId!];
-    this.logger?.info('WalletConnect Info:', this.wcCloudInfo);
+    this.logger?.debug('WalletConnect Info:', this.wcCloudInfo);
   }
 
   async initAppUrl() {
@@ -349,7 +349,7 @@ export class WCClient implements WalletClient {
   openApp(withWCUri: boolean = true) {
     const href = withWCUri ? this.redirectHrefWithWCUri : this.redirectHref;
     if (href) {
-      this.logger?.info('Redirecting:', href);
+      this.logger?.debug('Redirecting:', href);
       CoreUtil.openHref(href);
     } else {
       this.logger?.error('No redirecting href.');
@@ -372,7 +372,7 @@ export class WCClient implements WalletClient {
 
     this.restorePairings();
     const pairing = this.pairing;
-    this.logger?.info('Restored active pairing topic is:', pairing?.topic);
+    this.logger?.debug('Restored active pairing topic is:', pairing?.topic);
 
     if (this.displayQRCode) this.setQRState(State.Pending);
 
@@ -389,13 +389,13 @@ export class WCClient implements WalletClient {
     };
     let connectResp: any;
     try {
-      this.logger?.info('Connecting chains:', chainIdsWithNS);
+      this.logger?.debug('Connecting chains:', chainIdsWithNS);
       connectResp = await this.signClient.connect({
         pairingTopic: pairing?.topic,
         requiredNamespaces,
       });
       this.qrUrl.data = connectResp.uri;
-      this.logger?.info('Using QR URI:', connectResp.uri);
+      this.logger?.debug('Using QR URI:', connectResp.uri);
       if (this.displayQRCode) this.setQRState(State.Done);
     } catch (error) {
       this.logger?.error('Client connect error: ', error);
@@ -407,7 +407,7 @@ export class WCClient implements WalletClient {
 
     try {
       const session = await connectResp.approval();
-      this.logger?.info('Established session:', session);
+      this.logger?.debug('Established session:', session);
       this.sessions.push(session);
       this.restorePairings();
     } catch (error) {
@@ -438,7 +438,7 @@ export class WCClient implements WalletClient {
 
     for (const session of this.sessions) {
       try {
-        this.logger?.info('Delete session:', session);
+        this.logger?.debug('Delete session:', session);
         await this.signClient.disconnect({
           topic: session.topic,
           reason: getSdkError('USER_DISCONNECTED'),
@@ -452,7 +452,7 @@ export class WCClient implements WalletClient {
     }
     this.sessions = [];
     this.emitter?.emit('sync_disconnect');
-    this.logger?.info('[WALLET EVENT] Emit `sync_disconnect`');
+    this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
   }
 
   async getSimpleAccount(chainId: string): Promise<SimpleAccount> {
@@ -506,7 +506,7 @@ export class WCClient implements WalletClient {
         params: {},
       },
     });
-    this.logger?.info(`Response of cosmos_getAccounts`, resp);
+    this.logger?.debug(`Response of cosmos_getAccounts`, resp);
     return resp;
   }
 
@@ -545,7 +545,7 @@ export class WCClient implements WalletClient {
         },
       },
     });
-    this.logger?.info(`Response of cosmos_signAmino`, resp);
+    this.logger?.debug(`Response of cosmos_signAmino`, resp);
     return resp;
   }
 
@@ -596,7 +596,7 @@ export class WCClient implements WalletClient {
         params: signDocValue,
       },
     });
-    this.logger?.info(`Response of cosmos_signDirect`, resp);
+    this.logger?.debug(`Response of cosmos_signDirect`, resp);
     return resp;
   }
 
@@ -643,7 +643,7 @@ export class WCClient implements WalletClient {
 
   //   if (targetKey) {
   //     this.session = this.signClient.session.get(targetKey);
-  //     this.logger?.info('RESTORED LATEST SESSION:', this.session);
+  //     this.logger?.debug('RESTORED LATEST SESSION:', this.session);
   //   }
   // }
 }

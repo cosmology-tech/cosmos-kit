@@ -131,5 +131,7 @@ export interface NameServiceRegistry {
     slip173: string;
 }
 export interface WalletConnectOptions {
-    signClient: SignClientTypes.Options;
+    signClient: {
+        projectId: string;
+    } & SignClientTypes.Options;
 }

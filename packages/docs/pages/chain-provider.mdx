@@ -131,9 +131,11 @@ Required when `mobile` wallets dependent on `@comos-kit/walletconnect`(implement
 
 ```tsx
 export interface WalletConnectOptions {
-  signClient: SignClientTypes.Options;
+  signClient: { projectId: string } & SignClientTypes.Options;
 }
 ```
+
+`projectId` is required and can be obtained from [WalletConnect Cloud](https://cloud.walletconnect.com/sign-in). Create (or use an existing) dapp project and copy its associated project id.
 
 ## Optional Properties
 

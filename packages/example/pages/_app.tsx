@@ -42,14 +42,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           chains={chains}
           assetLists={assets}
           wallets={[
-            ...keplrWallets,
-            ...cosmostationWallets,
-            ...leapWallets,
-            ...vectisWallets,
+            // ...keplrWallets,
+            // ...cosmostationWallets,
+            // ...leapWallets,
+            // ...vectisWallets,
             // ...xdefiWallets,
-            ...omniWallets,
+            // ...omniWallets,
             ...trustWallets,
-            ...frontierWallets,
+            // ...frontierWallets,
           ]}
           walletModal={DefaultModal}
           defaultNameService={"stargaze"}
@@ -79,7 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               }
             },
           }}
-          logLevel={"INFO"}
+          logLevel={"DEBUG"}
           wrappedWithChakra={true} // required if `ChainProvider` is imported from `@cosmos-kit/react`
           // modalViews={{
           //   Connected: ConnectedView,

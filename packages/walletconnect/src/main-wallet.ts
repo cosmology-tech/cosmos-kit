@@ -22,28 +22,18 @@ export class WCWallet extends MainWalletBase {
     }
     super(walletInfo, ChainWC);
     this.WCClient = WCClient;
-    this.initClient();
   }
 
   async initClient(options?: WalletConnectOptions) {
     this.initingClient();
 
     try {
-      let client: WCClient;
-      if (this.client) {
-        client = this.client as WCClient;
-      } else {
-        client = new this.WCClient(this.walletInfo);
-      }
-
+      const client = new this.WCClient(this.walletInfo);
       client.logger = this.logger;
       client.emitter = this.emitter;
       client.env = this.env;
-
-      if (options) {
-        client.options = options;
-        await client.init();
-      }
+      client.options = options;
+      await client.init();
 
       this.initClientDone(client);
     } catch (error) {
