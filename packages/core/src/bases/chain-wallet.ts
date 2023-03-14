@@ -17,10 +17,9 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { NameService } from '../name-service';
 
 import {
-  Callbacks,
   ChainRecord,
   CosmosClientType,
-  SessionOptions,
+  SignType,
   SimpleAccount,
   State,
   Wallet,
@@ -85,6 +84,10 @@ export class ChainWalletBase extends WalletBase {
 
   get signingCosmwasmOptions(): SigningCosmWasmClientOptions | undefined {
     return this.chainRecord.clientOptions?.signingCosmwasm;
+  }
+
+  get preferredSignType(): SignType {
+    return this.chainRecord.clientOptions?.preferredSignType || 'amino';
   }
 
   get chain() {
@@ -247,7 +250,10 @@ export class ChainWalletBase extends WalletBase {
     if (typeof this.client === 'undefined') {
       throw new Error('WalletClient is not initialized');
     }
-    this.offlineSigner = await this.client.getOfflineSigner(this.chainId);
+    this.offlineSigner = await this.client.getOfflineSigner(
+      this.chainId,
+      this.preferredSignType
+    );
   }
 
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {

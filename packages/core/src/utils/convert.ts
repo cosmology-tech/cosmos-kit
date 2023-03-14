@@ -19,6 +19,7 @@ export function convertChain(
       stargate: signerOptions?.stargate?.(chain),
       signingStargate: signerOptions?.signingStargate?.(chain),
       signingCosmwasm: signerOptions?.signingCosmwasm?.(chain),
+      preferredSignType: signerOptions?.preferredSignType?.(chain) || 'amino',
     },
     preferredEndpoints,
   };

@@ -13,7 +13,7 @@ import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainName, ChainRecord } from './chain';
-import { DappEnv, Mutable } from './common';
+import { DappEnv, Mutable, SignType } from './common';
 
 export interface Key {
   readonly name: string;
@@ -138,7 +138,8 @@ export interface WalletClient {
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
   getAccount?: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner?: (
-    chainId: string
+    chainId: string,
+    preferredSignType?: SignType // by default `amino`
   ) => Promise<OfflineSigner> | OfflineSigner;
   getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
   getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;

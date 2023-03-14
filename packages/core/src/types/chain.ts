@@ -4,6 +4,7 @@ import {
   SigningStargateClientOptions,
   StargateClientOptions,
 } from '@cosmjs/stargate';
+import { SignType } from './common';
 
 import { Endpoints } from './manager';
 
@@ -17,6 +18,7 @@ export interface ChainRecord {
     signingStargate?: SigningStargateClientOptions;
     signingCosmwasm?: SigningCosmWasmClientOptions;
     stargate?: StargateClientOptions;
+    preferredSignType?: SignType;
   };
   preferredEndpoints?: Endpoints;
 }

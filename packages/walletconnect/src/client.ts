@@ -24,6 +24,7 @@ import {
   WalletClientActions,
   WalletConnectOptions,
   DappEnv,
+  SignType,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -480,8 +481,15 @@ export class WCClient implements WalletClient {
     } as OfflineDirectSigner;
   }
 
-  async getOfflineSigner(chainId: string) {
-    return this.getOfflineSignerDirect(chainId);
+  async getOfflineSigner(chainId: string, preferredSignType?: SignType) {
+    switch (preferredSignType) {
+      case 'amino':
+        return this.getOfflineSignerAmino(chainId);
+      case 'direct':
+        return this.getOfflineSignerDirect(chainId);
+      default:
+        return this.getOfflineSignerAmino(chainId);
+    }
   }
 
   protected async _getAccount(chainId: string) {

@@ -49,6 +49,7 @@ export interface DappEnv {
 }
 
 export type CosmosClientType = 'stargate' | 'cosmwasm';
+export type SignType = 'amino' | 'direct';
 
 export type LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
 

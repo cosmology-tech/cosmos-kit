@@ -74,7 +74,7 @@
 | Key      | Type | Description |
 | ----------- | ----------- | -- |
 | **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   | return account with address, pubkey and algo |
-| **getOfflineSigner**   | `(chainId: string) => Promise<OfflineSigner>`   | if `isNanoLedger` or indefinite, will return `OfflineAminoSigner`, else return `OfflineDirectSigner` |
+| **getOfflineSigner**   | `(chainId: string, preferredSignType?: SignType) => Promise<OfflineSigner>`   | prioritize returning `preferredSignType` (by default `amino`) corresponding signer if it is available, otherwise return siger that is provided. |
 | **enable**      | `(chainIds: string \| string[]) => Promise<void>`   | give permission for the webpage to access wallet |
 | **addChain**   | `(chainInfo: ChainRecord) => Promise<void>`   | add new Cosmos-SDK based blockchains that isn't natively integrated to wallet app/extension |
 | **on**   | `(type: string, listener: EventListenerOrEventListenerObject) => void`   | add event listener |

@@ -25,7 +25,13 @@ import { ChainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { CosmosClientType, ModalTheme, Mutable, State } from './common';
+import {
+  CosmosClientType,
+  ModalTheme,
+  Mutable,
+  SignType,
+  State,
+} from './common';
 import { EndpointOptions, EventName, SignerOptions } from './manager';
 import {
   AppUrl,
@@ -36,7 +42,6 @@ import {
   Wallet,
   WalletAccount,
   WalletClient,
-  WalletName,
   WalletStatus,
 } from './wallet';
 
@@ -98,7 +103,7 @@ export interface ChainWalletContext {
 
   enable: () => Promise<void>;
   getAccount: () => Promise<WalletAccount>;
-  getOfflineSigner: () => Promise<OfflineSigner>;
+  getOfflineSigner: () => OfflineSigner;
   getOfflineSignerAmino: () => OfflineAminoSigner;
   getOfflineSignerDirect: () => OfflineDirectSigner;
   signAmino: (

@@ -128,7 +128,7 @@ export function getChainWalletContext(
     getOfflineSigner: () =>
       clientMethodAssert(
         wallet?.client?.getOfflineSigner.bind(wallet.client),
-        [chainId],
+        [chainId, wallet?.preferredSignType],
         'getOfflineSigner'
       ),
     getOfflineSignerAmino: () =>

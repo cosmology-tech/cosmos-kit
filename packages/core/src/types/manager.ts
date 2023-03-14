@@ -1,15 +1,19 @@
 import { Chain } from '@chain-registry/types';
 import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { SigningStargateClientOptions } from '@cosmjs/stargate';
+import {
+  SigningStargateClientOptions,
+  StargateClientOptions,
+} from '@cosmjs/stargate';
 
 import { ChainName } from './chain';
-import { Dispatch, StateActions } from './common';
+import { Dispatch, SignType, StateActions } from './common';
 import { WalletName } from './wallet';
 
 export interface SignerOptions {
-  stargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
+  stargate?: (chain: Chain) => StargateClientOptions | undefined;
   signingStargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
   signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
+  preferredSignType?: (chain: Chain) => SignType | undefined; // using `amino` if undefined
 }
 
 export interface ViewOptions {

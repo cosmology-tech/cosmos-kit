@@ -6,6 +6,7 @@ import {
   ChainRecord,
   DirectSignDoc,
   SignOptions,
+  SignType,
   WalletClient,
 } from '@cosmos-kit/core';
 
@@ -74,8 +75,16 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  getOfflineSigner(chainId: string) {
-    return this.ikeplr.getOfflineSignerAuto(chainId);
+  getOfflineSigner(chainId: string, preferredSignType?: SignType) {
+    switch (preferredSignType) {
+      case 'amino':
+        return this.getOfflineSignerAmino(chainId);
+      case 'direct':
+        return this.getOfflineSignerDirect(chainId);
+      default:
+        return this.getOfflineSignerAmino(chainId);
+    }
+    // return this.ikeplr.getOfflineSignerAuto(chainId);
   }
 
   getOfflineSignerAmino(chainId: string) {

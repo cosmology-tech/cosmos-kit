@@ -1,5 +1,5 @@
 import { Algo } from '@cosmjs/proto-signing';
-import { WalletClient } from '@cosmos-kit/core';
+import { SignType, WalletClient } from '@cosmos-kit/core';
 
 import { Trust } from './types';
 
@@ -34,7 +34,15 @@ export class TrustClient implements WalletClient {
     };
   }
 
-  getOfflineSigner(chainId: string) {
+  getOfflineSigner(chainId: string, preferredSignType?: SignType) {
+    // switch (preferredSignType) {
+    //   case 'amino':
+    //     return this.getOfflineSignerAmino(chainId);
+    //   case 'direct':
+    //     return this.getOfflineSignerDirect(chainId);
+    //   default:
+    //     return this.getOfflineSignerAmino(chainId);
+    // }
     return this.client.getOfflineSigner(chainId);
   }
 }

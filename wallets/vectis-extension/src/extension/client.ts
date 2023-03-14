@@ -4,6 +4,7 @@ import {
   ChainRecord,
   DirectSignDoc,
   SignOptions,
+  SignType,
   WalletClient,
 } from '@cosmos-kit/core';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
@@ -48,12 +49,20 @@ export class VectisClient implements WalletClient {
     };
   }
 
-  async getOfflineSigner(chainId: string) {
-    const key = await this.getAccount(chainId);
-    if (key.isNanoLedger) {
-      return this.getOfflineSignerAmino(chainId);
+  async getOfflineSigner(chainId: string, preferredSignType?: SignType) {
+    switch (preferredSignType) {
+      case 'amino':
+        return this.getOfflineSignerAmino(chainId);
+      case 'direct':
+        return this.getOfflineSignerDirect(chainId);
+      default:
+        return this.getOfflineSignerAmino(chainId);
     }
-    return this.getOfflineSignerDirect(chainId);
+    // const key = await this.getAccount(chainId);
+    // if (key.isNanoLedger) {
+    //   return this.getOfflineSignerAmino(chainId);
+    // }
+    // return this.getOfflineSignerDirect(chainId);
   }
 
   getOfflineSignerAmino(chainId: string) {

@@ -5,6 +5,7 @@ import {
   ChainRecord,
   DirectSignDoc,
   SignOptions,
+  SignType,
   WalletClient,
 } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
@@ -40,8 +41,16 @@ export class KeplrClient implements WalletClient {
     };
   }
 
-  getOfflineSigner(chainId: string) {
-    return this.client.getOfflineSignerAuto(chainId);
+  getOfflineSigner(chainId: string, preferredSignType?: SignType) {
+    switch (preferredSignType) {
+      case 'amino':
+        return this.getOfflineSignerAmino(chainId);
+      case 'direct':
+        return this.getOfflineSignerDirect(chainId);
+      default:
+        return this.getOfflineSignerAmino(chainId);
+    }
+    // return this.client.getOfflineSignerAuto(chainId);
   }
 
   getOfflineSignerAmino(chainId: string) {
