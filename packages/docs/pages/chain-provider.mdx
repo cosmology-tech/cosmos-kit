@@ -16,7 +16,9 @@ Chain Provider provides necessary information for hooks.
 
 There are two `ChainProvider` from two packages (`@cosmos-kit/react` and `@cosmos-kit/react-lite`) respectively. They are basically the same only except that `ChainProvider` from `@cosmos-kit/react` has more properties of `default modal` (See [Properties for default modal ](#properties-for-default-modal) below).
 
-## Shared Properties
+> Note: `preferredSignType` in [`signerOptions`](#signeroptions) determines which signer to use when signing document. By default using `amino` type.
+
+## Required Properties
 
 These properties are shared by `ChainProvider`s from `@cosmos-kit/react` and `@cosmos-kit/react-lite`.
 
@@ -114,6 +116,26 @@ export const wallets = [keplrExtension, KeplrMobile];
 In addition, you can integrate new wallets in a few steps.
 
 🔌 [How to integrate new wallets into CosmosKit](/integrating-wallets/adding-new-wallets)
+
+### wrappedWithChakra
+
+Required when `ChainProvider` is wrapped inside `ChakraProvider`. By default `false`.
+
+This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
+
+### walletconnectOptions
+
+Required when `mobile` wallets dependent on `@comos-kit/walletconnect`(implements walletconnect v2 connection) are added in [`wallets`](#wallets).
+
+**Type:** `WalletConnectOptions`
+
+```tsx
+export interface WalletConnectOptions {
+  signClient: SignClientTypes.Options;
+}
+```
+
+## Optional Properties
 
 ### walletModal
 
@@ -379,12 +401,6 @@ function CosmosApp() {
 Optional property. It will overwrite default theme applied in `DefaultModal`. 
 
 You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
-
-### wrappedWithChakra
-
-Optional property. By default `false`.
-
-This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
 
 ## Localstorage
 

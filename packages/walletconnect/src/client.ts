@@ -482,14 +482,15 @@ export class WCClient implements WalletClient {
   }
 
   async getOfflineSigner(chainId: string, preferredSignType?: SignType) {
-    switch (preferredSignType) {
-      case 'amino':
-        return this.getOfflineSignerAmino(chainId);
-      case 'direct':
-        return this.getOfflineSignerDirect(chainId);
-      default:
-        return this.getOfflineSignerAmino(chainId);
+    if (preferredSignType === 'amino' && this.getOfflineSignerAmino) {
+      return this.getOfflineSignerAmino(chainId);
     }
+    if (preferredSignType === 'direct' && this.getOfflineSignerDirect) {
+      return this.getOfflineSignerDirect(chainId);
+    }
+    return this.getOfflineSignerAmino
+      ? this.getOfflineSignerAmino?.(chainId)
+      : this.getOfflineSignerDirect(chainId);
   }
 
   protected async _getAccount(chainId: string) {

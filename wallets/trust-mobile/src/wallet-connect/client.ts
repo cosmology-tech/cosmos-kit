@@ -8,6 +8,8 @@ export class TrustClient extends WCClient {
     super(walletInfo);
   }
 
+  getOfflineSignerAmino = void 0;
+
   async signAmino(
     chainId: string,
     signer: string,
