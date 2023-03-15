@@ -120,19 +120,19 @@ export class WalletRepo extends StateBase {
     }
   };
 
-  getRpcEndpoint = async (): Promise<string> => {
+  getRpcEndpoint = async (isLazy?: boolean): Promise<string> => {
     for (const wallet of this.wallets) {
       try {
-        return await wallet.getRpcEndpoint();
+        return await wallet.getRpcEndpoint(isLazy);
       } catch (error) {}
     }
     throw new Error(`No valid RPC endpoint for chain ${this.chainName}!`);
   };
 
-  getRestEndpoint = async (): Promise<string> => {
+  getRestEndpoint = async (isLazy?: boolean): Promise<string> => {
     for (const wallet of this.wallets) {
       try {
-        return await wallet.getRestEndpoint();
+        return await wallet.getRestEndpoint(isLazy);
       } catch (error) {}
     }
     throw new Error(`No valid REST endpoint for chain ${this.chainName}!`);

@@ -192,7 +192,18 @@ export class ChainWalletBase extends WalletBase {
     }
   }
 
-  getRpcEndpoint = async (): Promise<string> => {
+  getRpcEndpoint = async (isLazy?: boolean): Promise<string> => {
+    if (isLazy) {
+      const endpoint = this._rpcEndpoint || this.rpcEndpoints?.[0];
+      if (!endpoint) {
+        throw new Error(
+          `No available RPC endpoint for chain ${this.chainName} in ${this.walletName}!`
+        );
+      } else {
+        return endpoint;
+      }
+    }
+
     if (
       this._rpcEndpoint &&
       (await isValidEndpoint(this._rpcEndpoint, this.logger))
@@ -211,7 +222,18 @@ export class ChainWalletBase extends WalletBase {
     );
   };
 
-  getRestEndpoint = async (): Promise<string> => {
+  getRestEndpoint = async (isLazy?: boolean): Promise<string> => {
+    if (isLazy) {
+      const endpoint = this._restEndpoint || this.restEndpoints?.[0];
+      if (!endpoint) {
+        throw new Error(
+          `No available REST endpoint for chain ${this.chainName} in ${this.walletName}!`
+        );
+      } else {
+        return endpoint;
+      }
+    }
+
     if (
       this._restEndpoint &&
       (await isValidEndpoint(this._restEndpoint, this.logger))

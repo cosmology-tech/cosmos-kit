@@ -83,8 +83,12 @@ export default function Home() {
     string | undefined
   >();
 
-  const { getSigningStargateClient, address, status, getRpcEndpoint } =
-    useChain(chainName);
+  const {
+    getSigningStargateClient,
+    address,
+    status,
+    getRpcEndpoint,
+  } = useChain(chainName);
 
   const { client } = useWalletClient();
 

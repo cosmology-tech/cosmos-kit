@@ -66,8 +66,8 @@ export interface ChainWalletContext {
 
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
-  getRpcEndpoint: () => Promise<string>;
-  getRestEndpoint: () => Promise<string>;
+  getRpcEndpoint: (isLazy?: boolean) => Promise<string>;
+  getRestEndpoint: (isLazy?: boolean) => Promise<string>;
   getStargateClient: () => Promise<StargateClient>;
   getCosmWasmClient: () => Promise<CosmWasmClient>;
   getSigningStargateClient: () => Promise<SigningStargateClient>;

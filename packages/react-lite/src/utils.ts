@@ -77,10 +77,10 @@ export function getChainWalletContext(
     connect: () => walletAssert(wallet?.connect, [void 0, sync], 'connect'),
     disconnect: () =>
       walletAssert(wallet?.disconnect, [void 0, sync], 'disconnect'),
-    getRpcEndpoint: () =>
-      walletAssert(wallet?.getRpcEndpoint, [], 'getRpcEndpoint'),
-    getRestEndpoint: () =>
-      walletAssert(wallet?.getRestEndpoint, [], 'getRestEndpoint'),
+    getRpcEndpoint: (isLazy?: boolean) =>
+      walletAssert(wallet?.getRpcEndpoint, [isLazy], 'getRpcEndpoint'),
+    getRestEndpoint: (isLazy?: boolean) =>
+      walletAssert(wallet?.getRestEndpoint, [isLazy], 'getRestEndpoint'),
     getStargateClient: () =>
       walletAssert(wallet?.getStargateClient, [], 'getStargateClient'),
     getCosmWasmClient: () =>
