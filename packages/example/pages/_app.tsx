@@ -46,9 +46,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...cosmostationWallets,
             // ...leapWallets,
             // ...vectisWallets,
-            // ...xdefiWallets,
+            ...xdefiWallets,
             // ...omniWallets,
-            ...trustWallets,
+            // ...trustWallets,
             // ...frontierWallets,
           ]}
           walletModal={DefaultModal}

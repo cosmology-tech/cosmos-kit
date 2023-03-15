@@ -14,6 +14,7 @@ export interface XDEFISignOptions {
 }
 
 export interface XDEFI {
+  isXDEFI: boolean;
   disconnect(): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
   mode: 'extension';
