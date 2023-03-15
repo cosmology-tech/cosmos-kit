@@ -68,11 +68,6 @@ export class WalletRepo extends StateBase {
   }
 
   get wallets(): ChainWalletBase[] {
-    if (this.isMobile) {
-      return this._wallets.filter(
-        (wallet) => !wallet.walletInfo.mobileDisabled
-      );
-    }
     return this._wallets;
   }
 

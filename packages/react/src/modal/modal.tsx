@@ -40,7 +40,11 @@ export const WalletModal = ({
   setOpen,
   walletRepo,
   modalViews,
-}: WalletModalProps & { modalViews: ModalViews }) => {
+  includeAllWalletsOnMobile,
+}: WalletModalProps & {
+  modalViews: ModalViews;
+  includeAllWalletsOnMobile?: boolean;
+}) => {
   const initialFocus = useRef();
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
@@ -112,10 +116,14 @@ export const WalletModal = ({
         ViewComponent = modalViews[`${currentView}`] as (
           props: WalletListViewProps
         ) => JSX.Element;
+        const wallets =
+          walletRepo?.isMobile && !includeAllWalletsOnMobile
+            ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
+            : walletRepo?.wallets;
         return (
           <ViewComponent
             onClose={onCloseModal}
-            wallets={walletRepo?.wallets || []}
+            wallets={wallets || []}
             initialFocus={initialFocus}
           />
         );

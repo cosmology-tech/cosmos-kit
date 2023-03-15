@@ -28,6 +28,7 @@ export const ChainProvider = ({
   walletModal,
   modalTheme,
   modalViews,
+  includeAllWalletsOnMobile = false,
   wrappedWithChakra = false,
   defaultNameService = 'icns',
   walletConnectOptions,
@@ -43,6 +44,7 @@ export const ChainProvider = ({
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
   modalViews?: ModalViews;
+  includeAllWalletsOnMobile?: boolean;
   wrappedWithChakra?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
@@ -93,6 +95,7 @@ export const ChainProvider = ({
           ...defaultModalViews,
           ...modalViews,
         }}
+        includeAllWalletsOnMobile={includeAllWalletsOnMobile}
       />
     ),
     [defaultModalViews]
