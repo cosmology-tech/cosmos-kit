@@ -1,6 +1,6 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-console */
-import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import { CosmWasmClient, HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
 import { StargateClient } from '@cosmjs/stargate';
 
 import { ChainWalletBase } from './bases/chain-wallet';
@@ -120,7 +120,7 @@ export class WalletRepo extends StateBase {
     }
   };
 
-  getRpcEndpoint = async (isLazy?: boolean): Promise<string> => {
+  getRpcEndpoint = async (isLazy?: boolean): Promise<string | HttpEndpoint> => {
     for (const wallet of this.wallets) {
       try {
         return await wallet.getRpcEndpoint(isLazy);
@@ -129,7 +129,9 @@ export class WalletRepo extends StateBase {
     throw new Error(`No valid RPC endpoint for chain ${this.chainName}!`);
   };
 
-  getRestEndpoint = async (isLazy?: boolean): Promise<string> => {
+  getRestEndpoint = async (
+    isLazy?: boolean
+  ): Promise<string | HttpEndpoint> => {
     for (const wallet of this.wallets) {
       try {
         return await wallet.getRestEndpoint(isLazy);

@@ -8,6 +8,7 @@ import {
   WalletClient,
 } from '@cosmos-kit/core';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
 
 import type { Vectis, VectisChainInfo } from './types';
 
@@ -75,14 +76,24 @@ export class VectisClient implements WalletClient {
 
   async addChain({ chain, name, preferredEndpoints }: ChainRecord) {
     const firstFeeToken = chain.fees?.fee_tokens[0];
+    const rpcEndpoint =
+      preferredEndpoints?.rpc?.[0] || chain.apis?.rpc?.[0].address || '';
+    const restEndpoint =
+      preferredEndpoints?.rest?.[0] || chain.apis?.rest?.[0].address || '';
     const chainInfo: VectisChainInfo = {
       chainId: chain.chain_id,
       prettyName: chain.pretty_name,
       chainName: chain.chain_name,
       rpcUrl:
-        preferredEndpoints?.rpc?.[0] || chain.apis?.rpc?.[0].address || '',
+        typeof rpcEndpoint === 'string'
+          ? rpcEndpoint
+          : (rpcEndpoint as HttpEndpoint).url,
+
       restUrl:
-        preferredEndpoints?.rest?.[0] || chain.apis?.rest?.[0].address || '',
+        typeof restEndpoint === 'string'
+          ? restEndpoint
+          : (restEndpoint as HttpEndpoint).url,
+
       bech32Prefix: chain.bech32_prefix,
       bip44: {
         coinType: chain.slip44,

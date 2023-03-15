@@ -1,5 +1,6 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { StdSignDoc } from '@cosmjs/amino';
+import { HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   ChainRecord,
@@ -68,11 +69,15 @@ export class KeplrClient implements WalletClient {
     );
 
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.rest as string) = chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.rest as
+        | string
+        | HttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
     }
 
     if (chainInfo.preferredEndpoints?.rpc?.[0]) {
-      (suggestChain.rpc as string) = chainInfo.preferredEndpoints?.rpc?.[0];
+      (suggestChain.rpc as
+        | string
+        | HttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
     await this.client.experimentalSuggestChain(suggestChain);

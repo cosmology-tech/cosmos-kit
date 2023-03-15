@@ -1,5 +1,6 @@
 import { chainRegistryChainToCosmostation } from '@chain-registry/cosmostation';
 import { StdSignDoc } from '@cosmjs/amino';
+import { HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
@@ -101,7 +102,9 @@ export class CosmostationClient implements WalletClient {
       chainInfo.assetList ? [chainInfo.assetList] : []
     );
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.restURL as string) = chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.restURL as
+        | string
+        | HttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
     }
     const result = (await this.cosmos.request({
       method: 'cos_addChain',
