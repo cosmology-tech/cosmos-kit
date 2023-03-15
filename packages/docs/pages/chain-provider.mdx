@@ -219,8 +219,8 @@ Optional property. Define preferred endpoints for each chain.
 export type ChainName = string;
 
 export interface Endpoints {
-  rpc?: string[];
-  rest?: string[];
+  rpc?: (string | HttpEndpoint)[];
+  rest?: (string | HttpEndpoint)[];
 }
 
 export type EndpointOptions = Record<ChainName, Endpoints>;
