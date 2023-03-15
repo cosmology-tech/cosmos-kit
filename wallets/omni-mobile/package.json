@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/omni-mobile",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -104,8 +104,8 @@
   },
   "dependencies": {
     "@chakra-ui/react": "2.4.3",
-    "@cosmos-kit/core": "^1.1.8",
-    "@cosmos-kit/walletconnect": "^0.2.9"
+    "@cosmos-kit/core": "^1.1.9",
+    "@cosmos-kit/walletconnect": "^0.2.10"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
