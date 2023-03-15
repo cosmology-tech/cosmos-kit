@@ -1,5 +1,6 @@
 import {
   CosmWasmClient,
+  HttpEndpoint,
   SigningCosmWasmClient,
   SigningCosmWasmClientOptions,
 } from '@cosmjs/cosmwasm-stargate';
@@ -29,10 +30,10 @@ import { WalletBase } from './wallet';
 
 export class ChainWalletBase extends WalletBase {
   protected _chainRecord: ChainRecord;
-  rpcEndpoints?: string[];
-  restEndpoints?: string[];
-  protected _rpcEndpoint?: string;
-  protected _restEndpoint?: string;
+  rpcEndpoints?: (string | HttpEndpoint)[];
+  restEndpoints?: (string | HttpEndpoint)[];
+  protected _rpcEndpoint?: string | HttpEndpoint;
+  protected _restEndpoint?: string | HttpEndpoint;
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
 
@@ -192,7 +193,7 @@ export class ChainWalletBase extends WalletBase {
     }
   }
 
-  getRpcEndpoint = async (isLazy?: boolean): Promise<string> => {
+  getRpcEndpoint = async (isLazy?: boolean): Promise<string | HttpEndpoint> => {
     if (isLazy) {
       const endpoint = this._rpcEndpoint || this.rpcEndpoints?.[0];
       if (!endpoint) {
@@ -222,7 +223,9 @@ export class ChainWalletBase extends WalletBase {
     );
   };
 
-  getRestEndpoint = async (isLazy?: boolean): Promise<string> => {
+  getRestEndpoint = async (
+    isLazy?: boolean
+  ): Promise<string | HttpEndpoint> => {
     if (isLazy) {
       const endpoint = this._restEndpoint || this.restEndpoints?.[0];
       if (!endpoint) {

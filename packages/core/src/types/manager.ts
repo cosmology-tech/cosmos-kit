@@ -1,5 +1,8 @@
 import { Chain } from '@chain-registry/types';
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
+import {
+  HttpEndpoint,
+  SigningCosmWasmClientOptions,
+} from '@cosmjs/cosmwasm-stargate';
 import {
   SigningStargateClientOptions,
   StargateClientOptions,
@@ -35,8 +38,8 @@ export interface SessionOptions {
 }
 
 export interface Endpoints {
-  rpc?: string[];
-  rest?: string[];
+  rpc?: (string | HttpEndpoint)[];
+  rest?: (string | HttpEndpoint)[];
 }
 
 export type EndpointOptions = Record<ChainName, Endpoints>;

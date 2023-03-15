@@ -1,12 +1,19 @@
+import { HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
 import { Logger } from './logger';
 
 export const isValidEndpoint = async (
-  endpoint: string,
+  endpoint: string | HttpEndpoint,
   logger?: Logger
 ): Promise<boolean> => {
   logger?.debug(`Testing accessibility of ${endpoint}`);
   try {
-    const response = await fetch(endpoint);
+    let response: Response;
+    if (typeof endpoint === 'string') {
+      response = await fetch(endpoint);
+    } else {
+      response = await fetch(endpoint.url, { headers: endpoint.headers });
+    }
+
     if (response.status == 200) {
       logger?.debug('Access successfully.');
       return true;
