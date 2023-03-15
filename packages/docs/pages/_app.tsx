@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...cosmostationWallets,
           ...leapwallets,
           ...vectisWallets,
-          ...xdefiWallets,
+          // ...xdefiWallets,
           ...omniWallets,
           ...trustWallets,
           ...frontierwallets,

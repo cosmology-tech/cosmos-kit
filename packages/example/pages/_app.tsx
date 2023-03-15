@@ -12,33 +12,16 @@ import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier-extension";
-// import { ChainProvider } from "@cosmos-kit/react-lite";
 import { ChainProvider, defaultTheme, DefaultModal } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
-import { WalletViewProps } from "@cosmos-kit/core";
 import { ThemeProvider } from "@cosmology-ui/react";
-
-// const ConnectedView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
-//   const {
-//     walletInfo: { prettyName },
-//     username,
-//     address,
-//   } = wallet;
-
-//   return <div>{`${prettyName}/${username}/${address}`}</div>;
-// };
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <ChakraProvider theme={defaultTheme}>
         <ChainProvider
-          // used when testing add-chain
-          // chains={chains.filter((chain) => chain.chain_name !== "cosmoshub")}
-          // assetLists={assets.filter(
-          //   (assets) => assets.chain_name !== "cosmoshub"
-          // )}
           chains={chains}
           assetLists={assets}
           wallets={[
@@ -81,9 +64,16 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
           logLevel={"DEBUG"}
           wrappedWithChakra={true} // required if `ChainProvider` is imported from `@cosmos-kit/react`
-          // modalViews={{
-          //   Connected: ConnectedView,
-          // }}
+          endpointOptions={{
+            cosmoshub: {
+              rpc: [
+                {
+                  url: "https://rpc.cosmos.directory/cosmoshub",
+                  headers: {},
+                },
+              ],
+            },
+          }}
         >
           <Component {...pageProps} />
         </ChainProvider>

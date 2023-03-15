@@ -5,7 +5,7 @@ export const isValidEndpoint = async (
   endpoint: string | HttpEndpoint,
   logger?: Logger
 ): Promise<boolean> => {
-  logger?.debug(`Testing accessibility of ${endpoint}`);
+  logger?.debug('Testing accessibility of', endpoint);
   try {
     let response: Response;
     if (typeof endpoint === 'string') {
