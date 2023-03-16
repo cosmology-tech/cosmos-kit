@@ -28,12 +28,23 @@ export interface ViewOptions {
 
 export interface StorageOptions {
   disabled?: boolean;
-  duration?: number; // ms
+  /**
+   * Duration in ms.
+   */
+  duration?: number;
   clearOnTabClose?: boolean;
 }
 
 export interface SessionOptions {
-  duration: number; // ms
+  /**
+   * Duration in ms.
+   */
+  duration: number;
+  /**
+   * Disable endpoint validation when signing or broadcasting a transaction.
+   * @default true
+   */
+  shouldValidateEndpoint?: boolean;
   callback?: () => void;
 }
 
