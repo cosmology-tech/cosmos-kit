@@ -1,10 +1,17 @@
 import { HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
+
 import { Logger } from './logger';
 
 export const isValidEndpoint = async (
   endpoint: string | HttpEndpoint,
+  shouldValidate: boolean,
   logger?: Logger
 ): Promise<boolean> => {
+  if (!shouldValidate) {
+    logger?.debug('Skipping test of accessibility for', endpoint);
+    return true;
+  }
+
   logger?.debug('Testing accessibility of', endpoint);
   try {
     let response: Response;
