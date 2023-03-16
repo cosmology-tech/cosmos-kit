@@ -15,8 +15,8 @@ import {
   StdFee,
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { NameService } from '../name-service';
 
+import { NameService } from '../name-service';
 import {
   ChainRecord,
   CosmosClientType,
@@ -144,7 +144,7 @@ export class ChainWalletBase extends WalletBase {
     this.session?.update();
   }
 
-  initClient(options?: any): void | Promise<void> {
+  initClient(_options?: any): void | Promise<void> {
     throw new Error('initClient not implemented');
   }
 
@@ -207,12 +207,22 @@ export class ChainWalletBase extends WalletBase {
 
     if (
       this._rpcEndpoint &&
-      (await isValidEndpoint(this._rpcEndpoint, this.logger))
+      (await isValidEndpoint(
+        this._rpcEndpoint,
+        this.session.sessionOptions.shouldValidateEndpoint,
+        this.logger
+      ))
     ) {
       return this._rpcEndpoint;
     }
     for (const endpoint of this.rpcEndpoints || []) {
-      if (await isValidEndpoint(endpoint, this.logger)) {
+      if (
+        await isValidEndpoint(
+          endpoint,
+          this.session.sessionOptions.shouldValidateEndpoint,
+          this.logger
+        )
+      ) {
         this._rpcEndpoint = endpoint;
         this.logger?.debug('Using RPC endpoint ' + endpoint);
         return endpoint;
@@ -239,12 +249,22 @@ export class ChainWalletBase extends WalletBase {
 
     if (
       this._restEndpoint &&
-      (await isValidEndpoint(this._restEndpoint, this.logger))
+      (await isValidEndpoint(
+        this._restEndpoint,
+        this.session.sessionOptions.shouldValidateEndpoint,
+        this.logger
+      ))
     ) {
       return this._restEndpoint;
     }
     for (const endpoint of this.restEndpoints || []) {
-      if (await isValidEndpoint(endpoint, this.logger)) {
+      if (
+        await isValidEndpoint(
+          endpoint,
+          this.session.sessionOptions.shouldValidateEndpoint,
+          this.logger
+        )
+      ) {
         this._restEndpoint = endpoint;
         this.logger?.debug('Using REST endpoint ' + endpoint);
         return endpoint;
