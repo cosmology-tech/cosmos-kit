@@ -14,7 +14,7 @@ import EventEmitter from 'events';
 
 export abstract class MainWalletBase extends WalletBase {
   protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
-  preferredEndpoints?: EndpointOptions;
+  preferredEndpoints?: EndpointOptions['endpoints'];
   ChainWallet: IChainWallet;
 
   constructor(walletInfo: Wallet, ChainWallet: IChainWallet) {

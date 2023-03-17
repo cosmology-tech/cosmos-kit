@@ -6,7 +6,10 @@ import { KeplrClient } from './client';
 import { getKeplrFromExtension } from './utils';
 
 export class KeplrExtensionWallet extends MainWalletBase {
-  constructor(walletInfo: Wallet, preferredEndpoints?: EndpointOptions) {
+  constructor(
+    walletInfo: Wallet,
+    preferredEndpoints?: EndpointOptions['endpoints']
+  ) {
     super(walletInfo, ChainKeplrExtension);
     this.preferredEndpoints = preferredEndpoints;
   }

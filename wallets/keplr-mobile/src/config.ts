@@ -1,6 +1,6 @@
 import { EndpointOptions } from '@cosmos-kit/core';
 
-export const preferredEndpoints: EndpointOptions = {
+export const preferredEndpoints: EndpointOptions['endpoints'] = {
   osmosis: {
     rpc: ['https://rpc-osmosis.keplr.app/'],
     rest: ['https://lcd-osmosis.keplr.app/'],

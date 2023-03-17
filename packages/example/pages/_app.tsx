@@ -25,9 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           chains={chains}
           assetLists={assets}
           wallets={[
-            // ...keplrWallets,
+            ...keplrWallets,
             // ...cosmostationWallets,
-            ...leapWallets,
+            // ...leapWallets,
             // ...vectisWallets,
             // ...xdefiWallets,
             // ...omniWallets,

@@ -5,7 +5,10 @@ import { ChainOmniMobile } from './chain-wallet';
 import { OmniClient } from './client';
 
 export class OmniMobileWallet extends WCWallet {
-  constructor(walletInfo: Wallet, preferredEndpoints?: EndpointOptions) {
+  constructor(
+    walletInfo: Wallet,
+    preferredEndpoints?: EndpointOptions['endpoints']
+  ) {
     super(walletInfo, ChainOmniMobile, OmniClient);
     this.preferredEndpoints = preferredEndpoints;
   }
