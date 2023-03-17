@@ -36,6 +36,7 @@ export class WalletManager extends StateBase {
   walletConnectOptions?: WalletConnectOptions;
   readonly session: Session;
   repelWallet: boolean = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
+  isLazy?: boolean; // stands for `globalIsLazy` setting
 
   constructor(
     chains: Chain[],
@@ -82,13 +83,16 @@ export class WalletManager extends StateBase {
     this.logger.info(
       `${chains.length} chains and ${wallets.length} wallets are provided!`
     );
+    this.isLazy = endpointOptions?.isLazy;
 
     this.chainRecords = chains.map((chain) =>
       convertChain(
         chain,
         assetLists,
         signerOptions,
-        endpointOptions?.[chain.chain_name]
+        endpointOptions?.endpoints?.[chain.chain_name],
+        this.isLazy,
+        this.logger
       )
     );
 
@@ -125,14 +129,16 @@ export class WalletManager extends StateBase {
     chains: Chain[],
     assetLists: AssetList[],
     signerOptions?: SignerOptions,
-    endpointOptions?: EndpointOptions
+    endpoints?: EndpointOptions['endpoints']
   ) => {
     const newChainRecords = chains.map((chain) =>
       convertChain(
         chain,
         assetLists,
         signerOptions,
-        endpointOptions?.[chain.chain_name]
+        endpoints?.[chain.chain_name],
+        this.isLazy,
+        this.logger
       )
     );
     newChainRecords.forEach((chainRecord) => {

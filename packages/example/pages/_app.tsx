@@ -12,7 +12,7 @@ import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier-extension";
-import { ChainProvider, defaultTheme, DefaultModal } from "@cosmos-kit/react";
+import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "@cosmology-ui/react";
@@ -25,14 +25,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           chains={chains}
           assetLists={assets}
           wallets={[
-            ...keplrWallets,
-            ...cosmostationWallets,
+            // ...keplrWallets,
+            // ...cosmostationWallets,
             ...leapWallets,
-            ...vectisWallets,
-            ...xdefiWallets,
-            ...omniWallets,
-            ...trustWallets,
-            ...frontierWallets,
+            // ...vectisWallets,
+            // ...xdefiWallets,
+            // ...omniWallets,
+            // ...trustWallets,
+            // ...frontierWallets,
           ]}
           defaultNameService={"stargaze"}
           walletConnectOptions={{
@@ -64,13 +64,18 @@ function MyApp({ Component, pageProps }: AppProps) {
           logLevel={"DEBUG"}
           wrappedWithChakra={true} // required if `ChainProvider` is imported from `@cosmos-kit/react`
           endpointOptions={{
-            cosmoshub: {
-              rpc: [
-                {
-                  url: "https://rpc.cosmos.directory/cosmoshub",
-                  headers: {},
-                },
-              ],
+            isLazy: true,
+            endpoints: {
+              cosmoshub: {
+                isLazy: false,
+                rpc: [
+                  {
+                    isLazy: true,
+                    url: "https://rpc.cosmos.directory/cosmoshub",
+                    headers: {},
+                  },
+                ],
+              },
             },
           }}
         >

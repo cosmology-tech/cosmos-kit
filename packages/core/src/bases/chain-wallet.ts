@@ -1,6 +1,5 @@
 import {
   CosmWasmClient,
-  HttpEndpoint,
   SigningCosmWasmClient,
   SigningCosmWasmClientOptions,
 } from '@cosmjs/cosmwasm-stargate';
@@ -20,36 +19,34 @@ import { NameService } from '../name-service';
 import {
   ChainRecord,
   CosmosClientType,
+  ExtendedHttpEndpoint,
   SignType,
   SimpleAccount,
   State,
   Wallet,
 } from '../types';
-import { getNameServiceRegistryFromChainName, isValidEndpoint } from '../utils';
+import {
+  getIsLazy,
+  getNameServiceRegistryFromChainName,
+  isValidEndpoint,
+} from '../utils';
 import { WalletBase } from './wallet';
 
 export class ChainWalletBase extends WalletBase {
   protected _chainRecord: ChainRecord;
-  rpcEndpoints?: (string | HttpEndpoint)[];
-  restEndpoints?: (string | HttpEndpoint)[];
-  protected _rpcEndpoint?: string | HttpEndpoint;
-  protected _restEndpoint?: string | HttpEndpoint;
+  rpcEndpoints?: (string | ExtendedHttpEndpoint)[];
+  restEndpoints?: (string | ExtendedHttpEndpoint)[];
+  protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
+  protected _restEndpoint?: string | ExtendedHttpEndpoint;
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
+  isLazy?: boolean; // stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
     this._chainRecord = chainRecord;
     this.rpcEndpoints = chainRecord.preferredEndpoints?.rpc;
     this.restEndpoints = chainRecord.preferredEndpoints?.rest;
-  }
-
-  get appUrl() {
-    return this.client?.appUrl;
-  }
-
-  get qrUrl() {
-    return this.client?.qrUrl;
   }
 
   get chainRecord() {
@@ -193,23 +190,20 @@ export class ChainWalletBase extends WalletBase {
     }
   }
 
-  getRpcEndpoint = async (isLazy?: boolean): Promise<string | HttpEndpoint> => {
-    if (isLazy) {
-      const endpoint = this._rpcEndpoint || this.rpcEndpoints?.[0];
-      if (!endpoint) {
-        throw new Error(
-          `No available RPC endpoint for chain ${this.chainName} in ${this.walletName}!`
-        );
-      } else {
-        return endpoint;
-      }
-    }
-
+  getRpcEndpoint = async (
+    isLazy?: boolean
+  ): Promise<string | ExtendedHttpEndpoint> => {
     if (
       this._rpcEndpoint &&
       (await isValidEndpoint(
         this._rpcEndpoint,
-        this.session.sessionOptions.shouldValidateEndpoint,
+        getIsLazy(
+          void 0,
+          this.isLazy,
+          (this._rpcEndpoint as any).isLazy,
+          isLazy,
+          this.logger
+        ),
         this.logger
       ))
     ) {
@@ -219,7 +213,13 @@ export class ChainWalletBase extends WalletBase {
       if (
         await isValidEndpoint(
           endpoint,
-          this.session.sessionOptions.shouldValidateEndpoint,
+          getIsLazy(
+            void 0,
+            this.isLazy,
+            (endpoint as any).isLazy,
+            isLazy,
+            this.logger
+          ),
           this.logger
         )
       ) {
@@ -235,23 +235,17 @@ export class ChainWalletBase extends WalletBase {
 
   getRestEndpoint = async (
     isLazy?: boolean
-  ): Promise<string | HttpEndpoint> => {
-    if (isLazy) {
-      const endpoint = this._restEndpoint || this.restEndpoints?.[0];
-      if (!endpoint) {
-        throw new Error(
-          `No available REST endpoint for chain ${this.chainName} in ${this.walletName}!`
-        );
-      } else {
-        return endpoint;
-      }
-    }
-
+  ): Promise<string | ExtendedHttpEndpoint> => {
     if (
       this._restEndpoint &&
       (await isValidEndpoint(
         this._restEndpoint,
-        this.session.sessionOptions.shouldValidateEndpoint,
+        getIsLazy(
+          void 0,
+          this.isLazy,
+          (this._restEndpoint as any).isLazy,
+          isLazy
+        ),
         this.logger
       ))
     ) {
@@ -261,7 +255,7 @@ export class ChainWalletBase extends WalletBase {
       if (
         await isValidEndpoint(
           endpoint,
-          this.session.sessionOptions.shouldValidateEndpoint,
+          getIsLazy(void 0, this.isLazy, (endpoint as any).isLazy, isLazy),
           this.logger
         )
       ) {

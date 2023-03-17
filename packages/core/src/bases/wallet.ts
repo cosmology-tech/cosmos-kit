@@ -4,7 +4,6 @@ import {
   Callbacks,
   DownloadInfo,
   Mutable,
-  SessionOptions,
   State,
   Wallet,
   WalletClient,
@@ -26,6 +25,14 @@ export abstract class WalletBase extends StateBase {
   constructor(walletInfo: Wallet) {
     super();
     this._walletInfo = walletInfo;
+  }
+
+  get appUrl() {
+    return this.client?.appUrl;
+  }
+
+  get qrUrl() {
+    return this.client?.qrUrl;
   }
 
   activate() {

@@ -17,6 +17,7 @@ import { cosmos } from "juno-network";
 import { useState } from "react";
 
 import { ChainsTXWalletSection, SendTokensCard } from "../components";
+import { ExtendedHttpEndpoint } from "@cosmos-kit/core";
 
 const chainName = "cosmoshub";
 
@@ -111,7 +112,10 @@ export default function Home() {
 
     // get RPC client
     const client = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
+      rpcEndpoint:
+        typeof rpcEndpoint === "string"
+          ? rpcEndpoint
+          : (rpcEndpoint as ExtendedHttpEndpoint).url,
     });
 
     // fetch balance

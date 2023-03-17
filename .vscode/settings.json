@@ -44,5 +44,6 @@
       "pattern": "packages/*",
       "!cwd": false
     }
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

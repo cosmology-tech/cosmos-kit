@@ -56,6 +56,7 @@ export abstract class MainWalletBase extends WalletBase {
     }
     chains.forEach((chain) => {
       chain.preferredEndpoints = {
+        ...chain.preferredEndpoints,
         rpc: [
           ...(chain.preferredEndpoints?.rpc || []),
           ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
@@ -77,6 +78,7 @@ export abstract class MainWalletBase extends WalletBase {
       chainWallet.session = this.session;
       chainWallet.walletConnectOptions = this.walletConnectOptions;
       chainWallet.initClient = this.initClient;
+      chainWallet.isLazy = chain.preferredEndpoints?.isLazy;
 
       this._chainWalletMap!.set(chain.name, chainWallet);
     });

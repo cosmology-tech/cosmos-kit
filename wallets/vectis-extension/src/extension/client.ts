@@ -3,12 +3,12 @@ import { Algo, StdSignDoc } from '@cosmjs/amino';
 import {
   ChainRecord,
   DirectSignDoc,
+  ExtendedHttpEndpoint,
   SignOptions,
   SignType,
   WalletClient,
 } from '@cosmos-kit/core';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { HttpEndpoint } from '@cosmjs/cosmwasm-stargate';
 
 import type { Vectis, VectisChainInfo } from './types';
 
@@ -87,12 +87,12 @@ export class VectisClient implements WalletClient {
       rpcUrl:
         typeof rpcEndpoint === 'string'
           ? rpcEndpoint
-          : (rpcEndpoint as HttpEndpoint).url,
+          : (rpcEndpoint as ExtendedHttpEndpoint).url,
 
       restUrl:
         typeof restEndpoint === 'string'
           ? restEndpoint
-          : (restEndpoint as HttpEndpoint).url,
+          : (restEndpoint as ExtendedHttpEndpoint).url,
 
       bech32Prefix: chain.bech32_prefix,
       bip44: {

@@ -6,7 +6,6 @@ import {
 } from '@cosmjs/amino';
 import {
   CosmWasmClient,
-  HttpEndpoint,
   SigningCosmWasmClient,
 } from '@cosmjs/cosmwasm-stargate';
 import {
@@ -33,7 +32,12 @@ import {
   SignType,
   State,
 } from './common';
-import { EndpointOptions, EventName, SignerOptions } from './manager';
+import {
+  EndpointOptions,
+  EventName,
+  ExtendedHttpEndpoint,
+  SignerOptions,
+} from './manager';
 import {
   AppUrl,
   BroadcastMode,
@@ -67,8 +71,8 @@ export interface ChainWalletContext {
 
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
-  getRpcEndpoint: (isLazy?: boolean) => Promise<string | HttpEndpoint>;
-  getRestEndpoint: (isLazy?: boolean) => Promise<string | HttpEndpoint>;
+  getRpcEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
+  getRestEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
   getStargateClient: () => Promise<StargateClient>;
   getCosmWasmClient: () => Promise<CosmWasmClient>;
   getSigningStargateClient: () => Promise<SigningStargateClient>;

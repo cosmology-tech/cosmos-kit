@@ -40,20 +40,23 @@ export interface SessionOptions {
    * Duration in ms.
    */
   duration: number;
-  /**
-   * Disable endpoint validation when signing or broadcasting a transaction.
-   * @default true
-   */
-  shouldValidateEndpoint?: boolean;
   callback?: () => void;
 }
 
-export interface Endpoints {
-  rpc?: (string | HttpEndpoint)[];
-  rest?: (string | HttpEndpoint)[];
+export interface ExtendedHttpEndpoint extends HttpEndpoint {
+  isLazy?: boolean;
 }
 
-export type EndpointOptions = Record<ChainName, Endpoints>;
+export interface Endpoints {
+  rpc?: (string | ExtendedHttpEndpoint)[];
+  rest?: (string | ExtendedHttpEndpoint)[];
+  isLazy?: boolean;
+}
+
+export interface EndpointOptions {
+  isLazy?: boolean;
+  endpoints?: Record<ChainName, Endpoints>;
+}
 
 export interface ManagerActions<T> extends StateActions<T> {
   walletName?: Dispatch<WalletName | undefined>;

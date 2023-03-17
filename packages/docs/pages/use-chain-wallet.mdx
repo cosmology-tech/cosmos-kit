@@ -38,8 +38,8 @@
 | ----------- | ----------- | -- | -- | -- |
 | **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
 | **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
-| **getRpcEndpoint** | return rpc endpoint, if `isLazy` is `true`, will return *validated* endpoint    | **isLazy**?: `boolean` | `string \| HttpEndpoint` | Y |
-| **getRestEndpoint**  | return rest endpoint, if `isLazy` is `true`, will return *validated* endpoint    | **isLazy**?: `boolean` | `string \| HttpEndpoint` | Y |
+| **getRpcEndpoint** | return rpc endpoint, `isLazy` explanation is [here](/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
+| **getRestEndpoint**  | return rest endpoint, `isLazy` explanation is [here](/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
 | **getStargateClient**  | - | - | `StargateClient` | Y |
 | **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
 | **getSigningStargateClient**  | always vaildate endpoint in method | - | `SigningStargateClient` | Y |

@@ -215,15 +215,27 @@ Optional property. Define preferred endpoints for each chain.
 
 **Type:** `EndpointOptions`
 
+> Note: From `@cosmos-kit/core@1.2.1` `EndpointOptions` type changes a little bit
+
 ```tsx
 export type ChainName = string;
 
-export interface Endpoints {
-  rpc?: (string | HttpEndpoint)[];
-  rest?: (string | HttpEndpoint)[];
+export interface ExtendedHttpEndpoint extends HttpEndpoint {
+  isLazy?: boolean;
 }
 
-export type EndpointOptions = Record<ChainName, Endpoints>;
+export interface Endpoints {
+  rpc?: (string | ExtendedHttpEndpoint)[];
+  rest?: (string | ExtendedHttpEndpoint)[];
+  isLazy?: boolean;
+}
+
+// Expired Type: `type EndpointOptions = Record<ChainName, Endpoints>`
+
+export interface EndpointOptions {
+  isLazy?: boolean;
+  endpoints?: Record<ChainName, Endpoints>;
+}
 ```
 
 **Example:**
@@ -232,11 +244,70 @@ export type EndpointOptions = Record<ChainName, Endpoints>;
 <ChainProvider
   ...
   endpointOptions={{
-    osmosis: {
-      rpc: ['http://test.com']
+    endpoints: {
+      cosmoshub: {
+        rpc: ['http://test.com']
+      }
     }
   }}
 >
+```
+
+#### isLazy
+
+**`isLazy` Explanation:**
+
+`isLazy` is used to control endpoint validation.
+
+- When `isLazy` is `false`, will do endpoint validation
+- When `isLazy` is `true`, will **disable** endpoint validation
+- When `isLazy` is `undefined`, will inherit higher level explicitly set `isLazy`. If none is explicitly set, will do endpoint validation
+
+There are four levels of `isLazy` setting.
+
+**Four levels of `isLazy`:**
+
+1. Global `isLazy`: `isLazy` in `EndpointOptions` is the highest level with the lowerst priority, which is meant to globally control all endpoints.
+
+2. Chain `isLazy`: `isLazy` in `Endpoints` will control all endpoints for a particular chain. If `isLazy` in `EndpointOptions` and `isLazy` in `Endpoints` are all set and don't agree, the latter predominates.
+
+3. Endpoint `isLazy`: `isLazy` in `ExtendedHttpEndpoint` only controls the one in `ExtendedHttpEndpoint` object. For signing or broadcasting a transaction, this one is the lowerst level and with the highest priority.
+
+4. Parameter `isLazy`: `isLazy` in `getRpcEndpoint` and `getRestEndpoint` prarameters. It also globally controls all endpoints. (Note: this one only affects getting endpoint functions with the highest priority, but won't affect signing or broadcasting a transaction.)
+
+The calculation of final `isLazy` can be seen [here](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/core/src/utils/endpoint.ts).
+
+**`isLazy` examples:**
+
+- Disabling all endpoints validation
+
+```tsx
+endpointOptions={{
+  isLazy: true
+}}
+```
+
+- Disabling `cosmoshub` endpoints validation
+
+```tsx
+endpointOptions={{
+  cosmoshub: {
+    isLazy: true
+  }
+}}
+```
+
+- Disabling a particular endpoint validation
+
+```tsx
+endpointOptions={{
+  cosmoshub: {
+    rpc: [{
+      url: 'http://test.com',
+      isLazy: true,
+    }]
+  }
+}}
 ```
 
 ### sessionOptions
@@ -248,7 +319,7 @@ Define connection session options.
 ```tsx
 export interface SessionOptions {
   duration: number; // ms
-  callback?: () => void;
+  callback?: () => void; // when session expires
 }
 ```
 
@@ -257,6 +328,10 @@ export interface SessionOptions {
 ```tsx
 const sessionOptions: SessionOptions = {
   duration: 1800000, // half an hour
+  callback: () => {
+    this.mainWallets.forEach((w) => w.disconnectAll(false));
+    window?.localStorage.removeItem('cosmos-kit@1:core//accounts');
+  },
 };
 ```
 
@@ -323,7 +398,7 @@ Will disable logs lower than the value of `logLevel` (The log level order is the
 
 ## Optional Properties for Default Modal
 
-These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`.
+These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only works when property [`walletModal`](#walletmodal) is `undefined`.
 
 > Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
 
@@ -403,6 +478,10 @@ function CosmosApp() {
 Optional property. It will overwrite default theme applied in `DefaultModal`. 
 
 You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
+
+### includeAllWalletsOnMobile
+
+Optional property. By default `false`, which means on mobile only wallets with registry property `mobileDisabled` is set `false` or `undefined` be displayed on wallet list page of default modal. For example, all `extension` wallets are set `mobileDisabled` `true`. Therefore you can't see `extension` wallets on mobile by default. If you want to see all wallets on mobile, set `includeAllWalletsOnMobile` `true`;
 
 ## Localstorage
 
