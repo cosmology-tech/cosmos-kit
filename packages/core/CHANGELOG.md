@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.1.11...@cosmos-kit/core@1.3.0) (2023-03-17)
+
+
+### Features
+
+* allow disabling endpoint validation ([fc8594a](https://github.com/cosmology-tech/cosmos-kit/commit/fc8594a6e687c3f8f0ad870e1f6d020856644336))
+
+
+
+
+
 ## [1.1.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.1.10...@cosmos-kit/core@1.1.11) (2023-03-15)
 
 **Note:** Version bump only for package @cosmos-kit/core
