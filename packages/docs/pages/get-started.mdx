@@ -14,48 +14,40 @@
 yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
-`@cosmos-kit/react` includes default modal made by `ChakraUI`. If [customized modal](/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app. 
+`@cosmos-kit/react` includes default modal made by `ChakraUI`. If [customized modal](/provider/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app. 
 
 ### 2️⃣ Wrap Provider
 
-First, add [`ChainProvider`](https://docs.cosmoskit.com/chain-provider) or [`WalletProvider`](https://docs.cosmoskit.com/wallet-provider) to your app, with supported chains and supported wallets as properties.
+First, add [`ChainProvider`](/provider/chain-provider) and provider [required properties](/provider/chain-provider#required-properties).
 
-> Hint: properties of two providers are slightly different.
-
-Take `WalletProvider` as an example.
+Example:
 
 ```tsx
 import * as React from 'react';
 
 import { ChakraProvider } from '@chakra-ui/react';
-import { WalletProvider } from '@cosmos-kit/react';
+import { ChainProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
 function CosmosApp() {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <WalletProvider
+      <ChainProvider
         chains={chains} // supported chains
         assetLists={assets} // supported asset lists
         wallets={wallets} // supported wallets
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <YourWalletRelatedComponents />
-      </WalletProvider>
+      </ChainProvider>
     </ChakraProvider>
   );
 }
 ```
 
 ### 3️⃣ Consume with Hook
-
-Consume Provider with the corresponding hook. 
-
-- Hook [`useChain`](https://docs.cosmoskit.com/use-chain) consumes [`ChainProvider`](https://docs.cosmoskit.com/chain-provider) and returns type [`ChainContext`](https://docs.cosmoskit.com/use-chain#type-chaincontext)
-
-- Hook [`useWallet`](https://docs.cosmoskit.com/use-wallet) consumes [`WalletProvider`](https://docs.cosmoskit.com/wallet-provider) and returns type [`WalletMananger`](https://docs.cosmoskit.com/use-wallet#type---walletmanager)
-
-> Hint: return type properties of two hooks are slightly different.
 
 Take `useChain` as an example.
 
@@ -78,3 +70,19 @@ function Component ({ chainName }: { chainName: string }) => {
     } = chainContext;
 }
 ```
+
+## Localstorage Settings
+
+### current wallet
+
+- **Key**: `cosmos-kit@1:core//current-wallet`
+- **Type**: `string`
+
+It records current wallet name. You can use this key to implement auto-connection in dapp.
+
+### accounts
+
+- **Key**: `cosmos-kit@1:core//accounts`
+- **Type**: `SimpleAccount[]`
+
+It records the connected chains' account information. It's used for account restore when refreshing in CosmosKit. And it will expire after provided [session duration](#sessionoptions).

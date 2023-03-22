@@ -1,0 +1,470 @@
+Chain Provider provides necessary information for [hooks](/hooks).
+
+There are two `ChainProvider` from two packages (`@cosmos-kit/react` and `@cosmos-kit/react-lite`) respectively. They are basically the same only except that `ChainProvider` from `@cosmos-kit/react` has more properties of `default modal` (See [Properties for default modal ](#properties-for-default-modal) below).
+
+> Note: `preferredSignType` in [`signerOptions`](#signeroptions) determines which signer to use when signing document. By default using `amino` type.
+
+## Required Properties
+
+These properties are shared by `ChainProvider`s from `@cosmos-kit/react` and `@cosmos-kit/react-lite`.
+
+### chains
+
+Required property of type `Chain[]` (imported from `chain-registry`)
+
+It defines supported chains. Any actions involving chains beyound it might cause errors.
+
+#### adding localnet and testnets
+
+Example of adding `localosmosis`
+
+`_app.tsx`:
+
+```ts
+import { ChainProvider } from '@cosmos-kit/react';
+import { wallets } from '@cosmos-kit/keplr';
+import { assets, chains } from 'chain-registry';
+import { getSigningCosmosClientOptions } from 'osmojs';
+import { GasPrice } from '@cosmjs/stargate';
+
+import { SignerOptions } from '@cosmos-kit/core';
+import { Chain, AssetList } from '@chain-registry/types';
+import { localosmosis, localosmosisAssets } from '../config/localosmosis';
+
+function App({ Component, pageProps }: AppProps) {
+
+  const localosmosis: Chain = {...}; // with chain_name: 'localosmosis'
+  const localosmosisAssets: AssetList = {...}; // with chain_name: 'localosmosis'
+
+  const signerOptions: SignerOptions = {
+    signingStargate: (_chain: Chain) => {
+      return getSigningCosmosClientOptions();
+    },
+    signingCosmwasm: (chain: Chain) => {
+      switch (chain.chain_name) {
+        case 'localosmosis':
+          return {
+            gasPrice: GasPrice.fromString('0.0025uosmo')
+          };
+      }
+    }
+  };
+  return (
+      <ChainProvider
+        chains={[...chains, localosmosis]}
+        assetLists={[...assets, localosmosisAssets]}
+        wallets={wallets}
+        signerOptions={signerOptions}
+        endpointOptions={{
+          endpoints: {
+            localosmosis: {
+              rpc: ['http://localhost:343434']
+            }
+          }
+        }}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+```
+
+### assetLists
+
+Required property of type `AssetList[]` (comes from `chain-registry`)
+
+It provides chains related assets information.
+
+### wallets
+
+Required property of type `MainWalletBase[]`
+
+It defines supported wallets. There are several wallets out of box.
+
+```ts
+import { wallets as keplrWallet } from '@cosmos-kit/keplr';
+import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
+import { wallets as leapwallets } from '@cosmos-kit/leap';
+```
+
+If you don't like the default wallet settings such as icon, app name (they would be displayed on default modal), you can choose to provide your own settings by importing wallets like this.
+
+```ts
+import { KeplrExtensionWallet, KeplrMobileWallet } from '@cosmos-kit/keplr';
+
+const keplrExtensionInfo: Wallet = {...};
+const keplrMobileInfo: Wallet = {...};
+
+const keplrExtension = new KeplrExtensionWallet(keplrExtensionInfo);
+const KeplrMobile = new KeplrMobileWallet(keplrMobileInfo);
+
+export const wallets = [keplrExtension, KeplrMobile];
+```
+
+In addition, you can integrate new wallets in a few steps.
+
+🔌 [How to integrate new wallets into CosmosKit](/integrating-wallets/adding-new-wallets)
+
+### wrappedWithChakra
+
+Required when `ChainProvider` is wrapped inside `ChakraProvider`. By default `false`.
+
+This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
+
+### walletconnectOptions
+
+Required when `mobile` wallets dependent on `@comos-kit/walletconnect`(implements walletconnect v2 connection) are added in [`wallets`](#wallets).
+
+**Type:** `WalletConnectOptions`
+
+```tsx
+export interface WalletConnectOptions {
+  signClient: { projectId: string } & SignClientTypes.Options;
+}
+```
+
+`projectId` is required and can be obtained from [WalletConnect Cloud](https://cloud.walletconnect.com/sign-in). Create (or use an existing) dapp project and copy its associated project id.
+
+## Optional Properties
+
+### walletModal
+
+Optional in most cases (Exception see [useChain](/hooks/use-chain)).
+
+**Type**: `({ isOpen, setOpen, walletRepo }: WalletModalProps) => JSX.Element`
+
+Basically the order of wallets follows the order of property `wallets` in ChainProvider, except that all mobiles are moved to the back.
+
+You can also define your own modal component with required props.
+
+#### customize modal with `walletModal`
+
+> Suggest customizing modal with [`modalViews`](#modalviews) instead if you only need to customize modal UI without involving any customized data logic. [`modalViews`](#modalviews) provides an easy and fast way to partially change the default modal UI.
+
+Example of using self-defined modal.
+
+`_app.tsx`:
+
+```tsx
+import * as React from 'react';
+
+import { ChainProvider } from '@cosmos-kit/react';
+
+// Define Modal Component
+const MyModal = ({ isOpen, setOpen, walletRepo, theme }: WalletModalPropsV2) => {
+  function onCloseModal() {
+    setOpen(false);
+  }
+
+  return (
+    <Modal isOpen={isOpen} onClose={onCloseModal}>
+      <ModalContent>
+        <ModalHeader>Choose Wallet</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {walletRepo.wallets.map(({ walletName, connect }) => (
+            <Button
+              key={walletName}
+              colorScheme="blue"
+              variant="ghost"
+              onClick={() => connect}
+            >
+              {walletName}
+            </Button>
+          ))}
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      ...
+      walletModal={MyModal} // Provide walletModal
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+### defaultNameService
+
+**Type:** `NameServiceName` = `string`;
+
+Currently two name services are registered: `'icns'` and `'stargaze'`. The default name service is `icns`. This property is only used in `getNameService` of `useManager` when prarameter `chainName` is undefined, and in `useNameService` when the prarameter `name` is not provided. Otherwise it will return the name service object corresponding to provided chain. Therefore it won't affect `getNameService` method returned by `useChain`, since `chainName` is always provide in `useChain`.
+
+### endpointOptions
+
+Optional property. Define preferred endpoints for each chain.
+
+**Type:** `EndpointOptions`
+
+> Note: From `@cosmos-kit/core@1.2.1` `EndpointOptions` type changes a little bit
+
+```tsx
+export type ChainName = string;
+
+export interface ExtendedHttpEndpoint extends HttpEndpoint {
+  isLazy?: boolean;
+}
+
+export interface Endpoints {
+  rpc?: (string | ExtendedHttpEndpoint)[];
+  rest?: (string | ExtendedHttpEndpoint)[];
+  isLazy?: boolean;
+}
+
+// Expired Type: `type EndpointOptions = Record<ChainName, Endpoints>`
+
+export interface EndpointOptions {
+  isLazy?: boolean;
+  endpoints?: Record<ChainName, Endpoints>;
+}
+```
+
+**Example:**
+
+```tsx
+<ChainProvider
+  ...
+  endpointOptions={{
+    endpoints: {
+      cosmoshub: {
+        rpc: ['http://test.com']
+      }
+    }
+  }}
+>
+```
+
+#### isLazy
+
+**`isLazy` Explanation:**
+
+`isLazy` is used to control endpoint validation.
+
+- When `isLazy` is `false`, will do endpoint validation
+- When `isLazy` is `true`, will **disable** endpoint validation
+- When `isLazy` is `undefined`, will inherit higher level explicitly set `isLazy`. If none is explicitly set, will do endpoint validation
+
+There are four levels of `isLazy` setting.
+
+**Four Levels of `isLazy`:**
+
+1. Global `isLazy`: `isLazy` in `EndpointOptions` is the highest level with the lowerst priority, which is meant to globally control all endpoints.
+
+2. Chain `isLazy`: `isLazy` in `Endpoints` will control all endpoints for a particular chain. If `isLazy` in `EndpointOptions` and `isLazy` in `Endpoints` are all set and don't agree, the latter predominates.
+
+3. Endpoint `isLazy`: `isLazy` in `ExtendedHttpEndpoint` only controls the one in `ExtendedHttpEndpoint` object. For signing or broadcasting a transaction, this one is the lowerst level and with the highest priority.
+
+4. Parameter `isLazy`: `isLazy` in `getRpcEndpoint` and `getRestEndpoint` prarameters. It also globally controls all endpoints. (Note: this one only affects getting endpoint functions with the highest priority, but won't affect signing or broadcasting a transaction.)
+
+The calculation of final `isLazy` can be seen [here](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/core/src/utils/endpoint.ts#L32-L59).
+
+**`isLazy` Examples:**
+
+- Disabling all endpoints validation
+
+```tsx
+endpointOptions={{
+  isLazy: true
+}}
+```
+
+- Disabling `cosmoshub` endpoints validation
+
+```tsx
+endpointOptions={{
+  cosmoshub: {
+    isLazy: true
+  }
+}}
+```
+
+- Disabling a particular endpoint validation
+
+```tsx
+endpointOptions={{
+  cosmoshub: {
+    rpc: [{
+      url: 'http://test.com',
+      isLazy: true,
+    }]
+  }
+}}
+```
+
+### sessionOptions
+
+Define connection session options.
+
+**Type:** `SessionOptions`
+
+```tsx
+export interface SessionOptions {
+  duration: number; // ms
+  callback?: () => void; // when session expires
+}
+```
+
+**Default:**
+
+```tsx
+const sessionOptions: SessionOptions = {
+  duration: 1800000, // half an hour
+  callback: () => {
+    this.mainWallets.forEach((w) => w.disconnectAll(false));
+    window?.localStorage.removeItem('cosmos-kit@1:core//accounts');
+  },
+};
+```
+
+### signerOptions
+
+Optional property.
+
+```ts
+import * as React from "react";
+
+import { Chain } from "@chain-registry/types";
+import { chains } from "chain-registry";
+import { GasPrice } from "@cosmjs/stargate";
+import { getSigningCosmosClientOptions } from "interchain";
+import { SignerOptions } from "@cosmos-kit/core";
+import { ChainProvider } from "@cosmos-kit/react";
+import { wallets } from '@cosmos-kit/keplr';
+
+// construct signer options
+const signerOptions: SignerOptions = {
+  signingStargate: (chain: Chain) => {
+    // return corresponding stargate options or undefined
+    return getSigningCosmosClientOptions();
+  },
+  signingCosmwasm: (chain: Chain) => {
+    // return corresponding cosmwasm options or undefined
+    switch (chain.chain_name) {
+      case "osmosis":
+        return {
+          gasPrice: GasPrice.fromString("0.0025uosmo"),
+        };
+      case "juno":
+        return {
+          gasPrice: GasPrice.fromString("0.0025ujuno"),
+        };
+    }
+  },
+  preferredSignType = (chain: Chain) => {
+    // `preferredSignType` determines which signer is preferred for `getOfflineSigner` method. By default `amino`. It might affect the `OfflineSigner` used in `signingStargateClient` and `signingCosmwasmClient`. But if only one signer is provided, `getOfflineSigner` will always return this signer, `preferredSignType` won't affect anything.
+    return 'amino';
+  }
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      ...
+      signerOptions={signerOptions} // Provide signerOptions
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+### logLevel
+
+Optional property. By default `WARN`.
+
+**Type:** `LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR'`
+
+Will disable logs lower than the value of `logLevel` (The log level order is the same with the order above).
+
+## Optional Properties Only for Default Modal
+
+These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only counts when property [`walletModal`](#walletmodal) is `undefined`.
+
+> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
+
+### modalViews
+
+Optional property of type `ModalViews`.
+
+**Type**
+
+```tsx
+type ModalViews = {
+    Connecting?: (props: WalletViewProps) => JSX.Element;
+    Connected?: (props: WalletViewProps) => JSX.Element;
+    Error?: (props: WalletViewProps) => JSX.Element;
+    NotExist?: (props: WalletViewProps) => JSX.Element;
+    Rejected?: (props: WalletViewProps) => JSX.Element;
+    QRCode?: (props: WalletViewProps) => JSX.Element;
+} & {
+    WalletList?: (props: WalletListViewProps) => JSX.Element;
+}
+
+export interface WalletViewProps {
+  onClose: () => void;
+  onReturn: () => void;
+  wallet: ChainWalletBase;
+}
+
+export interface WalletListViewProps {
+  onClose: () => void;
+  wallets: ChainWalletBase[];
+}
+```
+#### customize modal with `modalViews`
+
+Example of using self-defined modal views.
+
+`_app.tsx`:
+
+```tsx
+import * as React from 'react';
+
+import { ChainProvider } from '@cosmos-kit/react';
+
+// Define Modal Connected View Component
+const ConnectedView = ({
+  onClose,
+  onReturn,
+  wallet,
+}: WalletViewProps) => {
+  const {
+    walletInfo: { prettyName },
+    username,
+    address,
+  } = wallet;
+
+  return <div>{`${prettyName}/${username}/${address}`}</div>;
+};
+
+function CosmosApp() {
+  return (
+    <ChainProvider
+      ...
+      walletModal={undefined} // `modalViews` only counts when `walletModal` is `undefined`
+      modalViews={{
+        Connected: ConnectedView,
+      }}
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
+  );
+}
+```
+
+### modalTheme
+
+Optional property. It will overwrite default theme applied in `DefaultModal`. 
+
+You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
+
+### includeAllWalletsOnMobile
+
+Optional property. By default `false`, which means on mobile only wallets with registry property `mobileDisabled` is set `false` or `undefined` be displayed on wallet list page of default modal. For example, all `extension` wallets are set `mobileDisabled` `true`. Therefore you can't see `extension` wallets on mobile by default. If you want to see all wallets on mobile, set `includeAllWalletsOnMobile` `true`;

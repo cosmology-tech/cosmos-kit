@@ -30,13 +30,15 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <WalletProvider
+      <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...cosmostationWallets]}
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
-      </WalletProvider>
+      </ChainProvider>
     </ChakraProvider>
   );
 }

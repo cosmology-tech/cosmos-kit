@@ -30,13 +30,15 @@ import { wallets as keplrWallets } from '@cosmos-kit/keplr';
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <WalletProvider
+      <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...keplrWallets]}
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
-      </WalletProvider>
+      </ChainProvider>
     </ChakraProvider>
   );
 }

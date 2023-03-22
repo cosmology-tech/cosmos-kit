@@ -167,6 +167,14 @@ export default () => {
           </Stack>
         </CardBody>
       </Card>
+      <Button
+        disabled
+        onClick={() => {
+          console.log("%cindex.tsx line:170 12345", "color: #007acc;", 12345);
+        }}
+      >
+        test disabled
+      </Button>
     </SimpleGrid>
   );
 };

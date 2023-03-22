@@ -1,0 +1,24 @@
+Thereare multiple hooks provided in CosmosKit. They all require [**ChainProvider**](/provider/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite` to provide necessary information.
+
+- [`useChain`](/hooks/use-chain): Provide chainWallet related properties and methods, and support multiple chains connected at one time. When `useChain` is called, corresponding chainWallets will be activated.
+
+- [`useChainWallet`](/hooks/use-chain-wallet): Provide chainWallet related properties and methods, and support multiple chains and wallets connected at one time. When `useChainWallet` is called, corresponding chainWallet will be activated.
+
+> See more information about [Differences Between `useChain` And `useChainWallet`](#differences-between-usechain-and-usechainwallet)
+
+- [`useManager`](/hooks/use-manager): Manage all chains and wallets.
+
+- [`useModalTheme`](/hooks/use-modal-theme): Manage default modal themes.
+
+- [`useNameService`](/hooks/use-name-service): Get alias name of address from a particular name server.
+
+- [`useWallet`](/hooks/use-wallet): Manage all chainWallets and the global status for a particular wallet.
+
+- [`useWalletClient`](/hooks/use-manager): Get the wallet client for a particular wallet.
+
+## Differences Between `useChain` And `useChainWallet`
+
+1. `useChainWallet` requires an extra prarameter `walletName`.
+2. `useChain` will pop up a wallet modal to connect while `useChainWallet` not.
+3. `useChain` exposes extra `openView` and `closeView` methods and `walletRepo` property.
+4. the return value of methods `getRpcEndpoint`, `getRestEndpoint`, `getStargateClient`, `getCosmWasmClient`, `getNameService` can be different between `useChain` and `useChainWallet`, because `useChain` explores all `chainWallets` related to the prarameter `chainName`.

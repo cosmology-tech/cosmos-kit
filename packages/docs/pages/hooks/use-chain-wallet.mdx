@@ -1,0 +1,88 @@
+## Hook - useChainWallet
+
+- required provider: [**ChainProvider**](/provider/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite`
+
+- parameters:
+    - **chainName**: `ChainName` ( = `string` );
+    - **walletName**: `WalletName` ( = `string` );
+    - **sync**: `boolean` = `true`
+
+> prarameter `sync` means whether to synchronize connection and disconnection to all other activated chainWallets.
+
+- return type: [**ChainWalletContext**](#type-chainwalletcontext)
+
+## Type - ChainWalletContext
+
+### Properties
+
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **chain**      | chain registry information       | `Chain` | - |
+| **assets**   | chain assets information       | `AssetList \| undefined` | `undefined` |
+| **wallet**   | current selected wallet registry information       | `Wallet \| undefined` | `undefined` |
+| **logoUrl**   | chain logo url       | `string \| undefined` | `undefined` |
+| **address**   | chain address from current selected wallet       | `string \| undefined` | `undefined` |
+| **username**   | username from current selected wallet       | `string \| undefined` | `undefined` |
+| **message**   | error/warn/info message       | `string \| undefined` | `undefined` |
+| **status**   | wallet status      | `WalletStatus` | `Disconnected` |
+| **isWalletDisconnected**   |  if `status === 'Disconnected'`   | `boolean` | `true` |
+| **isWalletConnecting**   |  if `status === 'Connecting'`   | `boolean` | `false` |
+| **isWalletConnected**   |  if `status === 'Connected'`   | `boolean` | `false` |
+| **isWalletRejected**   |  if `status === 'Rejected'`   | `boolean` | `false` |
+| **isWalletNotExist**   |  if `status === 'NotExist'`   | `boolean` | `false` |
+| **isWalletError**   |  if `status === 'Error'`   | `boolean` | `false` |
+
+### Methods
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| ----------- | ----------- | -- | -- | -- |
+| **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
+| **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
+| **getRpcEndpoint** | return rpc endpoint, `isLazy` explanation is [here](/provider/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
+| **getRestEndpoint**  | return rest endpoint, `isLazy` explanation is [here](/provider/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
+| **getStargateClient**  | - | - | `StargateClient` | Y |
+| **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
+| **getSigningStargateClient**  | always vaildate endpoint in method | - | `SigningStargateClient` | Y |
+| **getSigningCosmWasmClient**  | always vaildate endpoint in method | - | `SigningCosmWasmClient` | Y |
+| **getNameService**  | get name service object supported on provided chain  | - | `NameService` | Y |
+| **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee` | Y |
+| **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw` | Y |
+| **broadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **signedMessages**: `TxRaw`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |
+| **signAndBroadcast**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType`, | `DeliverTxResponse` | Y |
+
+### Properties from Wallet Client
+
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **qrUrl**      |  -  | `Mutable\<string\> | undefined` | `undefined` |
+| **appUrl**   | -   | `Mutable\<AppUrl\> | undefined` | `undefined` |
+
+### Methods from Wallet Client
+
+> These methods are equal to wallet client methods with argument `chainId` assigned as `chainId` corresponding to hook argument `chainName`. If you want to directly use wallet client methods, choose hook [`useWalletClient`](/hooks/use-wallet-client) instead.
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| ----------- | ----------- | -- | -- | -- |
+| **enable**  | - | - | `void` | Y |
+| **getAccount**  | - | - | `WalletAccount` | Y |
+| **getOfflineSigner**  | prioritize returning `preferredSignType` (in `ChainProvider` properties, by default `amino`) corresponding signer if it is available, otherwise return siger that is provided.  | Y |
+| **getOfflineSignerAmino**  | - | - | `OfflineAminoSigner` | N |
+| **getOfflineSignerDirect**  | - | - | `OfflineDirectSigner` | N |
+| **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
+| **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse` | Y |
+| **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array` | Y |
+
+
+### Advanced
+
+**Used for deeper dive into the chain and wallet related objects**
+
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **chainWallet**   | current chainWallet   | `ChainWalletBase \| undefined` | `undefined` |
+
+## Examples
+
+### [fetch address](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/use-chain-wallet.tsx)
+
+### [governance](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/gov.tsx)

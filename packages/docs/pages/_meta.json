@@ -1,13 +1,7 @@
 {
   "index": "Introduction",
   "get-started": "Get Started",
-  "integrating-wallets": "Integrating Wallets",
-  "chain-provider": "Chain Provider",
-  "use-chain": "🪝 useChain",
-  "use-chain-wallet": "🪝 useChainWallet",
-  "use-manager": "🪝 useManager",
-  "use-modal-theme": "🪝 useModalTheme",
-  "use-name-service": "🪝 useNameService",
-  "use-wallet": "🪝 useWallet",
-  "use-wallet-client": "🪝 useWalletClient"
+  "provider": "Provider",
+  "hooks": "Hooks",
+  "integrating-wallets": "Integrating Wallets"
 }

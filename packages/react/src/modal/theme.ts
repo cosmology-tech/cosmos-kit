@@ -248,6 +248,7 @@ export function addSemanticTokens(theme: Record<string, any>) {
     },
   };
   return {
+    ...extendTheme(themeWithReset),
     ...theme,
     ...mergedSemanticTokens,
   };

@@ -10,7 +10,7 @@
 
 4. Edit file `client.ts`, `registry.ts`, `types.ts` and `utils.ts`. Replace what is different from Leap with the new wallet specificated methods/properties.
 
-5. Construct the MainWallet (*class in `main-wallet.ts`*) instance and put it into `WalletProvider` `wallets` property.
+5. Construct the MainWallet (*class in `main-wallet.ts`*) instance and put it into `ChainProvider` `wallets` property.
 
 ## Quickly Add Mobile Wallets
 
@@ -24,7 +24,7 @@
 
 4. Edit file `client.ts`, `registry.ts` and `types.ts`. Replace what is different from Keplr with the new wallet specificated methods/properties. For `client.ts`, the main replacement would happen in `getAppUrl` and the `method` parameter of `sendCustomRequest`
 
-5. Construct the MainWallet (*class in `main-wallet.ts`*) instance and put it into `WalletProvider` `wallets` property.
+5. Construct the MainWallet (*class in `main-wallet.ts`*) instance and put it into `ChainProvider` `wallets` property.
 
 ## Add New Wallets from Scratch
 
@@ -54,9 +54,9 @@
 
 #### Examples
 
-- [Keplr Extension - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/develop/wallets/keplr-extension/src/extension/registry.ts)
+- [Keplr Extension - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/registry.ts)
 
-- [Keplr Mobile - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/develop/wallets/keplr-extension/src/wallet-connect/registry.ts)
+- [Keplr Mobile - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/wallet-connect/registry.ts)
 
 
 ### 2️⃣ Implement `WalletClient`
@@ -92,9 +92,9 @@ Create a `ChainWallet` class that extends  `ChainWalletBase`. `ChainWallet` prov
 
 #### Examples
 
-- [Keplr Extension - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/wallets/keplr-extension/src/extension/chain-wallet.ts)
+- [Keplr Extension - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/chain-wallet.ts)
 
-- [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/chain-wallet.ts)
+- [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/chain-wallet.ts)
 
 
 ### 4️⃣ Extend `MainWalletBase`
@@ -115,9 +115,9 @@ Also, feel free to overwrite methods in `MainWalletBase` or add new methods/prop
 
 #### Examples
 
-- [Keplr Extension - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/wallets/keplr-extension/src/extension/main-wallet.ts)
+- [Keplr Extension - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/main-wallet.ts)
 
-- [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/wallet-connect/main-wallet.ts)
+- [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/main-wallet.ts)
 
 
 ### 5️⃣ Get `MainWallet` instance
@@ -126,6 +126,6 @@ You can construct your `MainWallet` Instance according to your `MainWallet` cons
 
 #### Examples
 
-- [keplrExtension & keplrMobile](https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/keplr/src/keplr.ts)
+- [keplrExtension & keplrMobile](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/keplr.ts)
 
-Last but not least, append this instance to the `wallets` property of [WalletProvider](https://docs.cosmoskit.com/get-started#provider).
+Last but not least, append this instance to the `wallets` property of [ChainProvider](/provider/chain-provider).

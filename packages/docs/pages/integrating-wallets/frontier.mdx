@@ -29,13 +29,15 @@ import { wallets as frontierwallets } from "@cosmos-kit/frontier";
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={defaultTheme}>
-      <WalletProvider
+      <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...frontierwallets]}
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
-      </WalletProvider>
+      </ChainProvider>
     </ChakraProvider>
   );
 }

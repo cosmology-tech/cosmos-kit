@@ -180,11 +180,6 @@ export default function Home() {
             onClick={async () => {
               const r = await (client as any).getAccount("cosmoshub-4");
               setCosmo_getAccount(JSON.stringify(r));
-              console.log(
-                "%ctx.tsx line:396 cosmos_getAccounts",
-                "color: #007acc;",
-                r
-              );
             }}
           >
             cosmos_getAccounts
@@ -207,11 +202,6 @@ export default function Home() {
                   aminoSignDoc
                 );
                 setCosmos_signAmino(JSON.stringify(r));
-                console.log(
-                  "%ctx.tsx line:396 cosmos_signAmino",
-                  "color: #007acc;",
-                  r
-                );
               }
             }}
           >
