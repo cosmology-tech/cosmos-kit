@@ -1,5 +1,34 @@
 import { ExtendedHttpEndpoint } from '../types';
 import { Logger } from './logger';
+import axios from 'axios';
+
+const _getValidEndpoint = async (
+  endpoint: string | ExtendedHttpEndpoint,
+  logger?: Logger
+): Promise<string | ExtendedHttpEndpoint> => {
+  const valid = await isValidEndpoint(endpoint, false, logger);
+  if (valid === false) {
+    return Promise.reject('Invalid endpoint.');
+  } else {
+    return endpoint;
+  }
+};
+
+export const getFastestEndpoint = async (
+  endpoints: (string | ExtendedHttpEndpoint)[],
+  logger?: Logger
+): Promise<string | ExtendedHttpEndpoint> => {
+  try {
+    // Ping ALL rpc providers and go with the one that resolves the fastest
+    const fastestEndpoint = await Promise.any(
+      endpoints.map((endpoint) => _getValidEndpoint(endpoint, logger))
+    );
+    logger?.debug('rpcEndpoint won the race:', fastestEndpoint);
+    return fastestEndpoint;
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 
 export const isValidEndpoint = async (
   endpoint: string | ExtendedHttpEndpoint,
@@ -15,16 +44,19 @@ export const isValidEndpoint = async (
   try {
     let response: Response;
     if (typeof endpoint === 'string') {
-      response = await fetch(endpoint);
+      response = await axios.get(`${endpoint}/status`);
     } else {
-      response = await fetch(endpoint.url, { headers: endpoint.headers });
+      response = await axios.get(`${endpoint.url}/status`, {
+        headers: endpoint.headers,
+      });
     }
-
     if (response.status == 200) {
       logger?.debug('Access successfully.');
       return true;
     }
-  } catch (err) {}
+  } catch (err) {
+    logger?.debug(`${(err as Error).name}: ${(err as Error).message}`);
+  }
   logger?.debug('Access failed.');
   return false;
 };

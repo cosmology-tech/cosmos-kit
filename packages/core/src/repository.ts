@@ -126,9 +126,13 @@ export class WalletRepo extends StateBase {
     for (const wallet of this.wallets) {
       try {
         return await wallet.getRpcEndpoint(isLazy);
-      } catch (error) {}
+      } catch (error) {
+        this.logger?.debug(
+          `${(error as Error).name}: ${(error as Error).message}`
+        );
+      }
     }
-    throw new Error(`No valid RPC endpoint for chain ${this.chainName}!`);
+    return Promise.reject(`No valid RPC endpoint for chain ${this.chainName}!`);
   };
 
   getRestEndpoint = async (
@@ -137,42 +141,58 @@ export class WalletRepo extends StateBase {
     for (const wallet of this.wallets) {
       try {
         return await wallet.getRestEndpoint(isLazy);
-      } catch (error) {}
+      } catch (error) {
+        this.logger?.debug(
+          `${(error as Error).name}: ${(error as Error).message}`
+        );
+      }
     }
-    throw new Error(`No valid REST endpoint for chain ${this.chainName}!`);
+    return Promise.reject(
+      `No valid REST endpoint for chain ${this.chainName}!`
+    );
   };
 
   getStargateClient = async (): Promise<StargateClient> => {
     for (const wallet of this.wallets) {
       try {
         return await wallet.getStargateClient();
-      } catch (error) {}
+      } catch (error) {
+        this.logger?.debug(
+          `${(error as Error).name}: ${(error as Error).message}`
+        );
+      }
     }
-    throw new Error(
+    return Promise.reject(
       `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
     );
   };
 
   getCosmWasmClient = async (): Promise<CosmWasmClient> => {
     for (const wallet of this.wallets) {
-      const client = await wallet.getCosmWasmClient();
-      if (client) {
-        return client;
+      try {
+        return await wallet.getCosmWasmClient();
+      } catch (error) {
+        this.logger?.debug(
+          `${(error as Error).name}: ${(error as Error).message}`
+        );
       }
     }
-    throw new Error(
+    return Promise.reject(
       `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
     );
   };
 
   getNameService = async (): Promise<NameService> => {
     for (const wallet of this.wallets) {
-      const service = await wallet.getNameService();
-      if (service) {
-        return service;
+      try {
+        return await wallet.getNameService();
+      } catch (error) {
+        this.logger?.debug(
+          `${(error as Error).name}: ${(error as Error).message}`
+        );
       }
     }
-    throw new Error(
+    return Promise.reject(
       `Something wrong! Probably no valid RPC endpoint or name service is not registered for chain ${this.chainName}.`
     );
   };

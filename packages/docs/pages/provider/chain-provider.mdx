@@ -245,11 +245,11 @@ export interface EndpointOptions {
 
 **`isLazy` Explanation:**
 
-`isLazy` is used to control endpoint validation.
+`isLazy` is used to control endpoints validation (get the fastest one when first validating).
 
-- When `isLazy` is `false`, will do endpoint validation
-- When `isLazy` is `true`, will **disable** endpoint validation
-- When `isLazy` is `undefined`, will inherit higher level explicitly set `isLazy`. If none is explicitly set, will do endpoint validation
+- When `isLazy` is `false`, will do endpoints validation
+- When `isLazy` is `true`, will **disable** endpoints validation
+- When `isLazy` is `undefined`, will inherit higher level explicitly set `isLazy`. If none is explicitly set, will do endpoints validation
 
 There are four levels of `isLazy` setting.
 

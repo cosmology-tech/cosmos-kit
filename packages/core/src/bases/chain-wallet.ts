@@ -28,14 +28,15 @@ import {
 import {
   getIsLazy,
   getNameServiceRegistryFromChainName,
+  getFastestEndpoint,
   isValidEndpoint,
 } from '../utils';
 import { WalletBase } from './wallet';
 
 export class ChainWalletBase extends WalletBase {
   protected _chainRecord: ChainRecord;
-  rpcEndpoints?: (string | ExtendedHttpEndpoint)[];
-  restEndpoints?: (string | ExtendedHttpEndpoint)[];
+  rpcEndpoints: (string | ExtendedHttpEndpoint)[] = [];
+  restEndpoints: (string | ExtendedHttpEndpoint)[] = [];
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
   offlineSigner?: OfflineSigner;
@@ -193,80 +194,67 @@ export class ChainWalletBase extends WalletBase {
   getRpcEndpoint = async (
     isLazy?: boolean
   ): Promise<string | ExtendedHttpEndpoint> => {
+    const lazy = getIsLazy(
+      void 0,
+      this.isLazy,
+      (this._rpcEndpoint as any)?.isLazy,
+      isLazy,
+      this.logger
+    );
+
+    if (lazy) {
+      const endpoint = this._rpcEndpoint || this.rpcEndpoints[0];
+      if (!endpoint) {
+        return Promise.reject('No endpoint available.');
+      }
+      return endpoint;
+    }
+
     if (
       this._rpcEndpoint &&
-      (await isValidEndpoint(
-        this._rpcEndpoint,
-        getIsLazy(
-          void 0,
-          this.isLazy,
-          (this._rpcEndpoint as any).isLazy,
-          isLazy,
-          this.logger
-        ),
-        this.logger
-      ))
+      (await isValidEndpoint(this._rpcEndpoint, lazy, this.logger))
     ) {
       return this._rpcEndpoint;
     }
-    for (const endpoint of this.rpcEndpoints || []) {
-      if (
-        await isValidEndpoint(
-          endpoint,
-          getIsLazy(
-            void 0,
-            this.isLazy,
-            (endpoint as any).isLazy,
-            isLazy,
-            this.logger
-          ),
-          this.logger
-        )
-      ) {
-        this._rpcEndpoint = endpoint;
-        this.logger?.debug('Using RPC endpoint ' + endpoint);
-        return endpoint;
-      }
-    }
-    throw new Error(
-      `No valid RPC endpoint for chain ${this.chainName} in ${this.walletName}!`
+
+    this._rpcEndpoint = await getFastestEndpoint(
+      this.rpcEndpoints,
+      this.logger
     );
+    return this._rpcEndpoint;
   };
 
   getRestEndpoint = async (
     isLazy?: boolean
   ): Promise<string | ExtendedHttpEndpoint> => {
+    const lazy = getIsLazy(
+      void 0,
+      this.isLazy,
+      (this._restEndpoint as any).isLazy,
+      isLazy,
+      this.logger
+    );
+
+    if (lazy) {
+      const endpoint = this._restEndpoint || this.restEndpoints[0];
+      if (!endpoint) {
+        return Promise.reject('No endpoint available.');
+      }
+      return endpoint;
+    }
+
     if (
       this._restEndpoint &&
-      (await isValidEndpoint(
-        this._restEndpoint,
-        getIsLazy(
-          void 0,
-          this.isLazy,
-          (this._restEndpoint as any).isLazy,
-          isLazy
-        ),
-        this.logger
-      ))
+      (await isValidEndpoint(this._restEndpoint, lazy, this.logger))
     ) {
       return this._restEndpoint;
     }
-    for (const endpoint of this.restEndpoints || []) {
-      if (
-        await isValidEndpoint(
-          endpoint,
-          getIsLazy(void 0, this.isLazy, (endpoint as any).isLazy, isLazy),
-          this.logger
-        )
-      ) {
-        this._restEndpoint = endpoint;
-        this.logger?.debug('Using REST endpoint ' + endpoint);
-        return endpoint;
-      }
-    }
-    throw new Error(
-      `No valid Rest endpoint for chain ${this.chainName} in ${this.walletName}!`
+
+    this._restEndpoint = await getFastestEndpoint(
+      this.restEndpoints,
+      this.logger
     );
+    return this._restEndpoint;
   };
 
   getStargateClient = async (): Promise<StargateClient> => {

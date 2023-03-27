@@ -1,7 +1,7 @@
 import { useNameService } from "@cosmos-kit/react";
 import { useEffect, useState } from "react";
 
-const address = "";
+const address = ""; // set your address here
 
 export default () => {
   const { state, data: ns } = useNameService();

@@ -5,39 +5,43 @@ import {
   NameServiceName,
   State,
 } from '@cosmos-kit/core';
-import React, { useState } from 'react';
-import { useChain } from './useChain';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useManager } from './useManager';
 
 export const useNameService = (
   name?: NameServiceName
 ): Mutable<NameService> => {
   const [state, setState] = useState<State>(State.Pending);
-  const [ns, setNs] = useState<NameService>();
+  const [ns, setNS] = useState<NameService>();
   const [msg, setMsg] = useState<string>();
 
-  const { defaultNameService } = useManager();
-  const registry = getNameServiceRegistryFromName(name || defaultNameService);
+  const { defaultNameService, getNameService } = useManager();
+  const registry = useMemo(
+    () => getNameServiceRegistryFromName(name || defaultNameService),
+    [name]
+  );
+
   if (!registry) {
     throw new Error('No such name service: ' + (name || defaultNameService));
   }
 
-  const { getCosmWasmClient } = useChain(registry.chainName);
+  useEffect(() => {
+    getNameService()
+      .then((ns) => {
+        setNS(ns);
+        setState(State.Done);
+      })
+      .catch((e) => {
+        setMsg((e as Error).message);
+        setState(State.Error);
+      })
+      .finally(() => {
+        if (state === 'Pending') {
+          setState(State.Init);
+        }
+      });
+  }, [name]);
 
-  getCosmWasmClient()
-    .then((client) => {
-      setNs(new NameService(client, registry));
-      setState(State.Done);
-    })
-    .catch((e) => {
-      setMsg((e as Error).message);
-      setState(State.Error);
-    })
-    .finally(() => {
-      if (state === 'Pending') {
-        setState(State.Init);
-      }
-    });
   return {
     state,
     data: ns,
