@@ -1,5 +1,4 @@
 import {
-  AccountData,
   AminoSignResponse,
   OfflineAminoSigner,
   StdSignDoc,
@@ -24,12 +23,36 @@ export interface Key {
   readonly isNanoLedger: boolean;
 }
 
-export interface SimpleAccount {
-  namespace: string;
-  chainId: string;
+export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
+export type Namespace = 'cosmos' | 'ethereum';
+export type EncodedString = string;
+
+export interface WalletAccount {
+  /**
+   * identifier in BlockChain.
+   * in Cosmos, it's the address formatted using Bech32;
+   */
   address: string;
+  /**
+   * digital key scheme for creating digital signatures
+   */
+  algo?: Algo;
+  pubkey?: EncodedString;
+  /**
+   * only in Cosmos, the address NOT formatted using Bech32 yet
+   */
+  rawAddress?: EncodedString;
+  /**
+   * encoding type for `EncodedString` above. default hex
+   */
+  encoding?: BufferEncoding;
+  namespace?: Namespace;
+  chainId?: string;
   username?: string;
+  isNanoLedger?: boolean;
 }
+
+export type SimpleAccount = WalletAccount;
 
 export type WalletName = string;
 
@@ -93,11 +116,6 @@ export interface Wallet {
 
 export type Bech32Address = string;
 
-export interface WalletAccount extends AccountData {
-  username?: string;
-  isNanoLedger?: boolean;
-}
-
 export interface SignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
@@ -125,18 +143,35 @@ export declare enum BroadcastMode {
 }
 
 export interface WalletClient {
-  getSimpleAccount: (chainId: string) => Promise<SimpleAccount>;
+  /**
+   * deprecated. using `getAccount` instead.
+   */
+  getSimpleAccount: (chainId?: string) => Promise<SimpleAccount>;
+  /**
+   * param `chainIds`:
+   *    if undefined, will return all accounts available.
+   *    if of type string, will return type WalletAccount.
+   *    if of type string[], will return type WalletAccount[].
+   *
+   * param `isLazy`:
+   *    by default true, which means method will return as long as the required key `address` is obtained.
+   *    however, there are optional keys in `WalletAccount` i.e. `pubkey`, that sometimes require extra request from wallet.
+   *    if you ask for these extra requests to get as much information as possible, set `isLazy` false.
+   */
+  getAccount: (
+    chainIds?: string | string[],
+    isLazy?: boolean
+  ) => Promise<WalletAccount | WalletAccount[]>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
 
-  connect?: (chainIds: string | string[]) => Promise<void>; // called when chain wallet connect is called
   disconnect?: () => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
-  enable?: (chainIds: string | string[]) => Promise<void>;
+  connect?: (chainIds?: string | string[]) => Promise<void>;
+  enable?: (chainIds?: string | string[]) => Promise<void>; // alias of connect
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
-  getAccount?: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner?: (
     chainId: string,
     preferredSignType?: SignType // by default `amino`

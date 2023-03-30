@@ -5,7 +5,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as keplrWallets } from "@cosmos-kit/keplr";
+// import { wallets as keplrWallets } from "@cosmos-kit/keplr";
+import { wallets as keplrWallets } from "@cosmos-kit/keplr-extension";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
@@ -13,6 +14,7 @@ import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as terrastationWallets } from "@cosmos-kit/terrastation";
+import { wallets as metamaskWallets } from "@cosmos-kit/metamask-extension";
 import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
@@ -35,6 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...trustWallets,
             // ...frontierWallets,
             // ...terrastationWallets,
+            // ...metamaskWallets,
           ]}
           defaultNameService={"stargaze"}
           walletConnectOptions={{

@@ -10,8 +10,12 @@ export class TrustClient implements WalletClient {
     this.client = client;
   }
 
-  async enable(chainIds: string | string[]) {
+  async connect(chainIds: string | string[]) {
     await this.client.enable(chainIds);
+  }
+
+  async enable(chainIds: string | string[]) {
+    await this.connect(chainIds);
   }
 
   async getSimpleAccount(chainId: string) {

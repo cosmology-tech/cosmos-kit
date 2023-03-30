@@ -49,16 +49,19 @@ export abstract class WalletBase extends StateBase {
 
   initingClient() {
     this.clientMutable.state = State.Pending;
+    this.actions?.clientState(State.Pending);
   }
 
   initClientDone(client: WalletClient | undefined) {
     this.clientMutable.data = client;
     this.clientMutable.state = State.Done;
+    this.actions?.clientState(State.Done);
   }
 
   initClientError(error: Error | undefined) {
     this.clientMutable.message = error?.message;
     this.clientMutable.state = State.Error;
+    this.actions?.clientState(State.Error);
   }
 
   get walletInfo(): Wallet {

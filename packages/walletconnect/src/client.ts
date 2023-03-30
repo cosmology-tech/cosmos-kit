@@ -25,6 +25,8 @@ import {
   WalletConnectOptions,
   DappEnv,
   SignType,
+  getStringFromUint8Array,
+  getUint8ArrayFromString,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -517,7 +519,7 @@ export class WCClient implements WalletClient {
     return {
       address,
       algo: algo as Algo,
-      pubkey: new Uint8Array(Buffer.from(pubkey, this.wcEncoding)),
+      pubkey: getUint8ArrayFromString(pubkey, this.wcEncoding),
     };
   }
 
@@ -578,8 +580,9 @@ export class WCClient implements WalletClient {
       signerAddress: signer,
       signDoc: {
         chainId: signDoc.chainId,
-        bodyBytes: Buffer.from(signDoc.bodyBytes).toString(this.wcEncoding),
-        authInfoBytes: Buffer.from(signDoc.authInfoBytes).toString(
+        bodyBytes: getStringFromUint8Array(signDoc.bodyBytes, this.wcEncoding),
+        authInfoBytes: getStringFromUint8Array(
+          signDoc.authInfoBytes,
           this.wcEncoding
         ),
         accountNumber: signDoc.accountNumber.toString(),
@@ -616,12 +619,11 @@ export class WCClient implements WalletClient {
       signed: {
         chainId: signed.chainId,
         accountNumber: Long.fromString(signed.accountNumber, false),
-        authInfoBytes: new Uint8Array(
-          Buffer.from(signed.authInfoBytes, this.wcEncoding)
+        authInfoBytes: getUint8ArrayFromString(
+          signed.authInfoBytes,
+          this.wcEncoding
         ),
-        bodyBytes: new Uint8Array(
-          Buffer.from(signed.bodyBytes, this.wcEncoding)
-        ),
+        bodyBytes: getUint8ArrayFromString(signed.bodyBytes, this.wcEncoding),
       },
       signature,
     };
