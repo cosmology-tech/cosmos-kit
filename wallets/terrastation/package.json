@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/terrastation",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "cosmos-kit wallet connector",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -84,7 +84,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/terrastation-extension": "^0.1.1"
+    "@cosmos-kit/terrastation-extension": "^0.1.2"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
