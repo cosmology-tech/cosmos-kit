@@ -1,2 +1,2 @@
-export * from './hooks';
+export * from './hooks/base';
 export * from './provider';

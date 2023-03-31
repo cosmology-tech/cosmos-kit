@@ -81,34 +81,6 @@ export function getChainWalletContext(
       walletAssert(wallet?.getRpcEndpoint, [isLazy], 'getRpcEndpoint'),
     getRestEndpoint: (isLazy?: boolean) =>
       walletAssert(wallet?.getRestEndpoint, [isLazy], 'getRestEndpoint'),
-    getStargateClient: () =>
-      walletAssert(wallet?.getStargateClient, [], 'getStargateClient'),
-    getCosmWasmClient: () =>
-      walletAssert(wallet?.getCosmWasmClient, [], 'getCosmWasmClient'),
-    getSigningStargateClient: () =>
-      walletAssert(
-        wallet?.getSigningStargateClient,
-        [],
-        'getSigningStargateClient'
-      ),
-    getSigningCosmWasmClient: () =>
-      walletAssert(
-        wallet?.getSigningCosmWasmClient,
-        [],
-        'getSigningCosmWasmClient'
-      ),
-    getNameService: () =>
-      walletAssert(wallet?.getNameService, [], 'getNameService'),
-
-    estimateFee: (...params: Parameters<ChainWalletContext['estimateFee']>) =>
-      walletAssert(wallet?.estimateFee, params, 'estimateFee'),
-    sign: (...params: Parameters<ChainWalletContext['sign']>) =>
-      walletAssert(wallet?.sign, params, 'sign'),
-    broadcast: (...params: Parameters<ChainWalletContext['broadcast']>) =>
-      walletAssert(wallet?.broadcast, params, 'broadcast'),
-    signAndBroadcast: (
-      ...params: Parameters<ChainWalletContext['signAndBroadcast']>
-    ) => walletAssert(wallet?.signAndBroadcast, params, 'signAndBroadcast'),
 
     qrUrl: wallet?.client?.qrUrl,
     appUrl: wallet?.client?.appUrl,
