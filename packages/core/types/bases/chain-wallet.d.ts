@@ -7,8 +7,8 @@ import { ChainRecord, CosmosClientType, ExtendedHttpEndpoint, SignType, SimpleAc
 import { WalletBase } from './wallet';
 export declare class ChainWalletBase extends WalletBase {
     protected _chainRecord: ChainRecord;
-    rpcEndpoints: (string | ExtendedHttpEndpoint)[];
-    restEndpoints: (string | ExtendedHttpEndpoint)[];
+    rpcEndpoints?: (string | ExtendedHttpEndpoint)[];
+    restEndpoints?: (string | ExtendedHttpEndpoint)[];
     protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
     protected _restEndpoint?: string | ExtendedHttpEndpoint;
     offlineSigner?: OfflineSigner;
