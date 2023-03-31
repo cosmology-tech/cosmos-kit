@@ -120,11 +120,13 @@ export interface HttpEndpoint {
 
 export interface WalletClient {
   /**
-   * Step 1: Build Connection
-   *     or called `enable/onboard/requestAccount` in some wallets,
-   *     to build authed connection between dapp and wallet
+   * Step 1: Authorize
+   *     or called `onboard/requestAccount/connect` in some wallets,
+   *     to build authed connection between dapp and wallet.
+   *     in some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
+   *     to distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  connect?(chainIds?: string[]): Promise<void>;
+  enable?(chainIds?: string[]): Promise<void>;
   /**
    * Step 2: Get Account
    *     `address` especially required in returned value.
@@ -140,12 +142,20 @@ export interface WalletClient {
    */
   sign<T>(address: string, doc: T): Promise<EncodedString>;
   /**
-   * Step 4: Disconnect
+   * Step 4: Broadcast Signed Doc
+   *     address in params is used to get the public key from wallet to verify signedDoc.
+   *     endpoint is the path to do verification and broadcast.
    */
-  disconnect?: () => Promise<void>;
+  broadcast?<T>(address: string, signedDoc: T): Promise<void>;
+  /**
+   * Step 5: Cancel Authorization
+   *     or called `disconnect` in some wallets,
+   */
+  disable?: (chainIds?: string[]) => Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
+
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   addChain?<T>(chainInfo: T): Promise<void>;
@@ -154,7 +164,7 @@ export interface WalletClient {
 export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
-  new (walletInfo: Wallet, chainInfo: ChainRecord<any, any>): ChainWalletBase;
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
 }
 
 export interface WalletConnectOptions {

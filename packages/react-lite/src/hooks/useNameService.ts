@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import { useManager } from './useManager';
 
-export const useCosmosNameService = (
+export const useNameService = (
   name?: NameServiceName
 ): Mutable<NameService> => {
   const [state, setState] = useState<State>(State.Pending);

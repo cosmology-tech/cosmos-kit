@@ -13,19 +13,24 @@ import {
   StargateClientOptions,
   StdFee,
 } from '@cosmjs/stargate';
-import { ChainWalletBase, Namespace } from '@cosmos-kit/core';
+import { ChainWalletBase, Mutable, Namespace, State } from '@cosmos-kit/core';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { NameService } from './name-service';
-import { CosmosClientType, CosmosSignType } from './types';
+import { CosmosClientType, CosmosSignType, CosmosWalletClient } from './types';
 import { getNameServiceRegistryFromChainName } from './utils';
 
 export class CosmosChainWallet extends ChainWalletBase {
   offlineSigner?: OfflineSigner;
   namespace: Namespace = 'cosmos';
+  clientMutable: Mutable<CosmosWalletClient> = { state: State.Init };
 
-  constructor(wallet: ChainWalletBase) {
+  constructor(wallet: CosmosChainWallet) {
     super(wallet.walletInfo, wallet.chainRecord);
     Object.assign(this, wallet);
+  }
+
+  get client() {
+    return this.clientMutable?.data;
   }
 
   get stargateOptions(): StargateClientOptions | undefined {

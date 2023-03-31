@@ -1,6 +1,7 @@
 import {
   ChainWalletBase,
   ChainWalletContext,
+  MethodAssertion,
   WalletStatus,
 } from '@cosmos-kit/core';
 
@@ -9,49 +10,7 @@ export function getChainWalletContext(
   wallet?: ChainWalletBase,
   sync: boolean = true
 ): ChainWalletContext {
-  function walletAssert(
-    func: ((...params: any[]) => any | undefined) | undefined,
-    params: any[] = [],
-    name: string
-  ) {
-    if (!wallet) {
-      throw new Error(
-        `Wallet is undefined. Please choose a wallet to connect first.`
-      );
-    }
-
-    if (!func) {
-      throw new Error(
-        `Function ${name} not implemented by ${wallet?.walletInfo.prettyName} yet.`
-      );
-    }
-
-    return func(...params);
-  }
-
-  function clientMethodAssert(
-    func: ((...params: any[]) => any | undefined) | undefined,
-    params: any[] = [],
-    name: string
-  ) {
-    if (!wallet) {
-      throw new Error(
-        `Wallet is undefined. Please choose a wallet to connect first.`
-      );
-    }
-
-    if (!wallet?.client) {
-      throw new Error(`Wallet Client is undefined.`);
-    }
-
-    if (!func) {
-      throw new Error(
-        `Function ${name} not implemented by ${wallet?.walletInfo.prettyName} Client yet.`
-      );
-    }
-
-    return func(...params);
-  }
+  const ma = new MethodAssertion(wallet);
 
   const status = wallet?.walletStatus || WalletStatus.Disconnected;
 
@@ -74,89 +33,89 @@ export function getChainWalletContext(
     isWalletNotExist: status === 'NotExist',
     isWalletError: status === 'Error',
 
-    connect: () => walletAssert(wallet?.connect, [void 0, sync], 'connect'),
+    connect: () => ma.assertWallet(wallet?.connect, [void 0, sync], 'connect'),
     disconnect: () =>
-      walletAssert(wallet?.disconnect, [void 0, sync], 'disconnect'),
+      ma.assertWallet(wallet?.disconnect, [void 0, sync], 'disconnect'),
     getRpcEndpoint: (isLazy?: boolean) =>
-      walletAssert(wallet?.getRpcEndpoint, [isLazy], 'getRpcEndpoint'),
+      ma.assertWallet(wallet?.getRpcEndpoint, [isLazy], 'getRpcEndpoint'),
     getRestEndpoint: (isLazy?: boolean) =>
-      walletAssert(wallet?.getRestEndpoint, [isLazy], 'getRestEndpoint'),
+      ma.assertWallet(wallet?.getRestEndpoint, [isLazy], 'getRestEndpoint'),
     getStargateClient: () =>
-      walletAssert(wallet?.getStargateClient, [], 'getStargateClient'),
+      ma.assertWallet(wallet?.getStargateClient, [], 'getStargateClient'),
     getCosmWasmClient: () =>
-      walletAssert(wallet?.getCosmWasmClient, [], 'getCosmWasmClient'),
+      ma.assertWallet(wallet?.getCosmWasmClient, [], 'getCosmWasmClient'),
     getSigningStargateClient: () =>
-      walletAssert(
+      ma.assertWallet(
         wallet?.getSigningStargateClient,
         [],
         'getSigningStargateClient'
       ),
     getSigningCosmWasmClient: () =>
-      walletAssert(
+      ma.assertWallet(
         wallet?.getSigningCosmWasmClient,
         [],
         'getSigningCosmWasmClient'
       ),
     getNameService: () =>
-      walletAssert(wallet?.getNameService, [], 'getNameService'),
+      ma.assertWallet(wallet?.getNameService, [], 'getNameService'),
 
     estimateFee: (...params: Parameters<ChainWalletContext['estimateFee']>) =>
-      walletAssert(wallet?.estimateFee, params, 'estimateFee'),
+      ma.assertWallet(wallet?.estimateFee, params, 'estimateFee'),
     sign: (...params: Parameters<ChainWalletContext['sign']>) =>
-      walletAssert(wallet?.sign, params, 'sign'),
+      ma.assertWallet(wallet?.sign, params, 'sign'),
     broadcast: (...params: Parameters<ChainWalletContext['broadcast']>) =>
-      walletAssert(wallet?.broadcast, params, 'broadcast'),
+      ma.assertWallet(wallet?.broadcast, params, 'broadcast'),
     signAndBroadcast: (
       ...params: Parameters<ChainWalletContext['signAndBroadcast']>
-    ) => walletAssert(wallet?.signAndBroadcast, params, 'signAndBroadcast'),
+    ) => ma.assertWallet(wallet?.signAndBroadcast, params, 'signAndBroadcast'),
 
     qrUrl: wallet?.client?.qrUrl,
     appUrl: wallet?.client?.appUrl,
 
     enable: () =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.enable.bind(wallet.client),
         [chainId],
         'enable'
       ),
     getAccount: () =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.getAccount.bind(wallet.client),
         [chainId],
         'getAccount'
       ),
     getOfflineSigner: () =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.getOfflineSigner.bind(wallet.client),
         [chainId, wallet?.preferredSignType],
         'getOfflineSigner'
       ),
     getOfflineSignerAmino: () =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.getOfflineSignerAmino.bind(wallet.client),
         [chainId],
         'getOfflineSignerAmino'
       ),
     getOfflineSignerDirect: () =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.getOfflineSignerDirect.bind(wallet.client),
         [chainId],
         'getOfflineSignerDirect'
       ),
     signAmino: (...params: Parameters<ChainWalletContext['signAmino']>) =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.signAmino.bind(wallet.client),
         [chainId, ...params],
         'signAmino'
       ),
     signDirect: (...params: Parameters<ChainWalletContext['signDirect']>) =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.signDirect.bind(wallet.client),
         [chainId, ...params],
         'signDirect'
       ),
     sendTx: (...params: Parameters<ChainWalletContext['sendTx']>) =>
-      clientMethodAssert(
+      ma.assertWalletClient(
         wallet?.client?.sendTx.bind(wallet.client),
         [chainId, ...params],
         'sendTx'

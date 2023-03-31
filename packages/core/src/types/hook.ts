@@ -11,6 +11,7 @@ import {
 } from './manager';
 import {
   AppUrl,
+  EncodedString,
   Wallet,
   WalletAccount,
   WalletClient,
@@ -47,6 +48,8 @@ export interface ChainWalletContext {
 
   enable: () => Promise<void>;
   getAccount: () => Promise<WalletAccount>;
+  sign<T>(doc: T): Promise<EncodedString>;
+  disable: () => Promise<void>;
 }
 
 export interface ChainContext extends ChainWalletContext {

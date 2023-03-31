@@ -2,10 +2,10 @@ import { Endpoints } from './manager';
 
 export type ChainName = string;
 
-export interface ChainRecord<Chain, AssetList> {
+export interface ChainRecord {
   name: ChainName;
-  chain: Chain;
-  assetList?: AssetList;
+  chain: any;
+  assetList?: any;
   clientOptions?: {
     [k: string]: any;
   };

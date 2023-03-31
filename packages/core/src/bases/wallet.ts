@@ -139,7 +139,7 @@ export abstract class WalletBase extends StateBase {
     await this.callbacks?.beforeDisconnect?.();
     this.reset();
     window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
-    await this.client?.disconnect?.();
+    await this.client?.disable?.();
     await this.callbacks?.afterDisconnect?.();
   };
 

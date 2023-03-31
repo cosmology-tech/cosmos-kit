@@ -2,9 +2,9 @@ import {
   ChainRecord,
   ExtendedHttpEndpoint,
   Namespace,
-  SimpleAccount,
   State,
   Wallet,
+  WalletAccount,
 } from '../types';
 import { getIsLazy, getFastestEndpoint, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
@@ -73,13 +73,13 @@ export class ChainWalletBase extends WalletBase {
     return this.data?.address;
   }
 
-  setData(data: SimpleAccount | undefined) {
+  setData(data: WalletAccount | undefined) {
     this._mutable.data = data;
     this.actions?.data?.(data);
     const accountsStr = window.localStorage.getItem(
       'cosmos-kit@1:core//accounts'
     );
-    let accounts: SimpleAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
+    let accounts: WalletAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
     if (typeof data === 'undefined') {
       accounts = accounts.filter(
         (a) => a.chainId !== this.chainId || a.namespace !== this.namespace
@@ -107,14 +107,14 @@ export class ChainWalletBase extends WalletBase {
     this.setMessage(void 0);
 
     try {
-      await this.client.connect?.(this.chainId);
+      await this.client.enable?.(this.chainId);
 
-      let account: SimpleAccount;
+      let account: WalletAccount;
       try {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getSimpleAccount(this.chainId);
+        account = await this.client.getAccount(this.chainId)[0];
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
@@ -122,7 +122,7 @@ export class ChainWalletBase extends WalletBase {
         }
         if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
-          account = await this.client.getSimpleAccount(this.chainId);
+          account = await this.client.getAccount(this.chainId)[0];
         } else {
           throw error;
         }
