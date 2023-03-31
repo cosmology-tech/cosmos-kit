@@ -1,18 +1,8 @@
-import {
-  AminoSignResponse,
-  OfflineAminoSigner,
-  StdSignDoc,
-} from '@cosmjs/amino';
-import {
-  DirectSignResponse,
-  OfflineDirectSigner,
-  OfflineSigner,
-} from '@cosmjs/proto-signing';
 import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { ChainName, ChainRecord } from './chain';
-import { DappEnv, Mutable, SignType } from './common';
+import { ChainRecord } from './chain';
+import { DappEnv, Mutable } from './common';
 
 export interface Key {
   readonly name: string;
@@ -22,37 +12,6 @@ export interface Key {
   readonly bech32Address: string;
   readonly isNanoLedger: boolean;
 }
-
-export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
-export type Namespace = 'cosmos' | 'ethereum';
-export type EncodedString = string;
-
-export interface WalletAccount {
-  /**
-   * identifier in BlockChain.
-   * in Cosmos, it's the address formatted using Bech32;
-   */
-  address: string;
-  /**
-   * digital key scheme for creating digital signatures
-   */
-  algo?: Algo;
-  pubkey?: EncodedString;
-  /**
-   * only in Cosmos, the address NOT formatted using Bech32 yet
-   */
-  rawAddress?: EncodedString;
-  /**
-   * encoding type for `EncodedString` above. default hex
-   */
-  encoding?: BufferEncoding;
-  namespace?: Namespace;
-  chainId?: string;
-  username?: string;
-  isNanoLedger?: boolean;
-}
-
-export type SimpleAccount = WalletAccount;
 
 export type WalletName = string;
 
@@ -114,118 +73,88 @@ export interface Wallet {
   };
 }
 
-export type Bech32Address = string;
-
 export interface SignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
   readonly disableBalanceCheck?: boolean;
 }
 
-export interface DirectSignDoc {
-  /** SignDoc bodyBytes */
-  bodyBytes?: Uint8Array | null;
-  /** SignDoc authInfoBytes */
-  authInfoBytes?: Uint8Array | null;
-  /** SignDoc chainId */
-  chainId?: string | null;
-  /** SignDoc accountNumber */
-  accountNumber?: Long | null;
+export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
+export type Namespace = 'cosmos' | 'ethereum';
+export interface EncodedString {
+  value: string;
+  encoding: BufferEncoding;
 }
 
-export declare enum BroadcastMode {
-  /** Return after tx commit */
-  Block = 'block',
-  /** Return after CheckTx */
-  Sync = 'sync',
-  /** Return right away */
-  Async = 'async',
+export interface WalletAccount {
+  /**
+   * identifier in BlockChain.
+   * in Cosmos, it's the address formatted using Bech32;
+   */
+  address: string;
+  /**
+   * digital key scheme for creating digital signatures
+   */
+  algo?: Algo;
+  pubkey?: EncodedString;
+  /**
+   * only in Cosmos, the address NOT formatted using Bech32 yet
+   */
+  rawAddress?: EncodedString;
+  namespace?: Namespace;
+  chainId?: string;
+  username?: string;
+  isNanoLedger?: boolean;
+}
+
+export interface HttpEndpoint {
+  /**
+   * The URL of the HTTP endpoint.
+   */
+  readonly url: string;
+  /**
+   * HTTP headers that are sent with every request, such as authorization information.
+   */
+  readonly headers: Record<string, string>;
 }
 
 export interface WalletClient {
   /**
-   * deprecated. using `getAccount` instead.
+   * Step 1: Build Connection
+   *     or called `enable/onboard/requestAccount` in some wallets,
+   *     to build authed connection between dapp and wallet
    */
-  getSimpleAccount: (chainId?: string) => Promise<SimpleAccount>;
+  connect?(chainIds?: string[]): Promise<void>;
   /**
-   * param `chainIds`:
-   *    if undefined, will return all accounts available.
-   *    if of type string, will return type WalletAccount.
-   *    if of type string[], will return type WalletAccount[].
-   *
-   * param `isLazy`:
-   *    by default true, which means method will return as long as the required key `address` is obtained.
-   *    however, there are optional keys in `WalletAccount` i.e. `pubkey`, that sometimes require extra request from wallet.
-   *    if you ask for these extra requests to get as much information as possible, set `isLazy` false.
+   * Step 2: Get Account
+   *     `address` especially required in returned value.
+   *     `address` is the user identifier in BlockChain, directing to a public/private key pair.
+   *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
+   *     in other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getAccount: (
-    chainIds?: string | string[],
-    isLazy?: boolean
-  ) => Promise<WalletAccount | WalletAccount[]>;
+  getAccount(chainIds?: string[]): Promise<WalletAccount[]>;
+  /**
+   * Step 3: Sign Doc
+   *     address in params is used to get the private key from wallet to sign doc.
+   *     return the signature.
+   */
+  sign<T>(address: string, doc: T): Promise<EncodedString>;
+  /**
+   * Step 4: Disconnect
+   */
+  disconnect?: () => Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
-
-  disconnect?: () => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
-  connect?: (chainIds?: string | string[]) => Promise<void>;
-  enable?: (chainIds?: string | string[]) => Promise<void>; // alias of connect
-  addChain?: (chainInfo: ChainRecord) => Promise<void>;
-  getOfflineSigner?: (
-    chainId: string,
-    preferredSignType?: SignType // by default `amino`
-  ) => Promise<OfflineSigner> | OfflineSigner;
-  getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
-  getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
-  signAmino?: (
-    chainId: string,
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<AminoSignResponse>;
-  signDirect?: (
-    chainId: string,
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<DirectSignResponse>;
-  getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
-  getEnigmaTxEncryptionKey?: (
-    chainId: string,
-    nonce: Uint8Array
-  ) => Promise<Uint8Array>;
-  enigmaEncrypt?: (
-    chainId: string,
-    contractCodeHash: string,
-    msg: object
-  ) => Promise<Uint8Array>;
-  enigmaDecrypt?: (
-    chainId: string,
-    ciphertext: Uint8Array,
-    nonce: Uint8Array
-  ) => Promise<Uint8Array>;
-  sendTx?: (
-    chainId: string,
-    tx: Uint8Array,
-    mode: BroadcastMode
-  ) => Promise<Uint8Array>;
+  addChain?<T>(chainInfo: T): Promise<void>;
 }
 
 export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
-  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
-}
-
-export type NameServiceName = string;
-
-export interface NameServiceRegistry {
-  name: NameServiceName;
-  contract: string;
-  chainName: ChainName;
-  getQueryMsg: (address: Bech32Address) => any;
-  slip173: string;
+  new (walletInfo: Wallet, chainInfo: ChainRecord<any, any>): ChainWalletBase;
 }
 
 export interface WalletConnectOptions {

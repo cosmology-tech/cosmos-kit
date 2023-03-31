@@ -34,8 +34,9 @@ export class LeapClient implements WalletClient {
     };
   }
 
-  async getAccount(chainId: string) {
-    const key = await this.client.getKey(chainId);
+  async getAccount(chainIds?: string | string[]) {
+    if typeof 
+    const key = await this.client.getKey(chainIds);
     return {
       username: key.name,
       address: key.bech32Address,

@@ -1,37 +1,8 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import {
-  AminoSignResponse,
-  OfflineAminoSigner,
-  StdSignDoc,
-} from '@cosmjs/amino';
-import {
-  CosmWasmClient,
-  SigningCosmWasmClient,
-} from '@cosmjs/cosmwasm-stargate';
-import {
-  DirectSignResponse,
-  EncodeObject,
-  OfflineDirectSigner,
-  OfflineSigner,
-} from '@cosmjs/proto-signing';
-import {
-  DeliverTxResponse,
-  SigningStargateClient,
-  StargateClient,
-  StdFee,
-} from '@cosmjs/stargate';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { ChainWalletBase } from '../bases';
-import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import {
-  CosmosClientType,
-  ModalTheme,
-  Mutable,
-  SignType,
-  State,
-} from './common';
+import { ModalTheme, Mutable, State } from './common';
 import {
   EndpointOptions,
   EventName,
@@ -40,10 +11,6 @@ import {
 } from './manager';
 import {
   AppUrl,
-  BroadcastMode,
-  DirectSignDoc,
-  NameServiceName,
-  SignOptions,
   Wallet,
   WalletAccount,
   WalletClient,
@@ -73,34 +40,6 @@ export interface ChainWalletContext {
   disconnect: () => Promise<void>;
   getRpcEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
   getRestEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
-  getStargateClient: () => Promise<StargateClient>;
-  getCosmWasmClient: () => Promise<CosmWasmClient>;
-  getSigningStargateClient: () => Promise<SigningStargateClient>;
-  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
-  getNameService: () => Promise<NameService>;
-
-  estimateFee: (
-    messages: EncodeObject[],
-    type?: CosmosClientType,
-    memo?: string,
-    multiplier?: number
-  ) => Promise<StdFee>;
-  sign: (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ) => Promise<TxRaw>;
-  broadcast: (
-    signedMessages: TxRaw,
-    type?: CosmosClientType
-  ) => Promise<DeliverTxResponse>;
-  signAndBroadcast: (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ) => Promise<DeliverTxResponse>;
 
   // from wallet client
   qrUrl: Mutable<string> | undefined;
@@ -108,20 +47,6 @@ export interface ChainWalletContext {
 
   enable: () => Promise<void>;
   getAccount: () => Promise<WalletAccount>;
-  getOfflineSigner: () => OfflineSigner;
-  getOfflineSignerAmino: () => OfflineAminoSigner;
-  getOfflineSignerDirect: () => OfflineDirectSigner;
-  signAmino: (
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<AminoSignResponse>;
-  signDirect: (
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<DirectSignResponse>;
-  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
 
 export interface ChainContext extends ChainWalletContext {

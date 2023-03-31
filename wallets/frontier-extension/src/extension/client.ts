@@ -12,7 +12,7 @@ export class FrontierClient implements WalletClient {
     this.client = client;
   }
 
-  async connect(chainIds: string | string[]) {
+  async connect(chainIds: string[]) {
     await this.client.enable(chainIds);
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export enum State {
   Init = 'Init',
   Pending = 'Pending',
@@ -47,9 +46,6 @@ export interface DappEnv {
   os?: OS;
   browser?: BrowserName;
 }
-
-export type CosmosClientType = 'stargate' | 'cosmwasm';
-export type SignType = 'amino' | 'direct';
 
 export type LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
 

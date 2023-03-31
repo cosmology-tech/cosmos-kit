@@ -358,7 +358,7 @@ export class WCClient implements WalletClient {
     }
   }
 
-  async connect(chainIds: string | string[]) {
+  async connect(chainIds: string[]) {
     if (typeof this.signClient === 'undefined') {
       throw new Error('WalletConnect is not initialized');
     }
@@ -367,10 +367,7 @@ export class WCClient implements WalletClient {
       this.setQRState(State.Init);
     }
 
-    const chainIdsWithNS =
-      typeof chainIds === 'string'
-        ? [`cosmos:${chainIds}`]
-        : chainIds.map((chainId) => `cosmos:${chainId}`);
+    const chainIdsWithNS = chainIds.map((chainId) => `cosmos:${chainId}`);
 
     this.restorePairings();
     const pairing = this.pairing;

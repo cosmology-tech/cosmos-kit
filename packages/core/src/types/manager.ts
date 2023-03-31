@@ -1,22 +1,9 @@
-import { Chain } from '@chain-registry/types';
-import {
-  HttpEndpoint,
-  SigningCosmWasmClientOptions,
-} from '@cosmjs/cosmwasm-stargate';
-import {
-  SigningStargateClientOptions,
-  StargateClientOptions,
-} from '@cosmjs/stargate';
-
 import { ChainName } from './chain';
-import { Dispatch, SignType, StateActions } from './common';
-import { WalletName } from './wallet';
+import { Dispatch, StateActions } from './common';
+import { HttpEndpoint, WalletName } from './wallet';
 
 export interface SignerOptions {
-  stargate?: (chain: Chain) => StargateClientOptions | undefined;
-  signingStargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
-  signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
-  preferredSignType?: (chain: Chain) => SignType | undefined; // using `amino` if undefined
+  [k: string]: any;
 }
 
 export interface ViewOptions {
