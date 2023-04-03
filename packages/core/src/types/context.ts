@@ -12,6 +12,7 @@ import {
 import {
   AppUrl,
   EncodedString,
+  SimpleAccount,
   Wallet,
   WalletAccount,
   WalletClient,
@@ -46,10 +47,10 @@ export interface ChainWalletContext {
   qrUrl: Mutable<string> | undefined;
   appUrl: Mutable<AppUrl> | undefined;
 
-  enable: () => Promise<void>;
+  getSimpleAccount: () => Promise<SimpleAccount>;
   getAccount: () => Promise<WalletAccount>;
   sign<T>(doc: T): Promise<EncodedString>;
-  disable: () => Promise<void>;
+  broadcast?<T>(signedDoc: T): Promise<EncodedString>;
 }
 
 export interface ChainContext extends ChainWalletContext {

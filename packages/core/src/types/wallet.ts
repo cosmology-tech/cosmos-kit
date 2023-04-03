@@ -86,12 +86,19 @@ export interface EncodedString {
   encoding: BufferEncoding;
 }
 
-export interface WalletAccount {
+export interface SimpleAccount {
   /**
    * identifier in BlockChain.
    * in Cosmos, it's the address formatted using Bech32;
    */
   address: string;
+  chainId?: string;
+  username?: string;
+  namespace?: Namespace;
+  isNanoLedger?: boolean;
+}
+
+export interface WalletAccount extends SimpleAccount {
   /**
    * digital key scheme for creating digital signatures
    */
@@ -101,10 +108,6 @@ export interface WalletAccount {
    * only in Cosmos, the address NOT formatted using Bech32 yet
    */
   rawAddress?: EncodedString;
-  namespace?: Namespace;
-  chainId?: string;
-  username?: string;
-  isNanoLedger?: boolean;
 }
 
 export interface HttpEndpoint {
@@ -120,13 +123,13 @@ export interface HttpEndpoint {
 
 export interface WalletClient {
   /**
-   * Step 1: Authorize
-   *     or called `onboard/requestAccount/connect` in some wallets,
+   * Step 1: Connect/Authorize
+   *     or called `onboard/requestAccount/enable` in some wallets,
    *     to build authed connection between dapp and wallet.
    *     in some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
    *     to distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  enable?(chainIds?: string[]): Promise<void>;
+  connect?(chainIds?: string[]): Promise<void>;
   /**
    * Step 2: Get Account
    *     `address` especially required in returned value.
@@ -134,6 +137,7 @@ export interface WalletClient {
    *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     in other ecosystem it could be public key and irrespective of chains/networks.
    */
+  getSimpleAccount(chainIds?: string[]): Promise<WalletAccount[]>;
   getAccount(chainIds?: string[]): Promise<WalletAccount[]>;
   /**
    * Step 3: Sign Doc
@@ -145,13 +149,13 @@ export interface WalletClient {
    * Step 4: Broadcast Signed Doc
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
+   *     return the hash of new block.
    */
-  broadcast?<T>(address: string, signedDoc: T): Promise<void>;
+  broadcast?<T>(address: string, signedDoc: T): Promise<EncodedString>;
   /**
-   * Step 5: Cancel Authorization
-   *     or called `disconnect` in some wallets,
+   * Step 5: Disconnect/Cancel Authorization
    */
-  disable?: (chainIds?: string[]) => Promise<void>;
+  disconnect?: (chainIds?: string[]) => Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;

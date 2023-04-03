@@ -107,14 +107,14 @@ export class ChainWalletBase extends WalletBase {
     this.setMessage(void 0);
 
     try {
-      await this.client.enable?.(this.chainId);
+      await this.client.connect?.([this.chainId]);
 
       let account: WalletAccount;
       try {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getAccount(this.chainId)[0];
+        account = await this.client.getSimpleAccount([this.chainId])[0];
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
@@ -122,7 +122,7 @@ export class ChainWalletBase extends WalletBase {
         }
         if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
-          account = await this.client.getAccount(this.chainId)[0];
+          account = await this.client.getSimpleAccount([this.chainId])[0];
         } else {
           throw error;
         }
