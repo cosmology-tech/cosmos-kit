@@ -11,6 +11,6 @@
     "downlevelIteration": true,
     "moduleResolution": "node"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../core/src/name-service.ts"],
   "exclude": ["node_modules"]
 }

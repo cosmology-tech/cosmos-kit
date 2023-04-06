@@ -32,7 +32,7 @@ export class CosmostationClient implements WalletClient {
     return this.client.providers.keplr;
   }
 
-  async getSimpleAccount(chainId: string) {
+  async getAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);
     return {
       namespace: 'cosmos',

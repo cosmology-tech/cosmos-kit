@@ -1,10 +1,5 @@
-import {
-  getNameServiceRegistryFromName,
-  Mutable,
-  NameService,
-  NameServiceName,
-  State,
-} from '@cosmos-kit/core';
+import { Mutable, NameService, NameServiceName, State } from '@cosmos-kit/core';
+import { getNameServiceRegistryFromName } from '@cosmos-kit/cosmos';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useManager } from './useManager';
 

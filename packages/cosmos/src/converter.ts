@@ -1,20 +1,34 @@
 import { ChainWalletConverter } from '@cosmos-kit/core';
 import { CosmosChainWallet } from './chain-wallet';
-import { CosmosChainWalletContext } from './types';
+import { CosmosWalletRepo } from './repository';
+import { CosmosChainContext, CosmosChainWalletContext } from './types';
 
-export class CosmosChainWalletConverter extends ChainWalletConverter<
-  CosmosChainWallet
-> {
-  constructor(wallet: CosmosChainWallet) {
-    super(wallet);
+export class CosmosChainWalletConverter extends ChainWalletConverter {
+  wallet?: CosmosChainWallet;
+  walletRepo?: CosmosWalletRepo;
+
+  constructor(wallet?: CosmosChainWallet, walletRepo?: CosmosWalletRepo) {
+    super(wallet, walletRepo);
   }
 
-  getCosmosChainWalletContext(
-    chainId: string,
-    sync: boolean = true
-  ): CosmosChainWalletContext {
+  getChainContext(sync: boolean = true): CosmosChainContext {
+    if (!this.walletRepo) {
+      throw new Error(`WalletRepo is undefined.`);
+    }
+
+    const { getStargateClient, getCosmWasmClient } = this.walletRepo;
+
     return {
-      ...this.getChainWalletContext(chainId, sync),
+      ...this.getChainWalletContext(sync),
+      ...this._getChainContext(sync),
+      getStargateClient,
+      getCosmWasmClient,
+    };
+  }
+
+  getChainWalletContext(sync: boolean = true): CosmosChainWalletContext {
+    return {
+      ...this._getChainWalletContext(sync),
 
       getStargateClient: () =>
         this.assertWallet(
@@ -63,19 +77,19 @@ export class CosmosChainWalletConverter extends ChainWalletConverter<
       getOfflineSigner: () =>
         this.assertWalletClient(
           this.wallet?.client?.getOfflineSigner.bind(this.wallet?.client),
-          [chainId, this.wallet?.preferredSignType],
+          [this.chainId, this.wallet?.preferredSignType],
           'getOfflineSigner'
         ),
       getOfflineSignerAmino: () =>
         this.assertWalletClient(
           this.wallet?.client?.getOfflineSignerAmino.bind(this.wallet?.client),
-          [chainId],
+          [this.chainId],
           'getOfflineSignerAmino'
         ),
       getOfflineSignerDirect: () =>
         this.assertWalletClient(
           this.wallet?.client?.getOfflineSignerDirect.bind(this.wallet?.client),
-          [chainId],
+          [this.chainId],
           'getOfflineSignerDirect'
         ),
       signAmino: (
@@ -83,7 +97,7 @@ export class CosmosChainWalletConverter extends ChainWalletConverter<
       ) =>
         this.assertWalletClient(
           this.wallet?.client?.signAmino.bind(this.wallet?.client),
-          [chainId, ...params],
+          [this.chainId, ...params],
           'signAmino'
         ),
       signDirect: (
@@ -91,13 +105,13 @@ export class CosmosChainWalletConverter extends ChainWalletConverter<
       ) =>
         this.assertWalletClient(
           this.wallet?.client?.signDirect.bind(this.wallet?.client),
-          [chainId, ...params],
+          [this.chainId, ...params],
           'signDirect'
         ),
       sendTx: (...params: Parameters<CosmosChainWalletContext['sendTx']>) =>
         this.assertWalletClient(
           this.wallet?.client?.sendTx.bind(this.wallet?.client),
-          [chainId, ...params],
+          [this.chainId, ...params],
           'sendTx'
         ),
     };

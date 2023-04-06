@@ -1,46 +1,21 @@
 import {
   AminoSignResponse,
   OfflineAminoSigner,
-  StdFee,
   StdSignDoc,
 } from '@cosmjs/amino';
-import {
-  CosmWasmClient,
-  SigningCosmWasmClient,
-  SigningCosmWasmClientOptions,
-} from '@cosmjs/cosmwasm-stargate';
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import {
   DirectSignResponse,
-  EncodeObject,
   OfflineDirectSigner,
   OfflineSigner,
 } from '@cosmjs/proto-signing';
 import {
-  DeliverTxResponse,
-  SigningStargateClient,
   SigningStargateClientOptions,
-  StargateClient,
   StargateClientOptions,
 } from '@cosmjs/stargate';
-import {
-  ChainName,
-  ChainWalletContext,
-  SignOptions,
-  WalletClient,
-} from '@cosmos-kit/core';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { NameService } from './name-service';
+import { SignOptions, WalletClient } from '@cosmos-kit/core';
 
 export type NameServiceName = string;
-export type Bech32Address = string;
-
-export interface NameServiceRegistry {
-  name: NameServiceName;
-  contract: string;
-  chainName: ChainName;
-  getQueryMsg: (address: Bech32Address) => any;
-  slip173: string;
-}
 
 export type CosmosClientType = 'stargate' | 'cosmwasm';
 export type CosmosSignType = 'amino' | 'direct';
@@ -111,50 +86,4 @@ export interface CosmosWalletClient extends WalletClient {
     tx: Uint8Array,
     mode: BroadcastMode
   ) => Promise<Uint8Array>;
-}
-
-export interface CosmosChainWalletContext extends ChainWalletContext {
-  getStargateClient: () => Promise<StargateClient>;
-  getCosmWasmClient: () => Promise<CosmWasmClient>;
-  getSigningStargateClient: () => Promise<SigningStargateClient>;
-  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>;
-  getNameService: () => Promise<NameService>;
-
-  estimateFee: (
-    messages: EncodeObject[],
-    type?: CosmosClientType,
-    memo?: string,
-    multiplier?: number
-  ) => Promise<StdFee>;
-  sign: (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ) => Promise<TxRaw>;
-  broadcast: (
-    signedMessages: TxRaw,
-    type?: CosmosClientType
-  ) => Promise<DeliverTxResponse>;
-  signAndBroadcast: (
-    messages: EncodeObject[],
-    fee?: StdFee,
-    memo?: string,
-    type?: CosmosClientType
-  ) => Promise<DeliverTxResponse>;
-
-  getOfflineSigner: () => OfflineSigner;
-  getOfflineSignerAmino: () => OfflineAminoSigner;
-  getOfflineSignerDirect: () => OfflineDirectSigner;
-  signAmino: (
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<AminoSignResponse>;
-  signDirect: (
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ) => Promise<DirectSignResponse>;
-  sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }

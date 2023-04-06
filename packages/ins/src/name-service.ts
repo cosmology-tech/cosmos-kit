@@ -1,7 +1,6 @@
 import { Chains } from '@chain-registry/types';
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-
-export type NameServiceName = string;
+import { NameServiceName } from '@cosmos-kit/core';
 
 export interface NameServiceInfo {
   name: NameServiceName;

@@ -1,16 +1,11 @@
-/* eslint-disable no-empty */
-/* eslint-disable no-console */
-import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { StargateClient } from '@cosmjs/stargate';
-
-import { ChainWalletBase } from './bases/chain-wallet';
+import { ChainWallet } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
-import { NameService } from './name-service';
 import {
   DappEnv,
   ChainRecord,
   WalletName,
   ExtendedHttpEndpoint,
+  NameService,
 } from './types';
 import { Session } from './utils';
 
@@ -20,12 +15,12 @@ import { Session } from './utils';
 export class WalletRepo extends StateBase {
   isActive = false;
   chainRecord: ChainRecord;
-  private _wallets: ChainWalletBase[];
+  protected _wallets: ChainWallet[];
   namespace = 'cosmos';
   session: Session;
   repelWallet: boolean = true;
 
-  constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
+  constructor(chainRecord: ChainRecord, wallets: ChainWallet[] = []) {
     super();
     this.chainRecord = chainRecord;
     this._wallets = wallets;
@@ -72,7 +67,7 @@ export class WalletRepo extends StateBase {
     );
   }
 
-  get wallets(): ChainWalletBase[] {
+  get wallets(): ChainWallet[] {
     return this._wallets;
   }
 
@@ -80,7 +75,7 @@ export class WalletRepo extends StateBase {
     return this.wallets.length === 1;
   }
 
-  get current(): ChainWalletBase | undefined {
+  get current(): ChainWallet | undefined {
     if (!this.repelWallet) {
       this.logger.warn(
         'when `repelWallet` is set false, `current` is always undefined.'
@@ -90,7 +85,7 @@ export class WalletRepo extends StateBase {
     return this.wallets.find((w) => !w.isWalletDisconnected);
   }
 
-  getWallet = (walletName: WalletName): ChainWalletBase | undefined => {
+  getWallet = (walletName: WalletName): ChainWallet | undefined => {
     return this.wallets.find((w) => w.walletName === walletName);
   };
 
@@ -149,36 +144,6 @@ export class WalletRepo extends StateBase {
     }
     return Promise.reject(
       `No valid REST endpoint for chain ${this.chainName}!`
-    );
-  };
-
-  getStargateClient = async (): Promise<StargateClient> => {
-    for (const wallet of this.wallets) {
-      try {
-        return await wallet.getStargateClient();
-      } catch (error) {
-        this.logger?.debug(
-          `${(error as Error).name}: ${(error as Error).message}`
-        );
-      }
-    }
-    return Promise.reject(
-      `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
-    );
-  };
-
-  getCosmWasmClient = async (): Promise<CosmWasmClient> => {
-    for (const wallet of this.wallets) {
-      try {
-        return await wallet.getCosmWasmClient();
-      } catch (error) {
-        this.logger?.debug(
-          `${(error as Error).name}: ${(error as Error).message}`
-        );
-      }
-    }
-    return Promise.reject(
-      `Something wrong! Probably no valid RPC endpoint for chain ${this.chainName}.`
     );
   };
 

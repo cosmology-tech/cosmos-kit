@@ -1,6 +1,6 @@
 import { ChainName } from '@cosmos-kit/core';
 import { nameServiceRegistries } from '../config';
-import { NameServiceName, NameServiceRegistry } from '../types';
+import { NameServiceName, NameServiceRegistry } from '../types/common';
 
 export const getNameServiceRegistryFromChainName = (
   chainName: ChainName

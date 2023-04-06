@@ -1,7 +1,7 @@
 import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { Bech32Address, NameServiceRegistry } from './types';
+import { NameServiceRegistry, NameService } from '@cosmos-kit/core';
 
-export class NameService {
+export class CosmosNameService implements NameService {
   client: CosmWasmClient;
   registry: NameServiceRegistry;
 
@@ -10,7 +10,7 @@ export class NameService {
     this.registry = registry;
   }
 
-  async resolveName(address: Bech32Address): Promise<any | undefined> {
+  async resolveName(address: string): Promise<any> {
     try {
       const { contract, getQueryMsg } = this.registry;
       const result = await this.client.queryContractSmart(

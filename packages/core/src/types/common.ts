@@ -1,3 +1,5 @@
+import { ChainName } from './chain';
+
 export enum State {
   Init = 'Init',
   Pending = 'Pending',
@@ -50,3 +52,17 @@ export interface DappEnv {
 export type LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
 
 export type ModalTheme = 'light' | 'dark';
+
+export type NameServiceName = string;
+
+export interface NameService {
+  resolveName: (address: string) => Promise<any>;
+}
+
+export interface NameServiceRegistry {
+  name: NameServiceName;
+  contract: string;
+  chainName: ChainName;
+  getQueryMsg: (address: string) => any;
+  slip173: string;
+}

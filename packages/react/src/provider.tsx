@@ -3,7 +3,7 @@ import {
   EndpointOptions,
   Logger,
   LogLevel,
-  MainWalletBase,
+  MainWallet,
   ModalViews,
   NameServiceName,
   SessionOptions,
@@ -40,7 +40,7 @@ export const ChainProvider = ({
 }: {
   chains: Chain[];
   assetLists: AssetList[];
-  wallets: MainWalletBase[];
+  wallets: MainWallet[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
   modalViews?: ModalViews;

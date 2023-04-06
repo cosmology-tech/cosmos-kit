@@ -1,10 +1,10 @@
-import { ChainWalletBase } from "@cosmos-kit/core";
+import { ChainWallet } from "@cosmos-kit/core";
 import { useManager } from "@cosmos-kit/react";
 import { useEffect, useState } from "react";
 
 export default () => {
   const [ua, setua] = useState<string | undefined>();
-  const [w, setw] = useState<ChainWalletBase | undefined>();
+  const [w, setw] = useState<ChainWallet | undefined>();
   const { getWalletRepo } = useManager();
 
   useEffect(() => {

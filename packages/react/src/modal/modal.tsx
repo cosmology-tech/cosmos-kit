@@ -21,14 +21,14 @@ import { defaultModalViews } from './components/views';
 export const DefaultModal = ({
   isOpen,
   setOpen,
-  walletRepo,
+  mainWallets,
 }: WalletModalProps) => {
   return (
     <ChakraProviderWithGivenTheme>
       <WalletModal
         isOpen={isOpen}
         setOpen={setOpen}
-        walletRepo={walletRepo}
+        mainWallets={mainWallets}
         modalViews={defaultModalViews}
       />
     </ChakraProviderWithGivenTheme>
@@ -38,7 +38,7 @@ export const DefaultModal = ({
 export const WalletModal = ({
   isOpen,
   setOpen,
-  walletRepo,
+  mainWallets,
   modalViews,
   includeAllWalletsOnMobile,
 }: WalletModalProps & {
@@ -52,13 +52,16 @@ export const WalletModal = ({
   const [qrState, setQRState] = useState<State>(State.Init); // state of QRCode
   const [qrMsg, setQRMsg] = useState<string>(''); // message of QRCode error
 
-  const current = walletRepo?.current;
-  (current?.client as any)?.setActions?.({
-    qrUrl: {
-      state: setQRState,
-      message: setQRMsg,
-    },
+  const currents = walletRepos?.map((repo) => {
+    (repo.current?.client as any)?.setActions?.({
+      qrUrl: {
+        state: setQRState,
+        message: setQRMsg,
+      },
+    });
+    return repo.current;
   });
+
   const walletStatus = current?.walletStatus;
   const message = current?.message;
 

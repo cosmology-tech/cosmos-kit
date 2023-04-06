@@ -16,7 +16,7 @@ export class FrontierClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
-  async enable(chainIds: string | string[]) {
+  async enable(chainIds: string[]) {
     await this.connect(chainIds);
   }
 
@@ -24,7 +24,7 @@ export class FrontierClient implements WalletClient {
     await this.client.disconnect();
   }
 
-  async getSimpleAccount(chainId: string) {
+  async getAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);
     return {
       namespace: 'cosmos',

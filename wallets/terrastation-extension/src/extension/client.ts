@@ -47,14 +47,14 @@ export class TerrastationClient implements WalletClient {
     });
   }
 
-  async connect(chainIds: string | string[]): Promise<void> {
+  async connect(chainIds: string[]): Promise<void> {
     if (!this.addresses) {
       this.client.connect();
       await this.getPromiseFromEvent('connect');
     }
   }
 
-  async getSimpleAccount(chainId: string) {
+  async getAccount(chainId: string) {
     if (!this.addresses) {
       return Promise.reject('Terra Station NOT connected yet.');
     }

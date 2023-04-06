@@ -1,6 +1,7 @@
 import {
   ChainRecord,
   ExtendedHttpEndpoint,
+  NameService,
   Namespace,
   State,
   Wallet,
@@ -9,7 +10,7 @@ import {
 import { getIsLazy, getFastestEndpoint, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
 
-export class ChainWalletBase extends WalletBase {
+export abstract class ChainWallet extends WalletBase {
   protected _chainRecord: ChainRecord;
   rpcEndpoints: (string | ExtendedHttpEndpoint)[] = [];
   restEndpoints: (string | ExtendedHttpEndpoint)[] = [];
@@ -61,10 +62,6 @@ export class ChainWalletBase extends WalletBase {
     return this.chain?.chain_id;
   }
 
-  get cosmwasmEnabled() {
-    return this.chain?.codebase?.cosmwasm_enabled;
-  }
-
   get username(): string | undefined {
     return this.data?.username;
   }
@@ -80,17 +77,12 @@ export class ChainWalletBase extends WalletBase {
       'cosmos-kit@1:core//accounts'
     );
     let accounts: WalletAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
-    if (typeof data === 'undefined') {
-      accounts = accounts.filter(
-        (a) => a.chainId !== this.chainId || a.namespace !== this.namespace
-      );
-    } else {
-      accounts = accounts.filter(
-        (a) => a.chainId !== this.chainId || a.namespace !== this.namespace
-      );
+    accounts = accounts.filter(
+      (a) => a.chainId != this.chainId || a.namespace != this.namespace
+    );
+    if (typeof data !== 'undefined') {
       accounts.push(data);
     }
-
     window?.localStorage.setItem(
       'cosmos-kit@1:core//accounts',
       JSON.stringify(accounts)
@@ -114,7 +106,7 @@ export class ChainWalletBase extends WalletBase {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getSimpleAccount([this.chainId])[0];
+        account = await this.client.getAccount([this.chainId])[0];
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
@@ -122,7 +114,7 @@ export class ChainWalletBase extends WalletBase {
         }
         if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
-          account = await this.client.getSimpleAccount([this.chainId])[0];
+          account = await this.client.getAccount([this.chainId])[0];
         } else {
           throw error;
         }
@@ -212,4 +204,8 @@ export class ChainWalletBase extends WalletBase {
     );
     return this._restEndpoint;
   };
+
+  abstract getNameService: () => Promise<NameService>;
+  abstract sign: (...params: any) => Promise<any>;
+  abstract broadcast: (...params: any) => Promise<any>;
 }

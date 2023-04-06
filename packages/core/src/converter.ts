@@ -1,11 +1,18 @@
-import { ChainWalletBase } from './bases';
-import { ChainWalletContext, WalletStatus } from './types';
+import { ChainWallet } from './bases';
+import { WalletRepo } from './repository';
+import { ChainContext, ChainWalletContext, WalletStatus } from './types';
 
-export class ChainWalletConverter<T extends ChainWalletBase> {
-  wallet: T | undefined;
+export class ChainWalletConverter {
+  wallet?: ChainWallet;
+  walletRepo?: WalletRepo;
 
-  constructor(wallet: T | undefined) {
+  constructor(wallet?: ChainWallet, walletRepo?: WalletRepo) {
     this.wallet = wallet;
+    this.walletRepo = walletRepo;
+  }
+
+  get chainId() {
+    return this.wallet.chain.chain_id;
   }
 
   protected assertWallet(
@@ -52,10 +59,46 @@ export class ChainWalletConverter<T extends ChainWalletBase> {
     return func(...params);
   }
 
-  getChainWalletContext(
-    chainId: string,
-    sync: boolean = true
-  ): ChainWalletContext {
+  getChainContext(sync: boolean = true): ChainContext {
+    return this._getChainContext(sync);
+  }
+
+  getChainWalletContext(sync: boolean = true): ChainWalletContext {
+    return this._getChainWalletContext(sync);
+  }
+
+  protected _getChainContext(sync: boolean = true): ChainContext {
+    if (!this.walletRepo) {
+      throw new Error(`WalletRepo is undefined.`);
+    }
+
+    const {
+      connect,
+      disconnect,
+      openView,
+      closeView,
+      chainRecord: { chain, assetList },
+      getRpcEndpoint,
+      getRestEndpoint,
+      getNameService,
+    } = this.walletRepo;
+
+    return {
+      ...this.getChainWalletContext(sync),
+      walletRepo: this.walletRepo,
+      chain,
+      assets: assetList,
+      openView,
+      closeView,
+      connect: () => connect(void 0, sync),
+      disconnect: () => disconnect(void 0, sync),
+      getRpcEndpoint,
+      getRestEndpoint,
+      getNameService,
+    };
+  }
+
+  protected _getChainWalletContext(sync: boolean = true): ChainWalletContext {
     const status = this.wallet?.walletStatus || WalletStatus.Disconnected;
 
     return {
@@ -99,33 +142,21 @@ export class ChainWalletConverter<T extends ChainWalletBase> {
           [isLazy],
           'getRestEndpoint'
         ),
+      getNameService: () =>
+        this.assertWallet(this.wallet?.getNameService, [], 'getNameService'),
+      sign: (doc: any) =>
+        this.assertWallet(this.wallet?.sign, [doc], '_broadcast'),
+      broadcast: (doc: any) =>
+        this.assertWallet(this.wallet?.broadcast, [doc], '_broadcast'),
 
       qrUrl: this.wallet?.client?.qrUrl,
       appUrl: this.wallet?.client?.appUrl,
 
-      enable: () =>
-        this.assertWalletClient(
-          this.wallet?.client?.enable?.bind(this.wallet?.client),
-          [[chainId]],
-          'enable'
-        ),
       getAccount: () =>
         this.assertWalletClient(
           this.wallet?.client?.getAccount.bind(this.wallet?.client),
-          [[chainId]],
+          [[this.chainId]],
           'getAccount'
-        ),
-      sign: (doc: any) =>
-        this.assertWalletClient(
-          this.wallet?.client?.sign.bind(this.wallet?.client),
-          [this.wallet?.address, doc],
-          'sign'
-        ),
-      disable: () =>
-        this.assertWalletClient(
-          this.wallet?.client?.disable?.bind(this.wallet?.client),
-          [[chainId]],
-          'disable'
         ),
     };
   }

@@ -1,11 +1,11 @@
 import { Wallet } from '@cosmos-kit/core';
-import { MainWalletBase } from '@cosmos-kit/core';
+import { MainWallet } from '@cosmos-kit/core';
 
 import { ChainVectisExtension } from './chain-wallet';
 import { VectisClient } from './client';
 import { getVectisFromExtension } from './utils';
 
-export class VectisExtensionWallet extends MainWalletBase {
+export class VectisExtensionWallet extends MainWallet {
   constructor(walletInfo: Wallet) {
     super(walletInfo, ChainVectisExtension);
   }

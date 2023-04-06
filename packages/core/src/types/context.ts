@@ -1,8 +1,14 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { ChainWalletBase } from '../bases';
+import { ChainWallet } from '../bases';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import { ModalTheme, Mutable, State } from './common';
+import {
+  ModalTheme,
+  Mutable,
+  NameService,
+  NameServiceName,
+  State,
+} from './common';
 import {
   EndpointOptions,
   EventName,
@@ -11,8 +17,6 @@ import {
 } from './manager';
 import {
   AppUrl,
-  EncodedString,
-  SimpleAccount,
   Wallet,
   WalletAccount,
   WalletClient,
@@ -20,7 +24,7 @@ import {
 } from './wallet';
 
 export interface ChainWalletContext {
-  chainWallet: ChainWalletBase | undefined;
+  chainWallet: ChainWallet | undefined;
 
   chain: Chain;
   assets: AssetList | undefined;
@@ -42,15 +46,17 @@ export interface ChainWalletContext {
   disconnect: () => Promise<void>;
   getRpcEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
   getRestEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
+  getNameService: () => Promise<NameService>;
+  sign: (...params: any) => Promise<any>;
+  broadcast: (...params: any) => Promise<any>;
 
-  // from wallet client
+  /**
+   * from wallet client
+   */
   qrUrl: Mutable<string> | undefined;
   appUrl: Mutable<AppUrl> | undefined;
 
-  getSimpleAccount: () => Promise<SimpleAccount>;
   getAccount: () => Promise<WalletAccount>;
-  sign<T>(doc: T): Promise<EncodedString>;
-  broadcast?<T>(signedDoc: T): Promise<EncodedString>;
 }
 
 export interface ChainContext extends ChainWalletContext {
@@ -84,7 +90,7 @@ export interface ModalThemeContext {
 }
 
 export interface WalletContext {
-  chainWallets: ChainWalletBase[];
+  chainWallets: ChainWallet[];
   wallet: Wallet | undefined;
   status: WalletStatus;
   message: string | undefined;

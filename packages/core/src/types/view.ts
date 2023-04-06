@@ -1,4 +1,4 @@
-import { ChainWalletBase } from '../bases';
+import { ChainWallet, MainWallet } from '../bases';
 import { WalletRepo } from '../repository';
 import { Dispatch } from './common';
 
@@ -15,13 +15,13 @@ export enum ModalView {
 export interface WalletModalProps {
   isOpen: boolean;
   setOpen: Dispatch<boolean>;
-  walletRepo?: WalletRepo;
+  mainWallets: MainWallet[];
 }
 
 export interface WalletViewProps {
   onClose: () => void;
   onReturn: () => void;
-  wallet: ChainWalletBase;
+  wallet: ChainWallet;
 }
 
 interface RefObject<T> {
@@ -30,7 +30,7 @@ interface RefObject<T> {
 
 export interface WalletListViewProps {
   onClose: () => void;
-  wallets: ChainWalletBase[];
+  wallets: ChainWallet[];
   initialFocus?: RefObject<HTMLButtonElement>;
 }
 

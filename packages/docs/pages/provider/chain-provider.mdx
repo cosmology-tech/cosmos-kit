@@ -78,7 +78,7 @@ It provides chains related assets information.
 
 ### wallets
 
-Required property of type `MainWalletBase[]`
+Required property of type `MainWallet[]`
 
 It defines supported wallets. There are several wallets out of box.
 
@@ -410,12 +410,12 @@ type ModalViews = {
 export interface WalletViewProps {
   onClose: () => void;
   onReturn: () => void;
-  wallet: ChainWalletBase;
+  wallet: ChainWallet;
 }
 
 export interface WalletListViewProps {
   onClose: () => void;
-  wallets: ChainWalletBase[];
+  wallets: ChainWallet[];
 }
 ```
 #### customize modal with `modalViews`

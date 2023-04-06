@@ -16,7 +16,7 @@ import {
   Mutable,
   RejectedError,
   SignOptions,
-  SimpleAccount,
+  WalletAccount,
   State,
   Wallet,
   WalletAccount,
@@ -91,7 +91,7 @@ export class WCClient implements WalletClient {
     return this.walletInfo.walletconnect.mobile;
   }
 
-  get accounts(): SimpleAccount[] {
+  get accounts(): WalletAccount[] {
     const accounts = [];
     this.sessions.forEach((s) => {
       Object.entries(s.namespaces).forEach(([, nsValue]) => {
@@ -454,7 +454,7 @@ export class WCClient implements WalletClient {
     this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
   }
 
-  async getSimpleAccount(chainId: string): Promise<SimpleAccount> {
+  async getAccount(chainId: string): Promise<WalletAccount> {
     const account = this.accounts.find(({ chainId: id }) => id === chainId);
     if (!account) {
       throw new Error(

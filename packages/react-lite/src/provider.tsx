@@ -4,7 +4,7 @@ import {
   EndpointOptions,
   Logger,
   LogLevel,
-  MainWalletBase,
+  MainWallet,
   NameServiceName,
   SessionOptions,
   SignerOptions,
@@ -42,7 +42,7 @@ export const ChainProvider = ({
 }: {
   chains: Chain[];
   assetLists: AssetList[];
-  wallets: MainWalletBase[];
+  wallets: MainWallet[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2

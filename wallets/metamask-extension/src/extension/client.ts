@@ -4,7 +4,7 @@ import {
   ExtendedHttpEndpoint,
   SignOptions,
   SignType,
-  SimpleAccount,
+  WalletAccount,
   WalletAccount,
   WalletClient,
 } from '@cosmos-kit/core';
@@ -16,15 +16,15 @@ export class MetamaskClient implements WalletClient {
     this.client = client;
   }
 
-  async connect(chainIds?: string | string[]): Promise<void> {
+  async connect(chainIds?: string[]): Promise<void> {
     await this.client.request({ method: 'eth_requestAccounts' });
   }
 
-  async enable(chainIds?: string | string[]) {
+  async enable(chainIds?: string[]) {
     await this.connect(chainIds);
   }
 
-  async getSimpleAccount(chainId?: string): Promise<SimpleAccount> {
+  async getAccount(chainId?: string): Promise<WalletAccount> {
     const accounts: string[] = await this.client.request({
       method: 'eth_accounts',
     });

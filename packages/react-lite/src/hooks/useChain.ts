@@ -1,13 +1,23 @@
-import { ChainContext, ChainName } from '@cosmos-kit/core';
-import React from 'react';
+import {
+  ChainContext,
+  ChainName,
+  ChainWalletConverter,
+} from '@cosmos-kit/core';
+import {
+  CosmosChainContext,
+  CosmosChainWallet,
+  CosmosChainWalletConverter,
+  isCosmosChain,
+} from '@cosmos-kit/cosmos';
+import { CosmosWalletRepo } from '@cosmos-kit/cosmos/src/repository';
+import React, { useMemo } from 'react';
 
 import { walletContext } from '../provider';
-import { getChainWalletContext } from '../utils';
 
 export const useChain = (
   chainName: ChainName,
   sync: boolean = true
-): ChainContext => {
+): ChainContext | CosmosChainContext => {
   const context = React.useContext(walletContext);
 
   if (!context) {
@@ -22,41 +32,20 @@ export const useChain = (
     );
   }
 
-  const walletRepo = walletManager.getWalletRepo(chainName);
-  walletRepo.activate();
-  const {
-    connect,
-    disconnect,
-    openView,
-    closeView,
-    current,
-    chainRecord: { chain, assetList },
-    getRpcEndpoint,
-    getRestEndpoint,
-    getStargateClient,
-    getCosmWasmClient,
-    getNameService,
-  } = walletRepo;
-
-  const chainWalletContext = getChainWalletContext(
-    chain.chain_id,
-    current,
-    sync
-  );
-
-  return {
-    ...chainWalletContext,
-    walletRepo,
-    chain,
-    assets: assetList,
-    openView,
-    closeView,
-    connect: () => connect(void 0, sync),
-    disconnect: () => disconnect(void 0, sync),
-    getRpcEndpoint,
-    getRestEndpoint,
-    getStargateClient,
-    getCosmWasmClient,
-    getNameService,
-  };
+  const converter = useMemo(() => {
+    const repo = walletManager.getWalletRepo(chainName);
+    repo.activate();
+    if (isCosmosChain(chainName)) {
+      const cosmosWalletRepo = new CosmosWalletRepo(repo);
+      const cosmosChainWallet = new CosmosChainWallet(repo.current);
+      const converter = new CosmosChainWalletConverter(
+        cosmosChainWallet,
+        cosmosWalletRepo
+      );
+      return converter.getCosmosChainContext(sync);
+    } else {
+      const converter = new ChainWalletConverter(repo.current, repo);
+      return converter.getChainContext(sync);
+    }
+  }, [chainName]);
 };

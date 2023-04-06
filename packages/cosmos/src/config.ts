@@ -1,4 +1,4 @@
-import { Bech32Address, NameServiceRegistry } from './types';
+import { Bech32Address, NameServiceRegistry } from './types/common';
 
 export const nameServiceRegistries: NameServiceRegistry[] = [
   {

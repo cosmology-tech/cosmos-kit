@@ -1,11 +1,11 @@
 import { Wallet } from '@cosmos-kit/core';
-import { MainWalletBase } from '@cosmos-kit/core';
+import { MainWallet } from '@cosmos-kit/core';
 
 import { ChainLeapExtension } from './chain-wallet';
 import { LeapClient } from './client';
 import { getLeapFromExtension } from './utils';
 
-export class LeapExtensionWallet extends MainWalletBase {
+export class LeapExtensionWallet extends MainWallet {
   constructor(walletInfo: Wallet) {
     super(walletInfo, ChainLeapExtension);
   }

@@ -13,24 +13,32 @@ import {
   StargateClientOptions,
   StdFee,
 } from '@cosmjs/stargate';
-import { ChainWalletBase, Mutable, Namespace, State } from '@cosmos-kit/core';
+import { ChainWallet, Mutable, Namespace, State } from '@cosmos-kit/core';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { NameService } from './name-service';
-import { CosmosClientType, CosmosSignType, CosmosWalletClient } from './types';
+import {
+  CosmosClientType,
+  CosmosSignType,
+  CosmosWalletClient,
+} from './types/common';
 import { getNameServiceRegistryFromChainName } from './utils';
+import { CosmosNameService } from './name-service';
 
-export class CosmosChainWallet extends ChainWalletBase {
+export class CosmosChainWallet extends ChainWallet {
   offlineSigner?: OfflineSigner;
   namespace: Namespace = 'cosmos';
   clientMutable: Mutable<CosmosWalletClient> = { state: State.Init };
 
-  constructor(wallet: CosmosChainWallet) {
+  constructor(wallet: ChainWallet) {
     super(wallet.walletInfo, wallet.chainRecord);
     Object.assign(this, wallet);
   }
 
   get client() {
     return this.clientMutable?.data;
+  }
+
+  get cosmwasmEnabled() {
+    return this.chain?.codebase?.cosmwasm_enabled;
   }
 
   get stargateOptions(): StargateClientOptions | undefined {
@@ -62,10 +70,10 @@ export class CosmosChainWallet extends ChainWalletBase {
     return CosmWasmClient.connect(rpcEndpoint);
   };
 
-  getNameService = async (): Promise<NameService> => {
+  getNameService = async (): Promise<CosmosNameService> => {
     const client = await this.getCosmWasmClient();
     const registry = getNameServiceRegistryFromChainName(this.chainName);
-    return new NameService(client, registry);
+    return new CosmosNameService(client, registry);
   };
 
   initOfflineSigner = async (): Promise<void> => {

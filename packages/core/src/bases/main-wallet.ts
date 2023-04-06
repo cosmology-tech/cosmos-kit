@@ -8,14 +8,15 @@ import {
   WalletClient,
   WalletStatus,
 } from '../types';
-import { ChainWalletBase } from './chain-wallet';
+import { ChainWallet } from './chain-wallet';
 import { WalletBase } from './wallet';
 import EventEmitter from 'events';
 
-export abstract class MainWalletBase extends WalletBase {
-  protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
+export abstract class MainWallet extends WalletBase {
+  protected _chainWalletMap?: Map<ChainName, ChainWallet>;
   preferredEndpoints?: EndpointOptions['endpoints'];
   ChainWallet: IChainWallet;
+  isCurrent = false;
 
   constructor(walletInfo: Wallet, ChainWallet: IChainWallet) {
     super(walletInfo);
@@ -32,6 +33,7 @@ export abstract class MainWalletBase extends WalletBase {
       });
     });
     this.emitter.on('sync_connect', (chainName?: ChainName) => {
+      this.isCurrent = true;
       this.connectAll(true, chainName);
       this.activate();
     });
@@ -90,7 +92,7 @@ export abstract class MainWalletBase extends WalletBase {
     return this._chainWalletMap;
   }
 
-  getChainWallet = (chainName: string): ChainWalletBase | undefined => {
+  getChainWallet = (chainName: string): ChainWallet | undefined => {
     return this.chainWalletMap?.get(chainName);
   };
 

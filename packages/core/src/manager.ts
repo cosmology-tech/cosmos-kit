@@ -2,8 +2,7 @@ import { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
-import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
-import { NameService } from './name-service';
+import { ChainWallet, MainWallet, StateBase } from './bases';
 import { WalletRepo } from './repository';
 import {
   ChainName,
@@ -15,23 +14,19 @@ import {
   OS,
   SessionOptions,
   SignerOptions,
-  SimpleAccount,
+  WalletAccount,
   State,
   WalletConnectOptions,
   WalletName,
+  NameService,
 } from './types';
-import {
-  convertChain,
-  getNameServiceRegistryFromName,
-  Logger,
-  Session,
-} from './utils';
+import { convertChain, Logger, Session } from './utils';
 
 export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepo[] = [];
   defaultNameService: NameServiceName = 'icns';
-  mainWallets: MainWalletBase[] = [];
+  mainWallets: MainWallet[] = [];
   coreEmitter: EventEmitter;
   walletConnectOptions?: WalletConnectOptions;
   readonly session: Session;
@@ -41,7 +36,7 @@ export class WalletManager extends StateBase {
   constructor(
     chains: Chain[],
     assetLists: AssetList[],
-    wallets: MainWalletBase[],
+    wallets: MainWallet[],
     logger: Logger,
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
@@ -75,7 +70,7 @@ export class WalletManager extends StateBase {
   init(
     chains: Chain[],
     assetLists: AssetList[],
-    wallets: MainWalletBase[],
+    wallets: MainWallet[],
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
@@ -201,7 +196,7 @@ export class WalletManager extends StateBase {
     return this.walletRepos.filter((repo) => repo.isActive === true);
   }
 
-  getMainWallet = (walletName: WalletName): MainWalletBase => {
+  getMainWallet = (walletName: WalletName): MainWallet => {
     const wallet = this.mainWallets.find((w) => w.walletName === walletName);
 
     if (!wallet) {
@@ -226,8 +221,8 @@ export class WalletManager extends StateBase {
   getChainWallet = (
     chainName: ChainName,
     walletName: WalletName
-  ): ChainWalletBase => {
-    const chainWallet: ChainWalletBase | undefined = this.getMainWallet(
+  ): ChainWallet => {
+    const chainWallet: ChainWallet | undefined = this.getMainWallet(
       walletName
     ).getChainWallet(chainName);
 
@@ -262,24 +257,8 @@ export class WalletManager extends StateBase {
     );
   };
 
-  getNameService = async (chainName?: ChainName): Promise<NameService> => {
-    let _chainName: ChainName;
-    if (!chainName) {
-      if (!this.defaultNameService) {
-        throw new Error('defaultNameService is undefined');
-      }
-      const registry = getNameServiceRegistryFromName(this.defaultNameService);
-      if (!registry) {
-        throw new Error(
-          'Unknown defaultNameService ' + this.defaultNameService
-        );
-      }
-      _chainName = registry.chainName;
-    } else {
-      _chainName = chainName;
-    }
-
-    return await this.getWalletRepo(_chainName).getNameService();
+  getNameService = async (chainName: ChainName): Promise<NameService> => {
+    return await this.getWalletRepo(chainName).getNameService();
   };
 
   private _reconnect = async () => {
@@ -301,7 +280,7 @@ export class WalletManager extends StateBase {
       'cosmos-kit@1:core//accounts'
     );
     if (walletName && accountsStr) {
-      const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+      const accounts: WalletAccount[] = JSON.parse(accountsStr);
       accounts.forEach((data) => {
         const mainWallet = this.getMainWallet(walletName);
         mainWallet.activate();
@@ -309,8 +288,8 @@ export class WalletManager extends StateBase {
           .getChainWalletList(false)
           .find(
             (w) =>
-              w.chainRecord.chain.chain_id === data.chainId &&
-              w.namespace === data.namespace
+              w.chainRecord.chain.chain_id == data.chainId &&
+              w.namespace == data.namespace
           );
         chainWallet?.setData(data);
         chainWallet?.setState(State.Done);

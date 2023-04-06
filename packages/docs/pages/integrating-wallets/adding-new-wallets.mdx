@@ -61,13 +61,13 @@
 
 ### 2️⃣ Implement `WalletClient`
 
-`MainWallet` is a class organizing all `ChainWallet`s. **It should extend  `MainWalletBase` class**, in which protected `_chainWallets` property stores all `ChainWallet`s.
+`MainWallet` is a class organizing all `ChainWallet`s. **It should extend  `MainWallet` class**, in which protected `_chainWallets` property stores all `ChainWallet`s.
 
 #### Required methods
 
 | Key      | Type | Description |
 | ----------- | ----------- | -- |
-| **getSimpleAccount**      | `(chainId: string) => Promise<SimpleAccount>`   | return account with address but without pubkey and algo |
+| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`   | return account with address but without pubkey and algo |
 
 #### Optional methods
 
@@ -84,11 +84,11 @@
 
 - [Keplr Client](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/client.ts)
 
-### 3️⃣ Extend `ChainWalletBase`
+### 3️⃣ Extend `ChainWallet`
 
-Create a `ChainWallet` class that extends  `ChainWalletBase`. `ChainWallet` provides wallet information for a particular chain, e.g. `address`, `offlineSigner`, etc. 
+Create a `ChainWallet` class that extends  `ChainWallet`. `ChainWallet` provides wallet information for a particular chain, e.g. `address`, `offlineSigner`, etc. 
 
-`ChainWalletBase` has implemented a bunch of methods such as wallet connection, sign, broadcast, etc. [[learn more]](#). Therefore, normally you don't need to do any extra work inside `ChainWallet`. But feel free to overwrite these methods or add new methods/properties if customization is needed to meet new demand.
+`ChainWallet` has implemented a bunch of methods such as wallet connection, sign, broadcast, etc. [[learn more]](#). Therefore, normally you don't need to do any extra work inside `ChainWallet`. But feel free to overwrite these methods or add new methods/properties if customization is needed to meet new demand.
 
 #### Examples
 
@@ -97,11 +97,11 @@ Create a `ChainWallet` class that extends  `ChainWalletBase`. `ChainWallet` prov
 - [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/chain-wallet.ts)
 
 
-### 4️⃣ Extend `MainWalletBase`
+### 4️⃣ Extend `MainWallet`
 
-Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organizes all `ChainWallet`s, which are stored in protected member `_chainWallets`.
+Create a `MainWallet` class that extends `MainWallet`. `MainWallet` organizes all `ChainWallet`s, which are stored in protected member `_chainWallets`.
 
-> Note: Class `ChainWallet` created in [Step 3](#3️⃣-extend-chainWalletbase) is required in `MainWalletBase` construction.
+> Note: Class `ChainWallet` created in [Step 3](#3️⃣-extend-chainWalletbase) is required in `MainWallet` construction.
 
 #### Required methods
 
@@ -111,7 +111,7 @@ Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organize
 
 \* <span style={{fontSize: '0.85rem'}}> `WalletClient` is the one implemented in [Step 2](#2️⃣-implement-walletclient).</span>
 
-Also, feel free to overwrite methods in `MainWalletBase` or add new methods/properties if necessary.
+Also, feel free to overwrite methods in `MainWallet` or add new methods/properties if necessary.
 
 #### Examples
 

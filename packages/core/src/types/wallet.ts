@@ -1,6 +1,6 @@
 import { SignClientTypes } from '@walletconnect/types';
 
-import { ChainWalletBase, MainWalletBase } from '../bases';
+import { ChainWallet, MainWallet } from '../bases';
 import { ChainRecord } from './chain';
 import { DappEnv, Mutable } from './common';
 
@@ -80,34 +80,26 @@ export interface SignOptions {
 }
 
 export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
-export type Namespace = 'cosmos' | 'ethereum';
+export type Namespace =
+  | 'cosmos'
+  | 'ethereum'
+  | 'solana'
+  | 'stella'
+  | 'tezos'
+  | 'near';
 export interface EncodedString {
   value: string;
   encoding: BufferEncoding;
 }
 
-export interface SimpleAccount {
+export interface WalletAccount {
   /**
    * identifier in BlockChain.
    * in Cosmos, it's the address formatted using Bech32;
    */
   address: string;
+  namespace: Namespace;
   chainId?: string;
-  username?: string;
-  namespace?: Namespace;
-  isNanoLedger?: boolean;
-}
-
-export interface WalletAccount extends SimpleAccount {
-  /**
-   * digital key scheme for creating digital signatures
-   */
-  algo?: Algo;
-  pubkey?: EncodedString;
-  /**
-   * only in Cosmos, the address NOT formatted using Bech32 yet
-   */
-  rawAddress?: EncodedString;
 }
 
 export interface HttpEndpoint {
@@ -137,7 +129,6 @@ export interface WalletClient {
    *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     in other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getSimpleAccount(chainIds?: string[]): Promise<WalletAccount[]>;
   getAccount(chainIds?: string[]): Promise<WalletAccount[]>;
   /**
    * Step 3: Sign Doc
@@ -165,10 +156,10 @@ export interface WalletClient {
   addChain?<T>(chainInfo: T): Promise<void>;
 }
 
-export type WalletAdapter = ChainWalletBase | MainWalletBase;
+export type WalletAdapter = ChainWallet | MainWallet;
 
 export interface IChainWallet {
-  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWallet;
 }
 
 export interface WalletConnectOptions {
