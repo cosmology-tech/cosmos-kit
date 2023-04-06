@@ -1,0 +1,41 @@
+# Sign
+
+## Global Settings
+
+```ts
+<ChainProvider
+    ...
+    signerOptions={{
+        preferredSignType: (chain: Chain) => {
+            return 'amino';
+        }
+    }}
+>
+    <Components />
+</ChainProvider>
+
+const { getSigningStargateClient } = useChain('cosmoshub');
+const aminoSigningClient = await getSigningStargateClient();
+```
+
+By default use `amino` signer. Or you need to set `return 'direct'` if `direct` signer required.
+
+## Individual Settings
+
+```ts
+const { status, client } = useWalletClient('keplr-extension');
+
+if (status === 'Done') {
+    /**
+     * OR:
+     * const aminoSigner = client.getOfflineSignerAmino('cosmoshub');
+     * const directSigner = client.getOfflineSignerDirect('cosmoshub');
+    */
+    const aminoSigner = client.getOfflineSigner('cosmoshub', 'amino');
+}
+
+const aminoSigningClient = await SigningStargateClient.connectWithSigner(
+      rpcEndpoint,
+      aminoSigner
+    );
+```
