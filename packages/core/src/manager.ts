@@ -289,7 +289,7 @@ export class WalletManager extends StateBase {
       'cosmos-kit@1:core//current-wallet'
     );
     if (walletName) {
-      await this.activeRepos[0]?.connect(walletName, true);
+      this.getMainWallet(walletName).getChainWalletList(true)[0]?.connect(true);
     }
   };
 

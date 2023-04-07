@@ -3,5 +3,6 @@
   "get-started": "Get Started",
   "provider": "Provider",
   "hooks": "Hooks",
+  "cosmos": "Cosmos",
   "integrating-wallets": "Integrating Wallets"
 }
