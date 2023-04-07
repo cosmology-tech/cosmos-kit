@@ -1,13 +1,16 @@
 import { SimpleConnectModal } from '@cosmology-ui/react';
 import {
+  ChainWallet,
+  DownloadInfo,
   getGlobalStatusAndMessage,
   ModalView,
   ModalViews,
   State,
-  WalletListViewProps,
+  Wallet,
+  WalletClient,
   WalletModalProps,
+  WalletRepo,
   WalletStatus,
-  WalletViewProps,
 } from '@cosmos-kit/core';
 import React, {
   useCallback,
@@ -17,7 +20,7 @@ import React, {
   useRef,
 } from 'react';
 import { ChakraProviderWithGivenTheme } from './components';
-import { defaultModalViews } from './components/views';
+import { defaultModalViews } from './config';
 
 export const DefaultModal = ({
   isOpen,
@@ -26,12 +29,14 @@ export const DefaultModal = ({
 }: WalletModalProps) => {
   return (
     <ChakraProviderWithGivenTheme>
-      <WalletModal
-        isOpen={isOpen}
-        setOpen={setOpen}
-        walletRepos={walletRepos}
-        modalViews={defaultModalViews}
-      />
+      {walletRepos.length !== 0 && (
+        <WalletModal
+          isOpen={isOpen}
+          setOpen={setOpen}
+          walletRepos={walletRepos}
+          modalViews={defaultModalViews}
+        />
+      )}
     </ChakraProviderWithGivenTheme>
   );
 };
@@ -53,7 +58,23 @@ export const WalletModal = ({
   const [qrState, setQRState] = useState<State>(State.Init); // state of QRCode
   const [qrMsg, setQRMsg] = useState<string>(''); // message of QRCode error
 
-  const [repos, currents, walletStatus, message] = useMemo(() => {
+  const {
+    repos,
+    currents,
+    walletStatus,
+    message,
+    walletInfo,
+    downloadInfo,
+    walletClient,
+  }: {
+    repos: WalletRepo[];
+    currents: ChainWallet[];
+    walletStatus: WalletStatus;
+    message: string | undefined;
+    walletInfo: Wallet | undefined;
+    downloadInfo: DownloadInfo | undefined;
+    walletClient: WalletClient | undefined;
+  } = useMemo(() => {
     const currents = walletRepos
       .map((repo) => {
         const current = repo.current;
@@ -70,7 +91,15 @@ export const WalletModal = ({
     if (currents.length !== 0) {
       [walletStatus, message] = getGlobalStatusAndMessage(currents);
     }
-    return [repos, currents, walletStatus, message];
+    return {
+      repos,
+      currents,
+      walletStatus,
+      message,
+      walletInfo: currents[0]?.walletInfo,
+      downloadInfo: currents[0]?.downloadInfo,
+      walletClient: currents[0]?.client,
+    };
   }, [walletRepos]);
 
   useEffect(() => {
@@ -121,42 +150,92 @@ export const WalletModal = ({
   }, [setCurrentView]);
 
   const modalView = useMemo(() => {
-    let ViewComponent;
     switch (currentView) {
       case ModalView.WalletList:
-        ViewComponent = modalViews[`${currentView}`] as (
-          props: WalletListViewProps
-        ) => JSX.Element;
+        const WalletList = modalViews['WalletList'];
         return (
-          <ViewComponent
+          <WalletList
             onClose={onCloseModal}
             repos={repos}
             includeAllWalletsOnMobile={includeAllWalletsOnMobile}
             initialFocus={initialFocus}
           />
         );
-      default:
-        if (!current) return <div />;
-
-        ViewComponent = modalViews[`${currentView}`] as (
-          props: WalletViewProps
-        ) => JSX.Element;
+      case ModalView.Connecting:
+        const Connecting = modalViews['Connecting'];
         return (
-          <ViewComponent
+          <Connecting
             onClose={onCloseModal}
             onReturn={onReturn}
-            wallet={current}
+            walletInfo={walletInfo}
+            message={message}
           />
         );
+      case ModalView.Connected:
+        const Connected = modalViews['Connected'];
+        return (
+          <Connected
+            onClose={onCloseModal}
+            onReturn={onReturn}
+            walletInfo={walletInfo}
+            wallets={currents}
+            message={message}
+          />
+        );
+      case ModalView.Error:
+        const _Error = modalViews['Error'];
+        return (
+          <_Error
+            onClose={onCloseModal}
+            onReturn={onReturn}
+            walletInfo={walletInfo}
+            message={message}
+          />
+        );
+      case ModalView.NotExist:
+        const NotExist = modalViews['NotExist'];
+        return (
+          <NotExist
+            onClose={onCloseModal}
+            onReturn={onReturn}
+            walletInfo={walletInfo}
+            downloadInfo={downloadInfo}
+            message={message}
+          />
+        );
+      case ModalView.Rejected:
+        const Rejected = modalViews['Rejected'];
+        return (
+          <Rejected
+            onClose={onCloseModal}
+            onReturn={onReturn}
+            walletInfo={walletInfo}
+            wallets={currents}
+            message={message}
+          />
+        );
+      case ModalView.QRCode:
+        const QRCode = modalViews['QRCode'];
+        return (
+          <QRCode
+            onClose={onCloseModal}
+            onReturn={onReturn}
+            walletInfo={walletInfo}
+            walletClient={walletClient}
+            message={message}
+          />
+        );
+      default:
+        if (currents.length === 0) return <div />;
     }
   }, [
     currentView,
     onReturn,
     onCloseModal,
-    current,
+    currents,
     qrState,
     walletStatus,
-    walletRepo,
+    walletRepos,
     message,
     qrMsg,
   ]);

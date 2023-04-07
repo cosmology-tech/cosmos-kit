@@ -54,10 +54,12 @@ export interface WalletListViewProps {
   initialFocus?: RefObject<HTMLButtonElement>;
 }
 
-type SingleWalletView = `${Exclude<ModalView, ModalView.WalletList>}`;
-
 export type ModalViews = {
-  [p in SingleWalletView]?: (props: WalletViewProps) => JSX.Element;
-} & {
   WalletList?: (props: WalletListViewProps) => JSX.Element;
+  Connecting?: (props: WalletViewProps) => JSX.Element;
+  Connected?: (props: ConnectedWalletViewProps) => JSX.Element;
+  Error?: (props: WalletViewProps) => JSX.Element;
+  NotExist?: (props: NotExistWalletViewProps) => JSX.Element;
+  Rejected?: (props: RejectedWalletViewProps) => JSX.Element;
+  QRCode?: (props: QRCodeWalletViewProps) => JSX.Element;
 };

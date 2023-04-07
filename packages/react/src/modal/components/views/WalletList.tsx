@@ -44,9 +44,9 @@ export const WalletListView = ({
   }, []);
 
   const wallets =
-    repos[0]?.isMobile && !includeAllWalletsOnMobile
-      ? repos?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
-      : repos?.wallets;
+    repos[0].isMobile && !includeAllWalletsOnMobile
+      ? repos[0].wallets.filter((w) => !w.walletInfo.mobileDisabled)
+      : repos[0].wallets;
 
   const modalHead = (
     <SimpleModalHead
@@ -74,7 +74,7 @@ export const WalletListView = ({
               ...w.walletInfo,
               downloads: void 0,
               onClick: async () => {
-                onWalletClicked(w);
+                onWalletClicked(w.walletName);
               },
               buttonShape: i < 2 && isLargeScreen ? 'Square' : 'Rectangle',
               subLogo:
