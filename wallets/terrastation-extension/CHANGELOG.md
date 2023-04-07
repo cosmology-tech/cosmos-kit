@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/terrastation-extension@0.1.2...@cosmos-kit/terrastation-extension@0.1.3) (2023-04-07)
+
+**Note:** Version bump only for package @cosmos-kit/terrastation-extension
+
+
+
+
+
 ## [0.1.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/terrastation-extension@0.1.1...@cosmos-kit/terrastation-extension@0.1.2) (2023-03-31)
 
 **Note:** Version bump only for package @cosmos-kit/terrastation-extension

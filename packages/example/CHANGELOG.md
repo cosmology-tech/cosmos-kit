@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.36.17](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.36.16...example@0.36.17) (2023-04-07)
+
+**Note:** Version bump only for package example
+
+
+
+
+
 ## [0.36.16](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.36.15...example@0.36.16) (2023-03-31)
 
 **Note:** Version bump only for package example
