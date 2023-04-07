@@ -27,14 +27,14 @@ function MyApp({ Component, pageProps }: AppProps) {
           assetLists={assets}
           wallets={[
             ...keplrWallets,
-            ...cosmostationWallets,
-            ...leapWallets,
-            ...vectisWallets,
-            ...xdefiWallets,
-            ...omniWallets,
-            ...trustWallets,
-            ...frontierWallets,
-            ...terrastationWallets,
+            // ...cosmostationWallets,
+            // ...leapWallets,
+            // ...vectisWallets,
+            // ...xdefiWallets,
+            // ...omniWallets,
+            // ...trustWallets,
+            // ...frontierWallets,
+            // ...terrastationWallets,
           ]}
           defaultNameService={"stargaze"}
           walletConnectOptions={{
