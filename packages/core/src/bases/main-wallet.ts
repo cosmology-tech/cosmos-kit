@@ -11,6 +11,7 @@ import {
 import { ChainWallet } from './chain-wallet';
 import { WalletBase } from './wallet';
 import EventEmitter from 'events';
+import { getGlobalStatusAndMessage } from '../utils';
 
 export abstract class MainWallet extends WalletBase {
   protected _chainWalletMap?: Map<ChainName, ChainWallet>;
@@ -31,15 +32,6 @@ export abstract class MainWallet extends WalletBase {
       this.chainWalletMap?.forEach((chainWallet) => {
         chainWallet.setEnv(env);
       });
-    });
-    this.emitter.on('sync_connect', (chainName?: ChainName) => {
-      this.isCurrent = true;
-      this.connectAll(true, chainName);
-      this.activate();
-    });
-    this.emitter.on('sync_disconnect', (chainName?: ChainName) => {
-      this.disconnectAll(true, chainName);
-      this.inactivate();
     });
     this.emitter.on('reset', (chainIds: string[]) => {
       chainIds.forEach((chainId) =>
@@ -107,22 +99,7 @@ export abstract class MainWallet extends WalletBase {
     activeOnly: boolean = true
   ): [WalletStatus, string | undefined] => {
     const chainWalletList = this.getChainWalletList(activeOnly);
-
-    let wallet = chainWalletList.find((w) => w.isWalletNotExist);
-    if (wallet) return [wallet.walletStatus, wallet.message];
-
-    wallet = chainWalletList.find((w) => w.isWalletConnecting);
-    if (wallet) return [WalletStatus.Connecting, void 0];
-
-    wallet = chainWalletList.find((w) => w.isWalletDisconnected);
-    if (wallet) {
-      return [WalletStatus.Disconnected, 'Exist disconnected wallets'];
-    }
-
-    wallet = chainWalletList.find((w) => w.isError || w.isWalletRejected);
-    if (wallet) return [wallet.walletStatus, wallet.message];
-
-    return [WalletStatus.Connected, void 0];
+    return getGlobalStatusAndMessage(chainWalletList);
   };
 
   async update() {}

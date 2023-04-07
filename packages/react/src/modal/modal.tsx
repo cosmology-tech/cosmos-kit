@@ -1,5 +1,6 @@
 import { SimpleConnectModal } from '@cosmology-ui/react';
 import {
+  getGlobalStatusAndMessage,
   ModalView,
   ModalViews,
   State,
@@ -21,14 +22,14 @@ import { defaultModalViews } from './components/views';
 export const DefaultModal = ({
   isOpen,
   setOpen,
-  mainWallets,
+  walletRepos,
 }: WalletModalProps) => {
   return (
     <ChakraProviderWithGivenTheme>
       <WalletModal
         isOpen={isOpen}
         setOpen={setOpen}
-        mainWallets={mainWallets}
+        walletRepos={walletRepos}
         modalViews={defaultModalViews}
       />
     </ChakraProviderWithGivenTheme>
@@ -38,7 +39,7 @@ export const DefaultModal = ({
 export const WalletModal = ({
   isOpen,
   setOpen,
-  mainWallets,
+  walletRepos,
   modalViews,
   includeAllWalletsOnMobile,
 }: WalletModalProps & {
@@ -52,18 +53,25 @@ export const WalletModal = ({
   const [qrState, setQRState] = useState<State>(State.Init); // state of QRCode
   const [qrMsg, setQRMsg] = useState<string>(''); // message of QRCode error
 
-  const currents = walletRepos?.map((repo) => {
-    (repo.current?.client as any)?.setActions?.({
-      qrUrl: {
-        state: setQRState,
-        message: setQRMsg,
-      },
-    });
-    return repo.current;
-  });
-
-  const walletStatus = current?.walletStatus;
-  const message = current?.message;
+  const [repos, currents, walletStatus, message] = useMemo(() => {
+    const currents = walletRepos
+      .map((repo) => {
+        const current = repo.current;
+        (current?.client as any)?.setActions?.({
+          qrUrl: {
+            state: setQRState,
+            message: setQRMsg,
+          },
+        });
+        return current;
+      })
+      .filter((w) => Boolean(w));
+    let [walletStatus, message] = [WalletStatus.Disconnected, void 0];
+    if (currents.length !== 0) {
+      [walletStatus, message] = getGlobalStatusAndMessage(currents);
+    }
+    return [repos, currents, walletStatus, message];
+  }, [walletRepos]);
 
   useEffect(() => {
     if (isOpen) {
@@ -104,9 +112,9 @@ export const WalletModal = ({
   const onCloseModal = useCallback(() => {
     setOpen(false);
     if (walletStatus === 'Connecting') {
-      current?.disconnect();
+      currents[0]?.disconnect();
     }
-  }, [setOpen, walletStatus, current]);
+  }, [setOpen, walletStatus, currents]);
 
   const onReturn = useCallback(() => {
     setCurrentView(ModalView.WalletList);
@@ -119,14 +127,11 @@ export const WalletModal = ({
         ViewComponent = modalViews[`${currentView}`] as (
           props: WalletListViewProps
         ) => JSX.Element;
-        const wallets =
-          walletRepo?.isMobile && !includeAllWalletsOnMobile
-            ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
-            : walletRepo?.wallets;
         return (
           <ViewComponent
             onClose={onCloseModal}
-            wallets={wallets || []}
+            repos={repos}
+            includeAllWalletsOnMobile={includeAllWalletsOnMobile}
             initialFocus={initialFocus}
           />
         );

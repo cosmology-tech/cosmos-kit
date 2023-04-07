@@ -90,7 +90,7 @@ export class WalletRepo extends StateBase {
   };
 
   openView = () => {
-    this.actions?.viewWalletRepo?.(this);
+    this.actions?.viewWalletRepos?.(this);
     this.actions?.viewOpen?.(true);
   };
 
@@ -98,20 +98,20 @@ export class WalletRepo extends StateBase {
     this.actions?.viewOpen?.(false);
   };
 
-  connect = async (walletName?: WalletName, sync?: boolean) => {
+  connect = async (walletName?: WalletName) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
-      await wallet?.connect(sync);
+      await wallet?.connect();
     } else {
       this.openView();
     }
   };
 
-  disconnect = async (walletName?: WalletName, sync?: boolean) => {
+  disconnect = async (walletName?: WalletName) => {
     if (walletName) {
-      await this.getWallet(walletName)?.disconnect(sync);
+      await this.getWallet(walletName)?.disconnect();
     } else {
-      await this.current.disconnect(sync);
+      await this.current.disconnect();
     }
   };
 

@@ -11,7 +11,7 @@ export class CosmosChainWalletConverter extends ChainWalletConverter {
     super(wallet, walletRepo);
   }
 
-  getChainContext(sync: boolean = true): CosmosChainContext {
+  getChainContext(): CosmosChainContext {
     if (!this.walletRepo) {
       throw new Error(`WalletRepo is undefined.`);
     }
@@ -19,16 +19,16 @@ export class CosmosChainWalletConverter extends ChainWalletConverter {
     const { getStargateClient, getCosmWasmClient } = this.walletRepo;
 
     return {
-      ...this.getChainWalletContext(sync),
-      ...this._getChainContext(sync),
+      ...this.getChainWalletContext(),
+      ...this._getChainContext(),
       getStargateClient,
       getCosmWasmClient,
     };
   }
 
-  getChainWalletContext(sync: boolean = true): CosmosChainWalletContext {
+  getChainWalletContext(): CosmosChainWalletContext {
     return {
-      ...this._getChainWalletContext(sync),
+      ...this._getChainWalletContext(),
 
       getStargateClient: () =>
         this.assertWallet(

@@ -6,14 +6,13 @@ export const trustMobileInfo: Wallet = {
   logo: 'https://trustwallet.com/assets/images/media/assets/TWT.png',
   mode: 'wallet-connect',
   mobileDisabled: false,
-  rejectMessage: {
-    source: 'Request rejected',
-  },
+  rejectMessage: 'Request rejected',
   downloads: [
     {
       device: 'mobile',
       os: 'android',
-      link: 'https://play.google.com/store/apps/details?id=com.chainapsis.trust&hl=en&gl=US&pli=1',
+      link:
+        'https://play.google.com/store/apps/details?id=com.chainapsis.trust&hl=en&gl=US&pli=1',
     },
     {
       device: 'mobile',

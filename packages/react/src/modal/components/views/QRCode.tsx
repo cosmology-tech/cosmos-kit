@@ -4,14 +4,18 @@ import {
   SimpleModalView,
   QRCodeStatus,
 } from '@cosmology-ui/react';
-import { ExpiredError, State, WalletViewProps } from '@cosmos-kit/core';
+import { ExpiredError, QRCodeWalletViewProps, State } from '@cosmos-kit/core';
 import React, { useCallback, useMemo } from 'react';
 
-export const QRCodeView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName },
-    qrUrl: { data, state, message },
-  } = wallet;
+export const QRCodeView = ({
+  onClose,
+  onReturn,
+  walletInfo,
+  walletClient,
+  chainIds,
+}: QRCodeWalletViewProps) => {
+  const { prettyName } = walletInfo;
+  const { data, state, message } = walletClient.qrUrl!;
 
   const [desc, errorTitle, errorDesc, status] = useMemo(() => {
     let desc: string = `Open ${prettyName} App to Scan`;
@@ -50,8 +54,8 @@ export const QRCodeView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
   }, [state, message]);
 
   const onRefresh = useCallback(() => {
-    wallet.connect(false);
-  }, [wallet]);
+    walletClient.connect(chainIds);
+  }, [walletClient, chainIds]);
 
   const modalHead = (
     <SimpleModalHead

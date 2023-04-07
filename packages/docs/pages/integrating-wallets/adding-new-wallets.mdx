@@ -46,7 +46,7 @@
 
 | Key      | Type | Description |
 | ----------- | ----------- | -- |
-| **rejectMessage**      | `string | \{ source: string; target?: string \}`   | `rejectMessage` or `rejectMessage.source` is error message string thrown by wallet app/extension when user rejects, while `rejectMessage.target` is `message` returned by hooks. If not provided, `target` would be `'Request Rejected!'`|
+| **rejectMessage**      | `string`   | `rejectMessage` is the error message string thrown by wallet app/extension when user rejects |
 | **connectEventNamesOnWindow**   | `string[]`   | window event names to fire auto-connect |
 | **connectEventNamesOnClient**   | `string[]`   | wallet client event names to fire auto-connect (make sure `on` and `off` methods are defined in [`WalletClient`](#2️⃣-implement-walletclient)) |
 | **downloads**   | [`DownloadInfo[]`](https://github.com/cosmology-tech/cosmos-kit/blob/ce50648487e73c1f6f17777347df7984168381af/packages/core/src/types/wallet.ts#L28-L31) | wallet app/extension download information |

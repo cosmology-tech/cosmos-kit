@@ -450,11 +450,9 @@ export class WCClient implements WalletClient {
       }
     }
     this.sessions = [];
-    this.emitter?.emit('sync_disconnect');
-    this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
   }
 
-  async getAccount(chainId: string): Promise<WalletAccount> {
+  async getAccount(chainId: string[]): Promise<WalletAccount> {
     const account = this.accounts.find(({ chainId: id }) => id === chainId);
     if (!account) {
       throw new Error(
@@ -474,7 +472,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerDirect(chainId: string) {
     return {
-      getAccounts: async () => [await this.getAccount(chainId)],
+      getAccounts: async () => await this.getAccount([chainId]),
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;

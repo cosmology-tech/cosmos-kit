@@ -5,7 +5,7 @@ import {
   SimpleModalHead,
   SimpleModalView,
 } from '@cosmology-ui/react';
-import { WalletViewProps } from '@cosmos-kit/core';
+import { NotExistWalletViewProps, WalletViewProps } from '@cosmos-kit/core';
 import React, { useCallback, useMemo } from 'react';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiChromeFill } from 'react-icons/ri';
@@ -16,12 +16,10 @@ import { GrFirefox } from 'react-icons/gr';
 export const NotExistView = ({
   onClose,
   onReturn,
-  wallet,
-}: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName, logo },
-    downloadInfo,
-  } = wallet;
+  walletInfo,
+  downloadInfo,
+}: NotExistWalletViewProps) => {
+  const { prettyName, logo } = walletInfo;
 
   const onInstall = useCallback(() => {
     window.open(downloadInfo?.link, '_blank');

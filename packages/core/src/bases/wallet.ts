@@ -100,20 +100,8 @@ export abstract class WalletBase extends StateBase {
     return this.walletInfo.prettyName;
   }
 
-  get rejectMessageSource() {
-    if (typeof this.walletInfo.rejectMessage === 'string') {
-      return this.walletInfo.rejectMessage;
-    } else {
-      return this.walletInfo.rejectMessage?.source;
-    }
-  }
-
-  get rejectMessageTarget() {
-    if (typeof this.walletInfo.rejectMessage === 'string') {
-      return void 0;
-    } else {
-      return this.walletInfo.rejectMessage?.target;
-    }
+  get rejectMessage() {
+    return this.walletInfo.rejectMessage;
   }
 
   get rejectCode() {
@@ -122,7 +110,7 @@ export abstract class WalletBase extends StateBase {
 
   rejectMatched(e: Error) {
     return (
-      (this.rejectMessageSource && e.message === this.rejectMessageSource) ||
+      (this.rejectMessage && e.message === this.rejectMessage) ||
       (this.rejectCode && (e as any).code === this.rejectCode)
     );
   }
@@ -131,11 +119,7 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  disconnect = async (sync?: boolean) => {
-    if (sync) {
-      this.emitter?.emit('sync_disconnect', (this as any).chainName);
-      this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
-    }
+  disconnect = async () => {
     await this.callbacks?.beforeDisconnect?.();
     this.reset();
     window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
@@ -161,7 +145,7 @@ export abstract class WalletBase extends StateBase {
     }
   }
 
-  connect = async (sync?: boolean) => {
+  connect = async () => {
     await this.callbacks?.beforeConnect?.();
 
     if (this.isMobile && this.walletInfo.mobileDisabled) {
@@ -169,11 +153,6 @@ export abstract class WalletBase extends StateBase {
         'This wallet is not supported on mobile, please use desktop browsers.'
       );
       return;
-    }
-
-    if (sync) {
-      this.emitter?.emit('sync_connect', (this as any).chainName);
-      this.logger?.debug('[WALLET EVENT] Emit `sync_connect`');
     }
 
     try {

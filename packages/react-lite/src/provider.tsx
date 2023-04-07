@@ -70,18 +70,14 @@ export const ChainProvider = ({
   );
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
-  const [viewWalletRepo, setViewWalletRepo] = useState<
-    WalletRepo | undefined
-  >();
 
-  const [, setData] = useState<Data>();
-  const [, setState] = useState<State>(State.Init);
-  const [, setMsg] = useState<string | undefined>();
-  const [, setClientState] = useState<State>(State.Init);
+  const [data, setData] = useState<Data>();
+  const [state, setState] = useState<State>(State.Init);
+  const [msg, setMsg] = useState<string | undefined>();
+  const [clientState, setClientState] = useState<State>(State.Init);
 
   walletManager.setActions({
     viewOpen: setViewOpen,
-    viewWalletRepo: setViewWalletRepo,
     data: setData,
     state: setState,
     message: setMsg,
@@ -90,7 +86,6 @@ export const ChainProvider = ({
   walletManager.walletRepos.forEach((wr) => {
     wr.setActions({
       viewOpen: setViewOpen,
-      viewWalletRepo: setViewWalletRepo,
     });
     wr.wallets.forEach((w) => {
       w.setActions({
@@ -101,6 +96,13 @@ export const ChainProvider = ({
       });
     });
   });
+
+  const viewWalletRepos = useMemo(() => walletManager.getActiveWalletRepos(), [
+    data,
+    state,
+    msg,
+    clientState,
+  ]);
 
   useEffect(() => {
     walletManager.onMounted();
@@ -117,7 +119,7 @@ export const ChainProvider = ({
         <ProvidedWalletModal
           isOpen={isViewOpen}
           setOpen={setViewOpen}
-          walletRepo={viewWalletRepo}
+          walletRepos={viewWalletRepos}
         />
       )}
       {children}

@@ -7,22 +7,21 @@ import {
   SimpleModalHead,
   SimpleModalView,
 } from '@cosmology-ui/react';
-import { WalletViewProps } from '@cosmos-kit/core';
+import { ConnectedWalletViewProps } from '@cosmos-kit/core';
 import React, { useCallback } from 'react';
 import { RiDoorOpenFill } from 'react-icons/ri';
 
 export const ConnectedView = ({
   onClose,
   onReturn,
-  wallet,
-}: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName, logo },
-    username,
-    address,
-  } = wallet;
+  walletInfo,
+  wallets,
+}: ConnectedWalletViewProps) => {
+  const { prettyName, logo } = walletInfo;
 
-  const onDisconnect = useCallback(() => wallet.disconnect(true), [wallet]);
+  const onDisconnect = useCallback(() => {
+    wallets.forEach((w) => w.disconnect());
+  }, [wallets]);
 
   const modalHead = (
     <SimpleModalHead
@@ -36,9 +35,15 @@ export const ConnectedView = ({
   const modalContent = (
     <SimpleDisplayModalContent
       logo={Astronaut}
-      username={username}
+      username={wallets[0]?.username}
       walletIcon={logo}
-      addressButton={<CopyAddressButton address={address} />}
+      addressButton={
+        <div>
+          {wallets.map((w) => (
+            <CopyAddressButton address={w.address} key={w.chainName} />
+          ))}
+        </div>
+      }
       bottomButton={
         <Box px={6}>
           <ConnectWalletButton

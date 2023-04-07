@@ -9,11 +9,13 @@ import {
 import { WalletViewProps } from '@cosmos-kit/core';
 import React from 'react';
 
-export const ErrorView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName, logo },
-    message,
-  } = wallet;
+export const ErrorView = ({
+  onClose,
+  onReturn,
+  walletInfo,
+  message,
+}: WalletViewProps) => {
+  const { prettyName, logo } = walletInfo;
 
   const modalHead = (
     <SimpleModalHead

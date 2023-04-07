@@ -15,8 +15,7 @@ import React, { useMemo } from 'react';
 import { walletContext } from '../provider';
 
 export const useChain = (
-  chainName: ChainName,
-  sync: boolean = true
+  chainName: ChainName
 ): ChainContext | CosmosChainContext => {
   const context = React.useContext(walletContext);
 
@@ -38,14 +37,14 @@ export const useChain = (
     if (isCosmosChain(chainName)) {
       const cosmosWalletRepo = new CosmosWalletRepo(repo);
       const cosmosChainWallet = new CosmosChainWallet(repo.current);
-      const converter = new CosmosChainWalletConverter(
+      return new CosmosChainWalletConverter(
         cosmosChainWallet,
         cosmosWalletRepo
       );
-      return converter.getCosmosChainContext(sync);
     } else {
-      const converter = new ChainWalletConverter(repo.current, repo);
-      return converter.getChainContext(sync);
+      return new ChainWalletConverter(repo.current, repo);
     }
   }, [chainName]);
+
+  return converter.getChainContext();
 };

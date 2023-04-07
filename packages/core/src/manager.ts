@@ -218,6 +218,10 @@ export class WalletManager extends StateBase {
     return walletRepo;
   };
 
+  getActiveWalletRepos = (): WalletRepo[] => {
+    return this.walletRepos.filter((repo) => repo.isActive);
+  };
+
   getChainWallet = (
     chainName: ChainName,
     walletName: WalletName

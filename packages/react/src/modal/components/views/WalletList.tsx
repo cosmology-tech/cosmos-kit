@@ -4,7 +4,7 @@ import {
   SimpleModalView,
   Wallet,
 } from '@cosmology-ui/react';
-import { ChainWallet, WalletListViewProps } from '@cosmos-kit/core';
+import { WalletListViewProps, WalletName } from '@cosmos-kit/core';
 import React, {
   useCallback,
   useEffect,
@@ -15,14 +15,15 @@ import React, {
 
 export const WalletListView = ({
   onClose,
-  wallets,
+  repos,
+  includeAllWalletsOnMobile,
   initialFocus,
 }: WalletListViewProps) => {
   const defaultInitialFocus = useRef();
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
-  const onWalletClicked = useCallback((wallet: ChainWallet) => {
-    wallet.connect(true);
+  const onWalletClicked = useCallback((walletName: WalletName) => {
+    repos.forEach((repo) => repo.connect(walletName));
   }, []);
 
   useEffect(() => {
@@ -41,6 +42,11 @@ export const WalletListView = ({
       window.removeEventListener('resize', handleWindowResize);
     };
   }, []);
+
+  const wallets =
+    repos[0]?.isMobile && !includeAllWalletsOnMobile
+      ? repos?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
+      : repos?.wallets;
 
   const modalHead = (
     <SimpleModalHead

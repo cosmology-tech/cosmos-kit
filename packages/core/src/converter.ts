@@ -59,15 +59,15 @@ export class ChainWalletConverter {
     return func(...params);
   }
 
-  getChainContext(sync: boolean = true): ChainContext {
-    return this._getChainContext(sync);
+  getChainContext(): ChainContext {
+    return this._getChainContext();
   }
 
-  getChainWalletContext(sync: boolean = true): ChainWalletContext {
-    return this._getChainWalletContext(sync);
+  getChainWalletContext(): ChainWalletContext {
+    return this._getChainWalletContext();
   }
 
-  protected _getChainContext(sync: boolean = true): ChainContext {
+  protected _getChainContext(): ChainContext {
     if (!this.walletRepo) {
       throw new Error(`WalletRepo is undefined.`);
     }
@@ -84,21 +84,21 @@ export class ChainWalletConverter {
     } = this.walletRepo;
 
     return {
-      ...this.getChainWalletContext(sync),
+      ...this.getChainWalletContext(),
       walletRepo: this.walletRepo,
       chain,
       assets: assetList,
       openView,
       closeView,
-      connect: () => connect(void 0, sync),
-      disconnect: () => disconnect(void 0, sync),
+      connect: () => connect(),
+      disconnect: () => disconnect(),
       getRpcEndpoint,
       getRestEndpoint,
       getNameService,
     };
   }
 
-  protected _getChainWalletContext(sync: boolean = true): ChainWalletContext {
+  protected _getChainWalletContext(): ChainWalletContext {
     const status = this.wallet?.walletStatus || WalletStatus.Disconnected;
 
     return {
@@ -122,14 +122,9 @@ export class ChainWalletConverter {
       isWalletNotExist: status === 'NotExist',
       isWalletError: status === 'Error',
 
-      connect: () =>
-        this.assertWallet(this.wallet?.connect, [void 0, sync], 'connect'),
+      connect: () => this.assertWallet(this.wallet?.connect, [], 'connect'),
       disconnect: () =>
-        this.assertWallet(
-          this.wallet?.disconnect,
-          [void 0, sync],
-          'disconnect'
-        ),
+        this.assertWallet(this.wallet?.disconnect, [], 'disconnect'),
       getRpcEndpoint: (isLazy?: boolean) =>
         this.assertWallet(
           this.wallet?.getRpcEndpoint,

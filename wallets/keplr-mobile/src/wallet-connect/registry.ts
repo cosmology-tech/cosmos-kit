@@ -3,17 +3,17 @@ import { Wallet } from '@cosmos-kit/core';
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',
   prettyName: 'Keplr Mobile',
-  logo: 'https://user-images.githubusercontent.com/545047/202085372-579be3f3-36e0-4e0b-b02f-48182af6e577.svg',
+  logo:
+    'https://user-images.githubusercontent.com/545047/202085372-579be3f3-36e0-4e0b-b02f-48182af6e577.svg',
   mode: 'wallet-connect',
   mobileDisabled: false,
-  rejectMessage: {
-    source: 'Request rejected',
-  },
+  rejectMessage: 'Request rejected',
   downloads: [
     {
       device: 'mobile',
       os: 'android',
-      link: 'https://play.google.com/store/apps/details?id=com.chainapsis.keplr&hl=en&gl=US&pli=1',
+      link:
+        'https://play.google.com/store/apps/details?id=com.chainapsis.keplr&hl=en&gl=US&pli=1',
     },
     {
       device: 'mobile',

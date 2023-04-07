@@ -10,12 +10,10 @@ import React from 'react';
 export const ConnectingView = ({
   onClose,
   onReturn,
-  wallet,
+  walletInfo,
+  message,
 }: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName, logo, mode },
-    message,
-  } = wallet;
+  const { prettyName, logo, mode } = walletInfo;
 
   let title: string = 'Requesting Connection';
   let desc: string =

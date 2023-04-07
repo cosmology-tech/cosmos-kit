@@ -6,14 +6,13 @@ export const trustExtensionInfo: Wallet = {
   prettyName: 'Trust',
   mode: 'extension',
   mobileDisabled: true,
-  rejectMessage: {
-    source: 'Request rejected',
-  },
+  rejectMessage: 'Request rejected',
   downloads: [
     {
       device: 'mobile',
       os: 'android',
-      link: 'https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp&referrer=utm_source%3Dwebsite',
+      link:
+        'https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp&referrer=utm_source%3Dwebsite',
     },
     {
       device: 'mobile',
