@@ -27,8 +27,8 @@ export class VectisClient implements WalletClient {
     await this.connect(chainIds);
   }
 
-  async getAccount(chainId: string) {
-    const { address, username } = await this.getAccount(chainId);
+  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
+    const { address, username } = await this.getAccounts(chainId);
     return {
       namespace: 'cosmos',
       chainId,
@@ -37,7 +37,7 @@ export class VectisClient implements WalletClient {
     };
   }
 
-  async getAccount(chainId: string) {
+  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
     const {
       address,
       algo,
@@ -63,7 +63,7 @@ export class VectisClient implements WalletClient {
       default:
         return this.getOfflineSignerAmino(chainId);
     }
-    // const key = await this.getAccount(chainId);
+    // const key = await this.getAccounts(chainId);
     // if (key.isNanoLedger) {
     //   return this.getOfflineSignerAmino(chainId);
     // }

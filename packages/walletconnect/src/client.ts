@@ -378,7 +378,7 @@ export class WCClient implements WalletClient {
     const requiredNamespaces = {
       cosmos: {
         methods: [
-          'cosmos_getAccounts',
+          'cosmos_getAccountss',
           'cosmos_signAmino',
           'cosmos_signDirect',
         ],
@@ -452,7 +452,7 @@ export class WCClient implements WalletClient {
     this.sessions = [];
   }
 
-  async getAccount(chainId: string[]): Promise<WalletAccount> {
+  async getAccounts(chainId: string[]): Promise<WalletAccount> {
     const account = this.accounts.find(({ chainId: id }) => id === chainId);
     if (!account) {
       throw new Error(
@@ -464,7 +464,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerAmino(chainId: string) {
     return {
-      getAccounts: async () => [await this.getAccount(chainId)],
+      getAccountss: async () => [await this.getAccounts(chainId)],
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
@@ -472,7 +472,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerDirect(chainId: string) {
     return {
-      getAccounts: async () => await this.getAccount([chainId]),
+      getAccountss: async () => await this.getAccounts([chainId]),
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;
@@ -490,7 +490,7 @@ export class WCClient implements WalletClient {
       : this.getOfflineSignerDirect(chainId);
   }
 
-  protected async _getAccount(chainId: string) {
+  protected async _getAccounts(chainId: string) {
     const session = this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
@@ -499,17 +499,17 @@ export class WCClient implements WalletClient {
       topic: session.topic,
       chainId: `cosmos:${chainId}`,
       request: {
-        method: 'cosmos_getAccounts',
+        method: 'cosmos_getAccountss',
         params: {},
       },
     });
-    this.logger?.debug(`Response of cosmos_getAccounts`, resp);
+    this.logger?.debug(`Response of cosmos_getAccountss`, resp);
     return resp;
   }
 
-  async getAccount(chainId: string): Promise<WalletAccount> {
+  async getAccounts(chainId: string): Promise<WalletAccount> {
     const { address, algo, pubkey } = (
-      await this._getAccount(chainId)
+      await this._getAccounts(chainId)
     )[0] as WCAccount;
     return {
       address,

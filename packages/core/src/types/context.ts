@@ -56,7 +56,7 @@ export interface ChainWalletContext {
   qrUrl: Mutable<string> | undefined;
   appUrl: Mutable<AppUrl> | undefined;
 
-  getAccount: () => Promise<WalletAccount>;
+  getAccounts: () => Promise<WalletAccount>;
 }
 
 export interface ChainContext extends ChainWalletContext {

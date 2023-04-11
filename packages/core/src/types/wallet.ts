@@ -74,17 +74,23 @@ export interface SignOptions {
   readonly disableBalanceCheck?: boolean;
 }
 
-export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
 export type Namespace =
   | 'cosmos'
   | 'ethereum'
   | 'solana'
   | 'stella'
   | 'tezos'
-  | 'near';
+  | 'near'
+  | 'aptos'
+  | 'sui';
+
 export interface EncodedString {
   value: string;
-  encoding: BufferEncoding;
+  encoding?: BufferEncoding | 'bech32';
+}
+
+export interface PublicKey extends EncodedString {
+  algo?: string;
 }
 
 export interface WalletAccount {
@@ -92,9 +98,10 @@ export interface WalletAccount {
    * identifier in BlockChain.
    * in Cosmos, it's the address formatted using Bech32;
    */
-  address: string;
+  address: EncodedString;
   namespace: Namespace;
   chainId?: string;
+  publicKey?: PublicKey;
 }
 
 export interface HttpEndpoint {
@@ -108,6 +115,12 @@ export interface HttpEndpoint {
   readonly headers: Record<string, string>;
 }
 
+export interface Signature {
+  signature: EncodedString;
+  publicKey?: PublicKey;
+  signedDoc?: unknown;
+}
+
 export interface WalletClient {
   /**
    * Step 1: Connect/Authorize
@@ -116,39 +129,77 @@ export interface WalletClient {
    *     in some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
    *     to distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  connect?(chainIds?: string[]): Promise<void>;
+  connect?(namespace: Namespace, chainIds?: string[]): Promise<void>;
   /**
-   * Step 2: Get Account
+   * Step 2: Add Chain
+   *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
+   *     the wallet before other actions.
+   */
+  addChain?(namespace: Namespace, chainInfo: unknown): Promise<void>;
+  /**
+   * Step 2: Switch Chain
+   *     Some wallets only supports interacting with one chain at a time. We call this the wallet’s “active chain”.
+   *     This method enables dapps to request that the wallet switches its active chain to whichever one is required by the dapp,
+   *     if the wallet has a concept thereof.
+   */
+  switchChain?(namespace: Namespace, chainId: string): Promise<void>;
+  /**
+   * Step 3: Get Account
    *     `address` especially required in returned value.
    *     `address` is the user identifier in BlockChain, directing to a public/private key pair.
    *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     in other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getAccount(chainIds?: string[]): Promise<WalletAccount[]>;
+  getAccounts(
+    namespace: Namespace,
+    chainIds?: string[]
+  ): Promise<WalletAccount[]>;
   /**
-   * Step 3: Sign Doc
+   * Step 4: Sign Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
    */
-  sign<T>(address: string, doc: T): Promise<EncodedString>;
+  sign(
+    namespace: Namespace,
+    signerAddress: string,
+    doc: unknown,
+    chainId?: string,
+    options?: unknown
+  ): Promise<Signature>;
   /**
-   * Step 4: Broadcast Signed Doc
+   * Step 5: Sign Doc
+   *     address in params is used to get the private key from wallet to sign doc.
+   *     return the signature.
+   */
+  verify?(
+    namespace: Namespace,
+    signerAddress: string,
+    doc: unknown,
+    signature: Signature,
+    chainId?: string
+  ): Promise<boolean>;
+  /**
+   * Step 6: Broadcast Signed Doc
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
    *     return the hash of new block.
    */
-  broadcast?<T>(address: string, signedDoc: T): Promise<EncodedString>;
+  broadcast?<T>(
+    namespace: Namespace,
+    signerAddress: string,
+    signedDoc: T,
+    chainId?: string
+  ): Promise<EncodedString>;
   /**
-   * Step 5: Disconnect/Cancel Authorization
+   * Step 6: Disconnect/Cancel Authorization
    */
-  disconnect?: (chainIds?: string[]) => Promise<void>;
+  disconnect?: (namespace: Namespace, chainIds?: string[]) => Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
 
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
-  addChain?<T>(chainInfo: T): Promise<void>;
 }
 
 export type WalletAdapter = ChainWallet | MainWallet;

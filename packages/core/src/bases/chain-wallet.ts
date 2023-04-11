@@ -106,7 +106,7 @@ export abstract class ChainWallet extends WalletBase {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getAccount([this.chainId])[0];
+        account = await this.client.getAccounts([this.chainId])[0];
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
@@ -114,7 +114,7 @@ export abstract class ChainWallet extends WalletBase {
         }
         if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
-          account = await this.client.getAccount([this.chainId])[0];
+          account = await this.client.getAccounts([this.chainId])[0];
         } else {
           throw error;
         }

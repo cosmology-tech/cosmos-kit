@@ -24,8 +24,8 @@ export class LeapClient implements WalletClient {
     await this.client.disconnect();
   }
 
-  async getAccount(chainIds: string[]) {
-    const { address, username } = await this.getAccount(chainId);
+  async getAccounts(chainIds: string[]) {
+    const { address, username } = await this.getAccounts(chainId);
     return {
       namespace: 'cosmos',
       chainId,
@@ -34,7 +34,7 @@ export class LeapClient implements WalletClient {
     };
   }
 
-  async getAccount(chainIds?: string[]) {
+  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
     const key = await this.client.getKey(chainIds);
     return {
       username: key.name,

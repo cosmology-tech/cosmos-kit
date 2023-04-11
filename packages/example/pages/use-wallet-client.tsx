@@ -24,7 +24,7 @@ export default () => {
     if (status === "Done") {
       Promise.all(
         chainIds.map(async (chainId) => {
-          const account = await client!.getAccount!(chainId);
+          const account = await client!.getAccounts!(chainId);
           return {
             ...account,
             chainId,

@@ -147,11 +147,11 @@ export class ChainWalletConverter {
       qrUrl: this.wallet?.client?.qrUrl,
       appUrl: this.wallet?.client?.appUrl,
 
-      getAccount: () =>
+      getAccounts: () =>
         this.assertWalletClient(
-          this.wallet?.client?.getAccount.bind(this.wallet?.client),
+          this.wallet?.client?.getAccounts.bind(this.wallet?.client),
           [[this.chainId]],
-          'getAccount'
+          'getAccounts'
         ),
     };
   }

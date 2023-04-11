@@ -8,3 +8,4 @@ export * from './status';
 export * from './logger';
 export * from './session';
 export * from './encode';
+export * from './verify';

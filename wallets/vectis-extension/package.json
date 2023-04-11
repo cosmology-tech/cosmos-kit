@@ -91,6 +91,7 @@
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.0.0",
+    "@cosmos-kit/cosmos": "^0.1.0",
     "@vectis/extension-client": "0.6.0"
   },
   "peerDependencies": {

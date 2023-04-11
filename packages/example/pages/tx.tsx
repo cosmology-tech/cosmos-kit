@@ -77,7 +77,7 @@ const sendTokens = (
 };
 
 export default function Home() {
-  const [cosmo_getAccount, setCosmo_getAccount] = useState<
+  const [cosmo_getAccounts, setCosmo_getAccounts] = useState<
     string | undefined
   >();
   const [cosmos_signAmino, setCosmos_signAmino] = useState<
@@ -178,16 +178,16 @@ export default function Home() {
         <Center marginY={16} flexDirection="column">
           <Button
             onClick={async () => {
-              const r = await (client as any).getAccount("cosmoshub-4");
-              setCosmo_getAccount(JSON.stringify(r));
+              const r = await (client as any).getAccounts("cosmoshub-4");
+              setCosmo_getAccounts(JSON.stringify(r));
             }}
           >
-            cosmos_getAccounts
+            cosmos_getAccountss
           </Button>
-          {cosmo_getAccount && (
+          {cosmo_getAccounts && (
             <Card>
               <CardBody>
-                <Text>{cosmo_getAccount}</Text>
+                <Text>{cosmo_getAccounts}</Text>
               </CardBody>
             </Card>
           )}

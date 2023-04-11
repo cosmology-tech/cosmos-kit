@@ -24,8 +24,8 @@ export class XDEFIClient implements WalletClient {
     await this.client.disconnect();
   }
 
-  async getAccount(chainId: string) {
-    const { address, username } = await this.getAccount(chainId);
+  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
+    const { address, username } = await this.getAccounts(chainId);
     return {
       namespace: 'cosmos',
       chainId,
@@ -34,7 +34,7 @@ export class XDEFIClient implements WalletClient {
     };
   }
 
-  async getAccount(chainId: string) {
+  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
     const key = await this.client.getKey(chainId);
     return {
       username: key.name,

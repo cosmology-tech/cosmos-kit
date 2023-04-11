@@ -24,7 +24,7 @@ export class MetamaskClient implements WalletClient {
     await this.connect(chainIds);
   }
 
-  async getAccount(chainId?: string): Promise<WalletAccount> {
+  async getAccounts(chainId?: string): Promise<WalletAccount> {
     const accounts: string[] = await this.client.request({
       method: 'eth_accounts',
     });
@@ -39,8 +39,8 @@ export class MetamaskClient implements WalletClient {
     };
   }
 
-  // async getAccount(chainId?: string): Promise<WalletAccount> {
-  //   const address = this.getAccount(chainId);
+  // async getAccounts(chainId?: string): Promise<WalletAccount> {
+  //   const address = this.getAccounts(chainId);
   //   const accounts: string[] = await this.client.request({
   //     method: 'eth_getEncryptionPublicKey',
   //     params: [address]

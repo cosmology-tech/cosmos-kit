@@ -54,7 +54,7 @@ export class TerrastationClient implements WalletClient {
     }
   }
 
-  async getAccount(chainId: string) {
+  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
     if (!this.addresses) {
       return Promise.reject('Terra Station NOT connected yet.');
     }

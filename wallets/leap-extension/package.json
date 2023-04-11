@@ -89,7 +89,8 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.0.0"
+    "@cosmos-kit/core": "^2.0.0",
+    "@cosmos-kit/cosmos": "^0.1.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
