@@ -1,5 +1,5 @@
 import { ChainWallet } from '../bases';
-import { WalletRepo } from '../repository';
+import { WalletRepoWithGivenChain } from '../repository';
 import { Dispatch } from './common';
 import { DownloadInfo, Wallet, WalletClient } from './wallet';
 
@@ -16,7 +16,7 @@ export enum ModalView {
 export interface WalletModalProps {
   isOpen: boolean;
   setOpen: Dispatch<boolean>;
-  walletRepos: WalletRepo[];
+  walletRepos: WalletRepoWithGivenChain[];
 }
 
 export interface WalletViewProps {
@@ -49,7 +49,7 @@ interface RefObject<T> {
 
 export interface WalletListViewProps {
   onClose: () => void;
-  repos: WalletRepo[];
+  repos: WalletRepoWithGivenChain[];
   includeAllWalletsOnMobile?: boolean;
   initialFocus?: RefObject<HTMLButtonElement>;
 }

@@ -3,10 +3,7 @@ import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   Algo,
   BroadcastMode,
-  ChainRecord,
   DirectSignDoc,
-  EncodedString,
-  ExtendedHttpEndpoint,
   getStringFromUint8Array,
   Namespace,
   Signature,
@@ -14,7 +11,8 @@ import {
   WalletAccount,
   WalletClient,
 } from '@cosmos-kit/core';
-import { CosmosWalletAccount, isDirectDoc } from '@cosmos-kit/cosmos';
+import { CosmosWalletAccount, isCosmosDirectDoc } from '@cosmos-kit/cosmos';
+import { isEthTransactionDoc } from '@cosmos-kit/ethereum';
 import {
   AddChainParams,
   SignAminoResponse,
@@ -216,7 +214,7 @@ export class CosmostationClient implements WalletClient {
             signature,
             signed_doc,
           } = (await this.client.cosmos.request({
-            method: isDirectDoc(doc) ? 'cos_signDirect' : 'cos_signAmino',
+            method: isCosmosDirectDoc(doc) ? 'cos_signDirect' : 'cos_signAmino',
             params: {
               chainName: chainId,
               doc: doc,
@@ -252,20 +250,31 @@ export class CosmostationClient implements WalletClient {
             },
             signedDoc: doc,
           };
+        } else if (isEthTransactionDoc(doc)) {
+          const { result } = (await this.client.ethereum.request({
+            method: 'eth_signTransaction',
+            params: [signerAddress, doc],
+          })) as { result: string };
+          return {
+            signature: {
+              value: result,
+            },
+            signedDoc: doc,
+          };
         } else {
+          const signature = (await this.client.ethereum.request({
+            method: 'eth_signTypedData_v4',
+            params: [signerAddress, doc],
+          })) as string;
+          return {
+            signature: {
+              value: signature,
+            },
+            signedDoc: doc,
+          };
         }
-        const signature = (await this.client.ethereum.request({
-          method: 'eth_signTypedData_v4',
-          params: [signerAddress, doc],
-        })) as string;
-        return {
-          signature: {
-            value: signature,
-          },
-          signedDoc: doc,
-        };
       default:
-        break;
+        return Promise.reject('Unmatched namespace.');
     }
   }
 

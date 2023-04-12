@@ -1,6 +1,6 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import { ChainWallet } from '../bases';
-import { WalletRepo } from '../repository';
+import { WalletRepoWithGivenChain } from '../repository';
 import { ChainName, ChainRecord } from './chain';
 import {
   ModalTheme,
@@ -61,17 +61,17 @@ export interface ChainWalletContext {
 
 export interface ChainContext extends ChainWalletContext {
   wallet: Wallet | undefined;
-  walletRepo: WalletRepo;
+  walletRepo: WalletRepoWithGivenChain;
   openView: () => void;
   closeView: () => void;
 }
 
 export interface ManagerContext {
   chainRecords: ChainRecord[];
-  walletRepos: WalletRepo[];
+  walletRepos: WalletRepoWithGivenChain[];
   defaultNameService: NameServiceName;
   getChainRecord: (chainName: ChainName) => ChainRecord;
-  getWalletRepo: (chainName: ChainName) => WalletRepo;
+  getWalletRepo: (chainName: ChainName) => WalletRepoWithGivenChain;
   addChains: (
     chains: Chain[],
     assetLists: AssetList[],

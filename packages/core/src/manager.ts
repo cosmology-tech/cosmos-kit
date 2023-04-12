@@ -3,7 +3,7 @@ import Bowser from 'bowser';
 import EventEmitter from 'events';
 
 import { ChainWallet, MainWallet, StateBase } from './bases';
-import { WalletRepo } from './repository';
+import { WalletRepoWithGivenChain } from './repository';
 import {
   ChainName,
   ChainRecord,
@@ -24,7 +24,7 @@ import { convertChain, Logger, Session } from './utils';
 
 export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
-  walletRepos: WalletRepo[] = [];
+  walletRepos: WalletRepoWithGivenChain[] = [];
   defaultNameService: NameServiceName = 'icns';
   mainWallets: MainWallet[] = [];
   coreEmitter: EventEmitter;
@@ -100,7 +100,7 @@ export class WalletManager extends StateBase {
     });
 
     this.chainRecords.forEach((chainRecord) => {
-      const repo = new WalletRepo(
+      const repo = new WalletRepoWithGivenChain(
         chainRecord,
         wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!)
       );
@@ -152,7 +152,7 @@ export class WalletManager extends StateBase {
     });
 
     newChainRecords.forEach((chainRecord) => {
-      const repo = new WalletRepo(
+      const repo = new WalletRepoWithGivenChain(
         chainRecord,
         this.mainWallets.map(
           ({ getChainWallet }) => getChainWallet(chainRecord.name)!
@@ -192,7 +192,7 @@ export class WalletManager extends StateBase {
     this.coreEmitter.off(event, handler);
   };
 
-  get activeRepos(): WalletRepo[] {
+  get activeRepos(): WalletRepoWithGivenChain[] {
     return this.walletRepos.filter((repo) => repo.isActive === true);
   }
 
@@ -206,7 +206,7 @@ export class WalletManager extends StateBase {
     return wallet;
   };
 
-  getWalletRepo = (chainName: ChainName): WalletRepo => {
+  getWalletRepo = (chainName: ChainName): WalletRepoWithGivenChain => {
     const walletRepo = this.walletRepos.find(
       (wr) => wr.chainName === chainName
     );
@@ -218,7 +218,7 @@ export class WalletManager extends StateBase {
     return walletRepo;
   };
 
-  getActiveWalletRepos = (): WalletRepo[] => {
+  getActiveWalletRepos = (): WalletRepoWithGivenChain[] => {
     return this.walletRepos.filter((repo) => repo.isActive);
   };
 

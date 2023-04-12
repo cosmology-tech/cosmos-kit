@@ -121,6 +121,12 @@ export interface Signature {
   signedDoc?: unknown;
 }
 
+export type NamspaceInfo = {
+  [k in Namespace]: {
+    chainIds?: string[];
+  };
+};
+
 export interface WalletClient {
   /**
    * Step 1: Connect/Authorize

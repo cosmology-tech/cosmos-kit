@@ -6,24 +6,66 @@ import {
   WalletName,
   ExtendedHttpEndpoint,
   NameService,
+  Wallet,
+  WalletClient,
 } from './types';
-import { Session } from './utils';
+import { ClientNotExistError } from './utils';
+
+export class WalletRepo extends StateBase {
+  readonly wallets: ChainWallet[];
+
+  constructor(wallets: ChainWallet[] = []) {
+    super();
+    this.wallets = wallets;
+  }
+}
 
 /**
- * Store all ChainWallets for a particular Chain.
+ * Store ChainWallets for a particular Wallet.
  */
-export class WalletRepo extends StateBase {
+export class WalletRepoWithGivenWallet extends WalletRepo {
+  walletInfo: Wallet;
+
+  constructor(walletInfo: Wallet, wallets: ChainWallet[] = []) {
+    super(wallets);
+    this.walletInfo = walletInfo;
+    if (wallets.findIndex((w) => w.walletName !== this.walletName) > -1) {
+      throw new Error('Wallets not matched with given wallet.');
+    }
+  }
+
+  get walletName() {
+    return this.walletInfo.name;
+  }
+
+  get client(): WalletClient | undefined {
+    return this.wallets[0]?.client;
+  }
+
+  async connectAll() {
+    if (!this.client) {
+      throw ClientNotExistError;
+    }
+
+    this.client.getAccounts();
+  }
+}
+
+/**
+ * Store ChainWallets for a particular Chain.
+ */
+export class WalletRepoWithGivenChain extends WalletRepo {
   isActive = false;
   chainRecord: ChainRecord;
-  protected _wallets: ChainWallet[];
   namespace = 'cosmos';
-  session: Session;
   repelWallet: boolean = true;
 
   constructor(chainRecord: ChainRecord, wallets: ChainWallet[] = []) {
-    super();
+    super(wallets);
     this.chainRecord = chainRecord;
-    this._wallets = wallets;
+    if (wallets.findIndex((w) => w.chainName !== this.chainName) > -1) {
+      throw new Error('Wallets not matched with given chain.');
+    }
 
     if (this.repelWallet) {
       this.wallets.forEach((w) => {
@@ -65,10 +107,6 @@ export class WalletRepo extends StateBase {
       this.chainRecord.assetList?.assets[0]?.logo_URIs?.png ||
       undefined
     );
-  }
-
-  get wallets(): ChainWallet[] {
-    return this._wallets;
   }
 
   get isSingleWallet() {
