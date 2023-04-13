@@ -32,13 +32,13 @@ export const keplrMobileInfo: Wallet = {
     projectId:
       '6adb6082c909901b9e7189af3a4a0223102cd6f8d5c39e39f3d49acb92b578bb',
     encoding: 'base64',
-    // mobile: {
-    //   native: 'keplrwallet:',
-    // },
-    // formatNativeUrl: (appUrl: string, wcUri: string, name: string): string => {
-    //   const plainAppUrl = appUrl.replaceAll('/', '').replaceAll(':', '');
-    //   // const encodedWcUrl = encodeURIComponent(wcUri);
-    //   return `${plainAppUrl}://wcV2?${wcUri}`;
-    // },
+    mobile: {
+      native: 'keplrwallet:',
+    },
+    formatNativeUrl: (appUrl: string, wcUri: string, name: string): string => {
+      const plainAppUrl = appUrl.replaceAll('/', '').replaceAll(':', '');
+      const encodedWcUrl = encodeURIComponent(wcUri);
+      return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
+    },
   },
 };
