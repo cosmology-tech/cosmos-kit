@@ -60,14 +60,14 @@ export abstract class MainWalletBase extends WalletBase {
         rpc: [
           ...(chain.preferredEndpoints?.rpc || []),
           ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
-          `https://rpc.cosmos.directory/${chain.name}`,
           ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
+          `https://rpc.cosmos.directory/${chain.name}`,
         ],
         rest: [
           ...(chain.preferredEndpoints?.rest || []),
           ...(this.preferredEndpoints?.[chain.name]?.rest || []),
-          `https://rest.cosmos.directory/${chain.name}`,
           ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
+          `https://rest.cosmos.directory/${chain.name}`,
         ],
       };
 
