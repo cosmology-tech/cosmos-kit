@@ -118,24 +118,30 @@ export interface HttpEndpoint {
 export interface Signature {
   signature: EncodedString;
   publicKey?: PublicKey;
-  signedDoc?: unknown;
 }
 
-export type NamspaceInfo = {
-  [k in Namespace]: {
+export interface Block {
+  hash: EncodedString;
+}
+
+/**
+ * authed chain distribution across namespaces
+ */
+export type AuthRange = {
+  [k in Namespace]?: {
     chainIds?: string[];
   };
 };
 
 export interface WalletClient {
   /**
-   * Step 1: Connect/Authorize
+   * 1: Connect/Authorize
    *     or called `onboard/requestAccount/enable` in some wallets,
    *     to build authed connection between dapp and wallet.
    *     in some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
    *     to distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  connect?(namespace: Namespace, chainIds?: string[]): Promise<void>;
+  connect?(authRange: AuthRange): Promise<void>;
   /**
    * Step 2: Add Chain
    *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
@@ -143,63 +149,72 @@ export interface WalletClient {
    */
   addChain?(namespace: Namespace, chainInfo: unknown): Promise<void>;
   /**
-   * Step 2: Switch Chain
+   * 2: Switch Chain
    *     Some wallets only supports interacting with one chain at a time. We call this the wallet’s “active chain”.
    *     This method enables dapps to request that the wallet switches its active chain to whichever one is required by the dapp,
    *     if the wallet has a concept thereof.
    */
   switchChain?(namespace: Namespace, chainId: string): Promise<void>;
   /**
-   * Step 3: Get Account
+   * 3: Get Account
    *     `address` especially required in returned value.
    *     `address` is the user identifier in BlockChain, directing to a public/private key pair.
    *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     in other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getAccounts(
-    namespace: Namespace,
-    chainIds?: string[]
-  ): Promise<WalletAccount[]>;
+  getAccounts(authRange: AuthRange): Promise<WalletAccount[]>;
   /**
-   * Step 4: Sign Doc
+   * 4: Sign Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
    */
-  sign(
+  sign?(
     namespace: Namespace,
-    signerAddress: string,
     doc: unknown,
+    signerAddress?: string,
     chainId?: string,
     options?: unknown
   ): Promise<Signature>;
   /**
-   * Step 5: Sign Doc
+   * 5: Sign Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
    */
   verify?(
     namespace: Namespace,
-    signerAddress: string,
     doc: unknown,
     signature: Signature,
+    signerAddress?: string,
     chainId?: string
   ): Promise<boolean>;
   /**
-   * Step 6: Broadcast Signed Doc
+   * 6: Broadcast Signed Doc
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
-   *     return the hash of new block.
+   *     return the new block.
    */
   broadcast?<T>(
     namespace: Namespace,
-    signerAddress: string,
     signedDoc: T,
+    signerAddress?: string,
     chainId?: string
-  ): Promise<EncodedString>;
+  ): Promise<Block>;
   /**
-   * Step 6: Disconnect/Cancel Authorization
+   * 7: Sign and Broadcast Doc
+   *     address in params is used to get the private key from wallet to sign doc.
+   *     return the signature.
    */
-  disconnect?: (namespace: Namespace, chainIds?: string[]) => Promise<void>;
+  signAndBroadcast(
+    namespace: Namespace,
+    doc: unknown,
+    signerAddress?: string,
+    chainId?: string,
+    options?: unknown
+  ): Promise<Block>;
+  /**
+   * 8: Disconnect/Cancel Authorization
+   */
+  disconnect?: (authRange: AuthRange) => Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;

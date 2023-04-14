@@ -16,7 +16,6 @@ export abstract class ChainWallet extends WalletBase {
   restEndpoints: (string | ExtendedHttpEndpoint)[] = [];
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
-  namespace?: Namespace;
   isLazy?: boolean; // stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
@@ -28,6 +27,10 @@ export abstract class ChainWallet extends WalletBase {
 
   get chainRecord() {
     return this._chainRecord;
+  }
+
+  get namespace() {
+    return this.chainRecord.namespace;
   }
 
   get chainName() {

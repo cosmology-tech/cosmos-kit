@@ -8,8 +8,12 @@ import {
   NameService,
   Wallet,
   WalletClient,
+  AuthRange,
+  WalletStatus,
+  State,
+  WalletAccount,
 } from './types';
-import { ClientNotExistError } from './utils';
+import { ClientNotExistError, getGlobalStatusAndMessage } from './utils';
 
 export class WalletRepo extends StateBase {
   readonly wallets: ChainWallet[];
@@ -32,6 +36,7 @@ export class WalletRepoWithGivenWallet extends WalletRepo {
     if (wallets.findIndex((w) => w.walletName !== this.walletName) > -1) {
       throw new Error('Wallets not matched with given wallet.');
     }
+    this.setActions(this.wallets[0]?.actions);
   }
 
   get walletName() {
@@ -42,12 +47,61 @@ export class WalletRepoWithGivenWallet extends WalletRepo {
     return this.wallets[0]?.client;
   }
 
+  get authRange(): AuthRange {
+    const authRange: AuthRange = {};
+    this.wallets.forEach((w) => {
+      authRange[w.namespace] = {
+        chainIds: [...(authRange[w.namespace]?.chainIds || []), ...w.chainId],
+      };
+    });
+    return authRange;
+  }
+
+  setMutable(state: State, data?: WalletAccount[], message?: string) {
+    if (data && data.length > 0) {
+      this.wallets.forEach((w) => {
+        const account = data.find(
+          (d) => w.namespace == d.namespace && w.chainId == d.chainId
+        );
+        w.setMutableWithoutActions(State.Done, account);
+      });
+    }
+    this.setData(data);
+    this.setState(state);
+    this.setMessage(message);
+  }
+
   async connectAll() {
     if (!this.client) {
-      throw ClientNotExistError;
+      this.setMutable(State.Error, void 0, ClientNotExistError.message);
+      return;
     }
 
-    this.client.getAccounts();
+    this.setMutable(State.Pending);
+    try {
+      await this.client.connect(this.authRange);
+      const accounts = await this.client.getAccounts(this.authRange);
+      this.setMutable(State.Done, accounts);
+    } catch (error) {
+      this.setMutable(
+        State.Error,
+        void 0,
+        `MultiChain Error: ${(error as Error).message}`
+      );
+    }
+  }
+
+  async disconnectAll() {
+    try {
+      await this.client.disconnect(this.authRange);
+      this.setMutable(State.Init);
+    } catch (error) {
+      this.setMutable(
+        State.Error,
+        void 0,
+        `MultiChain Error: ${(error as Error).message}`
+      );
+    }
   }
 }
 

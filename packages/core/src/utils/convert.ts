@@ -1,11 +1,12 @@
 import { AssetList, Chain } from '@chain-registry/types';
 
-import { ChainRecord, Endpoints, SignerOptions } from '../types';
+import { ChainRecord, Endpoints, Namespace, SignerOptions } from '../types';
 import { getIsLazy } from './endpoint';
 import { Logger } from './logger';
 
 export function convertChain(
   chain: Chain,
+  namespace: Namespace,
   assetLists: AssetList[],
   signerOptions?: SignerOptions,
   preferredEndpoints?: Endpoints,
@@ -18,6 +19,7 @@ export function convertChain(
   return {
     name: chain.chain_name,
     chain,
+    namespace,
     assetList,
     clientOptions: {
       stargate: signerOptions?.stargate?.(chain),

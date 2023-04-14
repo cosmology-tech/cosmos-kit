@@ -83,6 +83,7 @@ export class WalletManager extends StateBase {
     this.chainRecords = chains.map((chain) =>
       convertChain(
         chain,
+        namespace,
         assetLists,
         signerOptions,
         endpointOptions?.endpoints?.[chain.chain_name],
@@ -129,6 +130,7 @@ export class WalletManager extends StateBase {
     const newChainRecords = chains.map((chain) =>
       convertChain(
         chain,
+        namespace,
         assetLists,
         signerOptions,
         endpoints?.[chain.chain_name],

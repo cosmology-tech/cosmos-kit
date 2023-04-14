@@ -59,17 +59,29 @@ export class StateBase {
     return this.mutable.message;
   }
 
+  setMutableWithoutActions(state: State, data?: Data, message?: string) {
+    this._mutable.data = data;
+    this._mutable.state = state;
+    this._mutable.message = message;
+  }
+
+  setMutable(state: State, data?: Data, message?: string) {
+    this.setData(data);
+    this.setState(state);
+    this.setMessage(message);
+  }
+
   setState(state: State) {
     this._mutable.state = state;
     this.actions?.state?.(state);
   }
 
-  setData(data: Data | undefined) {
+  setData(data?: Data) {
     this._mutable.data = data;
     this.actions?.data?.(data);
   }
 
-  setMessage(message: string | undefined) {
+  setMessage(message?: string) {
     this._mutable.message = message;
     this.actions?.message?.(message);
   }
