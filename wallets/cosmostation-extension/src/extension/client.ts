@@ -338,6 +338,7 @@ export class CosmostationClient implements WalletClient {
           hash: {
             value: resp['effects']['transactionDigest'],
           },
+          extends: resp;
         };
       default:
         return Promise.reject('Unmatched namespace.');
