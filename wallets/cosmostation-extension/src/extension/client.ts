@@ -1,6 +1,7 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
+  AddRaw,
   Algo,
   AuthRange,
   Block,
@@ -8,24 +9,37 @@ import {
   DirectSignDoc,
   EncodedString,
   getStringFromUint8Array,
+  isMessageDoc,
   Namespace,
   Signature,
   SignType,
   WalletAccount,
   WalletClient,
 } from '@cosmos-kit/core';
-import { CosmosWalletAccount, isCosmosDirectDoc } from '@cosmos-kit/cosmos';
-import { isEthTransactionDoc } from '@cosmos-kit/ethereum';
+import { CosmosWalletAccount } from '@cosmos-kit/cosmos';
 import {
   AddChainParams,
+  AptosPendingTransaction,
+  AptosSignMessageResponse,
   SignAminoResponse,
   SignDirectResponse,
   SignMessageResponse,
   SignOptions,
   VerifyMessageResponse,
 } from '@cosmostation/extension-client/types/message';
+import {
+  isAptosMessageDoc,
+  isAptosTransactionDoc,
+  isCosmosAminoDoc,
+  isCosmosDirectDoc,
+  isCosmosMessageDoc,
+  isEthMessageDoc,
+  isEthTransactionDoc,
+  isEthTypedDataDoc,
+  isSuiTransactionDoc,
+} from './type-guards';
 
-import { Cosmostation, WalletAddEthereumChainParam } from './types';
+import { Cosmostation, Doc, WalletAddEthereumChainParam } from './types';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
@@ -95,7 +109,7 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  async getAccounts(authRange: AuthRange) {
+  async getAccounts(authRange: AuthRange): Promise<AddRaw<WalletAccount>[]> {
     const accountsList = await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
         switch (namespace) {
@@ -194,17 +208,17 @@ export class CosmostationClient implements WalletClient {
 
   async sign(
     namespace: Namespace,
-    doc: unknown,
-    signerAddress: string,
+    doc: Doc,
+    signerAddress?: string,
     chainId?: string,
     options?: SignOptions
-  ): Promise<Signature> {
+  ): Promise<AddRaw<Signature>> {
     switch (namespace) {
       case 'cosmos':
         if (!chainId) {
           return Promise.reject('ChainId not provided.');
         }
-        if (typeof doc === 'string') {
+        if (isMessageDoc(doc)) {
           const { pub_key, signature } = (await this.client.cosmos.request({
             method: 'cos_signMessage',
             params: {
@@ -218,15 +232,22 @@ export class CosmostationClient implements WalletClient {
             signature: {
               value: signature,
             },
-            signedDoc: doc,
           };
         } else {
+          let method: string;
+          if (isCosmosDirectDoc(doc)) {
+            method = 'cos_signDirect';
+          } else if (isCosmosAminoDoc(doc)) {
+            method = 'cos_signAmino';
+          } else {
+            return Promise.reject('Unmatched doc type.');
+          }
           const {
             pub_key,
             signature,
             signed_doc,
           } = (await this.client.cosmos.request({
-            method: isCosmosDirectDoc(doc) ? 'cos_signDirect' : 'cos_signAmino',
+            method,
             params: {
               chainName: chainId,
               doc: doc,
@@ -251,7 +272,7 @@ export class CosmostationClient implements WalletClient {
           };
         }
       case 'ethereum':
-        if (typeof doc === 'string') {
+        if (isEthMessageDoc(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_sign',
             params: [signerAddress, doc],
@@ -260,30 +281,54 @@ export class CosmostationClient implements WalletClient {
             signature: {
               value: result,
             },
-            signedDoc: doc,
           };
         } else if (isEthTransactionDoc(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_signTransaction',
-            params: [signerAddress, doc],
+            params: [doc],
           })) as { result: string };
           return {
             signature: {
               value: result,
             },
-            signedDoc: doc,
+          };
+        } else if (isEthTypedDataDoc(doc)) {
+          const { result } = (await this.client.ethereum.request({
+            method: 'eth_signTypedData_v4',
+            params: [signerAddress, JSON.stringify(doc)],
+          })) as { result: string };
+          return {
+            signature: {
+              value: result,
+            },
           };
         } else {
-          const signature = (await this.client.ethereum.request({
-            method: 'eth_signTypedData_v4',
-            params: [signerAddress, doc],
+          return Promise.reject('Unmatched doc type.');
+        }
+      case 'aptos':
+        if (isAptosMessageDoc(doc)) {
+          const resp = (await this.client.aptos.request({
+            method: 'aptos_signMessage',
+            params: [doc],
+          })) as AptosSignMessageResponse;
+          return {
+            signature: {
+              value: resp.signature,
+            },
+            raw: resp,
+          };
+        } else if (isAptosTransactionDoc(doc)) {
+          const signature = (await this.client.aptos.request({
+            method: 'aptos_signTransaction',
+            params: [doc],
           })) as string;
           return {
             signature: {
               value: signature,
             },
-            signedDoc: doc,
           };
+        } else {
+          return Promise.reject('Unmatched doc type.');
         }
       default:
         return Promise.reject('Unmatched namespace.');
@@ -292,9 +337,9 @@ export class CosmostationClient implements WalletClient {
 
   async verify(
     namespace: Namespace,
-    doc: unknown,
+    signedDoc: unknown,
     signature: Signature,
-    signerAddress: string,
+    signerAddress?: string,
     chainId?: string
   ): Promise<boolean> {
     switch (namespace) {
@@ -302,20 +347,21 @@ export class CosmostationClient implements WalletClient {
         if (!chainId) {
           return Promise.reject('ChainId not provided.');
         }
-        if (typeof doc === 'string') {
+        if (isCosmosMessageDoc(signedDoc)) {
           const result = (await this.client.cosmos.request({
             method: 'cos_verifyMessage',
             params: {
               chainName: chainId,
               signer: signerAddress,
-              message: doc,
+              message: signedDoc,
               publicKey: signature.publicKey.value,
               signature: signature.signature.value,
             },
           })) as VerifyMessageResponse;
           return result;
+        } else {
+          return Promise.reject('Only support message string verification.');
         }
-        return Promise.reject('Only support message string verification.');
       default:
         return Promise.reject('Unmatched namespace.');
     }
@@ -327,19 +373,38 @@ export class CosmostationClient implements WalletClient {
     signerAddress?: string,
     chainId?: string,
     options?: unknown
-  ): Promise<Block> {
+  ): Promise<AddRaw<Block>> {
     switch (namespace) {
       case 'sui':
-        const resp = await this.client.sui.request({
-          method: 'sui_signAndExecuteTransaction',
-          params: doc,
-        });
-        return {
-          hash: {
-            value: resp['effects']['transactionDigest'],
-          },
-          extends: resp;
-        };
+        if (isSuiTransactionDoc(doc)) {
+          const suiResp = await this.client.sui.request({
+            method: 'sui_signAndExecuteTransaction',
+            params: doc,
+          });
+          return {
+            hash: {
+              value: suiResp['effects']['transactionDigest'],
+            },
+            raw: suiResp,
+          };
+        } else {
+          return Promise.reject('Unmatched doc type.');
+        }
+      case 'aptos':
+        if (isAptosTransactionDoc(doc)) {
+          const aptosResp = (await this.client.aptos.request({
+            method: 'aptos_signAndSubmitTransaction',
+            params: [doc],
+          })) as AptosPendingTransaction;
+          return {
+            hash: {
+              value: aptosResp.hash,
+            },
+            raw: aptosResp,
+          };
+        } else {
+          return Promise.reject('Unmatched doc type.');
+        }
       default:
         return Promise.reject('Unmatched namespace.');
     }

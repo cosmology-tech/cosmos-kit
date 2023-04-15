@@ -2,8 +2,8 @@ import { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
-import { ChainWallet, MainWallet, StateBase } from './bases';
-import { WalletRepoWithGivenChain } from './repository';
+import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
+import { WalletRepoWithGivenChain } from './repos';
 import {
   ChainName,
   ChainRecord,
@@ -26,7 +26,7 @@ export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
   walletRepos: WalletRepoWithGivenChain[] = [];
   defaultNameService: NameServiceName = 'icns';
-  mainWallets: MainWallet[] = [];
+  mainWallets: MainWalletBase[] = [];
   coreEmitter: EventEmitter;
   walletConnectOptions?: WalletConnectOptions;
   readonly session: Session;
@@ -36,7 +36,7 @@ export class WalletManager extends StateBase {
   constructor(
     chains: Chain[],
     assetLists: AssetList[],
-    wallets: MainWallet[],
+    wallets: MainWalletBase[],
     logger: Logger,
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
@@ -70,7 +70,7 @@ export class WalletManager extends StateBase {
   init(
     chains: Chain[],
     assetLists: AssetList[],
-    wallets: MainWallet[],
+    wallets: MainWalletBase[],
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
@@ -198,7 +198,7 @@ export class WalletManager extends StateBase {
     return this.walletRepos.filter((repo) => repo.isActive === true);
   }
 
-  getMainWallet = (walletName: WalletName): MainWallet => {
+  getMainWallet = (walletName: WalletName): MainWalletBase => {
     const wallet = this.mainWallets.find((w) => w.walletName === walletName);
 
     if (!wallet) {
@@ -227,8 +227,8 @@ export class WalletManager extends StateBase {
   getChainWallet = (
     chainName: ChainName,
     walletName: WalletName
-  ): ChainWallet => {
-    const chainWallet: ChainWallet | undefined = this.getMainWallet(
+  ): ChainWalletBase => {
+    const chainWallet: ChainWalletBase | undefined = this.getMainWallet(
       walletName
     ).getChainWallet(chainName);
 

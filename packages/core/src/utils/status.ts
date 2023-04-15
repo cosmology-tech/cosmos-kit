@@ -1,4 +1,4 @@
-import { ChainWallet } from '../bases';
+import { ChainWalletBase } from '../bases';
 import { State, WalletStatus } from '../types';
 import { ClientNotExistError, RejectedError } from './error';
 
@@ -28,7 +28,7 @@ export const getWalletStatusFromState = (
 };
 
 export const getGlobalStatusAndMessage = (
-  chainWalletList: ChainWallet[]
+  chainWalletList: ChainWalletBase[]
 ): [WalletStatus, string | undefined] => {
   let wallet = chainWalletList.find((w) => w.isWalletNotExist);
   if (wallet) return [wallet.walletStatus, wallet.message];

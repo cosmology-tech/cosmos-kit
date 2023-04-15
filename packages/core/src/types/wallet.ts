@@ -1,6 +1,6 @@
 import { SignClientTypes } from '@walletconnect/types';
 
-import { ChainWallet, MainWallet } from '../bases';
+import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainRecord } from './chain';
 import { DappEnv, Mutable } from './common';
 
@@ -118,11 +118,19 @@ export interface HttpEndpoint {
 export interface Signature {
   signature: EncodedString;
   publicKey?: PublicKey;
+  signedDoc?: unknown;
 }
 
 export interface Block {
   hash: EncodedString;
 }
+
+/**
+ * usually in returned type of functions with requesting,
+ * in case the request response has more info than type param T (usually is a standardized type).
+ * if raw is undefined, means all info are included in T
+ */
+export type AddRaw<T> = T & { raw?: unknown };
 
 /**
  * authed chain distribution across namespaces
@@ -143,7 +151,7 @@ export interface WalletClient {
    */
   connect?(authRange: AuthRange): Promise<void>;
   /**
-   * Step 2: Add Chain
+   * 2: Add Chain
    *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
    *     the wallet before other actions.
    */
@@ -162,11 +170,17 @@ export interface WalletClient {
    *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     in other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getAccounts(authRange: AuthRange): Promise<WalletAccount[]>;
+  getAccounts(authRange: AuthRange): Promise<AddRaw<WalletAccount>[]>;
   /**
    * 4: Sign Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
+   *     there can be multipule sign methods provided by wallet, i.e. signTransaction, signMessage, signDirect, signAmino etc.
+   *     we collect them all in a single sign method and practice according to the type guards of doc.
+   *     the simplest type guard example of doc is that if doc is of type `string` we'll use signMessage.
+   *     type guards can be different from wallets.
+   *     usually type guards function locates in type-guards.ts.
+   *     check the code in wallet package for detail.
    */
   sign?(
     namespace: Namespace,
@@ -174,7 +188,7 @@ export interface WalletClient {
     signerAddress?: string,
     chainId?: string,
     options?: unknown
-  ): Promise<Signature>;
+  ): Promise<AddRaw<Signature>>;
   /**
    * 5: Sign Doc
    *     address in params is used to get the private key from wallet to sign doc.
@@ -182,13 +196,14 @@ export interface WalletClient {
    */
   verify?(
     namespace: Namespace,
-    doc: unknown,
+    signedDoc: unknown,
     signature: Signature,
     signerAddress?: string,
     chainId?: string
   ): Promise<boolean>;
   /**
    * 6: Broadcast Signed Doc
+   *     or called `execute/submit` in some wallets
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
    *     return the new block.
@@ -198,7 +213,7 @@ export interface WalletClient {
     signedDoc: T,
     signerAddress?: string,
     chainId?: string
-  ): Promise<Block>;
+  ): Promise<AddRaw<Block>>;
   /**
    * 7: Sign and Broadcast Doc
    *     address in params is used to get the private key from wallet to sign doc.
@@ -210,7 +225,7 @@ export interface WalletClient {
     signerAddress?: string,
     chainId?: string,
     options?: unknown
-  ): Promise<Block>;
+  ): Promise<AddRaw<Block>>;
   /**
    * 8: Disconnect/Cancel Authorization
    */
@@ -223,10 +238,10 @@ export interface WalletClient {
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
 }
 
-export type WalletAdapter = ChainWallet | MainWallet;
+export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
-  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWallet;
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
 }
 
 export interface WalletConnectOptions {

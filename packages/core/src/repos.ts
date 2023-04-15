@@ -1,5 +1,5 @@
-import { ChainWallet } from './bases/chain-wallet';
-import { StateBase } from './bases/state';
+import { WalletRepoBase } from './bases';
+import { ChainWalletBase } from './bases/chain-wallet';
 import {
   DappEnv,
   ChainRecord,
@@ -9,28 +9,18 @@ import {
   Wallet,
   WalletClient,
   AuthRange,
-  WalletStatus,
   State,
   WalletAccount,
 } from './types';
-import { ClientNotExistError, getGlobalStatusAndMessage } from './utils';
-
-export class WalletRepo extends StateBase {
-  readonly wallets: ChainWallet[];
-
-  constructor(wallets: ChainWallet[] = []) {
-    super();
-    this.wallets = wallets;
-  }
-}
+import { ClientNotExistError } from './utils';
 
 /**
  * Store ChainWallets for a particular Wallet.
  */
-export class WalletRepoWithGivenWallet extends WalletRepo {
+export class WalletRepoWithGivenWallet extends WalletRepoBase {
   walletInfo: Wallet;
 
-  constructor(walletInfo: Wallet, wallets: ChainWallet[] = []) {
+  constructor(walletInfo: Wallet, wallets: ChainWalletBase[] = []) {
     super(wallets);
     this.walletInfo = walletInfo;
     if (wallets.findIndex((w) => w.walletName !== this.walletName) > -1) {
@@ -108,13 +98,13 @@ export class WalletRepoWithGivenWallet extends WalletRepo {
 /**
  * Store ChainWallets for a particular Chain.
  */
-export class WalletRepoWithGivenChain extends WalletRepo {
+export class WalletRepoWithGivenChain extends WalletRepoBase {
   isActive = false;
   chainRecord: ChainRecord;
   namespace = 'cosmos';
   repelWallet: boolean = true;
 
-  constructor(chainRecord: ChainRecord, wallets: ChainWallet[] = []) {
+  constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
     super(wallets);
     this.chainRecord = chainRecord;
     if (wallets.findIndex((w) => w.chainName !== this.chainName) > -1) {
@@ -167,7 +157,7 @@ export class WalletRepoWithGivenChain extends WalletRepo {
     return this.wallets.length === 1;
   }
 
-  get current(): ChainWallet | undefined {
+  get current(): ChainWalletBase | undefined {
     if (!this.repelWallet) {
       this.logger.warn(
         'when `repelWallet` is set false, `current` is always undefined.'
@@ -177,7 +167,7 @@ export class WalletRepoWithGivenChain extends WalletRepo {
     return this.wallets.find((w) => !w.isWalletDisconnected);
   }
 
-  getWallet = (walletName: WalletName): ChainWallet | undefined => {
+  getWallet = (walletName: WalletName): ChainWalletBase | undefined => {
     return this.wallets.find((w) => w.walletName === walletName);
   };
 

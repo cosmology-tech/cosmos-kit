@@ -1,5 +1,5 @@
-import { ChainWallet } from '../bases';
-import { WalletRepoWithGivenChain } from '../repository';
+import { ChainWalletBase } from '../bases';
+import { WalletRepoWithGivenChain } from '../repos';
 import { Dispatch } from './common';
 import { DownloadInfo, Wallet, WalletClient } from './wallet';
 
@@ -27,11 +27,11 @@ export interface WalletViewProps {
 }
 
 export interface ConnectedWalletViewProps extends WalletViewProps {
-  wallets: ChainWallet[];
+  wallets: ChainWalletBase[];
 }
 
 export interface RejectedWalletViewProps extends WalletViewProps {
-  wallets: ChainWallet[];
+  wallets: ChainWalletBase[];
 }
 
 export interface NotExistWalletViewProps extends WalletViewProps {

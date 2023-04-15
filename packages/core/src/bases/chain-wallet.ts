@@ -10,7 +10,7 @@ import {
 import { getIsLazy, getFastestEndpoint, isValidEndpoint } from '../utils';
 import { WalletBase } from './wallet';
 
-export abstract class ChainWallet extends WalletBase {
+export abstract class ChainWalletBase extends WalletBase {
   protected _chainRecord: ChainRecord;
   rpcEndpoints: (string | ExtendedHttpEndpoint)[] = [];
   restEndpoints: (string | ExtendedHttpEndpoint)[] = [];

@@ -8,13 +8,13 @@ import {
   WalletClient,
   WalletStatus,
 } from '../types';
-import { ChainWallet } from './chain-wallet';
+import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 import EventEmitter from 'events';
 import { getGlobalStatusAndMessage } from '../utils';
 
-export abstract class MainWallet extends WalletBase {
-  protected _chainWalletMap?: Map<ChainName, ChainWallet>;
+export abstract class MainWalletBase extends WalletBase {
+  protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
   preferredEndpoints?: EndpointOptions['endpoints'];
   ChainWallet: IChainWallet;
   isCurrent = false;
@@ -84,7 +84,7 @@ export abstract class MainWallet extends WalletBase {
     return this._chainWalletMap;
   }
 
-  getChainWallet = (chainName: string): ChainWallet | undefined => {
+  getChainWallet = (chainName: string): ChainWalletBase | undefined => {
     return this.chainWalletMap?.get(chainName);
   };
 

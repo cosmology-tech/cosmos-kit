@@ -1,2 +1,2 @@
 export * from './name-service';
-export * from './verify';
+export * from './type-guards';

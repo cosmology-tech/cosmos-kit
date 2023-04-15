@@ -1,4 +1,4 @@
-import { ChainName } from '@cosmos-kit/core';
+import { ChainName, isArray } from '@cosmos-kit/core';
 import { chains } from 'chain-registry';
 
 export function isCosmosChain(chainName: ChainName) {
@@ -9,6 +9,6 @@ export function isCosmosChain(chainName: ChainName) {
   }
 }
 
-export function isCosmosDirectDoc(doc: unknown) {
-  return Object.values(doc).findIndex((v) => ArrayBuffer.isView(v)) !== -1;
+export function isCosmosDirectDoc(doc: unknown): boolean {
+  return Object.values(doc).findIndex((v) => isArray(v, 'Uint8Array')) !== -1;
 }

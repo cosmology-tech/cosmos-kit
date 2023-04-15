@@ -1,12 +1,12 @@
-import { ChainWallet } from './bases';
-import { WalletRepoWithGivenChain } from './repository';
+import { ChainWalletBase } from './bases';
+import { WalletRepoWithGivenChain } from './repos';
 import { ChainContext, ChainWalletContext, WalletStatus } from './types';
 
 export class ChainWalletConverter {
-  wallet?: ChainWallet;
+  wallet?: ChainWalletBase;
   walletRepo?: WalletRepoWithGivenChain;
 
-  constructor(wallet?: ChainWallet, walletRepo?: WalletRepoWithGivenChain) {
+  constructor(wallet?: ChainWalletBase, walletRepo?: WalletRepoWithGivenChain) {
     this.wallet = wallet;
     this.walletRepo = walletRepo;
   }
