@@ -1,8 +1,8 @@
 ## Hook - useChain
 
-- required provider: [**ChainProvider**](/provider/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite`
+- required provider: [**ChainProvider**](/provider-and-hooks/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite`
 
-> To use `useChain` with `ChainProvider` from `@cosmos-kit/react-lite`, property [`walletModal`](/provider/chain-provider#walletmodal) must be provided. Or you can choose `ChainProvider` from `@cosmos-kit/react`, which provides `DefaultModal`. Or you can use [`useChainWallet`](/hooks/use-chain-wallet) instead.
+> To use `useChain` with `ChainProvider` from `@cosmos-kit/react-lite`, property [`walletModal`](/provider-and-hooks/chain-provider#walletmodal) must be provided. Or you can choose `ChainProvider` from `@cosmos-kit/react`, which provides `DefaultModal`. Or you can use [`useChainWallet`](/hooks/use-chain-wallet) instead.
 
 - parameters:
     - **chainName**: `ChainName` ( = `string` );
@@ -41,8 +41,8 @@
 | **closeView**      | close modal       | - | `void` | N |
 | **connect**      | connect wallet       | **wallet**?: `WalletName` | `void` | Y |
 | **disconnect**      | disconnect current selected wallet       | - | `void` | Y |
-| **getRpcEndpoint** | return rpc endpoint, `isLazy` explanation is [here](/provider/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
-| **getRestEndpoint**  | return rest endpoint, `isLazy` explanation is [here](/provider/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
+| **getRpcEndpoint** | return rpc endpoint, `isLazy` explanation is [here](/provider-and-hooks/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
+| **getRestEndpoint**  | return rest endpoint, `isLazy` explanation is [here](/provider-and-hooks/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
 | **getStargateClient**  | - | - | `StargateClient` | Y |
 | **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
 | **getSigningStargateClient**  | always vaildate endpoint in method | - | `SigningStargateClient` | Y |

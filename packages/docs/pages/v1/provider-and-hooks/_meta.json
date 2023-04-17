@@ -1,5 +1,5 @@
 {
-  "index": "Introduction",
+  "chain-provider": "Chain Provider",
   "use-chain": "- useChain",
   "use-chain-wallet": "- useChainWallet",
   "use-manager": "- useManager",

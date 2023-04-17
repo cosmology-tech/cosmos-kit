@@ -1,0 +1,25 @@
+## Hook - useModalTheme
+
+If you're using default modal provided by CosmosKit, you might need this hook to get and set modal theme.
+
+- required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider) from `@cosmos-kit/react`
+
+- return type: [**ModalThemeContext**](#type-modalthemeconext)
+
+## Type - ModalThemeContext
+
+### properties
+
+| Name      | Description | Type | Default |
+| ----------- | ----------- | -- | -- |
+| **modalTheme**      | currently `light` or `dark` are available   | `ModalTheme` | `light` |
+
+### methods
+
+| Name      | Description | Parameters | Return Type | Is Async |
+| ----------- | ----------- | -- | -- | -- |
+| **setModalTheme**      |   -   | **theme**: `ModalTheme` | `void` | N |
+
+## Examples
+
+### [dashboard](https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/example/pages/index.tsx)
