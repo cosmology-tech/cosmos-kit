@@ -2,7 +2,7 @@ import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainRecord } from './chain';
-import { DappEnv, Mutable } from './common';
+import { DappEnv, EncodedString, Mutable } from './common';
 
 export interface Key {
   readonly name: string;
@@ -84,12 +84,15 @@ export type Namespace =
   | 'aptos'
   | 'sui';
 
-export interface EncodedString {
+export interface EncodedAddress {
   value: string;
   encoding?: BufferEncoding | 'bech32';
 }
 
 export interface PublicKey extends EncodedString {
+  /**
+   * digital key scheme algorithm
+   */
   algo?: string;
 }
 
@@ -98,7 +101,7 @@ export interface WalletAccount {
    * identifier in BlockChain.
    * in Cosmos, it's the address formatted using Bech32;
    */
-  address: EncodedString;
+  address: EncodedAddress;
   namespace: Namespace;
   chainId?: string;
   publicKey?: PublicKey;
@@ -123,12 +126,14 @@ export interface Signature {
 
 export interface Block {
   hash: EncodedString;
+  height?: string;
+  timestamp?: string;
 }
 
 /**
  * usually in returned type of functions with requesting,
  * in case the request response has more info than type param T (usually is a standardized type).
- * if raw is undefined, means all info are included in T
+ * if raw is undefined, means all info are already included in T
  */
 export type AddRaw<T> = T & { raw?: unknown };
 
@@ -141,13 +146,16 @@ export type AuthRange = {
   };
 };
 
+/**
+ * A standardized WalletCLient interface suitable for all kinds if networks
+ */
 export interface WalletClient {
   /**
    * 1: Connect/Authorize
-   *     or called `onboard/requestAccount/enable` in some wallets,
-   *     to build authed connection between dapp and wallet.
-   *     in some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
-   *     to distinguish with `connect` method in ChainWallet, we make it `enable` here.
+   *     Or called `onboard/requestAccount/enable` in some wallets.
+   *     This method is used to build authed connection between dapp and wallet.
+   *     In some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
+   *     To distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
   connect?(authRange: AuthRange): Promise<void>;
   /**
@@ -167,20 +175,25 @@ export interface WalletClient {
    * 3: Get Account
    *     `address` especially required in returned value.
    *     `address` is the user identifier in BlockChain, directing to a public/private key pair.
-   *     in Cosmos it's `Bech32Address`, which varies among chains/networks.
-   *     in other ecosystem it could be public key and irrespective of chains/networks.
+   *     In Cosmos it's `Bech32Address`, which varies among chains/networks.
+   *     In other ecosystem it could be public key and irrespective of chains/networks.
    */
   getAccounts(authRange: AuthRange): Promise<AddRaw<WalletAccount>[]>;
   /**
    * 4: Sign Doc
-   *     address in params is used to get the private key from wallet to sign doc.
-   *     return the signature.
-   *     there can be multipule sign methods provided by wallet, i.e. signTransaction, signMessage, signDirect, signAmino etc.
-   *     we collect them all in a single sign method and practice according to the type guards of doc.
-   *     the simplest type guard example of doc is that if doc is of type `string` we'll use signMessage.
-   *     type guards can be different from wallets.
-   *     usually type guards function locates in type-guards.ts.
-   *     check the code in wallet package for detail.
+   *     Address in params is used to get the private key from wallet to sign doc.
+   *     Return the signature.
+   *     There can be multipule sign methods provided by wallet, i.e. signTransaction, signMessage, signDirect, signAmino etc.
+   *     We collect them all in a single sign method and practice according to the type guards of doc.
+   *     The simplest type guard example of doc is that if doc is of type `string` we'll use signMessage.
+   *     Type guards can be different from wallets.
+   *     Usually type guards function locates in type-guards.ts.
+   *     Check the code in wallet package for detail.
+   *
+   * @param doc
+   *     The type of doc can varies from different wallets and namespaces.
+   *
+   * @returns the signature
    */
   sign?(
     namespace: Namespace,
@@ -190,9 +203,11 @@ export interface WalletClient {
     options?: unknown
   ): Promise<AddRaw<Signature>>;
   /**
-   * 5: Sign Doc
-   *     address in params is used to get the private key from wallet to sign doc.
-   *     return the signature.
+   * 5: Verify Doc
+   *     To check the signature matches the signedDoc.
+   *
+   * @param signedDoc
+   *     The type of signedDoc can varies from different wallets and namespaces.
    */
   verify?(
     namespace: Namespace,
@@ -207,17 +222,26 @@ export interface WalletClient {
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
    *     return the new block.
+   *
+   * @param signedDoc
+   *     The type of signedDoc can varies from different wallets and namespaces.
    */
-  broadcast?<T>(
+  broadcast?(
     namespace: Namespace,
-    signedDoc: T,
+    signedDoc: unknown,
     signerAddress?: string,
-    chainId?: string
+    chainId?: string,
+    options?: unknown
   ): Promise<AddRaw<Block>>;
   /**
    * 7: Sign and Broadcast Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
+   *
+   * @param doc
+   *     The type of doc can varies from different wallets and namespaces.
+   *     Please note that if the doc is of type string and be regarded as bytes string, the default encoding will be regrarded as `hex`.
+   *     If you are prividing non-hex string, use EncodedString type instead.
    */
   signAndBroadcast(
     namespace: Namespace,
@@ -234,8 +258,8 @@ export interface WalletClient {
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
 
-  on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
-  off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
+  // on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
+  // off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
 }
 
 export type WalletAdapter = ChainWalletBase | MainWalletBase;

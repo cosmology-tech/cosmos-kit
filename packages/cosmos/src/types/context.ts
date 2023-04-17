@@ -23,10 +23,10 @@ import {
   ChainWalletContext,
   SignOptions,
   Wallet,
-  WalletRepo,
+  WalletRepoWithGivenChain,
 } from '@cosmos-kit/core';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { BroadcastMode, CosmosClientType, DirectSignDoc } from './common';
+import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { BroadcastMode, CosmosClientType } from './common';
 
 export interface CosmosChainWalletContext extends ChainWalletContext {
   getStargateClient: () => Promise<StargateClient>;
@@ -67,7 +67,7 @@ export interface CosmosChainWalletContext extends ChainWalletContext {
   ) => Promise<AminoSignResponse>;
   signDirect: (
     signer: string,
-    signDoc: DirectSignDoc,
+    signDoc: SignDoc,
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
@@ -75,7 +75,7 @@ export interface CosmosChainWalletContext extends ChainWalletContext {
 
 export interface CosmosChainContext extends CosmosChainWalletContext {
   wallet: Wallet | undefined;
-  walletRepo: WalletRepo;
+  walletRepo: WalletRepoWithGivenChain;
   openView: () => void;
   closeView: () => void;
 }

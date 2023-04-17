@@ -3,7 +3,7 @@ import {
   SigningCosmWasmClient,
   SigningCosmWasmClientOptions,
 } from '@cosmjs/cosmwasm-stargate';
-import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
+import { EncodeObject, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   calculateFee,
   GasPrice,
@@ -13,8 +13,13 @@ import {
   StargateClientOptions,
   StdFee,
 } from '@cosmjs/stargate';
-import { ChainWallet, Mutable, Namespace, State } from '@cosmos-kit/core';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import {
+  ChainWalletBase,
+  getUint8ArrayFromString,
+  Mutable,
+  State,
+} from '@cosmos-kit/core';
+import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {
   CosmosClientType,
   CosmosSignType,
@@ -22,15 +27,18 @@ import {
 } from './types/common';
 import { getNameServiceRegistryFromChainName } from './utils';
 import { CosmosNameService } from './name-service';
+import { CosmosSignature, CosmosWalletAccount } from './types';
+import { AccountData, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 
-export class CosmosChainWallet extends ChainWallet {
-  offlineSigner?: OfflineSigner;
-  namespace: Namespace = 'cosmos';
+export class CosmosChainWalletBase extends ChainWalletBase {
   clientMutable: Mutable<CosmosWalletClient> = { state: State.Init };
 
-  constructor(wallet: ChainWallet) {
+  constructor(wallet: ChainWalletBase) {
     super(wallet.walletInfo, wallet.chainRecord);
     Object.assign(this, wallet);
+    if (this.namespace !== 'cosmos') {
+      throw new Error('Should init with a Cosmos chain wallet.');
+    }
   }
 
   get client() {
@@ -60,6 +68,71 @@ export class CosmosChainWallet extends ChainWallet {
     return this.chainRecord.clientOptions?.preferredSignType || 'amino';
   }
 
+  protected async _getAccounts(): Promise<AccountData[]> {
+    const accounts: CosmosWalletAccount[] = (await this.client?.getAccounts({
+      cosmos: { chainIds: [this.chainId] },
+    })) as CosmosWalletAccount[];
+    return accounts.map(
+      ({ address, publicKey }) =>
+        ({
+          address: address.value,
+          pubkey: getUint8ArrayFromString(publicKey.value, publicKey.encoding),
+          algo: publicKey.algo,
+        } as AccountData)
+    );
+  }
+
+  getOfflineSignerAmino(): OfflineAminoSigner {
+    return {
+      getAccounts: this._getAccounts,
+      signAmino: async (signerAddress: string, signDoc: StdSignDoc) => {
+        const signature: CosmosSignature = (await this.client?.sign(
+          'cosmos',
+          signDoc,
+          signerAddress,
+          this.chainId
+        )) as CosmosSignature;
+        return {
+          signed: (signature.signedDoc || signDoc) as StdSignDoc,
+          signature: {
+            signature: signature.signature.value,
+            pub_key: signature.publicKey,
+          },
+        };
+      },
+    };
+  }
+
+  getOfflineSignerDirect(): OfflineDirectSigner {
+    return {
+      getAccounts: this._getAccounts,
+      signDirect: async (signerAddress: string, signDoc: SignDoc) => {
+        const signature: CosmosSignature = (await this.client?.sign(
+          'cosmos',
+          signDoc,
+          signerAddress,
+          this.chainId
+        )) as CosmosSignature;
+        return {
+          signed: (signature.signedDoc || signDoc) as SignDoc,
+          signature: {
+            signature: signature.signature.value,
+            pub_key: signature.publicKey,
+          },
+        };
+      },
+    };
+  }
+
+  get offlineSigner(): OfflineAminoSigner | OfflineDirectSigner {
+    switch (this.preferredSignType) {
+      case 'amino':
+        return this.getOfflineSignerAmino();
+      case 'direct':
+        return this.getOfflineSignerDirect();
+    }
+  }
+
   getStargateClient = async (): Promise<StargateClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
     return StargateClient.connect(rpcEndpoint, this.stargateOptions);
@@ -76,21 +149,11 @@ export class CosmosChainWallet extends ChainWallet {
     return new CosmosNameService(client, registry);
   };
 
-  initOfflineSigner = async (): Promise<void> => {
-    if (typeof this.client === 'undefined') {
-      throw new Error('WalletClient is not initialized');
-    }
-    this.offlineSigner = await this.client.getOfflineSigner(
-      this.chainId,
-      this.preferredSignType
-    );
-  };
-
   getSigningStargateClient = async (): Promise<SigningStargateClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (!this.offlineSigner) {
-      await this.initOfflineSigner();
+    if (!this.client) {
+      return Promise.reject('WalletClient is not initialized');
     }
 
     return SigningStargateClient.connectWithSigner(
@@ -103,8 +166,8 @@ export class CosmosChainWallet extends ChainWallet {
   getSigningCosmWasmClient = async (): Promise<SigningCosmWasmClient> => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
-    if (!this.offlineSigner) {
-      await this.initOfflineSigner();
+    if (!this.client) {
+      return Promise.reject('WalletClient is not initialized');
     }
 
     return SigningCosmWasmClient.connectWithSigner(

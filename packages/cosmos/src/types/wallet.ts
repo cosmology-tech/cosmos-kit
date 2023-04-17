@@ -1,16 +1,28 @@
-import { EncodedString, PublicKey, WalletAccount } from '@cosmos-kit/core';
+import { Algo } from '@cosmjs/amino';
+import {
+  EncodedString,
+  PublicKey,
+  Signature,
+  WalletAccount,
+} from '@cosmos-kit/core';
 
-export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
+export interface CosmosPublicKey1 extends PublicKey {
+  algo: Algo;
+}
+
+export interface CosmosPublicKey2 extends PublicKey {
+  type: string;
+}
 
 export interface CosmosWalletAccount extends WalletAccount {
   namespace: 'cosmos';
   chainId: string;
   username: string;
-  /**
-   * digital key scheme for creating digital signatures
-   */
-  algo: Algo;
-  publicKey: PublicKey;
+  publicKey: CosmosPublicKey1;
   rawAddress?: EncodedString;
   isLedger?: boolean;
+}
+
+export interface CosmosSignature extends Signature {
+  publicKey: CosmosPublicKey2;
 }

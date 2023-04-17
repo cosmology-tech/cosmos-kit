@@ -1,13 +1,23 @@
 import { hasKeyType, isArray } from '@cosmos-kit/core';
-import { AptosDoc, CosmosDoc, EthereumDoc, SuiDoc } from './types';
+import {
+  AptosSignDoc,
+  CosmosBroadcastDoc,
+  CosmosSignDoc,
+  EthereumSignDoc,
+  SuiSignDoc,
+} from './types';
 
 // Cosmos Network
 
-export function isCosmosMessageDoc(doc: unknown): doc is EthereumDoc.Message {
+export function isCosmosMessageSignDoc(
+  doc: unknown
+): doc is EthereumSignDoc.Message {
   return typeof doc === 'string';
 }
 
-export function isCosmosDirectDoc(doc: unknown): doc is CosmosDoc.Direct {
+export function isCosmosDirectSignDoc(
+  doc: unknown
+): doc is CosmosSignDoc.Direct {
   return hasKeyType(doc, {
     chain_id: 'string',
     account_number: 'number',
@@ -16,7 +26,7 @@ export function isCosmosDirectDoc(doc: unknown): doc is CosmosDoc.Direct {
   });
 }
 
-export function isCosmosAminoDoc(doc: unknown): doc is CosmosDoc.Amino {
+export function isCosmosAminoSignDoc(doc: unknown): doc is CosmosSignDoc.Amino {
   return (
     hasKeyType(doc, {
       chain_id: 'string',
@@ -37,20 +47,30 @@ export function isCosmosAminoDoc(doc: unknown): doc is CosmosDoc.Amino {
   );
 }
 
+export function isCosmosTransactionBroadcastDoc(
+  doc: unknown
+): doc is CosmosBroadcastDoc.Transaction {
+  return typeof doc === 'string' || isArray(doc, 'Uint8Array');
+}
+
 // Ethereum Network
 
-export function isEthMessageDoc(doc: unknown): doc is EthereumDoc.Message {
+export function isEthMessageSignDoc(
+  doc: unknown
+): doc is EthereumSignDoc.Message {
   return typeof doc === 'string';
 }
 
-export function isEthTransactionDoc(doc: unknown) {
+export function isEthTransactionSignDoc(doc: unknown) {
   return hasKeyType(doc, {
     from: 'string',
     date: 'string',
   });
 }
 
-export function isEthTypedDataDoc(doc: unknown): doc is EthereumDoc.TypedData {
+export function isEthTypedDataSignDoc(
+  doc: unknown
+): doc is EthereumSignDoc.TypedData {
   return (
     hasKeyType(doc, {
       domain: 'object',
@@ -66,16 +86,18 @@ export function isEthTypedDataDoc(doc: unknown): doc is EthereumDoc.TypedData {
 
 // Apots Network
 
-export function isAptosMessageDoc(doc: unknown): doc is AptosDoc.Message {
+export function isAptosMessageSignDoc(
+  doc: unknown
+): doc is AptosSignDoc.Message {
   return (
     typeof doc === 'string' ||
     hasKeyType(doc, { message: 'string', nounce: 'number' })
   );
 }
 
-export function isAptosTransactionDoc(
+export function isAptosTransactionSignDoc(
   doc: unknown
-): doc is AptosDoc.Transaction {
+): doc is AptosSignDoc.Transaction {
   return (
     hasKeyType(doc, { function: 'string', type: 'number' }) &&
     isArray(doc['type_arguments'], 'string') &&
@@ -85,6 +107,8 @@ export function isAptosTransactionDoc(
 
 // Sui Network
 
-export function isSuiTransactionDoc(doc: unknown): doc is SuiDoc.Transaction {
+export function isSuiTransactionSignDoc(
+  doc: unknown
+): doc is SuiSignDoc.Transaction {
   return hasKeyType(doc, { kind: 'string', data: 'object' });
 }

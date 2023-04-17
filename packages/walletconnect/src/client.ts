@@ -464,7 +464,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerAmino(chainId: string) {
     return {
-      getAccountss: async () => [await this.getAccounts(chainId)],
+      getAccounts: async () => [await this.getAccounts(chainId)],
       signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
         this.signAmino(chainId, signerAddress, signDoc),
     } as OfflineAminoSigner;
@@ -472,7 +472,7 @@ export class WCClient implements WalletClient {
 
   getOfflineSignerDirect(chainId: string) {
     return {
-      getAccountss: async () => await this.getAccounts([chainId]),
+      getAccounts: async () => await this.getAccounts([chainId]),
       signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
         this.signDirect(chainId, signerAddress, signDoc),
     } as OfflineDirectSigner;

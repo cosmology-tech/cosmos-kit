@@ -89,3 +89,8 @@ export interface NameServiceRegistry {
   getQueryMsg: (address: string) => any;
   slip173: string;
 }
+
+export interface EncodedString {
+  value: string;
+  encoding?: BufferEncoding;
+}

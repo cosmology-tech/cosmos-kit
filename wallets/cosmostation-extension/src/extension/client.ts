@@ -1,18 +1,12 @@
-import { StdSignDoc } from '@cosmjs/amino';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { Algo } from '@cosmjs/amino';
 import {
   AddRaw,
-  Algo,
   AuthRange,
   Block,
-  BroadcastMode,
-  DirectSignDoc,
-  EncodedString,
   getStringFromUint8Array,
   isMessageDoc,
   Namespace,
   Signature,
-  SignType,
   WalletAccount,
   WalletClient,
 } from '@cosmos-kit/core';
@@ -21,6 +15,8 @@ import {
   AddChainParams,
   AptosPendingTransaction,
   AptosSignMessageResponse,
+  SendTransactionMode,
+  SendTransactionResponse,
   SignAminoResponse,
   SignDirectResponse,
   SignMessageResponse,
@@ -28,18 +24,24 @@ import {
   VerifyMessageResponse,
 } from '@cosmostation/extension-client/types/message';
 import {
-  isAptosMessageDoc,
-  isAptosTransactionDoc,
-  isCosmosAminoDoc,
-  isCosmosDirectDoc,
-  isCosmosMessageDoc,
-  isEthMessageDoc,
-  isEthTransactionDoc,
-  isEthTypedDataDoc,
-  isSuiTransactionDoc,
+  isAptosMessageSignDoc,
+  isAptosTransactionSignDoc,
+  isCosmosAminoSignDoc,
+  isCosmosDirectSignDoc,
+  isCosmosMessageSignDoc,
+  isCosmosTransactionBroadcastDoc,
+  isEthMessageSignDoc,
+  isEthTransactionSignDoc,
+  isEthTypedDataSignDoc,
+  isSuiTransactionSignDoc,
 } from './type-guards';
 
-import { Cosmostation, Doc, WalletAddEthereumChainParam } from './types';
+import {
+  CosmosBroadcastDoc,
+  Cosmostation,
+  SignDoc,
+  WalletAddEthereumChainParam,
+} from './types';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
@@ -140,8 +142,8 @@ export class CosmostationClient implements WalletClient {
                   publicKey: {
                     value: getStringFromUint8Array(key.publicKey, 'hex'),
                     encoding: 'hex',
+                    algo: key.algo,
                   },
-                  algo: key.algo,
                 } as CosmosWalletAccount;
               })
             );
@@ -208,7 +210,7 @@ export class CosmostationClient implements WalletClient {
 
   async sign(
     namespace: Namespace,
-    doc: Doc,
+    doc: SignDoc,
     signerAddress?: string,
     chainId?: string,
     options?: SignOptions
@@ -235,9 +237,9 @@ export class CosmostationClient implements WalletClient {
           };
         } else {
           let method: string;
-          if (isCosmosDirectDoc(doc)) {
+          if (isCosmosDirectSignDoc(doc)) {
             method = 'cos_signDirect';
-          } else if (isCosmosAminoDoc(doc)) {
+          } else if (isCosmosAminoSignDoc(doc)) {
             method = 'cos_signAmino';
           } else {
             return Promise.reject('Unmatched doc type.');
@@ -272,7 +274,7 @@ export class CosmostationClient implements WalletClient {
           };
         }
       case 'ethereum':
-        if (isEthMessageDoc(doc)) {
+        if (isEthMessageSignDoc(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_sign',
             params: [signerAddress, doc],
@@ -282,7 +284,7 @@ export class CosmostationClient implements WalletClient {
               value: result,
             },
           };
-        } else if (isEthTransactionDoc(doc)) {
+        } else if (isEthTransactionSignDoc(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_signTransaction',
             params: [doc],
@@ -292,7 +294,7 @@ export class CosmostationClient implements WalletClient {
               value: result,
             },
           };
-        } else if (isEthTypedDataDoc(doc)) {
+        } else if (isEthTypedDataSignDoc(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_signTypedData_v4',
             params: [signerAddress, JSON.stringify(doc)],
@@ -306,7 +308,7 @@ export class CosmostationClient implements WalletClient {
           return Promise.reject('Unmatched doc type.');
         }
       case 'aptos':
-        if (isAptosMessageDoc(doc)) {
+        if (isAptosMessageSignDoc(doc)) {
           const resp = (await this.client.aptos.request({
             method: 'aptos_signMessage',
             params: [doc],
@@ -317,7 +319,7 @@ export class CosmostationClient implements WalletClient {
             },
             raw: resp,
           };
-        } else if (isAptosTransactionDoc(doc)) {
+        } else if (isAptosTransactionSignDoc(doc)) {
           const signature = (await this.client.aptos.request({
             method: 'aptos_signTransaction',
             params: [doc],
@@ -347,7 +349,7 @@ export class CosmostationClient implements WalletClient {
         if (!chainId) {
           return Promise.reject('ChainId not provided.');
         }
-        if (isCosmosMessageDoc(signedDoc)) {
+        if (isCosmosMessageSignDoc(signedDoc)) {
           const result = (await this.client.cosmos.request({
             method: 'cos_verifyMessage',
             params: {
@@ -367,6 +369,46 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
+  async broadcast(
+    namespace: Namespace,
+    signedDoc: CosmosBroadcastDoc.Transaction,
+    signerAddress?: string,
+    chainId?: string,
+    options?: {
+      mode: SendTransactionMode;
+    }
+  ): Promise<AddRaw<Block>> {
+    switch (namespace) {
+      case 'cosmos':
+        if (typeof options.mode === 'undefined') {
+          return Promise.reject('Please provide broadcast mode.');
+        }
+        if (isCosmosTransactionBroadcastDoc(signedDoc)) {
+          const response = (await this.client.cosmos.request({
+            method: 'cos_sendTransaction',
+            params: {
+              chainName: chainId,
+              txBytes: signedDoc,
+              mode: options.mode,
+            },
+          })) as SendTransactionResponse;
+          const { txhash, height, timestamp } = response.tx_response;
+          return {
+            hash: {
+              value: txhash,
+            },
+            height: height as string,
+            timestamp: timestamp as string,
+            raw: response,
+          };
+        } else {
+          return Promise.reject('Unmatched doc type.');
+        }
+      default:
+        return Promise.reject('Unmatched namespace.');
+    }
+  }
+
   async signAndBroadcast(
     namespace: Namespace,
     doc: unknown,
@@ -376,7 +418,7 @@ export class CosmostationClient implements WalletClient {
   ): Promise<AddRaw<Block>> {
     switch (namespace) {
       case 'sui':
-        if (isSuiTransactionDoc(doc)) {
+        if (isSuiTransactionSignDoc(doc)) {
           const suiResp = await this.client.sui.request({
             method: 'sui_signAndExecuteTransaction',
             params: doc,
@@ -391,7 +433,7 @@ export class CosmostationClient implements WalletClient {
           return Promise.reject('Unmatched doc type.');
         }
       case 'aptos':
-        if (isAptosTransactionDoc(doc)) {
+        if (isAptosTransactionSignDoc(doc)) {
           const aptosResp = (await this.client.aptos.request({
             method: 'aptos_signAndSubmitTransaction',
             params: [doc],
@@ -400,6 +442,7 @@ export class CosmostationClient implements WalletClient {
             hash: {
               value: aptosResp.hash,
             },
+            height: aptosResp.sequence_number,
             raw: aptosResp,
           };
         } else {
@@ -426,42 +469,18 @@ export class CosmostationClient implements WalletClient {
     );
   }
 
-  on(type: string, listener: EventListenerOrEventListenerObject): void {
-    const event = this.cosmos.on(type, listener);
-    const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =
-      this.eventMap.get(type) || new Map();
-    typeEventMap.set(listener, event);
-    this.eventMap.set(type, typeEventMap);
-  }
+  // on(type: string, listener: EventListenerOrEventListenerObject): void {
+  //   const event = this.cosmos.on(type, listener);
+  //   const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =
+  //     this.eventMap.get(type) || new Map();
+  //   typeEventMap.set(listener, event);
+  //   this.eventMap.set(type, typeEventMap);
+  // }
 
-  off(type: string, listener: EventListenerOrEventListenerObject): void {
-    const event = this.eventMap.get(type)?.get(listener);
-    if (event) {
-      this.cosmos.off(event);
-    }
-  }
-
-  getOfflineSigner(chainId: string, preferredSignType?: SignType) {
-    switch (preferredSignType) {
-      case 'amino':
-        return this.getOfflineSignerAmino(chainId);
-      case 'direct':
-        return this.getOfflineSignerDirect(chainId);
-      default:
-        return this.getOfflineSignerAmino(chainId);
-    }
-    // return this.ikeplr.getOfflineSignerAuto(chainId);
-  }
-
-  getOfflineSignerAmino(chainId: string) {
-    return this.ikeplr.getOfflineSignerOnlyAmino(chainId);
-  }
-
-  getOfflineSignerDirect(chainId: string) {
-    return this.ikeplr.getOfflineSigner(chainId) as OfflineDirectSigner;
-  }
-
-  async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
-    return await this.ikeplr.sendTx(chainId, tx, mode);
-  }
+  // off(type: string, listener: EventListenerOrEventListenerObject): void {
+  //   const event = this.eventMap.get(type)?.get(listener);
+  //   if (event) {
+  //     this.cosmos.off(event);
+  //   }
+  // }
 }
