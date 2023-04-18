@@ -151,13 +151,13 @@ export type AuthRange = {
  */
 export interface WalletClient {
   /**
-   * 1: Connect/Authorize
-   *     Or called `onboard/requestAccount/enable` in some wallets.
+   * 1: Enable/Authorize Connection
+   *     Or called `onboard/requestAccount/connect` in some wallets.
    *     This method is used to build authed connection between dapp and wallet.
    *     In some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
    *     To distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  connect?(authRange: AuthRange): Promise<void>;
+  enable?(authRange: AuthRange): Promise<void>;
   /**
    * 2: Add Chain
    *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
@@ -218,7 +218,7 @@ export interface WalletClient {
   ): Promise<boolean>;
   /**
    * 6: Broadcast Signed Doc
-   *     or called `execute/submit` in some wallets
+   *     or called `execute/submit` in some wallets or networks
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
    *     return the new block.
@@ -251,9 +251,10 @@ export interface WalletClient {
     options?: unknown
   ): Promise<AddRaw<Block>>;
   /**
-   * 8: Disconnect/Cancel Authorization
+   * 8: Disable/Cancel Authorization
+   *     Or called `disconnect` in some wallets.
    */
-  disconnect?: (authRange: AuthRange) => Promise<void>;
+  disable?: (authRange: AuthRange) => Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;

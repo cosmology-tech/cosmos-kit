@@ -62,7 +62,7 @@ export class CosmostationClient implements WalletClient {
     return this.client.providers.keplr;
   }
 
-  async connect(authRange: AuthRange): Promise<void> {
+  async enable(authRange: AuthRange): Promise<void> {
     await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
         switch (namespace) {
@@ -453,7 +453,7 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  async disconnect(authRange: AuthRange) {
+  async disable(authRange: AuthRange) {
     await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
         switch (namespace) {

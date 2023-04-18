@@ -102,7 +102,7 @@ export abstract class ChainWalletBase extends WalletBase {
     this.setMessage(void 0);
 
     try {
-      await this.client.connect?.([this.chainId]);
+      await this.client.enable?.([this.chainId]);
 
       let account: WalletAccount;
       try {
