@@ -1,3 +1,5 @@
+import { OS } from '@cosmos-kit/core';
+
 const WALLETCONNECT_DEEPLINK_CHOICE = 'WALLETCONNECT_DEEPLINK_CHOICE';
 
 export const CoreUtil = {
@@ -5,7 +7,7 @@ export const CoreUtil = {
     return url.startsWith('http://') || url.startsWith('https://');
   },
 
-  formatNativeUrl(appUrl: string, wcUri: string, name: string): string {
+  formatNativeUrl(appUrl: string, wcUri: string, os: OS, name: string): string {
     if (CoreUtil.isHttpUrl(appUrl)) {
       return this.formatUniversalUrl(appUrl, wcUri, name);
     }

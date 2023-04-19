@@ -307,7 +307,24 @@ export class WCClient implements WalletClient {
   }
 
   get nativeUrl() {
-    return this.appUrl.data?.native;
+    const native = this.appUrl.data?.native;
+    if (typeof native === 'string' || !native) {
+      return native;
+    } else {
+      const { android, ios, macos, windows } = native;
+      switch (this.env?.os) {
+        case 'android':
+          return android;
+        case 'ios':
+          return ios;
+        case 'macos':
+          return macos;
+        case 'windows':
+          return windows;
+        default:
+          throw new Error(`Unknown os: ${this.env?.os}.`);
+      }
+    }
   }
 
   get universalUrl() {
@@ -324,7 +341,7 @@ export class WCClient implements WalletClient {
       href = (
         this.walletInfo.walletconnect.formatNativeUrl ||
         CoreUtil.formatNativeUrl
-      )(this.nativeUrl, this.qrUrl.data, this.walletName);
+      )(this.nativeUrl, this.qrUrl.data, this.env?.os, this.walletName);
     } else if (this.universalUrl) {
       href = (
         this.walletInfo.walletconnect.formatNativeUrl ||

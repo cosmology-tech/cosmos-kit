@@ -13,7 +13,7 @@ import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainName, ChainRecord } from './chain';
-import { DappEnv, Mutable, SignType } from './common';
+import { DappEnv, Mutable, OS, SignType } from './common';
 
 export interface Key {
   readonly name: string;
@@ -57,7 +57,14 @@ export interface Metadata {
 }
 
 export interface AppUrl {
-  native?: string;
+  native?:
+    | string
+    | {
+        android?: string;
+        ios?: string;
+        macos?: string;
+        windows?: string;
+      };
   universal?: string;
 }
 
@@ -82,7 +89,12 @@ export interface Wallet {
     projectId: string;
     encoding?: BufferEncoding; // encoding for bytes, default 'hex'
     mobile?: AppUrl; // redirect link on mobile
-    formatNativeUrl?: (appUrl: string, wcUri: string, name: string) => string;
+    formatNativeUrl?: (
+      appUrl: string,
+      wcUri: string,
+      os: OS | undefined,
+      name: string
+    ) => string;
     formatUniversalUrl?: (
       appUrl: string,
       wcUri: string,

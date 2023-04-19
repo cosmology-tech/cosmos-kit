@@ -1,4 +1,4 @@
-import { Wallet } from '@cosmos-kit/core';
+import { OS, Wallet } from '@cosmos-kit/core';
 
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',
@@ -33,12 +33,27 @@ export const keplrMobileInfo: Wallet = {
       '6adb6082c909901b9e7189af3a4a0223102cd6f8d5c39e39f3d49acb92b578bb',
     encoding: 'base64',
     mobile: {
-      native: 'keplrwallet:',
+      native: {
+        ios: 'keplrwallet:',
+        android: 'intent:',
+      },
     },
-    formatNativeUrl: (appUrl: string, wcUri: string, name: string): string => {
+    formatNativeUrl: (
+      appUrl: string,
+      wcUri: string,
+      os: OS | undefined,
+      name: string
+    ): string => {
       const plainAppUrl = appUrl.replaceAll('/', '').replaceAll(':', '');
       const encodedWcUrl = encodeURIComponent(wcUri);
-      return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
+      switch (os) {
+        case 'ios':
+          return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
+        case 'android':
+          return `${plainAppUrl}://wcV2?${encodedWcUrl}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
+        default:
+          return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
+      }
     },
   },
 };
