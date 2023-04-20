@@ -4,6 +4,7 @@ import {
   DappEnv,
   EndpointOptions,
   IChainWallet,
+  State,
   Wallet,
   WalletClient,
   WalletStatus,
@@ -45,6 +46,29 @@ export abstract class MainWalletBase extends WalletBase {
           .find((cw) => cw.chainId === chainId)
           ?.reset()
       );
+    });
+  }
+
+  initingClient() {
+    this.clientMutable.state = State.Pending;
+    this.chainWalletMap?.forEach((chainWallet) => {
+      chainWallet.initingClient();
+    });
+  }
+
+  initClientDone(client: WalletClient | undefined) {
+    this.clientMutable.data = client;
+    this.clientMutable.state = State.Done;
+    this.chainWalletMap?.forEach((chainWallet) => {
+      chainWallet.initClientDone(client);
+    });
+  }
+
+  initClientError(error: Error | undefined) {
+    this.clientMutable.message = error?.message;
+    this.clientMutable.state = State.Error;
+    this.chainWalletMap?.forEach((chainWallet) => {
+      chainWallet.initClientError(error);
     });
   }
 

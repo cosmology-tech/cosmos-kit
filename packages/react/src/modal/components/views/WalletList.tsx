@@ -21,8 +21,11 @@ export const WalletListView = ({
   const defaultInitialFocus = useRef();
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
-  const onWalletClicked = useCallback((wallet: ChainWalletBase) => {
-    wallet.connect(true);
+  const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
+    await wallet.connect(true);
+    if (wallet.isWalletConnected) {
+      onClose();
+    }
   }, []);
 
   useEffect(() => {
