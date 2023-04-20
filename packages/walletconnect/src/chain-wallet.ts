@@ -19,4 +19,9 @@ export class ChainWC extends ChainWalletBase {
     super(walletInfo, chainInfo);
     this.WCClient = WCClient;
   }
+
+  setClientNotExist() {
+    this.setState(State.Error);
+    this.setMessage(this.clientMutable.message);
+  }
 }
