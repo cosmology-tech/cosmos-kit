@@ -308,7 +308,7 @@ export class WCClient implements WalletClient {
 
   get nativeUrl() {
     const native = this.appUrl.data?.native;
-    if (typeof native === 'string' || !native) {
+    if (typeof native === 'string' || typeof native === 'undefined') {
       return native;
     } else {
       const { android, ios, macos, windows } = native;
@@ -344,7 +344,7 @@ export class WCClient implements WalletClient {
       )(this.nativeUrl, this.qrUrl.data, this.env?.os, this.walletName);
     } else if (this.universalUrl) {
       href = (
-        this.walletInfo.walletconnect.formatNativeUrl ||
+        this.walletInfo.walletconnect.formatUniversalUrl ||
         CoreUtil.formatUniversalUrl
       )(this.universalUrl, this.qrUrl.data, this.walletName);
     }
