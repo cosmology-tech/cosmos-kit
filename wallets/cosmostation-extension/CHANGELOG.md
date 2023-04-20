@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.17](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-extension@0.15.16...@cosmos-kit/cosmostation-extension@0.15.17) (2023-04-20)
+
+**Note:** Version bump only for package @cosmos-kit/cosmostation-extension
+
+
+
+
+
 ## [0.15.16](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-extension@0.15.15...@cosmos-kit/cosmostation-extension@0.15.16) (2023-04-14)
 
 **Note:** Version bump only for package @cosmos-kit/cosmostation-extension
