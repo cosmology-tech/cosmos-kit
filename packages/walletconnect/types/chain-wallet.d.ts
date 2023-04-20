@@ -6,4 +6,5 @@ export declare class ChainWC extends ChainWalletBase {
     clientMutable: Mutable<WCClient>;
     options?: WalletConnectOptions;
     constructor(walletInfo: Wallet, chainInfo: ChainRecord, WCClient: IWCClient);
+    setClientNotExist(): void;
 }

@@ -1,4 +1,4 @@
-import { ChainName, ChainRecord, EndpointOptions, IChainWallet, Wallet, WalletStatus } from '../types';
+import { ChainName, ChainRecord, EndpointOptions, IChainWallet, Wallet, WalletClient, WalletStatus } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 export declare abstract class MainWalletBase extends WalletBase {
@@ -6,6 +6,9 @@ export declare abstract class MainWalletBase extends WalletBase {
     preferredEndpoints?: EndpointOptions['endpoints'];
     ChainWallet: IChainWallet;
     constructor(walletInfo: Wallet, ChainWallet: IChainWallet);
+    initingClient(): void;
+    initClientDone(client: WalletClient | undefined): void;
+    initClientError(error: Error | undefined): void;
     protected onSetChainsDone(): void;
     setChains(chains: ChainRecord[], overwrite?: boolean): void;
     get chainWalletMap(): Map<string, ChainWalletBase>;
