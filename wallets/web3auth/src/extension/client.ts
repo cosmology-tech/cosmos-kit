@@ -78,7 +78,9 @@ export class Web3AuthClient implements WalletClient {
   }
 
   async disconnect() {
-    await this.client.logout();
+    if (this.client.status === 'connected') {
+      await this.client.logout();
+    }
     this.signers = {};
   }
 

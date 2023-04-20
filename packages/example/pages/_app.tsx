@@ -13,6 +13,7 @@ import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as terrastationWallets } from "@cosmos-kit/terrastation";
+import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
 import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           assetLists={assets}
           wallets={[
             ...keplrWallets,
+            ...web3authWallets,
             // ...cosmostationWallets,
             // ...leapWallets,
             // ...vectisWallets,
