@@ -13,19 +13,21 @@ import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as terrastationWallets } from "@cosmos-kit/terrastation";
+import { wallets as terraExtensionWallets } from "@cosmos-kit/terra-extension";
 import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
 import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "@cosmology-ui/react";
+import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <ChakraProvider theme={defaultTheme}>
         <ChainProvider
-          chains={chains}
-          assetLists={assets}
+          chains={[...chains, terra2testnet]}
+          assetLists={[...assets, terra2testnetAssets]}
           wallets={[
             ...keplrWallets,
             ...web3authWallets,
@@ -37,6 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...trustWallets,
             // ...frontierWallets,
             // ...terrastationWallets,
+            // ...terraExtensionWallets
           ]}
           defaultNameService={"stargaze"}
           walletConnectOptions={{
@@ -79,6 +82,14 @@ function MyApp({ Component, pageProps }: AppProps) {
                     headers: {},
                   },
                 ],
+              },
+              terra2: {
+                rpc: ["https://terra-rpc.lavenderfive.com/"],
+                rest: ["https://phoenix-lcd.terra.dev/"],
+              },
+              terra2testnet: {
+                rpc: ["https://terra-testnet-rpc.polkachu.com/"],
+                rest: ["https://pisco-lcd.terra.dev/"],
               },
             },
           }}
