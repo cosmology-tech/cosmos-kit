@@ -9,13 +9,15 @@ import {
   OfflineDirectSigner,
 } from '@cosmjs/proto-signing';
 import {
+  AppUrl,
+  DappEnv,
   DirectSignDoc,
   ExpiredError,
   Logger,
-  AppUrl,
   Mutable,
   RejectedError,
   SignOptions,
+  SignType,
   SimpleAccount,
   State,
   Wallet,
@@ -23,16 +25,15 @@ import {
   WalletClient,
   WalletClientActions,
   WalletConnectOptions,
-  DappEnv,
-  SignType,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
-import { getSdkError } from '@walletconnect/utils';
 import { PairingTypes, SessionTypes } from '@walletconnect/types';
+import { getSdkError } from '@walletconnect/utils';
 import EventEmitter from 'events';
-import { CoreUtil } from './utils';
-import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
 import Long from 'long';
+
+import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
+import { CoreUtil } from './utils';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -253,7 +254,7 @@ export class WCClient implements WalletClient {
   setQRError(e?: Error | string) {
     this.setQRState(State.Error);
     this.qrUrl.message = typeof e === 'string' ? e : e?.message;
-    this.actions?.qrUrl?.message(this.qrUrl.message);
+    this.actions?.qrUrl?.message?.(this.qrUrl.message);
     if (typeof e !== 'string' && e?.stack) {
       this.logger?.error(e.stack);
     }
@@ -363,7 +364,7 @@ export class WCClient implements WalletClient {
     return Boolean(this.isMobile && (this.nativeUrl || this.universalUrl));
   }
 
-  openApp(withWCUri: boolean = true) {
+  openApp(withWCUri = true) {
     const href = withWCUri ? this.redirectHrefWithWCUri : this.redirectHref;
     if (href) {
       this.logger?.debug('Redirecting:', href);
