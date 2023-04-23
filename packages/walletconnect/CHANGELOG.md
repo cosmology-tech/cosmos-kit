@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.2.19...@cosmos-kit/walletconnect@0.3.0) (2023-04-23)
+
+
+### Features
+
+* only call setMessage if defined ([9527711](https://github.com/cosmology-tech/cosmos-kit/commit/95277114ec63b65b5887f848bf8ca552afb4a40a))
+
+
+
+
+
 ## [0.2.19](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.2.18...@cosmos-kit/walletconnect@0.2.19) (2023-04-20)
 
 **Note:** Version bump only for package @cosmos-kit/walletconnect
