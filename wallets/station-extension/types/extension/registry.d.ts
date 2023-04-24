@@ -1,2 +1,2 @@
 import { Wallet } from '@cosmos-kit/core';
-export declare const terraExtensionInfo: Wallet;
+export declare const stationExtensionInfo: Wallet;

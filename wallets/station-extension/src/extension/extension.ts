@@ -1,4 +1,4 @@
-import { Extension, Tx, ExtensionOptions } from '@Station-money/feather.js';
+import { Extension, Tx, ExtensionOptions } from '@terra-money/feather.js';
 import { NetworkInfo, Addresses, Pubkeys, ChainId } from './types';
 
 type ConnectResponse = {

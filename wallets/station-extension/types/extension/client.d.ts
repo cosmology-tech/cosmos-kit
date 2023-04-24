@@ -1,9 +1,9 @@
 import { WalletClient, WalletAccount } from '@cosmos-kit/core';
-import { TerraExtension } from './extension';
+import { StationExtension } from './extension';
 import { OfflineSigner } from './signer';
-export declare class TerraClient implements WalletClient {
-    readonly client: TerraExtension;
-    constructor(client: TerraExtension);
+export declare class StationClient implements WalletClient {
+    readonly client: StationExtension;
+    constructor(client: StationExtension);
     disconnect(): Promise<void>;
     getSimpleAccount(chainId: string): Promise<{
         namespace: string;

@@ -11,7 +11,7 @@ declare type SignResponse = {
         result: Tx.Data;
     };
 };
-export declare class TerraExtension {
+export declare class StationExtension {
     private extension;
     identifier: string;
     _inTransactionProgress: boolean;

@@ -1,7 +1,5 @@
 export declare type ChainId = string;
-export declare type Addresses = {
-    [k: ChainId]: string;
-};
+export declare type Addresses = Record<ChainId, string>;
 export declare type CoinType = number;
 export declare type Pubkeys = Record<CoinType, string>;
 export interface NetworkInfo {

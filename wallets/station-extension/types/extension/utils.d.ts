@@ -1,2 +1,2 @@
-import { TerraExtension } from './extension';
-export declare const getTerraFromExtension: () => Promise<TerraExtension | undefined>;
+import { StationExtension } from './extension';
+export declare const getStationFromExtension: () => Promise<StationExtension | undefined>;
