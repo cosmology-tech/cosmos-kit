@@ -7,7 +7,7 @@ import {
 export function getChainWalletContext(
   chainId: string,
   wallet?: ChainWalletBase,
-  sync: boolean = true
+  sync = true
 ): ChainWalletContext {
   function walletAssert(
     func: ((...params: any[]) => any | undefined) | undefined,
@@ -118,6 +118,12 @@ export function getChainWalletContext(
         wallet?.client?.enable.bind(wallet.client),
         [chainId],
         'enable'
+      ),
+    suggestToken: () =>
+      clientMethodAssert(
+        wallet?.client?.suggestToken.bind(wallet.client),
+        [chainId],
+        'suggestToken'
       ),
     getAccount: () =>
       clientMethodAssert(
