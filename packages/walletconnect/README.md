@@ -8,11 +8,11 @@
   <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
     <img height="20" src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg" />
   </a>
-  <a href="https://www.npmjs.com/package/@cosmos-kit/core">
-    <img height="20" src="https://img.shields.io/npm/dt/@cosmos-kit/core" />
+  <a href="https://www.npmjs.com/package/@cosmos-kit/walletconnect">
+    <img height="20" src="https://img.shields.io/npm/dt/@cosmos-kit/walletconnect" />
   </a>
-   <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/core/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
-   <a href="https://www.npmjs.com/package/@cosmos-kit/core"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fcore%2Fpackage.json"></a>
+   <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/walletconnect/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
+   <a href="https://www.npmjs.com/package/@cosmos-kit/walletconnect"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fwalletconnect%2Fpackage.json"></a>
 </p>
 
 A wallet adapter for React with mobile WalletConnect support for the Cosmos

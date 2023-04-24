@@ -8,13 +8,13 @@
   <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
     <img height="20" src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg" />
   </a>
-   <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/core/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
-   <a href="https://www.npmjs.com/package/@cosmos-kit/keplr"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fkeplr%2Fpackage.json"></a>
+   <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/wallets/keplr-mobile/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
+   <a href="https://www.npmjs.com/package/@cosmos-kit/keplr-mobile"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=wallets%2Fkeplr-mobile%2Fpackage.json"></a>
 </p>
 
 CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-@cosmos-kit/keplr is the Keplr integration for CosmosKit.
+@cosmos-kit/keplr-mobile is the Keplr integration for CosmosKit.
 
 ## Credits
 
