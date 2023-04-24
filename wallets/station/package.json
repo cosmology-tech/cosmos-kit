@@ -1,7 +1,7 @@
 {
-  "name": "@cosmos-kit/terrastation",
+  "name": "@cosmos-kit/station",
   "version": "0.1.7",
-  "description": "cosmos-kit wallet connector",
+  "description": "cosmos-kit wallet connector for Station",
   "author": "jonlitech@gmail.com",
   "contributors": [
     {
@@ -84,13 +84,12 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/terrastation-extension": "^0.1.7"
+    "@cosmos-kit/station-extension": "^0.1.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28"
-  },
-  "gitHead": "7ac9697baeac9874d405b26d27b3403e9194213d"
+  }
 }

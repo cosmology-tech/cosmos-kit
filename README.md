@@ -42,7 +42,8 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 | [@cosmos-kit/keplr-mobile/](packages/keplr-mobile/) | WalletConnect | Keplr Mobile Wallet integration. |
 | [@cosmos-kit/leap](packages/leap) | Root Wallet | Leap Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/omni](packages/omni) | Root Wallet | Omni Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/terra-extension](packages/terra-extension) | Root Wallet | Terra Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/station](packages/station) | Root Wallet | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/station-extension](packages/station-extension) | Extension | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/trust](packages/trust) | Root Wallet | Trust Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/vectis](packages/vectis) | Root Wallet | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/xdefi-extension](packages/xdefi-extension) | Root Wallet | XDEFI Wallet (Extension) integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |

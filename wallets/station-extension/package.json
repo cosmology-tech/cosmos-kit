@@ -1,11 +1,11 @@
 {
-  "name": "@cosmos-kit/terrastation-extension",
-  "version": "0.1.7",
-  "description": "cosmos-kit wallet connector",
-  "author": "jonlitech@gmail.com",
+  "name": "@cosmos-kit/station-extension",
+  "version": "0.1.0",
+  "description": "cosmos-kit wallet adapter for Station",
+  "author": "kanisorn@alleslab.com",
   "contributors": [
     {
-      "name": "Javier Aceña"
+      "name": "kanisorn"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -45,7 +45,8 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "terrastation",
+    "terra",
+    "terra-station",
     "wallet"
   ],
   "bugs": {
@@ -69,8 +70,6 @@
     "@babel/plugin-transform-runtime": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
-    "@babel/runtime": "7.11.2",
-    "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -90,13 +89,14 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/core": "^1.3.7",
-    "@terra-money/terra.js": "^3.1.7",
-    "@terra-money/web-extension-interface": "^4.0.0",
-    "events": "3.3.0"
+    "@babel/runtime": "7.11.2",
+    "@chain-registry/types": "0.13.1",
+    "@cosmos-kit/core": "^1.0.4",
+    "@terra-money/feather.js": "^1.0.0-beta.14",
+    "@terra-money/wallet-types": "^3.11.2"
   },
   "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28"
-  },
-  "gitHead": "7ac9697baeac9874d405b26d27b3403e9194213d"
+    "@cosmjs/amino": ">= 0.28",
+    "@cosmjs/proto-signing": ">= 0.28"
+  }
 }
