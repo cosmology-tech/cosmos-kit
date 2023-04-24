@@ -1,27 +1,21 @@
+import { WalletClientOptions } from '@cosmos-kit/core';
 import {
   AptosSignMessageParams,
   AptosSignPayload,
   SignAminoDoc,
   SignDirectDoc,
+  SignOptions,
 } from '@cosmostation/extension-client/types/message';
 import { Keplr } from '@keplr-wallet/types';
 
-export interface CosmostationSignOptions {
-  readonly preferNoSetFee?: boolean;
-  readonly preferNoSetMemo?: boolean;
-  readonly disableBalanceCheck?: boolean;
+export interface CosmostationOptions extends WalletClientOptions {
+  signOptions: SignOptions;
 }
 
 export interface Request {
   method: string;
   params?: object;
 }
-
-// export interface Sui {
-//   connect(): Promise<any>;
-//   getAccounts(): Promise<string[]>;
-//   getPublicKey(): Promise<string>;
-// }
 
 export interface Client {
   request: (message: { method: string; params?: unknown }) => Promise<unknown>;

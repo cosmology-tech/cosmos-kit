@@ -19,6 +19,7 @@ import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "@cosmology-ui/react";
+import { WalletConnectOptions } from "@cosmos-kit/walletconnect";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -40,19 +41,21 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...metamaskWallets,
           ]}
           defaultNameService={"stargaze"}
-          walletConnectOptions={{
-            signClient: {
-              projectId: "a8510432ebb71e6948cfd6cde54b70f7",
-              relayUrl: "wss://relay.walletconnect.org",
-              metadata: {
-                name: "CosmosKit Example",
-                description: "CosmosKit test dapp",
-                url: "https://test.cosmoskit.com/",
-                icons: [
-                  "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
-                ],
+          walletClientOptionsMap={{
+            "wallet-connect": {
+              initSignClientOptions: {
+                projectId: "a8510432ebb71e6948cfd6cde54b70f7",
+                relayUrl: "wss://relay.walletconnect.org",
+                metadata: {
+                  name: "CosmosKit Example",
+                  description: "CosmosKit test dapp",
+                  url: "https://test.cosmoskit.com/",
+                  icons: [
+                    "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
+                  ],
+                },
               },
-            },
+            } as WalletConnectOptions,
           }}
           signerOptions={{
             signingStargate: (chain: Chain) => {

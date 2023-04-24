@@ -1,15 +1,17 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { BroadcastMode, SignType } from '@cosmos-kit/core';
+import { BroadcastMode, SignType, WalletClientOptions } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { XDEFI } from './types';
 
 export class XDEFIClient implements WalletClient {
   readonly client: XDEFI;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: XDEFI) {
+  constructor(client: XDEFI, options?: WalletClientOptions;) {
     this.client = client;
+    this.options = options;
   }
 
   async connect(chainIds: string[]) {

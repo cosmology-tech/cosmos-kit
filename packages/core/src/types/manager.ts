@@ -1,6 +1,15 @@
 import { ChainName } from './chain';
 import { Dispatch, StateActions } from './common';
-import { HttpEndpoint, WalletName } from './wallet';
+import {
+  HttpEndpoint,
+  WalletClientOptions,
+  WalletMode,
+  WalletName,
+} from './wallet';
+
+export interface WalletClientOptionsMap {
+  [k: WalletName | WalletMode]: WalletClientOptions;
+}
 
 export interface SignerOptions {
   [k: string]: any;

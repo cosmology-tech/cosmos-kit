@@ -7,6 +7,7 @@ import {
   SignOptions,
   SignType,
   WalletClient,
+  WalletClientOptions,
 } from '@cosmos-kit/core';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
@@ -14,9 +15,11 @@ import type { Vectis, VectisChainInfo } from './types';
 
 export class VectisClient implements WalletClient {
   readonly client: Vectis;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: Vectis) {
+  constructor(client: Vectis, options?: WalletClientOptions;) {
     this.client = client;
+    this.options = options;
   }
 
   async connect(chainIds: string[]) {

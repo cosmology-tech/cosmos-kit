@@ -7,13 +7,16 @@ import {
   WalletAccount,
   WalletAccount,
   WalletClient,
+  WalletClientOptions,
 } from '@cosmos-kit/core';
 
 export class MetamaskClient implements WalletClient {
   readonly client: any;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: any) {
+  constructor(client: any, options?: WalletClientOptions;) {
     this.client = client;
+    this.options = options;
   }
 
   async connect(chainIds?: string[]): Promise<void> {

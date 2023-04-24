@@ -1,19 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Algo, StdSignDoc } from '@cosmjs/amino';
 import {
-  ChainRecord,
-  DirectSignDoc,
-  ExtendedHttpEndpoint,
-  SignOptions,
-  SignType,
   WalletClient,
+  WalletClientOptions,
 } from '@cosmos-kit/core';
 import {
   Extension,
-  ExtensionOptions,
-  CreateTxOptions,
 } from '@terra-money/terra.js';
-import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import EventEmitter from 'events';
 import { Addresses } from './types';
 
@@ -21,10 +12,12 @@ export class TerrastationClient implements WalletClient {
   readonly client: Extension;
   private addresses?: Addresses;
   private emitter: EventEmitter;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: Extension) {
+  constructor(client: Extension, options?: WalletClientOptions;) {
     this.emitter = new EventEmitter();
     this.client = client;
+    this.options = options;
     this.client.on('onConnect', (result) => {
       if (!result) return;
       const { error, ...payload } = result;

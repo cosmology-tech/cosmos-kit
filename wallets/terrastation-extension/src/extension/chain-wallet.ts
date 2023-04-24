@@ -1,6 +1,6 @@
-import { ChainRecord, ChainWallet, Wallet } from '@cosmos-kit/core';
+import { ChainRecord, ChainWalletBase, Wallet } from '@cosmos-kit/core';
 
-export class ChainTerrastationExtension extends ChainWallet {
+export class ChainTerrastationExtension extends ChainWalletBase {
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
     super(walletInfo, chainInfo);
   }

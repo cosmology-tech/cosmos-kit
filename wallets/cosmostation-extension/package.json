@@ -96,7 +96,7 @@
     "@cosmos-kit/core": "^2.0.0",
     "@cosmos-kit/cosmos": "^0.1.0",
     "@cosmos-kit/ethereum": "^0.1.0",
-    "@cosmostation/extension-client": "^0.1.15"
+    "@cosmostation/extension-client": "0.1.15"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

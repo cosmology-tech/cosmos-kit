@@ -1,17 +1,6 @@
-import { SignClientTypes } from '@walletconnect/types';
-
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainRecord } from './chain';
 import { DappEnv, EncodedString, Mutable } from './common';
-
-export interface Key {
-  readonly name: string;
-  readonly algo: string;
-  readonly pubKey: Uint8Array;
-  readonly address: Uint8Array;
-  readonly bech32Address: string;
-  readonly isNanoLedger: boolean;
-}
 
 export type WalletName = string;
 
@@ -147,9 +136,30 @@ export type AuthRange = {
 };
 
 /**
+ * Keys corresponding methods in WalletClient interface
+ */
+export interface WalletClientOptions {
+  enableOptions?: unknown;
+  addChainOptions?: unknown;
+  switchChainOptions?: unknown;
+  getAccountsOptions?: unknown;
+  signOptions?: unknown;
+  verifyOptions?: unknown;
+  broadcastOptions?: unknown;
+  signAndBroadcastOptions?: unknown;
+  disableOptions?: unknown;
+}
+
+/**
  * A standardized WalletCLient interface suitable for all kinds if networks
  */
 export interface WalletClient {
+  options?: WalletClientOptions;
+
+  // --------------------------------------------------------------------------------------------------------------
+  //                                                AUTH RELATED
+  // --------------------------------------------------------------------------------------------------------------
+
   /**
    * 1: Enable/Authorize Connection
    *     Or called `onboard/requestAccount/connect` in some wallets.
@@ -157,30 +167,30 @@ export interface WalletClient {
    *     In some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
    *     To distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  enable?(authRange: AuthRange): Promise<void>;
+  enable?(authRange: AuthRange, options?: unknown): Promise<void>;
   /**
-   * 2: Add Chain
-   *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
-   *     the wallet before other actions.
-   */
-  addChain?(namespace: Namespace, chainInfo: unknown): Promise<void>;
-  /**
-   * 2: Switch Chain
-   *     Some wallets only supports interacting with one chain at a time. We call this the wallet’s “active chain”.
-   *     This method enables dapps to request that the wallet switches its active chain to whichever one is required by the dapp,
-   *     if the wallet has a concept thereof.
-   */
-  switchChain?(namespace: Namespace, chainId: string): Promise<void>;
-  /**
-   * 3: Get Account
+   * 2: Get Account
    *     `address` especially required in returned value.
    *     `address` is the user identifier in BlockChain, directing to a public/private key pair.
    *     In Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     In other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getAccounts(authRange: AuthRange): Promise<AddRaw<WalletAccount>[]>;
+  getAccounts(
+    authRange: AuthRange,
+    options?: unknown
+  ): Promise<AddRaw<WalletAccount>[]>;
   /**
-   * 4: Sign Doc
+   * 3: Disable/Cancel Authorization
+   *     Or called `disconnect` in some wallets.
+   */
+  disable?(authRange?: AuthRange, options?: unknown): Promise<void>;
+
+  // --------------------------------------------------------------------------------------------------------------
+  //                                                DOC RELATED
+  // --------------------------------------------------------------------------------------------------------------
+
+  /**
+   * 1: Sign Doc
    *     Address in params is used to get the private key from wallet to sign doc.
    *     Return the signature.
    *     There can be multipule sign methods provided by wallet, i.e. signTransaction, signMessage, signDirect, signAmino etc.
@@ -197,13 +207,13 @@ export interface WalletClient {
    */
   sign?(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     doc: unknown,
-    signerAddress?: string,
-    chainId?: string,
     options?: unknown
   ): Promise<AddRaw<Signature>>;
   /**
-   * 5: Verify Doc
+   * 2: Verify Doc
    *     To check the signature matches the signedDoc.
    *
    * @param signedDoc
@@ -211,13 +221,14 @@ export interface WalletClient {
    */
   verify?(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     signedDoc: unknown,
     signature: Signature,
-    signerAddress?: string,
-    chainId?: string
+    options?: unknown
   ): Promise<boolean>;
   /**
-   * 6: Broadcast Signed Doc
+   * 3: Broadcast Signed Doc
    *     or called `execute/submit` in some wallets or networks
    *     address in params is used to get the public key from wallet to verify signedDoc.
    *     endpoint is the path to do verification and broadcast.
@@ -228,13 +239,13 @@ export interface WalletClient {
    */
   broadcast?(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     signedDoc: unknown,
-    signerAddress?: string,
-    chainId?: string,
     options?: unknown
   ): Promise<AddRaw<Block>>;
   /**
-   * 7: Sign and Broadcast Doc
+   * 4: Sign and Broadcast Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
    *
@@ -243,32 +254,46 @@ export interface WalletClient {
    *     Please note that if the doc is of type string and be regarded as bytes string, the default encoding will be regrarded as `hex`.
    *     If you are prividing non-hex string, use EncodedString type instead.
    */
-  signAndBroadcast(
+  signAndBroadcast?(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     doc: unknown,
-    signerAddress?: string,
-    chainId?: string,
     options?: unknown
   ): Promise<AddRaw<Block>>;
+  // --------------------------------------------------------------------------------------------------------------
+
   /**
-   * 8: Disable/Cancel Authorization
-   *     Or called `disconnect` in some wallets.
+   * Add Chain
+   *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
+   *     the wallet before other actions.
    */
-  disable?: (authRange: AuthRange) => Promise<void>;
+  addChain?(
+    namespace: Namespace,
+    chainInfo: unknown,
+    options?: unknown
+  ): Promise<void>;
+  /**
+   * Switch Chain
+   *     Some wallets only supports interacting with one chain at a time. We call this the wallet’s “active chain”.
+   *     This method enables dapps to request that the wallet switches its active chain to whichever one is required by the dapp,
+   *     if the wallet has a concept thereof.
+   */
+  switchChain?(
+    namespace: Namespace,
+    chainId: string,
+    options?: unknown
+  ): Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
 
-  // on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
-  // off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
+  on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
+  off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
 }
 
 export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
-}
-
-export interface WalletConnectOptions {
-  signClient: { projectId: string } & SignClientTypes.Options;
 }

@@ -1,15 +1,17 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { BroadcastMode, SignType } from '@cosmos-kit/core';
+import { BroadcastMode, SignType, WalletClientOptions } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Frontier } from './types';
 
 export class FrontierClient implements WalletClient {
   readonly client: Frontier;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: Frontier) {
+  constructor(client: Frontier, options?: WalletClientOptions) {
     this.client = client;
+    this.options = options;
   }
 
   async connect(chainIds: string[]) {

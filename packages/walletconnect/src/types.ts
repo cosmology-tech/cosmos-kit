@@ -1,5 +1,11 @@
-import { Algo, StdSignature } from '@cosmjs/amino';
-import { ChainRecord, Wallet } from '@cosmos-kit/core';
+import { StdSignature } from '@cosmjs/amino';
+import {
+  ChainRecord,
+  Namespace,
+  Wallet,
+  WalletClientOptions,
+} from '@cosmos-kit/core';
+import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWC } from './chain-wallet';
 import { WCClient } from './client';
@@ -9,7 +15,7 @@ export interface IChainWC {
 }
 
 export interface IWCClient {
-  new (walletInfo: Wallet): WCClient;
+  new (walletInfo: Wallet, options?: WalletConnectOptions): WCClient;
 }
 
 export interface WCDirectSignDoc {
@@ -34,3 +40,21 @@ export interface WCAccount {
   algo: string;
   pubkey: string;
 }
+
+export interface WalletConnectOptions extends WalletClientOptions {
+  enableOptions?: EnableOptionsMap;
+  initSignClientOptions: {
+    projectId: string;
+    relayUrl?: string;
+  } & SignClientTypes.Options;
+}
+
+export interface EnableOptions {
+  prefix: string;
+  methods: string[];
+  events: string[];
+}
+
+export type EnableOptionsMap = {
+  [k in Namespace]?: EnableOptions;
+};

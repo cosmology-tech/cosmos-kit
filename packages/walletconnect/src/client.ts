@@ -1,40 +1,36 @@
 import {
-  AminoSignResponse,
-  OfflineAminoSigner,
-  StdSignDoc,
-} from '@cosmjs/amino';
-import {
-  Algo,
-  DirectSignResponse,
-  OfflineDirectSigner,
-} from '@cosmjs/proto-signing';
-import {
-  DirectSignDoc,
   ExpiredError,
   Logger,
   AppUrl,
   Mutable,
   RejectedError,
   SignOptions,
-  WalletAccount,
   State,
   Wallet,
   WalletAccount,
   WalletClient,
   WalletClientActions,
-  WalletConnectOptions,
   DappEnv,
-  SignType,
   getStringFromUint8Array,
   getUint8ArrayFromString,
+  AuthRange,
+  AddRaw,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
 import { PairingTypes, SessionTypes } from '@walletconnect/types';
 import EventEmitter from 'events';
 import { CoreUtil } from './utils';
-import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
+import {
+  EnableOptions,
+  EnableOptionsMap,
+  WalletConnectOptions,
+  WCAccount,
+  WCSignDirectRequest,
+  WCSignDirectResponse,
+} from './types';
 import Long from 'long';
+import { defaultEnableOptions } from './config';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -55,13 +51,14 @@ export class WCClient implements WalletClient {
   relayUrl?: string;
   env?: DappEnv;
 
-  constructor(walletInfo: Wallet) {
+  constructor(walletInfo: Wallet, options?: WalletConnectOptions) {
     if (!walletInfo.walletconnect) {
       throw new Error(
         `'walletconnect' info for wallet ${walletInfo.prettyName} is not provided in wallet registry.`
       );
     }
     this.walletInfo = walletInfo;
+    this.options = options;
 
     this.qrUrl = { state: State.Init };
     this.appUrl = { state: State.Init };
@@ -125,9 +122,9 @@ export class WCClient implements WalletClient {
     this.logger?.debug('[WALLET EVENT] Emit `reset`');
   }
 
-  subscribeToEvents() {
+  protected async subscribeToEvents() {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
     }
 
     this.signClient.on('session_ping', (args) => {
@@ -181,9 +178,9 @@ export class WCClient implements WalletClient {
     });
   }
 
-  async deleteInactivePairings() {
+  protected async deleteInactivePairings() {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
     }
 
     for (const pairing of this.signClient.pairing.getAll({ active: false })) {
@@ -195,9 +192,9 @@ export class WCClient implements WalletClient {
     }
   }
 
-  restorePairings() {
+  protected async restorePairings() {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
     }
     this.pairings = this.signClient.pairing
       .getAll({ active: true })
@@ -213,9 +210,9 @@ export class WCClient implements WalletClient {
     return this.pairings[0];
   }
 
-  restoreSessions() {
+  protected async restoreSessions() {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
     }
     this.sessions = this.signClient.session
       .getAll()
@@ -227,12 +224,17 @@ export class WCClient implements WalletClient {
     this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
   }
 
-  getSession(namespace: string, chainId: string) {
-    return this.sessions.find((s) =>
-      s.namespaces[namespace]?.accounts?.find((account) =>
-        account.startsWith(`${namespace}:${chainId}`)
-      )
-    );
+  getSession(prefix: string, chainId: string, method: string) {
+    return this.sessions.find((s) => {
+      if (!s.namespaces[prefix]) {
+        return false;
+      }
+      const { accounts, methods } = s.namespaces[prefix];
+      return (
+        accounts.find((acc) => acc.startsWith(`${prefix}:${chainId}`)) &&
+        methods.findIndex((m) => m === method) !== -1
+      );
+    });
   }
 
   get walletName() {
@@ -240,7 +242,7 @@ export class WCClient implements WalletClient {
   }
 
   get dappProjectId() {
-    return this.options?.signClient.projectId;
+    return this.options?.initSignClientOptions.projectId;
   }
 
   setActions(actions: WalletClientActions) {
@@ -249,13 +251,13 @@ export class WCClient implements WalletClient {
 
   setQRState(state: State) {
     this.qrUrl.state = state;
-    this.actions?.qrUrl?.state(state);
+    this.actions?.qrUrl?.state?.(state);
   }
 
   setQRError(e?: Error | string) {
     this.setQRState(State.Error);
     this.qrUrl.message = typeof e === 'string' ? e : e?.message;
-    this.actions?.qrUrl?.message(this.qrUrl.message);
+    this.actions?.qrUrl?.message?.(this.qrUrl.message);
     if (typeof e !== 'string' && e?.stack) {
       this.logger?.error(e.stack);
     }
@@ -268,26 +270,28 @@ export class WCClient implements WalletClient {
     }
   }
 
-  async initSignClient() {
+  protected async initSignClient() {
     if (
       this.signClient &&
-      this.relayUrl === this.options?.signClient.relayUrl
+      this.relayUrl === this.options?.initSignClientOptions.relayUrl
     ) {
       return;
     }
 
-    this.signClient = await SignClient.init(this.options?.signClient);
-    this.relayUrl = this.options?.signClient.relayUrl;
+    this.signClient = await SignClient.init(
+      this.options?.initSignClientOptions
+    );
+    this.relayUrl = this.options?.initSignClientOptions.relayUrl;
 
     this.logger?.debug('CREATED CLIENT: ', this.signClient);
-    this.logger?.debug('relayerRegion ', this.options?.signClient.relayUrl);
+    this.logger?.debug('relayerRegion ', this.relayUrl);
 
-    this.subscribeToEvents();
-    this.restorePairings();
-    this.restoreSessions();
+    await this.subscribeToEvents();
+    await this.restorePairings();
+    await this.restoreSessions();
   }
 
-  async initWCCloudInfo() {
+  protected async initWCCloudInfo() {
     const fetcUrl = `${EXPLORER_API}/v3/wallets?projectId=${this.dappProjectId}&sdks=sign_v2&search=${this.wcName}`;
     const fetched = await (await fetch(fetcUrl)).json();
     this.wcCloudInfo =
@@ -295,7 +299,7 @@ export class WCClient implements WalletClient {
     this.logger?.debug('WalletConnect Info:', this.wcCloudInfo);
   }
 
-  async initAppUrl() {
+  protected async initAppUrl() {
     this.appUrl.state = State.Pending;
 
     if (!this.wcCloudInfo) await this.initWCCloudInfo();
@@ -358,37 +362,45 @@ export class WCClient implements WalletClient {
     }
   }
 
-  async connect(chainIds: string[]) {
+  async enable(authRange: AuthRange, options?: EnableOptionsMap) {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
     }
 
     if (this.qrUrl.state !== 'Init') {
       this.setQRState(State.Init);
     }
 
-    const chainIdsWithNS = chainIds.map((chainId) => `cosmos:${chainId}`);
-
-    this.restorePairings();
+    await this.restorePairings();
     const pairing = this.pairing;
     this.logger?.debug('Restored active pairing topic is:', pairing?.topic);
 
     if (this.displayQRCode) this.setQRState(State.Pending);
 
-    const requiredNamespaces = {
-      cosmos: {
-        methods: [
-          'cosmos_getAccountss',
-          'cosmos_signAmino',
-          'cosmos_signDirect',
-        ],
-        chains: chainIdsWithNS,
-        events: ['chainChanged', 'accountsChanged'],
-      },
-    };
+    const _options =
+      options || this.options?.enableOptions || defaultEnableOptions;
+    const requiredNamespaces = Object.fromEntries(
+      Object.entries(authRange).map(([ns, { chainIds }]) => {
+        if (typeof _options[ns] === 'undefined') {
+          throw new Error(`Unknown namespace ${ns} for WalletConnect.`);
+        }
+        const { prefix, methods, events } = _options[ns] as EnableOptions;
+        return [
+          prefix,
+          {
+            chains: chainIds
+              ? chainIds.map((chainId) => `${prefix}:${chainId}`)
+              : void 0,
+            methods,
+            events,
+          },
+        ];
+      })
+    );
+
     let connectResp: any;
     try {
-      this.logger?.debug('Connecting chains:', chainIdsWithNS);
+      this.logger?.debug('Connecting namespaces:', _options);
       connectResp = await this.signClient.connect({
         pairingTopic: pairing?.topic,
         requiredNamespaces,
@@ -408,7 +420,7 @@ export class WCClient implements WalletClient {
       const session = await connectResp.approval();
       this.logger?.debug('Established session:', session);
       this.sessions.push(session);
-      this.restorePairings();
+      await this.restorePairings();
     } catch (error) {
       this.logger?.error('Session approval error: ', error);
       await this.deleteInactivePairings();
@@ -427,9 +439,9 @@ export class WCClient implements WalletClient {
     }
   }
 
-  async disconnect() {
+  async disable(authRange: AuthRange, options?: unknown) {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
     }
     if (this.sessions.length === 0) {
       return;
@@ -452,7 +464,10 @@ export class WCClient implements WalletClient {
     this.sessions = [];
   }
 
-  async getAccounts(chainId: string[]): Promise<WalletAccount> {
+  async getAccounts(
+    authRange: AuthRange,
+    options?: unknown
+  ): Promise<WalletAccount> {
     const account = this.accounts.find(({ chainId: id }) => id === chainId);
     if (!account) {
       throw new Error(
@@ -460,34 +475,6 @@ export class WCClient implements WalletClient {
       );
     }
     return account;
-  }
-
-  getOfflineSignerAmino(chainId: string) {
-    return {
-      getAccounts: async () => [await this.getAccounts(chainId)],
-      signAmino: (signerAddress: string, signDoc: StdSignDoc) =>
-        this.signAmino(chainId, signerAddress, signDoc),
-    } as OfflineAminoSigner;
-  }
-
-  getOfflineSignerDirect(chainId: string) {
-    return {
-      getAccounts: async () => await this.getAccounts([chainId]),
-      signDirect: (signerAddress: string, signDoc: DirectSignDoc) =>
-        this.signDirect(chainId, signerAddress, signDoc),
-    } as OfflineDirectSigner;
-  }
-
-  async getOfflineSigner(chainId: string, preferredSignType?: SignType) {
-    if (preferredSignType === 'amino' && this.getOfflineSignerAmino) {
-      return this.getOfflineSignerAmino(chainId);
-    }
-    if (preferredSignType === 'direct' && this.getOfflineSignerDirect) {
-      return this.getOfflineSignerDirect(chainId);
-    }
-    return this.getOfflineSignerAmino
-      ? this.getOfflineSignerAmino?.(chainId)
-      : this.getOfflineSignerDirect(chainId);
   }
 
   protected async _getAccounts(chainId: string) {
@@ -507,7 +494,131 @@ export class WCClient implements WalletClient {
     return resp;
   }
 
-  async getAccounts(chainId: string): Promise<WalletAccount> {
+  async getAccounts(
+    authRange: AuthRange,
+    options?: unknown
+  ): Promise<AddRaw<WalletAccount>[]> {
+    const accountsList = await Promise.all(
+      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
+        const prefix = defaultEnableOptions[namespace]?.prefix as string;
+        if (!prefix) {
+          return Promise.reject(
+            `No matched prefix in WalletConnect for namespace ${namespace}.`
+          );
+        }
+        switch (namespace) {
+          case 'cosmos':
+            if (!chainIds) {
+              return Promise.reject('No chainIds provided.');
+            }
+            return Promise.all(
+              chainIds.map(async (chainId) => {
+                const session = this.getSession(
+                  prefix,
+                  chainId,
+                  'cosmos_getAccounts'
+                );
+                if (!session) {
+                  throw new Error(
+                    `Session for ${chainId} not established yet.`
+                  );
+                }
+                const resp = (await this.signClient.request({
+                  topic: session.topic,
+                  chainId: `cosmos:${chainId}`,
+                  request: {
+                    method: 'cosmos_getAccountss',
+                    params: {},
+                  },
+                })[0]) as WCAccount;
+                this.logger?.debug(`Response of cosmos_getAccountss`, resp);
+                return resp;
+                const key = (await this.signClient.request({
+                  method: 'cos_requestAccount',
+                  params: { chainName: chainId },
+                })) as {
+                  name: string;
+                  address: string;
+                  publicKey: Uint8Array;
+                  isLedger: boolean;
+                  algo: Algo;
+                };
+                return {
+                  chainId,
+                  namespace,
+                  username: key.name,
+                  address: {
+                    value: key.address,
+                    encoding: 'bech32',
+                  },
+                  publicKey: {
+                    value: getStringFromUint8Array(key.publicKey, 'hex'),
+                    encoding: 'hex',
+                    algo: key.algo,
+                  },
+                } as CosmosWalletAccount;
+              })
+            );
+          case 'ethereum':
+            const ethAddrs = (await this.client.ethereum.request({
+              method: 'eth_requestAccounts',
+            })) as string[];
+            return ethAddrs.map((address) => {
+              return {
+                namespace,
+                address: {
+                  value: address,
+                  encoding: 'hex',
+                },
+              } as WalletAccount;
+            });
+          case 'aptos':
+            const { address, publicKey } = (await this.client.aptos.request({
+              method: 'aptos_account',
+            })) as {
+              address: string;
+              publicKey: string;
+            };
+            return [
+              {
+                namespace,
+                address: {
+                  value: address,
+                  encoding: 'hex',
+                },
+                publicKey: {
+                  value: publicKey,
+                  encoding: 'hex',
+                },
+              } as WalletAccount,
+            ];
+          case 'sui':
+            const suiAddrs = (await this.client.sui.request({
+              method: 'sui_getAccounts',
+            })) as string[];
+            const suiPublicKey = (await this.client.sui.request({
+              method: 'sui_getPublicKey',
+            })) as string;
+            return suiAddrs.map((address) => {
+              return {
+                namespace,
+                address: {
+                  value: address,
+                  encoding: 'hex',
+                },
+                publicKey: {
+                  value: suiPublicKey,
+                  encoding: 'hex',
+                },
+              } as WalletAccount;
+            });
+          default:
+            return Promise.reject('Unmatched namespace.');
+        }
+      })
+    );
+    return accountsList.flat();
+
     const { address, algo, pubkey } = (
       await this._getAccounts(chainId)
     )[0] as WCAccount;
@@ -626,7 +737,7 @@ export class WCClient implements WalletClient {
 
   // restoreLatestSession() {
   //   if (typeof this.signClient === 'undefined') {
-  //     throw new Error('WalletConnect is not initialized');
+  //     await this.init();
   //   }
   //   if (typeof this.session !== 'undefined') return;
 

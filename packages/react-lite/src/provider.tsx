@@ -4,15 +4,16 @@ import {
   EndpointOptions,
   Logger,
   LogLevel,
-  MainWallet,
+  MainWalletBase,
   NameServiceName,
   SessionOptions,
   SignerOptions,
   State,
+  WalletClientOptionsMap,
   WalletConnectOptions,
   WalletManager,
   WalletModalProps,
-  WalletRepo,
+  WalletRepoBase,
 } from '@cosmos-kit/core';
 import React, {
   createContext,
@@ -33,7 +34,7 @@ export const ChainProvider = ({
   wallets,
   walletModal: ProvidedWalletModal,
   defaultNameService = 'icns',
-  walletConnectOptions,
+  walletClientOptionsMap,
   signerOptions,
   endpointOptions,
   sessionOptions,
@@ -42,10 +43,11 @@ export const ChainProvider = ({
 }: {
   chains: Chain[];
   assetLists: AssetList[];
-  wallets: MainWallet[];
+  wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
+  walletClientOptionsMap?: WalletClientOptionsMap;
   signerOptions?: SignerOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
@@ -61,7 +63,7 @@ export const ChainProvider = ({
         wallets,
         logger,
         defaultNameService,
-        walletConnectOptions,
+        walletClientOptionsMap,
         signerOptions,
         endpointOptions,
         sessionOptions

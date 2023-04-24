@@ -1,13 +1,15 @@
 import { Algo } from '@cosmjs/proto-signing';
-import { SignType, WalletClient } from '@cosmos-kit/core';
+import { SignType, WalletClient, WalletClientOptions } from '@cosmos-kit/core';
 
 import { Trust } from './types';
 
 export class TrustClient implements WalletClient {
   readonly client: Trust;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: Trust) {
+  constructor(client: Trust, options?: WalletClientOptions;) {
     this.client = client;
+    this.options = options;
   }
 
   async connect(chainIds: string[]) {

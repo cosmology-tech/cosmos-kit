@@ -39,19 +39,22 @@ import {
 import {
   CosmosBroadcastDoc,
   Cosmostation,
+  CosmostationOptions,
   SignDoc,
   WalletAddEthereumChainParam,
 } from './types';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
+  readonly options?: CosmostationOptions;
   private eventMap: Map<
     string,
     Map<EventListenerOrEventListenerObject, Event>
   > = new Map();
 
-  constructor(client: Cosmostation) {
+  constructor(client: Cosmostation, options?: CosmostationOptions) {
     this.client = client;
+    this.options = options;
   }
 
   get cosmos() {
@@ -62,7 +65,7 @@ export class CosmostationClient implements WalletClient {
     return this.client.providers.keplr;
   }
 
-  async enable(authRange: AuthRange): Promise<void> {
+  async enable(authRange: AuthRange, options?: unknown): Promise<void> {
     await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
         switch (namespace) {
@@ -79,7 +82,11 @@ export class CosmostationClient implements WalletClient {
     );
   }
 
-  async addChain(namespace: Namespace, chainInfo: unknown): Promise<void> {
+  async addChain(
+    namespace: Namespace,
+    chainInfo: unknown,
+    options?: unknown
+  ): Promise<void> {
     switch (namespace) {
       case 'cosmos':
         this.client.cosmos.request({
@@ -98,7 +105,11 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  switchChain(namespace: Namespace, chainId: string): Promise<void> {
+  switchChain(
+    namespace: Namespace,
+    chainId: string,
+    options?: unknown
+  ): Promise<void> {
     switch (namespace) {
       case 'ethereum':
         this.client.ethereum.request({
@@ -111,7 +122,10 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  async getAccounts(authRange: AuthRange): Promise<AddRaw<WalletAccount>[]> {
+  async getAccounts(
+    authRange: AuthRange,
+    options?: unknown
+  ): Promise<AddRaw<WalletAccount>[]> {
     const accountsList = await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
         switch (namespace) {
@@ -210,9 +224,9 @@ export class CosmostationClient implements WalletClient {
 
   async sign(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     doc: SignDoc,
-    signerAddress?: string,
-    chainId?: string,
     options?: SignOptions
   ): Promise<AddRaw<Signature>> {
     switch (namespace) {
@@ -244,6 +258,7 @@ export class CosmostationClient implements WalletClient {
           } else {
             return Promise.reject('Unmatched doc type.');
           }
+          const _options = options || this.options?.signOptions;
           const {
             pub_key,
             signature,
@@ -253,20 +268,23 @@ export class CosmostationClient implements WalletClient {
             params: {
               chainName: chainId,
               doc: doc,
-              isEditMemo: !!(options === null || options === void 0
+              isEditMemo: !!(_options === null || _options === void 0
                 ? void 0
-                : options.memo),
-              isEditFee: !!(options === null || options === void 0
+                : _options.memo),
+              isEditFee: !!(_options === null || _options === void 0
                 ? void 0
-                : options.fee),
+                : _options.fee),
               gasRate:
-                options === null || options === void 0
+                _options === null || _options === void 0
                   ? void 0
-                  : options.gasRate,
+                  : _options.gasRate,
             },
           })) as SignDirectResponse | SignAminoResponse;
           return {
-            publicKey: pub_key,
+            publicKey: {
+              value: pub_key.value,
+              algo: pub_key.type,
+            },
             signature: {
               value: signature,
             },
@@ -339,10 +357,11 @@ export class CosmostationClient implements WalletClient {
 
   async verify(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     signedDoc: unknown,
     signature: Signature,
-    signerAddress?: string,
-    chainId?: string
+    options?: unknown
   ): Promise<boolean> {
     switch (namespace) {
       case 'cosmos':
@@ -371,9 +390,9 @@ export class CosmostationClient implements WalletClient {
 
   async broadcast(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     signedDoc: CosmosBroadcastDoc.Transaction,
-    signerAddress?: string,
-    chainId?: string,
     options?: {
       mode: SendTransactionMode;
     }
@@ -411,9 +430,9 @@ export class CosmostationClient implements WalletClient {
 
   async signAndBroadcast(
     namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
     doc: unknown,
-    signerAddress?: string,
-    chainId?: string,
     options?: unknown
   ): Promise<AddRaw<Block>> {
     switch (namespace) {
@@ -453,7 +472,7 @@ export class CosmostationClient implements WalletClient {
     }
   }
 
-  async disable(authRange: AuthRange) {
+  async disable(authRange: AuthRange, options?: unknown) {
     await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
         switch (namespace) {
@@ -469,18 +488,18 @@ export class CosmostationClient implements WalletClient {
     );
   }
 
-  // on(type: string, listener: EventListenerOrEventListenerObject): void {
-  //   const event = this.cosmos.on(type, listener);
-  //   const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =
-  //     this.eventMap.get(type) || new Map();
-  //   typeEventMap.set(listener, event);
-  //   this.eventMap.set(type, typeEventMap);
-  // }
+  on(type: string, listener: EventListenerOrEventListenerObject): void {
+    const event = this.cosmos.on(type, listener);
+    const typeEventMap: Map<EventListenerOrEventListenerObject, Event> =
+      this.eventMap.get(type) || new Map();
+    typeEventMap.set(listener, event);
+    this.eventMap.set(type, typeEventMap);
+  }
 
-  // off(type: string, listener: EventListenerOrEventListenerObject): void {
-  //   const event = this.eventMap.get(type)?.get(listener);
-  //   if (event) {
-  //     this.cosmos.off(event);
-  //   }
-  // }
+  off(type: string, listener: EventListenerOrEventListenerObject): void {
+    const event = this.eventMap.get(type)?.get(listener);
+    if (event) {
+      this.cosmos.off(event);
+    }
+  }
 }

@@ -9,14 +9,17 @@ import {
   SignOptions,
   SignType,
   WalletClient,
+  WalletClientOptions,
 } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
+  readonly options?: WalletClientOptions;
 
-  constructor(client: Keplr) {
+  constructor(client: Keplr, options?: WalletClientOptions;) {
     this.client = client;
+    this.options = options;
   }
 
   async connect(chainIds: string[]) {

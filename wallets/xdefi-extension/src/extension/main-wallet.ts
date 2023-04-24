@@ -1,20 +1,20 @@
-import { State, Wallet } from '@cosmos-kit/core';
-import { MainWallet } from '@cosmos-kit/core';
+import { Wallet, WalletClientOptions } from '@cosmos-kit/core';
+import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainXDEFIExtension } from './chain-wallet';
 import { XDEFIClient } from './client';
 import { getXDEFIFromExtension } from './utils';
 
-export class XDEFIExtensionWallet extends MainWallet {
+export class XDEFIExtensionWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {
     super(walletInfo, ChainXDEFIExtension);
   }
 
-  async initClient() {
+  async initClient(options?: WalletClientOptions) {
     this.initingClient();
     try {
       const xdefi = await getXDEFIFromExtension();
-      this.initClientDone(xdefi ? new XDEFIClient(xdefi) : undefined);
+      this.initClientDone(xdefi ? new XDEFIClient(xdefi, options) : undefined);
     } catch (error) {
       this.logger?.error(error);
       this.initClientError(error);

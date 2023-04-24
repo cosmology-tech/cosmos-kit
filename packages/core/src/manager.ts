@@ -16,9 +16,9 @@ import {
   SignerOptions,
   WalletAccount,
   State,
-  WalletConnectOptions,
   WalletName,
   NameService,
+  WalletClientOptionsMap,
 } from './types';
 import { convertChain, Logger, Session } from './utils';
 
@@ -28,7 +28,7 @@ export class WalletManager extends StateBase {
   defaultNameService: NameServiceName = 'icns';
   mainWallets: MainWalletBase[] = [];
   coreEmitter: EventEmitter;
-  walletConnectOptions?: WalletConnectOptions;
+  walletClientOptionsMap?: WalletClientOptionsMap;
   readonly session: Session;
   repelWallet: boolean = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
   isLazy?: boolean; // stands for `globalIsLazy` setting
@@ -39,7 +39,7 @@ export class WalletManager extends StateBase {
     wallets: MainWalletBase[],
     logger: Logger,
     defaultNameService?: NameServiceName,
-    walletConnectOptions?: WalletConnectOptions,
+    walletClientOptionsMap?: WalletClientOptionsMap,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions,
     sessionOptions?: SessionOptions
@@ -56,22 +56,14 @@ export class WalletManager extends StateBase {
       },
       ...sessionOptions,
     });
-    this.walletConnectOptions = walletConnectOptions;
-    this.init(
-      chains,
-      assetLists,
-      wallets,
-      walletConnectOptions,
-      signerOptions,
-      endpointOptions
-    );
+    this.walletClientOptionsMap = walletClientOptionsMap;
+    this.init(chains, assetLists, wallets, signerOptions, endpointOptions);
   }
 
   init(
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
-    walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
     endpointOptions?: EndpointOptions
   ) {
@@ -95,7 +87,6 @@ export class WalletManager extends StateBase {
     this.mainWallets = wallets.map((wallet) => {
       wallet.logger = this.logger;
       wallet.session = this.session;
-      wallet.walletConnectOptions = this.walletConnectOptions;
       wallet.setChains(this.chainRecords);
       return wallet;
     });
@@ -274,7 +265,7 @@ export class WalletManager extends StateBase {
       'cosmos-kit@1:core//current-wallet'
     );
     if (walletName) {
-      await this.activeRepos[0]?.connect(walletName, true);
+      await this.activeRepos[0]?.connect(walletName);
     }
   };
 
@@ -330,15 +321,11 @@ export class WalletManager extends StateBase {
         }
       );
 
-      if (wallet.walletInfo.mode === 'wallet-connect') {
-        await wallet.initClient(this.walletConnectOptions);
-        wallet.emitter?.emit('broadcast_client', wallet.client);
-        this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
-      } else {
-        await wallet.initClient();
-        wallet.emitter?.emit('broadcast_client', wallet.client);
-        this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
-      }
+      const modeOptions = this.walletClientOptionsMap?.[wallet.walletInfo.mode];
+      const walletOptions = this.walletClientOptionsMap?.[wallet.walletName];
+      await wallet.initClient({ ...modeOptions, ...walletOptions });
+      wallet.emitter?.emit('broadcast_client', wallet.client);
+      this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
     });
   };
 

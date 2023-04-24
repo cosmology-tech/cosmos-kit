@@ -3,12 +3,12 @@ import {
   EndpointOptions,
   Logger,
   LogLevel,
-  MainWallet,
+  MainWalletBase,
   ModalViews,
   NameServiceName,
   SessionOptions,
   SignerOptions,
-  WalletConnectOptions,
+  WalletClientOptionsMap,
   WalletModalProps,
 } from '@cosmos-kit/core';
 import { ChainProvider as ChainProviderLite } from '@cosmos-kit/react-lite';
@@ -19,7 +19,7 @@ import {
   ChakraProviderWithGivenTheme,
   ChakraProviderWithOuterTheme,
 } from './modal/components';
-import { defaultModalViews } from './modal/components/views';
+import { defaultModalViews } from './modal/config';
 
 export const ChainProvider = ({
   chains,
@@ -31,7 +31,7 @@ export const ChainProvider = ({
   includeAllWalletsOnMobile = false,
   wrappedWithChakra = false,
   defaultNameService = 'icns',
-  walletConnectOptions,
+  walletClientOptionsMap,
   signerOptions,
   endpointOptions,
   sessionOptions,
@@ -40,14 +40,14 @@ export const ChainProvider = ({
 }: {
   chains: Chain[];
   assetLists: AssetList[];
-  wallets: MainWallet[];
+  wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalTheme?: Record<string, any>;
   modalViews?: ModalViews;
   includeAllWalletsOnMobile?: boolean;
   wrappedWithChakra?: boolean;
   defaultNameService?: NameServiceName;
-  walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
+  walletClientOptionsMap?: WalletClientOptionsMap;
   signerOptions?: SignerOptions;
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
@@ -70,7 +70,7 @@ export const ChainProvider = ({
       wallets={wallets}
       walletModal={modal}
       defaultNameService={defaultNameService}
-      walletConnectOptions={walletConnectOptions}
+      walletClientOptionsMap={walletClientOptionsMap}
       signerOptions={signerOptions}
       endpointOptions={endpointOptions}
       sessionOptions={sessionOptions}
