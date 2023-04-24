@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.36.21",
+  "version": "0.36.23",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,14 +17,14 @@
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
     "@cosmology-ui/react": "^0.1.21",
-    "@cosmos-kit/core": "^1.3.6",
-    "@cosmos-kit/cosmostation": "^0.15.19",
-    "@cosmos-kit/keplr": "^0.33.20",
-    "@cosmos-kit/leap": "^0.14.18",
-    "@cosmos-kit/react": "^1.3.17",
+    "@cosmos-kit/core": "^1.3.7",
+    "@cosmos-kit/cosmostation": "^0.15.21",
+    "@cosmos-kit/keplr": "^0.33.22",
+    "@cosmos-kit/leap": "^0.14.19",
+    "@cosmos-kit/react": "^1.3.18",
     "@cosmos-kit/terrastation": "^0.1.6",
     "@cosmos-kit/terra-extension": "^0.0.1",
-    "@cosmos-kit/vectis": "^0.15.18",
+    "@cosmos-kit/vectis": "^0.15.19",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@web3modal/core": "^2.0.0-rc.1",

@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/xdefi-extension",
-  "version": "0.15.18",
+  "version": "0.15.19",
   "description": "cosmos-kit wallet connector",
   "author": "dp@xdefi.io",
   "contributors": [
@@ -89,7 +89,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/core": "^1.3.6"
+    "@cosmos-kit/core": "^1.3.7"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

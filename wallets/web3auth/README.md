@@ -1,5 +1,7 @@
 # @cosmos-kit/web3auth
 
+> ### Note! This package is still on progress. it doesn't work on mobile yet and it's pretty vulnerable to XSS attacks.
+
 CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
 @cosmos-kit/web3auth is the [https://web3auth.io][web3auth.io] integration for CosmosKit.
