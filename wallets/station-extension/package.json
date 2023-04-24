@@ -1,7 +1,7 @@
 {
   "name": "@cosmos-kit/station-extension",
   "version": "0.4.0",
-  "description": "cosmos-kit wallet adapter for Station",
+  "description": "@cosmos-kit/station-extension is the Station integration for CosmosKit",
   "author": "kanisorn@alleslab.com",
   "contributors": [
     {
