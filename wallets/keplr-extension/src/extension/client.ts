@@ -22,6 +22,10 @@ export class KeplrClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
+  async suggestToken(chainId: string, contractAddress: string, viewingKey?: string) {
+    await this.client.suggestToken(chainId,contractAddress,  viewingKey);
+  };
+
   async getSimpleAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);
     return {
