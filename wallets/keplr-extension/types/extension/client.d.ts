@@ -1,11 +1,12 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { ChainRecord, DirectSignDoc, SignOptions, SignType, WalletClient } from '@cosmos-kit/core';
+import { ChainRecord, DirectSignDoc, SignOptions, SignType, SuggestToken, WalletClient } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 export declare class KeplrClient implements WalletClient {
     readonly client: Keplr;
     constructor(client: Keplr);
     enable(chainIds: string | string[]): Promise<void>;
+    suggestToken({ chainId, tokens }: SuggestToken): Promise<void>;
     getSimpleAccount(chainId: string): Promise<{
         namespace: string;
         chainId: string;
