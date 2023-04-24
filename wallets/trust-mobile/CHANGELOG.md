@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.21](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-mobile@0.2.20...@cosmos-kit/trust-mobile@0.2.21) (2023-04-24)
+
+**Note:** Version bump only for package @cosmos-kit/trust-mobile
+
+
+
+
+
 ## [0.2.20](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-mobile@0.2.19...@cosmos-kit/trust-mobile@0.2.20) (2023-04-23)
 
 **Note:** Version bump only for package @cosmos-kit/trust-mobile
