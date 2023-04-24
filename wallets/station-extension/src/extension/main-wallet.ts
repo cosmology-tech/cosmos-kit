@@ -1,20 +1,20 @@
 import { Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
-import { ChainTerraExtension } from './chain-wallet';
-import { TerraClient } from './client';
+import { ChainStationExtension } from './chain-wallet';
+import { StationClient } from './client';
 import { getTerraFromExtension } from './utils';
 
-export class TerraExtensionWallet extends MainWalletBase {
+export class StationExtensionWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {
-    super(walletInfo, ChainTerraExtension);
+    super(walletInfo, ChainStationExtension);
   }
 
   async initClient() {
     this.initingClient();
     try {
       const terra = await getTerraFromExtension();
-      this.initClientDone(terra ? new TerraClient(terra) : undefined);
+      this.initClientDone(terra ? new StationClient(terra) : undefined);
     } catch (error) {
       this.logger?.error(error);
       this.initClientError(error);

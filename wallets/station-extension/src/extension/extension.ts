@@ -1,4 +1,4 @@
-import { Extension, Tx, ExtensionOptions } from '@terra-money/feather.js';
+import { Extension, Tx, ExtensionOptions } from '@Station-money/feather.js';
 import { NetworkInfo, Addresses, Pubkeys, ChainId } from './types';
 
 type ConnectResponse = {
@@ -27,7 +27,7 @@ function isValidResult({ error, ...payload }: any): boolean {
   return true;
 }
 
-export class TerraExtension {
+export class StationExtension {
   private extension: Extension;
   identifier = 'station';
   _inTransactionProgress = false;
@@ -40,7 +40,7 @@ export class TerraExtension {
     [(data: any) => void, (error: any) => void]
   >();
 
-  constructor() {}
+  constructor() { }
 
   get isAvailable(): boolean {
     return this.extension.isAvailable;

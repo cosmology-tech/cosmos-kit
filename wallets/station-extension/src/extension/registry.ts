@@ -1,6 +1,6 @@
 import { Wallet } from '@cosmos-kit/core';
 
-export const terraExtensionInfo: Wallet = {
+export const stationExtensionInfo: Wallet = {
   name: 'station-extension',
   logo: 'https://assets.terra.money/icon/wallet-provider/station.svg',
   prettyName: 'Station',

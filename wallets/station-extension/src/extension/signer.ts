@@ -6,7 +6,7 @@ import {
   StdSignature,
 } from '@cosmjs/amino';
 import { WalletAccount } from '@cosmos-kit/core';
-import { TerraExtension } from './extension';
+import { StationExtension } from './extension';
 import {
   Fee as TerraFee,
   Msg as TerraMsg,
@@ -14,10 +14,10 @@ import {
 } from '@terra-money/feather.js';
 
 export class OfflineSigner implements OfflineAminoSigner {
-  private extension: TerraExtension;
+  private extension: StationExtension;
   accountInfo: WalletAccount;
 
-  constructor(extension: TerraExtension, accountInfo: WalletAccount) {
+  constructor(extension: StationExtension, accountInfo: WalletAccount) {
     this.extension = extension;
     this.accountInfo = accountInfo;
   }

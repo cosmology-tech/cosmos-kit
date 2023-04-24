@@ -1,24 +1,24 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
 
-import { TerraExtension } from './extension';
+import { StationExtension } from './extension';
 
-interface TerraWindow {
+interface StationWindow {
   isStationExtensionAvailable?: boolean;
 }
 
-export const getTerraFromExtension: () => Promise<
-  TerraExtension | undefined
+export const getStationFromExtension: () => Promise<
+  StationExtension | undefined
 > = async () => {
   if (typeof window === 'undefined') {
     return void 0;
   }
 
-  if (!(window as TerraWindow).isStationExtensionAvailable) {
+  if (!(window as StationWindow).isStationExtensionAvailable) {
     throw ClientNotExistError;
   }
 
-  const terraExtension = new TerraExtension();
-  await terraExtension.init();
+  const stationExtension = new StationExtension();
+  await stationExtension.init();
 
-  return terraExtension;
+  return stationExtension;
 };

@@ -1,12 +1,12 @@
 import { WalletClient, WalletAccount } from '@cosmos-kit/core';
-import { TerraExtension } from './extension';
+import { StationExtension } from './extension';
 import { OfflineSigner } from './signer';
 import { fromBase64 } from '@cosmjs/encoding';
 
-export class TerraClient implements WalletClient {
-  readonly client: TerraExtension;
+export class StationClient implements WalletClient {
+  readonly client: StationExtension;
 
-  constructor(client: TerraExtension) {
+  constructor(client: StationExtension) {
     this.client = client;
   }
 
