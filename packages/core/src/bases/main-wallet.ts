@@ -79,19 +79,24 @@ export abstract class MainWalletBase extends WalletBase {
       this._chainWalletMap = new Map();
     }
     chains.forEach((chain) => {
+      const isTestNet = chain.name.includes('testnet');
       chain.preferredEndpoints = {
         ...chain.preferredEndpoints,
         rpc: [
           ...(chain.preferredEndpoints?.rpc || []),
           ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
           ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
-          `https://rpc.cosmos.directory/${chain.name}`,
+          isTestNet
+            ? `https://rpc.testcosmos.directory/${chain.name}`
+            : `https://rpc.cosmos.directory/${chain.name}`,
         ],
         rest: [
           ...(chain.preferredEndpoints?.rest || []),
           ...(this.preferredEndpoints?.[chain.name]?.rest || []),
           ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
-          `https://rest.cosmos.directory/${chain.name}`,
+          isTestNet
+            ? `https://rest.testcosmos.directory/${chain.name}`
+            : `https://rest.cosmos.directory/${chain.name}`,
         ],
       };
 
