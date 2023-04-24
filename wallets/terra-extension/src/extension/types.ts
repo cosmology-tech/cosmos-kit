@@ -1,8 +1,6 @@
 export type ChainId = string;
 
-export type Addresses = {
-  [k: ChainId]: string;
-};
+export type Addresses = Record<ChainId, string>;
 
 export type CoinType = number;
 
