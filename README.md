@@ -34,19 +34,19 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 | Name | Type | Description |
 |----|----|----|
 | [@cosmos-kit/react](packages/react) | UI | A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem. |
-| [@cosmos-kit/cosmostation](packages/cosmostation) | Root Wallet | Cosmostation Wallet integration. Use this if you want to integrate both extension & mobile wallet connect |
-| [@cosmos-kit/cosmostation-extension/](packages/cosmostation-extension/) | Extension | Cosmostation Web Extension Wallet integration. |
-| [@cosmos-kit/cosmostation-mobile/](packages/cosmostation-mobile/) | WalletConnect | Cosmostation Mobile Wallet integration. |
-| [@cosmos-kit/keplr](packages/keplr) | Root Wallet | Keplr Wallet integration. Use this if you want to integrate both extension & mobile wallet connect |
-| [@cosmos-kit/keplr-extension/](packages/keplr-extension/) | Extension | Keplr Web Extension Wallet integration. |
-| [@cosmos-kit/keplr-mobile/](packages/keplr-mobile/) | WalletConnect | Keplr Mobile Wallet integration. |
-| [@cosmos-kit/leap](packages/leap) | Root Wallet | Leap Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/omni](packages/omni) | Root Wallet | Omni Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/station](packages/station) | Root Wallet | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/station-extension](packages/station-extension) | Extension | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/trust](packages/trust) | Root Wallet | Trust Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/vectis](packages/vectis) | Root Wallet | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/xdefi-extension](packages/xdefi-extension) | Root Wallet | XDEFI Wallet (Extension) integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/cosmostation](wallets/cosmostation) | Root Wallet | Cosmostation Wallet integration. Use this if you want to integrate both extension & mobile wallet connect |
+| [@cosmos-kit/cosmostation-extension/](wallets/cosmostation-extension/) | Extension | Cosmostation Web Extension Wallet integration. |
+| [@cosmos-kit/cosmostation-mobile/](wallets/cosmostation-mobile/) | WalletConnect | Cosmostation Mobile Wallet integration. |
+| [@cosmos-kit/keplr](wallets/keplr) | Root Wallet | Keplr Wallet integration. Use this if you want to integrate both extension & mobile wallet connect |
+| [@cosmos-kit/keplr-extension/](wallets/keplr-extension/) | Extension | Keplr Web Extension Wallet integration. |
+| [@cosmos-kit/keplr-mobile/](wallets/keplr-mobile/) | WalletConnect | Keplr Mobile Wallet integration. |
+| [@cosmos-kit/leap](wallets/leap) | Root Wallet | Leap Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/omni](wallets/omni) | Root Wallet | Omni Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/station](wallets/station) | Root Wallet | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/station-extension](wallets/station-extension) | Extension | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/trust](wallets/trust) | Root Wallet | Trust Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/vectis](wallets/vectis) | Root Wallet | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
+| [@cosmos-kit/xdefi-extension](wallets/xdefi-extension) | Root Wallet | XDEFI Wallet (Extension) integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 
 ### ✨ Example: [@cosmos-kit/example](packages/example)
 
