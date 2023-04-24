@@ -147,6 +147,11 @@ export interface WalletClient {
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
+  suggestToken?: (
+    chainId: string,
+    contractAddress: string,
+    viewingKey?: string
+  ) => Promise<void>;
   addChain?: (chainInfo: ChainRecord) => Promise<void>;
   getAccount?: (chainId: string) => Promise<WalletAccount>;
   getOfflineSigner?: (
