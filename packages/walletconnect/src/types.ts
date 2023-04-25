@@ -1,4 +1,4 @@
-import { StdSignature } from '@cosmjs/amino';
+import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import {
   ChainRecord,
   Namespace,
@@ -35,14 +35,24 @@ export interface WCSignDirectResponse {
   signed: WCDirectSignDoc;
 }
 
-export interface WCAccount {
+export interface RequestAccount1 {
   address: string;
   algo: string;
   pubkey: string;
 }
 
+export interface RequestAccount2 {
+  pubkey: string;
+}
+
+export interface RequestAccount3 {
+  accountId: string;
+  pubkey: string;
+}
+
 export interface WalletConnectOptions extends WalletClientOptions {
   enableOptions?: EnableOptionsMap;
+  signOptions?: SignOptionsMap;
   initSignClientOptions: {
     projectId: string;
     relayUrl?: string;
@@ -58,3 +68,23 @@ export interface EnableOptions {
 export type EnableOptionsMap = {
   [k in Namespace]?: EnableOptions;
 };
+
+export type SignOptionsMap = {
+  ethereum?: {
+    signHexBytes?: 'personal_sign' | 'eth_sign';
+  };
+};
+
+export namespace CosmosDoc {
+  export interface Direct {
+    chainId: string;
+    accountNumber: string;
+    bodyBytes: string;
+    authInfoBytes: string;
+  }
+  export type Amino = StdSignDoc;
+}
+
+export namespace EthereumDoc {
+  export type HexBytes = string;
+}

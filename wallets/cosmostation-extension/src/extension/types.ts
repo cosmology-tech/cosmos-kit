@@ -50,27 +50,14 @@ export type WalletAddEthereumChainParam = [
   }
 ];
 
-export type SignDoc =
-  | CosmosSignDoc.Message
-  | CosmosSignDoc.Direct
-  | CosmosSignDoc.Amino
-  | EthereumSignDoc.Message
-  | EthereumSignDoc.TypedData
-  | AptosSignDoc.Message
-  | AptosSignDoc.Transaction
-  | SuiSignDoc.Transaction;
-
-export namespace CosmosSignDoc {
+export namespace CosmosDoc {
   export type Message = string;
   export type Direct = SignDirectDoc;
   export type Amino = SignAminoDoc;
-}
-
-export namespace CosmosBroadcastDoc {
   export type Transaction = string | Uint8Array;
 }
 
-export namespace EthereumSignDoc {
+export namespace EthereumDoc {
   export type Message = string;
   export type Transaction = {
     from: string;
@@ -86,12 +73,12 @@ export namespace EthereumSignDoc {
   }
 }
 
-export namespace AptosSignDoc {
+export namespace AptosDoc {
   export type Message = string | AptosSignMessageParams;
   export type Transaction = AptosSignPayload;
 }
 
-export namespace SuiSignDoc {
+export namespace SuiDoc {
   export type Transaction = {
     kind: string;
     data: object;

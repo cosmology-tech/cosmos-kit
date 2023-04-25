@@ -15,6 +15,8 @@ import {
   getUint8ArrayFromString,
   AuthRange,
   AddRaw,
+  Namespace,
+  Signature,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -25,12 +27,15 @@ import {
   EnableOptions,
   EnableOptionsMap,
   WalletConnectOptions,
-  WCAccount,
+  RequestAccount1,
   WCSignDirectRequest,
   WCSignDirectResponse,
+  RequestAccount2,
+  RequestAccount3,
 } from './types';
 import Long from 'long';
 import { defaultEnableOptions } from './config';
+import { CosmosDocValidator, EthereumDocValidator, isCosmosAminoSignDoc, isCosmosDirectSignDoc } from './type-guards';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -86,23 +91,6 @@ export class WCClient implements WalletClient {
   // walletconnect wallet mobile link
   get wcMobile() {
     return this.walletInfo.walletconnect.mobile;
-  }
-
-  get accounts(): WalletAccount[] {
-    const accounts = [];
-    this.sessions.forEach((s) => {
-      Object.entries(s.namespaces).forEach(([, nsValue]) => {
-        nsValue.accounts.forEach((account) => {
-          const [namespace, chainId, address] = account.split(':');
-          accounts.push({
-            namespace,
-            chainId,
-            address,
-          });
-        });
-      });
-    });
-    return accounts;
   }
 
   deleteSession(topic: string) {
@@ -224,7 +212,11 @@ export class WCClient implements WalletClient {
     this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
   }
 
-  getSession(prefix: string, chainId: string, method: string) {
+  protected getSessionWithMethod(
+    prefix: string,
+    chainId: string,
+    method: string
+  ): SessionTypes.Struct {
     return this.sessions.find((s) => {
       if (!s.namespaces[prefix]) {
         return false;
@@ -234,6 +226,16 @@ export class WCClient implements WalletClient {
         accounts.find((acc) => acc.startsWith(`${prefix}:${chainId}`)) &&
         methods.findIndex((m) => m === method) !== -1
       );
+    });
+  }
+
+  protected getSession(prefix: string, chainId: string): SessionTypes.Struct {
+    return this.sessions.find((s) => {
+      if (!s.namespaces[prefix]) {
+        return false;
+      }
+      const { accounts } = s.namespaces[prefix];
+      return accounts.find((acc) => acc.startsWith(`${prefix}:${chainId}`));
     });
   }
 
@@ -464,34 +466,28 @@ export class WCClient implements WalletClient {
     this.sessions = [];
   }
 
-  async getAccounts(
-    authRange: AuthRange,
-    options?: unknown
-  ): Promise<WalletAccount> {
-    const account = this.accounts.find(({ chainId: id }) => id === chainId);
-    if (!account) {
-      throw new Error(
-        `Chain ${chainId} is not connected yet, please check the session approval namespaces`
-      );
-    }
-    return account;
-  }
-
-  protected async _getAccounts(chainId: string) {
-    const session = this.getSession('cosmos', chainId);
-    if (!session) {
-      throw new Error(`Session for ${chainId} not established yet.`);
-    }
-    const resp = await this.signClient.request({
-      topic: session.topic,
-      chainId: `cosmos:${chainId}`,
-      request: {
-        method: 'cosmos_getAccountss',
-        params: {},
-      },
+  protected getAccountsFromSession(
+    namespace: Namespace,
+    prefix: string,
+    chainId: string
+  ): WalletAccount[] {
+    const session = this.getSession(prefix, chainId);
+    const accounts: WalletAccount[] = [];
+    Object.entries(session.namespaces).forEach(([, nsValue]) => {
+      nsValue.accounts.forEach((account) => {
+        const [prefix2, chainId, address] = account.split(':');
+        if (prefix === prefix2) {
+          accounts.push({
+            address: {
+              value: address,
+            },
+            namespace,
+            chainId,
+          });
+        }
+      });
     });
-    this.logger?.debug(`Response of cosmos_getAccountss`, resp);
-    return resp;
+    return accounts;
   }
 
   async getAccounts(
@@ -506,127 +502,152 @@ export class WCClient implements WalletClient {
             `No matched prefix in WalletConnect for namespace ${namespace}.`
           );
         }
-        switch (namespace) {
-          case 'cosmos':
-            if (!chainIds) {
-              return Promise.reject('No chainIds provided.');
-            }
-            return Promise.all(
-              chainIds.map(async (chainId) => {
-                const session = this.getSession(
+        if (!chainIds) {
+          return Promise.reject('No chainIds provided.');
+        }
+        return Promise.all(
+          chainIds.map(async (chainId) => {
+            const sessionAccounts = this.getAccountsFromSession(
+              namespace as Namespace,
+              prefix,
+              chainId
+            );
+            let method: string;
+            switch (namespace) {
+              case 'ethereum':
+              case 'everscale':
+              case 'stellar':
+                return sessionAccounts;
+              case 'cosmos':
+                method = 'cosmos_getAccounts';
+              case 'tezos':
+                method = 'tezos_getAccounts';
+              case 'solana':
+                method = 'solana_getAccounts';
+              case 'near':
+                method = 'near_getAccounts';
+
+                const session = this.getSessionWithMethod(
                   prefix,
                   chainId,
-                  'cosmos_getAccounts'
+                  method
                 );
-                if (!session) {
-                  throw new Error(
-                    `Session for ${chainId} not established yet.`
-                  );
+                if (typeof session === 'undefined') {
+                  return sessionAccounts;
                 }
-                const resp = (await this.signClient.request({
+
+                const requestAccounts = await this.signClient.request({
                   topic: session.topic,
-                  chainId: `cosmos:${chainId}`,
+                  chainId: `${prefix}:${chainId}`,
                   request: {
-                    method: 'cosmos_getAccountss',
+                    method,
                     params: {},
                   },
-                })[0]) as WCAccount;
-                this.logger?.debug(`Response of cosmos_getAccountss`, resp);
-                return resp;
-                const key = (await this.signClient.request({
-                  method: 'cos_requestAccount',
-                  params: { chainName: chainId },
-                })) as {
-                  name: string;
-                  address: string;
-                  publicKey: Uint8Array;
-                  isLedger: boolean;
-                  algo: Algo;
-                };
-                return {
-                  chainId,
-                  namespace,
-                  username: key.name,
-                  address: {
-                    value: key.address,
-                    encoding: 'bech32',
-                  },
-                  publicKey: {
-                    value: getStringFromUint8Array(key.publicKey, 'hex'),
-                    encoding: 'hex',
-                    algo: key.algo,
-                  },
-                } as CosmosWalletAccount;
-              })
-            );
-          case 'ethereum':
-            const ethAddrs = (await this.client.ethereum.request({
-              method: 'eth_requestAccounts',
-            })) as string[];
-            return ethAddrs.map((address) => {
-              return {
-                namespace,
-                address: {
-                  value: address,
-                  encoding: 'hex',
-                },
-              } as WalletAccount;
-            });
-          case 'aptos':
-            const { address, publicKey } = (await this.client.aptos.request({
-              method: 'aptos_account',
-            })) as {
-              address: string;
-              publicKey: string;
-            };
-            return [
-              {
-                namespace,
-                address: {
-                  value: address,
-                  encoding: 'hex',
-                },
-                publicKey: {
-                  value: publicKey,
-                  encoding: 'hex',
-                },
-              } as WalletAccount,
-            ];
-          case 'sui':
-            const suiAddrs = (await this.client.sui.request({
-              method: 'sui_getAccounts',
-            })) as string[];
-            const suiPublicKey = (await this.client.sui.request({
-              method: 'sui_getPublicKey',
-            })) as string;
-            return suiAddrs.map((address) => {
-              return {
-                namespace,
-                address: {
-                  value: address,
-                  encoding: 'hex',
-                },
-                publicKey: {
-                  value: suiPublicKey,
-                  encoding: 'hex',
-                },
-              } as WalletAccount;
-            });
-          default:
-            return Promise.reject('Unmatched namespace.');
-        }
+                });
+                if (namespace == 'cosmos' || namespace == 'tezos') {
+                  return (requestAccounts as RequestAccount1[]).map(
+                    (acc) =>
+                      ({
+                        address: {
+                          value: acc.address,
+                        },
+                        namespace,
+                        chainId,
+                        publicKey: {
+                          value: acc.pubkey,
+                          algo: acc.algo,
+                        },
+                      } as WalletAccount)
+                  );
+                } else if (namespace == 'solana') {
+                  return (requestAccounts as RequestAccount2[]).map(
+                    (acc) =>
+                      ({
+                        address: {
+                          value: acc.pubkey,
+                        },
+                        namespace,
+                        chainId,
+                        publicKey: {
+                          value: acc.pubkey,
+                        },
+                      } as WalletAccount)
+                  );
+                } else if (namespace == 'near') {
+                  return (requestAccounts as RequestAccount3[]).map(
+                    (acc) =>
+                      ({
+                        address: {
+                          value: acc.accountId,
+                        },
+                        namespace,
+                        chainId,
+                        publicKey: {
+                          value: acc.pubkey,
+                        },
+                      } as WalletAccount)
+                  );
+                }
+              default:
+                return Promise.reject('Unmatched namespace.');
+            }
+          })
+        );
       })
     );
-    return accountsList.flat();
+    return accountsList.flat().flat();
+  }
 
-    const { address, algo, pubkey } = (
-      await this._getAccounts(chainId)
-    )[0] as WCAccount;
-    return {
-      address,
-      algo: algo as Algo,
-      pubkey: getUint8ArrayFromString(pubkey, this.wcEncoding),
-    };
+  async sign(
+    namespace: Namespace,
+    chainId: string,
+    signerAddress: string,
+    doc: unknown,
+    options?: unknown
+  ): Promise<AddRaw<Signature>> {
+    let method: string;
+    switch (namespace) {
+      case 'cosmos':
+        if (CosmosDocValidator.isDirect(doc)) {
+          method = 'cosmos_signDirect'
+        } else if (CosmosDocValidator.isAmino(doc)) {
+          method = 'cosmos_signAmino'
+        } else {
+          return Promise.reject('Unmatched doc type.')
+        }
+      case 'ethereum':
+        if (EthereumDocValidator.isHexBytes(doc) && options?.) {
+          method = 'cosmos_signDirect'
+        } else if (CosmosDocValidator.isAmino(doc)) {
+          method = 'cosmos_signAmino'
+        } else {
+          return Promise.reject('Unmatched doc type.')
+        }
+
+
+
+
+
+          const session = this.getSessionWithMethod(namespace, chainId, 'cosmos_signDirect');
+          if (!session) {
+            throw new Error(`Session for ${chainId} with method ${} not established yet.`);
+          }
+          const resp = await this.signClient.request({
+            topic: session.topic,
+            chainId: `cosmos:${chainId}`,
+            request: {
+              method: 'cosmos_signDirect',
+              params: signDocValue,
+            },
+          });
+          this.logger?.debug(`Response of cosmos_signDirect`, resp);
+          return resp;
+        }
+        break;
+
+      default:
+        break;
+    }
   }
 
   protected async _signAmino(

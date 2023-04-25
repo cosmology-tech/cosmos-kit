@@ -70,6 +70,7 @@ export type Namespace =
   | 'stella'
   | 'tezos'
   | 'near'
+  | 'everscale'
   | 'aptos'
   | 'sui';
 

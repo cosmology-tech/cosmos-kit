@@ -84,6 +84,8 @@
     "@babel/plugin-transform-typescript": "7.19.1",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
+    "@cosmjs/cosmwasm-stargate": "0.29.0",
+    "@cosmjs/stargate": "0.29.0",
     "@types/jest": "29.0.0",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -110,6 +112,10 @@
     "@walletconnect/types": "^2.7.0",
     "@walletconnect/utils": "^2.7.0",
     "events": "3.3.0"
+  },
+  "peerDependencies": {
+    "@cosmjs/amino": ">= 0.28",
+    "@cosmjs/proto-signing": ">= 0.28"
   },
   "gitHead": "7ac9697baeac9874d405b26d27b3403e9194213d"
 }
