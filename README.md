@@ -35,7 +35,7 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 |----|----|----|
 | [@cosmos-kit/core](packages/core)   | Core | Core CosmosKit functionality |
 | [@cosmos-kit/react](packages/react) | UI | A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem. |
-| [@cosmos-kit/walletconnect](packages/walletconnect) | Wallet Connect | Mobile WalletConnect support for the Cosmos ecosystem. |
+| [@cosmos-kit/walletconnect](packages/walletconnect) | WalletConnect | Mobile WalletConnect support for the Cosmos ecosystem. |
 ## 📦 Wallets
 
 | Name | Type | Description |
