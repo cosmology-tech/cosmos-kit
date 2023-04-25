@@ -1,7 +1,10 @@
 {
-  "index": "Introduction",
-  "get-started": "Get Started",
-  "provider": "Provider",
-  "hooks": "Hooks",
-  "integrating-wallets": "Integrating Wallets"
+  "v1": {
+    "title": "V1 (Cosmos Only)",
+    "type": "page"
+  },
+  "v2": {
+    "title": "V2 (Generic)",
+    "type": "page"
+  }
 }
