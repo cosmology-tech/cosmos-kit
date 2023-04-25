@@ -19,7 +19,7 @@ export class StationClient implements WalletClient {
     return {
       namespace: 'cosmos',
       chainId,
-      address: account.address,
+      address: account.addresses[chainId],
     };
   }
 
