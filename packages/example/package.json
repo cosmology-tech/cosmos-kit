@@ -25,6 +25,7 @@
     "@cosmos-kit/station": "^0.5.1",
     "@cosmos-kit/station-extension": "^0.5.1",
     "@cosmos-kit/vectis": "^0.15.20",
+    "@cosmos-kit/coin98": "^0.1.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@web3modal/core": "^2.0.0-rc.1",
