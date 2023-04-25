@@ -14,6 +14,7 @@ import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
+import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
 import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
@@ -39,7 +40,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...trustWallets,
             // ...frontierWallets,
             // ...stationWallets,
-            // ...ExtensionWallets
+            // ...ExtensionWallets,
+            // ...coin98Wallets
           ]}
           defaultNameService={"stargaze"}
           walletConnectOptions={{
