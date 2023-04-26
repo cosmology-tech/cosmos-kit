@@ -9,7 +9,7 @@ import {
 import { Keplr } from '@keplr-wallet/types';
 
 export interface CosmostationOptions extends WalletClientOptions {
-  signOptions: SignOptions;
+  signOptions?: SignOptions;
 }
 
 export interface Request {
@@ -84,3 +84,13 @@ export namespace SuiDoc {
     data: object;
   };
 }
+
+export type SignDoc =
+  | CosmosDoc.Message
+  | CosmosDoc.Direct
+  | CosmosDoc.Amino
+  | EthereumDoc.Message
+  | EthereumDoc.Transaction
+  | EthereumDoc.TypedData
+  | AptosDoc.Message
+  | AptosDoc.Transaction;

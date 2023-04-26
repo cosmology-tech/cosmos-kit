@@ -1,4 +1,4 @@
-import { hasKeyType } from '@cosmos-kit/core';
+import { hasKeyType, isArray } from '@cosmos-kit/core';
 import { isAminoDoc } from '@cosmos-kit/cosmos';
 import { CosmosDoc, EthereumDoc } from './types';
 
@@ -13,11 +13,5 @@ export const CosmosDocValidator = {
   },
   isAmino(doc: unknown): doc is CosmosDoc.Amino {
     return isAminoDoc(doc);
-  },
-};
-
-export const EthereumDocValidator = {
-  isHexBytes(doc: unknown): doc is EthereumDoc.HexBytes {
-    return typeof doc == 'string' && doc.startsWith('0x');
   },
 };

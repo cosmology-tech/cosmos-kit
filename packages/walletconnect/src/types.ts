@@ -18,23 +18,6 @@ export interface IWCClient {
   new (walletInfo: Wallet, options?: WalletConnectOptions): WCClient;
 }
 
-export interface WCDirectSignDoc {
-  chainId: string;
-  accountNumber: string;
-  authInfoBytes: string;
-  bodyBytes: string;
-}
-
-export interface WCSignDirectRequest {
-  signerAddress: string;
-  signDoc: WCDirectSignDoc;
-}
-
-export interface WCSignDirectResponse {
-  signature: StdSignature;
-  signed: WCDirectSignDoc;
-}
-
 export interface RequestAccount1 {
   address: string;
   algo: string;
@@ -87,4 +70,23 @@ export namespace CosmosDoc {
 
 export namespace EthereumDoc {
   export type HexBytes = string;
+  export interface TypedData {
+    domain: object;
+    message: object;
+    primaryType: string;
+    types: {
+      EIP712Domain: { name: string; type: string }[];
+    };
+  }
+}
+
+export namespace CosmosSignResponse {
+  export interface Direct {
+    signature: StdSignature;
+    signed: CosmosDoc.Direct;
+  }
+  export interface Amino {
+    signature: StdSignature;
+    signed: CosmosDoc.Amino;
+  }
 }

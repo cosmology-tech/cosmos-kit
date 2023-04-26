@@ -31,8 +31,12 @@ import {
 } from './type-guards';
 
 import {
+  AptosDoc,
+  CosmosDoc,
   Cosmostation,
   CosmostationOptions,
+  SignDoc,
+  SuiDoc,
   WalletAddEthereumChainParam,
 } from './types';
 
@@ -68,7 +72,7 @@ export class CosmostationClient implements WalletClient {
             await this.client.sui.request({ method: 'sui_connect' });
             return;
           default:
-            return Promise.reject('Unmatched namespace.');
+            return Promise.reject(`Unmatched namespace: ${namespace}.`);
         }
       })
     );
@@ -93,7 +97,7 @@ export class CosmostationClient implements WalletClient {
         });
         return;
       default:
-        return Promise.reject('Unmatched namespace.');
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
@@ -110,7 +114,7 @@ export class CosmostationClient implements WalletClient {
         });
         return;
       default:
-        return Promise.reject('Unmatched namespace.');
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
@@ -207,7 +211,7 @@ export class CosmostationClient implements WalletClient {
               } as WalletAccount;
             });
           default:
-            return Promise.reject('Unmatched namespace.');
+            return Promise.reject(`Unmatched namespace: ${namespace}.`);
         }
       })
     );
@@ -217,8 +221,8 @@ export class CosmostationClient implements WalletClient {
   async sign(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
-    doc: unknown,
+    signer: string,
+    doc: SignDoc,
     options?: SignOptions
   ): Promise<AddRaw<Signature>> {
     switch (namespace) {
@@ -231,7 +235,7 @@ export class CosmostationClient implements WalletClient {
             method: 'cos_signMessage',
             params: {
               chainName: chainId,
-              signer: signerAddress,
+              signer: signer,
               message: doc,
             },
           })) as SignMessageResponse;
@@ -287,7 +291,7 @@ export class CosmostationClient implements WalletClient {
         if (EthereumDocValidator.isMessage(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_sign',
-            params: [signerAddress, doc],
+            params: [signer, doc],
           })) as { result: string };
           return {
             signature: {
@@ -307,7 +311,7 @@ export class CosmostationClient implements WalletClient {
         } else if (EthereumDocValidator.isTypedData(doc)) {
           const { result } = (await this.client.ethereum.request({
             method: 'eth_signTypedData_v4',
-            params: [signerAddress, JSON.stringify(doc)],
+            params: [signer, JSON.stringify(doc)],
           })) as { result: string };
           return {
             signature: {
@@ -343,15 +347,15 @@ export class CosmostationClient implements WalletClient {
           return Promise.reject('Unmatched doc type.');
         }
       default:
-        return Promise.reject('Unmatched namespace.');
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
   async verify(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
-    signedDoc: unknown,
+    signer: string,
+    signedDoc: CosmosDoc.Message,
     signature: Signature,
     options?: unknown
   ): Promise<boolean> {
@@ -365,7 +369,7 @@ export class CosmostationClient implements WalletClient {
             method: 'cos_verifyMessage',
             params: {
               chainName: chainId,
-              signer: signerAddress,
+              signer: signer,
               message: signedDoc,
               publicKey: signature.publicKey.value,
               signature: signature.signature.value,
@@ -376,15 +380,15 @@ export class CosmostationClient implements WalletClient {
           return Promise.reject('Only support message string verification.');
         }
       default:
-        return Promise.reject('Unmatched namespace.');
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
   async broadcast(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
-    signedDoc: unknown,
+    signer: string,
+    signedDoc: CosmosDoc.Transaction,
     options?: {
       mode: SendTransactionMode;
     }
@@ -416,15 +420,15 @@ export class CosmostationClient implements WalletClient {
           return Promise.reject('Unmatched doc type.');
         }
       default:
-        return Promise.reject('Unmatched namespace.');
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
   async signAndBroadcast(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
-    doc: unknown,
+    signer: string,
+    doc: SuiDoc.Transaction | AptosDoc.Transaction,
     options?: unknown
   ): Promise<AddRaw<Block>> {
     switch (namespace) {
@@ -460,7 +464,7 @@ export class CosmostationClient implements WalletClient {
           return Promise.reject('Unmatched doc type.');
         }
       default:
-        return Promise.reject('Unmatched namespace.');
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
@@ -474,7 +478,7 @@ export class CosmostationClient implements WalletClient {
             });
             return;
           default:
-            return Promise.reject('Unmatched namespace.');
+            return Promise.reject(`Unmatched namespace: ${namespace}.`);
         }
       })
     );

@@ -4,7 +4,6 @@ import {
   AppUrl,
   Mutable,
   RejectedError,
-  SignOptions,
   State,
   Wallet,
   WalletAccount,
@@ -28,19 +27,21 @@ import {
   EnableOptionsMap,
   WalletConnectOptions,
   RequestAccount1,
-  WCSignDirectRequest,
-  WCSignDirectResponse,
   RequestAccount2,
   RequestAccount3,
+  CosmosDoc,
+  EthereumDoc,
+  CosmosSignResponse,
 } from './types';
 import Long from 'long';
 import { defaultEnableOptions } from './config';
-import { CosmosDocValidator, EthereumDocValidator, isCosmosAminoSignDoc, isCosmosDirectSignDoc } from './type-guards';
+import { CosmosDocValidator } from './type-guards';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
 export class WCClient implements WalletClient {
   readonly walletInfo: Wallet;
+  readonly options?: WalletConnectOptions;
 
   signClient?: SignClient;
   wcCloudInfo?: any; // info from WalletConnect Cloud Explorer
@@ -52,7 +53,6 @@ export class WCClient implements WalletClient {
   sessions: SessionTypes.Struct[] = [];
   emitter?: EventEmitter;
   logger?: Logger;
-  options?: WalletConnectOptions;
   relayUrl?: string;
   env?: DappEnv;
 
@@ -490,21 +490,26 @@ export class WCClient implements WalletClient {
     return accounts;
   }
 
+  protected getPrefix(namespace: Namespace): string {
+    const prefix = defaultEnableOptions[namespace]?.prefix as string;
+    if (!prefix) {
+      throw new Error(
+        `No matched prefix in WalletConnect for namespace ${namespace}.`
+      );
+    }
+    return prefix;
+  }
+
   async getAccounts(
     authRange: AuthRange,
     options?: unknown
   ): Promise<AddRaw<WalletAccount>[]> {
     const accountsList = await Promise.all(
       Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
-        const prefix = defaultEnableOptions[namespace]?.prefix as string;
-        if (!prefix) {
-          return Promise.reject(
-            `No matched prefix in WalletConnect for namespace ${namespace}.`
-          );
-        }
         if (!chainIds) {
           return Promise.reject('No chainIds provided.');
         }
+        const prefix = this.getPrefix(namespace as Namespace);
         return Promise.all(
           chainIds.map(async (chainId) => {
             const sessionAccounts = this.getAccountsFromSession(
@@ -577,9 +582,7 @@ export class WCClient implements WalletClient {
                   return (requestAccounts as RequestAccount3[]).map(
                     (acc) =>
                       ({
-                        address: {
-                          value: acc.accountId,
-                        },
+                        name: acc.accountId,
                         namespace,
                         chainId,
                         publicKey: {
@@ -589,7 +592,7 @@ export class WCClient implements WalletClient {
                   );
                 }
               default:
-                return Promise.reject('Unmatched namespace.');
+                return Promise.reject(`Unmatched namespace: ${namespace}.`);
             }
           })
         );
@@ -601,52 +604,90 @@ export class WCClient implements WalletClient {
   async sign(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
-    doc: unknown,
-    options?: unknown
+    signer: string,
+    doc: CosmosDoc.Amino | CosmosDoc.Direct | EthereumDoc.HexBytes,
+    options?: WalletConnectOptions['signOptions']
   ): Promise<AddRaw<Signature>> {
-    let method: string;
+    const prefix = this.getPrefix(namespace as Namespace);
+    let method: string, params: object;
     switch (namespace) {
       case 'cosmos':
         if (CosmosDocValidator.isDirect(doc)) {
-          method = 'cosmos_signDirect'
+          method = 'cosmos_signDirect';
+          params = {
+            signerAddress: signer,
+            signDoc: doc,
+          };
         } else if (CosmosDocValidator.isAmino(doc)) {
-          method = 'cosmos_signAmino'
+          method = 'cosmos_signAmino';
+          params = {
+            signerAddress: signer,
+            signDoc: doc,
+          };
         } else {
-          return Promise.reject('Unmatched doc type.')
+          return Promise.reject('Unmatched doc type.');
         }
       case 'ethereum':
-        if (EthereumDocValidator.isHexBytes(doc) && options?.) {
-          method = 'cosmos_signDirect'
-        } else if (CosmosDocValidator.isAmino(doc)) {
-          method = 'cosmos_signAmino'
-        } else {
-          return Promise.reject('Unmatched doc type.')
-        }
-
-
-
-
-
-          const session = this.getSessionWithMethod(namespace, chainId, 'cosmos_signDirect');
-          if (!session) {
-            throw new Error(`Session for ${chainId} with method ${} not established yet.`);
+        if (EthereumDocValidator.isHexString(doc)) {
+          const _options = options || this.options?.signOptions;
+          if (_options?.ethereum?.signHexBytes == 'personal_sign') {
+            method = 'personal_sign';
+            params = [doc, signer];
+          } else if (_options?.ethereum?.signHexBytes == 'eth_sign') {
+            method = 'eth_sign';
+            params = [signer, doc];
+          } else {
+            return Promise.reject(
+              'There are two sign methods for hex bytes doc possiblely provided by wallet. Please set `signHexBytes` in options.'
+            );
           }
-          const resp = await this.signClient.request({
-            topic: session.topic,
-            chainId: `cosmos:${chainId}`,
-            request: {
-              method: 'cosmos_signDirect',
-              params: signDocValue,
-            },
-          });
-          this.logger?.debug(`Response of cosmos_signDirect`, resp);
-          return resp;
+        } else if (EthereumDocValidator.isTypedData(doc)) {
+          method = 'eth_signTypedData';
+          params = [signer, doc];
+        } else if (EthereumDocValidator.isTypedData(doc)) {
+          method = 'eth_signTypedData';
+          params = [signer, doc];
+        } else {
+          return Promise.reject('Unmatched doc type.');
         }
-        break;
 
+        const session = this.getSessionWithMethod(prefix, chainId, method);
+        if (typeof session === 'undefined') {
+          throw new Error(
+            `Session for ${chainId} with method ${method} not established yet.`
+          );
+        }
+
+        const resp = await this.signClient.request({
+          topic: session.topic,
+          chainId: `${prefix}:${chainId}`,
+          request: {
+            method,
+            params,
+          },
+        });
+
+        switch (method) {
+          case 'cosmos_signDirect':
+          case 'cosmos_signAmino':
+            const { signature, signed } = resp as
+              | CosmosSignResponse.Direct
+              | CosmosSignResponse.Amino;
+            return {
+              signature: {
+                value: signature.signature,
+              },
+              publicKey: {
+                value: signature.pub_key.value,
+                algo: signature.pub_key.type,
+              },
+              signedDoc: signed,
+            };
+          default:
+            return Promise.reject(`Unmatched method: ${method}.`);
+        }
       default:
-        break;
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
@@ -741,7 +782,7 @@ export class WCClient implements WalletClient {
       signer,
       signDoc,
       signOptions
-    )) as WCSignDirectResponse;
+    )) as CosmosSignDirectResponse;
     return {
       signed: {
         chainId: signed.chainId,

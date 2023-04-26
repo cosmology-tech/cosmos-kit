@@ -86,15 +86,19 @@ export interface PublicKey extends EncodedString {
   algo?: string;
 }
 
+/**
+ * At least address or publicKey should exist
+ */
 export interface WalletAccount {
+  address?: EncodedAddress;
+  publicKey?: PublicKey;
   /**
-   * identifier in BlockChain.
-   * in Cosmos, it's the address formatted using Bech32;
+   * some contracts provides readable address/publicKey representation service, like domain for an ip.
+   * `name` is unique like address/publicKey, different from `username` in some wallet
    */
-  address: EncodedAddress;
+  name?: string;
   namespace: Namespace;
   chainId?: string;
-  publicKey?: PublicKey;
 }
 
 export interface HttpEndpoint {
@@ -201,6 +205,8 @@ export interface WalletClient {
    *     Usually type guards function locates in type-guards.ts.
    *     Check the code in wallet package for detail.
    *
+   * @param signer
+   *     Signer could be the address or public key.
    * @param doc
    *     The type of doc can varies from different wallets and namespaces.
    *
@@ -209,7 +215,7 @@ export interface WalletClient {
   sign?(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
+    signer: string,
     doc: unknown,
     options?: unknown
   ): Promise<AddRaw<Signature>>;
@@ -223,7 +229,7 @@ export interface WalletClient {
   verify?(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
+    signer: string,
     signedDoc: unknown,
     signature: Signature,
     options?: unknown
@@ -241,7 +247,7 @@ export interface WalletClient {
   broadcast?(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
+    signer: string,
     signedDoc: unknown,
     options?: unknown
   ): Promise<AddRaw<Block>>;
@@ -258,7 +264,7 @@ export interface WalletClient {
   signAndBroadcast?(
     namespace: Namespace,
     chainId: string,
-    signerAddress: string,
+    signer: string,
     doc: unknown,
     options?: unknown
   ): Promise<AddRaw<Block>>;
