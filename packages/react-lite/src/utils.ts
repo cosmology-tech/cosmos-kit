@@ -119,10 +119,10 @@ export function getChainWalletContext(
         [chainId],
         'enable'
       ),
-    suggestToken: () =>
+    suggestToken: (...params: Parameters<ChainWalletContext['suggestToken']>) =>
       clientMethodAssert(
         wallet?.client?.suggestToken.bind(wallet.client),
-        [chainId],
+        [...params],
         'suggestToken'
       ),
     getAccount: () =>
