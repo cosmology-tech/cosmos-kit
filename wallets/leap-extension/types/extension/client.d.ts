@@ -7,7 +7,7 @@ export declare class LeapClient implements WalletClient {
     readonly client: Leap;
     constructor(client: Leap);
     enable(chainIds: string | string[]): Promise<void>;
-    suggestToken({ chainId, tokens }: SuggestToken): Promise<void>;
+    suggestToken({ chainId, tokens, type }: SuggestToken): Promise<void>;
     disconnect(): Promise<void>;
     getSimpleAccount(chainId: string): Promise<{
         namespace: string;

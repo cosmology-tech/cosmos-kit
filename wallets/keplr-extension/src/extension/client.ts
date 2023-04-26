@@ -23,9 +23,11 @@ export class KeplrClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
-  async suggestToken({ chainId, tokens}: SuggestToken) {
-    for (const { contractAddress, viewingKey } of tokens) {
-      await this.client.suggestToken(chainId, contractAddress,  viewingKey);
+  async suggestToken({ chainId, tokens, type }: SuggestToken) {
+    if (type === 'cw20') {
+      for (const { contractAddress, viewingKey } of tokens) {
+        await this.client.suggestToken(chainId, contractAddress,  viewingKey);
+      }
     }
   };
 

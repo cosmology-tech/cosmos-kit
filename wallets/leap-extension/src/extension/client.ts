@@ -16,9 +16,11 @@ export class LeapClient implements WalletClient {
     await this.client.enable(chainIds);
   }
 
-  async suggestToken({ chainId, tokens}: SuggestToken) {
-    for (const { contractAddress } of tokens) {
-      await this.client.suggestToken(chainId, contractAddress);
+  async suggestToken({ chainId, tokens, type }: SuggestToken) {
+    if (type === 'cw20') {
+      for (const { contractAddress } of tokens) {
+        await this.client.suggestToken(chainId, contractAddress);
+      }
     }
   };
 

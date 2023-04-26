@@ -8,7 +8,7 @@ export declare class CosmostationClient implements WalletClient {
     constructor(client: Cosmostation);
     get cosmos(): import("./types").Cosmos;
     get ikeplr(): import("@keplr-wallet/types").Keplr;
-    suggestToken({ chainName, tokens }: SuggestToken): Promise<void>;
+    suggestToken({ chainName, tokens, type }: SuggestToken): Promise<void>;
     getSimpleAccount(chainId: string): Promise<{
         namespace: string;
         chainId: string;

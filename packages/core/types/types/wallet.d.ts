@@ -106,9 +106,15 @@ export interface SuggestCW20Token {
     imageURL?: string;
     coinGeckoId?: string;
 }
+export declare const SuggestTokenTypes: {
+    readonly CW20: "cw20";
+    readonly ERC20: "erc20";
+};
+export declare type SuggestTokenType = typeof SuggestTokenTypes[keyof typeof SuggestTokenTypes];
 export interface SuggestToken {
     chainId: string;
     chainName: string;
+    type: SuggestTokenType;
     tokens: SuggestCW20Token[];
 }
 export interface WalletClient {

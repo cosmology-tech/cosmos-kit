@@ -33,14 +33,16 @@ export class CosmostationClient implements WalletClient {
     return this.client.providers.keplr;
   }
 
-  async suggestToken({ chainName, tokens }: SuggestToken) {
-    await this.cosmos.request({
-      method: "cos_addTokensCW20",
-      params: {
-        chainName,
-        tokens
-      },
-    });
+  async suggestToken({ chainName, tokens, type }: SuggestToken) {
+    if (type === 'cw20') {
+      await this.cosmos.request({
+        method: "cos_addTokensCW20",
+        params: {
+          chainName,
+          tokens
+        },
+      });
+    }
   };
 
   async getSimpleAccount(chainId: string) {

@@ -6,7 +6,7 @@ export declare class KeplrClient implements WalletClient {
     readonly client: Keplr;
     constructor(client: Keplr);
     enable(chainIds: string | string[]): Promise<void>;
-    suggestToken({ chainId, tokens }: SuggestToken): Promise<void>;
+    suggestToken({ chainId, tokens, type }: SuggestToken): Promise<void>;
     getSimpleAccount(chainId: string): Promise<{
         namespace: string;
         chainId: string;
