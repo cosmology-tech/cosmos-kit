@@ -1,11 +1,11 @@
 {
-  "name": "@cosmos-kit/terrastation",
-  "version": "0.1.1",
+  "name": "@cosmos-kit/xdefi",
+  "version": "0.14.13",
   "description": "cosmos-kit wallet connector",
-  "author": "jonlitech@gmail.com",
+  "author": "mayank.yadav@xdefiwallet.io",
   "contributors": [
     {
-      "name": "Javier Aceña"
+      "name": "Mayank Yadav"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -44,7 +44,7 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "station",
+    "xdefi",
     "wallet"
   ],
   "bugs": {
@@ -62,9 +62,6 @@
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
     "@babel/runtime": "7.11.2",
-    "@cosmjs/cosmwasm-stargate": "0.29.0",
-    "@cosmjs/stargate": "0.29.0",
-    "@keplr-wallet/types": "0.11.21",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -84,7 +81,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/terrastation-extension": "^0.1.1"
+    "@cosmos-kit/xdefi-extension": "^0.14.13"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

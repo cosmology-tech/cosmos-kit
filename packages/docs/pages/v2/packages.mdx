@@ -1,0 +1,100 @@
+# Packages
+
+The source code of all packages locates [here](https://github.com/cosmology-tech/cosmos-kit)
+
+Three workspaces:
+
+- [packages](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages) (base packages)
+- [namespaces](https://github.com/cosmology-tech/cosmos-kit/tree/main/namespaces) (types of networks)
+- [wallets](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets)
+
+## Base Packages
+
+### @cosmos-kit/core
+
+- Exports commonly used `types`, `classes` and `utils`
+
+### @cosmos-kit/react-lite
+
+- Integrates React
+- Exports `ChainProvider` and most `Hooks`
+
+> - useChain
+> - useChainWallet
+> - useManager
+> - useNameService
+> - useWallet
+> - useWalletClient
+
+### @cosmos-kit/react
+
+- Integrates React
+- Provides default modal to select wallet
+- Exports all from `@cosmos-kit/react-lite` and an additional `Hook`.
+
+> - useModalTheme
+
+### @cosmos-kit/walletconnect
+
+- Exports `super classes` for wallets support [walletconnect v2](https://walletconnect.com/)
+  
+### @cosmos-kit/ins
+
+## Namespace Packages
+
+> `import { Namespace } from '@cosmos-kit/core'` to see all namespaces.
+
+*in alphabetical order*
+
+### @cosmos-kit/cosmos
+
+- Exports **cosmos-related** `types`, `classes` and `utils`
+
+### @cosmos-kit/ethereum
+
+- Exports **ethereum-related** `types`, `classes` and `utils`
+
+## Wallet Packages
+
+*in alphabetical order*
+
+> All wallets below share standard wallet client interface.<br/>
+> `import { WalletClient } from '@cosmos-kit/core'` to see more details.
+
+### @cosmos-kit/coin98
+- @cosmos-kit/coin98-extension
+  
+### @cosmos-kit/cosmostation
+- @cosmos-kit/cosmostation-extension
+- @cosmos-kit/cosmostation-mobile (walletconnect v2)
+
+### @cosmos-kit/frontier
+- @cosmos-kit/frontier-extension
+
+### @cosmos-kit/keplr
+- @cosmos-kit/keplr-extension
+- @cosmos-kit/keplr-mobile (walletconnect v2)
+  
+### @cosmos-kit/leap
+- @cosmos-kit/leap-extension
+  
+### @cosmos-kit/metamask
+- @cosmos-kit/metamask-extension
+  
+### @cosmos-kit/omni
+- @cosmos-kit/omni-mobile (walletconnect v2)
+
+### @cosmos-kit/station
+- @cosmos-kit/station-extension
+
+### @cosmos-kit/trust
+- @cosmos-kit/trust-extension
+- @cosmos-kit/trust-mobile (walletconnect v2)
+
+### @cosmos-kit/vectis
+- @cosmos-kit/vectis-extension
+  
+### @cosmos-kit/web3auth
+
+### @cosmos-kit/xdefi
+- @cosmos-kit/xdefi-extension

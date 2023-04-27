@@ -1,0 +1,23 @@
+# Sign & Broadcast
+
+## Important To Know
+
+There could be multiple `sign`/`broadcast` methods provided by a wallet extension/app. i.e. `sign_message`, `sign_transaction`, `sign_amino`, `sign_direct` etc. However, for our standard **WalletClient** interface, we only provide a single `sign`/`broadcast` method. Usually we create `type-guards` funtions for every wallet respectively to make client automatically determine which method to use according to the type of `doc` argument.
+
+Basicall sign method is determined automatically by the doc type. But there are cases that multiple sign methods provided for one doc type, then parameter `options` is required to get more info.
+
+## WalletConnect
+
+If the doc is hex bytes string and namespace is `ethereum`, make sure `signHexBytes` is set.
+
+**sign options**
+
+```ts
+{
+    ethereum: {
+        signHexBytes: 'personal_sign', // or 'eth_sign', cannot be undefined or null
+    }
+}
+```
+
+## Cosmostation Extension
