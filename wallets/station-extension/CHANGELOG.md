@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station-extension@0.6.1...@cosmos-kit/station-extension@0.6.2) (2023-04-28)
+
+
+### Bug Fixes
+
+* get correct station address by chain id ([64ce69a](https://github.com/cosmology-tech/cosmos-kit/commit/64ce69ab79acd5aeb1c384fcb7a3722212194742))
+
+
+
+
+
 ## [0.6.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station-extension@0.6.0...@cosmos-kit/station-extension@0.6.1) (2023-04-25)
 
 **Note:** Version bump only for package @cosmos-kit/station-extension

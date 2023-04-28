@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.15.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@0.14.21...@cosmos-kit/leap-extension@0.15.0) (2023-04-28)
+
+
+### Features
+
+* :sparkles: add leap ext suggest token ([ebf87aa](https://github.com/cosmology-tech/cosmos-kit/commit/ebf87aaef7c3c7971b444d42fa86db6b50ec50fd))
+* :sparkles: add leap ext types ([b945f47](https://github.com/cosmology-tech/cosmos-kit/commit/b945f471fc56664954eca4987bd9b94785111232))
+* :sparkles: improve suggest token types ([dc06b79](https://github.com/cosmology-tech/cosmos-kit/commit/dc06b79d56a5153b2d5f955d919fffc8232fdcd4))
+
+
+
+
+
 ## [0.14.21](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@0.14.20...@cosmos-kit/leap-extension@0.14.21) (2023-04-25)
 
 **Note:** Version bump only for package @cosmos-kit/leap-extension

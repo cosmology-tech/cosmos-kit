@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.3.19...@cosmos-kit/react-lite@1.4.0) (2023-04-28)
+
+
+### Bug Fixes
+
+* :bug: fix suggestToken params inheritance ([8b2a6a5](https://github.com/cosmology-tech/cosmos-kit/commit/8b2a6a5dce811b3f9097a832ca383be5de135ade))
+
+
+### Features
+
+* :sparkles: add suggest token inside chain wallet context ([3cd9f20](https://github.com/cosmology-tech/cosmos-kit/commit/3cd9f20d0377aee07ccfb7217e4220fa0cc5856b))
+
+
+
+
+
 ## [1.3.19](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.3.18...@cosmos-kit/react-lite@1.3.19) (2023-04-25)
 
 **Note:** Version bump only for package @cosmos-kit/react-lite

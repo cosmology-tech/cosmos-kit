@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.33.21...@cosmos-kit/keplr-extension@0.34.0) (2023-04-28)
+
+
+### Features
+
+* :sparkles: implement keplr ext suggest token ([00d9ddf](https://github.com/cosmology-tech/cosmos-kit/commit/00d9ddfad8748734c6f04c2e38370000acaf243f))
+* :sparkles: improve keplr suggest token ([7e23de5](https://github.com/cosmology-tech/cosmos-kit/commit/7e23de519be2b032fa61539c84cdc4a2df5907f5))
+* :sparkles: improve suggest token types ([dc06b79](https://github.com/cosmology-tech/cosmos-kit/commit/dc06b79d56a5153b2d5f955d919fffc8232fdcd4))
+
+
+
+
+
 ## [0.33.21](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.33.20...@cosmos-kit/keplr-extension@0.33.21) (2023-04-25)
 
 **Note:** Version bump only for package @cosmos-kit/keplr-extension

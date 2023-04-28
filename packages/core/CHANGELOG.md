@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.3.8...@cosmos-kit/core@1.4.0) (2023-04-28)
+
+
+### Features
+
+* :sparkles: add suggest token hook type ([72a6211](https://github.com/cosmology-tech/cosmos-kit/commit/72a6211f81f76add230ba1662dff4c6093885f27))
+* :sparkles: add suggestToken prototype ([c17a249](https://github.com/cosmology-tech/cosmos-kit/commit/c17a249dcd2287b275e73e0007ad6906b9166bc2))
+* :sparkles: generate wallet type ([0449a5d](https://github.com/cosmology-tech/cosmos-kit/commit/0449a5d30fd96671d38c4a465d8af052fcdf1b02))
+* :sparkles: improve suggest token type ([bb83c28](https://github.com/cosmology-tech/cosmos-kit/commit/bb83c28a98c409dd2267f1ba0c49f6dc7724a6b3))
+* :sparkles: improve suggest token types ([dc06b79](https://github.com/cosmology-tech/cosmos-kit/commit/dc06b79d56a5153b2d5f955d919fffc8232fdcd4))
+
+
+
+
+
 ## [1.3.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.3.7...@cosmos-kit/core@1.3.8) (2023-04-25)
 
 **Note:** Version bump only for package @cosmos-kit/core

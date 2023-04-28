@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.44.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.43.1...example@0.44.0) (2023-04-28)
+
+
+### Features
+
+* :sparkles: add cw20 suggestion example ([bbd506f](https://github.com/cosmology-tech/cosmos-kit/commit/bbd506f619c831c80c61fd12116464a6932b2b5e))
+
+
+
+
+
 ## [0.43.1](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.43.0...example@0.43.1) (2023-04-25)
 
 **Note:** Version bump only for package example

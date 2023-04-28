@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-extension@0.15.21...@cosmos-kit/cosmostation-extension@0.16.0) (2023-04-28)
+
+
+### Features
+
+* :sparkles: add cosmostation ext suggest token ([390a7c9](https://github.com/cosmology-tech/cosmos-kit/commit/390a7c92a7ea5daa2f1c45894166f6250116495b))
+* :sparkles: improve suggest token types ([dc06b79](https://github.com/cosmology-tech/cosmos-kit/commit/dc06b79d56a5153b2d5f955d919fffc8232fdcd4))
+
+
+
+
+
 ## [0.15.21](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-extension@0.15.20...@cosmos-kit/cosmostation-extension@0.15.21) (2023-04-25)
 
 **Note:** Version bump only for package @cosmos-kit/cosmostation-extension
