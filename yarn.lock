@@ -5792,61 +5792,11 @@
     utf-8-validate "^5.0.5"
     ws "^7.5.9"
 
-"@terra-money/feather.js@^1.0.0-beta.4":
-  version "1.0.0-beta.12"
-  resolved "https://registry.npmjs.org/@terra-money/feather.js/-/feather.js-1.0.0-beta.12.tgz#285af7b0fc37551df1d8c15ceae69d87c1bbe23b"
-  integrity sha512-O1Q9pZ9nK/ZbXWtt7xvX2OoyiUCgUeAzHMNiSzzfyCYupRFWDqwuSf3MASyW+KjjST6yhbv4hyM1mThApdgcoA==
-  dependencies:
-    "@terra-money/legacy.proto" "npm:@terra-money/terra.proto@^0.1.7"
-    "@terra-money/terra.proto" "^2.2.0-beta.4"
-    axios "^0.27.2"
-    bech32 "^2.0.0"
-    bip32 "^2.0.6"
-    bip39 "^3.0.3"
-    bufferutil "^4.0.3"
-    decimal.js "^10.2.1"
-    jscrypto "^1.0.1"
-    readable-stream "^3.6.0"
-    secp256k1 "^4.0.2"
-    tmp "^0.2.1"
-    utf-8-validate "^5.0.5"
-    ws "^7.5.9"
-
 "@terra-money/legacy.proto@npm:@terra-money/terra.proto@^0.1.7":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@terra-money/terra.proto/-/terra.proto-0.1.7.tgz#59c18f30da10d43200bab3ba8feb5b17e43a365f"
   integrity sha512-NXD7f6pQCulvo6+mv6MAPzhOkUzRjgYVuHZE/apih+lVnPG5hDBU0rRYnOGGofwvKT5/jQoOENnFn/gioWWnyQ==
   dependencies:
-    google-protobuf "^3.17.3"
-    long "^4.0.0"
-    protobufjs "~6.11.2"
-
-"@terra-money/terra.js@^3.1.7":
-  version "3.1.7"
-  resolved "https://registry.npmjs.org/@terra-money/terra.js/-/terra.js-3.1.7.tgz#76fcb655ca106ff683beb05d6ce305f5d05de7d4"
-  integrity sha512-z7NwVI1gh0846pgQJaPHya6SRKLd/dHWR5UwWG6T2Pf24I2EjCo8YY5Fay30pCvHTYA2NBFgnWfXEZ/31TfB1Q==
-  dependencies:
-    "@terra-money/legacy.proto" "npm:@terra-money/terra.proto@^0.1.7"
-    "@terra-money/terra.proto" "^2.1.0"
-    axios "^0.27.2"
-    bech32 "^2.0.0"
-    bip32 "^2.0.6"
-    bip39 "^3.0.3"
-    bufferutil "^4.0.3"
-    decimal.js "^10.2.1"
-    jscrypto "^1.0.1"
-    readable-stream "^3.6.0"
-    secp256k1 "^4.0.2"
-    tmp "^0.2.1"
-    utf-8-validate "^5.0.5"
-    ws "^7.5.9"
-
-"@terra-money/terra.proto@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/@terra-money/terra.proto/-/terra.proto-2.1.0.tgz#5a2ed85fc8146a346d6095adfc5d205b6fb6d387"
-  integrity sha512-rhaMslv3Rkr+QsTQEZs64FKA4QlfO0DfQHaR6yct/EovenMkibDEQ63dEL6yJA6LCaEQGYhyVB9JO9pTUA8ybw==
-  dependencies:
-    "@improbable-eng/grpc-web" "^0.14.1"
     google-protobuf "^3.17.3"
     long "^4.0.0"
     protobufjs "~6.11.2"
@@ -5865,14 +5815,6 @@
   version "3.11.2"
   resolved "https://registry.yarnpkg.com/@terra-money/wallet-types/-/wallet-types-3.11.2.tgz#5be7016abcd249b4839b1aadb837a6aa043dfaf2"
   integrity sha512-vIHCqL4gtiAlvhnxDSnh6bTXIIZGNOIEfH/lWEgwCHXp4cGh0MeZixcnd4UvpW2ynirwtWkppAz9N4qX9zTtAA==
-
-"@terra-money/web-extension-interface@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/@terra-money/web-extension-interface/-/web-extension-interface-4.0.0.tgz#baf64661aeb4252acb130b15bcb69002674e2de2"
-  integrity sha512-r2tZRAKp7bxST0qMCLRb3hCDL/XCHAxEzu3uBi2O8Yvc9hR2MaFzi/PCTYH5qZH3/mR08iHVwm8SE/I2RNbHoA==
-  dependencies:
-    "@terra-money/feather.js" "^1.0.0-beta.4"
-    rxjs "^7.0.0"
 
 "@toruslabs/base-controllers@^2.8.0", "@toruslabs/base-controllers@^2.8.1":
   version "2.8.1"
@@ -15512,13 +15454,6 @@ rxjs@^6.4.0:
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
   dependencies:
     tslib "^1.9.0"
-
-rxjs@^7.0.0:
-  version "7.8.0"
-  resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.8.0.tgz#90a938862a82888ff4c7359811a595e14e1e09a4"
-  integrity sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==
-  dependencies:
-    tslib "^2.1.0"
 
 sade@^1.7.3:
   version "1.8.1"
