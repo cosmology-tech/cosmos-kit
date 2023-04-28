@@ -7,6 +7,7 @@ import {
   ExtendedHttpEndpoint,
   SignOptions,
   SignType,
+  SuggestToken,
   WalletClient,
 } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
@@ -21,6 +22,14 @@ export class KeplrClient implements WalletClient {
   async enable(chainIds: string | string[]) {
     await this.client.enable(chainIds);
   }
+
+  async suggestToken({ chainId, tokens, type }: SuggestToken) {
+    if (type === 'cw20') {
+      for (const { contractAddress, viewingKey } of tokens) {
+        await this.client.suggestToken(chainId, contractAddress,  viewingKey);
+      }
+    }
+  };
 
   async getSimpleAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);

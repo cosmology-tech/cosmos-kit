@@ -21,6 +21,7 @@ import {
   StdFee,
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+
 import { ChainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
@@ -44,6 +45,7 @@ import {
   DirectSignDoc,
   NameServiceName,
   SignOptions,
+  SuggestToken,
   Wallet,
   WalletAccount,
   WalletClient,
@@ -107,6 +109,7 @@ export interface ChainWalletContext {
   appUrl: Mutable<AppUrl> | undefined;
 
   enable: () => Promise<void>;
+  suggestToken: (data: SuggestToken) => Promise<void>;
   getAccount: () => Promise<WalletAccount>;
   getOfflineSigner: () => OfflineSigner;
   getOfflineSignerAmino: () => OfflineAminoSigner;

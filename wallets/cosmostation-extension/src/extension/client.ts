@@ -8,6 +8,7 @@ import {
   ExtendedHttpEndpoint,
   SignOptions,
   SignType,
+  SuggestToken,
   WalletClient,
 } from '@cosmos-kit/core';
 
@@ -31,6 +32,18 @@ export class CosmostationClient implements WalletClient {
   get ikeplr() {
     return this.client.providers.keplr;
   }
+
+  async suggestToken({ chainName, tokens, type }: SuggestToken) {
+    if (type === 'cw20') {
+      await this.cosmos.request({
+        method: "cos_addTokensCW20",
+        params: {
+          chainName,
+          tokens
+        },
+      });
+    }
+  };
 
   async getSimpleAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);

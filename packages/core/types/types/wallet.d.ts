@@ -100,6 +100,23 @@ export declare enum BroadcastMode {
     /** Return right away */
     Async = "async"
 }
+export interface SuggestCW20Token {
+    contractAddress: string;
+    viewingKey?: string;
+    imageURL?: string;
+    coinGeckoId?: string;
+}
+export declare const SuggestTokenTypes: {
+    readonly CW20: "cw20";
+    readonly ERC20: "erc20";
+};
+export declare type SuggestTokenType = typeof SuggestTokenTypes[keyof typeof SuggestTokenTypes];
+export interface SuggestToken {
+    chainId: string;
+    chainName: string;
+    type: SuggestTokenType;
+    tokens: SuggestCW20Token[];
+}
 export interface WalletClient {
     getSimpleAccount: (chainId: string) => Promise<SimpleAccount>;
     qrUrl?: Mutable<string>;
@@ -109,6 +126,7 @@ export interface WalletClient {
     on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
     enable?: (chainIds: string | string[]) => Promise<void>;
+    suggestToken?: (data: SuggestToken) => Promise<void>;
     addChain?: (chainInfo: ChainRecord) => Promise<void>;
     getAccount?: (chainId: string) => Promise<WalletAccount>;
     getOfflineSigner?: (chainId: string, preferredSignType?: SignType) => Promise<OfflineSigner> | OfflineSigner;
