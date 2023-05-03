@@ -4284,6 +4284,14 @@
     axios "^0.27.2"
     long "^4.0.0"
 
+"@keplr-wallet/types@^0.11.59":
+  version "0.11.59"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.11.59.tgz#5514dd0c79edb870138f521689894cf71efc7485"
+  integrity sha512-/zuB3JgGZqbCSpK/RK2lhnTtdpBbMNuH1hLQ4eYKqrG3UX6bWD1l+SGDFLq6UulnoIGadfTe3Tbgbi9Jl1cgpw==
+  dependencies:
+    axios "^0.27.2"
+    long "^4.0.0"
+
 "@keplr-wallet/unit@0.11.16":
   version "0.11.16"
   resolved "https://registry.npmjs.org/@keplr-wallet/unit/-/unit-0.11.16.tgz#21c19bd985620b32a6de6f06850e9c0fdeb4f88c"
@@ -5772,13 +5780,13 @@
   dependencies:
     tslib "^2.4.0"
 
-"@terra-money/feather.js@^1.0.0-beta.14":
-  version "1.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@terra-money/feather.js/-/feather.js-1.0.0-beta.15.tgz#d81e31f28428cb23a27bf067eaa7e8f399e9c511"
-  integrity sha512-KKmwmLemorifApC7y7Rn8H8MzdPmHnTkpqncfHdvWLzhGxeRw0hv24ZPkOj+SOZbhdutwp2RtAH1IEZz23cHUQ==
+"@terra-money/feather.js@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@terra-money/feather.js/-/feather.js-1.0.4.tgz#9dd14675f36e0abe915d65bdddb11b65aee5d0c9"
+  integrity sha512-EevGNBJjz7igdYxX7joexXcU5/eYlyNxGnS88UnwK+vBJ+hTnIOKBIwcNOxttFsyNMZok3XefArloM34ccTvng==
   dependencies:
     "@terra-money/legacy.proto" "npm:@terra-money/terra.proto@^0.1.7"
-    "@terra-money/terra.proto" "^2.2.0-beta.4"
+    "@terra-money/terra.proto" "3.0.5"
     axios "^0.27.2"
     bech32 "^2.0.0"
     bip32 "^2.0.6"
@@ -5801,10 +5809,10 @@
     long "^4.0.0"
     protobufjs "~6.11.2"
 
-"@terra-money/terra.proto@^2.2.0-beta.4":
-  version "2.2.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@terra-money/terra.proto/-/terra.proto-2.2.0-beta.4.tgz#a5a926dbbd1714511194907ba211e5aee662fd6e"
-  integrity sha512-M6ARaIYVPPC08RV9zNLKnTkiyiqAoTM0xugUz0L6YiMsEEnilpY5ju+thlkxcYYKKynO9WFy1zcRRugOw+VlKQ==
+"@terra-money/terra.proto@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@terra-money/terra.proto/-/terra.proto-3.0.5.tgz#96f17410a044459412491959b615c52faa2eb338"
+  integrity sha512-8tvT41qte2mpiNoHq2dMmV7soMxwf4ckuJ+F2pMrb7iVcqaBo30/dIfyTdFm5mEH5i5P6cTJggm+UlIZBSPhwQ==
   dependencies:
     "@improbable-eng/grpc-web" "^0.14.1"
     google-protobuf "^3.17.3"
