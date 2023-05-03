@@ -13,7 +13,7 @@ export const getXDEFIFromExtension: () => Promise<
     return void 0;
   }
 
-  const xdefi = (window as XDEFIWindow).keplr;
+  const xdefi = (window as XDEFIWindow).xfi.keplr;
 
   if (xdefi && !xdefi.isXDEFI) {
     throw ClientNotExistError;
