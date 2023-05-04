@@ -107,7 +107,7 @@
   },
   "dependencies": {
     "@chain-registry/types": "0.13.0",
-    "@walletconnect/types": "2.2.0",
+    "@walletconnect/types": "2.7.2",
     "bowser": "2.11.0",
     "events": "3.3.0"
   },
