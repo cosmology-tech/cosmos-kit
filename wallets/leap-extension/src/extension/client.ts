@@ -1,7 +1,14 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { BroadcastMode, SignType, SuggestToken } from '@cosmos-kit/core';
+import {
+  BroadcastMode,
+  ChainRecord,
+  ExtendedHttpEndpoint,
+  SignType,
+  SuggestToken,
+} from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
+import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 
 import { Leap } from './types';
 
@@ -22,7 +29,28 @@ export class LeapClient implements WalletClient {
         await this.client.suggestToken(chainId, contractAddress);
       }
     }
-  };
+  }
+
+  async addChain(chainInfo: ChainRecord) {
+    const suggestChain = chainRegistryChainToKeplr(
+      chainInfo.chain,
+      chainInfo.assetList ? [chainInfo.assetList] : []
+    );
+
+    if (chainInfo.preferredEndpoints?.rest?.[0]) {
+      (suggestChain.rest as
+        | string
+        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
+    }
+
+    if (chainInfo.preferredEndpoints?.rpc?.[0]) {
+      (suggestChain.rpc as
+        | string
+        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
+    }
+
+    await this.client.experimentalSuggestChain(suggestChain);
+  }
 
   async disconnect() {
     await this.client.disconnect();

@@ -6,6 +6,7 @@ import {
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
+import type { ChainInfo } from '@keplr-wallet/types';
 
 export interface Key {
   readonly name: string;
@@ -71,4 +72,5 @@ export interface Leap {
     tx: Uint8Array,
     mode: BroadcastMode
   ): Promise<Uint8Array>;
+  experimentalSuggestChain(chainInfo: ChainInfo): Promise<void>;
 }

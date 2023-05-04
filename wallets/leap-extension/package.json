@@ -70,6 +70,7 @@
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
     "@babel/runtime": "7.11.2",
+    "@keplr-wallet/types": "^0.11.59",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -89,6 +90,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
+    "@chain-registry/keplr": "1.8.0",
     "@cosmos-kit/core": "^1.4.0"
   },
   "peerDependencies": {
