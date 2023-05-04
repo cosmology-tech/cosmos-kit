@@ -103,6 +103,7 @@ export const ChainProvider = ({
   useEffect(() => {
     walletManager.onMounted();
     return () => {
+      setViewOpen(false);
       walletManager.onUnmounted();
     };
   }, []);

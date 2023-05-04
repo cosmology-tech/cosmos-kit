@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           assetLists={[...assets, terra2testnetAssets]}
           wallets={[
             ...keplrWallets,
-            ...web3authWallets,
+            // ...web3authWallets,
             // ...cosmostationWallets,
             // ...leapWallets,
             // ...vectisWallets,
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           defaultNameService={"stargaze"}
           walletConnectOptions={{
             signClient: {
-              // projectId: "a8510432ebb71e6948cfd6cde54b70f7",
+              projectId: "a8510432ebb71e6948cfd6cde54b70f7",
               relayUrl: "wss://relay.walletconnect.org",
               metadata: {
                 name: "CosmosKit Example",
