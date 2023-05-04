@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@0.15.0...@cosmos-kit/leap-extension@0.16.0) (2023-05-04)
+
+
+### Features
+
+* Add leap suggest chain ([5bc26db](https://github.com/cosmology-tech/cosmos-kit/commit/5bc26db2f15681ad16d0e6830cef5de170cb36fe))
+
+
+
+
+
 # [0.15.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@0.14.21...@cosmos-kit/leap-extension@0.15.0) (2023-04-28)
 
 
