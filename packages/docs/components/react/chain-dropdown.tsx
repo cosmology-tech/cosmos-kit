@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react';
+import React from "react";
 import {
   Box,
   Text,
@@ -10,23 +10,23 @@ import {
   useBreakpointValue,
   SystemStyleObject,
   SkeletonCircle,
-  Skeleton
-} from '@chakra-ui/react';
-import { Searcher } from 'fast-fuzzy';
-import { FiChevronDown } from 'react-icons/fi';
+  Skeleton,
+} from "@chakra-ui/react";
+import { Searcher } from "fast-fuzzy";
+import { FiChevronDown } from "react-icons/fi";
 import {
   AsyncSelect,
   OptionProps,
   chakraComponents,
   GroupBase,
   DropdownIndicatorProps,
-  PlaceholderProps
-} from 'chakra-react-select';
+  PlaceholderProps,
+} from "chakra-react-select";
 import {
   ChainOption,
   ChangeChainDropdownType,
-  ChangeChainMenuType
-} from '../types';
+  ChangeChainMenuType,
+} from "../types";
 
 const SkeletonOptions = () => {
   return (
@@ -42,58 +42,59 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
   const customStyles = {
     control: (provided: SystemStyleObject) => ({
       ...provided,
-      height: 12
+      height: 12,
+      bg: "white",
     }),
     menu: (provided: SystemStyleObject) => ({
       ...provided,
       h: menuHeight,
       mt: 4,
       mb: 0,
-      bg: useColorModeValue('white', 'gray.900'),
-      boxShadow: useColorModeValue('0 1px 5px #e3e3e3', '0 0px 4px #4b4b4b'),
-      borderRadius: '0.3rem'
+      bg: useColorModeValue("white", "gray.900"),
+      boxShadow: useColorModeValue("0 1px 5px #e3e3e3", "0 0px 4px #4b4b4b"),
+      borderRadius: "0.3rem",
     }),
     menuList: (provided: SystemStyleObject) => ({
       ...provided,
       h: menuHeight,
-      bg: 'transparent',
-      border: 'none',
-      borderRadius: 'none',
+      bg: "transparent",
+      border: "none",
+      borderRadius: "none",
       p: 2,
       // For Firefox
-      scrollbarWidth: 'auto',
+      scrollbarWidth: "auto",
       scrollbarColor: useColorModeValue(
-        'rgba(0,0,0,0.3) rgba(0,0,0,0.2)',
-        'rgba(255,255,255,0.2) rgba(255,255,255,0.1)'
+        "rgba(0,0,0,0.3) rgba(0,0,0,0.2)",
+        "rgba(255,255,255,0.2) rgba(255,255,255,0.1)"
       ),
       // For Chrome and other browsers except Firefox
-      '&::-webkit-scrollbar': {
-        width: '14px',
+      "&::-webkit-scrollbar": {
+        width: "14px",
         background: useColorModeValue(
-          'rgba(220,220,220,0.1)',
-          'rgba(60,60,60,0.1)'
+          "rgba(220,220,220,0.1)",
+          "rgba(60,60,60,0.1)"
         ),
-        borderRadius: '3px'
+        borderRadius: "3px",
       },
-      '&::-webkit-scrollbar-thumb': {
+      "&::-webkit-scrollbar-thumb": {
         background: useColorModeValue(
-          'rgba(0,0,0,0.1)',
-          'rgba(255,255,255,0.1)'
+          "rgba(0,0,0,0.1)",
+          "rgba(255,255,255,0.1)"
         ),
-        borderRadius: '10px',
-        border: '3px solid transparent',
-        backgroundClip: 'content-box'
-      }
+        borderRadius: "10px",
+        border: "3px solid transparent",
+        backgroundClip: "content-box",
+      },
     }),
     clearIndicator: (provided: SystemStyleObject) => ({
       ...provided,
-      borderRadius: 'full',
-      color: useColorModeValue('blackAlpha.600', 'whiteAlpha.600')
+      borderRadius: "full",
+      color: useColorModeValue("blackAlpha.600", "whiteAlpha.600"),
     }),
     dropdownIndicator: (provided: SystemStyleObject) => ({
       ...provided,
-      bg: 'transparent',
-      pl: 1.5
+      bg: "transparent",
+      pl: 1.5,
     }),
     option: (
       provided: SystemStyleObject,
@@ -101,34 +102,34 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
     ) => {
       return {
         ...provided,
-        borderRadius: 'lg',
+        borderRadius: "lg",
         h: 14,
-        color: 'inherit',
+        color: "inherit",
         bg: useColorModeValue(
           state.isSelected
             ? state.isFocused
-              ? 'primary.200'
-              : 'primary.100'
+              ? "primary.200"
+              : "primary.100"
             : state.isFocused
-              ? 'blackAlpha.200'
-              : 'transparent',
+            ? "blackAlpha.200"
+            : "transparent",
           state.isSelected
             ? state.isFocused
-              ? 'primary.600'
-              : 'primary.500'
+              ? "primary.600"
+              : "primary.500"
             : state.isFocused
-              ? 'whiteAlpha.200'
-              : 'transparent'
+            ? "whiteAlpha.200"
+            : "transparent"
         ),
         _notFirst: {
-          mt: 2
+          mt: 2,
         },
         _active: {
-          bg: 'primary.50'
+          bg: "primary.50",
         },
-        _disabled: { bg: 'transparent', _hover: { bg: 'transparent' } }
+        _disabled: { bg: "transparent", _hover: { bg: "transparent" } },
       };
-    }
+    },
   };
   const IndicatorSeparator = () => {
     return null;
@@ -142,7 +143,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
           as={FiChevronDown}
           w={6}
           h={6}
-          color={useColorModeValue('blackAlpha.600', 'whiteAlpha.600')}
+          color={useColorModeValue("blackAlpha.600", "whiteAlpha.600")}
         />
       </chakraComponents.DropdownIndicator>
     );
@@ -158,7 +159,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
             spacing={3}
             overflow="hidden"
             wordBreak="break-word"
-            color={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')}
+            color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}
             w="full"
           >
             <Box
@@ -170,8 +171,8 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               h="full"
               border="1px solid"
               borderColor={useColorModeValue(
-                'blackAlpha.200',
-                'whiteAlpha.200'
+                "blackAlpha.200",
+                "whiteAlpha.200"
               )}
               borderRadius="full"
               overflow="hidden"
@@ -179,7 +180,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
               <Image
                 alt=""
                 src={props.getValue()[0].icon}
-                fallbackSrc={'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
+                fallbackSrc={"https://dummyimage.com/150/9e9e9e/ffffff&text=☒"}
               />
             </Box>
             <Text fontSize="xl" fontWeight="semibold">
@@ -204,7 +205,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
           spacing={3}
           overflow="hidden"
           wordBreak="break-word"
-          color={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')}
+          color={useColorModeValue("blackAlpha.800", "whiteAlpha.800")}
           w="full"
         >
           <Box
@@ -215,14 +216,14 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
             w="full"
             h="full"
             border="1px solid"
-            borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.200')}
+            borderColor={useColorModeValue("blackAlpha.200", "whiteAlpha.200")}
             borderRadius="full"
             overflow="hidden"
           >
             <Image
               alt=""
               src={props.data?.icon}
-              fallbackSrc={'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
+              fallbackSrc={"https://dummyimage.com/150/9e9e9e/ffffff&text=☒"}
             />
           </Box>
           <Text fontSize="xl" fontWeight="semibold">
@@ -249,7 +250,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
       defaultOptions={data}
       loadOptions={(inputValue, callback) => {
         const searcher = new Searcher(data, {
-          keySelector: (obj) => obj.label
+          keySelector: (obj) => obj.label,
         });
         callback(searcher.search(inputValue));
       }}
@@ -258,7 +259,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
         DropdownIndicator,
         IndicatorSeparator,
         Placeholder,
-        Option: CustomOption
+        Option: CustomOption,
       }}
     />
   );
@@ -267,7 +268,7 @@ const SelectOptions = ({ data, value, onChange }: ChangeChainMenuType) => {
 export const ChangeChainDropdown = ({
   data,
   selectedItem,
-  onChange
+  onChange,
 }: ChangeChainDropdownType) => {
   return (
     <Box w="full" position="relative" zIndex={150}>
