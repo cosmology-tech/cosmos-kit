@@ -1,6 +1,6 @@
 import { StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { BroadcastMode, SignType, SuggestToken } from '@cosmos-kit/core';
+import { BroadcastMode, ChainRecord, SignType, SuggestToken } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 import { Leap } from './types';
 export declare class LeapClient implements WalletClient {
@@ -8,6 +8,7 @@ export declare class LeapClient implements WalletClient {
     constructor(client: Leap);
     enable(chainIds: string | string[]): Promise<void>;
     suggestToken({ chainId, tokens, type }: SuggestToken): Promise<void>;
+    addChain(chainInfo: ChainRecord): Promise<void>;
     disconnect(): Promise<void>;
     getSimpleAccount(chainId: string): Promise<{
         namespace: string;

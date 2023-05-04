@@ -3,6 +3,7 @@ import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
+import type { ChainInfo } from '@keplr-wallet/types';
 export interface Key {
     readonly name: string;
     readonly algo: string;
@@ -41,4 +42,5 @@ export interface Leap {
     enigmaEncrypt(chainId: string, contractCodeHash: string, msg: object): Promise<Uint8Array>;
     enigmaDecrypt(chainId: string, ciphertext: Uint8Array, nonce: Uint8Array): Promise<Uint8Array>;
     sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
+    experimentalSuggestChain(chainInfo: ChainInfo): Promise<void>;
 }

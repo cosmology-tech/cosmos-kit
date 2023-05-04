@@ -3,7 +3,9 @@ import { ClientNotExistError } from '@cosmos-kit/core';
 import { XDEFI } from './types';
 
 interface XDEFIWindow {
-  keplr?: XDEFI;
+  xfi?: {
+    keplr?: XDEFI;
+  };
 }
 
 export const getXDEFIFromExtension: () => Promise<
