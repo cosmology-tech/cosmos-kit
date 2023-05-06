@@ -1,6 +1,6 @@
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainRecord } from './chain';
-import { DappEnv, EncodedString, Mutable } from './common';
+import { DappEnv, EncodedString, Encoding, Mutable } from './common';
 
 export type WalletName = string;
 
@@ -70,21 +70,25 @@ export type Namespace =
   | 'stella'
   | 'tezos'
   | 'near'
+  | 'xrpl'
   | 'everscale'
   | 'aptos'
   | 'sui';
 
-export interface EncodedAddress {
-  value: string;
-  encoding?: BufferEncoding | 'bech32';
-}
+export type EncodedAddress =
+  | string
+  | {
+      value: string;
+      encoding: Encoding | 'bech32';
+    };
 
-export interface PublicKey extends EncodedString {
-  /**
-   * digital key scheme algorithm
-   */
-  algo?: string;
-}
+export type PublicKey =
+  | string
+  | {
+      value: string;
+      encoding?: Encoding;
+      algo?: string; // digital key scheme algorithm
+    };
 
 /**
  * At least address or publicKey should exist
@@ -112,8 +116,11 @@ export interface HttpEndpoint {
   readonly headers: Record<string, string>;
 }
 
-export interface Signature {
-  signature: EncodedString;
+/**
+ * signature could be optional. i.e. Eversacale signMessage
+ */
+export interface SignResponse {
+  signature?: EncodedString;
   publicKey?: PublicKey;
   signedDoc?: unknown;
 }
@@ -122,6 +129,10 @@ export interface Block {
   hash: EncodedString;
   height?: string;
   timestamp?: string;
+}
+
+export interface BroadcastResponse {
+  block?: Block;
 }
 
 /**
@@ -205,20 +216,16 @@ export interface WalletClient {
    *     Usually type guards function locates in type-guards.ts.
    *     Check the code in wallet package for detail.
    *
-   * @param signer
-   *     Signer could be the address or public key.
-   * @param doc
-   *     The type of doc can varies from different wallets and namespaces.
-   *
-   * @returns the signature
+   * @param params
+   *     Include doc and other info like corresponding signer address for keypair.
+   *     Type of signed doc can varies from different wallets and namespaces.
    */
   sign?(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    doc: unknown,
+    params: unknown,
     options?: unknown
-  ): Promise<AddRaw<Signature>>;
+  ): Promise<AddRaw<SignResponse>>;
   /**
    * 2: Verify Doc
    *     To check the signature matches the signedDoc.
@@ -231,7 +238,7 @@ export interface WalletClient {
     chainId: string,
     signer: string,
     signedDoc: unknown,
-    signature: Signature,
+    signature: SignResponse,
     options?: unknown
   ): Promise<boolean>;
   /**
@@ -241,33 +248,31 @@ export interface WalletClient {
    *     endpoint is the path to do verification and broadcast.
    *     return the new block.
    *
-   * @param signedDoc
-   *     The type of signedDoc can varies from different wallets and namespaces.
+   * @param params
+   *     Include signed doc and other info like corresponding address for keypair.
+   *     Type of signed doc can varies from different wallets and namespaces.
    */
   broadcast?(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    signedDoc: unknown,
+    params: unknown,
     options?: unknown
-  ): Promise<AddRaw<Block>>;
+  ): Promise<AddRaw<BroadcastResponse>>;
   /**
    * 4: Sign and Broadcast Doc
    *     address in params is used to get the private key from wallet to sign doc.
    *     return the signature.
    *
-   * @param doc
-   *     The type of doc can varies from different wallets and namespaces.
-   *     Please note that if the doc is of type string and be regarded as bytes string, the default encoding will be regrarded as `hex`.
-   *     If you are prividing non-hex string, use EncodedString type instead.
+   * @param params
+   *     Include doc and other info like corresponding signer address for keypair.
+   *     Type of signed doc can varies from different wallets and namespaces.
    */
   signAndBroadcast?(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    doc: unknown,
+    params: unknown,
     options?: unknown
-  ): Promise<AddRaw<Block>>;
+  ): Promise<AddRaw<BroadcastResponse>>;
   // --------------------------------------------------------------------------------------------------------------
 
   /**

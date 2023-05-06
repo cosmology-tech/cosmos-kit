@@ -10,18 +10,17 @@ import {
   WalletClient,
   WalletClientActions,
   DappEnv,
-  getStringFromUint8Array,
-  getUint8ArrayFromString,
   AuthRange,
   AddRaw,
   Namespace,
-  Signature,
+  SignResponse,
+  BroadcastResponse,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
 import { PairingTypes, SessionTypes } from '@walletconnect/types';
 import EventEmitter from 'events';
-import { CoreUtil } from './utils';
+import { CoreUtil, getPrefix, getMethod } from './utils';
 import {
   EnableOptions,
   EnableOptionsMap,
@@ -29,13 +28,14 @@ import {
   RequestAccount1,
   RequestAccount2,
   RequestAccount3,
-  CosmosDoc,
-  EthereumDoc,
-  CosmosSignResponse,
 } from './types';
-import Long from 'long';
 import { defaultEnableOptions } from './config';
-import { CosmosDocValidator } from './type-guards';
+import {
+  SignAndBroadcastParamsType,
+  SignAndBroadcastResult,
+  SignParamsType,
+  SignResult,
+} from './types';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -110,7 +110,7 @@ export class WCClient implements WalletClient {
     this.logger?.debug('[WALLET EVENT] Emit `reset`');
   }
 
-  protected async subscribeToEvents() {
+  protected async _subscribeToEvents() {
     if (typeof this.signClient === 'undefined') {
       await this.init();
     }
@@ -166,7 +166,7 @@ export class WCClient implements WalletClient {
     });
   }
 
-  protected async deleteInactivePairings() {
+  protected async _deleteInactivePairings() {
     if (typeof this.signClient === 'undefined') {
       await this.init();
     }
@@ -180,7 +180,7 @@ export class WCClient implements WalletClient {
     }
   }
 
-  protected async restorePairings() {
+  protected async _restorePairings() {
     if (typeof this.signClient === 'undefined') {
       await this.init();
     }
@@ -198,7 +198,7 @@ export class WCClient implements WalletClient {
     return this.pairings[0];
   }
 
-  protected async restoreSessions() {
+  protected async _restoreSessions() {
     if (typeof this.signClient === 'undefined') {
       await this.init();
     }
@@ -212,12 +212,12 @@ export class WCClient implements WalletClient {
     this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
   }
 
-  protected getSessionWithMethod(
+  protected _getSessionWithMethod(
     prefix: string,
     chainId: string,
     method: string
   ): SessionTypes.Struct {
-    return this.sessions.find((s) => {
+    const session = this.sessions.find((s) => {
       if (!s.namespaces[prefix]) {
         return false;
       }
@@ -227,9 +227,16 @@ export class WCClient implements WalletClient {
         methods.findIndex((m) => m === method) !== -1
       );
     });
+
+    if (typeof session === 'undefined') {
+      throw new Error(
+        `Session for ${chainId} with method ${method} not established yet.`
+      );
+    }
+    return session;
   }
 
-  protected getSession(prefix: string, chainId: string): SessionTypes.Struct {
+  protected _getSession(prefix: string, chainId: string): SessionTypes.Struct {
     return this.sessions.find((s) => {
       if (!s.namespaces[prefix]) {
         return false;
@@ -288,9 +295,9 @@ export class WCClient implements WalletClient {
     this.logger?.debug('CREATED CLIENT: ', this.signClient);
     this.logger?.debug('relayerRegion ', this.relayUrl);
 
-    await this.subscribeToEvents();
-    await this.restorePairings();
-    await this.restoreSessions();
+    await this._subscribeToEvents();
+    await this._restorePairings();
+    await this._restoreSessions();
   }
 
   protected async initWCCloudInfo() {
@@ -373,7 +380,7 @@ export class WCClient implements WalletClient {
       this.setQRState(State.Init);
     }
 
-    await this.restorePairings();
+    await this._restorePairings();
     const pairing = this.pairing;
     this.logger?.debug('Restored active pairing topic is:', pairing?.topic);
 
@@ -422,10 +429,10 @@ export class WCClient implements WalletClient {
       const session = await connectResp.approval();
       this.logger?.debug('Established session:', session);
       this.sessions.push(session);
-      await this.restorePairings();
+      await this._restorePairings();
     } catch (error) {
       this.logger?.error('Session approval error: ', error);
-      await this.deleteInactivePairings();
+      await this._deleteInactivePairings();
       if (!error) {
         if (this.displayQRCode) this.setQRError(ExpiredError);
         throw new Error('Proposal Expired');
@@ -471,16 +478,14 @@ export class WCClient implements WalletClient {
     prefix: string,
     chainId: string
   ): WalletAccount[] {
-    const session = this.getSession(prefix, chainId);
+    const session = this._getSession(prefix, chainId);
     const accounts: WalletAccount[] = [];
     Object.entries(session.namespaces).forEach(([, nsValue]) => {
       nsValue.accounts.forEach((account) => {
         const [prefix2, chainId, address] = account.split(':');
         if (prefix === prefix2) {
           accounts.push({
-            address: {
-              value: address,
-            },
+            address: address,
             namespace,
             chainId,
           });
@@ -488,16 +493,6 @@ export class WCClient implements WalletClient {
       });
     });
     return accounts;
-  }
-
-  protected getPrefix(namespace: Namespace): string {
-    const prefix = defaultEnableOptions[namespace]?.prefix as string;
-    if (!prefix) {
-      throw new Error(
-        `No matched prefix in WalletConnect for namespace ${namespace}.`
-      );
-    }
-    return prefix;
   }
 
   async getAccounts(
@@ -509,7 +504,7 @@ export class WCClient implements WalletClient {
         if (!chainIds) {
           return Promise.reject('No chainIds provided.');
         }
-        const prefix = this.getPrefix(namespace as Namespace);
+        const prefix = getPrefix(namespace as Namespace);
         return Promise.all(
           chainIds.map(async (chainId) => {
             const sessionAccounts = this.getAccountsFromSession(
@@ -532,30 +527,30 @@ export class WCClient implements WalletClient {
               case 'near':
                 method = 'near_getAccounts';
 
-                const session = this.getSessionWithMethod(
-                  prefix,
-                  chainId,
-                  method
-                );
-                if (typeof session === 'undefined') {
-                  return sessionAccounts;
+                let requestAccounts;
+                try {
+                  requestAccounts = await this._request(
+                    namespace,
+                    chainId,
+                    method,
+                    {}
+                  );
+                } catch (error) {
+                  if (
+                    (error as Error).message ===
+                    `Session for ${chainId} with method ${method} not established yet.`
+                  ) {
+                    return sessionAccounts;
+                  } else {
+                    throw error;
+                  }
                 }
 
-                const requestAccounts = await this.signClient.request({
-                  topic: session.topic,
-                  chainId: `${prefix}:${chainId}`,
-                  request: {
-                    method,
-                    params: {},
-                  },
-                });
                 if (namespace == 'cosmos' || namespace == 'tezos') {
                   return (requestAccounts as RequestAccount1[]).map(
                     (acc) =>
                       ({
-                        address: {
-                          value: acc.address,
-                        },
+                        address: acc.address,
                         namespace,
                         chainId,
                         publicKey: {
@@ -568,14 +563,10 @@ export class WCClient implements WalletClient {
                   return (requestAccounts as RequestAccount2[]).map(
                     (acc) =>
                       ({
-                        address: {
-                          value: acc.pubkey,
-                        },
+                        address: acc.pubkey,
                         namespace,
                         chainId,
-                        publicKey: {
-                          value: acc.pubkey,
-                        },
+                        publicKey: acc.pubkey,
                       } as WalletAccount)
                   );
                 } else if (namespace == 'near') {
@@ -585,9 +576,7 @@ export class WCClient implements WalletClient {
                         name: acc.accountId,
                         namespace,
                         chainId,
-                        publicKey: {
-                          value: acc.pubkey,
-                        },
+                        publicKey: acc.pubkey,
                       } as WalletAccount)
                   );
                 }
@@ -601,200 +590,164 @@ export class WCClient implements WalletClient {
     return accountsList.flat().flat();
   }
 
+  protected async _request(
+    namespace: Namespace,
+    chainId: string,
+    method: string,
+    params: unknown
+  ) {
+    const prefix = getPrefix(namespace as Namespace);
+    const session = this._getSessionWithMethod(prefix, chainId, method);
+
+    const resp = await this.signClient.request({
+      topic: session.topic,
+      chainId: `${prefix}:${chainId}`,
+      request: {
+        method,
+        params,
+      },
+    });
+
+    return resp;
+  }
+
   async sign(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    doc: CosmosDoc.Amino | CosmosDoc.Direct | EthereumDoc.HexBytes,
+    params: SignParamsType,
     options?: WalletConnectOptions['signOptions']
-  ): Promise<AddRaw<Signature>> {
-    const prefix = this.getPrefix(namespace as Namespace);
-    let method: string, params: object;
-    switch (namespace) {
-      case 'cosmos':
-        if (CosmosDocValidator.isDirect(doc)) {
-          method = 'cosmos_signDirect';
-          params = {
-            signerAddress: signer,
-            signDoc: doc,
-          };
-        } else if (CosmosDocValidator.isAmino(doc)) {
-          method = 'cosmos_signAmino';
-          params = {
-            signerAddress: signer,
-            signDoc: doc,
-          };
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
-      case 'ethereum':
-        if (EthereumDocValidator.isHexString(doc)) {
-          const _options = options || this.options?.signOptions;
-          if (_options?.ethereum?.signHexBytes == 'personal_sign') {
-            method = 'personal_sign';
-            params = [doc, signer];
-          } else if (_options?.ethereum?.signHexBytes == 'eth_sign') {
-            method = 'eth_sign';
-            params = [signer, doc];
-          } else {
-            return Promise.reject(
-              'There are two sign methods for hex bytes doc possiblely provided by wallet. Please set `signHexBytes` in options.'
-            );
-          }
-        } else if (EthereumDocValidator.isTypedData(doc)) {
-          method = 'eth_signTypedData';
-          params = [signer, doc];
-        } else if (EthereumDocValidator.isTypedData(doc)) {
-          method = 'eth_signTypedData';
-          params = [signer, doc];
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
+  ): Promise<AddRaw<SignResponse>> {
+    const method = getMethod(
+      'sign',
+      namespace,
+      params,
+      options || this.options?.signOptions
+    );
+    const resp = await this._request(namespace, chainId, method, params);
 
-        const session = this.getSessionWithMethod(prefix, chainId, method);
-        if (typeof session === 'undefined') {
-          throw new Error(
-            `Session for ${chainId} with method ${method} not established yet.`
-          );
-        }
-
-        const resp = await this.signClient.request({
-          topic: session.topic,
-          chainId: `${prefix}:${chainId}`,
-          request: {
-            method,
-            params,
+    switch (method) {
+      case 'cosmos_signDirect':
+      case 'cosmos_signAmino':
+        const { signature, signed } = resp as
+          | SignResult.Cosmos.Direct
+          | SignResult.Cosmos.Amino;
+        return {
+          signature: signature.signature,
+          publicKey: {
+            value: signature.pub_key.value,
+            algo: signature.pub_key.type,
           },
-        });
+          signedDoc: signed,
+        };
+      case 'personal_sign':
+      case 'eth_sign':
+      case 'eth_signTypedData':
+      case 'eth_signTransaction':
+        return {
+          signature: resp as SignResult.Ethereum.PersonalSign,
+        };
+      case 'ever_signMessage':
+        const { signed_ext_message } = resp as SignResult.Everscale.Message;
+        return {
+          signedDoc: signed_ext_message,
+        };
+      case 'ever_sign':
+        const {
+          signature: everSignature,
+          pubkey,
+        } = resp as SignResult.Everscale.Sign;
+        return {
+          signature: { value: everSignature, encoding: 'base64' },
+          publicKey: pubkey,
+        };
+      case 'solana_signTransaction':
+      case 'solana_signMessage':
+        const {
+          signature: solanaSignature,
+        } = resp as SignResult.Solana.Transaction;
+        return {
+          signature: solanaSignature,
+        };
+      case 'stellar_signXDR':
+        const { signedXDR } = resp as SignResult.Stella.XDR;
+        return {
+          signedDoc: signedXDR,
+        };
+      case 'near_signTransaction':
+      case 'near_signTransactions':
+        return {
+          signedDoc: resp as Uint8Array | Uint8Array[],
+        };
+      case 'xrpl_signTransaction':
+      case 'xrpl_signTransactionFor':
+        const { tx_json } = resp as SignResult.XRPL.Transaction;
+        return {
+          signature: tx_json.TxnSignature,
+          publicKey: tx_json.SigningPubKey,
+          raw: resp,
+        };
+      default:
+        return Promise.reject(`Unmatched method: ${method}.`);
+    }
+  }
 
-        switch (method) {
-          case 'cosmos_signDirect':
-          case 'cosmos_signAmino':
-            const { signature, signed } = resp as
-              | CosmosSignResponse.Direct
-              | CosmosSignResponse.Amino;
-            return {
-              signature: {
-                value: signature.signature,
-              },
-              publicKey: {
-                value: signature.pub_key.value,
-                algo: signature.pub_key.type,
-              },
-              signedDoc: signed,
-            };
-          default:
-            return Promise.reject(`Unmatched method: ${method}.`);
-        }
+  async broadcast(
+    namespace: Namespace,
+    chainId: string,
+    params: unknown,
+    options?: unknown
+  ): Promise<AddRaw<BroadcastResponse>> {
+    switch (namespace) {
+      case 'tezos':
+        const { operation_hash } = (await this._request(
+          namespace,
+          chainId,
+          'tezos_send',
+          params
+        )) as { operation_hash: string }; // Check it's operation_hash or hash
+        return {
+          block: {
+            hash: operation_hash,
+          },
+        };
       default:
         return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
-  protected async _signAmino(
+  async signAndBroadcast(
+    namespace: Namespace,
     chainId: string,
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) {
-    const session = this.getSession('cosmos', chainId);
-    if (!session) {
-      throw new Error(`Session for ${chainId} not established yet.`);
+    params: SignAndBroadcastParamsType,
+    options?: unknown
+  ): Promise<AddRaw<BroadcastResponse>> {
+    const method = getMethod(
+      'signAndBroadcast',
+      namespace,
+      params,
+      options || this.options?.signOptions
+    );
+    const resp = await this._request(namespace, chainId, method, params);
+
+    switch (method) {
+      case 'stellar_signAndSubmitXDR':
+        return {
+          raw: resp as SignAndBroadcastResult.Stella.XDR,
+        };
+      case 'xrpl_signTransaction':
+      case 'xrpl_signTransactionFor':
+        const {
+          tx_json: { hash },
+        } = resp as SignAndBroadcastResult.XRPL.Transaction;
+        return {
+          block: {
+            hash,
+          },
+          raw: resp,
+        };
+      default:
+        return Promise.reject(`Unmatched method: ${method}.`);
     }
-
-    if (this.redirect) this.openApp();
-
-    const resp = await this.signClient.request({
-      topic: session.topic,
-      chainId: `cosmos:${chainId}`,
-      request: {
-        method: 'cosmos_signAmino',
-        params: {
-          signerAddress: signer,
-          signDoc,
-        },
-      },
-    });
-    this.logger?.debug(`Response of cosmos_signAmino`, resp);
-    return resp;
-  }
-
-  async signAmino(
-    chainId: string,
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ): Promise<AminoSignResponse> {
-    const result = (await this._signAmino(
-      chainId,
-      signer,
-      signDoc,
-      signOptions
-    )) as AminoSignResponse;
-    return result;
-  }
-
-  protected async _signDirect(
-    chainId: string,
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ) {
-    const session = this.getSession('cosmos', chainId);
-    if (!session) {
-      throw new Error(`Session for ${chainId} not established yet.`);
-    }
-    const signDocValue: WCSignDirectRequest = {
-      signerAddress: signer,
-      signDoc: {
-        chainId: signDoc.chainId,
-        bodyBytes: getStringFromUint8Array(signDoc.bodyBytes, this.wcEncoding),
-        authInfoBytes: getStringFromUint8Array(
-          signDoc.authInfoBytes,
-          this.wcEncoding
-        ),
-        accountNumber: signDoc.accountNumber.toString(),
-      },
-    };
-
-    if (this.redirect) this.openApp();
-
-    const resp = await this.signClient.request({
-      topic: session.topic,
-      chainId: `cosmos:${chainId}`,
-      request: {
-        method: 'cosmos_signDirect',
-        params: signDocValue,
-      },
-    });
-    this.logger?.debug(`Response of cosmos_signDirect`, resp);
-    return resp;
-  }
-
-  async signDirect(
-    chainId: string,
-    signer: string,
-    signDoc: DirectSignDoc,
-    signOptions?: SignOptions
-  ): Promise<DirectSignResponse> {
-    const { signed, signature } = (await this._signDirect(
-      chainId,
-      signer,
-      signDoc,
-      signOptions
-    )) as CosmosSignDirectResponse;
-    return {
-      signed: {
-        chainId: signed.chainId,
-        accountNumber: Long.fromString(signed.accountNumber, false),
-        authInfoBytes: getUint8ArrayFromString(
-          signed.authInfoBytes,
-          this.wcEncoding
-        ),
-        bodyBytes: getUint8ArrayFromString(signed.bodyBytes, this.wcEncoding),
-      },
-      signature,
-    };
   }
 
   // restoreLatestSession() {

@@ -1,2 +1,3 @@
 export * from './utils';
-export * from './type-guards';
+export * from './utils/type-guards';
+export * from './types';

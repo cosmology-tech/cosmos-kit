@@ -1,10 +1,12 @@
 # Sign & Broadcast
 
-## Important To Know
+## Important to Know
 
-There could be multiple `sign`/`broadcast` methods provided by a wallet extension/app. i.e. `sign_message`, `sign_transaction`, `sign_amino`, `sign_direct` etc. However, for our standard **WalletClient** interface, we only provide a single `sign`/`broadcast` method. Usually we create `type-guards` funtions for every wallet respectively to make client automatically determine which method to use according to the type of `doc` argument.
+As we know, CosmosKit provide a standard **WalletClient** interface for all wallets. And in this interface, we only provide a single `sign`/`broadcast` method. However, there could be multiple `sign`/`broadcast` methods provided by wallet. i.e. `sign_message`, `sign_transaction`, `sign_amino`, `sign_direct` etc. 
 
-Basicall sign method is determined automatically by the doc type. But there are cases that multiple sign methods provided for one doc type, then parameter `options` is required to get more info.
+To solve this problem, we created **SignParamsValidator** which enables wallet client to detect the `doc` type and find out the only method fits the doc type. In this way client determines the particular `sign`/`broadcast` method automatically. (See [examples of SignParamsValidator](https://github.com/cosmology-tech/cosmos-kit/blob/v2-develop/wallets/cosmostation-extension/src/extension/utils/type-guards.ts))
+
+However, there are cases that multiple `sign`/`broadcast` methods share the same doc type. Then parameter `options` is required to provide more info.
 
 ## WalletConnect
 

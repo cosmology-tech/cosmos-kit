@@ -1,4 +1,5 @@
 import { WalletClientOptions } from '@cosmos-kit/core';
+import { GenericEthereumDoc } from '@cosmos-kit/ethereum';
 import {
   AptosSignMessageParams,
   AptosSignPayload,
@@ -57,22 +58,6 @@ export namespace CosmosDoc {
   export type Transaction = string | Uint8Array;
 }
 
-export namespace EthereumDoc {
-  export type Message = string;
-  export type Transaction = {
-    from: string;
-    data: string;
-  };
-  export interface TypedData {
-    domain: object;
-    message: object;
-    primaryType: string;
-    types: {
-      EIP712Domain: { name: string; type: string }[];
-    };
-  }
-}
-
 export namespace AptosDoc {
   export type Message = string | AptosSignMessageParams;
   export type Transaction = AptosSignPayload;
@@ -89,8 +74,8 @@ export type SignDoc =
   | CosmosDoc.Message
   | CosmosDoc.Direct
   | CosmosDoc.Amino
-  | EthereumDoc.Message
-  | EthereumDoc.Transaction
-  | EthereumDoc.TypedData
+  | GenericEthereumDoc.HexString
+  | GenericEthereumDoc.Transaction
+  | GenericEthereumDoc.TypedData
   | AptosDoc.Message
   | AptosDoc.Transaction;

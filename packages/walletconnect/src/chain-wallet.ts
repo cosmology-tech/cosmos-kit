@@ -8,7 +8,7 @@ import {
 } from '@cosmos-kit/core';
 
 import { WCClient } from './client';
-import { IWCClient } from './types';
+import { IWCClient } from './types/types';
 
 export class ChainWC extends ChainWallet {
   WCClient: IWCClient;

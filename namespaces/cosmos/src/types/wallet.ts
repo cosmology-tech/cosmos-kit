@@ -2,7 +2,7 @@ import { Algo } from '@cosmjs/amino';
 import {
   EncodedString,
   PublicKey,
-  Signature,
+  SignResponse,
   WalletAccount,
 } from '@cosmos-kit/core';
 
@@ -23,6 +23,6 @@ export interface CosmosWalletAccount extends WalletAccount {
   isLedger?: boolean;
 }
 
-export interface CosmosSignature extends Signature {
+export interface CosmosSignature extends SignResponse {
   publicKey: CosmosPublicKey2;
 }

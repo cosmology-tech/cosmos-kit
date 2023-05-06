@@ -90,7 +90,11 @@ export interface NameServiceRegistry {
   slip173: string;
 }
 
-export interface EncodedString {
-  value: string;
-  encoding?: BufferEncoding;
-}
+export type Encoding = BufferEncoding | 'base58' | 'xdr';
+
+export type EncodedString =
+  | string
+  | {
+      value: string;
+      encoding: Encoding;
+    };

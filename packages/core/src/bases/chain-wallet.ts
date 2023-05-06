@@ -1,8 +1,8 @@
 import {
+  AuthRange,
   ChainRecord,
   ExtendedHttpEndpoint,
   NameService,
-  Namespace,
   State,
   Wallet,
   WalletAccount,
@@ -101,23 +101,27 @@ export abstract class ChainWalletBase extends WalletBase {
     this.setState(State.Pending);
     this.setMessage(void 0);
 
+    const authRange: AuthRange = {
+      [this.namespace]: { chainIds: [this.chainId] },
+    };
+
     try {
-      await this.client.enable?.([this.chainId]);
+      await this.client.enable?.(authRange);
 
       let account: WalletAccount;
       try {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getAccounts([this.chainId])[0];
+        account = await this.client.getAccounts(authRange)[0];
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
           return;
         }
         if (this.client.addChain) {
-          await this.client.addChain(this.chainRecord);
-          account = await this.client.getAccounts([this.chainId])[0];
+          await this.client.addChain(this.namespace, this.chainRecord);
+          account = await this.client.getAccounts(authRange)[0];
         } else {
           throw error;
         }

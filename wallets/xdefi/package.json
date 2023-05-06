@@ -81,7 +81,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/xdefi-extension": "^0.14.13"
+    "@cosmos-kit/xdefi-extension": "^0.15.21"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

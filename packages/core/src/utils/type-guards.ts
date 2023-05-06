@@ -2,7 +2,7 @@ import { EncodedString, TypedArrayType, TypeName } from '../types';
 
 type Key2Type = { [k: string]: TypeName | TypedArrayType };
 
-export function hasKeyType(arg: any, key2type: Key2Type): boolean {
+export function hasRequiredKeyType(arg: any, key2type: Key2Type): boolean {
   if (typeof arg === 'undefined') {
     return false;
   }
@@ -10,8 +10,23 @@ export function hasKeyType(arg: any, key2type: Key2Type): boolean {
     typeof arg === 'object' &&
     Object.entries(key2type).filter(
       ([key, _type]) =>
-        typeof arg[key] !== _type || arg[Symbol.toStringTag] === _type
+        typeof arg[key] !== _type || arg[Symbol.toStringTag] !== _type
     ).length === 0
+  );
+}
+
+export function hasOptionalKeyType(arg: any, key2type: Key2Type): boolean {
+  if (typeof arg === 'undefined') {
+    return false;
+  }
+  return (
+    typeof arg === 'object' &&
+    Object.entries(key2type).filter(([key, _type]) => {
+      if (typeof arg[key] === 'undefined') {
+        return false;
+      }
+      return typeof arg[key] !== _type || arg[Symbol.toStringTag] !== _type;
+    }).length === 0
   );
 }
 
@@ -29,7 +44,7 @@ export function isArray(
       if (
         typeof arg[0] === itemType ||
         arg[Symbol.toStringTag] === itemType ||
-        hasKeyType(arg[0], itemType as Key2Type)
+        hasRequiredKeyType(arg[0], itemType as Key2Type)
       ) {
         return true;
       } else {
@@ -42,9 +57,9 @@ export function isArray(
 }
 
 export function isEncodedString(arg: unknown): arg is EncodedString {
-  return hasKeyType(arg, { value: 'string' });
+  return hasRequiredKeyType(arg, { value: 'string' });
 }
 
-export function isMessageDoc(doc: unknown): doc is string {
+export function isMessageDoc(doc: unknown, options?: unknown): doc is string {
   return typeof doc === 'string';
 }

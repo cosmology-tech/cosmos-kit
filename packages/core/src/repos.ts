@@ -83,7 +83,7 @@ export class WalletRepoWithGivenWallet extends WalletRepoBase {
 
   async disconnectAll() {
     try {
-      await this.client.disconnect(this.authRange);
+      await this.client.disable(this.authRange);
       this.setMutable(State.Init);
     } catch (error) {
       this.setMutable(
