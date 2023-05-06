@@ -26,6 +26,7 @@ import {
 import {
   AptosSignParamsValidator,
   CosmosSignParamsValidator,
+  getMethod,
   SuiSignParamsValidator,
 } from './utils';
 
@@ -37,8 +38,9 @@ import {
   SignDoc,
   SuiDoc,
   WalletAddEthereumChainParam,
-} from './types';
+} from './types/types';
 import { GenericEthereumSignParamsValidator } from '@cosmos-kit/ethereum';
+import { SignParamsType, SignResult } from './types';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
@@ -218,13 +220,71 @@ export class CosmostationClient implements WalletClient {
     return accountsList.flat();
   }
 
+  protected _getRequestor(namespace: Namespace) {
+    switch (namespace) {
+      case 'cosmos':
+        return this.client.cosmos;
+      case 'ethereum':
+        return this.client.ethereum;
+      case 'aptos':
+        return this.client.aptos;
+      case 'sui':
+        return this.client.sui;
+      default:
+        throw new Error(`Unmatched namespace ${namespace} in _getRequestor`);
+    }
+  }
+
+  protected async _request(
+    namespace: Namespace,
+    method: string,
+    params: unknown
+  ) {
+    const resp = await this._getRequestor(namespace).request({
+      method,
+      params,
+    });
+    return resp;
+  }
+
   async sign(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    doc: SignDoc,
+    params: SignParamsType,
     options?: SignOptions
   ): Promise<AddRaw<Signature>> {
+    const method = getMethod(
+      'sign',
+      namespace,
+      params,
+      options || this.options?.signOptions
+    );
+    const resp = await this._request(namespace, chainId, method, params);
+
+    switch (method) {
+      case 'cosmos_signDirect':
+      case 'cosmos_signAmino':
+        const { signature, signed } = resp as
+          | SignResult.Cosmos.Direct
+          | SignResult.Cosmos.Amino;
+        return {
+          signature: signature.signature,
+          publicKey: {
+            value: signature.pub_key.value,
+            algo: signature.pub_key.type,
+          },
+          signedDoc: signed,
+        };
+      case 'personal_sign':
+      case 'eth_sign':
+      case 'eth_signTypedDataV3':
+      case 'eth_signTypedDataV4':
+      case 'eth_signTransaction':
+        return { signature: resp as SignResult.Ethereum.PersonalSign };
+      default:
+        return Promise.reject(`Unmatched method: ${method}.`);
+    }
+
     switch (namespace) {
       case 'cosmos':
         if (!chainId) {
@@ -255,7 +315,7 @@ export class CosmostationClient implements WalletClient {
           } else {
             return Promise.reject('Unmatched doc type.');
           }
-          const _options = options || this.options?.signOptions;
+          const _options = options || this.options?.signOptions.cosmos;
           const {
             pub_key,
             signature,

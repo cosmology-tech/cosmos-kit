@@ -643,14 +643,10 @@ export class WCClient implements WalletClient {
       case 'eth_sign':
       case 'eth_signTypedData':
       case 'eth_signTransaction':
-        return {
-          signature: resp as SignResult.Ethereum.PersonalSign,
-        };
+        return { signature: resp as SignResult.Ethereum.PersonalSign };
       case 'ever_signMessage':
         const { signed_ext_message } = resp as SignResult.Everscale.Message;
-        return {
-          signedDoc: signed_ext_message,
-        };
+        return { signedDoc: signed_ext_message };
       case 'ever_sign':
         const {
           signature: everSignature,
@@ -670,9 +666,7 @@ export class WCClient implements WalletClient {
         };
       case 'stellar_signXDR':
         const { signedXDR } = resp as SignResult.Stella.XDR;
-        return {
-          signedDoc: signedXDR,
-        };
+        return { signedDoc: signedXDR };
       case 'near_signTransaction':
       case 'near_signTransactions':
         return {
@@ -697,21 +691,21 @@ export class WCClient implements WalletClient {
     params: unknown,
     options?: unknown
   ): Promise<AddRaw<BroadcastResponse>> {
-    switch (namespace) {
-      case 'tezos':
-        const { operation_hash } = (await this._request(
-          namespace,
-          chainId,
-          'tezos_send',
-          params
-        )) as { operation_hash: string }; // Check it's operation_hash or hash
+    const method = getMethod(
+      'broadcast',
+      namespace,
+      params,
+      options || this.options?.signOptions
+    );
+    const resp = await this._request(namespace, chainId, method, params);
+
+    switch (method) {
+      case 'eth_sendRawTransaction':
         return {
-          block: {
-            hash: operation_hash,
-          },
+          block: { hash: resp as SignAndBroadcastResult.Ethereum.Transaction },
         };
       default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
+        return Promise.reject(`Unmatched method: ${method}.`);
     }
   }
 
@@ -719,7 +713,7 @@ export class WCClient implements WalletClient {
     namespace: Namespace,
     chainId: string,
     params: SignAndBroadcastParamsType,
-    options?: unknown
+    options?: WalletConnectOptions['signOptions']
   ): Promise<AddRaw<BroadcastResponse>> {
     const method = getMethod(
       'signAndBroadcast',
@@ -730,21 +724,24 @@ export class WCClient implements WalletClient {
     const resp = await this._request(namespace, chainId, method, params);
 
     switch (method) {
-      case 'stellar_signAndSubmitXDR':
+      case 'eth_signTransaction':
         return {
-          raw: resp as SignAndBroadcastResult.Stella.XDR,
+          block: { hash: resp as SignAndBroadcastResult.Ethereum.Transaction },
         };
+      case 'ever_processMessage':
+        const { tx_id } = resp as SignAndBroadcastResult.Everscale.Message;
+        return { block: { hash: tx_id } };
+      case 'stellar_signAndSubmitXDR':
+        return { raw: resp as SignAndBroadcastResult.Stella.XDR };
       case 'xrpl_signTransaction':
       case 'xrpl_signTransactionFor':
         const {
           tx_json: { hash },
         } = resp as SignAndBroadcastResult.XRPL.Transaction;
-        return {
-          block: {
-            hash,
-          },
-          raw: resp,
-        };
+        return { block: { hash }, raw: resp };
+      case 'tezos_send':
+        const { operation_hash } = resp as SignAndBroadcastResult.Tezos.Send;
+        return { block: { hash: operation_hash } };
       default:
         return Promise.reject(`Unmatched method: ${method}.`);
     }

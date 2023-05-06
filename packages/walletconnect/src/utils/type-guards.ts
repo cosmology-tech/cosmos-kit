@@ -2,10 +2,12 @@ import {
   hasOptionalKeyType,
   hasRequiredKeyType,
   isArray,
+  Namespace,
 } from '@cosmos-kit/core';
 import { GenericCosmosDocValidator } from '@cosmos-kit/cosmos';
 import { GenericEthDocValidator } from '@cosmos-kit/ethereum';
 import {
+  BroadcastParams,
   SignAndBroadcastParams,
   SignParams,
   WalletConnectOptions,
@@ -200,12 +202,33 @@ export const SignParamsValidator = {
 };
 
 export const SignAndBroadcastParamsValidator = {
+  Ethereum: {
+    isTransaction: SignParamsValidator.Ethereum.isTransaction,
+  },
+  Everscale: {
+    isMessage: SignParamsValidator.Everscale.isMessage,
+  },
   Stella: {
     isXDR(
       params: unknown,
       options?: unknown
     ): params is SignAndBroadcastParams.Stella.XDR {
       return hasRequiredKeyType(params, { xdr: 'string' });
+    },
+  },
+  Tezos: {
+    isSend(
+      params: unknown,
+      options?: unknown
+    ): params is SignAndBroadcastParams.Tezos.Send {
+      return (
+        hasRequiredKeyType(params, { account: 'string' }) &&
+        isArray(params['operations'], {
+          kind: 'string',
+          destination: 'string',
+          amount: 'string',
+        })
+      );
     },
   },
   XRPL: {
@@ -235,6 +258,23 @@ export const SignAndBroadcastParamsValidator = {
           Account: 'string',
           TransactionType: 'string',
         })
+      );
+    },
+  },
+};
+
+export const BroadcastParamsValidator = {
+  Ethereum: {
+    isRawTransaction(
+      params: unknown,
+      options?: unknown
+    ): params is BroadcastParams.Ethereum.RawTransaction {
+      return (
+        Array.isArray(params) &&
+        params.every(
+          (signedDoc) =>
+            typeof signedDoc === 'string' && signedDoc.startsWith('0x')
+        )
       );
     },
   },

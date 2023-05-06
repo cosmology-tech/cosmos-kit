@@ -3,7 +3,7 @@ import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainCosmostationExtension } from './chain-wallet';
 import { CosmostationClient } from './client';
-import { CosmostationOptions } from './types';
+import { CosmostationOptions } from './types/types';
 import { getCosmostationFromExtension } from './utils';
 
 export class CosmostationExtensionWallet extends MainWalletBase {

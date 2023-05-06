@@ -249,7 +249,7 @@ export interface WalletClient {
    *     return the new block.
    *
    * @param params
-   *     Include signed doc and other info like corresponding address for keypair.
+   *     Include signed doc (useually bytes) and other info like corresponding address for keypair.
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   broadcast?(

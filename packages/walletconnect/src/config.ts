@@ -1,5 +1,9 @@
 import { EnableOptionsMap, ValidatorMap } from './types/types';
-import { SignAndBroadcastParamsValidator, SignParamsValidator } from './utils';
+import {
+  BroadcastParamsValidator,
+  SignAndBroadcastParamsValidator,
+  SignParamsValidator,
+} from './utils';
 
 export const defaultEnableOptions: EnableOptionsMap = {
   cosmos: {
@@ -26,7 +30,9 @@ export const defaultEnableOptions: EnableOptionsMap = {
   },
 };
 
-export const validators: { [k: string]: ValidatorMap } = {
+export const validators: {
+  [k in 'sign' | 'broadcast' | 'signAndBroadcast']: ValidatorMap;
+} = {
   sign: {
     cosmos: {
       cosmos_signAmino: SignParamsValidator.Cosmos.isAmino,
@@ -58,9 +64,26 @@ export const validators: { [k: string]: ValidatorMap } = {
     },
   },
 
+  broadcast: {
+    ethereum: {
+      eth_sendRawTransaction:
+        BroadcastParamsValidator.Ethereum.isRawTransaction,
+    },
+  },
+
   signAndBroadcast: {
+    ethereum: {
+      eth_signTransaction:
+        SignAndBroadcastParamsValidator.Ethereum.isTransaction,
+    },
+    everscale: {
+      ever_processMessage: SignAndBroadcastParamsValidator.Everscale.isMessage,
+    },
     stella: {
       stellar_signAndSubmitXDR: SignAndBroadcastParamsValidator.Stella.isXDR,
+    },
+    tezos: {
+      tezos_send: SignAndBroadcastParamsValidator.Tezos.isSend,
     },
     xrpl: {
       xrpl_signTransaction: SignAndBroadcastParamsValidator.XRPL.isTransaction,
