@@ -1,4 +1,5 @@
-import { EnableOptionsMap, ValidatorMap } from './types/types';
+import { Validators } from '@cosmos-kit/core';
+import { EnableOptionsMap } from './types';
 import {
   BroadcastParamsValidator,
   SignAndBroadcastParamsValidator,
@@ -30,9 +31,7 @@ export const defaultEnableOptions: EnableOptionsMap = {
   },
 };
 
-export const validators: {
-  [k in 'sign' | 'broadcast' | 'signAndBroadcast']: ValidatorMap;
-} = {
+export const validators = {
   sign: {
     cosmos: {
       cosmos_signAmino: SignParamsValidator.Cosmos.isAmino,

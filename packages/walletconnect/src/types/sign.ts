@@ -38,10 +38,11 @@ export namespace SignParams {
   }
 
   export namespace Ethereum {
-    export type PersonalSign = [string, string];
-    export type Sign = [string, string];
+    type Signer = string;
+    export type PersonalSign = [string, Signer];
+    export type Sign = [Signer, string];
     export type Transaction = GenericEthDoc.Transaction[];
-    export type TypedData = [string, GenericEthDoc.TypedData];
+    export type TypedData = [Signer, GenericEthDoc.TypedData];
   }
 
   export namespace Everscale {

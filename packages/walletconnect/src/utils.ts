@@ -1,3 +1,16 @@
+import { Namespace } from '@cosmos-kit/core';
+import { defaultEnableOptions } from './config';
+
+export function getPrefix(namespace: Namespace): string {
+  const prefix = defaultEnableOptions[namespace]?.prefix as string;
+  if (!prefix) {
+    throw new Error(
+      `No matched prefix in WalletConnect for namespace ${namespace}.`
+    );
+  }
+  return prefix;
+}
+
 const WALLETCONNECT_DEEPLINK_CHOICE = 'WALLETCONNECT_DEEPLINK_CHOICE';
 
 export const CoreUtil = {

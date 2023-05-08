@@ -1,6 +1,6 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
 
-import { Cosmostation } from '../types/types';
+import { Cosmostation } from './types/types';
 
 interface CosmostationWindow {
   cosmostation?: Cosmostation;

@@ -1,98 +1,76 @@
-import { StdSignature } from '@cosmjs/amino';
-import { GenericEthDoc } from '@cosmos-kit/ethereum';
+import { ChainId } from '@cosmos-kit/core';
 import {
   AptosSignMessageParams,
+  AptosSignMessageResponse,
   AptosSignPayload,
+  AptosSignTransactionResponse,
   SignAminoDoc,
+  SignAminoResponse,
   SignDirectDoc,
+  SignDirectResponse,
+  SignMessageResponse,
 } from '@cosmostation/extension-client/types/message';
+import { CosmosSignOptions } from './options';
 
 export type SignParamsType =
   | SignParams.Cosmos.Amino
   | SignParams.Cosmos.Direct
   | SignParams.Ethereum.Sign
   | SignParams.Ethereum.Transaction
-  | SignParams.Ethereum.TypedData
+  | SignParams.Ethereum.TypedDataV3
+  | SignParams.Ethereum.TypedDataV4
   | SignParams.Aptos.Message
-  | SignParams.Aptos.Transaction
-  | SignParams.Sui.Transaction;
+  | SignParams.Aptos.Transaction;
 
 export namespace SignParams {
   export namespace Cosmos {
-    export type Message = string;
-    export type Direct = SignDirectDoc;
-    export type Amino = SignAminoDoc;
+    interface Doc extends CosmosSignOptions {
+      chainName: ChainId;
+    }
+    export interface Message {
+      chainName: ChainId;
+      signer: string;
+      message: string;
+    }
+    export interface Direct extends Doc {
+      doc: SignDirectDoc;
+    }
+    export interface Amino extends Doc {
+      doc: SignAminoDoc;
+    }
   }
 
   export namespace Ethereum {
-    export type Sign = [string, string];
-    export type Transaction = [string, string];
-    export type TypedData = GenericEthDoc.Transaction[];
+    type Signer = string;
+    type JSONString = string;
+    export type Sign = [Signer, string];
+    export type Transaction = [Signer, string];
+    export type TypedDataV3 = [Signer, JSONString];
+    export type TypedDataV4 = [Signer, JSONString];
   }
 
   export namespace Aptos {
-    export type Message = string | AptosSignMessageParams;
-    export type Transaction = AptosSignPayload;
-  }
-
-  export namespace Sui {
-    export type Transaction = {
-      kind: string;
-      data: object;
-    };
+    export type Message = [AptosSignMessageParams];
+    export type Transaction = [AptosSignPayload];
   }
 }
 
 export namespace SignResult {
   export namespace Cosmos {
-    export interface Direct {
-      signature: StdSignature;
-      signed: SignParams.Cosmos.Direct;
-    }
-    export interface Amino {
-      signature: StdSignature;
-      signed: SignParams.Cosmos.Amino;
-    }
+    export type Message = SignMessageResponse;
+    export type Direct = SignDirectResponse;
+    export type Amino = SignAminoResponse;
   }
 
   export namespace Ethereum {
-    export type PersonalSign = string;
     export type Sign = string;
-    export type TypedData = string;
+    export type TypedDataV3 = string;
+    export type TypedDataV4 = string;
     export type Transaction = string;
   }
 
-  export namespace Everscale {
-    export interface Sign {
-      signature: string;
-      pubkey: string;
-    }
-
-    export interface Message {
-      signed_ext_message: string;
-    }
-  }
-
-  export namespace Solana {
-    export interface Transaction {
-      signature: string;
-    }
-    export type Message = SignResult.Solana.Transaction;
-  }
-
-  export namespace Stella {
-    export interface XDR {
-      signedXDR: string;
-    }
-  }
-
-  export namespace XRPL {
-    export interface Transaction {
-      tx_json: {
-        TxnSignature: string;
-        SigningPubKey: string;
-      } & SignParams.XRPL.Transaction['tx_json'];
-    }
-    export type TransactionFor = SignResult.XRPL.Transaction;
+  export namespace Aptos {
+    export type Message = AptosSignMessageResponse;
+    export type Transaction = AptosSignTransactionResponse;
   }
 }

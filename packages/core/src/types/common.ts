@@ -1,4 +1,5 @@
 import { ChainName } from './chain';
+import { Namespace } from './wallet';
 
 export type TypeName =
   | 'string'
@@ -98,3 +99,16 @@ export type EncodedString =
       value: string;
       encoding: Encoding;
     };
+
+export type ValidatorMap = {
+  /**
+   * `object` here is a map from method name to its validator
+   *  Should be `Record<string, (params: unknown, options?: unknown) => boolean>`
+   *  Here use `object` to make type `SignOptionsMap` being successfully generated.
+   */
+  [k in Namespace]?: object;
+};
+
+export type Validators = {
+  [k in 'sign' | 'broadcast' | 'signAndBroadcast']?: ValidatorMap;
+};

@@ -1,17 +1,4 @@
-import { WalletClientOptions } from '@cosmos-kit/core';
-import { SignOptions } from '@cosmostation/extension-client/types/message';
 import { Keplr } from '@keplr-wallet/types';
-
-export interface CosmostationOptions extends WalletClientOptions {
-  signOptions?: SignOptionsMap;
-}
-
-export type SignOptionsMap = {
-  cosmos?: SignOptions;
-  ethereum?: {
-    signTypedData?: 'v3' | 'v4';
-  };
-};
 
 export interface Request {
   method: string;

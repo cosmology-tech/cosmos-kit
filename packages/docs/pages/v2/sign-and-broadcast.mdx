@@ -4,9 +4,9 @@
 
 As we know, CosmosKit provide a standard **WalletClient** interface for all wallets. And in this interface, we only provide a single `sign`/`broadcast` method. However, there could be multiple `sign`/`broadcast` methods provided by wallet. i.e. `sign_message`, `sign_transaction`, `sign_amino`, `sign_direct` etc. 
 
-To solve this problem, we created **SignParamsValidator** which enables wallet client to detect the `doc` type and find out the only method fits the doc type. In this way client determines the particular `sign`/`broadcast` method automatically. (See [examples of SignParamsValidator](https://github.com/cosmology-tech/cosmos-kit/blob/v2-develop/wallets/cosmostation-extension/src/extension/utils/type-guards.ts))
+We provide a property `method` in parameter `options` to explicitly designate which method to use in requesting if there are multiple methods available in wallet. This property is optional, and if it's undefined, our **SignParamsValidator** enables wallet client to detect the `params` type and find out the only method fits the `params` type. In this way client determines the particular `sign`/`broadcast` method automatically. (Refer to [examples of SignParamsValidator](https://github.com/cosmology-tech/cosmos-kit/blob/v2-develop/wallets/cosmostation-extension/src/extension/utils/type-guards.ts) and [map between method and validator](https://github.com/cosmology-tech/cosmos-kit/blob/v2-develop/wallets/cosmostation-extension/src/extension/config.ts) )
 
-However, there are cases that multiple `sign`/`broadcast` methods share the same doc type. Then parameter `options` is required to provide more info.
+However, there are cases that multiple `sign`/`broadcast` methods share the same `params` type, like `personal_sign / eth_sign`, `eth_signTypedData_v3 / eth_signTypedData_v4` in `ethereum` network. Then parameter `options` is required to provide more info.
 
 ## WalletConnect
 

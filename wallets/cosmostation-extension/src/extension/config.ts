@@ -1,13 +1,11 @@
-import { ValidatorMap } from './types/types';
+import { Validators } from '@cosmos-kit/core';
 import {
   BroadcastParamsValidator,
   SignAndBroadcastParamsValidator,
   SignParamsValidator,
-} from './utils';
+} from './type-guards';
 
-export const validators: {
-  [k in 'sign' | 'broadcast' | 'signAndBroadcast']: ValidatorMap;
-} = {
+export const validators: Validators = {
   sign: {
     cosmos: {
       cos_signMessage: SignParamsValidator.Cosmos.isMessage,
@@ -16,9 +14,13 @@ export const validators: {
     },
     ethereum: {
       eth_sign: SignParamsValidator.Ethereum.isSign,
+      eth_signTransaction: SignParamsValidator.Ethereum.isTransaction,
       eth_signTypedData_v3: SignParamsValidator.Ethereum.isTypedDataV3,
       eth_signTypedData_v4: SignParamsValidator.Ethereum.isTypedDataV4,
-      eth_signTransaction: SignParamsValidator.Ethereum.isTransaction,
+    },
+    aptos: {
+      aptos_signMessage: SignParamsValidator.Aptos.isMessage,
+      aptos_signTransaction: SignParamsValidator.Aptos.isTransaction,
     },
   },
 
@@ -29,23 +31,13 @@ export const validators: {
   },
 
   signAndBroadcast: {
-    ethereum: {
-      eth_signTransaction:
-        SignAndBroadcastParamsValidator.Ethereum.isTransaction,
+    aptos: {
+      aptos_signAndSubmitTransaction:
+        SignAndBroadcastParamsValidator.Aptos.isTransaction,
     },
-    everscale: {
-      ever_processMessage: SignAndBroadcastParamsValidator.Everscale.isMessage,
-    },
-    stella: {
-      stellar_signAndSubmitXDR: SignAndBroadcastParamsValidator.Stella.isXDR,
-    },
-    tezos: {
-      tezos_send: SignAndBroadcastParamsValidator.Tezos.isSend,
-    },
-    xrpl: {
-      xrpl_signTransaction: SignAndBroadcastParamsValidator.XRPL.isTransaction,
-      xrpl_signTransactionFor:
-        SignAndBroadcastParamsValidator.XRPL.isTransactionFor,
+    sui: {
+      sui_signAndExecuteTransaction:
+        SignAndBroadcastParamsValidator.Sui.isTransaction,
     },
   },
 };

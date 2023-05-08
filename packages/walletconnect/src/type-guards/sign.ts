@@ -2,22 +2,16 @@ import {
   hasOptionalKeyType,
   hasRequiredKeyType,
   isArray,
-  Namespace,
 } from '@cosmos-kit/core';
 import { GenericCosmosDocValidator } from '@cosmos-kit/cosmos';
 import { GenericEthDocValidator } from '@cosmos-kit/ethereum';
-import {
-  BroadcastParams,
-  SignAndBroadcastParams,
-  SignParams,
-  WalletConnectOptions,
-} from '../types';
+import { SignOptionsMap, SignParams } from '../types';
 
 export const SignParamsValidator = {
   Cosmos: {
     isAmino(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Cosmos.Direct {
       return (
         hasRequiredKeyType(params, { signerAddress: 'string' }) &&
@@ -26,7 +20,7 @@ export const SignParamsValidator = {
     },
     isDirect(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Cosmos.Direct {
       return (
         hasRequiredKeyType(params, { signerAddress: 'string' }) &&
@@ -40,9 +34,23 @@ export const SignParamsValidator = {
     },
   },
   Ethereum: {
+    _check: (
+      method: string,
+      params: unknown,
+      options?: SignOptionsMap
+    ): params is SignParams.Ethereum.Sign => {
+      if (typeof options?.ethereum?.method === 'undefined') {
+        throw new Error('Please set `ethereum.method` in options.');
+      }
+      return (
+        options?.ethereum?.method === method &&
+        typeof params[0] === 'string' &&
+        typeof params[1] === 'string'
+      );
+    },
     isTransaction(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Ethereum.Transaction {
       return (
         Array.isArray(params) &&
@@ -51,7 +59,7 @@ export const SignParamsValidator = {
     },
     isTypedData(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Ethereum.TypedData {
       const [signer, doc] = params as any;
       return (
@@ -60,37 +68,21 @@ export const SignParamsValidator = {
     },
     isPersonalSign(
       params: unknown,
-      options?: WalletConnectOptions['signOptions']
+      options?: SignOptionsMap
     ): params is SignParams.Ethereum.PersonalSign {
-      if (typeof options?.ethereum?.signHexString === 'undefined') {
-        throw new Error('Please set `ethereum.signHexString` in options.');
-      }
-      const [doc, signer] = params as any;
-      return (
-        typeof doc == 'string' &&
-        typeof signer == 'string' &&
-        options?.ethereum?.signHexString === 'personal_sign'
-      );
+      return this._check('personal_sign', params, options);
     },
     isSign(
       params: unknown,
-      options?: WalletConnectOptions['signOptions']
+      options?: SignOptionsMap
     ): params is SignParams.Ethereum.Sign {
-      if (typeof options?.ethereum?.signHexString === 'undefined') {
-        throw new Error('Please set `ethereum.signHexString` in options.');
-      }
-      const [signer, doc] = params as any;
-      return (
-        typeof doc == 'string' &&
-        typeof signer == 'string' &&
-        options?.ethereum?.signHexString === 'eth_sign'
-      );
+      return this._check('eth_sign', params, options);
     },
   },
   Everscale: {
     isSign(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Everscale.Sign {
       return hasRequiredKeyType(params, {
         source_address: 'string',
@@ -99,7 +91,7 @@ export const SignParamsValidator = {
     },
     isMessage(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Everscale.Message {
       return (
         hasRequiredKeyType(params, { source_address: 'string' }) &&
@@ -116,7 +108,7 @@ export const SignParamsValidator = {
   Solana: {
     isTransaction(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Solana.Transaction {
       return (
         hasRequiredKeyType(params, {
@@ -127,7 +119,7 @@ export const SignParamsValidator = {
     },
     isMessage(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Solana.Message {
       return hasRequiredKeyType(params, {
         message: 'string',
@@ -136,14 +128,17 @@ export const SignParamsValidator = {
     },
   },
   Stella: {
-    isXDR(params: unknown, options?: unknown): params is SignParams.Stella.XDR {
+    isXDR(
+      params: unknown,
+      options?: SignOptionsMap
+    ): params is SignParams.Stella.XDR {
       return hasRequiredKeyType(params, { xdr: 'string' });
     },
   },
   Tezos: {
     isSign(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.Tezos.Sign {
       return hasRequiredKeyType(params, {
         account: 'string',
@@ -154,13 +149,13 @@ export const SignParamsValidator = {
   NEAR: {
     isTransaction(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.NEAR.Transaction {
       return isArray(params['transaction'], 'Uint8Array');
     },
     isTransactions(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.NEAR.Transactions {
       const { transactions } = params['transactions'];
       return (
@@ -172,7 +167,7 @@ export const SignParamsValidator = {
   XRPL: {
     isTransaction(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.XRPL.Transaction {
       const notSubmit = params['submit'] === false;
       return (
@@ -185,7 +180,7 @@ export const SignParamsValidator = {
     },
     isTransactionFor(
       params: unknown,
-      options?: unknown
+      options?: SignOptionsMap
     ): params is SignParams.XRPL.TransactionFor {
       const notSubmit =
         params['submit'] === false || typeof params['submit'] === 'undefined';
@@ -196,85 +191,6 @@ export const SignParamsValidator = {
           Account: 'string',
           TransactionType: 'string',
         })
-      );
-    },
-  },
-};
-
-export const SignAndBroadcastParamsValidator = {
-  Ethereum: {
-    isTransaction: SignParamsValidator.Ethereum.isTransaction,
-  },
-  Everscale: {
-    isMessage: SignParamsValidator.Everscale.isMessage,
-  },
-  Stella: {
-    isXDR(
-      params: unknown,
-      options?: unknown
-    ): params is SignAndBroadcastParams.Stella.XDR {
-      return hasRequiredKeyType(params, { xdr: 'string' });
-    },
-  },
-  Tezos: {
-    isSend(
-      params: unknown,
-      options?: unknown
-    ): params is SignAndBroadcastParams.Tezos.Send {
-      return (
-        hasRequiredKeyType(params, { account: 'string' }) &&
-        isArray(params['operations'], {
-          kind: 'string',
-          destination: 'string',
-          amount: 'string',
-        })
-      );
-    },
-  },
-  XRPL: {
-    isTransaction(
-      params: unknown,
-      options?: unknown
-    ): params is SignAndBroadcastParams.XRPL.Transaction {
-      const submit =
-        params['submit'] === true || typeof params['submit'] === 'undefined';
-      return (
-        submit &&
-        hasRequiredKeyType(params['tx_json'], {
-          Account: 'string',
-          TransactionType: 'string',
-        })
-      );
-    },
-    isTransactionFor(
-      params: unknown,
-      options?: unknown
-    ): params is SignAndBroadcastParams.XRPL.TransactionFor {
-      const submit = params['submit'] === true;
-      return (
-        submit &&
-        hasRequiredKeyType(params, { tx_signer: 'string' }) &&
-        hasRequiredKeyType(params['tx_json'], {
-          Account: 'string',
-          TransactionType: 'string',
-        })
-      );
-    },
-  },
-};
-
-export const BroadcastParamsValidator = {
-  Ethereum: {
-    isRawTransaction(
-      params: unknown,
-      options?: unknown
-    ): params is BroadcastParams.Ethereum.RawTransaction {
-      return (
-        Array.isArray(params) &&
-        params.every(
-          (signedDoc) =>
-            typeof signedDoc === 'string' && signedDoc.startsWith('0x')
-        )
       );
     },
   },

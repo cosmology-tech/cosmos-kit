@@ -15,12 +15,13 @@ import {
   Namespace,
   SignResponse,
   BroadcastResponse,
+  getMethod,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
 import { PairingTypes, SessionTypes } from '@walletconnect/types';
 import EventEmitter from 'events';
-import { CoreUtil, getPrefix, getMethod } from './utils';
+import { CoreUtil, getPrefix } from './utils';
 import {
   EnableOptions,
   EnableOptionsMap,
@@ -28,8 +29,11 @@ import {
   RequestAccount1,
   RequestAccount2,
   RequestAccount3,
+  BroadcastOptionsMap,
+  SignAndBroadcastOptionsMap,
+  SignOptionsMap,
 } from './types';
-import { defaultEnableOptions } from './config';
+import { defaultEnableOptions, validators } from './config';
 import {
   SignAndBroadcastParamsType,
   SignAndBroadcastResult,
@@ -615,14 +619,10 @@ export class WCClient implements WalletClient {
     namespace: Namespace,
     chainId: string,
     params: SignParamsType,
-    options?: WalletConnectOptions['signOptions']
+    options?: SignOptionsMap
   ): Promise<AddRaw<SignResponse>> {
-    const method = getMethod(
-      'sign',
-      namespace,
-      params,
-      options || this.options?.signOptions
-    );
+    const _options = options || this.options?.signOptions;
+    const method = getMethod(validators.sign, namespace, params, _options);
     const resp = await this._request(namespace, chainId, method, params);
 
     switch (method) {
@@ -639,14 +639,17 @@ export class WCClient implements WalletClient {
           },
           signedDoc: signed,
         };
+
       case 'personal_sign':
       case 'eth_sign':
       case 'eth_signTypedData':
       case 'eth_signTransaction':
         return { signature: resp as SignResult.Ethereum.PersonalSign };
+
       case 'ever_signMessage':
         const { signed_ext_message } = resp as SignResult.Everscale.Message;
         return { signedDoc: signed_ext_message };
+
       case 'ever_sign':
         const {
           signature: everSignature,
@@ -656,6 +659,7 @@ export class WCClient implements WalletClient {
           signature: { value: everSignature, encoding: 'base64' },
           publicKey: pubkey,
         };
+
       case 'solana_signTransaction':
       case 'solana_signMessage':
         const {
@@ -664,14 +668,17 @@ export class WCClient implements WalletClient {
         return {
           signature: solanaSignature,
         };
+
       case 'stellar_signXDR':
         const { signedXDR } = resp as SignResult.Stella.XDR;
         return { signedDoc: signedXDR };
+
       case 'near_signTransaction':
       case 'near_signTransactions':
         return {
           signedDoc: resp as Uint8Array | Uint8Array[],
         };
+
       case 'xrpl_signTransaction':
       case 'xrpl_signTransactionFor':
         const { tx_json } = resp as SignResult.XRPL.Transaction;
@@ -680,6 +687,7 @@ export class WCClient implements WalletClient {
           publicKey: tx_json.SigningPubKey,
           raw: resp,
         };
+
       default:
         return Promise.reject(`Unmatched method: ${method}.`);
     }
@@ -689,14 +697,10 @@ export class WCClient implements WalletClient {
     namespace: Namespace,
     chainId: string,
     params: unknown,
-    options?: unknown
+    options?: BroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
-    const method = getMethod(
-      'broadcast',
-      namespace,
-      params,
-      options || this.options?.signOptions
-    );
+    const _options = options || this.options?.broadcastOptions;
+    const method = getMethod(validators.broadcast, namespace, params, _options);
     const resp = await this._request(namespace, chainId, method, params);
 
     switch (method) {
@@ -713,13 +717,14 @@ export class WCClient implements WalletClient {
     namespace: Namespace,
     chainId: string,
     params: SignAndBroadcastParamsType,
-    options?: WalletConnectOptions['signOptions']
+    options?: SignAndBroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
+    const _options = options || this.options?.signAndBroadcastOptions;
     const method = getMethod(
-      'signAndBroadcast',
+      validators.signAndBroadcast,
       namespace,
       params,
-      options || this.options?.signOptions
+      _options
     );
     const resp = await this._request(namespace, chainId, method, params);
 
@@ -728,20 +733,25 @@ export class WCClient implements WalletClient {
         return {
           block: { hash: resp as SignAndBroadcastResult.Ethereum.Transaction },
         };
+
       case 'ever_processMessage':
         const { tx_id } = resp as SignAndBroadcastResult.Everscale.Message;
         return { block: { hash: tx_id } };
+
       case 'stellar_signAndSubmitXDR':
         return { raw: resp as SignAndBroadcastResult.Stella.XDR };
+
       case 'xrpl_signTransaction':
       case 'xrpl_signTransactionFor':
         const {
           tx_json: { hash },
         } = resp as SignAndBroadcastResult.XRPL.Transaction;
         return { block: { hash }, raw: resp };
+
       case 'tezos_send':
         const { operation_hash } = resp as SignAndBroadcastResult.Tezos.Send;
         return { block: { hash: operation_hash } };
+
       default:
         return Promise.reject(`Unmatched method: ${method}.`);
     }

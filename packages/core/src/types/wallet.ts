@@ -143,7 +143,7 @@ export interface BroadcastResponse {
 export type AddRaw<T> = T & { raw?: unknown };
 
 /**
- * authed chain distribution across namespaces
+ * Authed chain distribution across namespaces
  */
 export type AuthRange = {
   [k in Namespace]?: {
@@ -152,17 +152,26 @@ export type AuthRange = {
 };
 
 /**
+ * Only for methods with `namespace` as parameter
+ */
+export type NamespaceOptions = {
+  [k in Namespace]?: {
+    method?: string; // Explicitly designate which method to use in requesting if there are multiple methods available in wallet.
+  };
+};
+
+/**
  * Keys corresponding methods in WalletClient interface
  */
 export interface WalletClientOptions {
   enableOptions?: unknown;
-  addChainOptions?: unknown;
-  switchChainOptions?: unknown;
+  addChainOptions?: NamespaceOptions;
+  switchChainOptions?: NamespaceOptions;
   getAccountsOptions?: unknown;
-  signOptions?: unknown;
-  verifyOptions?: unknown;
-  broadcastOptions?: unknown;
-  signAndBroadcastOptions?: unknown;
+  signOptions?: NamespaceOptions;
+  verifyOptions?: NamespaceOptions;
+  broadcastOptions?: NamespaceOptions;
+  signAndBroadcastOptions?: NamespaceOptions;
   disableOptions?: unknown;
 }
 

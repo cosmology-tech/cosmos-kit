@@ -2,45 +2,34 @@ import { Algo } from '@cosmjs/amino';
 import {
   AddRaw,
   AuthRange,
-  Block,
+  BroadcastResponse,
+  getMethod,
   getStringFromUint8Array,
-  isMessageDoc,
   Namespace,
-  Signature,
+  NamespaceOptions,
+  SignResponse,
   WalletAccount,
   WalletClient,
 } from '@cosmos-kit/core';
 import { CosmosWalletAccount } from '@cosmos-kit/cosmos';
 import {
   AddChainParams,
-  AptosPendingTransaction,
-  AptosSignMessageResponse,
-  SendTransactionMode,
-  SendTransactionResponse,
-  SignAminoResponse,
-  SignDirectResponse,
-  SignMessageResponse,
-  SignOptions,
   VerifyMessageResponse,
 } from '@cosmostation/extension-client/types/message';
-import {
-  AptosSignParamsValidator,
-  CosmosSignParamsValidator,
-  getMethod,
-  SuiSignParamsValidator,
-} from './utils';
 
 import {
-  AptosDoc,
-  CosmosDoc,
+  BroadcastOptionsMap,
+  BroadcastParamsType,
+  BroadcastResult,
   Cosmostation,
   CosmostationOptions,
-  SignDoc,
-  SuiDoc,
+  SignAndBroadcastParamsType,
+  SignOptionsMap,
   WalletAddEthereumChainParam,
-} from './types/types';
-import { GenericEthereumSignParamsValidator } from '@cosmos-kit/ethereum';
+  SignAndBroadcastResult,
+} from './types';
 import { SignParamsType, SignResult } from './types';
+import { validators } from './config';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
@@ -238,11 +227,19 @@ export class CosmostationClient implements WalletClient {
   protected async _request(
     namespace: Namespace,
     method: string,
-    params: unknown
+    params: unknown,
+    options?: NamespaceOptions
   ) {
+    let _params: unknown = params;
+    switch (method) {
+      case 'cos_signAmino':
+      case 'cos_signDirect':
+        _params = { ...(params as object), ...options?.cosmos };
+        break;
+    }
     const resp = await this._getRequestor(namespace).request({
       method,
-      params,
+      params: _params,
     });
     return resp;
   }
@@ -251,152 +248,62 @@ export class CosmostationClient implements WalletClient {
     namespace: Namespace,
     chainId: string,
     params: SignParamsType,
-    options?: SignOptions
-  ): Promise<AddRaw<Signature>> {
-    const method = getMethod(
-      'sign',
-      namespace,
-      params,
-      options || this.options?.signOptions
-    );
-    const resp = await this._request(namespace, chainId, method, params);
+    options?: SignOptionsMap
+  ): Promise<AddRaw<SignResponse>> {
+    const _options = options || this.options?.signOptions;
+    const method = getMethod(validators.sign, namespace, params, _options);
+    const resp = await this._request(namespace, method, params, _options);
 
     switch (method) {
-      case 'cosmos_signDirect':
-      case 'cosmos_signAmino':
-        const { signature, signed } = resp as
-          | SignResult.Cosmos.Direct
-          | SignResult.Cosmos.Amino;
+      case 'cos_signMessage':
+        const { pub_key, signature } = resp as SignResult.Cosmos.Message;
         return {
-          signature: signature.signature,
           publicKey: {
-            value: signature.pub_key.value,
-            algo: signature.pub_key.type,
+            value: pub_key.value,
+            algo: pub_key.type,
           },
-          signedDoc: signed,
+          signature: signature,
         };
-      case 'personal_sign':
+
+      case 'cos_signAmino':
+      case 'cos_signDirect':
+        const {
+          pub_key: docPubKey,
+          signature: docSignature,
+          signed_doc,
+        } = resp as SignResult.Cosmos.Direct | SignResult.Cosmos.Amino;
+        return {
+          publicKey: {
+            value: docPubKey.value,
+            algo: docPubKey.type,
+          },
+          signature: docSignature,
+          signedDoc: signed_doc,
+        };
+
       case 'eth_sign':
-      case 'eth_signTypedDataV3':
-      case 'eth_signTypedDataV4':
       case 'eth_signTransaction':
-        return { signature: resp as SignResult.Ethereum.PersonalSign };
+      case 'eth_signTypedData_v3':
+      case 'eth_signTypedData_v4':
+      case 'aptos_signTransaction':
+        return {
+          signature: resp as
+            | SignResult.Ethereum.Sign
+            | SignResult.Ethereum.Transaction
+            | SignResult.Ethereum.TypedDataV3
+            | SignResult.Ethereum.TypedDataV4
+            | SignResult.Aptos.Transaction,
+        };
+
+      case 'aptos_signMessage':
+        const { signature: aptosSignature } = resp as SignResult.Aptos.Message;
+        return {
+          signature: aptosSignature,
+          raw: resp,
+        };
+
       default:
         return Promise.reject(`Unmatched method: ${method}.`);
-    }
-
-    switch (namespace) {
-      case 'cosmos':
-        if (!chainId) {
-          return Promise.reject('ChainId not provided.');
-        }
-        if (isMessageDoc(doc)) {
-          const { pub_key, signature } = (await this.client.cosmos.request({
-            method: 'cos_signMessage',
-            params: {
-              chainName: chainId,
-              signer: signer,
-              message: doc,
-            },
-          })) as SignMessageResponse;
-          return {
-            publicKey: {
-              value: pub_key.value,
-              algo: pub_key.type,
-            },
-            signature: signature,
-          };
-        } else {
-          let method: string;
-          if (CosmosSignParamsValidator.isDirect(doc)) {
-            method = 'cos_signDirect';
-          } else if (CosmosSignParamsValidator.isAmino(doc)) {
-            method = 'cos_signAmino';
-          } else {
-            return Promise.reject('Unmatched doc type.');
-          }
-          const _options = options || this.options?.signOptions.cosmos;
-          const {
-            pub_key,
-            signature,
-            signed_doc,
-          } = (await this.client.cosmos.request({
-            method,
-            params: {
-              chainName: chainId,
-              doc: doc,
-              isEditMemo: !!(_options === null || _options === void 0
-                ? void 0
-                : _options.memo),
-              isEditFee: !!(_options === null || _options === void 0
-                ? void 0
-                : _options.fee),
-              gasRate:
-                _options === null || _options === void 0
-                  ? void 0
-                  : _options.gasRate,
-            },
-          })) as SignDirectResponse | SignAminoResponse;
-          return {
-            publicKey: {
-              value: pub_key.value,
-              algo: pub_key.type,
-            },
-            signature,
-            signedDoc: signed_doc,
-          };
-        }
-      case 'ethereum':
-        if (GenericEthereumSignParamsValidator.isHexString(doc)) {
-          const { result } = (await this.client.ethereum.request({
-            method: 'eth_sign',
-            params: [signer, doc],
-          })) as { result: string };
-          return {
-            signature: result,
-          };
-        } else if (GenericEthereumSignParamsValidator.isTransaction(doc)) {
-          const { result } = (await this.client.ethereum.request({
-            method: 'eth_signTransaction',
-            params: [doc],
-          })) as { result: string };
-          return {
-            signature: result,
-          };
-        } else if (GenericEthereumSignParamsValidator.isTypedData(doc)) {
-          const { result } = (await this.client.ethereum.request({
-            method: 'eth_signTypedData_v4',
-            params: [signer, JSON.stringify(doc)],
-          })) as { result: string };
-          return {
-            signature: result,
-          };
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
-      case 'aptos':
-        if (AptosSignParamsValidator.isMessage(doc)) {
-          const resp = (await this.client.aptos.request({
-            method: 'aptos_signMessage',
-            params: [doc],
-          })) as AptosSignMessageResponse;
-          return {
-            signature: resp.signature,
-            raw: resp,
-          };
-        } else if (AptosSignParamsValidator.isTransaction(doc)) {
-          const signature = (await this.client.aptos.request({
-            method: 'aptos_signTransaction',
-            params: [doc],
-          })) as string;
-          return {
-            signature: signature,
-          };
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
-      default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
   }
 
@@ -436,36 +343,27 @@ export class CosmostationClient implements WalletClient {
   async broadcast(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    signedDoc: CosmosDoc.Transaction,
-    options?: {
-      mode: SendTransactionMode;
-    }
-  ): Promise<AddRaw<Block>> {
-    switch (namespace) {
-      case 'cosmos':
-        if (typeof options.mode === 'undefined') {
-          return Promise.reject('Please provide broadcast mode.');
-        }
-        if (CosmosSignParamsValidator.isTransaction(signedDoc)) {
-          const response = (await this.client.cosmos.request({
-            method: 'cos_sendTransaction',
-            params: {
-              chainName: chainId,
-              txBytes: signedDoc,
-              mode: options.mode,
-            },
-          })) as SendTransactionResponse;
-          const { txhash, height, timestamp } = response.tx_response;
-          return {
+    params: BroadcastParamsType,
+    options?: BroadcastOptionsMap
+  ): Promise<AddRaw<BroadcastResponse>> {
+    const _options = options || this.options?.broadcastOptions;
+    const method = getMethod(validators.sign, namespace, params, _options);
+    const resp = await this._request(namespace, method, params, _options);
+
+    switch (method) {
+      case 'cos_sendTransaction':
+        const {
+          tx_response: { txhash, height, timestamp },
+        } = resp as BroadcastResult.Cosmos.Transaction;
+        return {
+          block: {
             hash: txhash,
             height: height as string,
             timestamp: timestamp as string,
-            raw: response,
-          };
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
+          },
+          raw: resp,
+        };
+
       default:
         return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
@@ -474,38 +372,31 @@ export class CosmostationClient implements WalletClient {
   async signAndBroadcast(
     namespace: Namespace,
     chainId: string,
-    signer: string,
-    doc: SuiDoc.Transaction | AptosDoc.Transaction,
+    params: SignAndBroadcastParamsType,
     options?: unknown
-  ): Promise<AddRaw<Block>> {
-    switch (namespace) {
-      case 'sui':
-        if (SuiSignParamsValidator.isTransaction(doc)) {
-          const suiResp = await this.client.sui.request({
-            method: 'sui_signAndExecuteTransaction',
-            params: doc,
-          });
-          return {
-            hash: suiResp['effects']['transactionDigest'],
-            raw: suiResp,
-          };
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
-      case 'aptos':
-        if (AptosSignParamsValidator.isTransaction(doc)) {
-          const aptosResp = (await this.client.aptos.request({
-            method: 'aptos_signAndSubmitTransaction',
-            params: [doc],
-          })) as AptosPendingTransaction;
-          return {
-            hash: aptosResp.hash,
-            height: aptosResp.sequence_number,
-            raw: aptosResp,
-          };
-        } else {
-          return Promise.reject('Unmatched doc type.');
-        }
+  ): Promise<AddRaw<BroadcastResponse>> {
+    const _options = options || this.options?.signAndBroadcastOptions;
+    const method = getMethod(validators.sign, namespace, params, _options);
+    const resp = await this._request(namespace, method, params, _options);
+
+    switch (method) {
+      case 'aptos_signAndSubmitTransaction':
+        const {
+          hash,
+          sequence_number,
+        } = resp as SignAndBroadcastResult.Aptos.Transaction;
+        return {
+          block: { hash, height: sequence_number },
+          raw: resp,
+        };
+
+      case 'sui_signAndExecuteTransaction':
+        const { digest } = resp as SignAndBroadcastResult.Sui.Transaction;
+        return {
+          block: { hash: digest },
+          raw: resp,
+        };
+
       default:
         return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }

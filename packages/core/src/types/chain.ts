@@ -3,6 +3,7 @@ import { Chain, AssetList } from '@chain-registry/types';
 import { Namespace } from './wallet';
 
 export type ChainName = string;
+export type ChainId = string;
 
 export interface ChainRecord {
   name: ChainName;
