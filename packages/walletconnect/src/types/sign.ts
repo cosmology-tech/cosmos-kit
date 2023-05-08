@@ -1,31 +1,34 @@
 import { StdSignature } from '@cosmjs/amino';
 import { GenericCosmosDoc } from '@cosmos-kit/cosmos';
 import { GenericEthDoc } from '@cosmos-kit/ethereum';
+import { BeyondParams } from './types';
 
-export type SignParamsType =
-  | SignParams.Cosmos.Amino
-  | SignParams.Cosmos.Direct
-  | SignParams.Ethereum.PersonalSign
-  | SignParams.Ethereum.Sign
-  | SignParams.Ethereum.Transaction
-  | SignParams.Ethereum.TypedData
-  | SignParams.Everscale.Message
-  | SignParams.Everscale.Sign
-  | SignParams.NEAR.Transaction
-  | SignParams.NEAR.Transactions
-  | SignParams.Solana.Message
-  | SignParams.Solana.Transaction
-  | SignParams.Stella.XDR
-  | SignParams.Tezos.Sign
-  | SignParams.XRPL.Transaction
-  | SignParams.XRPL.TransactionFor;
+export interface SignParamsType extends BeyondParams {
+  params:
+    | SignParams.Cosmos.Amino
+    | SignParams.Cosmos.Direct
+    | SignParams.Ethereum.PersonalSign
+    | SignParams.Ethereum.Sign
+    | SignParams.Ethereum.Transaction
+    | SignParams.Ethereum.TypedData
+    | SignParams.Everscale.Message
+    | SignParams.Everscale.Sign
+    | SignParams.NEAR.Transaction
+    | SignParams.NEAR.Transactions
+    | SignParams.Solana.Message
+    | SignParams.Solana.Transaction
+    | SignParams.Stella.XDR
+    | SignParams.Tezos.Sign
+    | SignParams.XRPL.Transaction
+    | SignParams.XRPL.TransactionFor;
+}
 
 export namespace SignParams {
   export namespace Cosmos {
-    export type Amino = {
+    export interface Amino {
       signerAddress: string;
       signDoc: GenericCosmosDoc.Amino;
-    };
+    }
     export interface Direct {
       signerAddress: string;
       signDoc: {

@@ -1,6 +1,6 @@
 import { BroadcastOptionsMap, BroadcastParams } from '../types';
 
-export const BroadcastParamsValidator = {
+export const BroadcastParamsDiscriminator = {
   Ethereum: {
     isRawTransaction(
       params: unknown,

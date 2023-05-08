@@ -1,14 +1,14 @@
 import { hasRequiredKeyType, isArray } from '@cosmos-kit/core';
 import { SignAndBroadcastOptionsMap, SignAndBroadcastParams } from '../types';
-import { SignParamsValidator } from './sign';
+import { SignParamsDiscriminator } from './sign';
 
-export const SignAndBroadcastParamsValidator = {
+export const SignAndBroadcastParamsDiscriminator = {
   Ethereum: {
     isTransaction(
       params: unknown,
       options?: SignAndBroadcastOptionsMap
     ): params is SignAndBroadcastParams.Stella.XDR {
-      return SignParamsValidator.Ethereum.isTransaction(params);
+      return SignParamsDiscriminator.Ethereum.isTransaction(params);
     },
   },
   Everscale: {
@@ -16,7 +16,7 @@ export const SignAndBroadcastParamsValidator = {
       params: unknown,
       options?: SignAndBroadcastOptionsMap
     ): params is SignAndBroadcastParams.Stella.XDR {
-      return SignParamsValidator.Everscale.isMessage(params);
+      return SignParamsDiscriminator.Everscale.isMessage(params);
     },
   },
   Stella: {

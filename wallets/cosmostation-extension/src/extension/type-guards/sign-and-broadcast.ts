@@ -1,13 +1,13 @@
 import { SignAndBroadcastParams, SignAndBroadcastOptionsMap } from '../types';
-import { SignParamsValidator } from './sign';
+import { SignParamsDiscriminator } from './sign';
 
-export const SignAndBroadcastParamsValidator = {
+export const SignAndBroadcastParamsDiscriminator = {
   Aptos: {
     isTransaction(
       params: unknown,
       options?: SignAndBroadcastOptionsMap
     ): params is SignAndBroadcastParams.Aptos.Transaction {
-      return SignParamsValidator.Aptos.isTransaction(params);
+      return SignParamsDiscriminator.Aptos.isTransaction(params);
     },
   },
   Sui: {

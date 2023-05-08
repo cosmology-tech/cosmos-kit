@@ -1,7 +1,7 @@
 import { hasRequiredKeyType, isArray } from '@cosmos-kit/core';
 import { GenericCosmosDoc } from '../types';
 
-export const GenericCosmosDocValidator = {
+export const GenericCosmosDocDiscriminator = {
   isMessage(doc: unknown, options?: unknown): doc is GenericCosmosDoc.Message {
     return typeof doc === 'string';
   },

@@ -4,7 +4,7 @@ import {
   NamespaceOptions,
   TypedArrayType,
   TypeName,
-  ValidatorMap,
+  DiscriminatorMap,
 } from '../types';
 
 type Key2Type = { [k: string]: TypeName | TypedArrayType };
@@ -72,7 +72,7 @@ export function isMessageDoc(doc: unknown, options?: unknown): doc is string {
 }
 
 export function getMethod(
-  validatorMap: ValidatorMap,
+  discriminatorMap: DiscriminatorMap,
   namespace: Namespace,
   params: unknown,
   options?: NamespaceOptions
@@ -81,14 +81,20 @@ export function getMethod(
     return options?.[namespace]?.method;
   }
 
-  const method2validator = validatorMap[namespace];
+  const method2discriminator = discriminatorMap[namespace];
 
-  if (typeof method2validator === 'undefined') {
+  if (typeof method2discriminator === 'undefined') {
     throw new Error(`Unmatched namespace: ${namespace}.`);
   }
 
-  const methods = Object.entries(method2validator)
-    .filter(([, isValid]) => isValid(params, options))
+  const methods = Object.entries(method2discriminator)
+    .filter(([, discriminate]) => {
+      if (typeof discriminate === 'boolean') {
+        return discriminate;
+      } else {
+        return discriminate(params, options);
+      }
+    })
     .map(([method]) => method);
 
   if (methods.length === 0) {
@@ -96,7 +102,7 @@ export function getMethod(
   }
   if (methods.length > 1) {
     throw new Error(
-      `Params passes multiple validators. Corresponsing methods are ${methods}`
+      `Params passes multiple discriminators. Corresponsing methods are ${methods}`
     );
   }
   return methods[0];

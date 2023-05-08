@@ -100,15 +100,19 @@ export type EncodedString =
       encoding: Encoding;
     };
 
-export type ValidatorMap = {
+export type DiscriminatorMap = {
   /**
-   * `object` here is a map from method name to its validator
-   *  Should be `Record<string, (params: unknown, options?: unknown) => boolean>`
+   * `object` here is a map from method name to its discriminator or a boolean value.
+   *  Should be `Record<string, boolean | (params: unknown, options?: unknown) => boolean>`
    *  Here use `object` to make type `SignOptionsMap` being successfully generated.
    */
   [k in Namespace]?: object;
 };
 
-export type Validators = {
-  [k in 'sign' | 'broadcast' | 'signAndBroadcast']?: ValidatorMap;
+export type Discriminators = {
+  [k in
+    | 'sign'
+    | 'verify'
+    | 'broadcast'
+    | 'signAndBroadcast']?: DiscriminatorMap;
 };

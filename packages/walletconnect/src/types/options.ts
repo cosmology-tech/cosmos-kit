@@ -4,7 +4,7 @@ import {
   WalletClientOptions,
 } from '@cosmos-kit/core';
 import { SignClientTypes } from '@walletconnect/types';
-import { validators } from '../config';
+import { discriminators } from '../config';
 
 export interface WalletConnectOptions extends WalletClientOptions {
   enableOptions?: EnableOptionsMap;
@@ -29,51 +29,51 @@ export type EnableOptionsMap = {
 
 export interface SignOptionsMap extends NamespaceOptions {
   cosmos?: {
-    method?: keyof typeof validators.sign.cosmos;
+    method?: keyof typeof discriminators.sign.cosmos;
   };
   ethereum?: {
-    method?: keyof typeof validators.sign.ethereum;
+    method?: keyof typeof discriminators.sign.ethereum;
   };
   everscale?: {
-    method?: keyof typeof validators.sign.everscale;
+    method?: keyof typeof discriminators.sign.everscale;
   };
   solana?: {
-    method?: keyof typeof validators.sign.solana;
+    method?: keyof typeof discriminators.sign.solana;
   };
   stella?: {
-    method?: keyof typeof validators.sign.stella;
+    method?: keyof typeof discriminators.sign.stella;
   };
   tezos?: {
-    method?: keyof typeof validators.sign.tezos;
+    method?: keyof typeof discriminators.sign.tezos;
   };
   near?: {
-    method?: keyof typeof validators.sign.near;
+    method?: keyof typeof discriminators.sign.near;
   };
   xrpl?: {
-    method?: keyof typeof validators.sign.xrpl;
+    method?: keyof typeof discriminators.sign.xrpl;
   };
 }
 
 export interface BroadcastOptionsMap extends NamespaceOptions {
   ethereum?: {
-    method?: keyof typeof validators.broadcast.ethereum;
+    method?: keyof typeof discriminators.broadcast.ethereum;
   };
 }
 
 export interface SignAndBroadcastOptionsMap extends NamespaceOptions {
   ethereum?: {
-    method?: keyof typeof validators.signAndBroadcast.ethereum;
+    method?: keyof typeof discriminators.signAndBroadcast.ethereum;
   };
   everscale?: {
-    method?: keyof typeof validators.signAndBroadcast.everscale;
+    method?: keyof typeof discriminators.signAndBroadcast.everscale;
   };
   stella?: {
-    method?: keyof typeof validators.signAndBroadcast.stella;
+    method?: keyof typeof discriminators.signAndBroadcast.stella;
   };
   tezos?: {
-    method?: keyof typeof validators.signAndBroadcast.tezos;
+    method?: keyof typeof discriminators.signAndBroadcast.tezos;
   };
   xrpl?: {
-    method?: keyof typeof validators.signAndBroadcast.xrpl;
+    method?: keyof typeof discriminators.signAndBroadcast.xrpl;
   };
 }

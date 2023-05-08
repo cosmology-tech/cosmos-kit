@@ -5,7 +5,7 @@ import {
 } from '@cosmos-kit/core';
 import { SignOptions } from '@cosmostation/extension-client/types/message';
 import { SignClientTypes } from '@walletconnect/types';
-import { validators } from '../config';
+import { discriminators } from '../config';
 
 export interface CosmostationOptions extends WalletClientOptions {
   enableOptions?: EnableOptionsMap;
@@ -36,30 +36,30 @@ export interface CosmosSignOptions {
 
 export interface SignOptionsMap extends NamespaceOptions {
   cosmos?: {
-    method?: keyof typeof validators.sign.cosmos;
+    method?: keyof typeof discriminators.sign.cosmos;
   } & CosmosSignOptions;
   ethereum?: {
-    method?: keyof typeof validators.sign.ethereum;
+    method?: keyof typeof discriminators.sign.ethereum;
   };
   aptos?: {
-    method?: keyof typeof validators.sign.aptos;
+    method?: keyof typeof discriminators.sign.aptos;
   };
   sui?: {
-    method?: keyof typeof validators.sign.sui;
+    method?: keyof typeof discriminators.sign.sui;
   };
 }
 
 export interface BroadcastOptionsMap extends NamespaceOptions {
   cosmos?: {
-    method?: keyof typeof validators.broadcast.cosmos;
+    method?: keyof typeof discriminators.broadcast.cosmos;
   };
 }
 
 export interface SignAndBroadcastOptionsMap extends NamespaceOptions {
   aptos?: {
-    method?: keyof typeof validators.signAndBroadcast.aptos;
+    method?: keyof typeof discriminators.signAndBroadcast.aptos;
   };
   sui?: {
-    method?: keyof typeof validators.signAndBroadcast.sui;
+    method?: keyof typeof discriminators.signAndBroadcast.sui;
   };
 }

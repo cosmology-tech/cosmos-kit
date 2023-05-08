@@ -1,7 +1,7 @@
 import { isArray } from '@cosmos-kit/core';
 import { BroadcastParams } from '../types';
 
-export const BroadcastParamsValidator = {
+export const BroadcastParamsDiscriminator = {
   Cosmos: {
     isTransaction(
       params: unknown,

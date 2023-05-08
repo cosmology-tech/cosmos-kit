@@ -1,11 +1,14 @@
 import { SignParams, SignResult } from './sign';
+import { BeyondParams } from './types';
 
-export type SignAndBroadcastParamsType =
-  | SignAndBroadcastParams.Ethereum.Transaction
-  | SignAndBroadcastParams.Everscale.Message
-  | SignAndBroadcastParams.Stella.XDR
-  | SignAndBroadcastParams.XRPL.Transaction
-  | SignAndBroadcastParams.XRPL.TransactionFor;
+export interface SignAndBroadcastParamsType extends BeyondParams {
+  params:
+    | SignAndBroadcastParams.Ethereum.Transaction
+    | SignAndBroadcastParams.Everscale.Message
+    | SignAndBroadcastParams.Stella.XDR
+    | SignAndBroadcastParams.XRPL.Transaction
+    | SignAndBroadcastParams.XRPL.TransactionFor;
+}
 
 export namespace SignAndBroadcastParams {
   export namespace Ethereum {

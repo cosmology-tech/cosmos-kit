@@ -5,7 +5,7 @@ import {
 } from '@cosmos-kit/core';
 import { GenericEthDoc } from '../types';
 
-export const GenericEthDocValidator = {
+export const GenericEthDocDiscriminator = {
   isHexString(doc: unknown, options?: unknown): doc is GenericEthDoc.HexString {
     return typeof doc == 'string' && doc.startsWith('0x');
   },

@@ -32,8 +32,10 @@ import {
   BroadcastOptionsMap,
   SignAndBroadcastOptionsMap,
   SignOptionsMap,
+  BeyondParams,
+  BroadcastParamsType,
 } from './types';
-import { defaultEnableOptions, validators } from './config';
+import { defaultEnableOptions, discriminators } from './config';
 import {
   SignAndBroadcastParamsType,
   SignAndBroadcastResult,
@@ -533,12 +535,10 @@ export class WCClient implements WalletClient {
 
                 let requestAccounts;
                 try {
-                  requestAccounts = await this._request(
-                    namespace,
+                  requestAccounts = await this._request(namespace, method, {
                     chainId,
-                    method,
-                    {}
-                  );
+                    params: {},
+                  });
                 } catch (error) {
                   if (
                     (error as Error).message ===
@@ -596,19 +596,18 @@ export class WCClient implements WalletClient {
 
   protected async _request(
     namespace: Namespace,
-    chainId: string,
     method: string,
-    params: unknown
+    params: BeyondParams & { params: unknown }
   ) {
     const prefix = getPrefix(namespace as Namespace);
-    const session = this._getSessionWithMethod(prefix, chainId, method);
+    const session = this._getSessionWithMethod(prefix, params.chainId, method);
 
     const resp = await this.signClient.request({
       topic: session.topic,
-      chainId: `${prefix}:${chainId}`,
+      chainId: `${prefix}:${params.chainId}`,
       request: {
         method,
-        params,
+        params: params.params,
       },
     });
 
@@ -617,13 +616,12 @@ export class WCClient implements WalletClient {
 
   async sign(
     namespace: Namespace,
-    chainId: string,
     params: SignParamsType,
     options?: SignOptionsMap
   ): Promise<AddRaw<SignResponse>> {
     const _options = options || this.options?.signOptions;
-    const method = getMethod(validators.sign, namespace, params, _options);
-    const resp = await this._request(namespace, chainId, method, params);
+    const method = getMethod(discriminators.sign, namespace, params, _options);
+    const resp = await this._request(namespace, method, params);
 
     switch (method) {
       case 'cosmos_signDirect':
@@ -695,13 +693,17 @@ export class WCClient implements WalletClient {
 
   async broadcast(
     namespace: Namespace,
-    chainId: string,
-    params: unknown,
+    params: BroadcastParamsType,
     options?: BroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
     const _options = options || this.options?.broadcastOptions;
-    const method = getMethod(validators.broadcast, namespace, params, _options);
-    const resp = await this._request(namespace, chainId, method, params);
+    const method = getMethod(
+      discriminators.broadcast,
+      namespace,
+      params,
+      _options
+    );
+    const resp = await this._request(namespace, method, params);
 
     switch (method) {
       case 'eth_sendRawTransaction':
@@ -715,18 +717,17 @@ export class WCClient implements WalletClient {
 
   async signAndBroadcast(
     namespace: Namespace,
-    chainId: string,
     params: SignAndBroadcastParamsType,
     options?: SignAndBroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
     const _options = options || this.options?.signAndBroadcastOptions;
     const method = getMethod(
-      validators.signAndBroadcast,
+      discriminators.signAndBroadcast,
       namespace,
       params,
       _options
     );
-    const resp = await this._request(namespace, chainId, method, params);
+    const resp = await this._request(namespace, method, params);
 
     switch (method) {
       case 'eth_signTransaction':

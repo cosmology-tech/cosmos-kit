@@ -1,4 +1,8 @@
-export type BroadcastParamsType = BroadcastParams.Ethereum.RawTransaction;
+import { BeyondParams } from './types';
+
+export interface BroadcastParamsType extends BeyondParams {
+  params: BroadcastParams.Ethereum.RawTransaction;
+}
 
 export namespace BroadcastParams {
   export namespace Ethereum {

@@ -165,14 +165,14 @@ export type NamespaceOptions = {
  */
 export interface WalletClientOptions {
   enableOptions?: unknown;
+  getAccountsOptions?: unknown;
+  disableOptions?: unknown;
   addChainOptions?: NamespaceOptions;
   switchChainOptions?: NamespaceOptions;
-  getAccountsOptions?: unknown;
   signOptions?: NamespaceOptions;
   verifyOptions?: NamespaceOptions;
   broadcastOptions?: NamespaceOptions;
   signAndBroadcastOptions?: NamespaceOptions;
-  disableOptions?: unknown;
 }
 
 /**
@@ -226,29 +226,26 @@ export interface WalletClient {
    *     Check the code in wallet package for detail.
    *
    * @param params
-   *     Include doc and other info like corresponding signer address for keypair.
+   *     Usually include doc and other info like corresponding signer address for keypair.
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   sign?(
     namespace: Namespace,
-    chainId: string,
     params: unknown,
-    options?: unknown
+    options: NamespaceOptions
   ): Promise<AddRaw<SignResponse>>;
   /**
    * 2: Verify Doc
    *     To check the signature matches the signedDoc.
    *
-   * @param signedDoc
-   *     The type of signedDoc can varies from different wallets and namespaces.
+   * @param params
+   *     Usually include signed doc, signature and other info like corresponding signer address for keypair.
+   *     Type of signed doc can varies from different wallets and namespaces.
    */
   verify?(
     namespace: Namespace,
-    chainId: string,
-    signer: string,
-    signedDoc: unknown,
-    signature: SignResponse,
-    options?: unknown
+    params: unknown,
+    options?: NamespaceOptions
   ): Promise<boolean>;
   /**
    * 3: Broadcast Signed Doc
@@ -258,14 +255,13 @@ export interface WalletClient {
    *     return the new block.
    *
    * @param params
-   *     Include signed doc (useually bytes) and other info like corresponding address for keypair.
+   *     Usually include signed doc (useually bytes) and other info like corresponding address for keypair.
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   broadcast?(
     namespace: Namespace,
-    chainId: string,
     params: unknown,
-    options?: unknown
+    options?: NamespaceOptions
   ): Promise<AddRaw<BroadcastResponse>>;
   /**
    * 4: Sign and Broadcast Doc
@@ -273,14 +269,13 @@ export interface WalletClient {
    *     return the signature.
    *
    * @param params
-   *     Include doc and other info like corresponding signer address for keypair.
+   *     Usually include doc and other info like corresponding signer address for keypair.
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   signAndBroadcast?(
     namespace: Namespace,
-    chainId: string,
     params: unknown,
-    options?: unknown
+    options?: NamespaceOptions
   ): Promise<AddRaw<BroadcastResponse>>;
   // --------------------------------------------------------------------------------------------------------------
 
@@ -292,7 +287,7 @@ export interface WalletClient {
   addChain?(
     namespace: Namespace,
     chainInfo: unknown,
-    options?: unknown
+    options?: NamespaceOptions
   ): Promise<void>;
   /**
    * Switch Chain

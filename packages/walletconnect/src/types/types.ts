@@ -26,3 +26,7 @@ export interface RequestAccount3 {
   accountId: string;
   pubkey: string;
 }
+
+export interface BeyondParams {
+  chainId: string; // Without prefix
+}

@@ -29,7 +29,7 @@ import {
   SignAndBroadcastResult,
 } from './types';
 import { SignParamsType, SignResult } from './types';
-import { validators } from './config';
+import { discriminators } from './config';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
@@ -246,12 +246,11 @@ export class CosmostationClient implements WalletClient {
 
   async sign(
     namespace: Namespace,
-    chainId: string,
     params: SignParamsType,
     options?: SignOptionsMap
   ): Promise<AddRaw<SignResponse>> {
     const _options = options || this.options?.signOptions;
-    const method = getMethod(validators.sign, namespace, params, _options);
+    const method = getMethod(discriminators.sign, namespace, params, _options);
     const resp = await this._request(namespace, method, params, _options);
 
     switch (method) {
@@ -309,7 +308,6 @@ export class CosmostationClient implements WalletClient {
 
   async verify(
     namespace: Namespace,
-    chainId: string,
     signer: string,
     signedDoc: CosmosDoc.Message,
     signature: Signature,
@@ -320,7 +318,7 @@ export class CosmostationClient implements WalletClient {
         if (!chainId) {
           return Promise.reject('ChainId not provided.');
         }
-        if (CosmosSignParamsValidator.isMessage(signedDoc)) {
+        if (CosmosSignParamsDiscriminator.isMessage(signedDoc)) {
           const result = (await this.client.cosmos.request({
             method: 'cos_verifyMessage',
             params: {
@@ -347,7 +345,7 @@ export class CosmostationClient implements WalletClient {
     options?: BroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
     const _options = options || this.options?.broadcastOptions;
-    const method = getMethod(validators.sign, namespace, params, _options);
+    const method = getMethod(discriminators.sign, namespace, params, _options);
     const resp = await this._request(namespace, method, params, _options);
 
     switch (method) {
@@ -376,7 +374,7 @@ export class CosmostationClient implements WalletClient {
     options?: unknown
   ): Promise<AddRaw<BroadcastResponse>> {
     const _options = options || this.options?.signAndBroadcastOptions;
-    const method = getMethod(validators.sign, namespace, params, _options);
+    const method = getMethod(discriminators.sign, namespace, params, _options);
     const resp = await this._request(namespace, method, params, _options);
 
     switch (method) {

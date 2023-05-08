@@ -3,11 +3,11 @@ import {
   hasRequiredKeyType,
   isArray,
 } from '@cosmos-kit/core';
-import { GenericCosmosDocValidator } from '@cosmos-kit/cosmos';
-import { GenericEthDocValidator } from '@cosmos-kit/ethereum';
+import { GenericCosmosDocDiscriminator } from '@cosmos-kit/cosmos';
+import { GenericEthDocDiscriminator } from '@cosmos-kit/ethereum';
 import { SignOptionsMap, SignParams } from '../types';
 
-export const SignParamsValidator = {
+export const SignParamsDiscriminator = {
   Cosmos: {
     isAmino(
       params: unknown,
@@ -15,7 +15,7 @@ export const SignParamsValidator = {
     ): params is SignParams.Cosmos.Direct {
       return (
         hasRequiredKeyType(params, { signerAddress: 'string' }) &&
-        GenericCosmosDocValidator.isAmino(params['signDoc'])
+        GenericCosmosDocDiscriminator.isAmino(params['signDoc'])
       );
     },
     isDirect(
@@ -54,7 +54,7 @@ export const SignParamsValidator = {
     ): params is SignParams.Ethereum.Transaction {
       return (
         Array.isArray(params) &&
-        params.every((doc) => GenericEthDocValidator.isTransaction(doc))
+        params.every((doc) => GenericEthDocDiscriminator.isTransaction(doc))
       );
     },
     isTypedData(
@@ -63,7 +63,8 @@ export const SignParamsValidator = {
     ): params is SignParams.Ethereum.TypedData {
       const [signer, doc] = params as any;
       return (
-        typeof signer === 'string' && GenericEthDocValidator.isTypedData(doc)
+        typeof signer === 'string' &&
+        GenericEthDocDiscriminator.isTypedData(doc)
       );
     },
     isPersonalSign(

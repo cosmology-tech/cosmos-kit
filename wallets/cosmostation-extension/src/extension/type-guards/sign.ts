@@ -1,5 +1,5 @@
 import { hasRequiredKeyType, isArray } from '@cosmos-kit/core';
-import { GenericCosmosDocValidator } from '@cosmos-kit/cosmos';
+import { GenericCosmosDocDiscriminator } from '@cosmos-kit/cosmos';
 import {
   BroadcastParams,
   SignAndBroadcastParams,
@@ -8,7 +8,7 @@ import {
   SignParams,
 } from '../types';
 
-export const SignParamsValidator = {
+export const SignParamsDiscriminator = {
   Cosmos: {
     isMessage(
       params: unknown,
@@ -26,7 +26,7 @@ export const SignParamsValidator = {
     ): params is SignParams.Cosmos.Amino {
       return (
         hasRequiredKeyType(params, { chainName: 'string' }) &&
-        GenericCosmosDocValidator.isAmino(params['doc'])
+        GenericCosmosDocDiscriminator.isAmino(params['doc'])
       );
     },
     isDirect(
