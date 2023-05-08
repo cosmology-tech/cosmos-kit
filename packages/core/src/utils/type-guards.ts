@@ -1,7 +1,7 @@
 import {
   EncodedString,
   Namespace,
-  NamespaceOptions,
+  DocRelatedOptions,
   TypedArrayType,
   TypeName,
   DiscriminatorMap,
@@ -75,7 +75,7 @@ export function getMethod(
   discriminatorMap: DiscriminatorMap,
   namespace: Namespace,
   params: unknown,
-  options?: NamespaceOptions
+  options?: DocRelatedOptions
 ): string {
   if (typeof options?.[namespace]?.method !== 'undefined') {
     return options?.[namespace]?.method;

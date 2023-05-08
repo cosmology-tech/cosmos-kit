@@ -9,7 +9,7 @@ import {
 export const defaultEnableOptions: EnableOptionsMap = {
   cosmos: {
     prefix: 'cosmos',
-    methods: ['cosmos_getAccounts', 'cosmos_signAmino', 'cosmos_signDirect'],
+    methods: ['cosmos_getAccount', 'cosmos_signAmino', 'cosmos_signDirect'],
     events: ['chainChanged', 'accountsChanged'],
   },
   ethereum: {

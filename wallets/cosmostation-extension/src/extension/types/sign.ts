@@ -13,6 +13,7 @@ import {
 import { CosmosSignOptions } from './options';
 
 export type SignParamsType =
+  | SignParams.Cosmos.Message
   | SignParams.Cosmos.Amino
   | SignParams.Cosmos.Direct
   | SignParams.Ethereum.Sign

@@ -77,19 +77,15 @@ const sendTokens = (
 };
 
 export default function Home() {
-  const [cosmo_getAccounts, setCosmo_getAccounts] = useState<
+  const [cosmo_getAccount, setCosmo_getAccount] = useState<
     string | undefined
   >();
   const [cosmos_signAmino, setCosmos_signAmino] = useState<
     string | undefined
   >();
 
-  const {
-    getSigningStargateClient,
-    address,
-    status,
-    getRpcEndpoint,
-  } = useChain(chainName);
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(chainName);
 
   const { client } = useWalletClient();
 
@@ -178,16 +174,16 @@ export default function Home() {
         <Center marginY={16} flexDirection="column">
           <Button
             onClick={async () => {
-              const r = await (client as any).getAccounts("cosmoshub-4");
-              setCosmo_getAccounts(JSON.stringify(r));
+              const r = await (client as any).getAccount("cosmoshub-4");
+              setCosmo_getAccount(JSON.stringify(r));
             }}
           >
-            cosmos_getAccountss
+            cosmos_getAccounts
           </Button>
-          {cosmo_getAccounts && (
+          {cosmo_getAccount && (
             <Card>
               <CardBody>
-                <Text>{cosmo_getAccounts}</Text>
+                <Text>{cosmo_getAccount}</Text>
               </CardBody>
             </Card>
           )}

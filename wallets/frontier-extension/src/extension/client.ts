@@ -26,8 +26,8 @@ export class FrontierClient implements WalletClient {
     await this.client.disconnect();
   }
 
-  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
-    const { address, username } = await this.getAccounts(chainId);
+  async getAccount(namespace?: Namespace, chainIds?: string[]) {
+    const { address, username } = await this.getAccount(chainId);
     return {
       namespace: 'cosmos',
       chainId,
@@ -36,7 +36,7 @@ export class FrontierClient implements WalletClient {
     };
   }
 
-  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
+  async getAccount(namespace?: Namespace, chainIds?: string[]) {
     const key = await this.client.getKey(chainId);
     console.log('%cclient.ts line:25 key', 'color: #007acc;', key);
     return {

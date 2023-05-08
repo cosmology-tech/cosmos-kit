@@ -479,7 +479,7 @@ export class WCClient implements WalletClient {
     this.sessions = [];
   }
 
-  protected getAccountsFromSession(
+  protected getAccountFromSession(
     namespace: Namespace,
     prefix: string,
     chainId: string
@@ -501,7 +501,7 @@ export class WCClient implements WalletClient {
     return accounts;
   }
 
-  async getAccounts(
+  async getAccount(
     authRange: AuthRange,
     options?: unknown
   ): Promise<AddRaw<WalletAccount>[]> {
@@ -513,7 +513,7 @@ export class WCClient implements WalletClient {
         const prefix = getPrefix(namespace as Namespace);
         return Promise.all(
           chainIds.map(async (chainId) => {
-            const sessionAccounts = this.getAccountsFromSession(
+            const sessionAccounts = this.getAccountFromSession(
               namespace as Namespace,
               prefix,
               chainId
@@ -525,13 +525,13 @@ export class WCClient implements WalletClient {
               case 'stellar':
                 return sessionAccounts;
               case 'cosmos':
-                method = 'cosmos_getAccounts';
+                method = 'cosmos_getAccount';
               case 'tezos':
-                method = 'tezos_getAccounts';
+                method = 'tezos_getAccount';
               case 'solana':
-                method = 'solana_getAccounts';
+                method = 'solana_getAccount';
               case 'near':
-                method = 'near_getAccounts';
+                method = 'near_getAccount';
 
                 let requestAccounts;
                 try {

@@ -29,7 +29,7 @@ export default function HomePage() {
       const namespaces = {
         cosmos: {
           methods: [
-            "cosmos_getAccountss",
+            "cosmos_getAccounts",
             "cosmos_signAmino",
             "cosmos_signDirect",
           ],

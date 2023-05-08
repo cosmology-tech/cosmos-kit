@@ -6,7 +6,7 @@ import {
   getMethod,
   getStringFromUint8Array,
   Namespace,
-  NamespaceOptions,
+  DocRelatedOptions,
   SignResponse,
   WalletAccount,
   WalletClient,
@@ -27,6 +27,10 @@ import {
   SignOptionsMap,
   WalletAddEthereumChainParam,
   SignAndBroadcastResult,
+  VerifyParamsType,
+  VerifyOptionsMap,
+  VerifyResult,
+  SignAndBroadcastOptionsMap,
 } from './types';
 import { SignParamsType, SignResult } from './types';
 import { discriminators } from './config';
@@ -69,47 +73,23 @@ export class CosmostationClient implements WalletClient {
     );
   }
 
-  async addChain(
-    namespace: Namespace,
-    chainInfo: unknown,
-    options?: unknown
-  ): Promise<void> {
-    switch (namespace) {
-      case 'cosmos':
-        this.client.cosmos.request({
-          method: 'cos_addChain',
-          params: chainInfo as AddChainParams,
-        });
-        return;
-      case 'ethereum':
-        this.client.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: chainInfo as WalletAddEthereumChainParam,
-        });
-        return;
-      default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
-    }
+  async disable(authRange: AuthRange, options?: unknown) {
+    await Promise.all(
+      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
+        switch (namespace) {
+          case 'cosmos':
+            await this.client.cosmos.request({
+              method: 'cos_disconnect',
+            });
+            return;
+          default:
+            return Promise.reject(`Unmatched namespace: ${namespace}.`);
+        }
+      })
+    );
   }
 
-  switchChain(
-    namespace: Namespace,
-    chainId: string,
-    options?: unknown
-  ): Promise<void> {
-    switch (namespace) {
-      case 'ethereum':
-        this.client.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId }],
-        });
-        return;
-      default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
-    }
-  }
-
-  async getAccounts(
+  async getAccount(
     authRange: AuthRange,
     options?: unknown
   ): Promise<AddRaw<WalletAccount>[]> {
@@ -183,7 +163,7 @@ export class CosmostationClient implements WalletClient {
             ];
           case 'sui':
             const suiAddrs = (await this.client.sui.request({
-              method: 'sui_getAccounts',
+              method: 'sui_getAccount',
             })) as string[];
             const suiPublicKey = (await this.client.sui.request({
               method: 'sui_getPublicKey',
@@ -209,6 +189,46 @@ export class CosmostationClient implements WalletClient {
     return accountsList.flat();
   }
 
+  async addChain(
+    namespace: Namespace,
+    chainInfo: unknown,
+    options?: unknown
+  ): Promise<void> {
+    switch (namespace) {
+      case 'cosmos':
+        this.client.cosmos.request({
+          method: 'cos_addChain',
+          params: chainInfo as AddChainParams,
+        });
+        return;
+      case 'ethereum':
+        this.client.ethereum.request({
+          method: 'wallet_addEthereumChain',
+          params: chainInfo as WalletAddEthereumChainParam,
+        });
+        return;
+      default:
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
+    }
+  }
+
+  async switchChain(
+    namespace: Namespace,
+    chainId: string,
+    options?: unknown
+  ): Promise<void> {
+    switch (namespace) {
+      case 'ethereum':
+        await this.client.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId }],
+        });
+        return;
+      default:
+        return Promise.reject(`Unmatched namespace: ${namespace}.`);
+    }
+  }
+
   protected _getRequestor(namespace: Namespace) {
     switch (namespace) {
       case 'cosmos':
@@ -228,7 +248,7 @@ export class CosmostationClient implements WalletClient {
     namespace: Namespace,
     method: string,
     params: unknown,
-    options?: NamespaceOptions
+    options?: DocRelatedOptions
   ) {
     let _params: unknown = params;
     switch (method) {
@@ -308,31 +328,21 @@ export class CosmostationClient implements WalletClient {
 
   async verify(
     namespace: Namespace,
-    signer: string,
-    signedDoc: CosmosDoc.Message,
-    signature: Signature,
-    options?: unknown
+    params: VerifyParamsType,
+    options?: VerifyOptionsMap
   ): Promise<boolean> {
-    switch (namespace) {
-      case 'cosmos':
-        if (!chainId) {
-          return Promise.reject('ChainId not provided.');
-        }
-        if (CosmosSignParamsDiscriminator.isMessage(signedDoc)) {
-          const result = (await this.client.cosmos.request({
-            method: 'cos_verifyMessage',
-            params: {
-              chainName: chainId,
-              signer: signer,
-              message: signedDoc,
-              publicKey: signature.publicKey.value,
-              signature: signature.signature.value,
-            },
-          })) as VerifyMessageResponse;
-          return result;
-        } else {
-          return Promise.reject('Only support message string verification.');
-        }
+    const _options = options || this.options?.verifyOptions;
+    const method = getMethod(
+      discriminators.verify,
+      namespace,
+      params,
+      _options
+    );
+    const resp = await this._request(namespace, method, params, _options);
+
+    switch (method) {
+      case 'cos_verifyMessage':
+        return resp as VerifyResult.Cosmos.Message;
       default:
         return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
@@ -340,7 +350,6 @@ export class CosmostationClient implements WalletClient {
 
   async broadcast(
     namespace: Namespace,
-    chainId: string,
     params: BroadcastParamsType,
     options?: BroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
@@ -369,9 +378,8 @@ export class CosmostationClient implements WalletClient {
 
   async signAndBroadcast(
     namespace: Namespace,
-    chainId: string,
     params: SignAndBroadcastParamsType,
-    options?: unknown
+    options?: SignAndBroadcastOptionsMap
   ): Promise<AddRaw<BroadcastResponse>> {
     const _options = options || this.options?.signAndBroadcastOptions;
     const method = getMethod(discriminators.sign, namespace, params, _options);
@@ -398,22 +406,6 @@ export class CosmostationClient implements WalletClient {
       default:
         return Promise.reject(`Unmatched namespace: ${namespace}.`);
     }
-  }
-
-  async disable(authRange: AuthRange, options?: unknown) {
-    await Promise.all(
-      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
-        switch (namespace) {
-          case 'cosmos':
-            await this.client.cosmos.request({
-              method: 'cos_disconnect',
-            });
-            return;
-          default:
-            return Promise.reject(`Unmatched namespace: ${namespace}.`);
-        }
-      })
-    );
   }
 
   on(type: string, listener: EventListenerOrEventListenerObject): void {

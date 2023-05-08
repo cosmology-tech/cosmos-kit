@@ -1,6 +1,6 @@
 import {
   Namespace,
-  NamespaceOptions,
+  DocRelatedOptions,
   WalletClientOptions,
 } from '@cosmos-kit/core';
 import { SignOptions } from '@cosmostation/extension-client/types/message';
@@ -10,6 +10,7 @@ import { discriminators } from '../config';
 export interface CosmostationOptions extends WalletClientOptions {
   enableOptions?: EnableOptionsMap;
   signOptions?: SignOptionsMap;
+  verifyOptions?: VerifyOptionsMap;
   broadcastOptions?: BroadcastOptionsMap;
   signAndBroadcastOptions?: SignAndBroadcastOptionsMap;
   initSignClientOptions: {
@@ -34,7 +35,7 @@ export interface CosmosSignOptions {
   gasRate?: SignOptions['gasRate'];
 }
 
-export interface SignOptionsMap extends NamespaceOptions {
+export interface SignOptionsMap extends DocRelatedOptions {
   cosmos?: {
     method?: keyof typeof discriminators.sign.cosmos;
   } & CosmosSignOptions;
@@ -49,13 +50,19 @@ export interface SignOptionsMap extends NamespaceOptions {
   };
 }
 
-export interface BroadcastOptionsMap extends NamespaceOptions {
+export interface VerifyOptionsMap extends DocRelatedOptions {
+  cosmos?: {
+    method?: keyof typeof discriminators.verify.cosmos;
+  };
+}
+
+export interface BroadcastOptionsMap extends DocRelatedOptions {
   cosmos?: {
     method?: keyof typeof discriminators.broadcast.cosmos;
   };
 }
 
-export interface SignAndBroadcastOptionsMap extends NamespaceOptions {
+export interface SignAndBroadcastOptionsMap extends DocRelatedOptions {
   aptos?: {
     method?: keyof typeof discriminators.signAndBroadcast.aptos;
   };

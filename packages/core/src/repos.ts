@@ -70,7 +70,7 @@ export class WalletRepoWithGivenWallet extends WalletRepoBase {
     this.setMutable(State.Pending);
     try {
       await this.client.enable(this.authRange);
-      const accounts = await this.client.getAccounts(this.authRange);
+      const accounts = await this.client.getAccount(this.authRange);
       this.setMutable(State.Done, accounts);
     } catch (error) {
       this.setMutable(

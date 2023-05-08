@@ -65,8 +65,8 @@ export class CosmosChainWalletBase extends ChainWalletBase {
     return this.chainRecord.clientOptions?.preferredSignType || 'amino';
   }
 
-  protected async _getAccounts(): Promise<AccountData[]> {
-    const accounts: CosmosWalletAccount[] = (await this.client?.getAccounts({
+  protected async _getAccount(): Promise<AccountData[]> {
+    const accounts: CosmosWalletAccount[] = (await this.client?.getAccount({
       cosmos: { chainIds: [this.chainId] },
     })) as CosmosWalletAccount[];
     return accounts.map(
@@ -81,7 +81,7 @@ export class CosmosChainWalletBase extends ChainWalletBase {
 
   getOfflineSignerAmino(): OfflineAminoSigner {
     return {
-      getAccounts: this._getAccounts,
+      getAccount: this._getAccount,
       signAmino: async (signerAddress: string, signDoc: StdSignDoc) => {
         const signature: CosmosSignature = (await this.client?.sign(
           'cosmos',
@@ -102,7 +102,7 @@ export class CosmosChainWalletBase extends ChainWalletBase {
 
   getOfflineSignerDirect(): OfflineDirectSigner {
     return {
-      getAccounts: this._getAccounts,
+      getAccount: this._getAccount,
       signDirect: async (signerAddress: string, signDoc: SignDoc) => {
         const signature: CosmosSignature = (await this.client?.sign(
           'cosmos',

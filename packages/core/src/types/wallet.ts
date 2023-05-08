@@ -1,5 +1,5 @@
 import { ChainWalletBase, MainWalletBase } from '../bases';
-import { ChainRecord } from './chain';
+import { ChainId, ChainRecord } from './chain';
 import { DappEnv, EncodedString, Encoding, Mutable } from './common';
 
 export type WalletName = string;
@@ -154,25 +154,31 @@ export type AuthRange = {
 /**
  * Only for methods with `namespace` as parameter
  */
-export type NamespaceOptions = {
+export type DocRelatedOptions = {
   [k in Namespace]?: {
     method?: string; // Explicitly designate which method to use in requesting if there are multiple methods available in wallet.
   };
 };
 
+export interface GetAccountOptions {
+  greedy?: boolean; // Defaults to false, means will NOT get as much account info as possible.
+}
+
 /**
  * Keys corresponding methods in WalletClient interface
  */
-export interface WalletClientOptions {
+interface WalletClientOptions {
   enableOptions?: unknown;
-  getAccountsOptions?: unknown;
   disableOptions?: unknown;
-  addChainOptions?: NamespaceOptions;
-  switchChainOptions?: NamespaceOptions;
-  signOptions?: NamespaceOptions;
-  verifyOptions?: NamespaceOptions;
-  broadcastOptions?: NamespaceOptions;
-  signAndBroadcastOptions?: NamespaceOptions;
+
+  getAccountOptions?: GetAccountOptions;
+  switchChainOptions?: unknown;
+  addChainOptions?: unknown;
+
+  signOptions?: DocRelatedOptions;
+  verifyOptions?: DocRelatedOptions;
+  broadcastOptions?: DocRelatedOptions;
+  signAndBroadcastOptions?: DocRelatedOptions;
 }
 
 /**
@@ -186,7 +192,7 @@ export interface WalletClient {
   // --------------------------------------------------------------------------------------------------------------
 
   /**
-   * 1: Enable/Authorize Connection
+   * 1. Enable/Authorize Connection
    *     Or called `onboard/requestAccount/connect` in some wallets.
    *     This method is used to build authed connection between dapp and wallet.
    *     In some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
@@ -194,24 +200,51 @@ export interface WalletClient {
    */
   enable?(authRange: AuthRange, options?: unknown): Promise<void>;
   /**
-   * 2: Get Account
+   * 2. Disable/Cancel Authorization
+   *     Or called `disconnect` in some wallets.
+   */
+  disable?(options?: unknown): Promise<void>;
+
+  // --------------------------------------------------------------------------------------------------------------
+  //                                                   ACCOUNT
+  // --------------------------------------------------------------------------------------------------------------
+
+  /**
+   * Get Account
    *     `address` especially required in returned value.
    *     `address` is the user identifier in BlockChain, directing to a public/private key pair.
    *     In Cosmos it's `Bech32Address`, which varies among chains/networks.
    *     In other ecosystem it could be public key and irrespective of chains/networks.
    */
-  getAccounts(
-    authRange: AuthRange,
-    options?: unknown
-  ): Promise<AddRaw<WalletAccount>[]>;
+  getAccount(
+    namespace: Namespace,
+    chainId: ChainId,
+    options?: GetAccountOptions
+  ): Promise<AddRaw<WalletAccount>>;
   /**
-   * 3: Disable/Cancel Authorization
-   *     Or called `disconnect` in some wallets.
+   * Switch Chain
+   *     Some wallets only supports interacting with one chain at a time. We call this the wallet’s “active chain”.
+   *     This method enables dapps to request that the wallet switches its active chain to whichever one is required by the dapp,
+   *     if the wallet has a concept thereof.
    */
-  disable?(authRange?: AuthRange, options?: unknown): Promise<void>;
+  switchChain?(
+    namespace: Namespace,
+    chainId: ChainId,
+    options?: unknown
+  ): Promise<void>;
+  /**
+   * Add Chain
+   *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
+   *     the wallet before other actions.
+   */
+  addChain?(
+    namespace: Namespace,
+    chainInfo: unknown,
+    options?: unknown
+  ): Promise<void>;
 
   // --------------------------------------------------------------------------------------------------------------
-  //                                                DOC RELATED
+  //                                                 DOC RELATED
   // --------------------------------------------------------------------------------------------------------------
 
   /**
@@ -232,7 +265,7 @@ export interface WalletClient {
   sign?(
     namespace: Namespace,
     params: unknown,
-    options: NamespaceOptions
+    options: DocRelatedOptions
   ): Promise<AddRaw<SignResponse>>;
   /**
    * 2: Verify Doc
@@ -245,7 +278,7 @@ export interface WalletClient {
   verify?(
     namespace: Namespace,
     params: unknown,
-    options?: NamespaceOptions
+    options?: DocRelatedOptions
   ): Promise<boolean>;
   /**
    * 3: Broadcast Signed Doc
@@ -261,7 +294,7 @@ export interface WalletClient {
   broadcast?(
     namespace: Namespace,
     params: unknown,
-    options?: NamespaceOptions
+    options?: DocRelatedOptions
   ): Promise<AddRaw<BroadcastResponse>>;
   /**
    * 4: Sign and Broadcast Doc
@@ -275,31 +308,9 @@ export interface WalletClient {
   signAndBroadcast?(
     namespace: Namespace,
     params: unknown,
-    options?: NamespaceOptions
+    options?: DocRelatedOptions
   ): Promise<AddRaw<BroadcastResponse>>;
   // --------------------------------------------------------------------------------------------------------------
-
-  /**
-   * Add Chain
-   *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
-   *     the wallet before other actions.
-   */
-  addChain?(
-    namespace: Namespace,
-    chainInfo: unknown,
-    options?: NamespaceOptions
-  ): Promise<void>;
-  /**
-   * Switch Chain
-   *     Some wallets only supports interacting with one chain at a time. We call this the wallet’s “active chain”.
-   *     This method enables dapps to request that the wallet switches its active chain to whichever one is required by the dapp,
-   *     if the wallet has a concept thereof.
-   */
-  switchChain?(
-    namespace: Namespace,
-    chainId: string,
-    options?: unknown
-  ): Promise<void>;
 
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;

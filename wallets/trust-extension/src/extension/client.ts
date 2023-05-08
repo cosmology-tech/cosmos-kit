@@ -20,8 +20,8 @@ export class TrustClient implements WalletClient {
     await this.connect(chainIds);
   }
 
-  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
-    const { address, username } = await this.getAccounts(chainId);
+  async getAccount(namespace?: Namespace, chainIds?: string[]) {
+    const { address, username } = await this.getAccount(chainId);
     return {
       namespace: 'cosmos',
       chainId,
@@ -30,7 +30,7 @@ export class TrustClient implements WalletClient {
     };
   }
 
-  async getAccounts(namespace?: Namespace, chainIds?: string[]) {
+  async getAccount(namespace?: Namespace, chainIds?: string[]) {
     const key = await this.client.getKey(chainId);
     return {
       username: key.name,
