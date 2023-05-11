@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
+import EventEmitter from 'events';
+
 import {
   Callbacks,
   DownloadInfo,
@@ -11,7 +13,6 @@ import {
 } from '../types';
 import { ClientNotExistError, RejectedError, Session } from '../utils';
 import { StateBase } from './state';
-import EventEmitter from 'events';
 
 export abstract class WalletBase extends StateBase {
   clientMutable: Mutable<WalletClient> = { state: State.Init };
@@ -162,10 +163,11 @@ export abstract class WalletBase extends StateBase {
     await this.callbacks?.beforeConnect?.();
 
     if (this.isMobile && this.walletInfo.mobileDisabled) {
-      this.setError(
+      const error = new Error(
         'This wallet is not supported on mobile, please use desktop browsers.'
       );
-      return;
+      this.setError(error);
+      throw error;
     }
 
     if (sync) {
@@ -192,6 +194,7 @@ export abstract class WalletBase extends StateBase {
       await this.update();
     } catch (error) {
       this.setError(error as Error);
+      throw error;
     }
     await this.callbacks?.afterConnect?.();
   };
