@@ -26,9 +26,9 @@ import {
   Wallet,
 } from '../types';
 import {
+  getFastestEndpoint,
   getIsLazy,
   getNameServiceRegistryFromChainName,
-  getFastestEndpoint,
   isValidEndpoint,
 } from '../utils';
 import { WalletBase } from './wallet';
@@ -162,8 +162,9 @@ export class ChainWalletBase extends WalletBase {
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
-          return;
+          throw error;
         }
+
         if (this.client.addChain) {
           await this.client.addChain(this.chainRecord);
           account = await this.client.getSimpleAccount(this.chainId);
@@ -182,6 +183,7 @@ export class ChainWalletBase extends WalletBase {
       } else {
         this.setError(e as Error);
       }
+      throw e;
     }
     if (!this.isWalletRejected) {
       window?.localStorage.setItem(
