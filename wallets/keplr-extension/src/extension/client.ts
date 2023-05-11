@@ -19,7 +19,7 @@ export class KeplrClient implements WalletClient {
 
   constructor(client: Keplr, options?: WalletClientOptions;) {
     this.client = client;
-    this.options = options;
+    
   }
 
   async connect(chainIds: string[]) {

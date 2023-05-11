@@ -11,7 +11,6 @@ export class FrontierClient implements WalletClient {
 
   constructor(client: Frontier, options?: WalletClientOptions) {
     this.client = client;
-    this.options = options;
   }
 
   async connect(chainIds: string[]) {

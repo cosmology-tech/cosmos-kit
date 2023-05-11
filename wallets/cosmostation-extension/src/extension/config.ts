@@ -3,14 +3,34 @@ import {
   BroadcastParamsDiscriminator,
   SignAndBroadcastParamsDiscriminator,
   SignParamsDiscriminator,
+  VerifyParamsDiscriminator,
 } from './type-guards';
 
 export const discriminators: Discriminators = {
+  enable: {
+    cosmos: {
+      ikeplr_enable: true,
+    },
+    aptos: {
+      aptos_connect: true,
+    },
+    sui: {
+      sui_connect: true,
+    },
+  },
+
+  disable: {
+    cosmos: {
+      cos_disconnect: true,
+    },
+  },
+
   sign: {
     cosmos: {
       cos_signMessage: SignParamsDiscriminator.Cosmos.isMessage,
       cos_signAmino: SignParamsDiscriminator.Cosmos.isAmino,
       cos_signDirect: SignParamsDiscriminator.Cosmos.isDirect,
+      cos_signArbitrary: SignParamsDiscriminator.Cosmos.isArbitrary,
     },
     ethereum: {
       eth_sign: SignParamsDiscriminator.Ethereum.isSign,
@@ -26,9 +46,8 @@ export const discriminators: Discriminators = {
 
   verify: {
     cosmos: {
-      cos_verifyMessage: true, // Equivalent to the discriminator always returns true.
-    },
-  },
+      cos_verifyMessage: VerifyParamsDiscriminator.Cosmos.isMessage,
+      ikeplr_verifyArbitrary: VerifyParamsDiscriminator.Cosmos.isArbitrary,
 
   broadcast: {
     cosmos: {

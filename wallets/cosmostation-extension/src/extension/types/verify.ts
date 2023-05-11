@@ -1,16 +1,17 @@
-import { ChainId } from '@cosmos-kit/core';
+import { StdSignature } from '@cosmjs/amino';
 import { VerifyMessageResponse } from '@cosmostation/extension-client/types/message';
+import { SignParams } from './sign';
 
 export type VerifyParamsType = VerifyParams.Cosmos.Message;
 
 export namespace VerifyParams {
   export namespace Cosmos {
     export interface Message {
-      chainName: ChainId;
-      signer: string;
-      message: string;
       publicKey: string;
       signature: string;
+    }
+    export interface Arbitrary extends SignParams.Cosmos.Arbitrary {
+      signature: StdSignature;
     }
   }
 }

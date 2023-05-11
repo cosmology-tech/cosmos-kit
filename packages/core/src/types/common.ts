@@ -1,5 +1,5 @@
 import { ChainName } from './chain';
-import { Namespace } from './wallet';
+import { Namespace, WalletClientMethod } from './wallet';
 
 export type TypeName =
   | 'string'
@@ -99,20 +99,3 @@ export type EncodedString =
       value: string;
       encoding: Encoding;
     };
-
-export type DiscriminatorMap = {
-  /**
-   * `object` here is a map from method name to its discriminator or a boolean value.
-   *  Should be `Record<string, boolean | (params: unknown, options?: unknown) => boolean>`
-   *  Here use `object` to make type `SignOptionsMap` being successfully generated.
-   */
-  [k in Namespace]?: object;
-};
-
-export type Discriminators = {
-  [k in
-    | 'sign'
-    | 'verify'
-    | 'broadcast'
-    | 'signAndBroadcast']?: DiscriminatorMap;
-};

@@ -11,7 +11,7 @@ export class LeapClient implements WalletClient {
 
   constructor(client: Leap, options?: WalletClientOptions;) {
     this.client = client;
-    this.options = options;
+    
   }
 
   async connect(chainIds: string[]) {

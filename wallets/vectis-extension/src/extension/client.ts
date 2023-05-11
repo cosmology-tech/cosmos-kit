@@ -19,7 +19,7 @@ export class VectisClient implements WalletClient {
 
   constructor(client: Vectis, options?: WalletClientOptions;) {
     this.client = client;
-    this.options = options;
+    
   }
 
   async connect(chainIds: string[]) {

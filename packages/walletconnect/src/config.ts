@@ -1,10 +1,9 @@
-import { Discriminators } from '@cosmos-kit/core';
 import { EnableOptionsMap } from './types';
 import {
   BroadcastParamsDiscriminator,
   SignAndBroadcastParamsDiscriminator,
   SignParamsDiscriminator,
-} from './utils';
+} from './type-guards';
 
 export const defaultEnableOptions: EnableOptionsMap = {
   cosmos: {

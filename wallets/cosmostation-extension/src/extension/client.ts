@@ -1,21 +1,20 @@
-import { Algo } from '@cosmjs/amino';
 import {
   AddRaw,
   AuthRange,
-  BroadcastResponse,
-  getMethod,
+  BroadcastResp,
   getStringFromUint8Array,
   Namespace,
-  DocRelatedOptions,
-  SignResponse,
+  Dist,
+  Method,
+  SignResp,
+  VerifyResp,
   WalletAccount,
   WalletClient,
+  WalletClientBase,
+  NamespaceData,
 } from '@cosmos-kit/core';
 import { CosmosWalletAccount } from '@cosmos-kit/cosmos';
-import {
-  AddChainParams,
-  VerifyMessageResponse,
-} from '@cosmostation/extension-client/types/message';
+import { AddChainParams } from '@cosmostation/extension-client/types/message';
 
 import {
   BroadcastOptionsMap,
@@ -31,11 +30,14 @@ import {
   VerifyOptionsMap,
   VerifyResult,
   SignAndBroadcastOptionsMap,
+  VerifyParams,
 } from './types';
 import { SignParamsType, SignResult } from './types';
 import { discriminators } from './config';
 
-export class CosmostationClient implements WalletClient {
+export class CosmostationClient
+  extends WalletClientBase
+  implements WalletClient {
   readonly client: Cosmostation;
   readonly options?: CosmostationOptions;
   private eventMap: Map<
@@ -44,8 +46,8 @@ export class CosmostationClient implements WalletClient {
   > = new Map();
 
   constructor(client: Cosmostation, options?: CosmostationOptions) {
+    super(discriminators, options);
     this.client = client;
-    this.options = options;
   }
 
   get cosmos() {
@@ -56,35 +58,18 @@ export class CosmostationClient implements WalletClient {
     return this.client.providers.keplr;
   }
 
-  async enable(authRange: AuthRange, options?: unknown): Promise<void> {
+  async enable(range: NamespaceData<AuthRange, unknown>[]): Promise<void> {
     await Promise.all(
-      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
-        switch (namespace) {
-          case 'aptos':
-            await this.client.aptos.request({ method: 'aptos_connect' });
-            return;
-          case 'sui':
-            await this.client.sui.request({ method: 'sui_connect' });
-            return;
-          default:
-            return Promise.reject(`Unmatched namespace: ${namespace}.`);
-        }
+      range.map(async (args) => {
+        await this._enable({ ...args, data: void 0 });
       })
     );
   }
 
-  async disable(authRange: AuthRange, options?: unknown) {
+  async disable(range: NamespaceData<AuthRange, unknown>[]): Promise<void> {
     await Promise.all(
-      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
-        switch (namespace) {
-          case 'cosmos':
-            await this.client.cosmos.request({
-              method: 'cos_disconnect',
-            });
-            return;
-          default:
-            return Promise.reject(`Unmatched namespace: ${namespace}.`);
-        }
+      range.map(async (args) => {
+        await this._disable({ ...args, data: void 0 });
       })
     );
   }
@@ -248,10 +233,22 @@ export class CosmostationClient implements WalletClient {
     namespace: Namespace,
     method: string,
     params: unknown,
-    options?: DocRelatedOptions
+    options?: Dist<Method>
   ) {
     let _params: unknown = params;
     switch (method) {
+      case 'ikeplr_enable':
+        return await this.ikeplr.enable((params as AuthRange).chainIds);
+
+      case 'ikeplr_verifyArbitrary':
+        const p = params as VerifyParams.Cosmos.Arbitrary;
+        return await this.ikeplr.verifyArbitrary(
+          p.chainId,
+          p.signer,
+          p.data,
+          p.signature
+        );
+
       case 'cos_signAmino':
       case 'cos_signDirect':
         _params = { ...(params as object), ...options?.cosmos };
@@ -265,24 +262,22 @@ export class CosmostationClient implements WalletClient {
   }
 
   async sign(
-    namespace: Namespace,
-    params: SignParamsType,
-    options?: SignOptionsMap
-  ): Promise<AddRaw<SignResponse>> {
-    const _options = options || this.options?.signOptions;
-    const method = getMethod(discriminators.sign, namespace, params, _options);
-    const resp = await this._request(namespace, method, params, _options);
+    args: NamespaceData<SignParamsType, SignOptionsMap>
+  ): Promise<AddRaw<SignResp>> {
+    const raw = await this._sign(args);
 
-    switch (method) {
+    let resp: SignResp;
+    switch (raw.method) {
       case 'cos_signMessage':
-        const { pub_key, signature } = resp as SignResult.Cosmos.Message;
-        return {
+        const { pub_key, signature } = raw.resp as SignResult.Cosmos.Message;
+        resp = {
           publicKey: {
             value: pub_key.value,
             algo: pub_key.type,
           },
           signature: signature,
         };
+        break;
 
       case 'cos_signAmino':
       case 'cos_signDirect':
@@ -290,8 +285,8 @@ export class CosmostationClient implements WalletClient {
           pub_key: docPubKey,
           signature: docSignature,
           signed_doc,
-        } = resp as SignResult.Cosmos.Direct | SignResult.Cosmos.Amino;
-        return {
+        } = raw.resp as SignResult.Cosmos.Direct | SignResult.Cosmos.Amino;
+        resp = {
           publicKey: {
             value: docPubKey.value,
             algo: docPubKey.type,
@@ -299,13 +294,14 @@ export class CosmostationClient implements WalletClient {
           signature: docSignature,
           signedDoc: signed_doc,
         };
+        break;
 
       case 'eth_sign':
       case 'eth_signTransaction':
       case 'eth_signTypedData_v3':
       case 'eth_signTypedData_v4':
       case 'aptos_signTransaction':
-        return {
+        resp = {
           signature: resp as
             | SignResult.Ethereum.Sign
             | SignResult.Ethereum.Transaction
@@ -313,99 +309,92 @@ export class CosmostationClient implements WalletClient {
             | SignResult.Ethereum.TypedDataV4
             | SignResult.Aptos.Transaction,
         };
+        break;
 
       case 'aptos_signMessage':
-        const { signature: aptosSignature } = resp as SignResult.Aptos.Message;
-        return {
+        const {
           signature: aptosSignature,
-          raw: resp,
-        };
+        } = raw.resp as SignResult.Aptos.Message;
+        resp = { signature: aptosSignature };
+        break;
 
       default:
-        return Promise.reject(`Unmatched method: ${method}.`);
+        return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   async verify(
-    namespace: Namespace,
-    params: VerifyParamsType,
-    options?: VerifyOptionsMap
-  ): Promise<boolean> {
-    const _options = options || this.options?.verifyOptions;
-    const method = getMethod(
-      discriminators.verify,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params, _options);
+    args: NamespaceData<VerifyParamsType, VerifyOptionsMap>
+  ): Promise<AddRaw<VerifyResp>> {
+    const raw = await this._verify(args);
 
-    switch (method) {
+    let resp: VerifyResp;
+    switch (raw.method) {
       case 'cos_verifyMessage':
-        return resp as VerifyResult.Cosmos.Message;
+        resp = { isValid: raw.resp as VerifyResult.Cosmos.Message };
+        break;
+
       default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
+        return Promise.reject(`Unmatched methos: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   async broadcast(
-    namespace: Namespace,
-    params: BroadcastParamsType,
-    options?: BroadcastOptionsMap
-  ): Promise<AddRaw<BroadcastResponse>> {
-    const _options = options || this.options?.broadcastOptions;
-    const method = getMethod(discriminators.sign, namespace, params, _options);
-    const resp = await this._request(namespace, method, params, _options);
+    args: NamespaceData<BroadcastParamsType, BroadcastOptionsMap>
+  ): Promise<AddRaw<BroadcastResp>> {
+    const raw = await this._broadcast(args);
 
-    switch (method) {
+    let resp: BroadcastResp;
+    switch (raw.method) {
       case 'cos_sendTransaction':
         const {
           tx_response: { txhash, height, timestamp },
-        } = resp as BroadcastResult.Cosmos.Transaction;
-        return {
+        } = raw.resp as BroadcastResult.Cosmos.Transaction;
+        resp = {
           block: {
             hash: txhash,
             height: height as string,
             timestamp: timestamp as string,
           },
-          raw: resp,
         };
+        break;
 
       default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
+        return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   async signAndBroadcast(
-    namespace: Namespace,
-    params: SignAndBroadcastParamsType,
-    options?: SignAndBroadcastOptionsMap
-  ): Promise<AddRaw<BroadcastResponse>> {
-    const _options = options || this.options?.signAndBroadcastOptions;
-    const method = getMethod(discriminators.sign, namespace, params, _options);
-    const resp = await this._request(namespace, method, params, _options);
+    args: NamespaceData<SignAndBroadcastParamsType, SignAndBroadcastOptionsMap>
+  ): Promise<AddRaw<BroadcastResp>> {
+    const raw = await this._signAndBroadcast(args);
 
-    switch (method) {
+    let resp: BroadcastResp;
+    switch (raw.method) {
       case 'aptos_signAndSubmitTransaction':
         const {
           hash,
           sequence_number,
-        } = resp as SignAndBroadcastResult.Aptos.Transaction;
-        return {
+        } = raw.resp as SignAndBroadcastResult.Aptos.Transaction;
+        resp = {
           block: { hash, height: sequence_number },
-          raw: resp,
         };
+        break;
 
       case 'sui_signAndExecuteTransaction':
-        const { digest } = resp as SignAndBroadcastResult.Sui.Transaction;
-        return {
+        const { digest } = raw.resp as SignAndBroadcastResult.Sui.Transaction;
+        resp = {
           block: { hash: digest },
-          raw: resp,
         };
+        break;
 
       default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
+        return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   on(type: string, listener: EventListenerOrEventListenerObject): void {

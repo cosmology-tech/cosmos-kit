@@ -1,7 +1,9 @@
 import {
   Namespace,
-  NamespaceOptions,
+  Dist,
+  Method,
   WalletClientOptions,
+  ChainId,
 } from '@cosmos-kit/core';
 import { SignClientTypes } from '@walletconnect/types';
 import { discriminators } from '../config';
@@ -19,6 +21,7 @@ export interface WalletConnectOptions extends WalletClientOptions {
 
 export interface EnableOptions {
   prefix: string;
+  // chainIds: ChainId[];
   methods: string[];
   events: string[];
 }
@@ -27,7 +30,7 @@ export type EnableOptionsMap = {
   [k in Namespace]?: EnableOptions;
 };
 
-export interface SignOptionsMap extends NamespaceOptions {
+export interface SignOptionsMap extends Dist<Method> {
   cosmos?: {
     method?: keyof typeof discriminators.sign.cosmos;
   };
@@ -54,13 +57,13 @@ export interface SignOptionsMap extends NamespaceOptions {
   };
 }
 
-export interface BroadcastOptionsMap extends NamespaceOptions {
+export interface BroadcastOptionsMap extends Dist<Method> {
   ethereum?: {
     method?: keyof typeof discriminators.broadcast.ethereum;
   };
 }
 
-export interface SignAndBroadcastOptionsMap extends NamespaceOptions {
+export interface SignAndBroadcastOptionsMap extends Dist<Method> {
   ethereum?: {
     method?: keyof typeof discriminators.signAndBroadcast.ethereum;
   };

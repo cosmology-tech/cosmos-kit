@@ -16,7 +16,7 @@ export class MetamaskClient implements WalletClient {
 
   constructor(client: any, options?: WalletClientOptions;) {
     this.client = client;
-    this.options = options;
+    
   }
 
   async connect(chainIds?: string[]): Promise<void> {

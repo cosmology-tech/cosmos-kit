@@ -11,7 +11,7 @@ export class XDEFIClient implements WalletClient {
 
   constructor(client: XDEFI, options?: WalletClientOptions;) {
     this.client = client;
-    this.options = options;
+    
   }
 
   async connect(chainIds: string[]) {

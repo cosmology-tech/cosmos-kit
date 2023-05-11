@@ -13,9 +13,12 @@ import {
   AuthRange,
   AddRaw,
   Namespace,
-  SignResponse,
-  BroadcastResponse,
-  getMethod,
+  SignResp,
+  BroadcastResp,
+  WalletClientBase,
+  Dist,
+  Method,
+  NamespaceData,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -45,7 +48,7 @@ import {
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
-export class WCClient implements WalletClient {
+export class WCClient extends WalletClientBase implements WalletClient {
   readonly walletInfo: Wallet;
   readonly options?: WalletConnectOptions;
 
@@ -63,13 +66,13 @@ export class WCClient implements WalletClient {
   env?: DappEnv;
 
   constructor(walletInfo: Wallet, options?: WalletConnectOptions) {
+    super(discriminators, options);
     if (!walletInfo.walletconnect) {
       throw new Error(
         `'walletconnect' info for wallet ${walletInfo.prettyName} is not provided in wallet registry.`
       );
     }
     this.walletInfo = walletInfo;
-    this.options = options;
 
     this.qrUrl = { state: State.Init };
     this.appUrl = { state: State.Init };
@@ -597,7 +600,8 @@ export class WCClient implements WalletClient {
   protected async _request(
     namespace: Namespace,
     method: string,
-    params: BeyondParams & { params: unknown }
+    params: BeyondParams & { params: unknown },
+    options: Dist<Method>
   ) {
     const prefix = getPrefix(namespace as Namespace);
     const session = this._getSessionWithMethod(prefix, params.chainId, method);
@@ -615,21 +619,18 @@ export class WCClient implements WalletClient {
   }
 
   async sign(
-    namespace: Namespace,
-    params: SignParamsType,
-    options?: SignOptionsMap
-  ): Promise<AddRaw<SignResponse>> {
-    const _options = options || this.options?.signOptions;
-    const method = getMethod(discriminators.sign, namespace, params, _options);
-    const resp = await this._request(namespace, method, params);
+    args: NamespaceData<SignParamsType, SignOptionsMap>
+  ): Promise<AddRaw<SignResp>> {
+    const raw = await this._sign(args);
 
-    switch (method) {
+    let resp: SignResp;
+    switch (raw.method) {
       case 'cosmos_signDirect':
       case 'cosmos_signAmino':
-        const { signature, signed } = resp as
+        const { signature, signed } = raw.resp as
           | SignResult.Cosmos.Direct
           | SignResult.Cosmos.Amino;
-        return {
+        resp = {
           signature: signature.signature,
           publicKey: {
             value: signature.pub_key.value,
@@ -637,125 +638,128 @@ export class WCClient implements WalletClient {
           },
           signedDoc: signed,
         };
+        break;
 
       case 'personal_sign':
       case 'eth_sign':
       case 'eth_signTypedData':
       case 'eth_signTransaction':
-        return { signature: resp as SignResult.Ethereum.PersonalSign };
+        resp = { signature: raw.resp as SignResult.Ethereum.PersonalSign };
+        break;
 
       case 'ever_signMessage':
-        const { signed_ext_message } = resp as SignResult.Everscale.Message;
-        return { signedDoc: signed_ext_message };
+        resp = {
+          signedDoc: (raw.resp as SignResult.Everscale.Message)
+            .signed_ext_message,
+        };
+        break;
 
       case 'ever_sign':
         const {
           signature: everSignature,
           pubkey,
-        } = resp as SignResult.Everscale.Sign;
-        return {
+        } = raw.resp as SignResult.Everscale.Sign;
+        resp = {
           signature: { value: everSignature, encoding: 'base64' },
           publicKey: pubkey,
         };
+        break;
 
       case 'solana_signTransaction':
       case 'solana_signMessage':
-        const {
-          signature: solanaSignature,
-        } = resp as SignResult.Solana.Transaction;
-        return {
-          signature: solanaSignature,
+        resp = {
+          signature: (raw.resp as SignResult.Solana.Transaction).signature,
         };
+        break;
 
       case 'stellar_signXDR':
-        const { signedXDR } = resp as SignResult.Stella.XDR;
-        return { signedDoc: signedXDR };
+        resp = { signedDoc: (raw.resp as SignResult.Stella.XDR).signedXDR };
+        break;
 
       case 'near_signTransaction':
       case 'near_signTransactions':
-        return {
-          signedDoc: resp as Uint8Array | Uint8Array[],
-        };
+        resp = { signedDoc: raw.resp as Uint8Array | Uint8Array[] };
+        break;
 
       case 'xrpl_signTransaction':
       case 'xrpl_signTransactionFor':
-        const { tx_json } = resp as SignResult.XRPL.Transaction;
-        return {
+        const { tx_json } = raw.resp as SignResult.XRPL.Transaction;
+        resp = {
           signature: tx_json.TxnSignature,
           publicKey: tx_json.SigningPubKey,
-          raw: resp,
         };
+        break;
 
       default:
-        return Promise.reject(`Unmatched method: ${method}.`);
+        return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   async broadcast(
-    namespace: Namespace,
-    params: BroadcastParamsType,
-    options?: BroadcastOptionsMap
-  ): Promise<AddRaw<BroadcastResponse>> {
-    const _options = options || this.options?.broadcastOptions;
-    const method = getMethod(
-      discriminators.broadcast,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params);
+    args: NamespaceData<BroadcastParamsType, BroadcastOptionsMap>
+  ): Promise<AddRaw<BroadcastResp>> {
+    const raw = await this._broadcast(args);
 
-    switch (method) {
+    let resp: BroadcastResp;
+    switch (raw.method) {
       case 'eth_sendRawTransaction':
-        return {
-          block: { hash: resp as SignAndBroadcastResult.Ethereum.Transaction },
+        resp = {
+          block: {
+            hash: raw.resp as SignAndBroadcastResult.Ethereum.Transaction,
+          },
         };
+        break;
       default:
-        return Promise.reject(`Unmatched method: ${method}.`);
+        return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   async signAndBroadcast(
-    namespace: Namespace,
-    params: SignAndBroadcastParamsType,
-    options?: SignAndBroadcastOptionsMap
-  ): Promise<AddRaw<BroadcastResponse>> {
-    const _options = options || this.options?.signAndBroadcastOptions;
-    const method = getMethod(
-      discriminators.signAndBroadcast,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params);
+    args: NamespaceData<SignAndBroadcastParamsType, SignAndBroadcastOptionsMap>
+  ): Promise<AddRaw<BroadcastResp>> {
+    const raw = await this._signAndBroadcast(args);
 
-    switch (method) {
+    let resp: BroadcastResp;
+    switch (raw.method) {
       case 'eth_signTransaction':
-        return {
-          block: { hash: resp as SignAndBroadcastResult.Ethereum.Transaction },
+        resp = {
+          block: {
+            hash: raw.resp as SignAndBroadcastResult.Ethereum.Transaction,
+          },
         };
+        break;
 
       case 'ever_processMessage':
-        const { tx_id } = resp as SignAndBroadcastResult.Everscale.Message;
-        return { block: { hash: tx_id } };
+        const { tx_id } = raw.resp as SignAndBroadcastResult.Everscale.Message;
+        resp = { block: { hash: tx_id } };
+        break;
 
       case 'stellar_signAndSubmitXDR':
-        return { raw: resp as SignAndBroadcastResult.Stella.XDR };
+        // raw.resp as SignAndBroadcastResult.Stella.XDR
+        resp = {};
+        break;
 
       case 'xrpl_signTransaction':
       case 'xrpl_signTransactionFor':
         const {
           tx_json: { hash },
-        } = resp as SignAndBroadcastResult.XRPL.Transaction;
-        return { block: { hash }, raw: resp };
+        } = raw.resp as SignAndBroadcastResult.XRPL.Transaction;
+        resp = { block: { hash } };
+        break;
 
       case 'tezos_send':
-        const { operation_hash } = resp as SignAndBroadcastResult.Tezos.Send;
-        return { block: { hash: operation_hash } };
+        const {
+          operation_hash,
+        } = raw.resp as SignAndBroadcastResult.Tezos.Send;
+        resp = { block: { hash: operation_hash } };
+        break;
 
       default:
-        return Promise.reject(`Unmatched method: ${method}.`);
+        return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
+    return { ...resp, raw };
   }
 
   // restoreLatestSession() {

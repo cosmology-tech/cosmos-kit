@@ -1,12 +1,6 @@
 import { hasRequiredKeyType, isArray } from '@cosmos-kit/core';
 import { GenericCosmosDocDiscriminator } from '@cosmos-kit/cosmos';
-import {
-  BroadcastParams,
-  SignAndBroadcastParams,
-  SignAndBroadcastOptionsMap,
-  SignOptionsMap,
-  SignParams,
-} from '../types';
+import { SignOptionsMap, SignParams } from '../types';
 
 export const SignParamsDiscriminator = {
   Cosmos: {
@@ -43,13 +37,27 @@ export const SignParamsDiscriminator = {
         })
       );
     },
+    isArbitrary(
+      params: unknown,
+      options?: SignOptionsMap
+    ): params is SignParams.Cosmos.Arbitrary {
+      const checkData =
+        typeof params['data'] === 'undefined' ||
+        isArray(params['data'], 'Uint8Array');
+      return (
+        hasRequiredKeyType(params, {
+          chainId: 'string',
+          signer: 'string',
+        }) && checkData
+      );
+    },
   },
   Ethereum: {
     _check: (
       method: string,
       params: unknown,
       options?: SignOptionsMap
-    ): params is SignParams.Ethereum.Sign => {
+    ): boolean => {
       if (typeof options?.ethereum?.method === 'undefined') {
         throw new Error('Please set `ethereum.method` in options.');
       }

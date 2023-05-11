@@ -9,7 +9,7 @@ export class TrustClient implements WalletClient {
 
   constructor(client: Trust, options?: WalletClientOptions;) {
     this.client = client;
-    this.options = options;
+    
   }
 
   async connect(chainIds: string[]) {

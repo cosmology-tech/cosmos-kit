@@ -119,7 +119,7 @@ export interface HttpEndpoint {
 /**
  * signature could be optional. i.e. Eversacale signMessage
  */
-export interface SignResponse {
+export interface SignResp {
   signature?: EncodedString;
   publicKey?: PublicKey;
   signedDoc?: unknown;
@@ -131,34 +131,41 @@ export interface Block {
   timestamp?: string;
 }
 
-export interface BroadcastResponse {
+export interface VerifyResp {
+  isValid: boolean;
+}
+
+export interface BroadcastResp {
   block?: Block;
 }
 
 /**
- * usually in returned type of functions with requesting,
- * in case the request response has more info than type param T (usually is a standardized type).
- * if raw is undefined, means all info are already included in T
+ * Because we're transferring the original response from wallet to our standard interface T, like `SignResp`, `BroadcastResp`,
+ * `raw` is provided here for users to visit the original response.
+ * It's useful because sometimes the original response has more info than standard interface.
  */
-export type AddRaw<T> = T & { raw?: unknown };
+export interface Raw {
+  method?: string; // The method actually used in request.
+  resp?: unknown;
+}
 
 /**
- * Authed chain distribution across namespaces
+ * Usually in returned type of functions with requesting
  */
-export type AuthRange = {
-  [k in Namespace]?: {
-    chainIds?: string[];
-  };
+export type AddRaw<T> = T & {
+  raw?: Raw;
 };
 
 /**
- * Only for methods with `namespace` as parameter
+ * Distribute T among namespaces
  */
-export type DocRelatedOptions = {
-  [k in Namespace]?: {
-    method?: string; // Explicitly designate which method to use in requesting if there are multiple methods available in wallet.
-  };
+export type Dist<T> = {
+  [k in Namespace]?: T;
 };
+
+export interface Method {
+  method?: string; // Explicitly designate which method to use in requesting if there are multiple methods available in wallet.
+}
 
 export interface GetAccountOptions {
   greedy?: boolean; // Defaults to false, means will NOT get as much account info as possible.
@@ -167,7 +174,7 @@ export interface GetAccountOptions {
 /**
  * Keys corresponding methods in WalletClient interface
  */
-interface WalletClientOptions {
+export interface WalletClientOptions {
   enableOptions?: unknown;
   disableOptions?: unknown;
 
@@ -175,10 +182,31 @@ interface WalletClientOptions {
   switchChainOptions?: unknown;
   addChainOptions?: unknown;
 
-  signOptions?: DocRelatedOptions;
-  verifyOptions?: DocRelatedOptions;
-  broadcastOptions?: DocRelatedOptions;
-  signAndBroadcastOptions?: DocRelatedOptions;
+  signOptions?: Dist<Method>;
+  verifyOptions?: Dist<Method>;
+  broadcastOptions?: Dist<Method>;
+  signAndBroadcastOptions?: Dist<Method>;
+}
+
+export type WalletClientMethod =
+  | 'enable'
+  | 'disable'
+  | 'getAccount'
+  | 'switchChain'
+  | 'addChain'
+  | 'sign'
+  | 'verify'
+  | 'broadcast'
+  | 'signAndBroadcast';
+
+export interface NamespaceData<DataType, OptionsType> {
+  namespace: Namespace;
+  data: DataType;
+  options?: OptionsType;
+}
+
+export interface AuthRange {
+  chainIds: ChainId[];
 }
 
 /**
@@ -198,12 +226,12 @@ export interface WalletClient {
    *     In some wallets (Cosmos wallets in particular) the authorization may down to the level of chains/networks.
    *     To distinguish with `connect` method in ChainWallet, we make it `enable` here.
    */
-  enable?(authRange: AuthRange, options?: unknown): Promise<void>;
+  enable?(args: NamespaceData<AuthRange, unknown>[]): Promise<void>;
   /**
    * 2. Disable/Cancel Authorization
    *     Or called `disconnect` in some wallets.
    */
-  disable?(options?: unknown): Promise<void>;
+  disable?(args: NamespaceData<AuthRange, unknown>[]): Promise<void>;
 
   // --------------------------------------------------------------------------------------------------------------
   //                                                   ACCOUNT
@@ -217,9 +245,7 @@ export interface WalletClient {
    *     In other ecosystem it could be public key and irrespective of chains/networks.
    */
   getAccount(
-    namespace: Namespace,
-    chainId: ChainId,
-    options?: GetAccountOptions
+    args: NamespaceData<AuthRange, GetAccountOptions>[]
   ): Promise<AddRaw<WalletAccount>>;
   /**
    * Switch Chain
@@ -262,11 +288,7 @@ export interface WalletClient {
    *     Usually include doc and other info like corresponding signer address for keypair.
    *     Type of signed doc can varies from different wallets and namespaces.
    */
-  sign?(
-    namespace: Namespace,
-    params: unknown,
-    options: DocRelatedOptions
-  ): Promise<AddRaw<SignResponse>>;
+  sign?(args: NamespaceData<unknown, Dist<Method>>): Promise<AddRaw<SignResp>>;
   /**
    * 2: Verify Doc
    *     To check the signature matches the signedDoc.
@@ -276,10 +298,8 @@ export interface WalletClient {
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   verify?(
-    namespace: Namespace,
-    params: unknown,
-    options?: DocRelatedOptions
-  ): Promise<boolean>;
+    args: NamespaceData<unknown, Dist<Method>>
+  ): Promise<AddRaw<VerifyResp>>;
   /**
    * 3: Broadcast Signed Doc
    *     or called `execute/submit` in some wallets or networks
@@ -292,10 +312,8 @@ export interface WalletClient {
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   broadcast?(
-    namespace: Namespace,
-    params: unknown,
-    options?: DocRelatedOptions
-  ): Promise<AddRaw<BroadcastResponse>>;
+    args: NamespaceData<unknown, Dist<Method>>
+  ): Promise<AddRaw<BroadcastResp>>;
   /**
    * 4: Sign and Broadcast Doc
    *     address in params is used to get the private key from wallet to sign doc.
@@ -306,10 +324,8 @@ export interface WalletClient {
    *     Type of signed doc can varies from different wallets and namespaces.
    */
   signAndBroadcast?(
-    namespace: Namespace,
-    params: unknown,
-    options?: DocRelatedOptions
-  ): Promise<AddRaw<BroadcastResponse>>;
+    args: NamespaceData<unknown, Dist<Method>>
+  ): Promise<AddRaw<BroadcastResp>>;
   // --------------------------------------------------------------------------------------------------------------
 
   qrUrl?: Mutable<string>;
@@ -318,6 +334,19 @@ export interface WalletClient {
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
 }
+
+export type DiscriminatorMap = {
+  /**
+   * `object` here is a map from method name to its discriminator or a boolean value.
+   *  Should be `Record<string, boolean | (params: unknown, options?: unknown) => boolean>`
+   *  Here use `object` to make type `SignOptionsMap` being successfully generated.
+   */
+  [k in Namespace]?: object;
+};
+
+export type Discriminators = {
+  [k in WalletClientMethod]?: DiscriminatorMap;
+};
 
 export type WalletAdapter = ChainWalletBase | MainWalletBase;
 

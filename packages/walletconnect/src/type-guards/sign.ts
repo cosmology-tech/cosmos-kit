@@ -38,7 +38,7 @@ export const SignParamsDiscriminator = {
       method: string,
       params: unknown,
       options?: SignOptionsMap
-    ): params is SignParams.Ethereum.Sign => {
+    ): boolean => {
       if (typeof options?.ethereum?.method === 'undefined') {
         throw new Error('Please set `ethereum.method` in options.');
       }

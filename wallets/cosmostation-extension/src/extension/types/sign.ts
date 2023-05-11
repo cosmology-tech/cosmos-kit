@@ -39,6 +39,11 @@ export namespace SignParams {
     export interface Amino extends Doc {
       doc: SignAminoDoc;
     }
+    export interface Arbitrary {
+      chainId: ChainId;
+      signer: string;
+      data: string | Uint8Array;
+    }
   }
 
   export namespace Ethereum {
