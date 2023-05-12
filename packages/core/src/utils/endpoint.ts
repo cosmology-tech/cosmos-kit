@@ -1,6 +1,7 @@
+import axios from 'axios';
+
 import { ExtendedHttpEndpoint } from '../types';
 import { Logger } from './logger';
-import axios from 'axios';
 
 const _getValidEndpoint = async (
   endpoint: string | ExtendedHttpEndpoint,
@@ -44,9 +45,9 @@ export const isValidEndpoint = async (
   try {
     let response: Response;
     if (typeof endpoint === 'string') {
-      response = await axios.get(`${endpoint}/status`);
+      response = await axios.post(endpoint);
     } else {
-      response = await axios.get(`${endpoint.url}/status`, {
+      response = await axios.post(endpoint.url, {
         headers: endpoint.headers,
       });
     }
