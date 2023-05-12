@@ -1,6 +1,6 @@
 /// <reference types="node" />
 /// <reference types="long" />
-import { AccountData, AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { AccountData, AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { DirectSignResponse, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { SignClientTypes } from '@walletconnect/types';
 import { ChainWalletBase, MainWalletBase } from '../bases';
@@ -13,6 +13,7 @@ export interface Key {
     readonly address: Uint8Array;
     readonly bech32Address: string;
     readonly isNanoLedger: boolean;
+    readonly isSmartContract?: boolean;
 }
 export interface SimpleAccount {
     namespace: string;
@@ -134,6 +135,7 @@ export interface WalletClient {
     getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
     signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect?: (chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
+    signArbitrary?: (chainId: string, signer: string, data: string | Uint8Array) => Promise<StdSignature>;
     getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
     getEnigmaTxEncryptionKey?: (chainId: string, nonce: Uint8Array) => Promise<Uint8Array>;
     enigmaEncrypt?: (chainId: string, contractCodeHash: string, msg: object) => Promise<Uint8Array>;

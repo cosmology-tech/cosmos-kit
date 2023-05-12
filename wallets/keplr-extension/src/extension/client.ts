@@ -1,5 +1,5 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   ChainRecord,
@@ -26,10 +26,10 @@ export class KeplrClient implements WalletClient {
   async suggestToken({ chainId, tokens, type }: SuggestToken) {
     if (type === 'cw20') {
       for (const { contractAddress, viewingKey } of tokens) {
-        await this.client.suggestToken(chainId, contractAddress,  viewingKey);
+        await this.client.suggestToken(chainId, contractAddress, viewingKey);
       }
     }
-  };
+  }
 
   async getSimpleAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);
@@ -99,6 +99,14 @@ export class KeplrClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    return await this.client.signArbitrary(chainId, signer, data);
   }
 
   async signDirect(

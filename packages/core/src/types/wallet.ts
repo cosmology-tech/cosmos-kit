@@ -2,6 +2,7 @@ import {
   AccountData,
   AminoSignResponse,
   OfflineAminoSigner,
+  StdSignature,
   StdSignDoc,
 } from '@cosmjs/amino';
 import {
@@ -22,6 +23,7 @@ export interface Key {
   readonly address: Uint8Array;
   readonly bech32Address: string;
   readonly isNanoLedger: boolean;
+  readonly isSmartContract?: boolean;
 }
 
 export interface SimpleAccount {
@@ -108,6 +110,7 @@ export type Bech32Address = string;
 export interface WalletAccount extends AccountData {
   username?: string;
   isNanoLedger?: boolean;
+  isSmartContract?: boolean;
 }
 
 export interface SignOptions {
@@ -189,6 +192,11 @@ export interface WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
+  signArbitrary?: (
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ) => Promise<StdSignature>;
   getEnigmaPubKey?: (chainId: string) => Promise<Uint8Array>;
   getEnigmaTxEncryptionKey?: (
     chainId: string,

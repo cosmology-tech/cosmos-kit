@@ -1,7 +1,6 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
-import { VectisWindow } from '@vectis/extension-client/types';
 
-import type { Vectis } from './types';
+import type { Vectis, VectisWindow } from './types';
 
 export const getVectisFromExtension: () => Promise<
   Vectis | undefined
@@ -10,7 +9,7 @@ export const getVectisFromExtension: () => Promise<
     return void 0;
   }
 
-  const vectis = (window as unknown as VectisWindow).vectis.cosmos;
+  const vectis = ((window as unknown) as VectisWindow).vectis.cosmos;
 
   if (vectis) {
     return vectis;

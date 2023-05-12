@@ -6394,11 +6394,6 @@
     "@typescript-eslint/types" "5.53.0"
     eslint-visitor-keys "^3.3.0"
 
-"@vectis/extension-client@0.6.0":
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/@vectis/extension-client/-/extension-client-0.6.0.tgz#17f727712040001b43c1581a3d147d7205dce30b"
-  integrity sha512-VthQXEY2vZJRPA5LRjcurgeoYAuymik0Zw2n9XpUUTGmiHLHieknCh9t/E5qF0R/4wIeOSAOL0heQITM1Lgimg==
-
 "@walletconnect/browser-utils@^1.8.0":
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@walletconnect/browser-utils/-/browser-utils-1.8.0.tgz#33c10e777aa6be86c713095b5206d63d32df0951"
