@@ -17,7 +17,7 @@ jobs:
       - name: node
         uses: actions/setup-node@v3
         with:
-          node-version: 16.14.0
+          node-version: 18.16.0
       - name: deps
         run: yarn
       - name: bootstrap
