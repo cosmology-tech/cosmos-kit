@@ -26,9 +26,9 @@ import {
   Wallet,
 } from '../types';
 import {
+  getFastestEndpoint,
   getIsLazy,
   getNameServiceRegistryFromChainName,
-  getFastestEndpoint,
   isValidEndpoint,
 } from '../utils';
 import { WalletBase } from './wallet';
@@ -210,15 +210,18 @@ export class ChainWalletBase extends WalletBase {
       return endpoint;
     }
 
+    const nodeType = 'rpc';
+
     if (
       this._rpcEndpoint &&
-      (await isValidEndpoint(this._rpcEndpoint, lazy, this.logger))
+      (await isValidEndpoint(this._rpcEndpoint, nodeType, lazy, this.logger))
     ) {
       return this._rpcEndpoint;
     }
 
     this._rpcEndpoint = await getFastestEndpoint(
       this.rpcEndpoints,
+      nodeType,
       this.logger
     );
     return this._rpcEndpoint;
@@ -243,15 +246,18 @@ export class ChainWalletBase extends WalletBase {
       return endpoint;
     }
 
+    const nodeType = 'rest';
+
     if (
       this._restEndpoint &&
-      (await isValidEndpoint(this._restEndpoint, lazy, this.logger))
+      (await isValidEndpoint(this._restEndpoint, nodeType, lazy, this.logger))
     ) {
       return this._restEndpoint;
     }
 
     this._restEndpoint = await getFastestEndpoint(
       this.restEndpoints,
+      nodeType,
       this.logger
     );
     return this._restEndpoint;
