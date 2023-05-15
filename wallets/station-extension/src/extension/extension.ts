@@ -35,6 +35,7 @@ export class StationExtension {
   // resolvers
   connectResolvers = new Set<[(data: any) => void, (error: any) => void]>();
   infoResolvers = new Set<[(data: any) => void, (error: any) => void]>();
+  pubkeyResolvers = new Set<[(data: any) => void, (error: any) => void]>();
   signResolvers = new Map<
     number,
     [(data: any) => void, (error: any) => void]
@@ -63,6 +64,13 @@ export class StationExtension {
     return new Promise<InfoResponse>((...resolver) => {
       this.infoResolvers.add(resolver);
       this.extension.info();
+    });
+  }
+
+  async getPubKey() {
+    return new Promise<ConnectResponse>((...resolver) => {
+      this.pubkeyResolvers.add(resolver);
+      this.extension.getPubKey();
     });
   }
 
@@ -109,6 +117,21 @@ export class StationExtension {
       }
 
       this.connectResolvers.clear();
+    });
+
+    this.extension.on('onGetPubkey', (result) => {
+      if (!result) return;
+      const { error, ...payload } = result;
+
+      for (const [resolve, reject] of this.pubkeyResolvers) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(payload);
+        }
+      }
+
+      this.pubkeyResolvers.clear();
     });
 
     this.extension.on('onInterchainInfo', (result) => {

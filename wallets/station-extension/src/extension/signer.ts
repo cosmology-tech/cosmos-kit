@@ -39,7 +39,7 @@ export class OfflineSigner implements OfflineAminoSigner {
     const signDocFee = signDoc.fee;
     const feeAmount = signDocFee.amount[0].amount + signDocFee.amount[0].denom;
     const fakeMsgs = signDoc.msgs.map((msg) =>
-      TerraMsg.fromAmino(msg as TerraMsg.Amino)
+      JSON.stringify(TerraMsg.fromAmino(msg as TerraMsg.Amino).toData())
     );
 
     const signResponse = await this.extension.sign({
