@@ -31,17 +31,17 @@ function MyApp({ Component, pageProps }: AppProps) {
           assetLists={[...assets, terra2testnetAssets]}
           wallets={[
             ...keplrWallets,
-            // ...web3authWallets,
-            // ...cosmostationWallets,
-            // ...leapWallets,
-            // ...vectisWallets,
-            // ...xdefiWallets,
-            // ...omniWallets,
-            // ...trustWallets,
-            // ...frontierWallets,
-            // ...stationWallets,
-            // ...ExtensionWallets,
-            // ...coin98Wallets
+            ...web3authWallets,
+            ...cosmostationWallets,
+            ...leapWallets,
+            ...vectisWallets,
+            ...xdefiWallets,
+            ...omniWallets,
+            ...trustWallets,
+            ...frontierWallets,
+            ...stationWallets,
+            ...ExtensionWallets,
+            ...coin98Wallets,
           ]}
           defaultNameService={"stargaze"}
           walletConnectOptions={{

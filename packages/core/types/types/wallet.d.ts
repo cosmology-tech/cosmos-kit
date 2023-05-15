@@ -77,6 +77,7 @@ export declare type Bech32Address = string;
 export interface WalletAccount extends AccountData {
     username?: string;
     isNanoLedger?: boolean;
+    isSmartContract?: boolean;
 }
 export interface SignOptions {
     readonly preferNoSetFee?: boolean;

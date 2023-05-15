@@ -41,7 +41,7 @@ export class StationExtension {
     [(data: any) => void, (error: any) => void]
   >();
 
-  constructor() { }
+  constructor() {}
 
   get isAvailable(): boolean {
     return this.extension.isAvailable;
@@ -70,7 +70,7 @@ export class StationExtension {
   async getPubKey() {
     return new Promise<ConnectResponse>((...resolver) => {
       this.pubkeyResolvers.add(resolver);
-      this.extension.getPubKey();
+      this.extension.pubkey();
     });
   }
 
