@@ -1,11 +1,14 @@
 import {
   EncodedString,
-  Namespace,
-  NamespaceMap<Method>,
   TypedArrayType,
   TypeName,
   DiscriminatorMap,
+  Args,
+  ReqArgs,
+  Options,
+  Discriminator,
 } from '../types';
+import { NoMethodError } from './error';
 
 type Key2Type = { [k: string]: TypeName | TypedArrayType };
 
@@ -67,43 +70,60 @@ export function isEncodedString(arg: unknown): arg is EncodedString {
   return hasRequiredKeyType(arg, { value: 'string' });
 }
 
-export function isMessageDoc(doc: unknown, options?: unknown): doc is string {
-  return typeof doc === 'string';
+export const isGreedy: Discriminator = (params: unknown, options?: Options) {
+  return Boolean(options?.greedy);
 }
 
-export function getMethod(
-  discriminatorMap: DiscriminatorMap,
-  namespace: Namespace,
-  params: unknown,
-  options?: NamespaceMap<Method>
-): string {
-  if (typeof options?.[namespace]?.method !== 'undefined') {
-    return options?.[namespace]?.method;
+export function getRequestArgsList(
+  discriminatorMap: DiscriminatorMap | undefined,
+  args: Args.General | Args.General[]
+): ReqArgs[] {
+  if (!discriminatorMap) {
+    throw new Error('discriminatorMap cannot be undefined.');
   }
 
-  const method2discriminator = discriminatorMap[namespace];
+  function _getMethods(args: Args.General) {
+    const { namespace, params, options } = args;
+    const method = options?.method;
+    if (typeof method !== 'undefined') {
+      return [{ ...args, method }];
+    }
 
-  if (typeof method2discriminator === 'undefined') {
-    throw new Error(`Unmatched namespace: ${namespace}.`);
+    const method2discriminator = discriminatorMap[namespace];
+
+    if (typeof method2discriminator === 'undefined') {
+      throw new Error(`Unmatched namespace: ${namespace}.`);
+    }
+
+    const reqArgs = Object.entries(method2discriminator)
+      .filter(([, discriminate]) => {
+        if (typeof discriminate === 'boolean') {
+          return discriminate;
+        } else {
+          return discriminate(params, options);
+        }
+      })
+      .map(([method]) => ({ ...args, method }));
+
+    const greedy = options?.greedy;
+    if (reqArgs.length > 1 && !greedy) {
+      throw new Error(
+        `Params passes multiple discriminators and multiple methods not allowed (greedy is false). Please check corresponsing methods: ${reqArgs.map(
+          ({ method }) => method
+        )}`
+      );
+    }
+    return reqArgs;
   }
 
-  const methods = Object.entries(method2discriminator)
-    .filter(([, discriminate]) => {
-      if (typeof discriminate === 'boolean') {
-        return discriminate;
-      } else {
-        return discriminate(params, options);
-      }
-    })
-    .map(([method]) => method);
-
-  if (methods.length === 0) {
-    throw new Error('Cannot find a proper method for this params.');
+  let reqArgs: ReqArgs[];
+  if (!Array.isArray(args)) {
+    reqArgs = _getMethods(args);
+  } else {
+    reqArgs = args.map((_args) => _getMethods(_args)).flat();
   }
-  if (methods.length > 1) {
-    throw new Error(
-      `Params passes multiple discriminators. Corresponsing methods are ${methods}`
-    );
+  if (reqArgs.length === 0) {
+    throw NoMethodError;
   }
-  return methods[0];
+  return reqArgs;
 }

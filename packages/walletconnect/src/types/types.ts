@@ -1,8 +1,14 @@
-import { ChainRecord, Wallet } from '@cosmos-kit/core';
+import {
+  ChainId,
+  ChainRecord,
+  Namespace,
+  Wallet,
+  WalletClientOptions,
+} from '@cosmos-kit/core';
+import { SignClientTypes } from '@walletconnect/types';
 
 import { ChainWC } from '../chain-wallet';
 import { WCClient } from '../client';
-import { WalletConnectOptions } from './options';
 
 export interface IChainWC {
   new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWC;
@@ -12,21 +18,22 @@ export interface IWCClient {
   new (walletInfo: Wallet, options?: WalletConnectOptions): WCClient;
 }
 
-export interface RequestAccount1 {
-  address: string;
-  algo: string;
-  pubkey: string;
+export interface WalletConnectOptions extends WalletClientOptions {
+  initSignClientOptions: {
+    projectId: string;
+    relayUrl?: string;
+  } & SignClientTypes.Options;
 }
 
-export interface RequestAccount2 {
-  pubkey: string;
-}
+export type NamespacesConfig = {
+  [k in Namespace]?: {
+    prefix: string;
+    methods: string[];
+    events: string[];
+  };
+};
 
-export interface RequestAccount3 {
-  accountId: string;
-  pubkey: string;
-}
-
-export interface BeyondParams {
-  chainId: string; // Without prefix
+export interface GeneralParams {
+  chainId: ChainId;
+  params?: unknown;
 }

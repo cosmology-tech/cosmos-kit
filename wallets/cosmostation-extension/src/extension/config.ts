@@ -1,4 +1,4 @@
-import { Discriminators } from '@cosmos-kit/core';
+import { Discriminators, isGreedy, Options } from '@cosmos-kit/core';
 import {
   BroadcastParamsDiscriminator,
   SignAndBroadcastParamsDiscriminator,
@@ -25,6 +25,39 @@ export const discriminators: Discriminators = {
     },
   },
 
+  getAccount: {
+    cosmos: {
+      cos_account: false,
+      cos_requestAccount: true,
+    },
+    ethereum: {
+      eth_accounts: false,
+      eth_requestAccounts: true,
+    },
+    aptos: {
+      aptos_account: true,
+    },
+    sui: {
+      sui_getAccount: true,
+      sui_getPublicKey: isGreedy,
+    },
+  },
+
+  addChain: {
+    cosmos: {
+      cos_addChain: true,
+    },
+    ethereum: {
+      wallet_addEthereumChain: true,
+    },
+  },
+
+  switchChain: {
+    ethereum: {
+      wallet_switchEthereumChain: true,
+    },
+  },
+
   sign: {
     cosmos: {
       cos_signMessage: SignParamsDiscriminator.Cosmos.isMessage,
@@ -48,6 +81,8 @@ export const discriminators: Discriminators = {
     cosmos: {
       cos_verifyMessage: VerifyParamsDiscriminator.Cosmos.isMessage,
       ikeplr_verifyArbitrary: VerifyParamsDiscriminator.Cosmos.isArbitrary,
+    },
+  },
 
   broadcast: {
     cosmos: {

@@ -8,7 +8,7 @@ import {
   NameService,
   Wallet,
   WalletClient,
-  AuthRange,
+  ChainRange,
   State,
   WalletAccount,
 } from './types';
@@ -37,8 +37,8 @@ export class WalletRepoWithGivenWallet extends WalletRepoBase {
     return this.wallets[0]?.client;
   }
 
-  get authRange(): AuthRange {
-    const authRange: AuthRange = {};
+  get authRange(): ChainRange {
+    const authRange: ChainRange = {};
     this.wallets.forEach((w) => {
       authRange[w.namespace] = {
         chainIds: [...(authRange[w.namespace]?.chainIds || []), ...w.chainId],

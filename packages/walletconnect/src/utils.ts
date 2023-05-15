@@ -1,8 +1,8 @@
 import { Namespace } from '@cosmos-kit/core';
-import { defaultEnableOptions } from './config';
+import { namespacesConfig } from './config';
 
 export function getPrefix(namespace: Namespace): string {
-  const prefix = defaultEnableOptions[namespace]?.prefix as string;
+  const prefix = namespacesConfig[namespace]?.prefix as string;
   if (!prefix) {
     throw new Error(
       `No matched prefix in WalletConnect for namespace ${namespace}.`

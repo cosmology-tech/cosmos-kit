@@ -1,11 +1,12 @@
-import { EnableOptionsMap } from './types';
+import { Discriminators, isGreedy } from '@cosmos-kit/core';
 import {
   BroadcastParamsDiscriminator,
   SignAndBroadcastParamsDiscriminator,
   SignParamsDiscriminator,
 } from './type-guards';
+import { NamespacesConfig } from './types';
 
-export const defaultEnableOptions: EnableOptionsMap = {
+export const namespacesConfig: NamespacesConfig = {
   cosmos: {
     prefix: 'cosmos',
     methods: ['cosmos_getAccount', 'cosmos_signAmino', 'cosmos_signDirect'],
@@ -30,7 +31,21 @@ export const defaultEnableOptions: EnableOptionsMap = {
   },
 };
 
-export const discriminators = {
+export const discriminators: Discriminators = {
+  getAccount: {
+    cosmos: {
+      cosmos_getAccount: isGreedy,
+    },
+    tezos: {
+      tezos_getAccount: isGreedy,
+    },
+    solana: {
+      solana_getAccount: isGreedy,
+    },
+    near: {
+      near_getAccount: isGreedy,
+    },
+  },
   sign: {
     cosmos: {
       cosmos_signAmino: SignParamsDiscriminator.Cosmos.isAmino,
@@ -50,7 +65,7 @@ export const discriminators = {
       solana_signTransaction: SignParamsDiscriminator.Solana.isTransaction,
       solana_signMessage: SignParamsDiscriminator.Solana.isMessage,
     },
-    stella: { stellar_signXDR: SignParamsDiscriminator.Stella.isXDR },
+    stellar: { stellar_signXDR: SignParamsDiscriminator.Stella.isXDR },
     tezos: { tezos_sign: SignParamsDiscriminator.Tezos.isSign },
     near: {
       near_signTransaction: SignParamsDiscriminator.NEAR.isTransaction,
@@ -78,7 +93,7 @@ export const discriminators = {
       ever_processMessage:
         SignAndBroadcastParamsDiscriminator.Everscale.isMessage,
     },
-    stella: {
+    stellar: {
       stellar_signAndSubmitXDR:
         SignAndBroadcastParamsDiscriminator.Stella.isXDR,
     },

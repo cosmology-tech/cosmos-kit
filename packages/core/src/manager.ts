@@ -32,12 +32,13 @@ export class WalletManager extends StateBase {
   readonly session: Session;
   repelWallet: boolean = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
   isLazy?: boolean; // stands for `globalIsLazy` setting
+  logger: Logger;
 
   constructor(
     chains: Chain[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
-    logger: Logger,
+    logger: Logger = new Logger('WARN'),
     defaultNameService?: NameServiceName,
     walletClientOptionsMap?: WalletClientOptionsMap,
     signerOptions?: SignerOptions,
@@ -219,9 +220,8 @@ export class WalletManager extends StateBase {
     chainName: ChainName,
     walletName: WalletName
   ): ChainWalletBase => {
-    const chainWallet: ChainWalletBase | undefined = this.getMainWallet(
-      walletName
-    ).getChainWallet(chainName);
+    const chainWallet: ChainWalletBase | undefined =
+      this.getMainWallet(walletName).getChainWallet(chainName);
 
     if (!chainWallet) {
       throw new Error(`${chainName} is not provided!`);

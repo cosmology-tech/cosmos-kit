@@ -9,8 +9,8 @@ import {
   SignDirectDoc,
   SignDirectResponse,
   SignMessageResponse,
+  SignOptions,
 } from '@cosmostation/extension-client/types/message';
-import { CosmosSignOptions } from './options';
 
 export type SignParamsType =
   | SignParams.Cosmos.Message
@@ -25,18 +25,21 @@ export type SignParamsType =
 
 export namespace SignParams {
   export namespace Cosmos {
-    interface Doc extends CosmosSignOptions {
+    interface Transaction {
       chainName: ChainId;
+      isEditMemo?: boolean;
+      isEditFee?: boolean;
+      gasRate?: SignOptions['gasRate'];
     }
     export interface Message {
       chainName: ChainId;
       signer: string;
       message: string;
     }
-    export interface Direct extends Doc {
+    export interface Direct extends Transaction {
       doc: SignDirectDoc;
     }
-    export interface Amino extends Doc {
+    export interface Amino extends Transaction {
       doc: SignAminoDoc;
     }
     export interface Arbitrary {

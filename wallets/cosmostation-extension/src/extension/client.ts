@@ -1,51 +1,40 @@
 import {
-  AddRaw,
-  AuthRange,
-  BroadcastResp,
   getStringFromUint8Array,
   Namespace,
-  Dist,
-  Method,
-  SignResp,
-  VerifyResp,
-  WalletAccount,
   WalletClient,
   WalletClientBase,
-  NamespaceData,
+  Args,
+  Resp,
+  ReqArgs,
+  WalletClientOptions,
 } from '@cosmos-kit/core';
 import { CosmosWalletAccount } from '@cosmos-kit/cosmos';
-import { AddChainParams } from '@cosmostation/extension-client/types/message';
 
 import {
-  BroadcastOptionsMap,
-  BroadcastParamsType,
   BroadcastResult,
   Cosmostation,
-  CosmostationOptions,
-  SignAndBroadcastParamsType,
-  SignOptionsMap,
-  WalletAddEthereumChainParam,
   SignAndBroadcastResult,
-  VerifyParamsType,
-  VerifyOptionsMap,
   VerifyResult,
-  SignAndBroadcastOptionsMap,
   VerifyParams,
+  GetAccountResult,
+  SignParamsType,
+  VerifyParamsType,
+  BroadcastParamsType,
+  SignAndBroadcastParamsType,
 } from './types';
-import { SignParamsType, SignResult } from './types';
+import { SignResult } from './types';
 import { discriminators } from './config';
 
 export class CosmostationClient
   extends WalletClientBase
   implements WalletClient {
   readonly client: Cosmostation;
-  readonly options?: CosmostationOptions;
   private eventMap: Map<
     string,
     Map<EventListenerOrEventListenerObject, Event>
   > = new Map();
 
-  constructor(client: Cosmostation, options?: CosmostationOptions) {
+  constructor(client: Cosmostation, options?: WalletClientOptions) {
     super(discriminators, options);
     this.client = client;
   }
@@ -56,162 +45,6 @@ export class CosmostationClient
 
   get ikeplr() {
     return this.client.providers.keplr;
-  }
-
-  async enable(range: NamespaceData<AuthRange, unknown>[]): Promise<void> {
-    await Promise.all(
-      range.map(async (args) => {
-        await this._enable({ ...args, data: void 0 });
-      })
-    );
-  }
-
-  async disable(range: NamespaceData<AuthRange, unknown>[]): Promise<void> {
-    await Promise.all(
-      range.map(async (args) => {
-        await this._disable({ ...args, data: void 0 });
-      })
-    );
-  }
-
-  async getAccount(
-    authRange: AuthRange,
-    options?: unknown
-  ): Promise<AddRaw<WalletAccount>[]> {
-    const accountsList = await Promise.all(
-      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
-        switch (namespace) {
-          case 'cosmos':
-            if (!chainIds) {
-              return Promise.reject('No chainIds provided.');
-            }
-            return Promise.all(
-              chainIds.map(async (chainId) => {
-                const key = (await this.cosmos.request({
-                  method: 'cos_requestAccount',
-                  params: { chainName: chainId },
-                })) as {
-                  name: string;
-                  address: string;
-                  publicKey: Uint8Array;
-                  isLedger: boolean;
-                  algo: Algo;
-                };
-                return {
-                  chainId,
-                  namespace,
-                  username: key.name,
-                  address: {
-                    value: key.address,
-                    encoding: 'bech32',
-                  },
-                  publicKey: {
-                    value: getStringFromUint8Array(key.publicKey, 'hex'),
-                    encoding: 'hex',
-                    algo: key.algo,
-                  },
-                } as CosmosWalletAccount;
-              })
-            );
-          case 'ethereum':
-            const ethAddrs = (await this.client.ethereum.request({
-              method: 'eth_requestAccounts',
-            })) as string[];
-            return ethAddrs.map((address) => {
-              return {
-                namespace,
-                address: {
-                  value: address,
-                  encoding: 'hex',
-                },
-              } as WalletAccount;
-            });
-          case 'aptos':
-            const { address, publicKey } = (await this.client.aptos.request({
-              method: 'aptos_account',
-            })) as {
-              address: string;
-              publicKey: string;
-            };
-            return [
-              {
-                namespace,
-                address: {
-                  value: address,
-                  encoding: 'hex',
-                },
-                publicKey: {
-                  value: publicKey,
-                  encoding: 'hex',
-                },
-              } as WalletAccount,
-            ];
-          case 'sui':
-            const suiAddrs = (await this.client.sui.request({
-              method: 'sui_getAccount',
-            })) as string[];
-            const suiPublicKey = (await this.client.sui.request({
-              method: 'sui_getPublicKey',
-            })) as string;
-            return suiAddrs.map((address) => {
-              return {
-                namespace,
-                address: {
-                  value: address,
-                  encoding: 'hex',
-                },
-                publicKey: {
-                  value: suiPublicKey,
-                  encoding: 'hex',
-                },
-              } as WalletAccount;
-            });
-          default:
-            return Promise.reject(`Unmatched namespace: ${namespace}.`);
-        }
-      })
-    );
-    return accountsList.flat();
-  }
-
-  async addChain(
-    namespace: Namespace,
-    chainInfo: unknown,
-    options?: unknown
-  ): Promise<void> {
-    switch (namespace) {
-      case 'cosmos':
-        this.client.cosmos.request({
-          method: 'cos_addChain',
-          params: chainInfo as AddChainParams,
-        });
-        return;
-      case 'ethereum':
-        this.client.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: chainInfo as WalletAddEthereumChainParam,
-        });
-        return;
-      default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
-    }
-  }
-
-  async switchChain(
-    namespace: Namespace,
-    chainId: string,
-    options?: unknown
-  ): Promise<void> {
-    switch (namespace) {
-      case 'ethereum':
-        await this.client.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId }],
-        });
-        return;
-      default:
-        return Promise.reject(`Unmatched namespace: ${namespace}.`);
-    }
   }
 
   protected _getRequestor(namespace: Namespace) {
@@ -229,16 +62,14 @@ export class CosmostationClient
     }
   }
 
-  protected async _request(
-    namespace: Namespace,
-    method: string,
-    params: unknown,
-    options?: Dist<Method>
-  ) {
+  protected async _request(args: ReqArgs): Promise<unknown> {
+    const { method, namespace, params } = args;
     let _params: unknown = params;
     switch (method) {
       case 'ikeplr_enable':
-        return await this.ikeplr.enable((params as AuthRange).chainIds);
+        return await this.ikeplr.enable(
+          (params as Args.AuthRelated['params']).chainIds
+        );
 
       case 'ikeplr_verifyArbitrary':
         const p = params as VerifyParams.Cosmos.Arbitrary;
@@ -249,9 +80,25 @@ export class CosmostationClient
           p.signature
         );
 
-      case 'cos_signAmino':
-      case 'cos_signDirect':
-        _params = { ...(params as object), ...options?.cosmos };
+      case 'cos_requestAccount':
+        const chainId = (params as Args.GetAccount['params']).chainId;
+        if (chainId === null) {
+          return Promise.reject(
+            'Make sure chainId is provided when requesting Cosmos accounts.'
+          );
+        }
+        _params = { chainName: chainId };
+        break;
+
+      case 'eth_requestAccounts':
+      case 'aptos_account':
+      case 'sui_getAccount':
+      case 'sui_getPublicKey':
+        _params = void 0;
+        break;
+
+      case 'wallet_switchEthereumChain':
+        _params = [params];
         break;
     }
     const resp = await this._getRequestor(namespace).request({
@@ -261,16 +108,74 @@ export class CosmostationClient
     return resp;
   }
 
-  async sign(
-    args: NamespaceData<SignParamsType, SignOptionsMap>
-  ): Promise<AddRaw<SignResp>> {
+  async getAccount(args: Args.GetAccount): Promise<Resp.GetAccount> {
+    const rawList = await this._getAccount(args);
+    const { namespace } = args;
+
+    let account: Resp.GetAccount['neat']['account'];
+    switch (namespace) {
+      case 'cosmos':
+        const key = rawList[0].resp as GetAccountResult.Cosmos;
+        account = {
+          chainId: args.params.chainId,
+          namespace,
+          username: key.name,
+          address: {
+            value: key.address,
+            encoding: 'bech32',
+          },
+          publicKey: {
+            value: getStringFromUint8Array(key.publicKey, 'hex'),
+            encoding: 'hex',
+            algo: key.algo,
+          },
+        } as CosmosWalletAccount;
+        break;
+      case 'ethereum':
+        const ethAddrs = rawList[0].resp as string[];
+        account = ethAddrs.map((address) => ({
+          namespace,
+          address,
+        }));
+        break;
+      case 'aptos':
+        const { address, publicKey } = rawList[0]
+          .resp as GetAccountResult.Aptos;
+        account = { namespace, address, publicKey };
+        break;
+      case 'sui':
+        let suiAddrs: string[], suiPublicKey: string;
+        rawList.forEach(({ method, resp }) => {
+          switch (method) {
+            case 'sui_getAccount':
+              suiAddrs = resp as string[];
+              break;
+            case 'sui_getPublicKey':
+              suiPublicKey = resp as string;
+              break;
+          }
+        });
+        account = suiAddrs.map((address) => ({
+          namespace,
+          address,
+          publicKey: suiPublicKey,
+        }));
+        break;
+      default:
+        break;
+    }
+
+    return { neat: { account }, raw: rawList };
+  }
+
+  async sign(args: Args.DocRelated<SignParamsType>): Promise<Resp.Sign> {
     const raw = await this._sign(args);
 
-    let resp: SignResp;
+    let neat: Resp.Sign['neat'];
     switch (raw.method) {
       case 'cos_signMessage':
         const { pub_key, signature } = raw.resp as SignResult.Cosmos.Message;
-        resp = {
+        neat = {
           publicKey: {
             value: pub_key.value,
             algo: pub_key.type,
@@ -286,7 +191,7 @@ export class CosmostationClient
           signature: docSignature,
           signed_doc,
         } = raw.resp as SignResult.Cosmos.Direct | SignResult.Cosmos.Amino;
-        resp = {
+        neat = {
           publicKey: {
             value: docPubKey.value,
             algo: docPubKey.type,
@@ -301,8 +206,8 @@ export class CosmostationClient
       case 'eth_signTypedData_v3':
       case 'eth_signTypedData_v4':
       case 'aptos_signTransaction':
-        resp = {
-          signature: resp as
+        neat = {
+          signature: neat as
             | SignResult.Ethereum.Sign
             | SignResult.Ethereum.Transaction
             | SignResult.Ethereum.TypedDataV3
@@ -315,44 +220,42 @@ export class CosmostationClient
         const {
           signature: aptosSignature,
         } = raw.resp as SignResult.Aptos.Message;
-        resp = { signature: aptosSignature };
+        neat = { signature: aptosSignature };
         break;
 
       default:
         return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
-  async verify(
-    args: NamespaceData<VerifyParamsType, VerifyOptionsMap>
-  ): Promise<AddRaw<VerifyResp>> {
+  async verify(args: Args.DocRelated<VerifyParamsType>): Promise<Resp.Verify> {
     const raw = await this._verify(args);
 
-    let resp: VerifyResp;
+    let neat: Resp.Verify['neat'];
     switch (raw.method) {
       case 'cos_verifyMessage':
-        resp = { isValid: raw.resp as VerifyResult.Cosmos.Message };
+        neat = { isValid: raw.resp as VerifyResult.Cosmos.Message };
         break;
 
       default:
         return Promise.reject(`Unmatched methos: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
   async broadcast(
-    args: NamespaceData<BroadcastParamsType, BroadcastOptionsMap>
-  ): Promise<AddRaw<BroadcastResp>> {
+    args: Args.DocRelated<BroadcastParamsType>
+  ): Promise<Resp.Broadcast> {
     const raw = await this._broadcast(args);
 
-    let resp: BroadcastResp;
+    let neat: Resp.Broadcast['neat'];
     switch (raw.method) {
       case 'cos_sendTransaction':
         const {
           tx_response: { txhash, height, timestamp },
         } = raw.resp as BroadcastResult.Cosmos.Transaction;
-        resp = {
+        neat = {
           block: {
             hash: txhash,
             height: height as string,
@@ -364,29 +267,29 @@ export class CosmostationClient
       default:
         return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
   async signAndBroadcast(
-    args: NamespaceData<SignAndBroadcastParamsType, SignAndBroadcastOptionsMap>
-  ): Promise<AddRaw<BroadcastResp>> {
+    args: Args.DocRelated<SignAndBroadcastParamsType>
+  ): Promise<Resp.Broadcast> {
     const raw = await this._signAndBroadcast(args);
 
-    let resp: BroadcastResp;
+    let neat: Resp.Broadcast['neat'];
     switch (raw.method) {
       case 'aptos_signAndSubmitTransaction':
         const {
           hash,
           sequence_number,
         } = raw.resp as SignAndBroadcastResult.Aptos.Transaction;
-        resp = {
+        neat = {
           block: { hash, height: sequence_number },
         };
         break;
 
       case 'sui_signAndExecuteTransaction':
         const { digest } = raw.resp as SignAndBroadcastResult.Sui.Transaction;
-        resp = {
+        neat = {
           block: { hash: digest },
         };
         break;
@@ -394,7 +297,7 @@ export class CosmostationClient
       default:
         return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
   on(type: string, listener: EventListenerOrEventListenerObject): void {

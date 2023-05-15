@@ -1,9 +1,9 @@
 import { StdSignature } from '@cosmjs/amino';
 import { GenericCosmosDoc } from '@cosmos-kit/cosmos';
 import { GenericEthDoc } from '@cosmos-kit/ethereum';
-import { BeyondParams } from './types';
+import { GeneralParams } from './types';
 
-export interface SignParamsType extends BeyondParams {
+export interface SignParamsType extends GeneralParams {
   params:
     | SignParams.Cosmos.Amino
     | SignParams.Cosmos.Direct

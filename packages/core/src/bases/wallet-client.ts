@@ -1,117 +1,150 @@
 import {
   Discriminators,
-  Dist,
-  Method,
-  Namespace,
   Raw,
   WalletClientOptions,
-  NamespaceData,
+  Args,
+  ReqArgs,
+  WalletClientMethod,
+  Resp,
 } from '../types';
-import { getMethod } from '../utils';
+import { getRequestArgsList, Logger } from '../utils';
 
 export abstract class WalletClientBase {
   readonly discriminators: Discriminators;
   readonly options?: WalletClientOptions;
+  logger: Logger = new Logger('WARN');
 
   constructor(discriminators: Discriminators, options?: WalletClientOptions) {
     this.discriminators = discriminators;
     this.options = options;
   }
 
-  protected abstract _request(
-    namespace: Namespace,
-    method: string,
-    params: unknown,
-    options?: Dist<Method>
-  ): Promise<unknown>;
+  protected abstract _request(args: ReqArgs): Promise<unknown>;
 
-  protected async _enable(
-    args: NamespaceData<unknown, Dist<Method>>
-  ): Promise<Raw> {
-    const { namespace, data: params, options } = args;
-    const _options = options || this.options?.enableOptions;
-    const method = getMethod(
-      this.discriminators.enable,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params, _options);
-    return { method, resp };
+  protected async _applyGobalOptions(
+    args: Args.General | Args.General[],
+    type: WalletClientMethod
+  ): Promise<Args.General | Args.General[]> {
+    let _args: Args.General | Args.General[];
+    if (Array.isArray(args)) {
+      _args = args.map((argsItem) => ({
+        ...argsItem,
+        options: argsItem.options || this.options?.[type],
+      }));
+    } else {
+      _args = {
+        ...args,
+        options: args.options || this.options?.[type],
+      };
+    }
+    return _args;
   }
 
-  protected async _disable(
-    args: NamespaceData<unknown, Dist<Method>>
-  ): Promise<Raw> {
-    const { namespace, data: params, options } = args;
-    const _options = options || this.options?.disableOptions;
-    const method = getMethod(
-      this.discriminators.disable,
-      namespace,
-      params,
-      _options
+  protected async _getRawList(
+    args: Args.General | Args.General[],
+    type: WalletClientMethod
+  ): Promise<Raw[]> {
+    const _args = await this._applyGobalOptions(args, type);
+    const reqArgsList = getRequestArgsList(this.discriminators[type], _args);
+    const rawList = await Promise.all(
+      reqArgsList.map(async (reqArgs) => {
+        return {
+          method: reqArgs.method,
+          resp: await this._request(reqArgs),
+        };
+      })
     );
-    const resp = await this._request(namespace, method, params, _options);
-    return { method, resp };
+    return rawList;
   }
 
-  protected async _sign(
-    args: NamespaceData<unknown, Dist<Method>>
+  protected async _getRaw(
+    args: Args.General | Args.General[],
+    type: WalletClientMethod
   ): Promise<Raw> {
-    const { namespace, data: params, options } = args;
-    const _options = options || this.options?.signOptions;
-    const method = getMethod(
-      this.discriminators.sign,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params, _options);
-    return { method, resp };
+    const _args = await this._applyGobalOptions(args, type);
+    const reqArgsList = getRequestArgsList(this.discriminators[type], _args);
+    if (reqArgsList.length > 1) {
+      this.logger.warn(
+        "Multiple methods fits the args. We'll only choose the first method for requesting."
+      );
+    }
+    const resp = await this._request(reqArgsList[0]);
+    return { method: reqArgsList[0].method, resp };
   }
 
-  protected async _verify(
-    args: NamespaceData<unknown, Dist<Method>>
-  ): Promise<Raw> {
-    const { namespace, data: params, options } = args;
-    const _options = options || this.options?.verifyOptions;
-    const method = getMethod(
-      this.discriminators.verify,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params, _options);
-    return { method, resp };
+  protected async _enable(args: Args.AuthRelated[]): Promise<Raw[]> {
+    return this._getRawList(args, 'enable');
   }
 
-  protected async _broadcast(
-    args: NamespaceData<unknown, Dist<Method>>
-  ): Promise<Raw> {
-    const { namespace, data: params, options } = args;
-    const _options = options || this.options?.broadcastOptions;
-    const method = getMethod(
-      this.discriminators.sign,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params, _options);
-    return { method, resp };
+  protected async _disable(args: Args.AuthRelated[]): Promise<Raw[]> {
+    return this._getRawList(args, 'disable');
+  }
+
+  protected async _getAccount(args: Args.GetAccount): Promise<Raw[]> {
+    return this._getRawList(args, 'getAccount');
+  }
+
+  protected async _addChain(args: Args.AddChain): Promise<Raw> {
+    return this._getRaw(args, 'addChain');
+  }
+
+  protected async _switchChain(args: Args.SwitchChain): Promise<Raw> {
+    return this._getRaw(args, 'switchChain');
+  }
+
+  protected async _sign(args: Args.DocRelated<unknown>): Promise<Raw> {
+    return this._getRaw(args, 'sign');
+  }
+
+  protected async _verify(args: Args.DocRelated<unknown>): Promise<Raw> {
+    return this._getRaw(args, 'verify');
+  }
+
+  protected async _broadcast(args: Args.DocRelated<unknown>): Promise<Raw> {
+    return this._getRaw(args, 'broadcast');
   }
 
   protected async _signAndBroadcast(
-    args: NamespaceData<unknown, Dist<Method>>
+    args: Args.DocRelated<unknown>
   ): Promise<Raw> {
-    const { namespace, data: params, options } = args;
-    const _options = options || this.options?.signAndBroadcastOptions;
-    const method = getMethod(
-      this.discriminators.sign,
-      namespace,
-      params,
-      _options
-    );
-    const resp = await this._request(namespace, method, params, _options);
-    return { method, resp };
+    return this._getRaw(args, 'signAndBroadcast');
+  }
+
+  async enable(args: Args.AuthRelated[]): Promise<Resp.Void> {
+    return { raw: await this._enable(args) };
+  }
+
+  async disable(args: Args.AuthRelated[]): Promise<Resp.Void> {
+    return { raw: await this._disable(args) };
+  }
+
+  async getAccount(args: Args.GetAccount): Promise<Resp.GetAccount> {
+    return { raw: await this._getAccount(args) };
+  }
+
+  async addChain(args: Args.AddChain): Promise<Resp.Void> {
+    return { raw: await this._addChain(args) };
+  }
+
+  async switchChain(args: Args.SwitchChain): Promise<Resp.Void> {
+    return { raw: await this._switchChain(args) };
+  }
+
+  async sign(args: Args.DocRelated<unknown>): Promise<Resp.Sign> {
+    return { raw: await this._sign(args) };
+  }
+
+  async verify(args: Args.DocRelated<unknown>): Promise<Resp.Verify> {
+    return { raw: await this._verify(args) };
+  }
+
+  async broadcast(args: Args.DocRelated<unknown>): Promise<Resp.Broadcast> {
+    return { raw: await this._broadcast(args) };
+  }
+
+  async signAndBroadcast(
+    args: Args.DocRelated<unknown>
+  ): Promise<Resp.Broadcast> {
+    return { raw: await this._signAndBroadcast(args) };
   }
 }

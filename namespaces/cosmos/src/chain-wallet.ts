@@ -24,7 +24,7 @@ import { SignDoc, TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { CosmosClientType, CosmosSignType } from './types';
 import { getNameServiceRegistryFromChainName } from './utils';
 import { CosmosNameService } from './name-service';
-import { CosmosSignature, CosmosWalletAccount } from './types';
+import { CosmosSignResp, CosmosWalletAccount } from './types';
 import { AccountData, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 
 export class CosmosChainWalletBase extends ChainWalletBase {
@@ -83,12 +83,12 @@ export class CosmosChainWalletBase extends ChainWalletBase {
     return {
       getAccount: this._getAccount,
       signAmino: async (signerAddress: string, signDoc: StdSignDoc) => {
-        const signature: CosmosSignature = (await this.client?.sign(
+        const signature: CosmosSignResp = (await this.client?.sign(
           'cosmos',
           this.chainId,
           signerAddress,
           signDoc
-        )) as CosmosSignature;
+        )) as CosmosSignResp;
         return {
           signed: (signature.signedDoc || signDoc) as StdSignDoc,
           signature: {
@@ -104,12 +104,12 @@ export class CosmosChainWalletBase extends ChainWalletBase {
     return {
       getAccount: this._getAccount,
       signDirect: async (signerAddress: string, signDoc: SignDoc) => {
-        const signature: CosmosSignature = (await this.client?.sign(
+        const signature: CosmosSignResp = (await this.client?.sign(
           'cosmos',
           this.chainId,
           signerAddress,
           signDoc
-        )) as CosmosSignature;
+        )) as CosmosSignResp;
         return {
           signed: (signature.signedDoc || signDoc) as SignDoc,
           signature: {

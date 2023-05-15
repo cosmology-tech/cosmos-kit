@@ -99,3 +99,14 @@ export type EncodedString =
       value: string;
       encoding: Encoding;
     };
+
+export interface HttpEndpoint {
+  /**
+   * The URL of the HTTP endpoint.
+   */
+  readonly url: string;
+  /**
+   * HTTP headers that are sent with every request, such as authorization information.
+   */
+  readonly headers: Record<string, string>;
+}

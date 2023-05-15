@@ -1,6 +1,5 @@
 import {
   ExpiredError,
-  Logger,
   AppUrl,
   Mutable,
   RejectedError,
@@ -10,15 +9,14 @@ import {
   WalletClient,
   WalletClientActions,
   DappEnv,
-  AuthRange,
-  AddRaw,
   Namespace,
-  SignResp,
-  BroadcastResp,
   WalletClientBase,
-  Dist,
-  Method,
-  NamespaceData,
+  Args,
+  Resp,
+  ReqArgs,
+  ChainId,
+  Raw,
+  NoSessionError,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -26,19 +24,15 @@ import { PairingTypes, SessionTypes } from '@walletconnect/types';
 import EventEmitter from 'events';
 import { CoreUtil, getPrefix } from './utils';
 import {
-  EnableOptions,
-  EnableOptionsMap,
   WalletConnectOptions,
-  RequestAccount1,
-  RequestAccount2,
-  RequestAccount3,
-  BroadcastOptionsMap,
-  SignAndBroadcastOptionsMap,
-  SignOptionsMap,
-  BeyondParams,
+  CosmosAccount,
+  SolanaAccount,
+  NearAccount,
   BroadcastParamsType,
+  GeneralParams,
+  TezosAccount,
 } from './types';
-import { defaultEnableOptions, discriminators } from './config';
+import { namespacesConfig, discriminators } from './config';
 import {
   SignAndBroadcastParamsType,
   SignAndBroadcastResult,
@@ -61,7 +55,6 @@ export class WCClient extends WalletClientBase implements WalletClient {
   pairings: PairingTypes.Struct[] = [];
   sessions: SessionTypes.Struct[] = [];
   emitter?: EventEmitter;
-  logger?: Logger;
   relayUrl?: string;
   env?: DappEnv;
 
@@ -221,6 +214,16 @@ export class WCClient extends WalletClientBase implements WalletClient {
     this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
   }
 
+  protected _getSession(prefix: string, chainId: string): SessionTypes.Struct {
+    return this.sessions.find((s) => {
+      if (!s.namespaces[prefix]) {
+        return false;
+      }
+      const { accounts } = s.namespaces[prefix];
+      return accounts.find((acc) => acc.startsWith(`${prefix}:${chainId}`));
+    });
+  }
+
   protected _getSessionWithMethod(
     prefix: string,
     chainId: string,
@@ -238,21 +241,31 @@ export class WCClient extends WalletClientBase implements WalletClient {
     });
 
     if (typeof session === 'undefined') {
-      throw new Error(
-        `Session for ${chainId} with method ${method} not established yet.`
-      );
+      throw NoSessionError;
     }
     return session;
   }
 
-  protected _getSession(prefix: string, chainId: string): SessionTypes.Struct {
-    return this.sessions.find((s) => {
-      if (!s.namespaces[prefix]) {
-        return false;
-      }
-      const { accounts } = s.namespaces[prefix];
-      return accounts.find((acc) => acc.startsWith(`${prefix}:${chainId}`));
+  protected _getAccountFromSession(
+    namespace: Namespace,
+    chainId: string
+  ): WalletAccount[] {
+    const prefix = getPrefix(namespace);
+    const session = this._getSession(prefix, chainId);
+    const accounts: WalletAccount[] = [];
+    Object.entries(session.namespaces).forEach(([, nsValue]) => {
+      nsValue.accounts.forEach((account) => {
+        const [prefix2, chainId, address] = account.split(':');
+        if (prefix === prefix2) {
+          accounts.push({
+            address: address,
+            namespace,
+            chainId,
+          });
+        }
+      });
     });
+    return accounts;
   }
 
   get walletName() {
@@ -380,7 +393,7 @@ export class WCClient extends WalletClientBase implements WalletClient {
     }
   }
 
-  async enable(authRange: AuthRange, options?: EnableOptionsMap) {
+  async enable(args: Args.AuthRelated[]): Promise<Resp.Void> {
     if (typeof this.signClient === 'undefined') {
       await this.init();
     }
@@ -395,22 +408,21 @@ export class WCClient extends WalletClientBase implements WalletClient {
 
     if (this.displayQRCode) this.setQRState(State.Pending);
 
-    const _options =
-      options || this.options?.enableOptions || defaultEnableOptions;
     const requiredNamespaces = Object.fromEntries(
-      Object.entries(authRange).map(([ns, { chainIds }]) => {
-        if (typeof _options[ns] === 'undefined') {
-          throw new Error(`Unknown namespace ${ns} for WalletConnect.`);
+      args.map(({ namespace, params }) => {
+        if (!namespacesConfig[namespace]) {
+          throw new Error(`No matched config for namespace ${namespace}.`);
         }
-        const { prefix, methods, events } = _options[ns] as EnableOptions;
+        const { prefix, methods, events } = namespacesConfig[namespace];
+
         return [
           prefix,
           {
-            chains: chainIds
-              ? chainIds.map((chainId) => `${prefix}:${chainId}`)
+            chains: params.chainIds
+              ? params.chainIds.map((chainId) => `${prefix}:${chainId}`)
               : void 0,
-            methods,
-            events,
+            methods: params.methods || methods,
+            events: params.events || events,
           },
         ];
       })
@@ -418,7 +430,7 @@ export class WCClient extends WalletClientBase implements WalletClient {
 
     let connectResp: any;
     try {
-      this.logger?.debug('Connecting namespaces:', _options);
+      this.logger?.debug('Connecting namespaces:', requiredNamespaces);
       connectResp = await this.signClient.connect({
         pairingTopic: pairing?.topic,
         requiredNamespaces,
@@ -455,12 +467,10 @@ export class WCClient extends WalletClientBase implements WalletClient {
         this.setQRState(State.Init);
       }
     }
+    return {};
   }
 
-  async disable(authRange: AuthRange, options?: unknown) {
-    if (typeof this.signClient === 'undefined') {
-      await this.init();
-    }
+  async disable(args?: Args.AuthRelated[]): Promise<Resp.Void> {
     if (this.sessions.length === 0) {
       return;
     }
@@ -480,157 +490,108 @@ export class WCClient extends WalletClientBase implements WalletClient {
       }
     }
     this.sessions = [];
+    return {};
   }
 
-  protected getAccountFromSession(
-    namespace: Namespace,
-    prefix: string,
-    chainId: string
-  ): WalletAccount[] {
-    const session = this._getSession(prefix, chainId);
-    const accounts: WalletAccount[] = [];
-    Object.entries(session.namespaces).forEach(([, nsValue]) => {
-      nsValue.accounts.forEach((account) => {
-        const [prefix2, chainId, address] = account.split(':');
-        if (prefix === prefix2) {
-          accounts.push({
-            address: address,
-            namespace,
-            chainId,
-          });
-        }
-      });
-    });
-    return accounts;
-  }
-
-  async getAccount(
-    authRange: AuthRange,
-    options?: unknown
-  ): Promise<AddRaw<WalletAccount>[]> {
-    const accountsList = await Promise.all(
-      Object.entries(authRange).map(async ([namespace, { chainIds }]) => {
-        if (!chainIds) {
-          return Promise.reject('No chainIds provided.');
-        }
-        const prefix = getPrefix(namespace as Namespace);
-        return Promise.all(
-          chainIds.map(async (chainId) => {
-            const sessionAccounts = this.getAccountFromSession(
-              namespace as Namespace,
-              prefix,
-              chainId
-            );
-            let method: string;
-            switch (namespace) {
-              case 'ethereum':
-              case 'everscale':
-              case 'stellar':
-                return sessionAccounts;
-              case 'cosmos':
-                method = 'cosmos_getAccount';
-              case 'tezos':
-                method = 'tezos_getAccount';
-              case 'solana':
-                method = 'solana_getAccount';
-              case 'near':
-                method = 'near_getAccount';
-
-                let requestAccounts;
-                try {
-                  requestAccounts = await this._request(namespace, method, {
-                    chainId,
-                    params: {},
-                  });
-                } catch (error) {
-                  if (
-                    (error as Error).message ===
-                    `Session for ${chainId} with method ${method} not established yet.`
-                  ) {
-                    return sessionAccounts;
-                  } else {
-                    throw error;
-                  }
-                }
-
-                if (namespace == 'cosmos' || namespace == 'tezos') {
-                  return (requestAccounts as RequestAccount1[]).map(
-                    (acc) =>
-                      ({
-                        address: acc.address,
-                        namespace,
-                        chainId,
-                        publicKey: {
-                          value: acc.pubkey,
-                          algo: acc.algo,
-                        },
-                      } as WalletAccount)
-                  );
-                } else if (namespace == 'solana') {
-                  return (requestAccounts as RequestAccount2[]).map(
-                    (acc) =>
-                      ({
-                        address: acc.pubkey,
-                        namespace,
-                        chainId,
-                        publicKey: acc.pubkey,
-                      } as WalletAccount)
-                  );
-                } else if (namespace == 'near') {
-                  return (requestAccounts as RequestAccount3[]).map(
-                    (acc) =>
-                      ({
-                        name: acc.accountId,
-                        namespace,
-                        chainId,
-                        publicKey: acc.pubkey,
-                      } as WalletAccount)
-                  );
-                }
-              default:
-                return Promise.reject(`Unmatched namespace: ${namespace}.`);
-            }
-          })
-        );
-      })
+  protected async _request(args: ReqArgs): Promise<unknown> {
+    const { method, namespace, params } = args;
+    const { chainId, params: _params } = params as GeneralParams;
+    const prefix = getPrefix(namespace);
+    const session = this._getSessionWithMethod(
+      prefix,
+      chainId as ChainId,
+      method
     );
-    return accountsList.flat().flat();
-  }
-
-  protected async _request(
-    namespace: Namespace,
-    method: string,
-    params: BeyondParams & { params: unknown },
-    options: Dist<Method>
-  ) {
-    const prefix = getPrefix(namespace as Namespace);
-    const session = this._getSessionWithMethod(prefix, params.chainId, method);
 
     const resp = await this.signClient.request({
       topic: session.topic,
-      chainId: `${prefix}:${params.chainId}`,
+      chainId: `${prefix}:${chainId}`,
       request: {
         method,
-        params: params.params,
+        params: _params,
       },
     });
 
     return resp;
   }
 
-  async sign(
-    args: NamespaceData<SignParamsType, SignOptionsMap>
-  ): Promise<AddRaw<SignResp>> {
+  async getAccount(args: Args.GetAccount): Promise<Resp.GetAccount> {
+    const {
+      namespace,
+      params: { chainId },
+    } = args;
+    const sessionAccounts = this._getAccountFromSession(namespace, chainId);
+
+    let raw: Raw;
+    let account: Resp.GetAccount['neat']['account'];
+    switch (namespace) {
+      case 'ethereum':
+      case 'everscale':
+      case 'stellar':
+        account = sessionAccounts;
+        break;
+      case 'cosmos':
+      case 'tezos':
+      case 'solana':
+      case 'near':
+        try {
+          raw = await this._getRawList(
+            { ...args, params: { chainId, params: {} } },
+            'getAccount'
+          )[0];
+
+          switch (namespace) {
+            case 'cosmos':
+            case 'tezos':
+              account = (raw.resp as (CosmosAccount | TezosAccount)[]).map(
+                (acc) => ({
+                  address: acc.address,
+                  namespace,
+                  chainId,
+                  publicKey: {
+                    value: acc.pubkey,
+                    algo: acc.algo,
+                  },
+                })
+              );
+              break;
+            case 'solana':
+              account = (raw.resp as SolanaAccount[]).map((acc) => ({
+                address: acc.pubkey,
+                namespace,
+                chainId,
+                publicKey: acc.pubkey,
+              }));
+              break;
+            case 'near':
+              account = (raw.resp as NearAccount[]).map((acc) => ({
+                name: acc.accountId,
+                namespace,
+                chainId,
+                publicKey: acc.pubkey,
+              }));
+              break;
+          }
+        } catch (error) {
+          this.logger.error(error);
+          account = sessionAccounts;
+        }
+        break;
+    }
+    return { neat: { account }, raw };
+  }
+
+  async sign(args: Args.DocRelated<SignParamsType>): Promise<Resp.Sign> {
     const raw = await this._sign(args);
 
-    let resp: SignResp;
+    let neat: Resp.Sign['neat'];
     switch (raw.method) {
       case 'cosmos_signDirect':
       case 'cosmos_signAmino':
         const { signature, signed } = raw.resp as
           | SignResult.Cosmos.Direct
           | SignResult.Cosmos.Amino;
-        resp = {
+        neat = {
           signature: signature.signature,
           publicKey: {
             value: signature.pub_key.value,
@@ -644,11 +605,11 @@ export class WCClient extends WalletClientBase implements WalletClient {
       case 'eth_sign':
       case 'eth_signTypedData':
       case 'eth_signTransaction':
-        resp = { signature: raw.resp as SignResult.Ethereum.PersonalSign };
+        neat = { signature: raw.resp as SignResult.Ethereum.PersonalSign };
         break;
 
       case 'ever_signMessage':
-        resp = {
+        neat = {
           signedDoc: (raw.resp as SignResult.Everscale.Message)
             .signed_ext_message,
         };
@@ -659,7 +620,7 @@ export class WCClient extends WalletClientBase implements WalletClient {
           signature: everSignature,
           pubkey,
         } = raw.resp as SignResult.Everscale.Sign;
-        resp = {
+        neat = {
           signature: { value: everSignature, encoding: 'base64' },
           publicKey: pubkey,
         };
@@ -667,24 +628,24 @@ export class WCClient extends WalletClientBase implements WalletClient {
 
       case 'solana_signTransaction':
       case 'solana_signMessage':
-        resp = {
+        neat = {
           signature: (raw.resp as SignResult.Solana.Transaction).signature,
         };
         break;
 
       case 'stellar_signXDR':
-        resp = { signedDoc: (raw.resp as SignResult.Stella.XDR).signedXDR };
+        neat = { signedDoc: (raw.resp as SignResult.Stella.XDR).signedXDR };
         break;
 
       case 'near_signTransaction':
       case 'near_signTransactions':
-        resp = { signedDoc: raw.resp as Uint8Array | Uint8Array[] };
+        neat = { signedDoc: raw.resp as Uint8Array | Uint8Array[] };
         break;
 
       case 'xrpl_signTransaction':
       case 'xrpl_signTransactionFor':
         const { tx_json } = raw.resp as SignResult.XRPL.Transaction;
-        resp = {
+        neat = {
           signature: tx_json.TxnSignature,
           publicKey: tx_json.SigningPubKey,
         };
@@ -693,18 +654,18 @@ export class WCClient extends WalletClientBase implements WalletClient {
       default:
         return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
   async broadcast(
-    args: NamespaceData<BroadcastParamsType, BroadcastOptionsMap>
-  ): Promise<AddRaw<BroadcastResp>> {
+    args: Args.DocRelated<BroadcastParamsType>
+  ): Promise<Resp.Broadcast> {
     const raw = await this._broadcast(args);
 
-    let resp: BroadcastResp;
+    let neat: Resp.Broadcast['neat'];
     switch (raw.method) {
       case 'eth_sendRawTransaction':
-        resp = {
+        neat = {
           block: {
             hash: raw.resp as SignAndBroadcastResult.Ethereum.Transaction,
           },
@@ -713,18 +674,18 @@ export class WCClient extends WalletClientBase implements WalletClient {
       default:
         return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
   async signAndBroadcast(
-    args: NamespaceData<SignAndBroadcastParamsType, SignAndBroadcastOptionsMap>
-  ): Promise<AddRaw<BroadcastResp>> {
+    args: Args.DocRelated<SignAndBroadcastParamsType>
+  ): Promise<Resp.Broadcast> {
     const raw = await this._signAndBroadcast(args);
 
-    let resp: BroadcastResp;
+    let neat: Resp.Broadcast['neat'];
     switch (raw.method) {
       case 'eth_signTransaction':
-        resp = {
+        neat = {
           block: {
             hash: raw.resp as SignAndBroadcastResult.Ethereum.Transaction,
           },
@@ -733,12 +694,12 @@ export class WCClient extends WalletClientBase implements WalletClient {
 
       case 'ever_processMessage':
         const { tx_id } = raw.resp as SignAndBroadcastResult.Everscale.Message;
-        resp = { block: { hash: tx_id } };
+        neat = { block: { hash: tx_id } };
         break;
 
       case 'stellar_signAndSubmitXDR':
         // raw.resp as SignAndBroadcastResult.Stella.XDR
-        resp = {};
+        neat = {};
         break;
 
       case 'xrpl_signTransaction':
@@ -746,20 +707,20 @@ export class WCClient extends WalletClientBase implements WalletClient {
         const {
           tx_json: { hash },
         } = raw.resp as SignAndBroadcastResult.XRPL.Transaction;
-        resp = { block: { hash } };
+        neat = { block: { hash } };
         break;
 
       case 'tezos_send':
         const {
           operation_hash,
         } = raw.resp as SignAndBroadcastResult.Tezos.Send;
-        resp = { block: { hash: operation_hash } };
+        neat = { block: { hash: operation_hash } };
         break;
 
       default:
         return Promise.reject(`Unmatched method: ${raw.method}.`);
     }
-    return { ...resp, raw };
+    return { neat, raw };
   }
 
   // restoreLatestSession() {

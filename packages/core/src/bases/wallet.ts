@@ -7,7 +7,7 @@ import {
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, RejectedError, Session } from '../utils';
+import { ClientNotExistError, Logger, RejectedError, Session } from '../utils';
 import { StateBase } from './state';
 import EventEmitter from 'events';
 

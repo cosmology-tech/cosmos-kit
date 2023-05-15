@@ -1,16 +1,16 @@
 import { Algo } from '@cosmjs/amino';
 import {
   EncodedString,
-  PublicKey,
-  SignResp,
+  PublicKeyObject,
   WalletAccount,
+  Resp,
 } from '@cosmos-kit/core';
 
-export interface CosmosPublicKey1 extends PublicKey {
+export interface CosmosPublicKey1 extends PublicKeyObject {
   algo: Algo;
 }
 
-export interface CosmosPublicKey2 extends PublicKey {
+export interface CosmosPublicKey2 extends PublicKeyObject {
   type: string;
 }
 
@@ -23,6 +23,6 @@ export interface CosmosWalletAccount extends WalletAccount {
   isLedger?: boolean;
 }
 
-export interface CosmosSignature extends SignResp {
+export interface CosmosSignResp extends Resp.Sign {
   publicKey: CosmosPublicKey2;
 }

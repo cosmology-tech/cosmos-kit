@@ -1,5 +1,4 @@
 import {
-  AuthRange,
   ChainRecord,
   ExtendedHttpEndpoint,
   NameService,
@@ -93,7 +92,7 @@ export abstract class ChainWalletBase extends WalletBase {
     this.session?.update();
   }
 
-  initClient(_options?: any): void | Promise<void> {
+  initClient(options?: any): void | Promise<void> {
     throw new Error('initClient not implemented');
   }
 
@@ -101,7 +100,7 @@ export abstract class ChainWalletBase extends WalletBase {
     this.setState(State.Pending);
     this.setMessage(void 0);
 
-    const authRange: AuthRange = {
+    const authRange: ChainRange = {
       [this.namespace]: { chainIds: [this.chainId] },
     };
 
