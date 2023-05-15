@@ -24,7 +24,7 @@ export class StationClient implements WalletClient {
   }
 
   async getAccount(chainId: string): Promise<WalletAccount> {
-    const account = await this.client.connect();
+    let account = await this.client.connect();
     const infos = await this.client.info();
     const networkInfo = infos[chainId];
 
@@ -35,13 +35,18 @@ export class StationClient implements WalletClient {
     }
 
     const coinTypeByChainId = networkInfo.coinType;
-    const accountPubkey = account.pubkey[coinTypeByChainId];
 
-    if (!accountPubkey) {
-      return Promise.reject(
-        `Can't find pubkey in Station Wallet.(Coin type: ${coinTypeByChainId})`
-      );
+    if(!account.pubkey) {
+      account = await this.client.getPubKey();
+
+      if (!account?.pubkey) {
+        return Promise.reject(
+          `Cannot find account public key.`
+        );
+      }
     }
+
+    const accountPubkey = account.pubkey[coinTypeByChainId];
 
     return {
       address: account.addresses[chainId],
