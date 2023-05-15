@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.34.1...@cosmos-kit/keplr-extension@0.35.0) (2023-05-15)
+
+
+### Features
+
+* update vectis extension and support for smart contract key ([89462d2](https://github.com/cosmology-tech/cosmos-kit/commit/89462d2f876a9dd955fb1dcba82d747463d63737))
+
+
+
+
+
 ## [0.34.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.34.0...@cosmos-kit/keplr-extension@0.34.1) (2023-05-04)
 
 **Note:** Version bump only for package @cosmos-kit/keplr-extension

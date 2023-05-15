@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/web3auth",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "cosmos-kit wallet connector for Web3Auth",
   "author": "noah@noah.zone",
   "contributors": [
@@ -91,7 +91,7 @@
   "dependencies": {
     "@cosmjs/cosmwasm-stargate": "^0.30.1",
     "@cosmjs/stargate": "^0.30.1",
-    "@cosmos-kit/core": "^1.4.1",
+    "@cosmos-kit/core": "^1.5.0",
     "@walletconnect/client": "^1.8.0",
     "@web3auth/base": "^5.1.0",
     "@web3auth/modal": "^5.1.1",

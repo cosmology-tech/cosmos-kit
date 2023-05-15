@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.4.1...@cosmos-kit/core@1.5.0) (2023-05-15)
+
+
+### Features
+
+* update vectis extension and support for smart contract key ([89462d2](https://github.com/cosmology-tech/cosmos-kit/commit/89462d2f876a9dd955fb1dcba82d747463d63737))
+* use post for endpoint validation ([7591979](https://github.com/cosmology-tech/cosmos-kit/commit/7591979f3bf391051be52473782ee467f63062c1))
+
+
+
+
+
 ## [1.4.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.4.0...@cosmos-kit/core@1.4.1) (2023-05-04)
 
 **Note:** Version bump only for package @cosmos-kit/core

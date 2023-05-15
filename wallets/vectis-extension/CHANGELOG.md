@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.15.23...@cosmos-kit/vectis-extension@0.16.0) (2023-05-15)
+
+
+### Features
+
+* update vectis extension and support for smart contract key ([89462d2](https://github.com/cosmology-tech/cosmos-kit/commit/89462d2f876a9dd955fb1dcba82d747463d63737))
+
+
+
+
+
 ## [0.15.23](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.15.22...@cosmos-kit/vectis-extension@0.15.23) (2023-05-04)
 
 **Note:** Version bump only for package @cosmos-kit/vectis-extension
