@@ -1,4 +1,5 @@
 import {
+  Args,
   Callbacks,
   DownloadInfo,
   Mutable,
@@ -7,7 +8,13 @@ import {
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, Logger, RejectedError, Session } from '../utils';
+import {
+  ClientNotExistError,
+  Logger,
+  NoMatchedMethodError,
+  RejectedError,
+  Session,
+} from '../utils';
 import { StateBase } from './state';
 import EventEmitter from 'events';
 
@@ -117,11 +124,17 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  disconnect = async () => {
+  disconnect = async (args?: Args.AuthRelated[]) => {
     await this.callbacks?.beforeDisconnect?.();
     this.reset();
     window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
-    await this.client?.disconnect?.();
+    try {
+      await this.client.disable(args);
+    } catch (error) {
+      if ((error as Error).message !== NoMatchedMethodError.message) {
+        throw error;
+      }
+    }
     await this.callbacks?.afterDisconnect?.();
   };
 

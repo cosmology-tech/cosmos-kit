@@ -25,7 +25,7 @@ export namespace Resp {
 
   export interface GetAccount extends General {
     neat?: {
-      account: WalletAccount | WalletAccount[];
+      account: WalletAccount[];
     };
   }
   /**

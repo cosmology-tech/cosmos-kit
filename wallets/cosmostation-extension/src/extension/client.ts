@@ -24,6 +24,7 @@ import {
 } from './types';
 import { SignResult } from './types';
 import { discriminators } from './config';
+import { AddChainParams } from '@cosmostation/extension-client/types/message';
 
 export class CosmostationClient
   extends WalletClientBase
@@ -66,7 +67,7 @@ export class CosmostationClient
     const { method, namespace, params } = args;
     let _params: unknown = params;
     switch (method) {
-      case 'ikeplr_enable':
+      case 'cos_enable':
         return await this.ikeplr.enable(
           (params as Args.AuthRelated['params']).chainIds
         );
@@ -116,20 +117,22 @@ export class CosmostationClient
     switch (namespace) {
       case 'cosmos':
         const key = rawList[0].resp as GetAccountResult.Cosmos;
-        account = {
-          chainId: args.params.chainId,
-          namespace,
-          username: key.name,
-          address: {
-            value: key.address,
-            encoding: 'bech32',
+        account = [
+          {
+            chainId: args.params.chainId,
+            namespace,
+            username: key.name,
+            address: {
+              value: key.address,
+              encoding: 'bech32',
+            },
+            publicKey: {
+              value: getStringFromUint8Array(key.publicKey, 'hex'),
+              encoding: 'hex',
+              algo: key.algo,
+            },
           },
-          publicKey: {
-            value: getStringFromUint8Array(key.publicKey, 'hex'),
-            encoding: 'hex',
-            algo: key.algo,
-          },
-        } as CosmosWalletAccount;
+        ] as CosmosWalletAccount[];
         break;
       case 'ethereum':
         const ethAddrs = rawList[0].resp as string[];
@@ -141,7 +144,7 @@ export class CosmostationClient
       case 'aptos':
         const { address, publicKey } = rawList[0]
           .resp as GetAccountResult.Aptos;
-        account = { namespace, address, publicKey };
+        account = [{ namespace, address, publicKey }];
         break;
       case 'sui':
         let suiAddrs: string[], suiPublicKey: string;
@@ -166,6 +169,10 @@ export class CosmostationClient
     }
 
     return { neat: { account }, raw: rawList };
+  }
+
+  async addChain(args: Args.AddChain<AddChainParams>): Promise<Resp.Void> {
+    return { raw: await this._addChain(args) };
   }
 
   async sign(args: Args.DocRelated<SignParamsType>): Promise<Resp.Sign> {

@@ -3261,7 +3261,7 @@
   resolved "https://registry.npmjs.org/@cosmostation/extension-client/-/extension-client-0.1.11.tgz#d6b447cfd9cf7613ec485b57327819b14735cf13"
   integrity sha512-CkmNPmYn07UhP0z3PxGRRpgTcBJ/gS1ay/J2jfYsBi/4gnXvpQ3xOZdMU0qdxhFOjh1Xt7kflYsztk9ljMnJcw==
 
-"@cosmostation/extension-client@^0.1.15":
+"@cosmostation/extension-client@0.1.15":
   version "0.1.15"
   resolved "https://registry.npmjs.org/@cosmostation/extension-client/-/extension-client-0.1.15.tgz#cdc6d8fce42217704c1c0d5814f0ee7ce27e8dab"
   integrity sha512-HlXYJjFrNpjiV/GUKhri1UL8/bhlOIFFLpRF78YDSqq16x0+plIqx5CAvEusFcKTDpVfpeD5sfUHiKvP7euNFg==
@@ -3988,6 +3988,14 @@
   version "0.11.58"
   resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.58.tgz#b142f1f6b47106466d81acf89485575a184aae3a"
   integrity sha512-dct9JVXuSlutgnUO8E9WoAxp4dmK+X2fDTWNA4mkgJhUQyN0VzCaKyC9whWLRuYRnAe9xFQ1g9Xo1OlCLPlH8w==
+  dependencies:
+    axios "^0.27.2"
+    long "^4.0.0"
+
+"@keplr-wallet/types@^0.11.62":
+  version "0.11.62"
+  resolved "https://registry.npmjs.org/@keplr-wallet/types/-/types-0.11.62.tgz#8b120ed0798dc49441051c8f2f05dae82fac2efb"
+  integrity sha512-u8K0jYqWFwZdPoHlgTx28F1QqSlYDIT2GoDJYfr0B3apq98WNBIAMbNwQhDtqvuBoM1yLlCmhEN+YEtygHj6XA==
   dependencies:
     axios "^0.27.2"
     long "^4.0.0"

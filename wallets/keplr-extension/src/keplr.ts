@@ -1,4 +1,4 @@
-import { preferredEndpoints } from './config';
+import { preferredEndpoints } from './config/endpoints';
 import { keplrExtensionInfo, KeplrExtensionWallet } from './extension';
 
 const keplrExtension = new KeplrExtensionWallet(

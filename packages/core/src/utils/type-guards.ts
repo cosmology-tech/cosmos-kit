@@ -8,7 +8,7 @@ import {
   Options,
   Discriminator,
 } from '../types';
-import { NoMethodError } from './error';
+import { NoMatchedMethodError } from './error';
 
 type Key2Type = { [k: string]: TypeName | TypedArrayType };
 
@@ -70,16 +70,16 @@ export function isEncodedString(arg: unknown): arg is EncodedString {
   return hasRequiredKeyType(arg, { value: 'string' });
 }
 
-export const isGreedy: Discriminator = (params: unknown, options?: Options) {
+export const isGreedy: Discriminator = (params: unknown, options?: Options) => {
   return Boolean(options?.greedy);
-}
+};
 
 export function getRequestArgsList(
   discriminatorMap: DiscriminatorMap | undefined,
   args: Args.General | Args.General[]
 ): ReqArgs[] {
   if (!discriminatorMap) {
-    throw new Error('discriminatorMap cannot be undefined.');
+    throw NoMatchedMethodError;
   }
 
   function _getMethods(args: Args.General) {
@@ -92,7 +92,7 @@ export function getRequestArgsList(
     const method2discriminator = discriminatorMap[namespace];
 
     if (typeof method2discriminator === 'undefined') {
-      throw new Error(`Unmatched namespace: ${namespace}.`);
+      throw NoMatchedMethodError;
     }
 
     const reqArgs = Object.entries(method2discriminator)
@@ -108,7 +108,7 @@ export function getRequestArgsList(
     const greedy = options?.greedy;
     if (reqArgs.length > 1 && !greedy) {
       throw new Error(
-        `Params passes multiple discriminators and multiple methods not allowed (greedy is false). Please check corresponsing methods: ${reqArgs.map(
+        `Params passes multiple discriminators but multiple methods not allowed (greedy is false). Please check corresponsing methods: ${reqArgs.map(
           ({ method }) => method
         )}`
       );
@@ -123,7 +123,7 @@ export function getRequestArgsList(
     reqArgs = args.map((_args) => _getMethods(_args)).flat();
   }
   if (reqArgs.length === 0) {
-    throw NoMethodError;
+    throw NoMatchedMethodError;
   }
   return reqArgs;
 }

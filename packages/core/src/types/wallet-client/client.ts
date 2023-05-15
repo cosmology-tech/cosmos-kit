@@ -68,7 +68,7 @@ export interface WalletClient {
    *     If the target network/chain is not supported by the wallet, you can choose to register the target chain to
    *     the wallet before other actions.
    */
-  addChain?(args: Args.AddChain): Promise<Resp.Void>;
+  addChain?(args: Args.AddChain<unknown>): Promise<Resp.Void>;
 
   // --------------------------------------------------------------------------------------------------------------
   //                                                 DOC RELATED

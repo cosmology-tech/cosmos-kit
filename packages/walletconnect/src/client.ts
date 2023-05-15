@@ -16,7 +16,6 @@ import {
   ReqArgs,
   ChainId,
   Raw,
-  NoSessionError,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
 import { getSdkError } from '@walletconnect/utils';
@@ -241,7 +240,9 @@ export class WCClient extends WalletClientBase implements WalletClient {
     });
 
     if (typeof session === 'undefined') {
-      throw NoSessionError;
+      throw new Error(
+        `Session for ${chainId} with method ${method} not established yet.`
+      );
     }
     return session;
   }

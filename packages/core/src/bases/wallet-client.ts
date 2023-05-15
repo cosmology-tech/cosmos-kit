@@ -7,14 +7,14 @@ import {
   WalletClientMethod,
   Resp,
 } from '../types';
-import { getRequestArgsList, Logger } from '../utils';
+import { getRequestArgsList, Logger, NoMatchedMethodError } from '../utils';
 
 export abstract class WalletClientBase {
-  readonly discriminators: Discriminators;
+  readonly discriminators?: Discriminators;
   readonly options?: WalletClientOptions;
   logger: Logger = new Logger('WARN');
 
-  constructor(discriminators: Discriminators, options?: WalletClientOptions) {
+  constructor(discriminators?: Discriminators, options?: WalletClientOptions) {
     this.discriminators = discriminators;
     this.options = options;
   }
@@ -45,7 +45,7 @@ export abstract class WalletClientBase {
     type: WalletClientMethod
   ): Promise<Raw[]> {
     const _args = await this._applyGobalOptions(args, type);
-    const reqArgsList = getRequestArgsList(this.discriminators[type], _args);
+    const reqArgsList = getRequestArgsList(this.discriminators?.[type], _args);
     const rawList = await Promise.all(
       reqArgsList.map(async (reqArgs) => {
         return {
@@ -62,7 +62,7 @@ export abstract class WalletClientBase {
     type: WalletClientMethod
   ): Promise<Raw> {
     const _args = await this._applyGobalOptions(args, type);
-    const reqArgsList = getRequestArgsList(this.discriminators[type], _args);
+    const reqArgsList = getRequestArgsList(this.discriminators?.[type], _args);
     if (reqArgsList.length > 1) {
       this.logger.warn(
         "Multiple methods fits the args. We'll only choose the first method for requesting."
@@ -84,7 +84,7 @@ export abstract class WalletClientBase {
     return this._getRawList(args, 'getAccount');
   }
 
-  protected async _addChain(args: Args.AddChain): Promise<Raw> {
+  protected async _addChain(args: Args.AddChain<unknown>): Promise<Raw> {
     return this._getRaw(args, 'addChain');
   }
 
@@ -122,7 +122,7 @@ export abstract class WalletClientBase {
     return { raw: await this._getAccount(args) };
   }
 
-  async addChain(args: Args.AddChain): Promise<Resp.Void> {
+  async addChain(args: Args.AddChain<unknown>): Promise<Resp.Void> {
     return { raw: await this._addChain(args) };
   }
 

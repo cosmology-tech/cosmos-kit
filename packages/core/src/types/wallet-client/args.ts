@@ -35,14 +35,14 @@ export interface Options {
 export namespace Args {
   export interface General {
     namespace: Namespace;
-    params: unknown;
+    params?: unknown;
     options?: Options;
   }
   export interface DocRelated<T> extends General {
     params: T;
   }
   export interface AuthRelated extends General {
-    params: {
+    params?: {
       chainIds?: ChainId[];
       methods?: string[]; // Used in WalletConnect
       events?: string[]; // Used in WalletConnect
@@ -53,9 +53,9 @@ export namespace Args {
       chainId: ChainId | null;
     };
   }
-  export interface AddChain extends General {
+  export interface AddChain<T> extends General {
     params: {
-      chainInfo: unknown;
+      chainInfo: T;
     };
   }
   export interface SwitchChain extends General {

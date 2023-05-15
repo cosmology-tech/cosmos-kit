@@ -1,12 +1,19 @@
 import {
+  Args,
   ChainRecord,
   ExtendedHttpEndpoint,
   NameService,
+  Resp,
   State,
   Wallet,
   WalletAccount,
 } from '../types';
-import { getIsLazy, getFastestEndpoint, isValidEndpoint } from '../utils';
+import {
+  getIsLazy,
+  getFastestEndpoint,
+  isValidEndpoint,
+  NoMatchedMethodError,
+} from '../utils';
 import { WalletBase } from './wallet';
 
 export abstract class ChainWalletBase extends WalletBase {
@@ -72,7 +79,7 @@ export abstract class ChainWalletBase extends WalletBase {
     return this.data?.address;
   }
 
-  setData(data: WalletAccount | undefined) {
+  setData(data: WalletAccount[] | undefined) {
     this._mutable.data = data;
     this.actions?.data?.(data);
     const accountsStr = window.localStorage.getItem(
@@ -83,7 +90,7 @@ export abstract class ChainWalletBase extends WalletBase {
       (a) => a.chainId != this.chainId || a.namespace != this.namespace
     );
     if (typeof data !== 'undefined') {
-      accounts.push(data);
+      accounts.push(...data);
     }
     window?.localStorage.setItem(
       'cosmos-kit@1:core//accounts',
@@ -100,35 +107,34 @@ export abstract class ChainWalletBase extends WalletBase {
     this.setState(State.Pending);
     this.setMessage(void 0);
 
-    const authRange: ChainRange = {
-      [this.namespace]: { chainIds: [this.chainId] },
-    };
-
     try {
-      await this.client.enable?.(authRange);
+      try {
+        await this.client.enable([
+          { namespace: this.namespace, params: { chainIds: [this.chainId] } },
+        ]);
+      } catch (error) {
+        if ((error as Error).message !== NoMatchedMethodError.message) {
+          throw error;
+        }
+      }
 
-      let account: WalletAccount;
       try {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getAccount(authRange)[0];
+        const { neat } = await this.client.getAccount({
+          namespace: this.namespace,
+          params: { chainId: this.chainId },
+        });
+        this.setData(neat?.account);
+        this.setState(State.Done);
+        this.setMessage(void 0);
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
           return;
         }
-        if (this.client.addChain) {
-          await this.client.addChain(this.namespace, this.chainRecord);
-          account = await this.client.getAccount(authRange)[0];
-        } else {
-          throw error;
-        }
       }
-
-      this.setData(account);
-      this.setState(State.Done);
-      this.setMessage(void 0);
     } catch (e) {
       this.logger?.error(e);
       if (e && this.rejectMatched(e as Error)) {

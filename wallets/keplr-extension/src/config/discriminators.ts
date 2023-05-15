@@ -1,60 +1,22 @@
-import { Discriminators, isGreedy } from '@cosmos-kit/core';
-import {
-  BroadcastParamsDiscriminator,
-  SignAndBroadcastParamsDiscriminator,
-  SignParamsDiscriminator,
-  VerifyParamsDiscriminator,
-} from './type-guards';
+import { Discriminators } from '@cosmos-kit/core';
 
 export const discriminators: Discriminators = {
   enable: {
     cosmos: {
       cos_enable: true,
     },
-    aptos: {
-      aptos_connect: true,
-    },
-    sui: {
-      sui_connect: true,
-    },
-  },
-
-  disable: {
-    cosmos: {
-      cos_disconnect: true,
-    },
   },
 
   getAccount: {
     cosmos: {
-      cos_account: false,
-      cos_requestAccount: true,
-    },
-    ethereum: {
-      eth_accounts: false,
-      eth_requestAccounts: true,
-    },
-    aptos: {
-      aptos_account: true,
-    },
-    sui: {
-      sui_getAccount: true,
-      sui_getPublicKey: isGreedy,
+      cos_getKey: true,
     },
   },
 
   addChain: {
     cosmos: {
-      cos_addChain: true,
-    },
-    ethereum: {
-      wallet_addEthereumChain: true,
-    },
-  },
-
-  switchChain: {
-    ethereum: {
-      wallet_switchEthereumChain: true,
+      cos_experimentalSuggestChain: true,
+      cos_addChainRecord: (),
     },
   },
 
