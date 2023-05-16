@@ -3,7 +3,7 @@ import { Wallet } from '@cosmos-kit/core';
 export const omniMobileInfo: Wallet = {
   name: 'omni-mobile',
   prettyName: 'Omni Mobile',
-  logo: 'https://explorer-api.walletconnect.com/v3/logo/lg/2cd67b4c-282b-4809-e7c0-a88cd5116f00?projectId=a8510432ebb71e6948cfd6cde54b70f7',
+  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/omni.png',
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {
