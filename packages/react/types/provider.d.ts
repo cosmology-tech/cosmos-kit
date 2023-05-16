@@ -1,7 +1,7 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import { EndpointOptions, LogLevel, MainWalletBase, ModalViews, NameServiceName, SessionOptions, SignerOptions, WalletConnectOptions, WalletModalProps } from '@cosmos-kit/core';
 import { ReactNode } from 'react';
-export declare const ChainProvider: ({ chains, assetLists, wallets, walletModal, modalTheme, modalViews, includeAllWalletsOnMobile, wrappedWithChakra, defaultNameService, walletConnectOptions, signerOptions, endpointOptions, sessionOptions, logLevel, children, }: {
+export declare const ChainProvider: ({ chains, assetLists, wallets, walletModal, modalTheme, modalViews, includeAllWalletsOnMobile, wrappedWithChakra, throwErrors, defaultNameService, walletConnectOptions, signerOptions, endpointOptions, sessionOptions, logLevel, children, }: {
     chains: Chain[];
     assetLists: AssetList[];
     wallets: MainWalletBase[];
@@ -10,6 +10,7 @@ export declare const ChainProvider: ({ chains, assetLists, wallets, walletModal,
     modalViews?: ModalViews;
     includeAllWalletsOnMobile?: boolean;
     wrappedWithChakra?: boolean;
+    throwErrors?: boolean;
     defaultNameService?: NameServiceName;
     walletConnectOptions?: WalletConnectOptions;
     signerOptions?: SignerOptions;

@@ -21,6 +21,7 @@ export abstract class WalletBase extends StateBase {
   session?: Session;
   walletConnectOptions?: WalletConnectOptions;
   isActive = false;
+  throwErrors = false;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -143,11 +144,17 @@ export abstract class WalletBase extends StateBase {
   setClientNotExist() {
     this.setState(State.Error);
     this.setMessage(ClientNotExistError.message);
+    if (this.throwErrors) {
+      throw new Error(this.message);
+    }
   }
 
   setRejected() {
     this.setState(State.Error);
     this.setMessage(RejectedError.message);
+    if (this.throwErrors) {
+      throw new Error(this.message);
+    }
   }
 
   setError(e?: Error | string) {
@@ -155,6 +162,9 @@ export abstract class WalletBase extends StateBase {
     this.setMessage(typeof e === 'string' ? e : e?.message);
     if (typeof e !== 'string' && e?.stack) {
       this.logger?.error(e.stack);
+    }
+    if (this.throwErrors) {
+      throw new Error(this.message);
     }
   }
 

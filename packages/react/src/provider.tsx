@@ -30,6 +30,7 @@ export const ChainProvider = ({
   modalViews,
   includeAllWalletsOnMobile = false,
   wrappedWithChakra = false,
+  throwErrors = false,
   defaultNameService = 'icns',
   walletConnectOptions,
   signerOptions,
@@ -46,6 +47,7 @@ export const ChainProvider = ({
   modalViews?: ModalViews;
   includeAllWalletsOnMobile?: boolean;
   wrappedWithChakra?: boolean;
+  throwErrors?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
@@ -69,6 +71,7 @@ export const ChainProvider = ({
       assetLists={assetLists}
       wallets={wallets}
       walletModal={modal}
+      throwErrors={throwErrors}
       defaultNameService={defaultNameService}
       walletConnectOptions={walletConnectOptions}
       signerOptions={signerOptions}

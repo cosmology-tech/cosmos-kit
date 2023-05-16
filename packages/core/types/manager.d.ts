@@ -16,7 +16,8 @@ export declare class WalletManager extends StateBase {
     readonly session: Session;
     repelWallet: boolean;
     isLazy?: boolean;
-    constructor(chains: Chain[], assetLists: AssetList[], wallets: MainWalletBase[], logger: Logger, defaultNameService?: NameServiceName, walletConnectOptions?: WalletConnectOptions, signerOptions?: SignerOptions, endpointOptions?: EndpointOptions, sessionOptions?: SessionOptions);
+    throwErrors: boolean;
+    constructor(chains: Chain[], assetLists: AssetList[], wallets: MainWalletBase[], logger: Logger, throwErrors?: boolean, defaultNameService?: NameServiceName, walletConnectOptions?: WalletConnectOptions, signerOptions?: SignerOptions, endpointOptions?: EndpointOptions, sessionOptions?: SessionOptions);
     init(chains: Chain[], assetLists: AssetList[], wallets: MainWalletBase[], walletConnectOptions?: WalletConnectOptions, signerOptions?: SignerOptions, endpointOptions?: EndpointOptions): void;
     setWalletRepel(value: boolean): void;
     addChains: (chains: Chain[], assetLists: AssetList[], signerOptions?: SignerOptions, endpoints?: EndpointOptions['endpoints']) => void;

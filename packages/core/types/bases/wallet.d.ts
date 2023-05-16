@@ -11,6 +11,7 @@ export declare abstract class WalletBase extends StateBase {
     session?: Session;
     walletConnectOptions?: WalletConnectOptions;
     isActive: boolean;
+    throwErrors: boolean;
     constructor(walletInfo: Wallet);
     get appUrl(): Mutable<import("../types").AppUrl>;
     get qrUrl(): Mutable<string>;

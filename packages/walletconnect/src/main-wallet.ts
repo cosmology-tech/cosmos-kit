@@ -1,10 +1,4 @@
-import {
-  Mutable,
-  State,
-  Wallet,
-  WalletClient,
-  WalletConnectOptions,
-} from '@cosmos-kit/core';
+import { Mutable, State, Wallet, WalletConnectOptions } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { WCClient } from './client';
 
