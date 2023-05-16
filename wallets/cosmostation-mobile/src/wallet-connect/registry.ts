@@ -4,7 +4,7 @@ export const cosmostationMobileInfo: Wallet = {
   name: 'cosmostation-mobile',
   prettyName: 'Cosmostation Mobile',
   logo:
-    'https://user-images.githubusercontent.com/74940804/202999324-fa2faf40-5ead-4896-b865-e97f052fc6f9.png',
+    'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/cosmostation.png',
   mode: 'wallet-connect',
   downloads: [
     {

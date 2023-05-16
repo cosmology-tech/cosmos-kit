@@ -8,5 +8,5 @@ export const web3AuthWalletInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
-  logo: 'https://web3auth.io/images/w3a-L-Favicon-1.svg',
+  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/ed7ca96549265c47cd7ad1936a49b5d58113823c/public/images/logos/wallets/web3auth.svg',
 };
