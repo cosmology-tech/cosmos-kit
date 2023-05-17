@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/web3auth",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "cosmos-kit wallet connector for Web3Auth",
   "author": "noah@noah.zone",
   "contributors": [
