@@ -67,18 +67,18 @@ export const WalletListView = ({
         })
         .map(
           (w, i) =>
-            ({
-              ...w.walletInfo,
-              downloads: void 0,
-              onClick: async () => {
-                onWalletClicked(w);
-              },
-              buttonShape: i < 2 && isLargeScreen ? 'Square' : 'Rectangle',
-              subLogo:
-                w.walletInfo.mode === 'wallet-connect'
-                  ? 'https://user-images.githubusercontent.com/545047/202090621-bb110635-f6ce-4aa0-a4e5-a03beac29bd1.svg'
-                  : void 0,
-            } as Wallet)
+          ({
+            ...w.walletInfo,
+            downloads: void 0,
+            onClick: async () => {
+              onWalletClicked(w);
+            },
+            buttonShape: i < 2 && isLargeScreen ? 'Square' : 'Rectangle',
+            subLogo:
+              w.walletInfo.mode === 'wallet-connect'
+                ? 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/wallet-connect.svg'
+                : void 0,
+          } as Wallet)
         ),
     [wallets, isLargeScreen]
   );

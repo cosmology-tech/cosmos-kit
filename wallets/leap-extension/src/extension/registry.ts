@@ -2,7 +2,7 @@ import { Wallet } from '@cosmos-kit/core';
 
 export const leapExtensionInfo: Wallet = {
   name: 'leap-extension',
-  logo: 'https://raw.githubusercontent.com/leapwallet/assets/2289486990e1eaf9395270fffd1c41ba344ef602/images/leap-cosmos-logo.png',
+  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/leap.png',
   prettyName: 'Leap',
   mode: 'extension',
   mobileDisabled: true,

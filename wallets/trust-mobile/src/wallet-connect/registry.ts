@@ -3,7 +3,7 @@ import { Wallet } from '@cosmos-kit/core';
 export const trustMobileInfo: Wallet = {
   name: 'trust-mobile',
   prettyName: 'Trust Mobile',
-  logo: 'https://trustwallet.com/assets/images/media/assets/TWT.png',
+  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/trust.png',
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {

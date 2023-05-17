@@ -2,7 +2,7 @@ import { Wallet } from '@cosmos-kit/core';
 
 export const trustExtensionInfo: Wallet = {
   name: 'trust-extension',
-  logo: 'https://trustwallet.com/assets/images/media/assets/TWT.png',
+  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/trust.png',
   prettyName: 'Trust',
   mode: 'extension',
   mobileDisabled: true,
