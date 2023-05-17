@@ -383,13 +383,6 @@ Optional property. By default `WARN`.
 
 Will disable logs lower than the value of `logLevel` (The log level order is the same with the order above).
 
-## Optional Properties Only for Default Modal
-
-These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only counts when property [`walletModal`](#walletmodal) is `undefined`.
-
-> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
-
-
 ### throwErrors
 
 Optional property. By default `false`.
@@ -397,6 +390,12 @@ Optional property. By default `false`.
 **Type:** `boolean`
 
 If set `true`, will throw error when wallet status to be `WalletStatus.Error`, `WalletStatus.Rejected` or `WalletStatus.NotExist`, or wallet client status to be `State.Error`.
+
+## Optional Properties Only for Default Modal
+
+These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only counts when property [`walletModal`](#walletmodal) is `undefined`.
+
+> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
 
 ### modalViews
 
