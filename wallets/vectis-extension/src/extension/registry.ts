@@ -3,7 +3,8 @@ import { Wallet } from '@cosmos-kit/core';
 export const vectisExtensionInfo: Wallet = {
   name: 'vectis-extension',
   logo:
-    'https://cloudflare-ipfs.com/ipfs/QmU7BdRsm936vQvawJNzxfHEuChEf8GEKUhp4ADHjV6tnp',
+    // 'https://cloudflare-ipfs.com/ipfs/QmU7BdRsm936vQvawJNzxfHEuChEf8GEKUhp4ADHjV6tnp',
+    'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/vectis.png',
   prettyName: 'Vectis',
   mode: 'extension',
   mobileDisabled: true,

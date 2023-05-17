@@ -2,7 +2,7 @@ import { Wallet } from '@cosmos-kit/core';
 
 export const keplrExtensionInfo: Wallet = {
   name: 'keplr-extension',
-  logo: 'https://user-images.githubusercontent.com/545047/202085372-579be3f3-36e0-4e0b-b02f-48182af6e577.svg',
+  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/keplr.svg',
   prettyName: 'Keplr',
   mode: 'extension',
   mobileDisabled: true,
