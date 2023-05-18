@@ -17,7 +17,7 @@ yarn add @cosmoskit/web3auth
 ## import the wallets
 
 ```js
-import { wallets as web3authWallets } from '@cosmos-kit/web3auth';
+import { wallets as web3auth } from '@cosmos-kit/web3auth';
 ```
 
 ## add to your provider
@@ -29,7 +29,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...web3authWallets]}
+        wallets={[...web3auth]}
         wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >

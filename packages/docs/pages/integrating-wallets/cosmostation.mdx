@@ -21,7 +21,7 @@ yarn add @cosmoskit/cosmostation
 ## import the wallets
 
 ```js
-import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { wallets as cosmostation } from "@cosmos-kit/cosmostation";
 ```
 
 ## add to your provider
@@ -33,7 +33,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...cosmostationWallets]}
+        wallets={[...cosmostation]}
         wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >

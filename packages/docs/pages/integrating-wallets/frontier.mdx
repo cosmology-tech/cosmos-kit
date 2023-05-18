@@ -20,7 +20,7 @@ yarn add @cosmoskit/frontier
 ## import the wallets
 
 ```js
-import { wallets as frontierwallets } from "@cosmos-kit/frontier";
+import { wallets as frontier } from "@cosmos-kit/frontier";
 ```
 
 ## add to your provider
@@ -32,7 +32,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...frontierwallets]}
+        wallets={[...frontier]}
         wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
