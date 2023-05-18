@@ -1,5 +1,12 @@
 # How to integrate new wallets into CosmosKit
 
+## About Wallet Logos
+  We put all wallet logos under `cosmos-kit/public/images/logos/wallets` folder, and use them through `raw.githubusercontent.com` domain.
+
+  When adding a new wallet, you need to specify the url of the wallet logo in `registry.ts`.  
+  Add the logo file to `cosmos-kit/public/images/logos/wallets` first when necessary.  
+  And set the value of `logo` to `https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/wallet.ext`
+
 ## Quickly Add Extension Wallets
 
 1. Copy files in [Leap Extension](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/leap-extension/src/extension) to your package;
@@ -32,25 +39,25 @@
 
 #### Required properties
 
-| Key      | Type | Description |
-| ----------- | ----------- | -- |
-| **name**      | `WalletName = string`   | identifier |
-| **prettyName**   | `string`   | display name |
-| **mode**   | `WalletMode = 'extension' \| 'wallet-connect'`   | wallet client type |
-| **mobileDisabled**<sup>*</sup>  | `boolean`   | display on mobile or not |
-| **walletconnect** | `{ name: string; projectId: string; encoding?: BufferEncoding }`   | only required when you are integrating mobile wallets based on [walletconnect](https://walletconnect.com/). If `encoding` is undefined, by default using `hex` to encode bytes |
+| Key                            | Type                                                             | Description                                                                                                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **name**                       | `WalletName = string`                                            | identifier                                                                                                                                                                     |
+| **prettyName**                 | `string`                                                         | display name                                                                                                                                                                   |
+| **mode**                       | `WalletMode = 'extension' \| 'wallet-connect'`                   | wallet client type                                                                                                                                                             |
+| **mobileDisabled**<sup>*</sup> | `boolean`                                                        | display on mobile or not                                                                                                                                                       |
+| **walletconnect**              | `{ name: string; projectId: string; encoding?: BufferEncoding }` | only required when you are integrating mobile wallets based on [walletconnect](https://walletconnect.com/). If `encoding` is undefined, by default using `hex` to encode bytes |
 
 \* <span style={{fontSize: '0.85rem'}}> Usually `true` when **mode** is `wallet-connect`,  `false` when **mode** is `extension`.</span>
 
 #### Optional properties
 
-| Key      | Type | Description |
-| ----------- | ----------- | -- |
-| **rejectMessage**      | `string | \{ source: string; target?: string \}`   | `rejectMessage` or `rejectMessage.source` is error message string thrown by wallet app/extension when user rejects, while `rejectMessage.target` is `message` returned by hooks. If not provided, `target` would be `'Request Rejected!'`|
-| **connectEventNamesOnWindow**   | `string[]`   | window event names to fire auto-connect |
-| **connectEventNamesOnClient**   | `string[]`   | wallet client event names to fire auto-connect (make sure `on` and `off` methods are defined in [`WalletClient`](#2️⃣-implement-walletclient)) |
-| **downloads**   | [`DownloadInfo[]`](https://github.com/cosmology-tech/cosmos-kit/blob/ce50648487e73c1f6f17777347df7984168381af/packages/core/src/types/wallet.ts#L28-L31) | wallet app/extension download information |
-| **logo** | `string`   | wallet logo url, display on default modal |
+| Key                           | Type                                                                                                                                                     | Description                                                                                                                                  |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **rejectMessage**             | `string                                                                                                                                                  | \{ source: string; target?: string \}`                                                                                                       | `rejectMessage` or `rejectMessage.source` is error message string thrown by wallet app/extension when user rejects, while `rejectMessage.target` is `message` returned by hooks. If not provided, `target` would be `'Request Rejected!'` |
+| **connectEventNamesOnWindow** | `string[]`                                                                                                                                               | window event names to fire auto-connect                                                                                                      |
+| **connectEventNamesOnClient** | `string[]`                                                                                                                                               | wallet client event names to fire auto-connect (make sure `on` and `off` methods are defined in [`WalletClient`](#2️⃣-implement-walletclient)) |
+| **downloads**                 | [`DownloadInfo[]`](https://github.com/cosmology-tech/cosmos-kit/blob/ce50648487e73c1f6f17777347df7984168381af/packages/core/src/types/wallet.ts#L28-L31) | wallet app/extension download information                                                                                                    |
+| **logo**                      | `string`                                                                                                                                                 | wallet logo url, display on default modal                                                                                                    |
 
 #### Examples
 
@@ -65,20 +72,20 @@
 
 #### Required methods
 
-| Key      | Type | Description |
-| ----------- | ----------- | -- |
-| **getSimpleAccount**      | `(chainId: string) => Promise<SimpleAccount>`   | return account with address but without pubkey and algo |
+| Key                  | Type                                          | Description                                             |
+| -------------------- | --------------------------------------------- | ------------------------------------------------------- |
+| **getSimpleAccount** | `(chainId: string) => Promise<SimpleAccount>` | return account with address but without pubkey and algo |
 
 #### Optional methods
 
-| Key      | Type | Description |
-| ----------- | ----------- | -- |
-| **getAccount**      | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>   | return account with address, pubkey and algo |
-| **getOfflineSigner**   | `(chainId: string, preferredSignType?: SignType) => Promise<OfflineSigner>`   | prioritize returning `preferredSignType` (by default `amino`) corresponding signer if it is available, otherwise return siger that is provided. |
-| **enable**      | `(chainIds: string \| string[]) => Promise<void>`   | give permission for the webpage to access wallet |
-| **addChain**   | `(chainInfo: ChainRecord) => Promise<void>`   | add new Cosmos-SDK based blockchains that isn't natively integrated to wallet app/extension |
-| **on**   | `(type: string, listener: EventListenerOrEventListenerObject) => void`   | add event listener |
-| **off**   | `(type: string, listener: EventListenerOrEventListenerObject) => void`   | remove event listener |
+| Key                  | Type                                                                        | Description                                                                                                                                     |
+| -------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **getAccount**       | `(chainId: string) => Promise<WalletAccount>`<sup>*</sup>                   | return account with address, pubkey and algo                                                                                                    |
+| **getOfflineSigner** | `(chainId: string, preferredSignType?: SignType) => Promise<OfflineSigner>` | prioritize returning `preferredSignType` (by default `amino`) corresponding signer if it is available, otherwise return siger that is provided. |
+| **enable**           | `(chainIds: string \| string[]) => Promise<void>`                           | give permission for the webpage to access wallet                                                                                                |
+| **addChain**         | `(chainInfo: ChainRecord) => Promise<void>`                                 | add new Cosmos-SDK based blockchains that isn't natively integrated to wallet app/extension                                                     |
+| **on**               | `(type: string, listener: EventListenerOrEventListenerObject) => void`      | add event listener                                                                                                                              |
+| **off**              | `(type: string, listener: EventListenerOrEventListenerObject) => void`      | remove event listener                                                                                                                           |
 
 #### Examples
 
@@ -105,9 +112,9 @@ Create a `MainWallet` class that extends `MainWalletBase`. `MainWallet` organize
 
 #### Required methods
 
-| Key      | Type |
-| ----------- | ----------- |
-| **initClient**      | `() => void \| Promise<void>`<sup>*</sup>   |
+| Key            | Type                                      |
+| -------------- | ----------------------------------------- |
+| **initClient** | `() => void \| Promise<void>`<sup>*</sup> |
 
 \* <span style={{fontSize: '0.85rem'}}> `WalletClient` is the one implemented in [Step 2](#2️⃣-implement-walletclient).</span>
 
