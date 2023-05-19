@@ -15,7 +15,7 @@ export const getCoin98FromExtension: () => Promise<
     return void 0;
   }
 
-  const provider = (window as Coin98Window).coin98.keplr;
+  const provider = (window as Coin98Window).coin98?.keplr;
 
   if (provider) {
     return provider;
