@@ -15,7 +15,7 @@ export const getFrontierFromExtension: () => Promise<
     return void 0;
   }
 
-  const frontier = (window as FrontierWindow).frontier.cosmos;
+  const frontier = (window as FrontierWindow).frontier?.cosmos;
 
   if (frontier) {
     return frontier;

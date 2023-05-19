@@ -9,7 +9,7 @@ export const getVectisFromExtension: () => Promise<
     return void 0;
   }
 
-  const vectis = ((window as unknown) as VectisWindow).vectis.cosmos;
+  const vectis = ((window as unknown) as VectisWindow).vectis?.cosmos;
 
   if (vectis) {
     return vectis;

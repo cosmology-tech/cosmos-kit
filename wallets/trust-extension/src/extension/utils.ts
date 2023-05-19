@@ -17,7 +17,7 @@ export const getTrustFromExtension: () => Promise<
     return void 0;
   }
 
-  const trust = (window as TrustWindow).trustwallet.cosmos;
+  const trust = (window as TrustWindow).trustwallet?.cosmos;
 
   if (trust) {
     return trust;
