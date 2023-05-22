@@ -1,27 +1,26 @@
-# How to Add Leap Wallet to CosmosKit
+# How to Add Station Wallet to CosmosKit
 
-There are three packages for leap
+There are two packages for station
 
-- `@cosmoskit/leap`
-- `@cosmoskit/leap-extension`
-- `@cosmoskit/leap-mobile`
+- `@cosmoskit/station`
+- `@cosmoskit/station-extension`
 
-`@cosmoskit/leap` export all available leap wallets, while if you only want to add a particular one, choose `@cosmoskit/leap-extension` or `@cosmoskit/leap-mobile`
+`@cosmoskit/station` export all available station wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmoskit/station-extension`
 
 > Note: all these packages export `wallets` and it's an array of `MainWalletBase`
 
-Take `@cosmoskit/leap` for example
+Take `@cosmoskit/station` for example
 
-## add `@cosmoskit/leap`
+## add `@cosmoskit/station`
 
 ```
-yarn add @cosmoskit/leap
+yarn add @cosmoskit/station
 ```
 
 ## import the wallets
 
 ```js
-import { wallets as leap } from "@cosmos-kit/leap";
+import { wallets as station } from "@cosmos-kit/station";
 ```
 
 ## add to your provider
@@ -33,7 +32,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...leap]}
+        wallets={[...station]}
         wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >

@@ -1,27 +1,27 @@
-# How to Add Leap Wallet to CosmosKit
+# How to Add Trust Wallet to CosmosKit
 
-There are three packages for leap
+There are three packages for Trust
 
-- `@cosmoskit/leap`
-- `@cosmoskit/leap-extension`
-- `@cosmoskit/leap-mobile`
+- `@cosmoskit/trust`
+- `@cosmoskit/trust-extension`
+- `@cosmoskit/trust-mobile`
 
-`@cosmoskit/leap` export all available leap wallets, while if you only want to add a particular one, choose `@cosmoskit/leap-extension` or `@cosmoskit/leap-mobile`
+`@cosmoskit/trust` export all available trust wallets, while if you only want to add a particular one, choose `@cosmoskit/trust-extension` or `@cosmoskit/trust-mobile`
 
 > Note: all these packages export `wallets` and it's an array of `MainWalletBase`
 
-Take `@cosmoskit/leap` for example
+Take `@cosmoskit/trust` for example
 
-## add `@cosmoskit/leap`
+## install `@cosmoskit/trust`
 
 ```
-yarn add @cosmoskit/leap
+yarn add @cosmoskit/trust
 ```
 
 ## import the wallets
 
 ```js
-import { wallets as leap } from "@cosmos-kit/leap";
+import { wallets as trust } from '@cosmos-kit/trust';
 ```
 
 ## add to your provider
@@ -33,7 +33,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...leap]}
+        wallets={[...trust]}
         wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >

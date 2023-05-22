@@ -4,7 +4,9 @@
     "keplr": "@ Keplr Wallet",
     "cosmostation": "@ Cosmostation Wallet",
     "leap": "@ Leap Wallet",
+    "trust": "@ Trust Wallet",
     "vectis": "@ Vectis Wallet",
+    "station": "@ Station Wallet",
     "frontier": "@ Frontier Wallet",
     "web3auth": "@ Web3Auth"
 }
