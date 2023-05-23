@@ -1,7 +1,4 @@
 import { OS, Wallet } from '@cosmos-kit/core';
-import { FaAndroid } from 'react-icons/fa';
-import { GoDesktopDownload } from 'react-icons/go';
-import { RiAppStoreFill } from 'react-icons/ri';
 
 export const LeapMobileInfo: Wallet = {
   name: 'leap-cosmos-mobile',
@@ -16,18 +13,15 @@ export const LeapMobileInfo: Wallet = {
     {
       device: 'mobile',
       os: 'android',
-      icon: FaAndroid,
       link:
         'https://play.google.com/store/apps/details?id=io.leapwallet.cosmos',
     },
     {
       device: 'mobile',
-      os: 'android',
-      icon: RiAppStoreFill,
+      os: 'ios',
       link: 'https://apps.apple.com/in/app/leap-cosmos/id1642465549',
     },
     {
-      icon: GoDesktopDownload,
       link:
         'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
     },

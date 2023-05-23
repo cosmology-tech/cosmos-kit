@@ -3,7 +3,8 @@ import { OS, Wallet } from '@cosmos-kit/core';
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',
   prettyName: 'Keplr Mobile',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/keplr.svg',
+  logo:
+    'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/keplr.svg',
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {
@@ -41,7 +42,7 @@ export const keplrMobileInfo: Wallet = {
       appUrl: string,
       wcUri: string,
       os: OS | undefined,
-      name: string
+      _name: string
     ): string => {
       const plainAppUrl = appUrl.replaceAll('/', '').replaceAll(':', '');
       const encodedWcUrl = encodeURIComponent(wcUri);
