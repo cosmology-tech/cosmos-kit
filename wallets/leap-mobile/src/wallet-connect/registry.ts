@@ -36,7 +36,7 @@ export const LeapMobileInfo: Wallet = {
   walletconnect: {
     name: 'Leap Cosmos Wallet',
     projectId:
-      'b09b728635c6af853003a85cb3e4f9b80022eb634f2a45a9c56b8e3e172ca3b3',
+      '3ed8cc046c6211a798dc5ec70f1302b43e07db9639fd287de44a9aa115a21ed6',
     encoding: 'base64',
     mobile: {
       native: {
