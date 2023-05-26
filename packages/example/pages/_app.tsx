@@ -7,6 +7,7 @@ import { GasPrice } from "@cosmjs/stargate";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as compassWallets } from "@cosmos-kit/compass";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
@@ -34,6 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...web3authWallets,
             // ...cosmostationWallets,
             ...leapWallets,
+            ...compassWallets,
             // ...vectisWallets,
             // ...xdefiWallets,
             // ...omniWallets,
