@@ -3,7 +3,7 @@ import { SignType, WalletClient, WalletClientOptions } from '@cosmos-kit/core';
 
 import { Trust } from './types';
 
-export class TrustClient implements WalletClient {
+export class TrustClient extends WalletClientBase<TypeParams> {
   readonly client: Trust;
   readonly options?: WalletClientOptions;
 

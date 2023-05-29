@@ -6,10 +6,15 @@ import {
   ReqArgs,
   WalletClientMethod,
   Resp,
+  TypeParams,
+  WalletClient,
+  Namespace,
 } from '../types';
-import { getRequestArgsList, Logger, NoMatchedMethodError } from '../utils';
+import { getRequestArgsList, Logger } from '../utils';
 
-export abstract class WalletClientBase {
+export abstract class WalletClientBase<T extends TypeParams>
+  implements WalletClient
+{
   readonly discriminators?: Discriminators;
   readonly options?: WalletClientOptions;
   logger: Logger = new Logger('WARN');
@@ -17,6 +22,10 @@ export abstract class WalletClientBase {
   constructor(discriminators?: Discriminators, options?: WalletClientOptions) {
     this.discriminators = discriminators;
     this.options = options;
+  }
+
+  getMethods(namespace: Namespace, type: WalletClientMethod) {
+    return Object.keys(this.discriminators?.[type]?.[namespace] || {});
   }
 
   protected abstract _request(args: ReqArgs): Promise<unknown>;
@@ -45,7 +54,11 @@ export abstract class WalletClientBase {
     type: WalletClientMethod
   ): Promise<Raw[]> {
     const _args = await this._applyGobalOptions(args, type);
-    const reqArgsList = getRequestArgsList(this.discriminators?.[type], _args);
+    const reqArgsList = getRequestArgsList(
+      this.discriminators?.[type],
+      _args,
+      this.logger
+    );
     const rawList = await Promise.all(
       reqArgsList.map(async (reqArgs) => {
         return {
@@ -62,7 +75,11 @@ export abstract class WalletClientBase {
     type: WalletClientMethod
   ): Promise<Raw> {
     const _args = await this._applyGobalOptions(args, type);
-    const reqArgsList = getRequestArgsList(this.discriminators?.[type], _args);
+    const reqArgsList = getRequestArgsList(
+      this.discriminators?.[type],
+      _args,
+      this.logger
+    );
     if (reqArgsList.length > 1) {
       this.logger.warn(
         "Multiple methods fits the args. We'll only choose the first method for requesting."
@@ -84,7 +101,7 @@ export abstract class WalletClientBase {
     return this._getRawList(args, 'getAccount');
   }
 
-  protected async _addChain(args: Args.AddChain<unknown>): Promise<Raw> {
+  protected async _addChain(args: Args.AddChain<T['addChain']>): Promise<Raw> {
     return this._getRaw(args, 'addChain');
   }
 
@@ -92,20 +109,22 @@ export abstract class WalletClientBase {
     return this._getRaw(args, 'switchChain');
   }
 
-  protected async _sign(args: Args.DocRelated<unknown>): Promise<Raw> {
+  protected async _sign(args: Args.DocRelated<T['sign']>): Promise<Raw> {
     return this._getRaw(args, 'sign');
   }
 
-  protected async _verify(args: Args.DocRelated<unknown>): Promise<Raw> {
+  protected async _verify(args: Args.DocRelated<T['verify']>): Promise<Raw> {
     return this._getRaw(args, 'verify');
   }
 
-  protected async _broadcast(args: Args.DocRelated<unknown>): Promise<Raw> {
+  protected async _broadcast(
+    args: Args.DocRelated<T['broadcast']>
+  ): Promise<Raw> {
     return this._getRaw(args, 'broadcast');
   }
 
   protected async _signAndBroadcast(
-    args: Args.DocRelated<unknown>
+    args: Args.DocRelated<T['signAndBroadcast']>
   ): Promise<Raw> {
     return this._getRaw(args, 'signAndBroadcast');
   }
@@ -122,7 +141,7 @@ export abstract class WalletClientBase {
     return { raw: await this._getAccount(args) };
   }
 
-  async addChain(args: Args.AddChain<unknown>): Promise<Resp.Void> {
+  async addChain(args: Args.AddChain<T['addChain']>): Promise<Resp.Void> {
     return { raw: await this._addChain(args) };
   }
 
@@ -130,20 +149,22 @@ export abstract class WalletClientBase {
     return { raw: await this._switchChain(args) };
   }
 
-  async sign(args: Args.DocRelated<unknown>): Promise<Resp.Sign> {
+  async sign(args: Args.DocRelated<T['sign']>): Promise<Resp.Sign> {
     return { raw: await this._sign(args) };
   }
 
-  async verify(args: Args.DocRelated<unknown>): Promise<Resp.Verify> {
+  async verify(args: Args.DocRelated<T['verify']>): Promise<Resp.Verify> {
     return { raw: await this._verify(args) };
   }
 
-  async broadcast(args: Args.DocRelated<unknown>): Promise<Resp.Broadcast> {
+  async broadcast(
+    args: Args.DocRelated<T['broadcast']>
+  ): Promise<Resp.Broadcast> {
     return { raw: await this._broadcast(args) };
   }
 
   async signAndBroadcast(
-    args: Args.DocRelated<unknown>
+    args: Args.DocRelated<T['signAndBroadcast']>
   ): Promise<Resp.Broadcast> {
     return { raw: await this._signAndBroadcast(args) };
   }

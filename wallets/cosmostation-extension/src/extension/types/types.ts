@@ -1,4 +1,10 @@
+import { TypeParams } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/types';
+import { AddChainParamsType } from './add-chain';
+import { BroadcastParamsType } from './broadcast';
+import { SignParamsType } from './sign';
+import { SignAndBroadcastParamsType } from './sign-and-broadcast';
+import { VerifyParamsType } from './verify';
 
 export interface Request {
   method: string;
@@ -37,3 +43,11 @@ export type WalletAddEthereumChainParam = [
     coinGeckoId?: string;
   }
 ];
+
+export interface CosmostationTypeParams extends TypeParams {
+  addChain: AddChainParamsType;
+  sign: SignParamsType;
+  verify: VerifyParamsType;
+  broadcast: BroadcastParamsType;
+  signAndBroadcast: SignAndBroadcastParamsType;
+}

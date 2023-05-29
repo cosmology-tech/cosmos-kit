@@ -1,12 +1,12 @@
 import {
   getStringFromUint8Array,
   Namespace,
-  WalletClient,
   WalletClientBase,
   Args,
   Resp,
   ReqArgs,
   WalletClientOptions,
+  ChainRecord,
 } from '@cosmos-kit/core';
 import { CosmosWalletAccount } from '@cosmos-kit/cosmos';
 
@@ -21,14 +21,16 @@ import {
   VerifyParamsType,
   BroadcastParamsType,
   SignAndBroadcastParamsType,
+  CosmostationTypeParams,
 } from './types';
 import { SignResult } from './types';
 import { discriminators } from './config';
-import { AddChainParams } from '@cosmostation/extension-client/types/message';
+import { ChainInfo } from '@keplr-wallet/types';
+import { chainRecordToKeplr } from '@cosmos-kit/keplr-extension';
 
-export class CosmostationClient
-  extends WalletClientBase
-  implements WalletClient {
+export class CosmostationClient extends WalletClientBase<
+  CosmostationTypeParams
+> {
   readonly client: Cosmostation;
   private eventMap: Map<
     string,
@@ -67,9 +69,17 @@ export class CosmostationClient
     const { method, namespace, params } = args;
     let _params: unknown = params;
     switch (method) {
-      case 'cos_enable':
+      case 'ikeplr_enable':
         return await this.ikeplr.enable(
           (params as Args.AuthRelated['params']).chainIds
+        );
+
+      case 'ikeplr_experimentalSuggestChain':
+        return await this.ikeplr.experimentalSuggestChain(params as ChainInfo);
+
+      case 'ikeplr_addChainRecord':
+        return await this.ikeplr.experimentalSuggestChain(
+          chainRecordToKeplr(params as ChainRecord)
         );
 
       case 'ikeplr_verifyArbitrary':
@@ -169,10 +179,6 @@ export class CosmostationClient
     }
 
     return { neat: { account }, raw: rawList };
-  }
-
-  async addChain(args: Args.AddChain<AddChainParams>): Promise<Resp.Void> {
-    return { raw: await this._addChain(args) };
   }
 
   async sign(args: Args.DocRelated<SignParamsType>): Promise<Resp.Sign> {

@@ -126,7 +126,7 @@ export abstract class ChainWalletBase extends WalletBase {
           namespace: this.namespace,
           params: { chainId: this.chainId },
         });
-        this.setData(neat?.account);
+        this.setData(neat?.accounts);
         this.setState(State.Done);
         this.setMessage(void 0);
       } catch (error) {

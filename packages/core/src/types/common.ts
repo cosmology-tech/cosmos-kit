@@ -1,5 +1,4 @@
 import { ChainName } from './chain';
-import { Namespace, WalletClientMethod } from './wallet';
 
 export type TypeName =
   | 'string'
@@ -110,3 +109,5 @@ export interface HttpEndpoint {
    */
   readonly headers: Record<string, string>;
 }
+
+export type KeyToType = { [k: string]: TypeName | TypedArrayType };

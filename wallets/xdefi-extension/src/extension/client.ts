@@ -5,7 +5,7 @@ import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { XDEFI } from './types';
 
-export class XDEFIClient implements WalletClient {
+export class XDEFIClient extends WalletClientBase<TypeParams> {
   readonly client: XDEFI;
   readonly options?: WalletClientOptions;
 

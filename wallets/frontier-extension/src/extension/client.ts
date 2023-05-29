@@ -5,7 +5,7 @@ import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Frontier } from './types';
 
-export class FrontierClient implements WalletClient {
+export class FrontierClient extends WalletClientBase<TypeParams> {
   readonly client: Frontier;
   readonly options?: WalletClientOptions;
 

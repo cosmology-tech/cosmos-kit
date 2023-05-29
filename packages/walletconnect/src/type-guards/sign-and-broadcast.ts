@@ -1,12 +1,12 @@
-import { hasRequiredKeyType, isArray } from '@cosmos-kit/core';
-import { SignAndBroadcastOptionsMap, SignAndBroadcastParams } from '../types';
+import { hasRequiredKeyType, isArray, Options } from '@cosmos-kit/core';
+import { SignAndBroadcastParams } from '../types';
 import { SignParamsDiscriminator } from './sign';
 
 export const SignAndBroadcastParamsDiscriminator = {
   Ethereum: {
     isTransaction(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.Stella.XDR {
       return SignParamsDiscriminator.Ethereum.isTransaction(params);
     },
@@ -14,7 +14,7 @@ export const SignAndBroadcastParamsDiscriminator = {
   Everscale: {
     isMessage(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.Stella.XDR {
       return SignParamsDiscriminator.Everscale.isMessage(params);
     },
@@ -22,7 +22,7 @@ export const SignAndBroadcastParamsDiscriminator = {
   Stella: {
     isXDR(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.Stella.XDR {
       return hasRequiredKeyType(params, { xdr: 'string' });
     },
@@ -30,7 +30,7 @@ export const SignAndBroadcastParamsDiscriminator = {
   Tezos: {
     isSend(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.Tezos.Send {
       return (
         hasRequiredKeyType(params, { account: 'string' }) &&
@@ -45,7 +45,7 @@ export const SignAndBroadcastParamsDiscriminator = {
   XRPL: {
     isTransaction(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.XRPL.Transaction {
       const submit =
         params['submit'] === true || typeof params['submit'] === 'undefined';
@@ -59,7 +59,7 @@ export const SignAndBroadcastParamsDiscriminator = {
     },
     isTransactionFor(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.XRPL.TransactionFor {
       const submit = params['submit'] === true;
       return (

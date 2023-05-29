@@ -2,16 +2,17 @@ import {
   hasOptionalKeyType,
   hasRequiredKeyType,
   isArray,
+  Options,
 } from '@cosmos-kit/core';
 import { GenericCosmosDocDiscriminator } from '@cosmos-kit/cosmos';
 import { GenericEthDocDiscriminator } from '@cosmos-kit/ethereum';
-import { SignOptionsMap, SignParams } from '../types';
+import { SignParams } from '../types';
 
 export const SignParamsDiscriminator = {
   Cosmos: {
     isAmino(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Cosmos.Direct {
       return (
         hasRequiredKeyType(params, { signerAddress: 'string' }) &&
@@ -20,7 +21,7 @@ export const SignParamsDiscriminator = {
     },
     isDirect(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Cosmos.Direct {
       return (
         hasRequiredKeyType(params, { signerAddress: 'string' }) &&
@@ -34,23 +35,19 @@ export const SignParamsDiscriminator = {
     },
   },
   Ethereum: {
-    _check: (
-      method: string,
-      params: unknown,
-      options?: SignOptionsMap
-    ): boolean => {
-      if (typeof options?.ethereum?.method === 'undefined') {
+    _check: (method: string, params: unknown, options?: Options): boolean => {
+      if (typeof options?.methods === 'undefined') {
         throw new Error('Please set `ethereum.method` in options.');
       }
       return (
-        options?.ethereum?.method === method &&
+        options?.methods.includes(method) &&
         typeof params[0] === 'string' &&
         typeof params[1] === 'string'
       );
     },
     isTransaction(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Ethereum.Transaction {
       return (
         Array.isArray(params) &&
@@ -59,7 +56,7 @@ export const SignParamsDiscriminator = {
     },
     isTypedData(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Ethereum.TypedData {
       const [signer, doc] = params as any;
       return (
@@ -69,13 +66,13 @@ export const SignParamsDiscriminator = {
     },
     isPersonalSign(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Ethereum.PersonalSign {
       return this._check('personal_sign', params, options);
     },
     isSign(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Ethereum.Sign {
       return this._check('eth_sign', params, options);
     },
@@ -83,7 +80,7 @@ export const SignParamsDiscriminator = {
   Everscale: {
     isSign(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Everscale.Sign {
       return hasRequiredKeyType(params, {
         source_address: 'string',
@@ -92,7 +89,7 @@ export const SignParamsDiscriminator = {
     },
     isMessage(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Everscale.Message {
       return (
         hasRequiredKeyType(params, { source_address: 'string' }) &&
@@ -109,7 +106,7 @@ export const SignParamsDiscriminator = {
   Solana: {
     isTransaction(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Solana.Transaction {
       return (
         hasRequiredKeyType(params, {
@@ -120,7 +117,7 @@ export const SignParamsDiscriminator = {
     },
     isMessage(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Solana.Message {
       return hasRequiredKeyType(params, {
         message: 'string',
@@ -129,17 +126,14 @@ export const SignParamsDiscriminator = {
     },
   },
   Stella: {
-    isXDR(
-      params: unknown,
-      options?: SignOptionsMap
-    ): params is SignParams.Stella.XDR {
+    isXDR(params: unknown, options?: Options): params is SignParams.Stella.XDR {
       return hasRequiredKeyType(params, { xdr: 'string' });
     },
   },
   Tezos: {
     isSign(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.Tezos.Sign {
       return hasRequiredKeyType(params, {
         account: 'string',
@@ -150,13 +144,13 @@ export const SignParamsDiscriminator = {
   NEAR: {
     isTransaction(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.NEAR.Transaction {
       return isArray(params['transaction'], 'Uint8Array');
     },
     isTransactions(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.NEAR.Transactions {
       const { transactions } = params['transactions'];
       return (
@@ -168,7 +162,7 @@ export const SignParamsDiscriminator = {
   XRPL: {
     isTransaction(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.XRPL.Transaction {
       const notSubmit = params['submit'] === false;
       return (
@@ -181,7 +175,7 @@ export const SignParamsDiscriminator = {
     },
     isTransactionFor(
       params: unknown,
-      options?: SignOptionsMap
+      options?: Options
     ): params is SignParams.XRPL.TransactionFor {
       const notSubmit =
         params['submit'] === false || typeof params['submit'] === 'undefined';

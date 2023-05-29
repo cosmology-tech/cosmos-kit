@@ -11,22 +11,26 @@ export type NamespaceMap<T> = {
 
 export interface Options {
   /**
-   * Defaults to false. When `greedy` is false, means will only request once per WalletClient method calling.
-   * If there are multiple methods requesting eligible for original wallet object, will cause error.
-   * When `greedy` is true, means multiple requests would be made per WalletClient method calling.
+   * Defaults to false.
+   *
+   * When `allowMultipleRequests` is false, means will choose one method to call for a param data.
+   * If there are multiple methods eligible from the raw wallet client, will only choose the first one.
+   *
+   * When `allowMultipleRequests` is true, means multiple requests could be made for a param data.
    *
    * For example, for WalletClient method `getAccount`, the original wallet object might provide two methods
    * to get address and public key separately.
-   * If `greedy` is true, we'll do two request in `getAccount`, to get address and public key separately.
-   * If `greedy` is false, we'll only do one request in `getAccount`, that is to get address.
-   *
-   * Note: Doc Related methods in WalletClient don't support multiple methods requesting.
+   * If `allowMultipleRequests` is true, we'll do two request in `getAccount`, to get address and public key separately.
+   * If `allowMultipleRequests` is false, we'll only do one request in `getAccount`, that is to get address.
    */
-  greedy?: boolean;
+  allowMultipleRequests?: boolean;
   /**
-   * Explicitly designate which method to use in requesting if there are multiple methods available in wallet.
+   * Explicitly designate which methods to use in requesting from the raw wallet client.
+   * Note that if you are setting `allowMultipleRequests` to be false, will only choose the first method.
+   *
+   * You can check the availble methods by calling `WalletClient.getMethods`.
    */
-  method?: RawMethod;
+  methods?: RawMethod[];
 }
 
 /**
@@ -67,4 +71,15 @@ export namespace Args {
 
 export interface ReqArgs extends Args.General {
   method: string;
+}
+
+/**
+ * Type parameters in Args, used in WalletClientBase
+ */
+export interface TypeParams {
+  addChain: unknown;
+  sign: unknown;
+  verify: unknown;
+  broadcast: unknown;
+  signAndBroadcast: unknown;
 }

@@ -1,6 +1,6 @@
 import { Endpoints } from './manager';
 import { Chain, AssetList } from '@chain-registry/types';
-import { Namespace } from './wallet';
+import { Namespace } from './wallet-client';
 
 export type ChainName = string;
 export type ChainId = string;

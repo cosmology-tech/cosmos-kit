@@ -5,7 +5,7 @@ import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Leap } from './types';
 
-export class LeapClient implements WalletClient {
+export class LeapClient extends WalletClientBase<TypeParams> {
   readonly client: Leap;
   readonly options?: WalletClientOptions;
 

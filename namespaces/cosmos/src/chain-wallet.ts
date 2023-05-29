@@ -70,7 +70,7 @@ export class CosmosChainWalletBase extends ChainWalletBase {
       cosmos: { chainIds: [this.chainId] },
     })) as CosmosWalletAccount[];
     return accounts.map(
-      ({ address, publicKey }) =>
+      ({ address, keys: publicKey }) =>
         ({
           address: address.value,
           pubkey: getUint8ArrayFromString(publicKey.value, publicKey.encoding),

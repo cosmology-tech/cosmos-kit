@@ -13,7 +13,7 @@ import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import type { Vectis, VectisChainInfo } from './types';
 
-export class VectisClient implements WalletClient {
+export class VectisClient extends WalletClientBase<TypeParams> {
   readonly client: Vectis;
   readonly options?: WalletClientOptions;
 

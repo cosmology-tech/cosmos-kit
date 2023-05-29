@@ -6,7 +6,6 @@ import {
   State,
   Wallet,
   WalletAccount,
-  WalletClient,
   WalletClientActions,
   DappEnv,
   Namespace,
@@ -27,21 +26,16 @@ import {
   CosmosAccount,
   SolanaAccount,
   NearAccount,
-  BroadcastParamsType,
   GeneralParams,
   TezosAccount,
+  WCTypeParams,
 } from './types';
 import { namespacesConfig, discriminators } from './config';
-import {
-  SignAndBroadcastParamsType,
-  SignAndBroadcastResult,
-  SignParamsType,
-  SignResult,
-} from './types';
+import { SignAndBroadcastResult, SignResult } from './types';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
-export class WCClient extends WalletClientBase implements WalletClient {
+export class WCClient extends WalletClientBase<WCTypeParams> {
   readonly walletInfo: Wallet;
   readonly options?: WalletConnectOptions;
 
@@ -582,7 +576,7 @@ export class WCClient extends WalletClientBase implements WalletClient {
     return { neat: { account }, raw };
   }
 
-  async sign(args: Args.DocRelated<SignParamsType>): Promise<Resp.Sign> {
+  async sign(args: Args.DocRelated<WCTypeParams['sign']>): Promise<Resp.Sign> {
     const raw = await this._sign(args);
 
     let neat: Resp.Sign['neat'];
@@ -659,7 +653,7 @@ export class WCClient extends WalletClientBase implements WalletClient {
   }
 
   async broadcast(
-    args: Args.DocRelated<BroadcastParamsType>
+    args: Args.DocRelated<WCTypeParams['broadcast']>
   ): Promise<Resp.Broadcast> {
     const raw = await this._broadcast(args);
 
@@ -679,7 +673,7 @@ export class WCClient extends WalletClientBase implements WalletClient {
   }
 
   async signAndBroadcast(
-    args: Args.DocRelated<SignAndBroadcastParamsType>
+    args: Args.DocRelated<WCTypeParams['signAndBroadcast']>
   ): Promise<Resp.Broadcast> {
     const raw = await this._signAndBroadcast(args);
 

@@ -25,23 +25,20 @@ export type SignParamsType =
 
 export namespace SignParams {
   export namespace Cosmos {
-    interface Transaction {
+    interface Transaction<T> {
       chainName: ChainId;
       isEditMemo?: boolean;
       isEditFee?: boolean;
       gasRate?: SignOptions['gasRate'];
+      doc: T;
     }
     export interface Message {
       chainName: ChainId;
       signer: string;
       message: string;
     }
-    export interface Direct extends Transaction {
-      doc: SignDirectDoc;
-    }
-    export interface Amino extends Transaction {
-      doc: SignAminoDoc;
-    }
+    export type Direct = Transaction<SignDirectDoc>;
+    export type Amino = Transaction<SignAminoDoc>;
     export interface Arbitrary {
       chainId: ChainId;
       signer: string;

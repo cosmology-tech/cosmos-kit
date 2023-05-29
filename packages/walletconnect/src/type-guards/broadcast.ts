@@ -1,10 +1,11 @@
-import { BroadcastOptionsMap, BroadcastParams } from '../types';
+import { Options } from '@cosmos-kit/core';
+import { BroadcastParams } from '../types';
 
 export const BroadcastParamsDiscriminator = {
   Ethereum: {
     isRawTransaction(
       params: unknown,
-      options?: BroadcastOptionsMap
+      options?: Options
     ): params is BroadcastParams.Ethereum.RawTransaction {
       return (
         Array.isArray(params) &&

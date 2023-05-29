@@ -1,5 +1,7 @@
-import { Discriminators, isGreedy } from '@cosmos-kit/core';
+import { Discriminators, isChainRecord, isGreedy } from '@cosmos-kit/core';
+import { AddChainParamsDiscriminator as KeplrAddChainParamsDiscriminator } from '@cosmos-kit/keplr-extension';
 import {
+  AddChainParamsDiscriminator,
   BroadcastParamsDiscriminator,
   SignAndBroadcastParamsDiscriminator,
   SignParamsDiscriminator,
@@ -9,7 +11,7 @@ import {
 export const discriminators: Discriminators = {
   enable: {
     cosmos: {
-      cos_enable: true,
+      ikeplr_enable: true,
     },
     aptos: {
       aptos_connect: true,
@@ -45,10 +47,13 @@ export const discriminators: Discriminators = {
 
   addChain: {
     cosmos: {
-      cos_addChain: true,
+      cos_addChain: AddChainParamsDiscriminator.Cosmos.isChainInfo,
+      ikeplr_experimentalSuggestChain:
+        KeplrAddChainParamsDiscriminator.Cosmos.isChainInfo,
+      ikeplr_addChainRecord: isChainRecord,
     },
     ethereum: {
-      wallet_addEthereumChain: true,
+      wallet_addEthereumChain: AddChainParamsDiscriminator.Ethereum.isChainInfo,
     },
   },
 

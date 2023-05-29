@@ -1,5 +1,10 @@
-import { ClientNotExistError } from '@cosmos-kit/core';
-import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
+import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
+import {
+  ChainRecord,
+  ClientNotExistError,
+  ExtendedHttpEndpoint,
+} from '@cosmos-kit/core';
+import { ChainInfo, Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 export const getKeplrFromExtension: () => Promise<
   Keplr | undefined
@@ -40,3 +45,21 @@ export const getKeplrFromExtension: () => Promise<
     document.addEventListener('readystatechange', documentStateChange);
   });
 };
+
+export function chainRecordToKeplr(chainRecord: ChainRecord): ChainInfo {
+  const chainInfo = chainRegistryChainToKeplr(
+    chainRecord.chain,
+    chainRecord.assetList ? [chainRecord.assetList] : []
+  );
+
+  if (chainRecord.preferredEndpoints?.rest?.[0]) {
+    (chainInfo.rest as string | ExtendedHttpEndpoint) =
+      chainRecord.preferredEndpoints?.rest?.[0];
+  }
+
+  if (chainRecord.preferredEndpoints?.rpc?.[0]) {
+    (chainInfo.rpc as string | ExtendedHttpEndpoint) =
+      chainRecord.preferredEndpoints?.rpc?.[0];
+  }
+  return chainInfo;
+}

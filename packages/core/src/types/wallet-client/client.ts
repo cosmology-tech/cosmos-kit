@@ -24,8 +24,6 @@ export type WalletClientOptions = {
  * A standardized WalletCLient interface suitable for all kinds if networks
  */
 export interface WalletClient {
-  options?: WalletClientOptions;
-
   // --------------------------------------------------------------------------------------------------------------
   //                                                AUTH RELATED
   // --------------------------------------------------------------------------------------------------------------

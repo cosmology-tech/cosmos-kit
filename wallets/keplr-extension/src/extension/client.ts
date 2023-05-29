@@ -1,5 +1,5 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { StdSignDoc } from '@cosmjs/amino';
+import {  StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   Args,
@@ -16,10 +16,12 @@ import {
   WalletClientOptions,
 } from '@cosmos-kit/core';
 import { CosmosWalletAccount } from '@cosmos-kit/cosmos';
-import { BroadcastMode, ChainInfo, Keplr, Key } from '@keplr-wallet/types';
-import { discriminators } from '../config';
+import { AminoSignResponse, BroadcastMode, ChainInfo, DirectSignResponse, Keplr, Key } from '@keplr-wallet/types';
+import { discriminators } from './config';
+import { KeplrTypeParams } from '../types';
+import { chainRecordToKeplr } from './utils';
 
-export class KeplrClient extends WalletClientBase implements WalletClient {
+export class KeplrClient extends WalletClientBase<KeplrTypeParams> {
   readonly client: Keplr;
   readonly options?: WalletClientOptions;
 
@@ -32,21 +34,42 @@ export class KeplrClient extends WalletClientBase implements WalletClient {
   protected async _request(args: ReqArgs): Promise<unknown> {
     const { method, params } = args;
     switch (method) {
-      case 'cos_enable':
+      case 'ikeplr_enable':
         return await this.client.enable(
           (params as Args.AuthRelated['params']).chainIds
         );
-        case 'cos_getKey':
+
+      case 'ikeplr_disable':
+        return await this.client.disable(
+          (params as Args.AuthRelated['params']).chainIds
+        );
+
+      case 'ikeplr_experimentalSuggestChain':
+        return await this.client.experimentalSuggestChain(params as ChainInfo);
+
+      case 'ikeplr_addChainRecord':
+        return await this.client.experimentalSuggestChain(
+          chainRecordToKeplr(params as ChainRecord)
+        );
+
+        case 'ikeplr_getKey':
           return await this.client.getKey(
             (params as Args.GetAccount['params']).chainId
           );
-          case 'cos_experimentalSuggestChain':
-            return await this.client.experimentalSuggestChain((params as Args.AddChain<ChainInfo>['params']).chainInfo);
+
+      case 'ikeplr_verifyArbitrary':
+        const p = params as VerifyParams.Cosmos.Arbitrary;
+        return await this.client.verifyArbitrary(
+          p.chainId,
+          p.signer,
+          p.data,
+          p.signature
+        );
   }
 }
 
 async getAccount(args: Args.GetAccount): Promise<Resp.GetAccount> {
-  const rawList = await this._getAccount(args)
+  const rawList = await this._getAccount(args);
   const account = rawList.map(({resp}) => {
     const {name, bech32Address, pubKey, algo} = resp as Key
       return {
@@ -55,40 +78,30 @@ async getAccount(args: Args.GetAccount): Promise<Resp.GetAccount> {
           value: bech32Address,
           encoding: 'bech32'
         },
-        publicKey: {
+        keys: {
           value: getStringFromUint8Array(pubKey, 'hex'),
           encoding: 'hex',
           algo,
         }
       } as CosmosWalletAccount
       })
-    return {neat: {account}, raw: rawList}
+    return {neat: {accounts: account}, raw: rawList}
 }
 
-async addChain(args: Args.AddChain<ChainInfo | ChainRecord>): Promise<Resp.Void> {
-  return { raw: await this._addChain(args) };
+sign(args: Args.DocRelated<KeplrTypeParams['sign']>): Promise<Resp.Sign> {
+  const raw = await this._sign(args);
+  let neat: Resp.Sign['neat'];
+  switch (raw.method) {
+    case 'ikeplr_signAmino':
+      case 'ikeplr_signDirect':
+      const {signed, signature} = raw.resp as AminoSignResponse|DirectSignResponse;
+      neat = {signedDoc: signed, signature: signature.signature, publicKey: signature.pub_key}
+      break;
+    default:
+      return Promise.reject(`Unmatched method: ${raw.method}.`);
+  }
+  return {neat, raw}
 }
-
-  // async addChain(chainInfo: ChainRecord) {
-  //   const suggestChain = chainRegistryChainToKeplr(
-  //     chainInfo.chain,
-  //     chainInfo.assetList ? [chainInfo.assetList] : []
-  //   );
-
-  //   if (chainInfo.preferredEndpoints?.rest?.[0]) {
-  //     (suggestChain.rest as
-  //       | string
-  //       | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
-  //   }
-
-  //   if (chainInfo.preferredEndpoints?.rpc?.[0]) {
-  //     (suggestChain.rpc as
-  //       | string
-  //       | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
-  //   }
-
-  //   await this.client.experimentalSuggestChain(suggestChain);
-  // }
 
   async signAmino(
     chainId: string,

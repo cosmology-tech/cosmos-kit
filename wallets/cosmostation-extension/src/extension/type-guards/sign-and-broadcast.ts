@@ -1,11 +1,12 @@
-import { SignAndBroadcastParams, SignAndBroadcastOptionsMap } from '../types';
+import { Options } from '@cosmos-kit/core';
+import { SignAndBroadcastParams } from '../types';
 import { SignParamsDiscriminator } from './sign';
 
 export const SignAndBroadcastParamsDiscriminator = {
   Aptos: {
     isTransaction(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.Aptos.Transaction {
       return SignParamsDiscriminator.Aptos.isTransaction(params);
     },
@@ -13,7 +14,7 @@ export const SignAndBroadcastParamsDiscriminator = {
   Sui: {
     isTransaction(
       params: unknown,
-      options?: SignAndBroadcastOptionsMap
+      options?: Options
     ): params is SignAndBroadcastParams.Sui.Transaction {
       return true;
     },

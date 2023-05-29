@@ -10,7 +10,7 @@ import {
   WalletClientOptions,
 } from '@cosmos-kit/core';
 
-export class MetamaskClient implements WalletClient {
+export class MetamaskClient extends WalletClientBase<TypeParams> {
   readonly client: any;
   readonly options?: WalletClientOptions;
 

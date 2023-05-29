@@ -1,5 +1,5 @@
 import { EncodedString } from '../common';
-import { PublicKey, WalletAccount } from './account';
+import { Key, WalletAccount } from './account';
 import { RawMethod } from './discriminator';
 
 export interface Raw {
@@ -12,8 +12,8 @@ export interface Raw {
  */
 export namespace Resp {
   /**
-   * @key raw: the original response from wallet.
-   * @key neat: the organized/standardized response by CosmosKit.
+   * @key raw: The original response from wallet. You can also check what methods are actually used in the calling.
+   * @key neat: The organized/standardized response by CosmosKit.
    */
   export interface General {
     raw?: Raw | Raw[];
@@ -25,7 +25,7 @@ export namespace Resp {
 
   export interface GetAccount extends General {
     neat?: {
-      account: WalletAccount[];
+      accounts: WalletAccount[];
     };
   }
   /**
@@ -34,7 +34,7 @@ export namespace Resp {
   export interface Sign extends General {
     neat?: {
       signature?: EncodedString;
-      publicKey?: PublicKey;
+      publicKey?: Key;
       signedDoc?: unknown;
     };
   }
