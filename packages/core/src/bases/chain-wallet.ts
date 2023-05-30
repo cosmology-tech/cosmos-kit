@@ -233,7 +233,7 @@ export class ChainWalletBase extends WalletBase {
     const lazy = getIsLazy(
       void 0,
       this.isLazy,
-      (this._restEndpoint as any).isLazy,
+      (this._restEndpoint as any)?.isLazy,
       isLazy,
       this.logger
     );
