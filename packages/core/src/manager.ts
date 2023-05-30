@@ -320,6 +320,9 @@ export class WalletManager extends StateBase {
         chainWallet?.setState(State.Done);
       });
     }
+    if (walletName) {
+      await this._reconnect();
+    }
   };
 
   onMounted = async () => {
