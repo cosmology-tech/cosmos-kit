@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.2...@cosmos-kit/core@1.5.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* add optional chaining to get rest endpoint ([50c0e36](https://github.com/cosmology-tech/cosmos-kit/commit/50c0e3675d9b65a0faf95299c95d2a514011eae0))
+
+
+
+
+
 ## [1.5.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.1...@cosmos-kit/core@1.5.2) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/core
