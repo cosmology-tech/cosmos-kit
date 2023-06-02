@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap",
-  "version": "0.15.2",
+  "version": "0.15.3",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -81,8 +81,8 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/leap-extension": "^0.16.6",
-    "@cosmos-kit/leap-mobile": "^0.1.2"
+    "@cosmos-kit/leap-extension": "^0.16.7",
+    "@cosmos-kit/leap-mobile": "^0.1.3"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
