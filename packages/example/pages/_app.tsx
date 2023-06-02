@@ -30,10 +30,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           chains={[...chains, terra2testnet]}
           assetLists={[...assets, terra2testnetAssets]}
           wallets={[
-            // ...keplrWallets,
+            ...keplrWallets,
             // ...web3authWallets,
-            // ...cosmostationWallets,
-            ...leapWallets,
+            ...cosmostationWallets,
+            // ...leapWallets,
             // ...vectisWallets,
             // ...xdefiWallets,
             // ...omniWallets,

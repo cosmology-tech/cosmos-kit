@@ -1327,6 +1327,13 @@
   dependencies:
     "@babel/runtime" "^7.19.4"
 
+"@chain-registry/types@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.16.0.tgz#f76409186899a976d33693d7f458c33d71a66730"
+  integrity sha512-4j6vq2Vqn/nF+UBjvRPUVs6eM3+5rJ+dPmEWpd/OoNH3wTy1k6aoilcSTZRR//vGcI5EOVGsxhhJxUzo2qqweA==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+
 "@chain-registry/utils@^1.3.0":
   version "1.5.0"
   resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.5.0.tgz#15b6e015271846efedb5c22a08281a1502f5ef3b"
@@ -6213,19 +6220,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@18.0.20", "@types/react@>=16":
+"@types/react@*", "@types/react@18.0.20", "@types/react@18.0.25", "@types/react@>=16":
   version "18.0.20"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.20.tgz#e4c36be3a55eb5b456ecf501bd4a00fd4fd0c9ab"
   integrity sha512-MWul1teSPxujEHVwZl4a5HxQ9vVNsjTchVA+xRqv/VYGCuKGAU6UhfrTdF5aBefwD1BHUD8i/zq+O/vyCm/FrA==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@18.0.25":
-  version "18.0.25"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.25.tgz#8b1dcd7e56fe7315535a4af25435e0bb55c8ae44"
-  integrity sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -8126,6 +8124,14 @@ chain-registry@^1.10.0:
   dependencies:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.14.0"
+
+chain-registry@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.14.0.tgz#874f7c4d416b5122f25d7d8e89e22368074bef1b"
+  integrity sha512-j5PgLP8coJ4uIUtpd2fXTLa3ass2ahbx35+g6eLquDZpIg/0Sr7SKX7M2/0jnaT7ohHKnRLMJxOnBHaDpuotoQ==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.16.0"
 
 chain-registry@^1.5.0:
   version "1.7.0"
