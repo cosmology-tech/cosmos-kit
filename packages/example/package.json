@@ -22,7 +22,6 @@
     "@cosmos-kit/cosmostation": "^0.15.28",
     "@cosmos-kit/keplr": "^0.33.30",
     "@cosmos-kit/leap": "^0.15.0",
-    "@cosmos-kit/compass": "^0.0.1",
     "@cosmos-kit/react": "^1.3.24",
     "@cosmos-kit/station": "^0.7.4",
     "@cosmos-kit/station-extension": "^0.7.4",

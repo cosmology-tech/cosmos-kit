@@ -2,7 +2,7 @@ import { Wallet } from '@cosmos-kit/core';
 
 export const compassExtensionInfo: Wallet = {
   name: 'compass-extension',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/compass.png',
+  logo: 'https://assets.leapwallet.io/logos/compass.png',
   prettyName: 'Compass',
   mode: 'extension',
   mobileDisabled: true,
@@ -14,10 +14,12 @@ export const compassExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/compass-wallet/anokgmphncpekkhclmingpimjmcooifb',
+      link:
+        'https://chrome.google.com/webstore/detail/compass-wallet/anokgmphncpekkhclmingpimjmcooifb',
     },
     {
-      link: 'https://chrome.google.com/webstore/detail/compass-wallet/anokgmphncpekkhclmingpimjmcooifb',
+      link:
+        'https://chrome.google.com/webstore/detail/compass-wallet/anokgmphncpekkhclmingpimjmcooifb',
     },
   ],
 };
