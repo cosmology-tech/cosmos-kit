@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/frontier",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@frontierwallet.io",
   "contributors": [
@@ -81,7 +81,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/frontier-extension": "^0.1.29"
+    "@cosmos-kit/frontier-extension": "^0.1.30"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

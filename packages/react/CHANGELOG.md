@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.28](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.27...@cosmos-kit/react@1.3.28) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
 ## [1.3.27](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.26...@cosmos-kit/react@1.3.27) (2023-06-02)
 
 **Note:** Version bump only for package @cosmos-kit/react
