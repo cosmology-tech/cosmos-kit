@@ -1,4 +1,3 @@
-/// <reference types="react" />
 /// <reference types="node" />
 /// <reference types="long" />
 import { AccountData, AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
