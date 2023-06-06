@@ -35,7 +35,7 @@ export default () => {
   const { colorMode, setColorMode } = useColorMode();
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
   const { modalTheme, setModalTheme } = useModalTheme();
-  const { status: globalStatus } = useWallet();
+  const { status: globalStatus } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
 
   const toggleTheme = useCallback(() => {
     switch (modalTheme) {
