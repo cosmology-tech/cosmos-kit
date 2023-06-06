@@ -25,11 +25,11 @@ import { ChainWalletCard } from "../components";
 // const chainNames_1 = ["cosmoshub"];
 // const chainNames_2: string[] = ["cosmoshub"];
 
-// const chainNames_1 = ["osmosis", "cosmoshub"];
-// const chainNames_2 = ["stargaze", "chihuahua"];
+const chainNames_1 = ["osmosis", "cosmoshub"];
+const chainNames_2 = ["stargaze", "chihuahua"];
 
-const chainNames_1 = ["coreum"];
-const chainNames_2 = [];
+// const chainNames_1 = ["coreum"];
+// const chainNames_2 = [];
 
 export default () => {
   const { colorMode, setColorMode } = useColorMode();
