@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { ChainWalletBase } from '../bases';
 import { WalletRepo } from '../repository';
 import { Dispatch } from './common';

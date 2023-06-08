@@ -160,6 +160,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.setData(void 0);
     this.setState(State.Done);
     this.setMessage(void 0);
+    this.activate();
   }
 
   async connectAll(activeOnly: boolean = true, exclude?: ChainName) {

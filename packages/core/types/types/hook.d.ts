@@ -61,6 +61,7 @@ export interface ChainContext extends ChainWalletContext {
 export interface ManagerContext {
     chainRecords: ChainRecord[];
     walletRepos: WalletRepo[];
+    mainWallets: MainWalletBase[];
     defaultNameService: NameServiceName;
     getChainRecord: (chainName: ChainName) => ChainRecord;
     getWalletRepo: (chainName: ChainName) => WalletRepo;

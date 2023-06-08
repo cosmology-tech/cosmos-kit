@@ -12,6 +12,7 @@ export const useManager = (): ManagerContext => {
 
   const {
     walletManager: {
+      mainWallets,
       chainRecords,
       walletRepos,
       defaultNameService,
@@ -28,6 +29,7 @@ export const useManager = (): ManagerContext => {
   return {
     chainRecords,
     walletRepos,
+    mainWallets,
     defaultNameService,
     getChainRecord,
     getWalletRepo,
