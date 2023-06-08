@@ -20,6 +20,7 @@ export const useWallet = (
 
   if (!mainWallet) {
     return {
+      mainWallet,
       chainWallets: [],
       wallet: void 0,
       status: WalletStatus.Disconnected,
@@ -36,6 +37,7 @@ export const useWallet = (
   const [globalStatus, globalMessage] = getGlobalStatusAndMessage(activeOnly);
 
   return {
+    mainWallet,
     chainWallets: getChainWalletList(activeOnly),
     wallet: walletInfo,
     status: globalStatus,

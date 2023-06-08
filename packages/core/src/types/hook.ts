@@ -22,7 +22,7 @@ import {
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { ChainWalletBase } from '../bases';
+import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
@@ -158,6 +158,7 @@ export interface ModalThemeContext {
 }
 
 export interface WalletContext {
+  mainWallet: MainWalletBase | undefined;
   chainWallets: ChainWalletBase[];
   wallet: Wallet | undefined;
   status: WalletStatus;
