@@ -37,7 +37,7 @@ export type NamespacesConfig = {
   };
 };
 
-export interface GeneralParams {
+export interface BaseParams {
   chainId: ChainId;
   params?: unknown;
 }

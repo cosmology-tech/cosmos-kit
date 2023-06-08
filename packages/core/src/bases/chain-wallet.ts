@@ -113,7 +113,7 @@ export abstract class ChainWalletBase extends WalletBase {
           { namespace: this.namespace, params: { chainIds: [this.chainId] } },
         ]);
       } catch (error) {
-        if ((error as Error).message !== NoMatchedMethodError.message) {
+        if ((error as Error).message === NoMatchedMethodError.message) {
           throw error;
         }
       }
@@ -126,7 +126,7 @@ export abstract class ChainWalletBase extends WalletBase {
           namespace: this.namespace,
           params: { chainId: this.chainId },
         });
-        this.setData(neat?.accounts);
+        this.setData(neat?.account);
         this.setState(State.Done);
         this.setMessage(void 0);
       } catch (error) {

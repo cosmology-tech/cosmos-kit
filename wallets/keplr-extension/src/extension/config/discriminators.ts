@@ -1,23 +1,16 @@
-import { Discriminators, isChainRecord, Options } from '@cosmos-kit/core';
-import { enableDiscriminator } from '../methods/enable';
-import { AddChainParamsDiscriminator } from '../type-guards';
-
-export namespace GetAccountParams {
-  interface General {
-    chainId: string;
-  }
-  export type Key = General;
-  export type EnigmaPubKey = General;
-  export interface Secret20ViewingKey extends General {
-    contractAddress: string;
-  }
-  export interface EnigmaTxEncryptionKey extends General {
-    nonce: Uint8Array;
-  }
-}
+import { Discriminators, Options } from '@cosmos-kit/core';
+import {
+  AddChainParamsDiscriminator,
+  GetAccountParamsDiscriminator,
+  SignParamsDiscriminator,
+} from '../type-guards';
 
 export const discriminators: Discriminators = {
-  enable: enableDiscriminator,
+  enable: {
+    cosmos: {
+      ikeplr_enable: true,
+    },
+  },
 
   disable: {
     cosmos: {
@@ -25,25 +18,23 @@ export const discriminators: Discriminators = {
     },
   },
 
-  getAccount: {
-    cosmos: {
-      ikeplr_getKey: (
-        params: unknown,
-        options?: Options
-      ): params is GetAccountParams.Key => {
-        return true;
-      },
-      ikeplr_getSecret20ViewingKey: true,
-      ikeplr_getEnigmaPubKey: true,
-      ikeplr_getEnigmaTxEncryptionKey: true,
-    },
-  },
-
   addChain: {
     cosmos: {
       ikeplr_experimentalSuggestChain:
         AddChainParamsDiscriminator.Cosmos.isChainInfo,
-      ikeplr_addChainRecord: isChainRecord,
+      ikeplr_addChainRecord: AddChainParamsDiscriminator.Cosmos.isChainRecord,
+    },
+  },
+
+  getAccount: {
+    cosmos: {
+      ikeplr_getKey: GetAccountParamsDiscriminator.Cosmos.isKey,
+      ikeplr_getEnigmaPubKey:
+        GetAccountParamsDiscriminator.Cosmos.isEnigmaPubKey,
+      ikeplr_getEnigmaTxEncryptionKey:
+        GetAccountParamsDiscriminator.Cosmos.isEnigmaTxEncryptionKey,
+      ikeplr_getSecret20ViewingKey:
+        GetAccountParamsDiscriminator.Cosmos.isSecret20ViewingKey,
     },
   },
 
@@ -51,12 +42,12 @@ export const discriminators: Discriminators = {
     cosmos: {
       ikeplr_signAmino: SignParamsDiscriminator.Cosmos.isAmino,
       ikeplr_signDirect: SignParamsDiscriminator.Cosmos.isDirect,
-      ikeplr_signICNSAdr36: SignParamsDiscriminator.Cosmos.isMessage,
+      ikeplr_signICNSAdr36: SignParamsDiscriminator.Cosmos.isICNSAdr36,
       ikeplr_signArbitrary: SignParamsDiscriminator.Cosmos.isArbitrary,
     },
     ethereum: {
-      ikeplr_signICNSAdr36: SignParamsDiscriminator.Cosmos.isMessage,
-      ikeplr_signEthereum: SignParamsDiscriminator.Cosmos.isMessage,
+      ikeplr_signICNSAdr36: SignParamsDiscriminator.Ethereum.isICNSAdr36,
+      ikeplr_signEthereum: SignParamsDiscriminator.Ethereum.isEthereum,
     },
   },
 

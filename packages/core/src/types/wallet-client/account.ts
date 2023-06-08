@@ -20,12 +20,16 @@ export type EncodedAddress =
     };
 
 export type KeyType =
-  | 'Address'
-  | 'Bech32Address'
-  | 'PublicKey'
-  | 'Secret20ViewingKey'
-  | 'EnigmaPubKey'
-  | 'EnigmaTxEncryptionKey';
+  | 'address'
+  | 'address/bech32'
+  | 'public'
+  | 'public/enigma'
+  | 'public/enigmaTxEncryption'
+  | 'public/secp256k1'
+  | 'public/ed25519'
+  | 'public/sr25519'
+  | 'public/multisigThreshold'
+  | 'viewing/secret20';
 
 export type Key =
   | string
@@ -33,19 +37,18 @@ export type Key =
       value: string;
       type: KeyType;
       encoding?: Encoding;
-      algo?: string; // digital key scheme algorithm
     };
 
 /**
  * At least address or publicKey should exist
  */
 export interface WalletAccount {
+  namespace: Namespace;
   keys: Key[];
   /**
    * some contracts provides readable address/publicKey representation service, like domain for an ip.
    * `name` is unique like address/publicKey, different from `username` in some wallet
    */
-  name?: string;
-  namespace: Namespace;
+  username?: string;
   chainId?: string;
 }

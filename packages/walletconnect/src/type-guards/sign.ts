@@ -37,7 +37,7 @@ export const SignParamsDiscriminator = {
   Ethereum: {
     _check: (method: string, params: unknown, options?: Options): boolean => {
       if (typeof options?.methods === 'undefined') {
-        throw new Error('Please set `ethereum.method` in options.');
+        throw new Error('Please designate method in options.');
       }
       return (
         options?.methods.includes(method) &&

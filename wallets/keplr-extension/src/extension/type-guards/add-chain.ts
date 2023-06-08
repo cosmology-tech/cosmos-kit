@@ -1,6 +1,7 @@
 import {
   hasRequiredKeyType,
   isArray,
+  isChainRecord,
   KeyToType,
   Options,
 } from '@cosmos-kit/core';
@@ -29,6 +30,12 @@ export const AddChainParamsDiscriminator = {
         isArray(params?.['currencies'], currencyKeyToType) &&
         isArray(params?.['feeCurrencies'], currencyKeyToType)
       );
+    },
+    isChainRecord(
+      params: unknown,
+      options?: Options
+    ): params is AddChainParams.Cosmos.ChainRecord {
+      return isChainRecord(params, options);
     },
   },
 };

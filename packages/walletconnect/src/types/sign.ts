@@ -3,7 +3,7 @@ import { GenericCosmosDoc } from '@cosmos-kit/cosmos';
 import { GenericEthDoc } from '@cosmos-kit/ethereum';
 import { GeneralParams } from './types';
 
-export interface SignParamsType extends GeneralParams {
+export interface SignParamsType extends BaseParams {
   params:
     | SignParams.Cosmos.Amino
     | SignParams.Cosmos.Direct

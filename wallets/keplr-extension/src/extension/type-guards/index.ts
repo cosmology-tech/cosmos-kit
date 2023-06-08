@@ -1,4 +1,3 @@
-export * from './broadcast';
 export * from './sign';
-export * from './verify';
+export * from './get-account';
 export * from './add-chain';

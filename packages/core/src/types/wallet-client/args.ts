@@ -37,39 +37,37 @@ export interface Options {
  * Arguments of methods in WalletClient
  */
 export namespace Args {
-  export interface General {
+  export interface Base {
     namespace: Namespace;
     params?: unknown;
     options?: Options;
   }
-  export interface DocRelated<T> extends General {
+  export interface DocRelated<T> extends Base {
     params: T;
   }
-  export interface AuthRelated extends General {
+  export interface AuthRelated extends Base {
     params?: {
       chainIds?: ChainId[];
       methods?: string[]; // Used in WalletConnect
       events?: string[]; // Used in WalletConnect
     };
   }
-  export interface GetAccount extends General {
-    params: {
-      chainId: ChainId | null;
-    };
+  export interface GetAccount<T> extends Base {
+    params: T;
   }
-  export interface AddChain<T> extends General {
+  export interface AddChain<T> extends Base {
     params: {
       chainInfo: T;
     };
   }
-  export interface SwitchChain extends General {
+  export interface SwitchChain extends Base {
     params: {
       chainId: ChainId;
     };
   }
 }
 
-export interface ReqArgs extends Args.General {
+export interface ReqArgs extends Args.Base {
   method: string;
 }
 
