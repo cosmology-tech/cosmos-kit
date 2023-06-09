@@ -32,13 +32,13 @@ export abstract class MainWalletBase extends WalletBase {
         chainWallet.setEnv(env);
       });
     });
-    this.emitter.on('sync_connect', (chainName?: ChainName) => {
-      this.connectAll(true, chainName);
-      this.activate();
+    this.emitter.on('sync_connect', async (chainName?: ChainName) => {
+      await this.connectAll(true, chainName);
+      this.update();
     });
-    this.emitter.on('sync_disconnect', (chainName?: ChainName) => {
-      this.disconnectAll(true, chainName);
-      this.inactivate();
+    this.emitter.on('sync_disconnect', async (chainName?: ChainName) => {
+      await this.disconnectAll(true, chainName);
+      this.reset();
     });
     this.emitter.on('reset', (chainIds: string[]) => {
       chainIds.forEach((chainId) =>
@@ -158,9 +158,20 @@ export abstract class MainWalletBase extends WalletBase {
 
   async update() {
     this.setData(void 0);
-    this.setState(State.Done);
     this.setMessage(void 0);
+    this.setState(State.Done);
     this.activate();
+    window?.localStorage.setItem(
+      'cosmos-kit@1:core//current-wallet',
+      this.walletName
+    );
+  }
+
+  reset() {
+    this.setData(void 0);
+    this.setMessage(void 0);
+    this.setState(State.Init);
+    this.inactivate();
   }
 
   async connectAll(activeOnly: boolean = true, exclude?: ChainName) {
