@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/exodus-extension",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "cosmos-kit wallet connector",
   "author": "devs@exodus.io",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
