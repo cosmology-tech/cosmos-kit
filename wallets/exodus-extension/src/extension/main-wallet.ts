@@ -6,7 +6,10 @@ import { ExodusClient } from './client';
 import { getExodusFromExtension } from './utils';
 
 export class ExodusExtensionWallet extends MainWalletBase {
-  constructor(walletInfo: Wallet, preferredEndpoints?: EndpointOptions) {
+  constructor(
+    walletInfo: Wallet,
+    preferredEndpoints?: EndpointOptions['endpoints']
+  ) {
     super(walletInfo, ChainExodusExtension);
     this.preferredEndpoints = preferredEndpoints;
   }

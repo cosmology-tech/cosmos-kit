@@ -85,11 +85,5 @@
   },
   "dependencies": {
     "@cosmos-kit/vectis-extension": "^0.16.10"
-  },
-  "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28",
-    "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/proto-signing": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
   }
 }

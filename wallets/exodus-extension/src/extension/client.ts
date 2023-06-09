@@ -20,6 +20,15 @@ export class ExodusClient implements WalletClient {
     });
   }
 
+  async getSimpleAccount(chainId: string) {
+    const { address } = await this.getAccount(chainId);
+    return {
+      namespace: 'cosmos',
+      chainId,
+      address,
+    };
+  }
+
   async getAccount(chainId: string) {
     const response = await this.client.connect({ chainId });
 
