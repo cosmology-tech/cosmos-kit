@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/station",
-  "version": "0.7.10",
+  "version": "0.7.11",
   "description": "@cosmos-kit/station is the Station integration for CosmosKit",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -84,7 +84,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/station-extension": "^0.7.10"
+    "@cosmos-kit/station-extension": "^0.7.11"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

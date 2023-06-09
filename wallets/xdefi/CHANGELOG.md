@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi@0.1.11...@cosmos-kit/xdefi@0.1.12) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/xdefi
+
+
+
+
+
 ## [0.1.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi@0.1.10...@cosmos-kit/xdefi@0.1.11) (2023-06-08)
 
 **Note:** Version bump only for package @cosmos-kit/xdefi
