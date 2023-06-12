@@ -1,51 +1,47 @@
-import { Box } from '@chakra-ui/react';
-import {
-  ConnectWalletButton,
-  LogoStatus,
-  SimpleDisplayModalContent,
-  SimpleModalHead,
-  SimpleModalView,
-} from '@cosmology-ui/react';
+import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import React, { useCallback } from 'react';
 
-export const RejectedView = ({
+import { ModalViewImpl } from './config';
+
+export function RejectedView({
   onClose,
   onReturn,
   wallet,
-}: WalletViewProps) => {
+}: WalletViewProps): ModalViewImpl {
   const {
-    walletInfo: { prettyName, logo },
+    walletInfo: { prettyName },
   } = wallet;
 
-  const onReconnect = useCallback(() => {
+  const onReconnect = () => {
     wallet.connect(false);
-  }, [wallet]);
+  };
 
   const modalHead = (
-    <SimpleModalHead
+    <ConnectModalHead
       title={prettyName}
-      backButton={true}
+      hasBackButton={true}
       onClose={onClose}
       onBack={onReturn}
     />
   );
 
   const modalContent = (
-    <SimpleDisplayModalContent
-      status={LogoStatus.Error}
-      logo={logo}
+    <ConnectModalStatus
+      status="Rejected"
+      wallet={{
+        name: wallet.walletInfo.name,
+        prettyName: wallet.walletInfo.prettyName,
+        logo: wallet.walletInfo.logo,
+        isMobile: wallet.walletInfo.mode === 'wallet-connect',
+        mobileDisabled: wallet.walletInfo.mobileDisabled,
+      }}
       contentHeader={'Request Rejected'}
       contentDesc={
         wallet.rejectMessageTarget || 'Connection permission is denied.'
       }
-      bottomButton={
-        <Box px={6}>
-          <ConnectWalletButton buttonText={'Reconnect'} onClick={onReconnect} />
-        </Box>
-      }
+      onConnect={onReconnect}
     />
   );
 
-  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
-};
+  return { head: modalHead, content: modalContent };
+}

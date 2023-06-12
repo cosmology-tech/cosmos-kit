@@ -1,20 +1,24 @@
 import {
-  SimpleModalHead,
-  QRCode as SimpleQRCode,
-  SimpleModalView,
+  ConnectModalHead,
+  ConnectModalQRCode,
   QRCodeStatus,
 } from '@cosmology-ui/react';
 import { ExpiredError, State, WalletViewProps } from '@cosmos-kit/core';
-import React, { useCallback, useMemo } from 'react';
 
-export const QRCodeView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
+import { ModalViewImpl } from './config';
+
+export function QRCodeView({
+  onClose,
+  onReturn,
+  wallet,
+}: WalletViewProps): ModalViewImpl {
   const {
     walletInfo: { prettyName },
     qrUrl: { data, state, message },
   } = wallet;
 
-  const [desc, errorTitle, errorDesc, status] = useMemo(() => {
-    let desc: string = `Open ${prettyName} App to Scan`;
+  function getParts() {
+    let desc = `Open ${prettyName} App to Scan`;
     let errorTitle: string, errorDesc: string;
     if (state === 'Error') {
       desc = void 0;
@@ -28,50 +32,53 @@ export const QRCodeView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
     }
 
     let status: QRCodeStatus;
+
     switch (state) {
       case State.Pending:
-        status = QRCodeStatus.Pending;
+        status = 'Pending';
         break;
       case State.Done:
-        status = QRCodeStatus.Done;
+        status = 'Done';
         break;
       case State.Error:
         if (message === ExpiredError.message) {
-          status = QRCodeStatus.Expired;
+          status = 'Expired';
         } else {
-          status = QRCodeStatus.Error;
+          status = 'Error';
         }
         break;
       default:
-        status = QRCodeStatus.Error;
+        status = 'Error';
     }
 
-    return [desc, errorTitle, errorDesc, status];
-  }, [state, message]);
+    return { desc, errorTitle, errorDesc, status };
+  }
 
-  const onRefresh = useCallback(() => {
+  const { desc, errorTitle, errorDesc, status } = getParts();
+
+  const onRefresh = () => {
     wallet.connect(false);
-  }, [wallet]);
+  };
 
   const modalHead = (
-    <SimpleModalHead
+    <ConnectModalHead
       title={prettyName}
-      backButton={true}
+      hasBackButton={true}
       onClose={onClose}
       onBack={onReturn}
     />
   );
 
   const modalContent = (
-    <SimpleQRCode
+    <ConnectModalQRCode
+      status={status}
       link={data || ''}
       description={desc}
       errorTitle={errorTitle}
       errorDesc={errorDesc}
       onRefresh={onRefresh}
-      status={status}
     />
   );
 
-  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
-};
+  return { head: modalHead, content: modalContent };
+}

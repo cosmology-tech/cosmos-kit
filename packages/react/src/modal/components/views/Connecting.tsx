@@ -1,23 +1,19 @@
-import {
-  LogoStatus,
-  SimpleDisplayModalContent,
-  SimpleModalHead,
-  SimpleModalView,
-} from '@cosmology-ui/react';
+import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import React from 'react';
 
-export const ConnectingView = ({
+import { ModalViewImpl } from './config';
+
+export function ConnectingView({
   onClose,
   onReturn,
   wallet,
-}: WalletViewProps) => {
+}: WalletViewProps): ModalViewImpl {
   const {
-    walletInfo: { prettyName, logo, mode },
+    walletInfo: { prettyName, mode },
     message,
   } = wallet;
 
-  let title: string = 'Requesting Connection';
+  let title = 'Requesting Connection';
   let desc: string =
     mode === 'wallet-connect'
       ? `Approve ${prettyName} connection request on your mobile.`
@@ -29,22 +25,28 @@ export const ConnectingView = ({
   }
 
   const modalHead = (
-    <SimpleModalHead
+    <ConnectModalHead
       title={prettyName}
-      backButton={true}
+      hasBackButton={true}
       onClose={onClose}
       onBack={onReturn}
     />
   );
 
   const modalContent = (
-    <SimpleDisplayModalContent
-      status={LogoStatus.Loading}
-      logo={logo}
+    <ConnectModalStatus
+      status="Connecting"
+      wallet={{
+        name: wallet.walletInfo.name,
+        prettyName: wallet.walletInfo.prettyName,
+        logo: wallet.walletInfo.logo,
+        isMobile: wallet.walletInfo.mode === 'wallet-connect',
+        mobileDisabled: wallet.walletInfo.mobileDisabled,
+      }}
       contentHeader={title}
       contentDesc={desc}
     />
   );
 
-  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
-};
+  return { head: modalHead, content: modalContent };
+}

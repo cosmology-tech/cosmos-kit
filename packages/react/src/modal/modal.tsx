@@ -1,22 +1,13 @@
-import { SimpleConnectModal } from '@cosmology-ui/react';
+import { ConnectModal } from '@cosmology-ui/react';
 import {
   ModalView,
-  ModalViews,
   State,
-  WalletListViewProps,
   WalletModalProps,
   WalletStatus,
-  WalletViewProps,
 } from '@cosmos-kit/core';
-import React, {
-  useCallback,
-  useMemo,
-  useEffect,
-  useState,
-  useRef,
-} from 'react';
-import { ChakraProviderWithGivenTheme } from './components';
-import { defaultModalViews } from './components/views';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import { defaultModalViews, ModalViewImpl } from './components/views';
 
 export const DefaultModal = ({
   isOpen,
@@ -24,14 +15,12 @@ export const DefaultModal = ({
   walletRepo,
 }: WalletModalProps) => {
   return (
-    <ChakraProviderWithGivenTheme>
-      <WalletModal
-        isOpen={isOpen}
-        setOpen={setOpen}
-        walletRepo={walletRepo}
-        modalViews={defaultModalViews}
-      />
-    </ChakraProviderWithGivenTheme>
+    <WalletModal
+      isOpen={isOpen}
+      setOpen={setOpen}
+      walletRepo={walletRepo}
+      modalViews={defaultModalViews}
+    />
   );
 };
 
@@ -42,7 +31,7 @@ export const WalletModal = ({
   modalViews,
   includeAllWalletsOnMobile,
 }: WalletModalProps & {
-  modalViews: ModalViews;
+  modalViews: typeof defaultModalViews;
   includeAllWalletsOnMobile?: boolean;
 }) => {
   const initialFocus = useRef();
@@ -109,37 +98,36 @@ export const WalletModal = ({
     setCurrentView(ModalView.WalletList);
   }, [setCurrentView]);
 
-  const modalView = useMemo(() => {
-    let ViewComponent;
+  const wallets = useMemo(
+    () =>
+      walletRepo?.isMobile && !includeAllWalletsOnMobile
+        ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
+        : walletRepo?.wallets,
+    [walletRepo.wallets, includeAllWalletsOnMobile]
+  );
+
+  const modalView: ModalViewImpl = useMemo(() => {
+    const getImplementation = modalViews[`${currentView}`];
+
     switch (currentView) {
       case ModalView.WalletList:
-        ViewComponent = modalViews[`${currentView}`] as (
-          props: WalletListViewProps
-        ) => JSX.Element;
-        const wallets =
-          walletRepo?.isMobile && !includeAllWalletsOnMobile
-            ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
-            : walletRepo?.wallets;
-        return (
-          <ViewComponent
-            onClose={onCloseModal}
-            wallets={wallets || []}
-            initialFocus={initialFocus}
-          />
-        );
+        return getImplementation({
+          onClose: onCloseModal,
+          wallets: wallets || [],
+          initialFocus: initialFocus,
+        });
       default:
-        if (!current) return <div />;
-
-        ViewComponent = modalViews[`${currentView}`] as (
-          props: WalletViewProps
-        ) => JSX.Element;
-        return (
-          <ViewComponent
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            wallet={current}
-          />
-        );
+        if (!current) {
+          return {
+            head: null,
+            content: null,
+          };
+        }
+        return getImplementation({
+          onClose: onCloseModal,
+          onReturn: onReturn,
+          wallet: current,
+        });
     }
   }, [
     currentView,
@@ -154,11 +142,12 @@ export const WalletModal = ({
   ]);
 
   return (
-    <SimpleConnectModal
-      modalOpen={isOpen}
-      modalOnClose={onCloseModal}
-      modalView={modalView}
-      initialRef={initialFocus}
-    />
+    <ConnectModal
+      isOpen={isOpen}
+      header={modalView.head}
+      onClose={onCloseModal}
+    >
+      {modalView.content}
+    </ConnectModal>
   );
 };

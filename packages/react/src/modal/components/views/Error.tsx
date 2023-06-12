@@ -1,45 +1,42 @@
-import { Box } from '@chakra-ui/react';
-import {
-  ConnectWalletButton,
-  LogoStatus,
-  SimpleDisplayModalContent,
-  SimpleModalHead,
-  SimpleModalView,
-} from '@cosmology-ui/react';
+import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import React from 'react';
 
-export const ErrorView = ({ onClose, onReturn, wallet }: WalletViewProps) => {
+import { ModalViewImpl } from './config';
+
+export function ErrorView({
+  onClose,
+  onReturn,
+  wallet,
+}: WalletViewProps): ModalViewImpl {
   const {
     walletInfo: { prettyName, logo },
     message,
   } = wallet;
 
   const modalHead = (
-    <SimpleModalHead
+    <ConnectModalHead
       title={prettyName}
-      backButton={true}
+      hasBackButton={true}
       onClose={onClose}
       onBack={onReturn}
     />
   );
 
   const modalContent = (
-    <SimpleDisplayModalContent
-      status={LogoStatus.Error}
-      logo={logo}
+    <ConnectModalStatus
+      status="Error"
+      wallet={{
+        name: wallet.walletInfo.name,
+        prettyName: wallet.walletInfo.prettyName,
+        logo: wallet.walletInfo.logo,
+        isMobile: wallet.walletInfo.mode === 'wallet-connect',
+        mobileDisabled: wallet.walletInfo.mobileDisabled,
+      }}
       contentHeader={'Oops! Something wrong...'}
       contentDesc={message}
-      bottomButton={
-        <Box px={6}>
-          <ConnectWalletButton
-            buttonText={'Change Wallet'}
-            onClick={onReturn}
-          />
-        </Box>
-      }
+      onChangeWallet={onReturn}
     />
   );
 
-  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
-};
+  return { head: modalHead, content: modalContent };
+}

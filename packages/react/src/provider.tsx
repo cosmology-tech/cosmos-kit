@@ -4,7 +4,6 @@ import {
   Logger,
   LogLevel,
   MainWalletBase,
-  ModalViews,
   NameServiceName,
   SessionOptions,
   SignerOptions,
@@ -12,13 +11,9 @@ import {
   WalletModalProps,
 } from '@cosmos-kit/core';
 import { ChainProvider as ChainProviderLite } from '@cosmos-kit/react-lite';
-import React, { ReactNode, useCallback, useMemo } from 'react';
+import { ReactNode, useCallback, useMemo } from 'react';
 
-import { WalletModal } from '.';
-import {
-  ChakraProviderWithGivenTheme,
-  ChakraProviderWithOuterTheme,
-} from './modal/components';
+import { WalletModal } from './modal';
 import { defaultModalViews } from './modal/components/views';
 
 export const ChainProvider = ({
@@ -26,10 +21,7 @@ export const ChainProvider = ({
   assetLists,
   wallets,
   walletModal,
-  modalTheme,
   modalViews,
-  includeAllWalletsOnMobile = false,
-  wrappedWithChakra = false,
   throwErrors = false,
   defaultNameService = 'icns',
   walletConnectOptions,
@@ -43,9 +35,7 @@ export const ChainProvider = ({
   assetLists: AssetList[];
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
-  modalTheme?: Record<string, any>;
-  modalViews?: ModalViews;
-  includeAllWalletsOnMobile?: boolean;
+  modalViews?: typeof defaultModalViews;
   wrappedWithChakra?: boolean;
   throwErrors?: boolean;
   defaultNameService?: NameServiceName;
@@ -54,14 +44,9 @@ export const ChainProvider = ({
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
-  children: ReactNode;
+  children?: ReactNode;
 }) => {
   const logger = useMemo(() => new Logger(logLevel), []);
-  if (wrappedWithChakra && modalTheme) {
-    logger.warn(
-      'Your are suggesting there already been a Chakra Theme active in higher level (with `wrappedWithChakra` is true). `modalTheme` will not work in this case.'
-    );
-  }
 
   const getChainProvider = (
     modal: (props: WalletModalProps) => JSX.Element
@@ -98,25 +83,12 @@ export const ChainProvider = ({
           ...defaultModalViews,
           ...modalViews,
         }}
-        includeAllWalletsOnMobile={includeAllWalletsOnMobile}
       />
     ),
     [defaultModalViews]
   );
 
-  if (wrappedWithChakra) {
-    logger.debug('Wrap with <ChakraProviderWithOuterTheme>.');
-    return (
-      <ChakraProviderWithOuterTheme logger={logger}>
-        {getChainProvider(defaultModal)}
-      </ChakraProviderWithOuterTheme>
-    );
-  } else {
-    logger.debug('Wrap with <ChakraProviderWithGivenTheme>.');
-    return (
-      <ChakraProviderWithGivenTheme theme={modalTheme} logger={logger}>
-        {getChainProvider(defaultModal)}
-      </ChakraProviderWithGivenTheme>
-    );
-  }
+  logger.debug('Wrap with <ChakraProviderWithGivenTheme>.');
+
+  return getChainProvider(defaultModal);
 };

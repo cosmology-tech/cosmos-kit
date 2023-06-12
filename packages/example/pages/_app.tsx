@@ -12,6 +12,7 @@ import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
+import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
@@ -23,7 +24,6 @@ import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
-import { ChainProvider } from "@cosmos-kit/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

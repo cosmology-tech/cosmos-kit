@@ -1,57 +1,44 @@
-import { Box, Icon } from '@chakra-ui/react';
-import {
-  Astronaut,
-  ConnectWalletButton,
-  CopyAddressButton,
-  SimpleDisplayModalContent,
-  SimpleModalHead,
-  SimpleModalView,
-} from '@cosmology-ui/react';
+import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import React, { useCallback, useReducer } from 'react';
-import { RiDoorOpenFill } from 'react-icons/ri';
 
-export const ConnectedView = ({
+import { ModalViewImpl } from './config';
+
+export function ConnectedView({
   onClose,
   onReturn,
   wallet,
-}: WalletViewProps) => {
-  const {
-    walletInfo: { prettyName, logo },
-    username,
-    address,
-  } = wallet;
+}: WalletViewProps): ModalViewImpl {
+  const { walletInfo, username, address } = wallet;
 
-  const onDisconnect = useCallback(() => {
-    wallet.disconnect(true);
-  }, [wallet]);
+  const onDisconnect = () => wallet.disconnect(true);
 
   const modalHead = (
-    <SimpleModalHead
-      title={prettyName}
-      backButton={true}
+    <ConnectModalHead
+      title={walletInfo.prettyName}
+      hasBackButton={true}
       onClose={onClose}
       onBack={onReturn}
     />
   );
 
   const modalContent = (
-    <SimpleDisplayModalContent
-      logo={Astronaut}
-      username={username}
-      walletIcon={logo}
-      addressButton={<CopyAddressButton address={address} />}
-      bottomButton={
-        <Box px={6}>
-          <ConnectWalletButton
-            leftIcon={<Icon as={RiDoorOpenFill} />}
-            buttonText={'Disconnect'}
-            onClick={onDisconnect}
-          />
-        </Box>
-      }
+    <ConnectModalStatus
+      wallet={{
+        name: walletInfo.name,
+        prettyName: walletInfo.prettyName,
+        logo: walletInfo.logo,
+        isMobile: walletInfo.mode === 'wallet-connect',
+        mobileDisabled: walletInfo.mobileDisabled,
+      }}
+      status="Connected"
+      connectedInfo={{
+        name: username,
+        avatarUrl: '',
+        address,
+      }}
+      onDisconnect={onDisconnect}
     />
   );
 
-  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
-};
+  return { head: modalHead, content: modalContent };
+}

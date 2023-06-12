@@ -1,24 +1,17 @@
 import {
-  SimpleDisplayWalletList,
-  SimpleModalHead,
-  SimpleModalView,
-  Wallet,
+  ConnectModalHead,
+  ConnectModalWalletList,
+  ConnectModalWalletListProps,
 } from '@cosmology-ui/react';
 import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-export const WalletListView = ({
-  onClose,
-  wallets,
-  initialFocus,
-}: WalletListViewProps) => {
-  const defaultInitialFocus = useRef();
+interface DynamicWalletListProps {
+  wallets: WalletListViewProps['wallets'];
+  onClose: () => void;
+}
+
+const DynamicWalletList = ({ wallets, onClose }: DynamicWalletListProps) => {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
@@ -45,15 +38,7 @@ export const WalletListView = ({
     };
   }, []);
 
-  const modalHead = (
-    <SimpleModalHead
-      title="Select your wallet"
-      backButton={false}
-      onClose={onClose}
-    />
-  );
-
-  const walletsData = useMemo(
+  const walletsData: ConnectModalWalletListProps['wallets'] = useMemo(
     () =>
       wallets
         .sort((a, b) => {
@@ -65,30 +50,43 @@ export const WalletListView = ({
             return 1;
           }
         })
-        .map(
-          (w, i) =>
-          ({
-            ...w.walletInfo,
-            downloads: void 0,
-            onClick: async () => {
-              onWalletClicked(w);
-            },
-            buttonShape: i < 2 && isLargeScreen ? 'Square' : 'Rectangle',
-            subLogo:
-              w.walletInfo.mode === 'wallet-connect'
-                ? 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/wallet-connect.svg'
-                : void 0,
-          } as Wallet)
-        ),
+        .map((wallet, i) => ({
+          name: wallet.walletInfo.name,
+          prettyName: wallet.walletInfo.prettyName,
+          logo: wallet.walletInfo.logo,
+          isMobile: wallet.walletInfo.mode === 'wallet-connect',
+          mobileDisabled: wallet.walletInfo.mobileDisabled,
+          downloadUrl: '',
+          originalWallet: wallet,
+          buttonShape: i < 2 && isLargeScreen ? 'square' : 'list',
+        })),
     [wallets, isLargeScreen]
   );
 
-  const modalContent = (
-    <SimpleDisplayWalletList
-      initialFocus={initialFocus || defaultInitialFocus}
-      walletsData={walletsData}
+  return (
+    <ConnectModalWalletList
+      wallets={walletsData}
+      onWalletItemClick={onWalletClicked}
+    />
+  );
+};
+
+export const WalletListView = ({
+  onClose,
+  wallets,
+  initialFocus,
+}: WalletListViewProps) => {
+  const modalHead = (
+    <ConnectModalHead
+      title="Select your wallet"
+      hasBackButton={false}
+      onClose={onClose}
     />
   );
 
-  return <SimpleModalView modalHead={modalHead} modalContent={modalContent} />;
+  const modalContent = (
+    <DynamicWalletList wallets={wallets} onClose={onClose} />
+  );
+
+  return { head: modalHead, content: modalContent };
 };
