@@ -3,19 +3,18 @@
     "target": "es2015",
     "skipLibCheck": true,
     "declaration": true,
-    "declarationDir": "./types",
     "emitDeclarationOnly": true,
+    // "declarationDir": "./types",
     "isolatedModules": true,
     "allowJs": true,
     "jsx": "react-jsx",
+    "lib": ["ES2015", "DOM"],
+    "module": "ESNext",
     "esModuleInterop": true,
     "downlevelIteration": true,
+    "experimentalDecorators": true,
     "moduleResolution": "node"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*", "types/**/*.d.ts"],
+  "exclude": ["node_modules"]
 }

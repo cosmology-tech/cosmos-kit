@@ -22,7 +22,7 @@
     "@cosmos-kit/cosmostation": "^0.15.36",
     "@cosmos-kit/keplr": "^0.33.38",
     "@cosmos-kit/leap": "^0.15.8",
-    "@cosmos-kit/react": "^1.3.31",
+    "@cosmos-kit/react": "*",
     "@cosmos-kit/station": "^0.7.12",
     "@cosmos-kit/station-extension": "^0.7.11",
     "@cosmos-kit/vectis": "^0.15.35",
@@ -37,7 +37,7 @@
     "fast-fuzzy": "1.11.2",
     "framer-motion": "^9.0.7",
     "juno-network": "0.9.0",
-    "next": "12.3.1",
+    "next": "12.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "4.7.1"

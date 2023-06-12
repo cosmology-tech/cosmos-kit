@@ -1,12 +1,11 @@
+export * from './modal';
+export * from './provider';
 export {
-  walletContext,
   useChain,
   useChainWallet,
   useManager,
+  useNameService,
   useWallet,
   useWalletClient,
-  useNameService,
+  walletContext,
 } from '@cosmos-kit/react-lite';
-export * from './modal';
-export * from './provider';
-export * from './hooks';
