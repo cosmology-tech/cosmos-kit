@@ -1,4 +1,6 @@
-import { ConnectModal } from '@cosmology-ui/react';
+import '@cosmology-ui/react/styles.css';
+
+import { ConnectModal, ThemeProvider } from '@cosmology-ui/react';
 import {
   ModalView,
   State,
@@ -142,12 +144,14 @@ export const WalletModal = ({
   ]);
 
   return (
-    <ConnectModal
-      isOpen={isOpen}
-      header={modalView.head}
-      onClose={onCloseModal}
-    >
-      {modalView.content}
-    </ConnectModal>
+    <ThemeProvider>
+      <ConnectModal
+        isOpen={isOpen}
+        header={modalView.head}
+        onClose={onCloseModal}
+      >
+        {modalView.content}
+      </ConnectModal>
+    </ThemeProvider>
   );
 };
