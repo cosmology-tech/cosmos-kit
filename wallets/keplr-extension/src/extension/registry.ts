@@ -1,5 +1,5 @@
 /// <reference types="../../types/global.d.ts" />
-import logo from './logo.svg';
+import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
 
 export const keplrExtensionInfo: Wallet = {
