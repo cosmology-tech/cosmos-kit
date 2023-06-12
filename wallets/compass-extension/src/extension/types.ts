@@ -1,6 +1,7 @@
 import {
   AminoSignResponse,
   OfflineAminoSigner,
+  StdSignature,
   StdSignDoc,
 } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
@@ -52,6 +53,11 @@ export interface Compass {
     },
     signOptions?: CompassSignOptions
   ): Promise<DirectSignResponse>;
+  signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature>;
   getEnigmaPubKey(chainId: string): Promise<Uint8Array>;
   getEnigmaTxEncryptionKey(
     chainId: string,
