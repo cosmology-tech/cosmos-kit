@@ -1,5 +1,5 @@
 /// <reference types="long" />
-import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode, Key } from '@cosmos-kit/core';
@@ -27,5 +27,6 @@ export interface Frontier {
         /** SignDoc accountNumber */
         accountNumber?: Long | null;
     }, signOptions?: FrontierSignOptions): Promise<DirectSignResponse>;
+    signArbitrary(chainId: string, signer: string, data: string | Uint8Array): Promise<StdSignature>;
     sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }

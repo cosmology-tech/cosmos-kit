@@ -2,6 +2,7 @@ import {
   AminoSignResponse,
   OfflineAminoSigner,
   StdSignDoc,
+  StdSignature,
 } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
@@ -42,6 +43,11 @@ export interface Frontier {
     },
     signOptions?: FrontierSignOptions
   ): Promise<DirectSignResponse>;
+  signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature>;
   sendTx(
     chainId: string,
     tx: Uint8Array,
