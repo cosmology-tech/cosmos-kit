@@ -24,6 +24,7 @@
   "devDependencies": {
     "@babel/cli": "7.18.10",
     "@babel/core": "7.19.1",
+    "@parcel/packager-ts": "2.9.2",
     "@pyramation/babel-preset-env": "0.2.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "29.0.2",

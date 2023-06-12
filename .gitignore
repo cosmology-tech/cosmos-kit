@@ -11,3 +11,4 @@ packages/example/utils/tmp.ts
 .idea
 /.yarnrc
 /.npmrc
+.parcel-cache
