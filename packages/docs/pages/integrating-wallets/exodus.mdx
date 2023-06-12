@@ -1,0 +1,47 @@
+# How to Add Exodus Wallet to CosmosKit
+
+There are two packages for exodus
+
+- `@cosmoskit/exodus`
+- `@cosmoskit/exodus-extension`
+
+`@cosmoskit/exodus` export all available exodus wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmoskit/exodus-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/exodus` for example
+
+## add `@cosmoskit/exodus`
+
+```
+yarn add @cosmoskit/exodus
+```
+
+## import the wallets
+
+```js
+import { wallets as exodus } from '@cosmos-kit/exodus';
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+    <ChakraProvider theme={defaultTheme}>
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...exodus]}
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+    </ChakraProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
+

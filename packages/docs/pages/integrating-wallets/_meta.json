@@ -9,5 +9,6 @@
     "station": "@ Station Wallet",
     "frontier": "@ Frontier Wallet",
     "web3auth": "@ Web3Auth",
-    "compass": "@ Compass"
+    "compass": "@ Compass",
+    "exodus": "@ Exodus"
 }

@@ -103,6 +103,14 @@ export const ChainProvider = ({
     });
   });
 
+  walletManager.mainWallets.forEach((w) => {
+    w.setActions({
+      data: setData,
+      state: setState,
+      message: setMsg,
+    });
+  });
+
   useEffect(() => {
     walletManager.onMounted();
     return () => {

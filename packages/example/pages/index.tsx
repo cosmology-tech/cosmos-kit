@@ -14,7 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useChain, useModalTheme, useWallet } from "@cosmos-kit/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useCallback } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
@@ -35,7 +35,19 @@ export default () => {
   const { colorMode, setColorMode } = useColorMode();
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
   const { modalTheme, setModalTheme } = useModalTheme();
-  const { status: globalStatus } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
+  const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
+
+  useEffect(() => {
+    const fn = async () => {
+      await mainWallet?.connect();
+      console.log(
+        "%cindex.tsx line:42 mainWallet.walletStatus",
+        "color: #007acc;",
+        mainWallet?.walletStatus
+      );
+    };
+    fn();
+  }, []);
 
   const toggleTheme = useCallback(() => {
     switch (modalTheme) {

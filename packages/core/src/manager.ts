@@ -293,7 +293,10 @@ export class WalletManager extends StateBase {
       'cosmos-kit@1:core//current-wallet'
     );
     if (walletName) {
-      this.getMainWallet(walletName).getChainWalletList(true)[0]?.connect(true);
+      await this.getMainWallet(walletName).connect();
+      await this.getMainWallet(walletName)
+        .getChainWalletList(true)[0]
+        ?.connect(true);
     }
   };
 
@@ -304,21 +307,23 @@ export class WalletManager extends StateBase {
     const accountsStr = window.localStorage.getItem(
       'cosmos-kit@1:core//accounts'
     );
-    if (walletName && accountsStr) {
-      const accounts: SimpleAccount[] = JSON.parse(accountsStr);
-      accounts.forEach((data) => {
-        const mainWallet = this.getMainWallet(walletName);
-        mainWallet.activate();
-        const chainWallet = mainWallet
-          .getChainWalletList(false)
-          .find(
-            (w) =>
-              w.chainRecord.chain.chain_id === data.chainId &&
-              w.namespace === data.namespace
-          );
-        chainWallet?.setData(data);
-        chainWallet?.setState(State.Done);
-      });
+    if (walletName) {
+      const mainWallet = this.getMainWallet(walletName);
+      mainWallet.activate();
+      if (accountsStr) {
+        const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+        accounts.forEach((data) => {
+          const chainWallet = mainWallet
+            .getChainWalletList(false)
+            .find(
+              (w) =>
+                w.chainRecord.chain.chain_id === data.chainId &&
+                w.namespace === data.namespace
+            );
+          chainWallet?.setData(data);
+          chainWallet?.setState(State.Done);
+        });
+      }
     }
     if (walletName) {
       await this._reconnect();

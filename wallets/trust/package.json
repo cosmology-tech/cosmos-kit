@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust",
-  "version": "0.14.32",
+  "version": "0.14.36",
   "description": "cosmos-kit wallet connector",
   "contributors": [
     {
@@ -82,12 +82,6 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/trust-mobile": "^0.2.32"
-  },
-  "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28",
-    "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/proto-signing": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
+    "@cosmos-kit/trust-mobile": "^0.2.36"
   }
 }

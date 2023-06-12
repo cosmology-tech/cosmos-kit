@@ -20,6 +20,11 @@ export abstract class WalletBase extends StateBase {
   callbacks?: Callbacks;
   session?: Session;
   walletConnectOptions?: WalletConnectOptions;
+  /**
+   * isActive in mainWallet is not like chainWallet
+   * - mainWallet: activated when connected
+   * - chainWallet: activated when called by hooks (useChain, useChainWallet etc)
+   */
   isActive = false;
   throwErrors = false;
 
@@ -129,7 +134,7 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  disconnect = async (sync?: boolean) => {
+  protected _disconnect = async (sync?: boolean) => {
     if (sync) {
       this.emitter?.emit('sync_disconnect', (this as any).chainName);
       this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
@@ -139,6 +144,10 @@ export abstract class WalletBase extends StateBase {
     window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
     await this.client?.disconnect?.();
     await this.callbacks?.afterDisconnect?.();
+  };
+
+  disconnect = async (sync?: boolean) => {
+    await this._disconnect(sync);
   };
 
   setClientNotExist() {

@@ -16,6 +16,7 @@ export declare abstract class MainWalletBase extends WalletBase {
     getChainWalletList: (activeOnly?: boolean) => ChainWalletBase[];
     getGlobalStatusAndMessage: (activeOnly?: boolean) => [WalletStatus, string | undefined];
     update(): Promise<void>;
+    reset(): void;
     connectAll(activeOnly?: boolean, exclude?: ChainName): Promise<void>;
     disconnectAll(activeOnly?: boolean, exclude?: ChainName): Promise<void>;
 }
