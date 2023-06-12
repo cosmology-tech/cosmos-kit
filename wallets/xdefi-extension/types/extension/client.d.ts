@@ -1,4 +1,4 @@
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode, SignType } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
@@ -25,5 +25,6 @@ export declare class XDEFIClient implements WalletClient {
     getOfflineSignerDirect(chainId: string): OfflineDirectSigner;
     signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions): Promise<import("@cosmjs/amino").AminoSignResponse>;
     signDirect(chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions): Promise<import("@cosmjs/proto-signing").DirectSignResponse>;
+    signArbitrary(chainId: string, signer: string, data: string | Uint8Array): Promise<StdSignature>;
     sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
