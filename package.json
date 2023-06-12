@@ -27,6 +27,7 @@
     "@pyramation/babel-preset-env": "0.2.0",
     "babel-eslint": "10.1.0",
     "babel-jest": "29.0.2",
+    "babel-plugin-inline-import-data-uri": "^1.0.1",
     "eslint": "8.23.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",

@@ -1,9 +1,11 @@
+/// <reference types="../../types/global.d.ts" />
+import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
 
 export const omniMobileInfo: Wallet = {
   name: 'omni-mobile',
   prettyName: 'Omni Mobile',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/omni.png',
+  logo: logo,
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {

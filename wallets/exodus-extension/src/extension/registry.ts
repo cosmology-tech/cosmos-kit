@@ -1,13 +1,13 @@
+/// <reference path="../../types/global.d.ts" />
+import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiChromeFill } from 'react-icons/ri';
 
-import { EXODUS_ICON } from '../constants';
-
 export const exodusExtensionInfo: Wallet = {
   name: 'exodus-extension',
-  logo: EXODUS_ICON,
   prettyName: 'Exodus',
+  logo: logo,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

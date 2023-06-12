@@ -1,9 +1,11 @@
+/// <reference types="../../types/global.d.ts" />
+import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
 
 export const trustExtensionInfo: Wallet = {
   name: 'trust-extension',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/trust.png',
   prettyName: 'Trust',
+  logo: logo,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

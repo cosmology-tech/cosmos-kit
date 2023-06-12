@@ -1,10 +1,11 @@
+/// <reference path="../../types/global.d.ts" />
+import logo from './logo.svg';
 import { OS, Wallet } from '@cosmos-kit/core';
 
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',
   prettyName: 'Keplr Mobile',
-  logo:
-    'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/keplr.svg',
+  logo: logo,
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {

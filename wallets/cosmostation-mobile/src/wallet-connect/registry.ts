@@ -1,10 +1,11 @@
+/// <reference types="../../types/global.d.ts" />
+import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
 
 export const cosmostationMobileInfo: Wallet = {
   name: 'cosmostation-mobile',
   prettyName: 'Cosmostation Mobile',
-  logo:
-    'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/cosmostation.png',
+  logo: logo,
   mode: 'wallet-connect',
   downloads: [
     {
