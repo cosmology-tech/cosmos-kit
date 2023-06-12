@@ -42,6 +42,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...stationWallets,
             // ...ExtensionWallets,
             // ...coin98Wallets,
+            // ...finWallets,
+
           ]}
           throwErrors={false}
           defaultNameService={"stargaze"}
@@ -93,7 +95,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               terra2testnet: {
                 rpc: ["https://terra-testnet-rpc.polkachu.com/"],
                 rest: ["https://pisco-lcd.terra.dev/"],
-              },
+              }
             },
           }}
         >
