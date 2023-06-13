@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.10...@cosmos-kit/react-lite@1.5.0) (2023-06-13)
+
+
+### Features
+
+* add signArbitrary to ChainWalletContext ([6f9a38a](https://github.com/cosmology-tech/cosmos-kit/commit/6f9a38a77d5d02d516f6f2482130a203ea2eee99))
+
+
+
+
+
 ## [1.4.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.9...@cosmos-kit/react-lite@1.4.10) (2023-06-09)
 
 **Note:** Version bump only for package @cosmos-kit/react-lite

@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust",
-  "version": "0.14.36",
+  "version": "0.14.37",
   "description": "cosmos-kit wallet connector",
   "contributors": [
     {
@@ -82,6 +82,6 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/trust-mobile": "^0.2.36"
+    "@cosmos-kit/trust-mobile": "^0.3.0"
   }
 }

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.10.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.9.42...docs@1.10.0) (2023-06-13)
+
+
+### Features
+
+* add signArbitrary to ChainWalletContext ([6f9a38a](https://github.com/cosmology-tech/cosmos-kit/commit/6f9a38a77d5d02d516f6f2482130a203ea2eee99))
+* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
+
+
+
+
+
 ## [1.9.42](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.9.41...docs@1.9.42) (2023-06-09)
 
 **Note:** Version bump only for package docs

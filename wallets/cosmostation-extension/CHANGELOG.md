@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-extension@0.16.11...@cosmos-kit/cosmostation-extension@0.17.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
+
+
+### Features
+
+* add signArbitrary to Cosmostation extension ([0a79c4f](https://github.com/cosmology-tech/cosmos-kit/commit/0a79c4fe09c868404d34470903b3778f76712619))
+* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
+
+
+
+
+
 ## [0.16.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmostation-extension@0.16.10...@cosmos-kit/cosmostation-extension@0.16.11) (2023-06-09)
 
 **Note:** Version bump only for package @cosmos-kit/cosmostation-extension
