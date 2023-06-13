@@ -1,4 +1,3 @@
-/// <reference types="../../types/global.d.ts" />
 import logo from './logo.svg';
 import { OS, Wallet } from '@cosmos-kit/core';
 
