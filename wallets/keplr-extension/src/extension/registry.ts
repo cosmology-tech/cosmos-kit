@@ -16,7 +16,8 @@ export const keplrExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
+      link:
+        'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
     },
     {
       device: 'desktop',

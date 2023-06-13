@@ -2,6 +2,7 @@ import { AssetList, Chain } from '@chain-registry/types';
 import {
   AminoSignResponse,
   OfflineAminoSigner,
+  StdSignature,
   StdSignDoc,
 } from '@cosmjs/amino';
 import {
@@ -124,6 +125,10 @@ export interface ChainWalletContext {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
+  signArbitrary: (
+    signer: string,
+    data: string | Uint8Array
+  ) => Promise<StdSignature>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
 

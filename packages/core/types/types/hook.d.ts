@@ -1,5 +1,5 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { DirectSignResponse, EncodeObject, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DeliverTxResponse, SigningStargateClient, StargateClient, StdFee } from '@cosmjs/stargate';
@@ -50,7 +50,7 @@ export interface ChainWalletContext {
     getOfflineSignerDirect: () => OfflineDirectSigner;
     signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
-    signArbitrary(signer: string, data: string | Uint8Array): Promise<StdSignature>;
+    signArbitrary: (signer: string, data: string | Uint8Array) => Promise<StdSignature>;
     sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
 export interface ChainContext extends ChainWalletContext {
