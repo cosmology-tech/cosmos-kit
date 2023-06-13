@@ -1,4 +1,3 @@
-/// <reference path="../../types/global.d.ts" />
 import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
 import { GoDesktopDownload } from 'react-icons/go';
