@@ -1,9 +1,11 @@
+/// <reference types="../../types/global.d.ts" />
+import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
 
 export const keplrExtensionInfo: Wallet = {
   name: 'keplr-extension',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/keplr.svg',
   prettyName: 'Keplr',
+  logo: logo,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {
