@@ -114,7 +114,7 @@
   "dependencies": {
     "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
-    "@cosmology-ui/react": "^0.1.21",
+    "@cosmology-ui/react": "1.0.1-beta.1",
     "@cosmos-kit/core": "^1.5.8",
     "@cosmos-kit/react-lite": "^1.4.10",
     "@emotion/react": "^11.10.6",
