@@ -9,7 +9,7 @@
     "commit": "git-cz",
     "build:ts": "lerna run build:ts --stream",
     "build": "lerna run prepare --stream",
-    "build:all": "yarn clear && yarn build && yarn build:ts",
+    "build:all": "yarn build && yarn build:ts",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "lint": "lerna run lint",
     "format": "lerna run format",
