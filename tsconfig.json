@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "target": "es2021",
+    "lib": ["es2021", "DOM"],
+    "sourceMap": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "downlevelIteration": true,
+    "moduleResolution": "node"
+  }
+}
