@@ -19,7 +19,7 @@
     "clear:wallets": "find -E ./wallets -iregex '.*/wallets/[-0-9a-z]*/(main|module|types)' -type d -prune -print | xargs rm -rf",
     "clear": "yarn clear:packages && yarn clear:wallets",
     "pub:beta": "lerna publish prerelease --no-private --preid beta",
-    "pub": "lerna publish"
+    "pub": "lerna publish --no-private"
   },
   "devDependencies": {
     "@babel/cli": "7.18.10",
