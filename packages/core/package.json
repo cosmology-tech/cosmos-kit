@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/core",
-  "version": "1.6.1-prerelease.0",
+  "version": "1.6.1-prerelease.1",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -29,8 +29,13 @@
     "clean": true,
     "dts": true,
     "dts-resolve": true,
-    "entry": ["src/**/*.ts"],
-    "format": ["cjs", "esm"],
+    "entry": [
+      "src/**/*.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
     "splitting": false,
     "sourcemap": true
   },
@@ -78,7 +83,8 @@
       "types/"
     ]
   },
-  "devDependencies": {    "@babel/cli": "7.18.10",
+  "devDependencies": {
+    "@babel/cli": "7.18.10",
     "@babel/core": "7.19.1",
     "@babel/eslint-parser": "7.19.1",
     "@babel/node": "7.10.5",

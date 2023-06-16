@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.38-prerelease.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.38-prerelease.0...@cosmos-kit/trust@0.14.38-prerelease.1) (2023-06-16)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
 ## [0.14.38-prerelease.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.37...@cosmos-kit/trust@0.14.38-prerelease.0) (2023-06-15)
 
 **Note:** Version bump only for package @cosmos-kit/trust

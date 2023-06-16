@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-extension",
-  "version": "0.17.1-prerelease.0",
+  "version": "0.17.1-prerelease.1",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -17,8 +17,13 @@
     "clean": true,
     "dts": true,
     "dts-resolve": true,
-    "entry": ["src/**/*.ts"],
-    "format": ["cjs", "esm"],
+    "entry": [
+      "src/**/*.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
     "splitting": false,
     "sourcemap": true
   },
@@ -85,7 +90,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.8.0",
-    "@cosmos-kit/core": "^1.6.1-prerelease.0"
+    "@cosmos-kit/core": "^1.6.1-prerelease.1"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

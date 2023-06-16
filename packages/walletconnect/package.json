@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/walletconnect",
-  "version": "0.3.17-prerelease.0",
+  "version": "0.3.17-prerelease.1",
   "description": "cosmos-kit wallet connector using walletconnect",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -29,8 +29,13 @@
     "clean": true,
     "dts": true,
     "dts-resolve": true,
-    "entry": ["src/**/*.ts"],
-    "format": ["cjs", "esm"],
+    "entry": [
+      "src/**/*.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
     "splitting": false,
     "sourcemap": true
   },
@@ -78,7 +83,8 @@
       "types/"
     ]
   },
-  "devDependencies": {    "@babel/cli": "7.18.10",
+  "devDependencies": {
+    "@babel/cli": "7.18.10",
     "@babel/core": "7.19.1",
     "@babel/eslint-parser": "7.19.1",
     "@babel/node": "7.10.5",
@@ -110,7 +116,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.11.2",
-    "@cosmos-kit/core": "^1.6.1-prerelease.0",
+    "@cosmos-kit/core": "^1.6.1-prerelease.1",
     "@walletconnect/sign-client": "^2.7.2",
     "@walletconnect/types": "^2.7.2",
     "@walletconnect/utils": "^2.7.2",
