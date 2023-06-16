@@ -15,13 +15,14 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.5.1",
+    "@chakra-ui/react": "^2.7.0",
     "@cosmology-ui/react": "^0.1.21",
     "@cosmos-kit/coin98": "^0.2.16",
     "@cosmos-kit/core": "^1.6.0",
     "@cosmos-kit/cosmostation": "^0.15.37",
     "@cosmos-kit/keplr": "^0.33.39",
     "@cosmos-kit/leap": "^0.15.9",
+    "@cosmos-kit/shell": "^0.2.3",
     "@cosmos-kit/react": "^1.3.32",
     "@cosmos-kit/station": "^0.7.13",
     "@cosmos-kit/station-extension": "^0.8.0",

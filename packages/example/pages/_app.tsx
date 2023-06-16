@@ -10,6 +10,7 @@ import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
+import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...web3authWallets,
             ...cosmostationWallets,
             ...exodusWallets,
+            ...shellWallets,
             // ...leapWallets,
             // ...vectisWallets,
             // ...xdefiWallets,
