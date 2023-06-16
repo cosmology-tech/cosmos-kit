@@ -7,9 +7,7 @@
   "private": true,
   "scripts": {
     "commit": "git-cz",
-    "build:ts": "lerna run build:ts --stream",
-    "build": "lerna run prepare --stream",
-    "build:all": "yarn build && yarn build:ts",
+    "build": "lerna run build --stream",
     "bootstrap": "lerna bootstrap --use-workspaces",
     "lint": "lerna run lint",
     "format": "lerna run format",

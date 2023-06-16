@@ -1,11 +1,11 @@
 import { Wallet } from '@cosmos-kit/core';
 
-import logo from './logo.png';
+import { ICON } from '../constant';
 
 export const omniMobileInfo: Wallet = {
   name: 'omni-mobile',
   prettyName: 'Omni Mobile',
-  logo: logo,
+  logo: ICON,
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {

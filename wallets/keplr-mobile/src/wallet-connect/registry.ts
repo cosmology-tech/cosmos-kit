@@ -1,5 +1,6 @@
 import { OS, Wallet } from '@cosmos-kit/core';
-import { ICON } from 'src/constant';
+
+import { ICON } from '../constant';
 
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',

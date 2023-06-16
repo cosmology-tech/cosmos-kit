@@ -2,12 +2,12 @@ import { Wallet } from '@cosmos-kit/core';
 import { GoDesktopDownload } from 'react-icons/go';
 import { RiChromeFill } from 'react-icons/ri';
 
-import logo from './logo.svg';
+import { ICON } from '../constant';
 
 export const exodusExtensionInfo: Wallet = {
   name: 'exodus-extension',
   prettyName: 'Exodus',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

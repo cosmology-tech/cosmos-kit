@@ -81,7 +81,6 @@ yarn bootstrap
 
 ```sh
 yarn build
-yarn build:ts
 ```
 
 ### Publishing

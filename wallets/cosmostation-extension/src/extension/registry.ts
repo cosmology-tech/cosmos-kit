@@ -1,16 +1,16 @@
-import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
 
 export const cosmostationExtensionInfo: Wallet = {
   name: 'cosmostation-extension',
   prettyName: 'Cosmostation',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   downloads: [
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf?hl=en',
+      link:
+        'https://chrome.google.com/webstore/detail/cosmostation/fpkhgmpbidmiogeglndfbkegfdlnajnf?hl=en',
     },
     {
       link: 'https://cosmostation.io/wallet/#extension',

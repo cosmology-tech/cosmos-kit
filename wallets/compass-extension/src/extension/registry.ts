@@ -1,10 +1,11 @@
-import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
+
+import { ICON } from '../constant';
 
 export const compassExtensionInfo: Wallet = {
   name: 'compass-extension',
   prettyName: 'Compass',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

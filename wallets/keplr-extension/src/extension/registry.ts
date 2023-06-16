@@ -1,5 +1,6 @@
 import { Wallet } from '@cosmos-kit/core';
-import { ICON } from 'src/constant';
+
+import { ICON } from '../constant';
 
 export const keplrExtensionInfo: Wallet = {
   name: 'keplr-extension',

@@ -15,8 +15,8 @@
   "typings": "dist/index.d.ts",
   "tsup": {
     "clean": true,
-    "dts": false,
-    "dts-resolve": false,
+    "dts": true,
+    "dts-resolve": true,
     "entry": ["src/**/*.ts"],
     "format": ["cjs", "esm"],
     "splitting": false,
@@ -32,11 +32,7 @@
     "module"
   ],
   "scripts": {
-    "build:main": "cross-env BABEL_ENV=production babel src --out-dir dist --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
-    "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
-    "build": "npm run build:module && npm run build:main",
-    "build:ts": "tsup && tsc",
-    "prepare": "npm run build",
+    "build": "tsup",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
