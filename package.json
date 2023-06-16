@@ -20,15 +20,7 @@
     "pub:beta": "lerna publish prerelease --no-private --preid prerelease",
     "pub": "lerna publish"
   },
-  "devDependencies": {
-    "@babel/cli": "7.18.10",
-    "@babel/core": "7.19.1",
-    "@pyramation/babel-preset-env": "0.2.0",
-    "babel-eslint": "10.1.0",
-    "babel-jest": "29.0.2",
-    "babel-plugin-inline-import-data-uri": "^1.0.1",
-    "copyfiles": "^2.4.1",
-    "eslint": "8.23.1",
+  "devDependencies": {    "eslint": "8.23.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "jest": "29.0.3",

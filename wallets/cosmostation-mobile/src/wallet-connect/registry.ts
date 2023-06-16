@@ -1,5 +1,7 @@
 import { Wallet } from '@cosmos-kit/core';
 
+import { ICON } from '../constant';
+
 export const cosmostationMobileInfo: Wallet = {
   name: 'cosmostation-mobile',
   prettyName: 'Cosmostation Mobile',
