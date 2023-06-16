@@ -28,11 +28,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...leap,
           ...vectis,
           // ...xdefi,
-          ...omni,
-          ...trust,
-          ...station,
+          // ...omni,
+          // ...trust,
+          // ...station,
           ...frontier,
-          ...exodus,
+          // ...exodus,
         ]}
         wrappedWithChakra={true}
         walletConnectOptions={{

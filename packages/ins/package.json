@@ -13,9 +13,18 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "main/index.js",
-  "module": "module/index.js",
-  "typings": "types/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "tsup": {
+    "clean": true,
+    "dts": false,
+    "dts-resolve": false,
+    "entry": ["src/**/*.ts"],
+    "format": ["cjs", "esm"],
+    "splitting": false,
+    "sourcemap": true
+  },
   "directories": {
     "lib": "src",
     "test": "__tests__"
@@ -26,10 +35,10 @@
     "module"
   ],
   "scripts": {
-    "build:main": "cross-env BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
+    "build:main": "cross-env BABEL_ENV=production babel src --out-dir dist --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
     "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
     "build": "npm run build:module && npm run build:main",
-    "build:ts": "tsc --project ./tsconfig.json --outDir ./main && tsc --project ./tsconfig.json --outDir ./module",
+    "build:ts": "tsup && tsc",
     "prepare": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
     "lint": "eslint --ext .tsx,.ts .",
@@ -76,7 +85,7 @@
     "@babel/preset-env": "7.19.1",
     "@babel/preset-typescript": "7.16.7",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
-    "@cosmjs/stargate": "0.29.0",
+    "@cosmjs/stargate": "0.29.5",
     "@types/jest": "29.0.0",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
