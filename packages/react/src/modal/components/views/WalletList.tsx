@@ -12,6 +12,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { WC_ICON } from 'src/modal/constant';
 
 export const WalletListView = ({
   onClose,
@@ -67,18 +68,16 @@ export const WalletListView = ({
         })
         .map(
           (w, i) =>
-          ({
-            ...w.walletInfo,
-            downloads: void 0,
-            onClick: async () => {
-              onWalletClicked(w);
-            },
-            buttonShape: i < 2 && isLargeScreen ? 'Square' : 'Rectangle',
-            subLogo:
-              w.walletInfo.mode === 'wallet-connect'
-                ? 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/wallet-connect.svg'
-                : void 0,
-          } as Wallet)
+            ({
+              ...w.walletInfo,
+              downloads: void 0,
+              onClick: async () => {
+                onWalletClicked(w);
+              },
+              buttonShape: i < 2 && isLargeScreen ? 'Square' : 'Rectangle',
+              subLogo:
+                w.walletInfo.mode === 'wallet-connect' ? WC_ICON : void 0,
+            } as Wallet)
         ),
     [wallets, isLargeScreen]
   );

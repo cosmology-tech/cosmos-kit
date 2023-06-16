@@ -1,10 +1,10 @@
-import logo from './logo.png';
 import { OS, Wallet } from '@cosmos-kit/core';
+import { ICON } from 'src/constant';
 
 export const keplrMobileInfo: Wallet = {
   name: 'keplr-mobile',
   prettyName: 'Keplr Mobile',
-  logo: logo,
+  logo: ICON,
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {
