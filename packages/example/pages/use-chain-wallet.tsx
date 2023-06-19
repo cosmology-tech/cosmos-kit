@@ -1,5 +1,5 @@
-import { Button, HStack, Stack, Text, Box } from "@chakra-ui/react";
-import { CopyAddressButton } from "@cosmology-ui/react";
+import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
+// import { CopyAddressButton } from "@cosmology-ui/react";
 import { useChainWallet } from "@cosmos-kit/react";
 
 export default () => {
@@ -13,12 +13,12 @@ export default () => {
             {username || "--"}
           </Text>
           <Box width={330}>
-            <CopyAddressButton
+            {/* <CopyAddressButton
               address={address}
               loading={false}
               disabled={false}
               maxDisplayLength={14}
-            />
+            /> */}
           </Box>
           <Button onClick={connect} minW={200}>
             Connect {wallet.prettyName}
