@@ -26,6 +26,21 @@
   "main": "dist/cosmos-kit-react.cjs.js",
   "module": "dist/cosmos-kit-react.esm.js",
   "types": "dist/cosmos-kit-react.cjs.d.ts",
+  "css": "dist/styles.css",
+  "targets": {
+    "main": {
+      "source": "src/index.ts"
+    },
+    "module": {
+      "source": "src/index.ts"
+    },
+    "types": {
+      "source": "src/index.ts"
+    },
+    "css": {
+      "source": "src/styles.css"
+    }
+  },
   "directories": {
     "lib": "src",
     "test": "__tests__"

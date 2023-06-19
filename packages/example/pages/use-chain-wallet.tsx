@@ -1,4 +1,4 @@
-import { CopyAddressButton } from "@cosmology-ui/react";
+import { ClipboardCopyText } from "@cosmology-ui/react";
 import { useChainWallet } from "@cosmos-kit/react";
 
 export default () => {
@@ -10,12 +10,7 @@ export default () => {
         <div key={wallet.name}>
           <span>{username || "--"}</span>
           <div>
-            <CopyAddressButton
-              address={address}
-              loading={false}
-              disabled={false}
-              maxDisplayLength={14}
-            />
+            <ClipboardCopyText text={address ?? ""} />
           </div>
           <button onClick={connect}>Connect {wallet.prettyName}</button>
         </div>

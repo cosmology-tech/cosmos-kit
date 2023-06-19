@@ -1,5 +1,3 @@
-import '@cosmology-ui/react/styles.css';
-
 import { ConnectModal, ThemeProvider } from '@cosmology-ui/react';
 import {
   ModalView,
@@ -105,7 +103,7 @@ export const WalletModal = ({
       walletRepo?.isMobile && !includeAllWalletsOnMobile
         ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
         : walletRepo?.wallets,
-    [walletRepo.wallets, includeAllWalletsOnMobile]
+    [walletRepo, includeAllWalletsOnMobile]
   );
 
   const modalView: ModalViewImpl = useMemo(() => {
