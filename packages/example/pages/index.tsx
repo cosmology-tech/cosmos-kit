@@ -13,7 +13,7 @@ import {
   useColorMode,
   VStack,
 } from "@chakra-ui/react";
-import { useChain, useModalTheme, useWallet } from "@cosmos-kit/react";
+import { useChain, useWallet } from "@cosmos-kit/react";
 import React, { useEffect } from "react";
 import { useCallback } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
@@ -34,7 +34,7 @@ const chainNames_2 = ["stargaze", "chihuahua"];
 export default () => {
   const { colorMode, setColorMode } = useColorMode();
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
-  const { modalTheme, setModalTheme } = useModalTheme();
+  // const { modalTheme, setModalTheme } = useModalTheme();
   const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
 
   useEffect(() => {
@@ -49,20 +49,20 @@ export default () => {
     fn();
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    switch (modalTheme) {
-      case "light":
-        // setColorMode("dark");
-        setModalTheme("dark");
-        break;
-      case "dark":
-        // setColorMode("light");
-        setModalTheme("light");
-        break;
-      default:
-        throw new Error(`Unknown modalTheme: ${modalTheme}`);
-    }
-  }, [setColorMode, setModalTheme, colorMode, modalTheme]);
+  // const toggleTheme = useCallback(() => {
+  //   switch (modalTheme) {
+  //     case "light":
+  //       // setColorMode("dark");
+  //       setModalTheme("dark");
+  //       break;
+  //     case "dark":
+  //       // setColorMode("light");
+  //       setModalTheme("light");
+  //       break;
+  //     default:
+  //       throw new Error(`Unknown modalTheme: ${modalTheme}`);
+  //   }
+  // }, [setColorMode, setModalTheme, colorMode, modalTheme]);
 
   const addressInModal = chainNames_1.map((chainName) => {
     return (
@@ -146,13 +146,13 @@ export default () => {
 
   return (
     <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
-      <Flex justifyContent="end">
+      {/* <Flex justifyContent="end">
         <Button variant="outline" px={0} onClick={toggleTheme}>
           <Icon
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button>
-      </Flex>
+      </Flex> */}
       <VStack spacing="24px" marginTop={-2}>
         <Heading size="lg" marginBottom={3}>
           ChainProvider Test
