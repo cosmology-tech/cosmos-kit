@@ -1,5 +1,5 @@
-export * from './modal';
-export * from './provider';
+export { DefaultModal, WalletModal } from './modal';
+export { ChainProvider } from './provider';
 export {
   useChain,
   useChainWallet,

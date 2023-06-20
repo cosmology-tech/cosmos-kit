@@ -44,7 +44,7 @@ export const ChainProvider = ({
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
-  children?: ReactNode;
+  children: ReactNode;
 }) => {
   const logger = useMemo(() => new Logger(logLevel), []);
 

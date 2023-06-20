@@ -1,4 +1,4 @@
-import { ConnectModal, ThemeProvider } from '@cosmology-ui/react';
+import { ThemeProvider } from '@cosmology-ui/react';
 import {
   ModalView,
   State,
@@ -8,21 +8,6 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { defaultModalViews, ModalViewImpl } from './components/views';
-
-export const DefaultModal = ({
-  isOpen,
-  setOpen,
-  walletRepo,
-}: WalletModalProps) => {
-  return (
-    <WalletModal
-      isOpen={isOpen}
-      setOpen={setOpen}
-      walletRepo={walletRepo}
-      modalViews={defaultModalViews}
-    />
-  );
-};
 
 export const WalletModal = ({
   isOpen,
@@ -143,13 +128,29 @@ export const WalletModal = ({
 
   return (
     <ThemeProvider>
-      <ConnectModal
+      <span>hello</span>
+      {/* <ConnectModal
         isOpen={isOpen}
         header={modalView.head}
         onClose={onCloseModal}
       >
         {modalView.content}
-      </ConnectModal>
+      </ConnectModal> */}
     </ThemeProvider>
+  );
+};
+
+export const DefaultModal = ({
+  isOpen,
+  setOpen,
+  walletRepo,
+}: WalletModalProps) => {
+  return (
+    <WalletModal
+      isOpen={isOpen}
+      setOpen={setOpen}
+      walletRepo={walletRepo}
+      modalViews={defaultModalViews}
+    />
   );
 };

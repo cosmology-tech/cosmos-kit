@@ -3371,6 +3371,43 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
+"@cosmos-kit/core@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/core/-/core-1.6.0.tgz#74889bf497f57d193c2611324b272c14501f0be3"
+  integrity sha512-ekO6PpqoNA7eZDcVIX1m9pt3e23f3ZHoZhAoUdi1I7eiqwpwTaMoJ6ecN943Nchs3o3mJxYEHdlaRbCUCExFaw==
+  dependencies:
+    "@chain-registry/types" "0.13.0"
+    "@walletconnect/types" "2.7.2"
+    bowser "2.11.0"
+    events "3.3.0"
+
+"@cosmos-kit/react-lite@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/react-lite/-/react-lite-1.5.0.tgz#34e537b950a50f8e9f6248c26422a3e5e6e26a8b"
+  integrity sha512-w8EC0JC+/355RRJtrXKQlctVrhziIDg9I5rwn6P4D81RjVskQWw17TW66JvBuqs5NcD/20IJPk43uoZnJXjg2g==
+  dependencies:
+    "@babel/runtime" "7.11.2"
+    "@chain-registry/types" "0.13.1"
+    "@cosmos-kit/core" "^1.6.0"
+    react "18.2.0"
+
+"@cosmos-kit/react@*", "@cosmos-kit/react@^1.3.31":
+  version "1.3.32"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/react/-/react-1.3.32.tgz#d4de7a7b9bbbb5e7fcb19d56ef8babf090cf38b3"
+  integrity sha512-HEk8fBi2s1PTaVDq696C1z4VXj/dKj+0gQQHtniMNH9MX5OZse5Vr82NDzJamisvz3WvA4n3TlyVzgZoYcy/nA==
+  dependencies:
+    "@babel/runtime" "7.11.2"
+    "@chain-registry/types" "0.13.1"
+    "@chakra-ui/react" "^2.5.1"
+    "@cosmology-ui/react" "^0.1.21"
+    "@cosmos-kit/core" "^1.6.0"
+    "@cosmos-kit/react-lite" "^1.5.0"
+    "@emotion/react" "^11.10.6"
+    "@emotion/styled" "^11.10.6"
+    framer-motion "^9.0.7"
+    react "18.2.0"
+    react-icons "4.4.0"
+
 "@cosmostation/extension-client@0.1.11":
   version "0.1.11"
   resolved "https://registry.npmjs.org/@cosmostation/extension-client/-/extension-client-0.1.11.tgz#d6b447cfd9cf7613ec485b57327819b14735cf13"
@@ -5895,7 +5932,7 @@
   dependencies:
     "@parcel/plugin" "2.9.2"
 
-"@parcel/config-default@2.9.2", "@parcel/config-default@^2.9.2":
+"@parcel/config-default@2.9.2", "@parcel/config-default@^2.8.3":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@parcel/config-default/-/config-default-2.9.2.tgz#deba8e805d5f2efae9bac8ce3bd2d70ab2fa8bcd"
   integrity sha512-dRqUKn6YIKTxvKbfO5xfxzMhOMWMCNoZzEWuP/bESW6zXI8krdGmgdu6HxSfCmvPnkz+0SAz8ig2QnjV0KtCcw==
@@ -5931,7 +5968,7 @@
     "@parcel/transformer-react-refresh-wrap" "2.9.2"
     "@parcel/transformer-svg" "2.9.2"
 
-"@parcel/core@2.9.2", "@parcel/core@^2.9.2":
+"@parcel/core@2.9.2", "@parcel/core@^2.8.3":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@parcel/core/-/core-2.9.2.tgz#edaf55b1ebbf2c3553cb823acc8b1c73376510be"
   integrity sha512-Qwn9Fp85gchfDq94chr+of9+xgWQP0G48chP+J/PmZ3TP29sOZ9NsVf+qiGO47UAeNnamBRPeMXyK/Nvv0zQdg==
@@ -6319,7 +6356,7 @@
     "@parcel/workers" "2.9.2"
     nullthrows "^1.1.1"
 
-"@parcel/transformer-js@2.9.2", "@parcel/transformer-js@^2.9.2":
+"@parcel/transformer-js@2.9.2", "@parcel/transformer-js@^2.8.3":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-js/-/transformer-js-2.9.2.tgz#14841a4a74a14b2a8dfc7a26b82d47b953cd3ce2"
   integrity sha512-d4JkEEPh99ON345dhkBc9pAqlM/jXgtQ1K7IW/P8Shd6Z+1vdVkGiTMWH9KNXob/fBm511UvbIhJtmj68MUfug==
@@ -6377,7 +6414,7 @@
   dependencies:
     "@parcel/plugin" "2.9.2"
 
-"@parcel/transformer-react-refresh-wrap@2.9.2", "@parcel/transformer-react-refresh-wrap@^2.9.2":
+"@parcel/transformer-react-refresh-wrap@2.9.2", "@parcel/transformer-react-refresh-wrap@^2.8.3":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-react-refresh-wrap/-/transformer-react-refresh-wrap-2.9.2.tgz#c99f72746d33aa7dc33512bc5548a83dfe21ccb5"
   integrity sha512-y2GPoIG7fjizqXq3xl6vvDeGSsOJGcPqm/WvbaxekR1+Yl/U5T4vAD0CaC8EJcVyostCT3G835DdNX7O7rkW/w==
@@ -6400,7 +6437,7 @@
     posthtml-render "^3.0.0"
     semver "^5.7.1"
 
-"@parcel/transformer-typescript-tsc@^2.9.2":
+"@parcel/transformer-typescript-tsc@^2.8.3":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-tsc/-/transformer-typescript-tsc-2.9.2.tgz#f28ff33f5af0bfdceddf70d4f463cb2974535e47"
   integrity sha512-yIOgk/EnRqmQlRVCqa5n9OM8oavul6NQDk4QktXB096KKYGN8lrtt7PaAy7raLopIK5B6PyyM0g2TjtReL2ubw==
@@ -6409,7 +6446,7 @@
     "@parcel/source-map" "^2.1.1"
     "@parcel/ts-utils" "2.9.2"
 
-"@parcel/transformer-typescript-types@^2.9.2":
+"@parcel/transformer-typescript-types@^2.8.3":
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-typescript-types/-/transformer-typescript-types-2.9.2.tgz#cf00fa4b72d4c0c502aa41ccc4058e0051c20f17"
   integrity sha512-DCWx42Lg2XqwXf90TFCD+uV44GYat69NkTPvilrcr3gws/4y3l978cYu0Q0FShOLWOfteTWWuL+sD0fDIBZDKQ==
