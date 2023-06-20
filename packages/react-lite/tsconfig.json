@@ -1,21 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "ES2015",
     "skipLibCheck": true,
     "declaration": true,
-    "declarationDir": "./types",
     "emitDeclarationOnly": true,
     "isolatedModules": true,
     "allowJs": true,
     "jsx": "react-jsx",
+    "lib": ["DOM", "ESNext"],
+    "module": "ESNext",
     "esModuleInterop": true,
     "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
