@@ -6,6 +6,7 @@ coverage
 packages/**/build
 packages/**/main
 packages/**/module
+packages/**/dist
 packages/example/pages/tmp.tsx
 packages/example/utils/tmp.ts
 .idea
