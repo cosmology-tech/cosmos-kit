@@ -12,7 +12,7 @@ const chainNames_2 = ["stargaze", "chihuahua"];
 // const chainNames_1 = ["coreum"];
 // const chainNames_2 = [];
 
-export default () => {
+export default function IndexPage() {
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
   const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
 
@@ -83,4 +83,4 @@ export default () => {
       </div>
     </div>
   );
-};
+}

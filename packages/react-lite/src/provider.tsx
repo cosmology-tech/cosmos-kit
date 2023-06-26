@@ -14,20 +14,14 @@ import {
   WalletModalProps,
   WalletRepo,
 } from '@cosmos-kit/core';
-import React, {
-  createContext,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 
 export const walletContext = createContext<{
   walletManager: WalletManager;
   modalProvided: boolean;
 } | null>(null);
 
-export const ChainProvider = ({
+export function ChainProvider({
   chains,
   assetLists,
   wallets,
@@ -53,7 +47,7 @@ export const ChainProvider = ({
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
   children: ReactNode;
-}) => {
+}) {
   const logger = useMemo(() => new Logger(logLevel), []);
   const walletManager = useMemo(
     () =>
@@ -133,4 +127,4 @@ export const ChainProvider = ({
       {children}
     </walletContext.Provider>
   );
-};
+}

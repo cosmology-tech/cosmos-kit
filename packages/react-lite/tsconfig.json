@@ -1,20 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
-    "skipLibCheck": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "isolatedModules": true,
-    "allowJs": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "ESNext"],
-    "module": "ESNext",
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
+    "lib": ["ES2015", "DOM"],
+    "module": "es2020",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["node_modules"]

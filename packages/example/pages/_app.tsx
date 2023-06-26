@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-imports */
 import "../style/test-style.css";
-import "@cosmos-kit/react/dist/styles.css";
+import "@cosmos-kit/react/styles.css";
 
 import { Chain } from "@chain-registry/types";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { ThemeProvider } from "@cosmology-ui/react";
@@ -36,6 +37,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...cosmostationWallets,
           // ...exodusWallets,
           // ...shellWallets,
+          ...cosmostationWallets,
+          ...exodusWallets,
           // ...leapWallets,
           // ...vectisWallets,
           // ...xdefiWallets,

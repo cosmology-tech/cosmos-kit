@@ -11,7 +11,7 @@ interface DynamicWalletListProps {
   onClose: () => void;
 }
 
-const DynamicWalletList = ({ wallets, onClose }: DynamicWalletListProps) => {
+function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
@@ -58,7 +58,7 @@ const DynamicWalletList = ({ wallets, onClose }: DynamicWalletListProps) => {
           mobileDisabled: wallet.walletInfo.mobileDisabled,
           downloadUrl: '',
           originalWallet: wallet,
-          buttonShape: i < 2 && isLargeScreen ? 'square' : 'list',
+          shape: i < 2 && isLargeScreen ? 'square' : 'list',
         })),
     [wallets, isLargeScreen]
   );
@@ -69,13 +69,13 @@ const DynamicWalletList = ({ wallets, onClose }: DynamicWalletListProps) => {
       onWalletItemClick={onWalletClicked}
     />
   );
-};
+}
 
-export const WalletListView = ({
+export function WalletListView({
   onClose,
   wallets,
   initialFocus,
-}: WalletListViewProps) => {
+}: WalletListViewProps) {
   const modalHead = (
     <ConnectModalHead
       title="Select your wallet"
@@ -89,4 +89,4 @@ export const WalletListView = ({
   );
 
   return { head: modalHead, content: modalContent };
-};
+}

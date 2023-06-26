@@ -16,7 +16,7 @@ import { ReactNode, useCallback, useMemo } from 'react';
 import { WalletModal } from './modal';
 import { defaultModalViews } from './modal/components/views';
 
-export const ChainProvider = ({
+export function ChainProvider({
   chains,
   assetLists,
   wallets,
@@ -45,10 +45,10 @@ export const ChainProvider = ({
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
   children: ReactNode;
-}) => {
+}) {
   const logger = useMemo(() => new Logger(logLevel), []);
 
-  const getChainProvider = (
+  const withChainProvider = (
     modal: (props: WalletModalProps) => JSX.Element
   ) => (
     <ChainProviderLite
@@ -70,7 +70,7 @@ export const ChainProvider = ({
 
   if (walletModal) {
     logger.debug('Using provided wallet modal.');
-    return getChainProvider(walletModal);
+    return withChainProvider(walletModal);
   }
 
   logger.debug('Using default wallet modal.');
@@ -90,5 +90,5 @@ export const ChainProvider = ({
 
   logger.debug('Wrap with <ChakraProviderWithGivenTheme>.');
 
-  return getChainProvider(defaultModal);
-};
+  return withChainProvider(defaultModal);
+}
