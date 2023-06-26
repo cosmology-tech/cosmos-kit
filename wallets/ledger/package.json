@@ -38,8 +38,8 @@
     "module"
   ],
   "scripts": {
-    "build:main": "cross-env BABEL_ENV=production babel src ./ --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
-    "build:module": "cross-env MODULE=true babel src ./ --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
+    "build:main": "cross-env BABEL_ENV=production babel src ./web-usb.ts ./web-hid.ts --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
+    "build:module": "cross-env MODULE=true babel src ./web-usb.ts ./web-hid.ts --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
     "build": "npm run build:module && npm run build:main",
     "build:ts": "tsc --project ./tsconfig.json",
     "prepare": "npm run build",
