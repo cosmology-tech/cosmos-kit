@@ -1,6 +1,7 @@
 import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
 
+import { AstronautSvg } from '../Astronaut';
 import { ModalViewImpl } from './config';
 
 export function ConnectedView({
@@ -33,7 +34,15 @@ export function ConnectedView({
       status="Connected"
       connectedInfo={{
         name: username,
-        avatarUrl: '',
+        avatar: (
+          <AstronautSvg
+            style={{
+              fontSize: 'inherit',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        ),
         address,
       }}
       onDisconnect={onDisconnect}

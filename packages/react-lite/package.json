@@ -26,6 +26,23 @@
   "main": "dist/cosmos-kit-react-lite.cjs.js",
   "module": "dist/cosmos-kit-react-lite.esm.js",
   "types": "dist/cosmos-kit-react-lite.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/cosmos-kit-react-lite.d.ts",
+        "default": "./dist/cosmos-kit-react-lite.d.ts"
+      },
+      "development": {
+        "module": "./dist/cosmos-kit-react-lite.esm.js",
+        "import": "./dist/cosmos-kit-react-lite.esm.js",
+        "default": "./dist/cosmos-kit-react-lite.cjs.js"
+      },
+      "module": "./dist/cosmos-kit-react-lite.esm.js",
+      "import": "./dist/cosmos-kit-react-lite.esm.js",
+      "default": "./dist/cosmos-kit-react-lite.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
   "directories": {
     "lib": "src",
     "test": "__tests__"
@@ -71,14 +88,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.22.5",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
-    "@parcel/config-default": "^2.8.3",
-    "@parcel/core": "^2.8.3",
-    "@parcel/transformer-js": "^2.8.3",
-    "@parcel/transformer-react-refresh-wrap": "^2.8.3",
-    "@parcel/transformer-typescript-tsc": "^2.8.3",
-    "@parcel/transformer-typescript-types": "^2.8.3",
+    "@parcel/config-default": "2.8.3",
+    "@parcel/core": "2.8.3",
+    "@parcel/transformer-js": "2.8.3",
+    "@parcel/transformer-react-refresh-wrap": "2.8.3",
+    "@parcel/transformer-typescript-tsc": "2.8.3",
+    "@parcel/transformer-typescript-types": "2.8.3",
     "@types/jest": "29.0.0",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -92,7 +110,7 @@
     "eslint-plugin-unused-imports": "2.0.0",
     "jest": "29.0.2",
     "jest-in-case": "1.0.2",
-    "parcel": "^2.8.3",
+    "parcel": "2.8.3",
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
@@ -105,7 +123,7 @@
     "react": "18.2.0"
   },
   "resolutions": {
-    "@types/react": "18.0.20"
+    "@types/react": "^18.2"
   },
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": ">= 0.28",

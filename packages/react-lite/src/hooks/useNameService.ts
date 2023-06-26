@@ -5,7 +5,8 @@ import {
   NameServiceName,
   State,
 } from '@cosmos-kit/core';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
 import { useManager } from './useManager';
 
 export const useNameService = (

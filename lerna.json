@@ -1,15 +1,10 @@
 {
-  "lerna": "3.4.2",
+  "lerna": "6.6.2",
   "useWorkspaces": true,
   "conventionalCommits": true,
   "npmClient": "yarn",
-  "npmClientArgs": [
-    "--no-lockfile"
-  ],
-  "packages": [
-    "packages/*",
-    "wallets/*"
-  ],
+  "npmClientArgs": ["--no-lockfile"],
+  "packages": ["packages/*", "wallets/*"],
   "version": "independent",
   "registry": "https://registry.npmjs.org",
   "command": {

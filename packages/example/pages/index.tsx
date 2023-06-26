@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { useChain, useWallet } from "@cosmos-kit/react";
 import React, { useEffect } from "react";
-import { useCallback } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import { FaUserCircle } from "react-icons/fa";
 import { IoWalletOutline } from "react-icons/io5";
@@ -31,7 +30,7 @@ const chainNames_2 = ["stargaze", "chihuahua"];
 // const chainNames_1 = ["coreum"];
 // const chainNames_2 = [];
 
-export default () => {
+export default function IndexPage() {
   const { colorMode, setColorMode } = useColorMode();
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
   // const { modalTheme, setModalTheme } = useModalTheme();
@@ -146,13 +145,19 @@ export default () => {
 
   return (
     <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
-      {/* <Flex justifyContent="end">
-        <Button variant="outline" px={0} onClick={toggleTheme}>
+      <Flex justifyContent="end">
+        <Button
+          variant="outline"
+          px={0}
+          onClick={() => {
+            console.log("TOGGLE theme");
+          }}
+        >
           <Icon
             as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
           />
         </Button>
-      </Flex> */}
+      </Flex>
       <VStack spacing="24px" marginTop={-2}>
         <Heading size="lg" marginBottom={3}>
           ChainProvider Test
@@ -181,4 +186,4 @@ export default () => {
       </Card>
     </SimpleGrid>
   );
-};
+}

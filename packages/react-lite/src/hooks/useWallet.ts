@@ -1,5 +1,5 @@
-import { WalletName, WalletContext, WalletStatus } from '@cosmos-kit/core';
-import React from 'react';
+import { WalletContext, WalletName, WalletStatus } from '@cosmos-kit/core';
+import { useContext } from 'react';
 
 import { walletContext } from '../provider';
 
@@ -7,7 +7,7 @@ export const useWallet = (
   walletName?: WalletName,
   activeOnly = true
 ): WalletContext => {
-  const context = React.useContext(walletContext);
+  const context = useContext(walletContext);
 
   if (!context) {
     throw new Error('You have forgot to use ChainProvider.');
