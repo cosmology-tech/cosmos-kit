@@ -35,7 +35,7 @@ export interface DownloadInfo extends DappEnv {
     icon?: string | ((props: any) => JSX.Element);
     link: string;
 }
-export declare type WalletMode = 'extension' | 'wallet-connect';
+export declare type WalletMode = 'ledger' | 'extension' | 'wallet-connect';
 export interface Metadata {
     name: string;
     description: string;
