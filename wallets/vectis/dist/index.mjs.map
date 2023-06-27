@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import {\n  wallets as ext\n} from '@cosmos-kit/vectis-extension';\n\nexport const wallets = [...ext];\n"],"mappings":";AAAA;AAAA,EACE,WAAW;AAAA,OACN;AAEA,IAAM,UAAU,CAAC,GAAG,GAAG;","names":[]}

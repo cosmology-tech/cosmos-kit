@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import {\n  wallets as mobile\n} from '@cosmos-kit/trust-mobile';\n\nexport const wallets = [...mobile];\n"],"mappings":";AAAA;AAAA,EACE,WAAW;AAAA,OACN;AAEA,IAAM,UAAU,CAAC,GAAG,MAAM;","names":[]}

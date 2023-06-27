@@ -1,8 +1,8 @@
 /// <reference types="node" />
+import EventEmitter from 'events';
 import { Callbacks, DownloadInfo, Mutable, Wallet, WalletClient, WalletConnectOptions } from '../types';
 import { Session } from '../utils';
 import { StateBase } from './state';
-import EventEmitter from 'events';
 export declare abstract class WalletBase extends StateBase {
     clientMutable: Mutable<WalletClient>;
     emitter?: EventEmitter;

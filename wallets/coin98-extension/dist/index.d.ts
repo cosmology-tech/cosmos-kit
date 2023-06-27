@@ -1,0 +1,10 @@
+export { ChainCoin98Extension } from './extension/chain-wallet.js';
+export { Coin98ExtensionWallet } from './extension/main-wallet.js';
+export { Coin98ExtensionInfo } from './extension/registry.js';
+export { Coin98Client } from './extension/client.js';
+export { wallets } from './coin98.js';
+import '@cosmos-kit/core';
+import '@keplr-wallet/types';
+import '@cosmjs/amino';
+import '@cosmjs/proto-signing';
+import './extension/types.js';

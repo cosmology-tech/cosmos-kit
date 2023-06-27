@@ -1,0 +1,11 @@
+import '@cosmjs/stargate';
+import '@chain-registry/types';
+import '@cosmjs/cosmwasm-stargate';
+import '@cosmjs/proto-signing';
+import 'cosmjs-types/cosmos/tx/v1beta1/tx';
+export { C as ChainWalletBase } from '../chain-932d9904.js';
+import '../types/common.js';
+import '@cosmjs/amino';
+import '@walletconnect/types';
+import '../utils/logger.js';
+import 'events';

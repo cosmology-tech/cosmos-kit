@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import {\n  wallets as ext,\n} from '@cosmos-kit/keplr-extension';\nimport { wallets as mobile } from '@cosmos-kit/keplr-mobile';\n\nexport const wallets = [...ext, ...mobile];\n"],"mappings":";AAAA;AAAA,EACE,WAAW;AAAA,OACN;AACP,SAAS,WAAW,cAAc;AAE3B,IAAM,UAAU,CAAC,GAAG,KAAK,GAAG,MAAM;","names":[]}

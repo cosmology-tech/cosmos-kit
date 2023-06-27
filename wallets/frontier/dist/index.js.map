@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import { wallets as ext } from '@cosmos-kit/frontier-extension';\n\nexport const wallets = [...ext];\n"],"mappings":";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,gCAA+B;AAExB,IAAM,UAAU,CAAC,GAAG,0BAAAA,OAAG;","names":["ext"]}
