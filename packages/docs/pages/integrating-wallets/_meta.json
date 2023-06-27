@@ -10,5 +10,6 @@
     "frontier": "@ Frontier Wallet",
     "web3auth": "@ Web3Auth",
     "compass": "@ Compass",
-    "exodus": "@ Exodus"
+    "exodus": "@ Exodus",
+    "ledger": "@ Ledger (Beta)"
 }
