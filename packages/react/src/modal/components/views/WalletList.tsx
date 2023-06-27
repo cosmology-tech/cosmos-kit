@@ -16,9 +16,9 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
     await wallet.connect(true);
-    if (wallet.isWalletConnected) {
-      onClose();
-    }
+    // if (wallet.isWalletConnected) {
+    //   onClose();
+    // }
   }, []);
 
   useEffect(() => {
