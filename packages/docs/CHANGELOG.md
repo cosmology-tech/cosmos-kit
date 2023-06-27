@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.10.0...docs@1.11.0) (2023-06-27)
+
+
+### Features
+
+* connect to Ledger via Web USB / HID ([70c222d](https://github.com/cosmology-tech/cosmos-kit/commit/70c222d150e06955d765f8f521b0f74d79a66081))
+
+
+
+
+
 # [1.10.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.9.42...docs@1.10.0) (2023-06-13)
 
 

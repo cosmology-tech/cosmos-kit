@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.6.0...@cosmos-kit/core@1.7.0) (2023-06-27)
+
+
+### Bug Fixes
+
+* await async operations in wallet manager on mounted ([fe72b3e](https://github.com/cosmology-tech/cosmos-kit/commit/fe72b3e6cec25d6c0aaf84d6656644e6a189d9fd))
+* disconnect promise order ([3b95913](https://github.com/cosmology-tech/cosmos-kit/commit/3b95913e0a1ff3bd57dacd9db383b2fce991f28c))
+* do not reconnect wallet if there are no accounts ([6078923](https://github.com/cosmology-tech/cosmos-kit/commit/6078923a8d311875f5293859559ba665fdf88816))
+
+
+### Features
+
+* connect to Ledger via Web USB / HID ([70c222d](https://github.com/cosmology-tech/cosmos-kit/commit/70c222d150e06955d765f8f521b0f74d79a66081))
+
+
+
+
+
 # [1.6.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.8...@cosmos-kit/core@1.6.0) (2023-06-13)
 
 
