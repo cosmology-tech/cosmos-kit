@@ -4,23 +4,25 @@ import { Chain } from "@chain-registry/types";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
+import { ThemeProvider } from "@cosmology-ui/react";
+import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
+import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
-import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
-import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-import { wallets as frontierWallets } from "@cosmos-kit/frontier";
+import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
+import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
-import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
+import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
-import { ChainProvider, defaultTheme } from "@cosmos-kit/react";
+import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
-import { ThemeProvider } from "@cosmology-ui/react";
+
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -35,6 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...web3authWallets,
             ...cosmostationWallets,
             ...exodusWallets,
+            ...shellWallets,
             // ...leapWallets,
             // ...vectisWallets,
             // ...xdefiWallets,
