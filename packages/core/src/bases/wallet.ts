@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
+import EventEmitter from 'events';
+
 import {
   Callbacks,
   DownloadInfo,
@@ -11,7 +13,6 @@ import {
 } from '../types';
 import { ClientNotExistError, RejectedError, Session } from '../utils';
 import { StateBase } from './state';
-import EventEmitter from 'events';
 
 export abstract class WalletBase extends StateBase {
   clientMutable: Mutable<WalletClient> = { state: State.Init };
@@ -140,9 +141,9 @@ export abstract class WalletBase extends StateBase {
       this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
     }
     await this.callbacks?.beforeDisconnect?.();
-    this.reset();
     window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
     await this.client?.disconnect?.();
+    this.reset();
     await this.callbacks?.afterDisconnect?.();
   };
 
