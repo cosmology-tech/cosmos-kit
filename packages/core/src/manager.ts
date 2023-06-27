@@ -35,7 +35,7 @@ export class WalletManager extends StateBase {
   coreEmitter: EventEmitter;
   walletConnectOptions?: WalletConnectOptions;
   readonly session: Session;
-  repelWallet: boolean = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
+  repelWallet = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
   isLazy?: boolean; // stands for `globalIsLazy` setting
   throwErrors: boolean;
 
@@ -44,7 +44,7 @@ export class WalletManager extends StateBase {
     assetLists: AssetList[],
     wallets: MainWalletBase[],
     logger: Logger,
-    throwErrors: boolean = false,
+    throwErrors = false,
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
@@ -310,7 +310,7 @@ export class WalletManager extends StateBase {
     if (walletName) {
       const mainWallet = this.getMainWallet(walletName);
       mainWallet.activate();
-      if (accountsStr) {
+      if (accountsStr && accountsStr !== '[]') {
         const accounts: SimpleAccount[] = JSON.parse(accountsStr);
         accounts.forEach((data) => {
           const chainWallet = mainWallet
@@ -325,7 +325,7 @@ export class WalletManager extends StateBase {
         });
       }
     }
-    if (walletName) {
+    if (walletName && accountsStr && accountsStr !== '[]') {
       await this._reconnect();
     }
   };
