@@ -51,12 +51,12 @@ export default function HomePage() {
         //     includeMargin={false}
         //   />
         // );
-        web3modal.openModal({
-          uri,
-          standaloneChains: namespaces.cosmos.chains,
-        });
-        await approval();
-        web3modal.closeModal();
+        // web3modal.openModal({
+        //   uri,
+        //   standaloneChains: namespaces.cosmos.chains,
+        // });
+        // await approval();
+        // web3modal.closeModal();
       }
     }
   }

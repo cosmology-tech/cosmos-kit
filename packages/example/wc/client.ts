@@ -11,7 +11,7 @@ type Web3ModalConfig = Omit<ConfigCtrlState, "enableStandaloneMode">;
  */
 export class Web3Modal {
   public constructor(config: Web3ModalConfig) {
-    ConfigCtrl.setConfig({ enableStandaloneMode: true, ...config });
+    // ConfigCtrl.setConfig({ enableStandaloneMode: true, ...config });
     this.initUi();
   }
 
@@ -29,5 +29,5 @@ export class Web3Modal {
 
   public subscribeModal = ModalCtrl.subscribe;
 
-  public setTheme = ConfigCtrl.setThemeConfig;
+  // public setTheme = ConfigCtrl.setThemeConfig;
 }

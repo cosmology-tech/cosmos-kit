@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["ES2015", "DOM"],
+    "lib": ["es2017", "DOM"],
     "module": "es2020",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
     "types": ["node"],
-    "target": "ES2015",
     "skipLibCheck": true,
     "declaration": true,
     "emitDeclarationOnly": true,

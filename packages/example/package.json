@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export",
@@ -28,6 +29,7 @@
     "@cosmos-kit/vectis": "^0.15.38",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@next/bundle-analyzer": "^13.4.7",
     "@web3modal/core": "^2.0.0-rc.1",
     "@web3modal/ui": "^2.0.0-rc.1",
     "bignumber.js": "^9.1.1",
