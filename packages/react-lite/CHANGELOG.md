@@ -7,8 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @cosmos-kit/react-lite
 
+## [1.5.2-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.2-beta.0...@cosmos-kit/react-lite@1.5.2-beta.1) (2023-06-28)
 
-
+**Note:** Version bump only for package @cosmos-kit/react-lite
 
 ## [1.5.2-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.1...@cosmos-kit/react-lite@1.5.2-beta.0) (2023-06-28)
 

@@ -7,9 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @cosmos-kit/coin98-extension
 
+## [0.3.2-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/coin98-extension@0.3.2-beta.0...@cosmos-kit/coin98-extension@0.3.2-beta.1) (2023-06-28)
 
-
-
+**Note:** Version bump only for package @cosmos-kit/coin98-extension
 
 ## [0.3.2-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/coin98-extension@0.3.1...@cosmos-kit/coin98-extension@0.3.2-beta.0) (2023-06-28)
 

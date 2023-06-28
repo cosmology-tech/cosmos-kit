@@ -7,9 +7,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @cosmos-kit/walletconnect
 
+## [0.3.18-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.3.18-beta.0...@cosmos-kit/walletconnect@0.3.18-beta.1) (2023-06-28)
 
-
-
+**Note:** Version bump only for package @cosmos-kit/walletconnect
 
 ## [0.3.18-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.3.17...@cosmos-kit/walletconnect@0.3.18-beta.0) (2023-06-28)
 
