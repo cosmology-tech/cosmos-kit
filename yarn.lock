@@ -3348,7 +3348,7 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.30.1.tgz#6d92582341be3c2ec8d82090253cfa4b7f959edb"
   integrity sha512-KvvX58MGMWh7xA+N+deCfunkA/ZNDvFLw4YbOmX3f/XBIkqrVY7qlotfy2aNb1kgp6h4B6Yc8YawJPDTfvWX7g==
 
-"@cosmology-ui/react@1.1.0-beta.0", "@cosmology-ui/react@^1.1.0-beta.0":
+"@cosmology-ui/react@1.1.0-beta.0":
   version "1.1.0-beta.0"
   resolved "https://registry.yarnpkg.com/@cosmology-ui/react/-/react-1.1.0-beta.0.tgz#81fed606d72b3d33fb142d916d2fec550df1ec9c"
   integrity sha512-eW+8k6Lsy1w6gryVsIS9XZlGiJKWb9+XtwYaYPTPP4R4qV7uK3md4XecW746XHxX2tGrPbn0lfhKCrNfyDj9Kg==
@@ -7875,6 +7875,7 @@
     tslib "1.14.1"
 
 "@walletconnect/types-v1@npm:@walletconnect/types@1.8.0", "@walletconnect/types@^1.8.0":
+  name "@walletconnect/types-v1"
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz#3f5e85b2d6b149337f727ab8a71b8471d8d9a195"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==
