@@ -1,6 +1,9 @@
-/** @type {import('next').NextConfig} */
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
 
-module.exports = {
+/** @type {import('next').NextConfig} */
+module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   swcMinify: false,
   webpack: (
@@ -18,9 +21,7 @@ module.exports = {
               ["@babel/preset-react", { runtime: "automatic" }],
               ["@babel/typescript", { allowDeclareFields: true }],
             ],
-            plugins: [
-              'inline-import-data-uri'
-            ]
+            plugins: ["inline-import-data-uri"],
           },
         },
       ],
@@ -29,4 +30,4 @@ module.exports = {
     config.resolve.extensions.push(".ts", ".tsx");
     return config;
   },
-};
+});

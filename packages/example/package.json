@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export",
@@ -16,7 +17,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "2.5.1",
-    "@cosmology-ui/react": "1.1.0-beta.0",
+    "@cosmology-ui/react": "1.1.0-beta.2",
     "@cosmos-kit/coin98": "^0.2.17",
     "@cosmos-kit/core": "^1.7.0",
     "@cosmos-kit/cosmostation": "^0.15.38",
@@ -28,6 +29,7 @@
     "@cosmos-kit/vectis": "^0.15.37",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
+    "@next/bundle-analyzer": "^13.4.7",
     "@web3modal/core": "^2.0.0-rc.1",
     "@web3modal/ui": "^2.0.0-rc.1",
     "bignumber.js": "^9.1.1",

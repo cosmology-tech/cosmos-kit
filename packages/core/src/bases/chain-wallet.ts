@@ -151,20 +151,20 @@ export class ChainWalletBase extends WalletBase {
     this.setMessage(void 0);
 
     try {
-      await this.client.connect?.(this.chainId);
+      await this?.client?.connect?.(this.chainId);
 
       let account: SimpleAccount;
       try {
         this.logger?.debug(
           `Fetching ${this.walletName} ${this.chainId} account.`
         );
-        account = await this.client.getSimpleAccount(this.chainId);
+        account = await this?.client?.getSimpleAccount(this.chainId);
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.setRejected();
           return;
         }
-        if (this.client.addChain) {
+        if (this.client && this?.client?.addChain) {
           await this.client.addChain(this.chainRecord);
           account = await this.client.getSimpleAccount(this.chainId);
         } else {
