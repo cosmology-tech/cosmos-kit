@@ -10,22 +10,28 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+## [1.3.32-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.33...@cosmos-kit/react@1.3.32-beta.1) (2023-06-28)
+
+### Bug Fixes
+
+- add style import ([dffaf1a](https://github.com/cosmology-tech/cosmos-kit/commit/dffaf1a537c8451394a132e448ab9eb5e7ad4512))
+- bundle ([072f527](https://github.com/cosmology-tech/cosmos-kit/commit/072f527e2b91eca9ac253fb7896a90a392aecf1c))
+- bundle ([235645d](https://github.com/cosmology-tech/cosmos-kit/commit/235645d56bb53e4036cf961a147557296d0823ad))
+- conflicts ([2f6466f](https://github.com/cosmology-tech/cosmos-kit/commit/2f6466fdafecac719527d3569d6979a30b676110))
+- stuff ([7ed3a74](https://github.com/cosmology-tech/cosmos-kit/commit/7ed3a74b2b4d8bc464b5d7c98b5a6a9bd0897406))
+- stuff ([bd0d79d](https://github.com/cosmology-tech/cosmos-kit/commit/bd0d79d3d172284703d94fa32f71424369909528))
+
+### Features
+
+- migrate beta ([f1b11b4](https://github.com/cosmology-tech/cosmos-kit/commit/f1b11b45621e114ae17e7bf2c957f314a532410c))
 
 ## [1.3.33](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.32...@cosmos-kit/react@1.3.33) (2023-06-27)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 ## [1.3.32](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.31...@cosmos-kit/react@1.3.32) (2023-06-13)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 ## [1.3.31](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.30...@cosmos-kit/react@1.3.31) (2023-06-09)
 
