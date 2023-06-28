@@ -3,29 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.3.1...@cosmos-kit/omni-mobile@0.3.2-beta.0) (2023-06-28)
+
+### Features
+
+- migrate beta ([f1b11b4](https://github.com/cosmology-tech/cosmos-kit/commit/f1b11b45621e114ae17e7bf2c957f314a532410c))
+
 ## [0.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.3.0...@cosmos-kit/omni-mobile@0.3.1) (2023-06-27)
 
 **Note:** Version bump only for package @cosmos-kit/omni-mobile
 
-
-
-
-
 # [0.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.36...@cosmos-kit/omni-mobile@0.3.0) (2023-06-13)
-
 
 ### Bug Fixes
 
-* Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
-
+- Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
 
 ### Features
 
-* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
-
-
-
-
+- embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
 
 ## [0.2.36](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.35...@cosmos-kit/omni-mobile@0.2.36) (2023-06-09)
 
