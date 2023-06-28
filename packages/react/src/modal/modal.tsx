@@ -24,7 +24,7 @@ export function WalletModal({
     ModalView.WalletList
   );
   const [qrState, setQRState] = useState<State>(State.Init); // state of QRCode
-  const [qrMsg, setQRMsg] = useState<string>(''); //  message of QRCode error
+  const [qrMsg, setQRMsg] = useState<string>(''); //   message of QRCode error
 
   const current = walletRepo?.current;
   (current?.client as any)?.setActions?.({
