@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/vectis",
-  "version": "0.15.38-beta.0",
+  "version": "0.15.38-beta.1",
   "description": "cosmos-kit wallet connector",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -84,7 +84,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/vectis-extension": "^0.17.2-beta.0"
+    "@cosmos-kit/vectis-extension": "^0.17.2-beta.1"
   },
   "gitHead": "4ca86cd28eee16d75071c4dfc5e5a479d2d25490"
 }
