@@ -5,6 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.14.39](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.38...@cosmos-kit/trust@0.14.39) (2023-06-30)
 
+## [0.14.39-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.39-beta.1...@cosmos-kit/trust@0.14.39-beta.2) (2023-06-28)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
 ## [0.14.39-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.39-beta.0...@cosmos-kit/trust@0.14.39-beta.1) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/trust

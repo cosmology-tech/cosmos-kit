@@ -5,6 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.1.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/compass@0.1.6...@cosmos-kit/compass@0.1.7) (2023-06-30)
 
+## [0.1.7-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/compass@0.1.7-beta.1...@cosmos-kit/compass@0.1.7-beta.2) (2023-06-28)
+
+**Note:** Version bump only for package @cosmos-kit/compass
+
 ## [0.1.7-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/compass@0.1.7-beta.0...@cosmos-kit/compass@0.1.7-beta.1) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/compass

@@ -5,6 +5,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [1.3.34](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.33...@cosmos-kit/react@1.3.34) (2023-06-30)
 
+## [1.3.32-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.32-beta.2...@cosmos-kit/react@1.3.32-beta.3) (2023-06-28)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+## [1.3.32-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.32-beta.1...@cosmos-kit/react@1.3.32-beta.2) (2023-06-28)
+
 **Note:** Version bump only for package @cosmos-kit/react
 
 ## [1.3.32-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.33...@cosmos-kit/react@1.3.32-beta.1) (2023-06-28)

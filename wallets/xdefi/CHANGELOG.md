@@ -5,6 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.1.16](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi@0.1.15...@cosmos-kit/xdefi@0.1.16) (2023-06-30)
 
+## [0.1.16-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi@0.1.16-beta.1...@cosmos-kit/xdefi@0.1.16-beta.2) (2023-06-28)
+
+**Note:** Version bump only for package @cosmos-kit/xdefi
+
 ## [0.1.16-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi@0.1.16-beta.0...@cosmos-kit/xdefi@0.1.16-beta.1) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/xdefi

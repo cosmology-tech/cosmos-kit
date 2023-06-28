@@ -5,6 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.7.15](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station@0.7.14...@cosmos-kit/station@0.7.15) (2023-06-30)
 
+## [0.7.15-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station@0.7.15-beta.1...@cosmos-kit/station@0.7.15-beta.2) (2023-06-28)
+
+**Note:** Version bump only for package @cosmos-kit/station
+
 ## [0.7.15-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station@0.7.15-beta.0...@cosmos-kit/station@0.7.15-beta.1) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/station

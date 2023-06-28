@@ -5,6 +5,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.2.18](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/coin98@0.2.17...@cosmos-kit/coin98@0.2.18) (2023-06-30)
 
+## [0.2.18-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/coin98@0.2.18-beta.1...@cosmos-kit/coin98@0.2.18-beta.2) (2023-06-28)
+
 **Note:** Version bump only for package @cosmos-kit/coin98
 
 ## [0.2.18-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/coin98@0.2.18-beta.0...@cosmos-kit/coin98@0.2.18-beta.1) (2023-06-28)
