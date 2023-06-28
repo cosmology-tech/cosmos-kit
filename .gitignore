@@ -6,7 +6,8 @@ coverage
 packages/**/build
 packages/**/main
 packages/**/module
-packages/**/dist
+packages/react/dist
+packages/react-lite/dist
 packages/example/pages/tmp.tsx
 packages/example/utils/tmp.ts
 .idea
