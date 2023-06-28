@@ -82,5 +82,6 @@
   },
   "dependencies": {
     "@cosmos-kit/frontier-extension": "^0.2.2-beta.0"
-  }
+  },
+  "gitHead": "4ca86cd28eee16d75071c4dfc5e5a479d2d25490"
 }
