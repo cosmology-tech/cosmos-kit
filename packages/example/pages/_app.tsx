@@ -22,6 +22,7 @@ import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "@cosmology-ui/react";
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
+import { wallets as shellWallets} from "@cosmos-kit/shell";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             // ...web3authWallets,
             ...cosmostationWallets,
             ...exodusWallets,
+            ...shellWallets,
             // ...leapWallets,
             // ...vectisWallets,
             // ...xdefiWallets,

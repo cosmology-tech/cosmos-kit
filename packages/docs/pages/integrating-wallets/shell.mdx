@@ -1,0 +1,46 @@
+# How to Add Shell Wallet to CosmosKit
+
+There are three packages for shell
+
+- `@cosmoskit/shell`
+- `@cosmoskit/shell-extension`
+
+`@cosmoskit/shell` export all available shell wallets, while if you only want to add a particular one, choose `@cosmoskit/shell-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/shell` for example
+
+## install `@cosmoskit/shell`
+
+```
+yarn add @cosmoskit/shell
+```
+
+## import the wallets
+
+```js
+import { wallets as shell } from "@cosmos-kit/shell";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+    <ChakraProvider theme={defaultTheme}>
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...shell]}
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+    </ChakraProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
