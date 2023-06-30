@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2-beta.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier-extension@0.2.2-beta.4...@cosmos-kit/frontier-extension@0.2.2-beta.5) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/frontier-extension
+
 ## [0.2.2-beta.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier-extension@0.2.2-beta.3...@cosmos-kit/frontier-extension@0.2.2-beta.4) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/frontier-extension
