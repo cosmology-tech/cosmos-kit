@@ -49,7 +49,7 @@ export const ConnectedShowAddress = ({
     <button>
       {address && walletIcon && (
         <div>
-          <img alt={displayAddress} src={walletIcon} />
+          <img alt={displayAddress} src={walletIcon} width={50} />
         </div>
       )}
       <span>{displayAddress}</span>

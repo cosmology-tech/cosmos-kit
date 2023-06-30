@@ -136,14 +136,14 @@ export abstract class WalletBase extends StateBase {
   }
 
   protected _disconnect = async (sync?: boolean) => {
+    await this.callbacks?.beforeDisconnect?.();
+    await this.client?.disconnect?.();
+    this.reset();
+    window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
     if (sync) {
       this.emitter?.emit('sync_disconnect', (this as any).chainName);
       this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
     }
-    await this.callbacks?.beforeDisconnect?.();
-    window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
-    await this.client?.disconnect?.();
-    this.reset();
     await this.callbacks?.afterDisconnect?.();
   };
 

@@ -15,8 +15,8 @@
     "pretest": "yarn lint",
     "test": "lerna run test",
     "clear:node_modules": "find . -name 'node_modules' -type d -prune -print | xargs rm -rf",
-    "clear:packages": "find -E ./packages -iregex '.*/packages/[-0-9a-z]*/(main|module|types)' -type d -prune -print | xargs rm -rf",
-    "clear:wallets": "find -E ./wallets -iregex '.*/wallets/[-0-9a-z]*/(main|module|types)' -type d -prune -print | xargs rm -rf",
+    "clear:packages": "find -E ./packages -iregex '.*/packages/[-0-9a-z]*/(main|module|types|dist)' -type d -prune -print | xargs rm -rf",
+    "clear:wallets": "find -E ./wallets -iregex '.*/wallets/[-0-9a-z]*/(main|module|types|dist)' -type d -prune -print | xargs rm -rf",
     "clear": "yarn clear:packages && yarn clear:wallets",
     "pub:beta": "lerna publish --canary --preid beta",
     "pub": "lerna publish"
