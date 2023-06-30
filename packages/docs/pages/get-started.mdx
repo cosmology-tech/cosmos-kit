@@ -89,8 +89,12 @@ It records the connected chains' account information. It's used for account rest
 
 ## Advantages
 
-### Try Use Beta Version of CosmosKit
+### Beta Version
 
 In our beta version of CosmosKit, we discard the dependency on `ChakraUI` due to numerous runtime errors and the cost of CSS-in-JS.
 
-Main changes lies on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@cosmology-ui/react`, which is our UI Kit in Cosmology. The latest `@cosmology-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
+Main changes lie on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@cosmology-ui/react`, which is our UI Kit in Cosmology. The latest `@cosmology-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
+
+### Prerelease Version
+
+In our prerelease version of CosmosKit, we used `tsup` to compile CommonJS, ESM and types. Different from normal versions that separate these files in different folders (`main`, `module` and `types`), in the prerelease version, they are put in a single folder `dist` and differentiate with different suffix (`.js`, `mjs` and `.d.ts`). In this way non-index sources can easily find its corresponding typings.
