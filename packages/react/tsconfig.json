@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["es2017", "DOM"],
+    "lib": ["es2017", "DOM", "ESNext"],
     "module": "es2020",
     "moduleResolution": "node",
     "noImplicitAny": true,
