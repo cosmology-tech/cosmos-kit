@@ -3510,6 +3510,21 @@
     "@cosmos-kit/core" "^1.7.1"
     react "18.2.0"
 
+"@cosmos-kit/react@1.3.32-beta.3":
+  version "1.3.32-beta.3"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/react/-/react-1.3.32-beta.3.tgz#9a8adfe4bf02e2cad70e5397eb5f0fca097ee574"
+  integrity sha512-S5v9dzLt1Be0ZrJUxLh4X5QuHDYbpwt30kNLKrJyWZgwbghYi9mrKuDR8TF4oDfreyTbeRQ1wlDUueu3G/fxRQ==
+  dependencies:
+    "@chain-registry/types" "0.13.1"
+    "@cosmology-ui/react" "1.1.0-beta.2"
+    "@cosmos-kit/core" "^1.7.1-beta.2"
+    "@cosmos-kit/react-lite" "^1.5.2-beta.2"
+    "@emotion/react" "^11.10.6"
+    "@emotion/styled" "^11.10.6"
+    framer-motion "^9.0.7"
+    react "18.2.0"
+    react-icons "4.4.0"
+
 "@cosmos-kit/react@^1.3.34":
   version "1.3.34"
   resolved "https://registry.yarnpkg.com/@cosmos-kit/react/-/react-1.3.34.tgz#7416cda269f11f939dc726bf465467167d2da86c"
@@ -3526,6 +3541,21 @@
     framer-motion "^9.0.7"
     react "18.2.0"
     react-icons "4.4.0"
+
+"@cosmos-kit/shell-extension@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/shell-extension/-/shell-extension-0.2.4.tgz#b101381a30406c44ba6fcdf64dd2d9526ad8d07b"
+  integrity sha512-jez7fU7RfgIbhlPTWJxzCxyfhBHixaJen2BaPfnOql1DLN+ijQ1kta1LT2lz6gkVFMF8ajOMkaSNBEQGsbXtrA==
+  dependencies:
+    "@chain-registry/keplr" "1.8.0"
+    "@cosmos-kit/core" "^1.7.1"
+
+"@cosmos-kit/shell@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/shell/-/shell-0.2.4.tgz#6b5c45827010c0439e269a1448255e95fc5876f2"
+  integrity sha512-svKdXBeSS/U3ok3rUT4ssfKryhkDCp5Ctg2At7sKZgHz79Ys//L61s+J0iC9O6uojdBovOEG60R8eg7CFwpfCQ==
+  dependencies:
+    "@cosmos-kit/shell-extension" "^0.2.4"
 
 "@cosmos-kit/station-extension@^0.8.2":
   version "0.8.2"

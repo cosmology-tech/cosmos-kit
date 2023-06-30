@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "2.4.3",
-    "@cosmos-kit/core": "^1.7.1",
+    "@cosmos-kit/core": "1.7.1-beta.6",
     "@cosmos-kit/cosmostation": "^0.15.39",
     "@cosmos-kit/frontier": "^0.1.38",
     "@cosmos-kit/keplr": "^0.33.41",

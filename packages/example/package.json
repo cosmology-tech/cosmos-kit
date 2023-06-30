@@ -18,7 +18,7 @@
   "dependencies": {
     "@cosmology-ui/react": "1.1.0-beta.2",
     "@cosmos-kit/coin98": "^0.2.18",
-    "@cosmos-kit/core": "^1.7.1",
+    "@cosmos-kit/core": "1.7.1-beta.6",
     "@cosmos-kit/cosmostation": "^0.15.39",
     "@cosmos-kit/keplr": "^0.33.41",
     "@cosmos-kit/leap": "^0.15.11",
