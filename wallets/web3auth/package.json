@@ -75,6 +75,7 @@
     "@cosmjs/cosmwasm-stargate": "^0.30.1",
     "@cosmjs/proto-signing": "^0.30.1",
     "@cosmjs/stargate": "^0.30.1",
+    "@keplr-wallet/cosmos": "^0.11.16",
     "@types/jest": "29.0.3",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -95,7 +96,6 @@
   },
   "dependencies": {
     "@cosmos-kit/core": "^1.7.1-beta.6",
-    "@keplr-wallet/cosmos": "^0.12.12",
     "@solana/web3.js": "^1.77.3",
     "@toruslabs/eccrypto": "^2.1.1",
     "@walletconnect/client": "^1.8.0",
@@ -110,7 +110,8 @@
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
+    "@cosmjs/stargate": ">= 0.28",
+    "@keplr-wallet/cosmos": ">= 0.10"
   },
   "gitHead": "0f174bf8c1799158d87dfcfb97c642e51835b8d0"
 }
