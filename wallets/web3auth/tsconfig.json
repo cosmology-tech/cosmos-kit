@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "module": "es2020",
+    "target": "es2020",
     "skipLibCheck": true,
     "declaration": true,
     "declarationDir": "./types",
@@ -11,10 +12,6 @@
     "downlevelIteration": true,
     "moduleResolution": "node"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

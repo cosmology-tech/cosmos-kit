@@ -1,5 +1,6 @@
-import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
+
+import logo from './logo.svg';
 
 export const web3AuthWalletInfo: Wallet = {
   name: 'web3auth',
@@ -9,5 +10,5 @@ export const web3AuthWalletInfo: Wallet = {
   mobileDisabled: false,
   rejectMessage: {
     source: 'Request rejected',
-  }
+  },
 };
