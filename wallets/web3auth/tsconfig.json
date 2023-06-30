@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "module": "es2022",
+    "target": "es2022"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
