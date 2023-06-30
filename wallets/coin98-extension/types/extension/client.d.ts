@@ -1,4 +1,4 @@
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode, ChainRecord, DirectSignDoc, SignOptions, SignType, WalletClient } from '@cosmos-kit/core';
 import { Coin98 } from './types';
@@ -25,5 +25,6 @@ export declare class Coin98Client implements WalletClient {
     addChain(chainInfo: ChainRecord): Promise<void>;
     signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions): Promise<import("@keplr-wallet/types").AminoSignResponse>;
     signDirect(chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions): Promise<import("@keplr-wallet/types").DirectSignResponse>;
+    signArbitrary(chainId: string, signer: string, data: string | Uint8Array): Promise<StdSignature>;
     sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }

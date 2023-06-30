@@ -1,13 +1,5 @@
 /* eslint-disable no-alert */
 import { Asset, AssetList } from "@chain-registry/types";
-import {
-  Button,
-  Card,
-  CardBody,
-  Center,
-  Container,
-  Text,
-} from "@chakra-ui/react";
 import { StdFee } from "@cosmjs/amino";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { useChain, useWalletClient } from "@cosmos-kit/react";
@@ -16,7 +8,7 @@ import { assets } from "chain-registry";
 import { cosmos } from "juno-network";
 import { useState } from "react";
 
-import { ChainsTXWalletSection, SendTokensCard } from "../components";
+import { ChainsTXWalletSection, SendTokensdiv } from "../components";
 import { ExtendedHttpEndpoint } from "@cosmos-kit/core";
 
 const chainName = "cosmoshub";
@@ -84,12 +76,8 @@ export default function Home() {
     string | undefined
   >();
 
-  const {
-    getSigningStargateClient,
-    address,
-    status,
-    getRpcEndpoint,
-  } = useChain(chainName);
+  const { getSigningStargateClient, address, status, getRpcEndpoint } =
+    useChain(chainName);
 
   const { client } = useWalletClient();
 
@@ -155,16 +143,16 @@ export default function Home() {
   };
 
   return (
-    <Container maxW="5xl" py={10}>
+    <div>
       <ChainsTXWalletSection chainName={chainName} />
 
-      <Center mb={16} flexDirection="column">
-        <SendTokensCard
+      <div>
+        <SendTokensdiv
           isConnectWallet={status === "Connected"}
           balance={balance.toNumber()}
           isFetchingBalance={isFetchingBalance}
           response={resp}
-          sendTokensButtonText="Send Tokens"
+          sendTokensbuttonText="Send Tokens"
           handleClickSendTokens={sendTokens(
             getSigningStargateClient as () => Promise<SigningStargateClient>,
             setResp as () => any,
@@ -175,25 +163,25 @@ export default function Home() {
             getBalance();
           }}
         />
-        <Center marginY={16} flexDirection="column">
-          <Button
+        <div>
+          <button
             onClick={async () => {
               const r = await (client as any).getAccount("cosmoshub-4");
               setCosmo_getAccount(JSON.stringify(r));
             }}
           >
             cosmos_getAccounts
-          </Button>
+          </button>
           {cosmo_getAccount && (
-            <Card>
-              <CardBody>
-                <Text>{cosmo_getAccount}</Text>
-              </CardBody>
-            </Card>
+            <div>
+              <div>
+                <span>{cosmo_getAccount}</span>
+              </div>
+            </div>
           )}
-        </Center>
-        <Center mb={16} flexDirection="column">
-          <Button
+        </div>
+        <div>
+          <button
             onClick={async () => {
               if (address) {
                 const r = await client?.signAmino?.(
@@ -206,16 +194,16 @@ export default function Home() {
             }}
           >
             cosmos_signAmino
-          </Button>
+          </button>
           {cosmos_signAmino && (
-            <Card>
-              <CardBody>
-                <Text>{cosmos_signAmino}</Text>
-              </CardBody>
-            </Card>
+            <div>
+              <div>
+                <span>{cosmos_signAmino}</span>
+              </div>
+            </div>
           )}
-        </Center>
-      </Center>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }

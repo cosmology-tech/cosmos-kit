@@ -1,5 +1,5 @@
 import { chainRegistryChainToCosmostation } from '@chain-registry/cosmostation';
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
@@ -172,6 +172,27 @@ export class CosmostationClient implements WalletClient {
           isEditMemo: signOptions?.preferNoSetMemo,
           isEditFee: signOptions?.preferNoSetFee,
         },
+      });
+    }
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    try {
+      return await this.ikeplr.signArbitrary(chainId, signer, data);
+    } catch (error) {
+      // https://github.com/cosmostation/cosmostation-chrome-extension-client/blob/main/src/cosmos.ts#LL70C17-L70C28
+      const message = typeof data === 'string' ? data : new TextDecoder('utf-8').decode(data)
+      return await this.cosmos.request({
+        method: 'cos_signMessage',
+        params: {
+          chainName: chainId,
+          signer,
+          message
+        }
       });
     }
   }

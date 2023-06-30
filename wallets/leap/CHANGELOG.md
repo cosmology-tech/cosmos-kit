@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.10...@cosmos-kit/leap@0.15.11) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.9...@cosmos-kit/leap@0.15.10) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.8...@cosmos-kit/leap@0.15.9) (2023-06-13)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.7...@cosmos-kit/leap@0.15.8) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.6...@cosmos-kit/leap@0.15.7) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.5...@cosmos-kit/leap@0.15.6) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.4...@cosmos-kit/leap@0.15.5) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.3...@cosmos-kit/leap@0.15.4) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.2...@cosmos-kit/leap@0.15.3) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
+## [0.15.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.1...@cosmos-kit/leap@0.15.2) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+
+
+
+
 ## [0.15.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@0.15.0...@cosmos-kit/leap@0.15.1) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/leap

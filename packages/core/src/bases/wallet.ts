@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
+import EventEmitter from 'events';
+
 import {
   Callbacks,
   DownloadInfo,
@@ -11,7 +13,6 @@ import {
 } from '../types';
 import { ClientNotExistError, RejectedError, Session } from '../utils';
 import { StateBase } from './state';
-import EventEmitter from 'events';
 
 export abstract class WalletBase extends StateBase {
   clientMutable: Mutable<WalletClient> = { state: State.Init };
@@ -20,6 +21,11 @@ export abstract class WalletBase extends StateBase {
   callbacks?: Callbacks;
   session?: Session;
   walletConnectOptions?: WalletConnectOptions;
+  /**
+   * isActive in mainWallet is not like chainWallet
+   * - mainWallet: activated when connected
+   * - chainWallet: activated when called by hooks (useChain, useChainWallet etc)
+   */
   isActive = false;
   throwErrors = false;
 
@@ -129,16 +135,20 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  disconnect = async (sync?: boolean) => {
+  protected _disconnect = async (sync?: boolean) => {
+    await this.callbacks?.beforeDisconnect?.();
+    await this.client?.disconnect?.();
+    this.reset();
+    window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
     if (sync) {
       this.emitter?.emit('sync_disconnect', (this as any).chainName);
       this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');
     }
-    await this.callbacks?.beforeDisconnect?.();
-    this.reset();
-    window.localStorage.removeItem('cosmos-kit@1:core//current-wallet');
-    await this.client?.disconnect?.();
     await this.callbacks?.afterDisconnect?.();
+  };
+
+  disconnect = async (sync?: boolean) => {
+    await this._disconnect(sync);
   };
 
   setClientNotExist() {

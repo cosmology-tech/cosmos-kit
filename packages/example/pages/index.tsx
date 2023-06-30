@@ -1,26 +1,7 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Icon,
-  SimpleGrid,
-  Stack,
-  StackDivider,
-  useColorMode,
-  VStack,
-} from "@chakra-ui/react";
-import { useChain, useModalTheme, useWallet } from "@cosmos-kit/react";
-import React from "react";
-import { useCallback } from "react";
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
-import { FaUserCircle } from "react-icons/fa";
-import { IoWalletOutline } from "react-icons/io5";
+import { useChain, useWallet } from "@cosmos-kit/react";
+import React, { useEffect } from "react";
 
-import { ChainWalletCard } from "../components";
+import { ChainWalletdiv } from "../components";
 
 // const chainNames_1 = ["cosmoshub"];
 // const chainNames_2: string[] = ["cosmoshub"];
@@ -28,33 +9,23 @@ import { ChainWalletCard } from "../components";
 const chainNames_1 = ["osmosis", "cosmoshub"];
 const chainNames_2 = ["stargaze", "chihuahua"];
 
-// const chainNames_1 = ["osmosis"];
-// const chainNames_2 = ["cosmoshub"];
+// const chainNames_1 = ["coreum"];
+// const chainNames_2 = [];
 
 export default () => {
-  const { colorMode, setColorMode } = useColorMode();
   const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
-  const { modalTheme, setModalTheme } = useModalTheme();
-  const { status: globalStatus } = useWallet();
+  const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
 
-  const toggleTheme = useCallback(() => {
-    switch (modalTheme) {
-      case "light":
-        // setColorMode("dark");
-        setModalTheme("dark");
-        break;
-      case "dark":
-        // setColorMode("light");
-        setModalTheme("light");
-        break;
-      default:
-        throw new Error(`Unknown modalTheme: ${modalTheme}`);
-    }
-  }, [setColorMode, setModalTheme, colorMode, modalTheme]);
+  useEffect(() => {
+    const fn = async () => {
+      await mainWallet?.connect();
+    };
+    fn();
+  }, []);
 
   const addressInModal = chainNames_1.map((chainName) => {
     return (
-      <ChainWalletCard
+      <ChainWalletdiv
         key={chainName}
         chainName={chainName}
         type="address-in-modal"
@@ -64,7 +35,7 @@ export default () => {
 
   const addressOnPage = chainNames_2.map((chainName) => {
     return (
-      <ChainWalletCard
+      <ChainWalletdiv
         key={chainName}
         chainName={chainName}
         type="address-on-page"
@@ -72,101 +43,44 @@ export default () => {
     );
   });
 
-  const getGlobalButton = () => {
+  const getGlobalbutton = () => {
     if (globalStatus === "Connecting") {
-      return (
-        <Button
-          isLoading
-          loadingText={`Connecting ${wallet?.prettyName}`}
-          colorScheme="teal"
-          size="md"
-          marginTop={6}
-          marginBottom={2}
-        />
-      );
+      return <button>{`Connecting ${wallet?.prettyName}`}</button>;
     }
     if (globalStatus === "Connected") {
       return (
-        <ButtonGroup
-          size="md"
-          isAttached
-          variant="solid"
-          marginTop={6}
-          marginBottom={2}
-        >
-          <Button
-            leftIcon={<IoWalletOutline />}
-            isActive={true}
-            variant="outline"
-          >
-            {wallet?.prettyName}
-          </Button>
-          <Button leftIcon={<FaUserCircle />} isActive={true} variant="outline">
-            {username}
-          </Button>
-          <Button
-            colorScheme="teal"
+        <div style={{ maxWidth: "60%", margin: "auto" }}>
+          <button>{wallet?.prettyName}</button>
+          <button>{username}</button>
+          <button
             onClick={async () => {
               await disconnect();
               // setGlobalStatus(WalletStatus.Disconnected);
             }}
           >
             Disconnect
-          </Button>
-        </ButtonGroup>
+          </button>
+        </div>
       );
     }
 
-    return (
-      <Button
-        isLoading={false}
-        loadingText={`Connecting ${wallet?.prettyName}`}
-        colorScheme="teal"
-        size="md"
-        marginTop={6}
-        marginBottom={2}
-        onClick={() => connect()}
-      >
-        Connect Wallet
-      </Button>
-    );
+    return <button onClick={() => connect()}>Connect Wallet</button>;
   };
 
   return (
-    <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
-      <Flex justifyContent="end">
-        <Button variant="outline" px={0} onClick={toggleTheme}>
-          <Icon
-            as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
-          />
-        </Button>
-      </Flex>
-      <VStack spacing="24px" marginTop={-2}>
-        <Heading size="lg" marginBottom={3}>
-          ChainProvider Test
-        </Heading>
-        {getGlobalButton()}
-      </VStack>
-      <Card>
-        <CardHeader>
-          <Heading size="md">Address Card in Modal</Heading>
-        </CardHeader>
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            {addressInModal}
-          </Stack>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardHeader>
-          <Heading size="md">Address Card on Page</Heading>
-        </CardHeader>
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            {addressOnPage}
-          </Stack>
-        </CardBody>
-      </Card>
-    </SimpleGrid>
+    <div>
+      <div>
+        <h4 style={{ marginBottom: "3px" }}>ChainProvider Test</h4>
+        {getGlobalbutton()}
+      </div>
+      <div>
+        <h5>Address div in Modal</h5>
+        <div>{addressInModal}</div>
+      </div>
+      <div>
+        <h5>Address div on Page</h5>
+        <div>{addressOnPage}</div>
+      </div>
+    </div>
   );
 };

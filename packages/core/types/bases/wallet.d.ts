@@ -1,8 +1,8 @@
 /// <reference types="node" />
+import EventEmitter from 'events';
 import { Callbacks, DownloadInfo, Mutable, Wallet, WalletClient, WalletConnectOptions } from '../types';
 import { Session } from '../utils';
 import { StateBase } from './state';
-import EventEmitter from 'events';
 export declare abstract class WalletBase extends StateBase {
     clientMutable: Mutable<WalletClient>;
     emitter?: EventEmitter;
@@ -10,6 +10,11 @@ export declare abstract class WalletBase extends StateBase {
     callbacks?: Callbacks;
     session?: Session;
     walletConnectOptions?: WalletConnectOptions;
+    /**
+     * isActive in mainWallet is not like chainWallet
+     * - mainWallet: activated when connected
+     * - chainWallet: activated when called by hooks (useChain, useChainWallet etc)
+     */
     isActive: boolean;
     throwErrors: boolean;
     constructor(walletInfo: Wallet);
@@ -30,6 +35,7 @@ export declare abstract class WalletBase extends StateBase {
     get rejectCode(): number;
     rejectMatched(e: Error): boolean;
     updateCallbacks(callbacks: Callbacks): void;
+    protected _disconnect: (sync?: boolean) => Promise<void>;
     disconnect: (sync?: boolean) => Promise<void>;
     setClientNotExist(): void;
     setRejected(): void;

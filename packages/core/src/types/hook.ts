@@ -2,6 +2,7 @@ import { AssetList, Chain } from '@chain-registry/types';
 import {
   AminoSignResponse,
   OfflineAminoSigner,
+  StdSignature,
   StdSignDoc,
 } from '@cosmjs/amino';
 import {
@@ -22,7 +23,7 @@ import {
 } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { ChainWalletBase } from '../bases';
+import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
@@ -124,6 +125,10 @@ export interface ChainWalletContext {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) => Promise<DirectSignResponse>;
+  signArbitrary: (
+    signer: string,
+    data: string | Uint8Array
+  ) => Promise<StdSignature>;
   sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
 
@@ -137,6 +142,7 @@ export interface ChainContext extends ChainWalletContext {
 export interface ManagerContext {
   chainRecords: ChainRecord[];
   walletRepos: WalletRepo[];
+  mainWallets: MainWalletBase[];
   defaultNameService: NameServiceName;
   getChainRecord: (chainName: ChainName) => ChainRecord;
   getWalletRepo: (chainName: ChainName) => WalletRepo;
@@ -158,6 +164,7 @@ export interface ModalThemeContext {
 }
 
 export interface WalletContext {
+  mainWallet: MainWalletBase | undefined;
   chainWallets: ChainWalletBase[];
   wallet: Wallet | undefined;
   status: WalletStatus;

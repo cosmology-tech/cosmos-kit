@@ -18,6 +18,9 @@ module.exports = {
               ["@babel/preset-react", { runtime: "automatic" }],
               ["@babel/typescript", { allowDeclareFields: true }],
             ],
+            plugins: [
+              'inline-import-data-uri'
+            ]
           },
         },
       ],

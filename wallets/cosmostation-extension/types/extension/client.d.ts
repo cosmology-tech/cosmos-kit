@@ -1,4 +1,4 @@
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode, ChainRecord, DirectSignDoc, SignOptions, SignType, SuggestToken, WalletClient } from '@cosmos-kit/core';
 import { Cosmostation } from './types';
@@ -30,5 +30,6 @@ export declare class CosmostationClient implements WalletClient {
     addChain(chainInfo: ChainRecord): Promise<void>;
     signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions): Promise<any>;
     signDirect(chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions): Promise<any>;
+    signArbitrary(chainId: string, signer: string, data: string | Uint8Array): Promise<StdSignature>;
     sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }

@@ -9,6 +9,7 @@ import { wallets as leap } from "@cosmos-kit/leap";
 import { wallets as frontier } from "@cosmos-kit/frontier";
 import { wallets as vectis } from "@cosmos-kit/vectis";
 import { wallets as xdefi } from "@cosmos-kit/xdefi-extension";
+import { wallets as exodus } from "@cosmos-kit/exodus-extension";
 import { wallets as omni } from "@cosmos-kit/omni";
 import { wallets as trust } from "@cosmos-kit/trust";
 import { wallets as station } from "@cosmos-kit/station";
@@ -26,11 +27,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...cosmostation,
           ...leap,
           ...vectis,
-          // ...xdefi,
+          ...xdefi,
           ...omni,
           ...trust,
           ...station,
           ...frontier,
+          ...exodus,
         ]}
         wrappedWithChakra={true}
         walletConnectOptions={{

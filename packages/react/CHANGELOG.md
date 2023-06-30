@@ -3,6 +3,78 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.34](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.33...@cosmos-kit/react@1.3.34) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.33](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.32...@cosmos-kit/react@1.3.33) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.32](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.31...@cosmos-kit/react@1.3.32) (2023-06-13)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.31](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.30...@cosmos-kit/react@1.3.31) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.30](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.29...@cosmos-kit/react@1.3.30) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.29](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.28...@cosmos-kit/react@1.3.29) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.28](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.27...@cosmos-kit/react@1.3.28) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.27](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.26...@cosmos-kit/react@1.3.27) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
+## [1.3.26](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.25...@cosmos-kit/react@1.3.26) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/react
+
+
+
+
+
 ## [1.3.25](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.24...@cosmos-kit/react@1.3.25) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/react

@@ -1,10 +1,10 @@
 import { AssetList, Chain } from '@chain-registry/types';
-import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { DirectSignResponse, EncodeObject, OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DeliverTxResponse, SigningStargateClient, StargateClient, StdFee } from '@cosmjs/stargate';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import { ChainWalletBase } from '../bases';
+import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
@@ -50,6 +50,7 @@ export interface ChainWalletContext {
     getOfflineSignerDirect: () => OfflineDirectSigner;
     signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) => Promise<AminoSignResponse>;
     signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) => Promise<DirectSignResponse>;
+    signArbitrary: (signer: string, data: string | Uint8Array) => Promise<StdSignature>;
     sendTx(tx: Uint8Array, mode: BroadcastMode): Promise<Uint8Array>;
 }
 export interface ChainContext extends ChainWalletContext {
@@ -61,6 +62,7 @@ export interface ChainContext extends ChainWalletContext {
 export interface ManagerContext {
     chainRecords: ChainRecord[];
     walletRepos: WalletRepo[];
+    mainWallets: MainWalletBase[];
     defaultNameService: NameServiceName;
     getChainRecord: (chainName: ChainName) => ChainRecord;
     getWalletRepo: (chainName: ChainName) => WalletRepo;
@@ -75,6 +77,7 @@ export interface ModalThemeContext {
     setModalTheme: (theme: ModalTheme) => void;
 }
 export interface WalletContext {
+    mainWallet: MainWalletBase | undefined;
     chainWallets: ChainWalletBase[];
     wallet: Wallet | undefined;
     status: WalletStatus;

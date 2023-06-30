@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.7.0...@cosmos-kit/core@1.7.1) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+
+
+
+
+# [1.7.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.6.0...@cosmos-kit/core@1.7.0) (2023-06-27)
+
+
+### Bug Fixes
+
+* await async operations in wallet manager on mounted ([fe72b3e](https://github.com/cosmology-tech/cosmos-kit/commit/fe72b3e6cec25d6c0aaf84d6656644e6a189d9fd))
+* disconnect promise order ([3b95913](https://github.com/cosmology-tech/cosmos-kit/commit/3b95913e0a1ff3bd57dacd9db383b2fce991f28c))
+* do not reconnect wallet if there are no accounts ([6078923](https://github.com/cosmology-tech/cosmos-kit/commit/6078923a8d311875f5293859559ba665fdf88816))
+
+
+### Features
+
+* connect to Ledger via Web USB / HID ([70c222d](https://github.com/cosmology-tech/cosmos-kit/commit/70c222d150e06955d765f8f521b0f74d79a66081))
+
+
+
+
+
+# [1.6.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.8...@cosmos-kit/core@1.6.0) (2023-06-13)
+
+
+### Features
+
+* add signArbitrary to ChainWalletContext ([6f9a38a](https://github.com/cosmology-tech/cosmos-kit/commit/6f9a38a77d5d02d516f6f2482130a203ea2eee99))
+
+
+
+
+
+## [1.5.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.7...@cosmos-kit/core@1.5.8) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+
+
+
+
+## [1.5.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.6...@cosmos-kit/core@1.5.7) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+
+
+
+
+## [1.5.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.5...@cosmos-kit/core@1.5.6) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+
+
+
+
+## [1.5.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.4...@cosmos-kit/core@1.5.5) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+
+
+
+
+## [1.5.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.3...@cosmos-kit/core@1.5.4) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+
+
+
+
+## [1.5.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.2...@cosmos-kit/core@1.5.3) (2023-06-01)
+
+
+### Bug Fixes
+
+* add optional chaining to get rest endpoint ([50c0e36](https://github.com/cosmology-tech/cosmos-kit/commit/50c0e3675d9b65a0faf95299c95d2a514011eae0))
+
+
+
+
+
 ## [1.5.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@1.5.1...@cosmos-kit/core@1.5.2) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/core

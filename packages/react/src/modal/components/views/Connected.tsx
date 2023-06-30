@@ -8,7 +8,7 @@ import {
   SimpleModalView,
 } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import React, { useCallback } from 'react';
+import React, { useCallback, useReducer } from 'react';
 import { RiDoorOpenFill } from 'react-icons/ri';
 
 export const ConnectedView = ({
@@ -22,7 +22,9 @@ export const ConnectedView = ({
     address,
   } = wallet;
 
-  const onDisconnect = useCallback(() => wallet.disconnect(true), [wallet]);
+  const onDisconnect = useCallback(() => {
+    wallet.disconnect(true);
+  }, [wallet]);
 
   const modalHead = (
     <SimpleModalHead

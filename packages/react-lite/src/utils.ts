@@ -161,6 +161,12 @@ export function getChainWalletContext(
         [chainId, ...params],
         'signDirect'
       ),
+    signArbitrary: (...params: Parameters<ChainWalletContext['signArbitrary']>) =>
+      clientMethodAssert(
+        wallet?.client?.signArbitrary.bind(wallet.client),
+        [chainId, ...params],
+        'signArbitrary'
+      ),
     sendTx: (...params: Parameters<ChainWalletContext['sendTx']>) =>
       clientMethodAssert(
         wallet?.client?.sendTx.bind(wallet.client),

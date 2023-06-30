@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.36.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.36.1...@cosmos-kit/keplr-extension@0.36.2) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+## [0.36.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.36.0...@cosmos-kit/keplr-extension@0.36.1) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+# [0.36.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.9...@cosmos-kit/keplr-extension@0.36.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
+
+
+### Features
+
+* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
+
+
+
+
+
+## [0.35.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.8...@cosmos-kit/keplr-extension@0.35.9) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+## [0.35.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.7...@cosmos-kit/keplr-extension@0.35.8) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+## [0.35.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.6...@cosmos-kit/keplr-extension@0.35.7) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+## [0.35.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.5...@cosmos-kit/keplr-extension@0.35.6) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+## [0.35.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.4...@cosmos-kit/keplr-extension@0.35.5) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
+## [0.35.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.3...@cosmos-kit/keplr-extension@0.35.4) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
 ## [0.35.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@0.35.2...@cosmos-kit/keplr-extension@0.35.3) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/keplr-extension

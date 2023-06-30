@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.15.1...@cosmos-kit/trust-extension@0.15.2) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+## [0.15.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.15.0...@cosmos-kit/trust-extension@0.15.1) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+# [0.15.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.34...@cosmos-kit/trust-extension@0.15.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
+
+
+### Features
+
+* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
+
+
+
+
+
+## [0.14.34](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.33...@cosmos-kit/trust-extension@0.14.34) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+## [0.14.33](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.32...@cosmos-kit/trust-extension@0.14.33) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+## [0.14.32](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.31...@cosmos-kit/trust-extension@0.14.32) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+## [0.14.31](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.30...@cosmos-kit/trust-extension@0.14.31) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+## [0.14.30](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.29...@cosmos-kit/trust-extension@0.14.30) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
+## [0.14.29](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.28...@cosmos-kit/trust-extension@0.14.29) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/trust-extension
+
+
+
+
+
 ## [0.14.28](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust-extension@0.14.27...@cosmos-kit/trust-extension@0.14.28) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/trust-extension

@@ -1,5 +1,5 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
@@ -106,6 +106,14 @@ export class Coin98Client implements WalletClient {
     signOptions?: SignOptions
   ) {
     return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    return await this.client.signArbitrary(chainId, signer, data);
   }
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {

@@ -8,5 +8,10 @@
     "vectis": "@ Vectis Wallet",
     "station": "@ Station Wallet",
     "frontier": "@ Frontier Wallet",
-    "web3auth": "@ Web3Auth"
+    "web3auth": "@ Web3Auth",
+    "compass": "@ Compass",
+    "exodus": "@ Exodus",
+    "ledger": "@ Ledger (Beta)",
+    "xdefi": "@ Xdefi",
+    "shell": "@ Shell"
 }

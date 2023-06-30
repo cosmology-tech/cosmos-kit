@@ -1,9 +1,10 @@
+import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
 
 export const leapExtensionInfo: Wallet = {
   name: 'leap-extension',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/leap.png',
   prettyName: 'Leap',
+  logo: logo,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

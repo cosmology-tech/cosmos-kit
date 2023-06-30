@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.1...@cosmos-kit/react-lite@1.5.2) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+## [1.5.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.0...@cosmos-kit/react-lite@1.5.1) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+# [1.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.10...@cosmos-kit/react-lite@1.5.0) (2023-06-13)
+
+
+### Features
+
+* add signArbitrary to ChainWalletContext ([6f9a38a](https://github.com/cosmology-tech/cosmos-kit/commit/6f9a38a77d5d02d516f6f2482130a203ea2eee99))
+
+
+
+
+
+## [1.4.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.9...@cosmos-kit/react-lite@1.4.10) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+## [1.4.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.8...@cosmos-kit/react-lite@1.4.9) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+## [1.4.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.7...@cosmos-kit/react-lite@1.4.8) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+## [1.4.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.6...@cosmos-kit/react-lite@1.4.7) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+## [1.4.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.5...@cosmos-kit/react-lite@1.4.6) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
+## [1.4.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.4...@cosmos-kit/react-lite@1.4.5) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/react-lite
+
+
+
+
+
 ## [1.4.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.4.3...@cosmos-kit/react-lite@1.4.4) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/react-lite

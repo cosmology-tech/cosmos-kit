@@ -3,6 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.3.1...@cosmos-kit/omni-mobile@0.3.2) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.3.0...@cosmos-kit/omni-mobile@0.3.1) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+# [0.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.36...@cosmos-kit/omni-mobile@0.3.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
+
+
+### Features
+
+* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
+
+
+
+
+
+## [0.2.36](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.35...@cosmos-kit/omni-mobile@0.2.36) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.2.35](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.34...@cosmos-kit/omni-mobile@0.2.35) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.2.34](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.33...@cosmos-kit/omni-mobile@0.2.34) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.2.33](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.32...@cosmos-kit/omni-mobile@0.2.33) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.2.32](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.31...@cosmos-kit/omni-mobile@0.2.32) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.2.31](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.30...@cosmos-kit/omni-mobile@0.2.31) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
+## [0.2.30](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.29...@cosmos-kit/omni-mobile@0.2.30) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/omni-mobile
+
+
+
+
+
 ## [0.2.29](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni-mobile@0.2.28...@cosmos-kit/omni-mobile@0.2.29) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/omni-mobile

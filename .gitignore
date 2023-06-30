@@ -6,8 +6,14 @@ coverage
 packages/**/build
 packages/**/main
 packages/**/module
+packages/**/dist
+wallets/**/build
+wallets/**/main
+wallets/**/module
+wallets/**/dist
 packages/example/pages/tmp.tsx
 packages/example/utils/tmp.ts
 .idea
 /.yarnrc
 /.npmrc
+/.parcel-cache

@@ -1,9 +1,10 @@
+import logo from './logo.svg';
 import { OS, Wallet } from '@cosmos-kit/core';
 
 export const LeapMobileInfo: Wallet = {
   name: 'leap-cosmos-mobile',
   prettyName: 'Leap Mobile',
-  logo: 'https://assets.leapwallet.io/logos/leap-cosmos-logo.png',
+  logo: logo,
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {

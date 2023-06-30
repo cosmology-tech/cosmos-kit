@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/omni",
-  "version": "0.33.29",
+  "version": "0.33.39",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -96,12 +96,6 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/omni-mobile": "^0.2.29"
-  },
-  "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28",
-    "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/proto-signing": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28"
+    "@cosmos-kit/omni-mobile": "^0.3.2"
   }
 }

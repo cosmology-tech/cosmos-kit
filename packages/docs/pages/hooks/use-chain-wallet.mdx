@@ -70,8 +70,8 @@
 | **getOfflineSignerDirect**  | - | - | `OfflineDirectSigner` | N |
 | **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
 | **signDirect**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `DirectSignResponse` | Y |
+| **signArbitrary**  | - |   **signer**: `string`,<br />**data**: `string \| Uint8Array` | `StdSignature` | Y |
 | **sendTx**  | - |  **tx**: `Uint8Array`,<br />**mode**: `BroadcastMode` | `Uint8Array` | Y |
-
 
 ### Advanced
 

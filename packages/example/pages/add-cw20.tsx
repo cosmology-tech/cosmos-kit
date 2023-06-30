@@ -1,13 +1,3 @@
-import {
-  Button,
-  ButtonGroup,
-  Flex,
-  Heading,
-  Icon,
-  SimpleGrid,
-  useColorMode,
-  VStack,
-} from "@chakra-ui/react";
 import { useChain } from "@cosmos-kit/react";
 import { useMemo } from "react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
@@ -17,7 +7,6 @@ import { IoWalletOutline } from "react-icons/io5";
 const chainName = "juno";
 
 export default () => {
-  const { colorMode, toggleColorMode } = useColorMode();
   const {
     username,
     chain,
@@ -42,49 +31,24 @@ export default () => {
     return [];
   }, [assets]);
 
-  const getConnectButton = () => {
+  const getConnectbutton = () => {
     if (status === "Connecting") {
-      return (
-        <Button
-          isLoading
-          loadingText={`Connecting ${wallet?.prettyName}`}
-          colorScheme="teal"
-          size="md"
-          marginTop={6}
-          marginBottom={2}
-        />
-      );
+      return <button>{`Connecting ${wallet?.prettyName}`}</button>;
     }
 
     if (status === "Connected") {
       return (
-        <ButtonGroup
-          size="md"
-          isAttached
-          variant="solid"
-          marginTop={6}
-          marginBottom={2}
-        >
-          <Button
-            leftIcon={<IoWalletOutline />}
-            isActive={true}
-            variant="outline"
-          >
-            {wallet?.prettyName}
-          </Button>
-          <Button leftIcon={<FaUserCircle />} isActive={true} variant="outline">
-            {username}
-          </Button>
-          <Button
-            colorScheme="teal"
+        <div>
+          <button>{wallet?.prettyName}</button>
+          <button>{username}</button>
+          <button
             onClick={async () => {
               await disconnect();
             }}
           >
             Disconnect
-          </Button>
-          <Button
-            colorScheme="teal"
+          </button>
+          <button
             disabled={cw20Tokens.length === 0 || !chain}
             onClick={() => {
               if (chain) {
@@ -92,49 +56,28 @@ export default () => {
                   chainId: chain.chain_id,
                   chainName: chain.chain_name,
                   type: "cw20",
-                  tokens: cw20Tokens.map(token => ({
-                    contractAddress: token.address ?? ''
+                  tokens: cw20Tokens.map((token) => ({
+                    contractAddress: token.address ?? "",
                   })),
                 });
               }
             }}
           >
             Suggest Tokens
-          </Button>
-        </ButtonGroup>
+          </button>
+        </div>
       );
     }
 
-    return (
-      <Button
-        isLoading={false}
-        loadingText={`Connecting ${wallet?.prettyName}`}
-        colorScheme="teal"
-        size="md"
-        marginTop={6}
-        marginBottom={2}
-        onClick={() => connect()}
-      >
-        Connect Wallet
-      </Button>
-    );
+    return <button onClick={() => connect()}>Connect Wallet</button>;
   };
 
   return (
-    <SimpleGrid columns={1} spacing={10} maxW={"60%"} marginX="auto">
-      <Flex justifyContent="end">
-        <Button variant="outline" px={0} onClick={toggleColorMode}>
-          <Icon
-            as={colorMode === "light" ? BsFillMoonStarsFill : BsFillSunFill}
-          />
-        </Button>
-      </Flex>
-      <VStack spacing="24px" marginTop={-2}>
-        <Heading size="lg" marginBottom={3}>
-          {chainName}
-        </Heading>
-        {getConnectButton()}
-      </VStack>
-    </SimpleGrid>
+    <div>
+      <div>
+        <h5>{chainName}</h5>
+        {getConnectbutton()}
+      </div>
+    </div>
   );
 };

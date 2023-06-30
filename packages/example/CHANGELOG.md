@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.45.18](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.17...example@0.45.18) (2023-06-30)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.17](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.16...example@0.45.17) (2023-06-27)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.16](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.15...example@0.45.16) (2023-06-13)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.15](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.14...example@0.45.15) (2023-06-09)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.14](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.13...example@0.45.14) (2023-06-09)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.13](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.12...example@0.45.13) (2023-06-08)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.12](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.11...example@0.45.12) (2023-06-08)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.11](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.10...example@0.45.11) (2023-06-05)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.10](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.9...example@0.45.10) (2023-06-02)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [0.45.9](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.8...example@0.45.9) (2023-06-01)
+
+**Note:** Version bump only for package example
+
+
+
+
+
 ## [0.45.8](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.7...example@0.45.8) (2023-05-30)
 
 **Note:** Version bump only for package example

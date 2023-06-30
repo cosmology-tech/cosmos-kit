@@ -1,5 +1,5 @@
 /// <reference types="long" />
-import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode, Key } from '@cosmos-kit/core';
@@ -28,6 +28,7 @@ export interface XDEFI {
         /** SignDoc accountNumber */
         accountNumber?: Long | null;
     }, signOptions?: XDEFISignOptions): Promise<DirectSignResponse>;
+    signArbitrary(chainId: string, signer: string, data: string | Uint8Array): Promise<StdSignature>;
     getEnigmaPubKey(chainId: string): Promise<Uint8Array>;
     getEnigmaTxEncryptionKey(chainId: string, nonce: Uint8Array): Promise<Uint8Array>;
     enigmaEncrypt(chainId: string, contractCodeHash: string, msg: object): Promise<Uint8Array>;

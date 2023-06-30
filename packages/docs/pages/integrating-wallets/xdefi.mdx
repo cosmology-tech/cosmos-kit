@@ -1,0 +1,46 @@
+# How to Add Xdefi Wallet to CosmosKit
+
+There are two packages for xdefi
+
+- `@cosmoskit/xdefi`
+- `@cosmoskit/xdefi-extension`
+
+`@cosmoskit/xdefi` export all available xdefi wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmoskit/xdefi-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmoskit/xdefi` for example
+
+## add `@cosmoskit/xdefi`
+
+```
+yarn add @cosmoskit/xdefi
+```
+
+## import the wallets
+
+```js
+import { wallets as xdefi } from "@cosmos-kit/xdefi";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+    <ChakraProvider theme={defaultTheme}>
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...xdefi]}
+        wrappedWithChakra={true}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+    </ChakraProvider>
+  );
+}
+
+export default MyCosmosApp;
+```

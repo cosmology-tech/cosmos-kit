@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.17.1...@cosmos-kit/vectis-extension@0.17.2) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+## [0.17.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.17.0...@cosmos-kit/vectis-extension@0.17.1) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+# [0.17.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.10...@cosmos-kit/vectis-extension@0.17.0) (2023-06-13)
+
+
+### Bug Fixes
+
+* Fix build:ts errors after import logos as datauri ([e76db45](https://github.com/cosmology-tech/cosmos-kit/commit/e76db45bf9165982f1697f253565063b52b83afc))
+
+
+### Features
+
+* embed logos in html ([8483c0b](https://github.com/cosmology-tech/cosmos-kit/commit/8483c0bb3f3b3a5dfb22e5644a3e695deadc92dd))
+
+
+
+
+
+## [0.16.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.9...@cosmos-kit/vectis-extension@0.16.10) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+## [0.16.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.8...@cosmos-kit/vectis-extension@0.16.9) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+## [0.16.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.7...@cosmos-kit/vectis-extension@0.16.8) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+## [0.16.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.6...@cosmos-kit/vectis-extension@0.16.7) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+## [0.16.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.5...@cosmos-kit/vectis-extension@0.16.6) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
+## [0.16.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.4...@cosmos-kit/vectis-extension@0.16.5) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/vectis-extension
+
+
+
+
+
 ## [0.16.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis-extension@0.16.3...@cosmos-kit/vectis-extension@0.16.4) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/vectis-extension

@@ -412,6 +412,13 @@ export class WCClient implements WalletClient {
         pairingTopic: pairing?.topic,
         requiredNamespaces,
       });
+
+      // https://github.com/cosmology-tech/projects-issues/issues/349
+      // Commented out because of the issue above.
+      // if (typeof connectResp.uri === 'undefined') {
+      //   throw new Error('Failed to generate WalletConnect URI!');
+      // }
+
       this.qrUrl.data = connectResp.uri;
       this.logger?.debug('Using QR URI:', connectResp.uri);
       if (this.displayQRCode) this.setQRState(State.Done);

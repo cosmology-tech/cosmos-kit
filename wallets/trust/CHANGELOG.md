@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.39](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.38...@cosmos-kit/trust@0.14.39) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.38](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.37...@cosmos-kit/trust@0.14.38) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.37](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.36...@cosmos-kit/trust@0.14.37) (2023-06-13)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.36](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.35...@cosmos-kit/trust@0.14.36) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.35](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.34...@cosmos-kit/trust@0.14.35) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.34](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.33...@cosmos-kit/trust@0.14.34) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.33](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.32...@cosmos-kit/trust@0.14.33) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.32](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.31...@cosmos-kit/trust@0.14.32) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.31](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.30...@cosmos-kit/trust@0.14.31) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
+## [0.14.30](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.29...@cosmos-kit/trust@0.14.30) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
+
+
+
+
 ## [0.14.29](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.28...@cosmos-kit/trust@0.14.29) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/trust

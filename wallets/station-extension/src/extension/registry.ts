@@ -1,9 +1,10 @@
+import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
 
 export const stationExtensionInfo: Wallet = {
   name: 'station-extension',
-  logo: 'https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/station.svg',
   prettyName: 'Station',
+  logo: logo,
   mode: 'extension',
   mobileDisabled: true,
   connectEventNamesOnWindow: [],

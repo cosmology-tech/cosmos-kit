@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.38](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.37...@cosmos-kit/frontier@0.1.38) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.37](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.36...@cosmos-kit/frontier@0.1.37) (2023-06-27)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.36](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.35...@cosmos-kit/frontier@0.1.36) (2023-06-13)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.35](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.34...@cosmos-kit/frontier@0.1.35) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.34](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.33...@cosmos-kit/frontier@0.1.34) (2023-06-09)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.33](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.32...@cosmos-kit/frontier@0.1.33) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.32](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.31...@cosmos-kit/frontier@0.1.32) (2023-06-08)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.31](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.30...@cosmos-kit/frontier@0.1.31) (2023-06-05)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.30](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.29...@cosmos-kit/frontier@0.1.30) (2023-06-02)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
+## [0.1.29](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.28...@cosmos-kit/frontier@0.1.29) (2023-06-01)
+
+**Note:** Version bump only for package @cosmos-kit/frontier
+
+
+
+
+
 ## [0.1.28](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/frontier@0.1.27...@cosmos-kit/frontier@0.1.28) (2023-05-30)
 
 **Note:** Version bump only for package @cosmos-kit/frontier
