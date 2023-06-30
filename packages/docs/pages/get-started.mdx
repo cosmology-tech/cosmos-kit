@@ -86,3 +86,11 @@ It records current wallet name. You can use this key to implement auto-connectio
 - **Type**: `SimpleAccount[]`
 
 It records the connected chains' account information. It's used for account restore when refreshing in CosmosKit. And it will expire after provided [session duration](#sessionoptions).
+
+## Advantages
+
+### Try Use Beta Version of CosmosKit
+
+In our beta version of CosmosKit, we discard the dependency on `ChakraUI` due to numerous runtime errors and the cost of CSS-in-JS.
+
+Main changes lies on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@cosmology-ui/react`, which is our UI Kit in Cosmology. The latest `@cosmology-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.

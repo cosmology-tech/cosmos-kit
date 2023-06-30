@@ -4,6 +4,5 @@
   "provider": "Provider",
   "hooks": "Hooks",
   "cosmos": "Cosmos",
-  "integrating-wallets": "Integrating Wallets",
-  "migration": "Migration to the new @cosmos-kit/react"
+  "integrating-wallets": "Integrating Wallets"
 }
