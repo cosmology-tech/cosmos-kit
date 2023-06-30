@@ -42,8 +42,7 @@
   "resolutions": {
     "@types/react": "18.0.20"
   },
-  "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.20.7",
+  "devDependencies": {    "@babel/plugin-proposal-decorators": "^7.20.7",
     "@babel/plugin-syntax-bigint": "7.8.3",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-react": "7.18.6",

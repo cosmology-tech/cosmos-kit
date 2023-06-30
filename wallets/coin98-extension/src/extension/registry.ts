@@ -1,10 +1,10 @@
-import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
+import { ICON } from '../constant';
 
 export const Coin98ExtensionInfo: Wallet = {
   name: 'coin98-extension',
   prettyName: 'Coin98',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   //Enable for dapp browser
   mobileDisabled: false,
@@ -15,7 +15,8 @@ export const Coin98ExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/aeachknmefphepccionboohckonoeemg',
+      link:
+        'https://chrome.google.com/webstore/detail/aeachknmefphepccionboohckonoeemg',
     },
     {
       link: 'https://coin98.com/wallet',

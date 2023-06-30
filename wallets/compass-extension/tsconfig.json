@@ -1,20 +1,10 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2015",
-    "skipLibCheck": true,
-    "declaration": true,
-    "declarationDir": "types",
-    "emitDeclarationOnly": true,
-    "isolatedModules": true,
-    "allowJs": true,
-    "esModuleInterop": true,
-    "downlevelIteration": true,
-    "moduleResolution": "node"
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist"
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/global.d.ts", "src/**/*"],
+  "exclude": ["node_modules"]
 }

@@ -1,10 +1,11 @@
-import logo from './logo.svg';
 import { Wallet } from '@cosmos-kit/core';
+
+import { ICON } from '../constant';
 
 export const stationExtensionInfo: Wallet = {
   name: 'station-extension',
   prettyName: 'Station',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
   connectEventNamesOnWindow: [],
@@ -15,12 +16,14 @@ export const stationExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp',
+      link:
+        'https://chrome.google.com/webstore/detail/station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp',
     },
     {
       device: 'desktop',
       browser: 'firefox',
-      link: 'https://addons.mozilla.org/en-US/firefox/addon/terra-station-wallet/',
+      link:
+        'https://addons.mozilla.org/en-US/firefox/addon/terra-station-wallet/',
     },
   ],
 };

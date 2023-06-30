@@ -1,10 +1,11 @@
-import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
+
+import { ICON } from '../constant';
 
 export const omniMobileInfo: Wallet = {
   name: 'omni-mobile',
   prettyName: 'Omni Mobile',
-  logo: logo,
+  logo: ICON,
   mode: 'wallet-connect',
   mobileDisabled: false,
   rejectMessage: {
@@ -14,7 +15,8 @@ export const omniMobileInfo: Wallet = {
     {
       device: 'mobile',
       os: 'android',
-      link: 'https://play.google.com/store/apps/details?id=com.chainapsis.omni&hl=en&gl=US&pli=1',
+      link:
+        'https://play.google.com/store/apps/details?id=com.chainapsis.omni&hl=en&gl=US&pli=1',
     },
     {
       device: 'mobile',

@@ -1,10 +1,11 @@
-import logo from './logo.png'
 import { Wallet } from '@cosmos-kit/core';
+
+import { ICON } from '../constant';
 
 export const frontierExtensionInfo: Wallet = {
   name: 'frontier-extension',
   prettyName: 'Frontier',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {
@@ -14,10 +15,12 @@ export const frontierExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
+      link:
+        'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
     },
     {
-      link: 'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
+      link:
+        'https://chrome.google.com/webstore/detail/frontier-wallet/kppfdiipphfccemcignhifpjkapfbihd',
     },
   ],
 };
