@@ -17,7 +17,7 @@ export class XDEFIClient implements WalletClient {
   }
 
   async disconnect() {
-    await this.client.disconnect();
+    await this.client?.disconnect?.();
   }
 
   async getSimpleAccount(chainId: string) {

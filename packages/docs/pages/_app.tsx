@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...cosmostation,
           ...leap,
           ...vectis,
-          // ...xdefi,
+          ...xdefi,
           ...omni,
           ...trust,
           ...station,
