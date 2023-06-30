@@ -23,10 +23,35 @@ import { assets, chains } from "chain-registry";
 // import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { RootLayout } from "components/layout";
 import type { AppProps } from "next/app";
+import { useMemo } from "react";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const web3AuthWallets = useMemo(
+    () =>
+      makeWeb3AuthWallets({
+        loginMethods: [
+          {
+            provider: "google",
+            name: "Google",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+          },
+        ],
+        client: {
+          clientId: "localhostid",
+          web3AuthNetwork: "development",
+          chainConfig: {
+            chainNamespace: "other",
+          },
+        },
+        promptSign: async (...args) =>
+          // eslint-disable-next-line no-alert
+          confirm("Sign transaction? " + JSON.stringify(args, null, 2)),
+      }),
+    []
+  );
+
   return (
     <RootLayout>
       <ChainProvider
@@ -49,25 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...stationWallets,
           // ...ExtensionWallets,
           // ...coin98Wallets,
-          ...makeWeb3AuthWallets({
-            loginMethods: [
-              {
-                provider: "google",
-                name: "Google",
-                logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-              },
-            ],
-            client: {
-              clientId: "localhostid",
-              web3AuthNetwork: "development",
-              chainConfig: {
-                chainNamespace: "other",
-              },
-            },
-            promptSign: async (...args) =>
-              // eslint-disable-next-line no-alert
-              confirm("Sign transaction? " + JSON.stringify(args, null, 2)),
-          }),
+          ...web3AuthWallets
         ]}
         throwErrors={false}
         defaultNameService={"stargaze"}
