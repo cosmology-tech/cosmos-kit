@@ -37,7 +37,7 @@ export const terra2testnet: Chain = {
     recommended_version: "v2.2.0",
     compatible_versions: ["v2.2.0"],
     cosmos_sdk_version: "0.45.10",
-    tendermint_version: "0.34.22",
+    // tendermint_version: "0.34.22",
     cosmwasm_version: "0.27",
     cosmwasm_enabled: true,
   },
