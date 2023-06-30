@@ -16,7 +16,7 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@cosmology-ui/react": "1.1.0-beta.2",
+    "@cosmology-ui/react": "1.1.0-beta.6",
     "@cosmos-kit/coin98": "^0.2.18",
     "@cosmos-kit/core": "1.7.1-beta.6",
     "@cosmos-kit/cosmostation": "^0.15.39",
