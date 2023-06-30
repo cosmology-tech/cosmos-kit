@@ -408,13 +408,22 @@ Optional property of type `ModalViews`.
 **Type**
 
 ```tsx
+type ModalViewImpl = {
+  head: React.ReactNode;
+  content: React.ReactNode;
+};
+
+type ModalViewImplGetter = (
+  props: WalletViewProps | WalletListViewProps
+) => ModalViewImpl;
+
 type ModalViews = {
-    Connecting?: (props: WalletViewProps) => JSX.Element;
-    Connected?: (props: WalletViewProps) => JSX.Element;
-    Error?: (props: WalletViewProps) => JSX.Element;
-    NotExist?: (props: WalletViewProps) => JSX.Element;
-    Rejected?: (props: WalletViewProps) => JSX.Element;
-    QRCode?: (props: WalletViewProps) => JSX.Element;
+    Connecting?: (props: WalletViewProps) => ModalViewImplGetter;
+    Connected?: (props: WalletViewProps) => ModalViewImplGetter;
+    Error?: (props: WalletViewProps) => ModalViewImplGetter;
+    NotExist?: (props: WalletViewProps) => ModalViewImplGetter;
+    Rejected?: (props: WalletViewProps) => ModalViewImplGetter;
+    QRCode?: (props: WalletViewProps) => ModalViewImplGetter;
 } & {
     WalletList?: (props: WalletListViewProps) => JSX.Element;
 }
@@ -473,7 +482,7 @@ function CosmosApp() {
 
 ### modalTheme
 
-Optional property. It will overwrite default theme applied in `DefaultModal`. 
+Optional property. It will overwrite default theme applied in `DefaultModal`.
 
 You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
 

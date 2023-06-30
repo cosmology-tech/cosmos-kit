@@ -14,7 +14,7 @@
 yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
-`@cosmos-kit/react` includes default modal made by `ChakraUI`. If [customized modal](/provider/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app. 
+`@cosmos-kit/react` includes default modal made with `@cosmology-ui/react`. If [customized modal](/provider/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app.
 
 ### 2️⃣ Wrap Provider
 
@@ -25,24 +25,21 @@ Example:
 ```tsx
 import * as React from 'react';
 
-import { ChakraProvider } from '@chakra-ui/react';
 import { ChainProvider } from '@cosmos-kit/react';
 import { chains, assets } from 'chain-registry';
 import { wallets } from '@cosmos-kit/keplr';
 
 function CosmosApp() {
   return (
-    <ChakraProvider theme={defaultTheme}>
-      <ChainProvider
-        chains={chains} // supported chains
-        assetLists={assets} // supported asset lists
-        wallets={wallets} // supported wallets
-        wrappedWithChakra={true}
-        walletConnectOptions={...} // required if `wallets` contains mobile wallets
-      >
-        <YourWalletRelatedComponents />
-      </ChainProvider>
-    </ChakraProvider>
+    <ChainProvider
+      chains={chains} // supported chains
+      assetLists={assets} // supported asset lists
+      wallets={wallets} // supported wallets
+      wrappedWithChakra={true}
+      walletConnectOptions={...} // required if `wallets` contains mobile wallets
+    >
+      <YourWalletRelatedComponents />
+    </ChainProvider>
   );
 }
 ```

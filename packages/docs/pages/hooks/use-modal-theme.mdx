@@ -4,21 +4,19 @@ If you're using default modal provided by CosmosKit, you might need this hook to
 
 - required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider) from `@cosmos-kit/react`
 
-- return type: [**ModalThemeContext**](#type-modalthemeconext)
-
-## Type - ModalThemeContext
+## Return Type - useModalTheme
 
 ### properties
 
 | Name      | Description | Type | Default |
 | ----------- | ----------- | -- | -- |
-| **modalTheme**      | currently `light` or `dark` are available   | `ModalTheme` | `light` |
+| **modalTheme**      | currently `light` or `dark` or `system` are available   | `ModePreference` | `light` |
 
 ### methods
 
 | Name      | Description | Parameters | Return Type | Is Async |
 | ----------- | ----------- | -- | -- | -- |
-| **setModalTheme**      |   -   | **theme**: `ModalTheme` | `void` | N |
+| **setModalTheme**      |   -   | **theme**: `ModePreference` | `void` | N |
 
 ## Examples
 

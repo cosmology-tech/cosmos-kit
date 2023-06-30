@@ -10,19 +10,19 @@ const useCosmologyUIStore = () => {
     (state) => ({
       theme: state.theme,
       themeClass: state.themeClass,
-      setTheme: state.setTheme,
+      setThemeMode: state.setThemeMode,
     }),
     shallow
   );
 };
 
 export function useModalTheme() {
-  const { theme, setTheme } = useCosmologyUIStore();
+  const { theme, setThemeMode } = useCosmologyUIStore();
 
   const value = useMemo(() => theme, [theme]);
 
   const setModalTheme = useCallback((mode: ModePreference) => {
-    setTheme(mode);
+    setThemeMode(mode);
   }, []);
 
   return {

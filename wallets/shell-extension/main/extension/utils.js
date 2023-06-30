@@ -8,6 +8,8 @@ exports.getShellFromExtension = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _core = require("@cosmos-kit/core");
+// import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
+
 var getShellFromExtension = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
     var shell;
