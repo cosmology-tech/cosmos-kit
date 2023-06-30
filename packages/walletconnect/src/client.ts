@@ -290,7 +290,7 @@ export class WCClient implements WalletClient {
     const fetcUrl = `${EXPLORER_API}/v3/wallets?projectId=${this.dappProjectId}&sdks=sign_v2&search=${this.wcName}`;
     const fetched = await (await fetch(fetcUrl)).json();
     this.wcCloudInfo =
-      fetched.listings[this.walletInfo.walletconnect?.projectId!];
+      fetched.listings[this.walletInfo.walletconnect.projectId];
     this.logger?.debug('WalletConnect Info:', this.wcCloudInfo);
   }
 
