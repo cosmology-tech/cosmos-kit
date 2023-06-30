@@ -1,7 +1,7 @@
 import {
   cosmostationMobileInfo,
   CosmostationMobileWallet,
-} from './wallet-connect';
+} from './extension';
 
 const cosmostationMobile = new CosmostationMobileWallet(cosmostationMobileInfo);
 

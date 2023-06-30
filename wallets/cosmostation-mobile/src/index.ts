@@ -1,2 +1,2 @@
 export * from './cosmostation';
-export * from './wallet-connect';
+export * from './extension';
