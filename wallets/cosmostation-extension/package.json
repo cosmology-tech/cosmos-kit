@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation-extension",
-  "version": "0.17.2-beta.2",
+  "version": "0.17.2-beta.3",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -93,7 +93,7 @@
   },
   "dependencies": {
     "@chain-registry/cosmostation": "1.8.0",
-    "@cosmos-kit/core": "^1.7.1-beta.2"
+    "@cosmos-kit/core": "^1.7.1-beta.3"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.33.39-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@0.33.39...@cosmos-kit/omni@0.33.39-beta.3) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
 ## [0.33.39](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@0.33.38...@cosmos-kit/omni@0.33.39) (2023-06-30)
 
 ## [0.33.39-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@0.33.39-beta.1...@cosmos-kit/omni@0.33.39-beta.2) (2023-06-28)

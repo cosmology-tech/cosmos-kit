@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/coin98",
-  "version": "0.2.18-beta.2",
+  "version": "0.2.18-beta.3",
   "description": "cosmos-kit wallet connector",
   "author": "tamvt@coin98.finance",
   "contributors": [
@@ -81,7 +81,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/coin98-extension": "^0.3.2-beta.2"
+    "@cosmos-kit/coin98-extension": "^0.3.2-beta.3"
   },
   "gitHead": "11871f1b2de00eaea547e5aac24207ebea3276fe"
 }

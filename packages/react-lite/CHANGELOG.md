@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.2...@cosmos-kit/react-lite@1.5.2-beta.3) (2023-06-30)
+
+### Bug Fixes
+
+- babel output not compatible ([2d8a21f](https://github.com/cosmology-tech/cosmos-kit/commit/2d8a21fdc210e9bc8dbeb8b9401cfb37c547a4f1))
+- bundle ([a3dc1c2](https://github.com/cosmology-tech/cosmos-kit/commit/a3dc1c21de2cf6dba0ea75fad4265d8a080b4a50))
+- conflicts ([31d20b4](https://github.com/cosmology-tech/cosmos-kit/commit/31d20b47983b17ef1e4d39e8c2a2c5f5b46647fa))
+- stuff ([52944e2](https://github.com/cosmology-tech/cosmos-kit/commit/52944e208620eb2df689c5d663608971b472cc57))
+
 ## [1.5.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.1...@cosmos-kit/react-lite@1.5.2) (2023-06-30)
 
 ## [1.5.2-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.2-beta.1...@cosmos-kit/react-lite@1.5.2-beta.2) (2023-06-28)

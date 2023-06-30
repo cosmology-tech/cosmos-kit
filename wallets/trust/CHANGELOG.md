@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.39-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.39...@cosmos-kit/trust@0.14.39-beta.3) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/trust
+
 ## [0.14.39](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.38...@cosmos-kit/trust@0.14.39) (2023-06-30)
 
 ## [0.14.39-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/trust@0.14.39-beta.1...@cosmos-kit/trust@0.14.39-beta.2) (2023-06-28)
