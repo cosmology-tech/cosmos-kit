@@ -8,7 +8,8 @@ module.exports = (api) => {
       '@babel/proposal-object-rest-spread',
       '@babel/proposal-class-properties',
       '@babel/proposal-export-default-from',
-      'inline-import-data-uri'
+      'inline-import-data-uri',
+      'babel-plugin-transform-import-meta'
     ],
     presets: useESModules
       ? ["@babel/typescript", "@babel/react"]

@@ -1,34 +1,40 @@
-import { MainWalletBase, Wallet } from '@cosmos-kit/core';
+import { MainWalletBase } from '@cosmos-kit/core';
 import { OPENLOGIN_NETWORK } from '@toruslabs/openlogin';
 
 import { Web3AuthChainWallet } from './chain-wallet';
 import { Web3AuthClient } from './client';
-import { Web3AuthClientOptions } from './types';
+import { Web3AuthWalletInfo } from './types';
 
 export class Web3AuthWallet extends MainWalletBase {
-  options: Web3AuthClientOptions;
-
-  constructor(walletInfo: Wallet, options: Web3AuthClientOptions) {
+  constructor(walletInfo: Web3AuthWalletInfo) {
     super(walletInfo, Web3AuthChainWallet);
-    this.options = options;
+  }
+
+  get walletInfo(): Web3AuthWalletInfo {
+    return this._walletInfo as Web3AuthWalletInfo;
   }
 
   async initClient() {
+    const { options } = this.walletInfo;
     try {
-      if (typeof this.options.client?.clientId !== 'string') {
+      if (!options) {
+        throw new Error('Web3auth options unset');
+      }
+
+      if (typeof options.client?.clientId !== 'string') {
         throw new Error('Invalid web3auth client ID');
       }
 
       if (
-        typeof this.options.client?.web3AuthNetwork !== 'string' ||
+        typeof options.client?.web3AuthNetwork !== 'string' ||
         !Object.values(OPENLOGIN_NETWORK).includes(
-          this.options.client.web3AuthNetwork
+          options.client.web3AuthNetwork
         )
       ) {
         throw new Error('Invalid web3auth network');
       }
 
-      if (typeof this.options.promptSign !== 'function') {
+      if (typeof options.promptSign !== 'function') {
         throw new Error('Invalid promptSign function');
       }
     } catch (err) {
@@ -38,7 +44,7 @@ export class Web3AuthWallet extends MainWalletBase {
 
     this.initingClient();
     try {
-      const client = await Web3AuthClient.setup(this.env, this.options);
+      const client = await Web3AuthClient.setup(this.env, options);
       this.initClientDone(client);
     } catch (error) {
       this.logger?.error(error);
