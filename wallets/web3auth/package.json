@@ -98,7 +98,8 @@
     "@toruslabs/eccrypto": "^2.1.1",
     "@web3auth/base": "^5.1.0",
     "@web3auth/no-modal": "^5.1.0",
-    "@web3auth/openlogin-adapter": "^5.1.1"
+    "@web3auth/openlogin-adapter": "^5.1.1",
+    "libsodium-wrappers-sumo": "^0.7.11"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
