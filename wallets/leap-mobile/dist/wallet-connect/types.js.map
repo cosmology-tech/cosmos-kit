@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/wallet-connect/types.ts"],"sourcesContent":["export interface LeapAccount {\n  address: string\n  algo: string\n  bech32Address: string\n  isNanoLedger: boolean\n  name: string\n  pubKey: string\n}\n"],"mappings":";;;;;;;;;;;;;;;AAAA;AAAA;","names":[]}

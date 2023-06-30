@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import { wallets as coin98 } from '@cosmos-kit/coin98-extension';\n\nexport const wallets = [...coin98];\n"],"mappings":";AAAA,SAAS,WAAW,cAAc;AAE3B,IAAM,UAAU,CAAC,GAAG,MAAM;","names":[]}

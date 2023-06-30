@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import { wallets as ext } from '@cosmos-kit/xdefi-extension';\n\nexport const wallets = [...ext];\n"],"mappings":";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,6BAA+B;AAExB,IAAM,UAAU,CAAC,GAAG,uBAAAA,OAAG;","names":["ext"]}

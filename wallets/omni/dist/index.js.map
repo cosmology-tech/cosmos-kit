@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/index.ts"],"sourcesContent":["import { wallets as mobile } from '@cosmos-kit/omni-mobile';\n\nexport const wallets = [...mobile];\n"],"mappings":";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,yBAAkC;AAE3B,IAAM,UAAU,CAAC,GAAG,mBAAAA,OAAM;","names":["mobile"]}
