@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1-beta.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.3...@cosmos-kit/ledger@0.2.1-beta.4) (2023-06-30)
+
+**Note:** Version bump only for package @cosmos-kit/ledger
+
 ## [0.2.1-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1...@cosmos-kit/ledger@0.2.1-beta.3) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
