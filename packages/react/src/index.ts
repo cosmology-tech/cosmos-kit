@@ -10,6 +10,7 @@ import { ChainProvider } from './provider';
 //   useWalletClient,
 //   walletContext,
 // } from '@cosmos-kit/react-lite';
+//
 export { WalletModal };
 export { ChainProvider };
 // export { DefaultModal, WalletModal } from './modal';
