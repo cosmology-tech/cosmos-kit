@@ -1,15 +1,3 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Center,
-  Heading,
-  HStack,
-  ListItem,
-  OrderedList,
-  VStack,
-} from "@chakra-ui/react";
 import { useChain, useManager } from "@cosmos-kit/react";
 import { useEffect, useState } from "react";
 import { ConnectedShowAddress } from "../components";
@@ -34,40 +22,33 @@ export default () => {
   }, []);
 
   return (
-    <VStack marginTop={100} spacing={30} align="start" marginLeft={50}>
-      <HStack spacing="24px">
-        <Heading size="xs" textTransform="uppercase" minW={100}>
-          {chain.pretty_name}
-        </Heading>
-        <Button
-          isLoading={status === "Connecting"}
-          colorScheme="teal"
-          size="sm"
-          marginTop={6}
-          marginBottom={2}
-          onClick={() => connect()}
-          width={180}
-        >
-          Open Modal
-        </Button>
-        <Box width={"full"} maxW={260}>
+    <div>
+      <div>
+        <h5>{chain.pretty_name}</h5>
+        {status === "Connecting" ? (
+          <button>Connecting</button>
+        ) : (
+          <button onClick={() => connect()}>Open Modal</button>
+        )}
+
+        <div>
           <ConnectedShowAddress
             address={address}
             isLoading={status === "Connecting"}
             isRound={true}
             size={"sm"}
           />
-        </Box>
-      </HStack>
-      <Card minWidth={530} minHeight={100}>
-        <CardBody>
-          <OrderedList>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div>
             {list.map((value, index) => (
-              <ListItem key={index}>{value}</ListItem>
+              <div key={index}>{value}</div>
             ))}
-          </OrderedList>
-        </CardBody>
-      </Card>
-    </VStack>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

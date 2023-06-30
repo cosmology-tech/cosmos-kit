@@ -1,4 +1,4 @@
-import { useChain, useManager } from "@cosmos-kit/react";
+import { useManager } from "@cosmos-kit/react";
 import { useEffect, useState } from "react";
 
 const address = "";

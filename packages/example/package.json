@@ -15,7 +15,6 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.5.1",
     "@cosmology-ui/react": "^0.1.21",
     "@cosmos-kit/coin98": "^0.2.17",
     "@cosmos-kit/core": "^1.7.0",
@@ -33,10 +32,7 @@
     "@web3modal/ui": "^2.0.0-rc.1",
     "bignumber.js": "^9.1.1",
     "chain-registry": "^1.14.0",
-    "chakra-react-select": "4.1.4",
     "cosmjs-utils": "0.1.0",
-    "fast-fuzzy": "1.11.2",
-    "framer-motion": "9.0.7",
     "juno-network": "0.9.0",
     "next": "12.3.1",
     "react": "18.2.0",

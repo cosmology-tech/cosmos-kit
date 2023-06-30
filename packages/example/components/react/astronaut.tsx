@@ -1,6 +1,6 @@
 export const Astronaut = (props: any) => (
   <svg
-    viewBox="0 0 278 255"
+    viewdiv="0 0 278 255"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     {...props}

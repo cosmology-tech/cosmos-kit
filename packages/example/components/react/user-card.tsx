@@ -1,34 +1,16 @@
-import { Box,Stack, Text } from "@chakra-ui/react";
 import React from "react";
 
-import { ConnectedUserCardType } from "../types";
+import { ConnectedUserdivType } from "../types";
 
-export const ConnectedUserInfo = ({
-  username,
-  icon,
-}: ConnectedUserCardType) => {
+export const ConnectedUserInfo = ({ username, icon }: ConnectedUserdivType) => {
   return (
-    <Stack spacing={1} alignItems="center">
+    <div>
       {username && (
         <>
-          <Box
-            display={icon ? "block" : "none"}
-            minW={20}
-            maxW={20}
-            w={20}
-            minH={20}
-            maxH={20}
-            h={20}
-            borderRadius="full"
-            overflow="hidden"
-          >
-            {icon}
-          </Box>
-          <Text fontSize={{ md: "xl" }} fontWeight="semibold">
-            {username}
-          </Text>
+          <div>{icon}</div>
+          <span>{username}</span>
         </>
       )}
-    </Stack>
+    </div>
   );
 };

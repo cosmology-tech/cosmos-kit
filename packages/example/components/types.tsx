@@ -1,7 +1,7 @@
-import { MouseEventHandler, ReactNode, RefObject } from 'react';
-import { IconType } from 'react-icons';
+import { MouseEventHandler, ReactNode, RefObject } from "react";
+import { IconType } from "react-icons";
 
-export interface ChainCardProps {
+export interface ChainDivProps {
   prettyName: string;
   icon?: string;
 }
@@ -30,7 +30,7 @@ export interface ConnectWalletType {
   onClickConnectBtn?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export interface ConnectedUserCardType {
+export interface ConnectedUserdivType {
   username?: string;
   icon?: ReactNode;
 }

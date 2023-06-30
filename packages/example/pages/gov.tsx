@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-import { Button, Center } from "@chakra-ui/react";
 import { useChainWallet } from "@cosmos-kit/react";
 import { useEffect } from "react";
 
@@ -43,9 +41,9 @@ const Test = () => {
   };
 
   return (
-    <Center mb={16} my={24}>
-      <Button onClick={onClick}>Vote</Button>
-    </Center>
+    <div>
+      <button onClick={onClick}>Vote</button>
+    </div>
   );
 };
 
