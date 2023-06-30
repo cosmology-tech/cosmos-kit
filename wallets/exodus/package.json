@@ -26,9 +26,7 @@
     "lib": "src"
   },
   "files": [
-    "types",
-    "main",
-    "module"
+    "dist"
   ],
   "scripts": {
     "build": "tsup",

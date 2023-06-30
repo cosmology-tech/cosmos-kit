@@ -31,9 +31,7 @@
     "lib": "src"
   },
   "files": [
-    "types",
-    "main",
-    "module"
+    "dist"
   ],
   "scripts": {
     "build": "tsup",
@@ -63,9 +61,7 @@
   },
   "jest": {
     "testPathIgnorePatterns": [
-      "main/",
-      "module/",
-      "types/"
+      "dist/"
     ]
   },
   "devDependencies": {
