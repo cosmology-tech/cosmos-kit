@@ -11,5 +11,7 @@
     "web3auth": "@ Web3Auth",
     "compass": "@ Compass",
     "exodus": "@ Exodus",
-    "ledger": "@ Ledger (Beta)"
+    "ledger": "@ Ledger (Beta)",
+    "xdefi": "@ Xdefi",
+    "shell": "@ Shell"
 }
