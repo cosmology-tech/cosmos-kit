@@ -27,6 +27,7 @@
     "@cosmos-kit/station": "^2.0.0",
     "@cosmos-kit/station-extension": "^2.0.0",
     "@cosmos-kit/vectis": "^2.0.0",
+    "@cosmos-kit/web3auth": "^2.0.0",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
     "@next/bundle-analyzer": "^12.3.4",

@@ -10,9 +10,8 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { ChainProvider } from "@cosmos-kit/react";
+import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { assets, chains } from "chain-registry";
-import type { AppProps } from "next/app";
-
 // import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 // import { wallets as shellWallets } from "@cosmos-kit/shell";
 // import { wallets as stationWallets } from "@cosmos-kit/station";
@@ -22,8 +21,8 @@ import type { AppProps } from "next/app";
 // import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
 // import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 // import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
-
 import { RootLayout } from "components/layout";
+import type { AppProps } from "next/app";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 
@@ -50,6 +49,25 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...stationWallets,
           // ...ExtensionWallets,
           // ...coin98Wallets,
+          ...makeWeb3AuthWallets({
+            loginMethods: [
+              {
+                provider: "google",
+                name: "Google",
+                logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+              },
+            ],
+            client: {
+              clientId: "localhostid",
+              web3AuthNetwork: "development",
+              chainConfig: {
+                chainNamespace: "other",
+              },
+            },
+            promptSign: async (...args) =>
+              // eslint-disable-next-line no-alert
+              confirm("Sign transaction? " + JSON.stringify(args, null, 2)),
+          }),
         ]}
         throwErrors={false}
         defaultNameService={"stargaze"}
