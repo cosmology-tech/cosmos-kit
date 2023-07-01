@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         ],
         client: {
           clientId: "localhostid",
-          web3AuthNetwork: "development",
+          web3AuthNetwork: "testnet",
           chainConfig: {
             chainNamespace: "other",
           },
