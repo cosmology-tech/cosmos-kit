@@ -22,10 +22,7 @@ module.exports = withBundleAnalyzer({
               ["@babel/preset-react", { runtime: "automatic" }],
               ["@babel/typescript", { allowDeclareFields: true }],
             ],
-            plugins: [
-              "inline-import-data-uri",
-              "babel-plugin-transform-import-meta",
-            ],
+            plugins: ["inline-import-data-uri"],
           },
         },
       ],
