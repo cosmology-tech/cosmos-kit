@@ -44,7 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         },
         promptSign: async (...args) =>
           // eslint-disable-next-line no-alert
-          confirm("Sign transaction? " + JSON.stringify(args, null, 2)),
+          confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
       }),
     []
   );

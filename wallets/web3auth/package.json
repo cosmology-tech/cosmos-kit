@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "main/index.js",
+  "main": "module/index.js",
   "module": "module/index.js",
   "typings": "types/index.d.ts",
   "directories": {

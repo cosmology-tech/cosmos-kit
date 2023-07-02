@@ -22,43 +22,35 @@ const terminate =
 export class Web3AuthClient implements WalletClient {
   env: DappEnv;
 
-  #worker: Worker;
-  #clientPrivateKey: Buffer;
-  #workerPublicKey: Buffer;
-  #userInfo: Partial<UserInfo>;
-  #options: Web3AuthClientOptions;
+  #worker?: Worker;
+  #clientPrivateKey?: Buffer;
+  #workerPublicKey?: Buffer;
+  #userInfo?: Partial<UserInfo>;
+  #options?: Web3AuthClientOptions;
 
   // Map chain ID to signer.
   #signers: Record<string, Web3AuthSigner | undefined> = {};
 
-  constructor(
-    env: DappEnv,
-    worker: Worker,
-    clientPrivateKey: Buffer,
-    workerPublicKey: Buffer,
-    userInfo: Partial<UserInfo>,
-    options: Web3AuthClientOptions
-  ) {
+  ready = false;
+
+  constructor(env: DappEnv, options: Web3AuthClientOptions) {
     this.env = env;
-    this.#worker = worker;
-    this.#clientPrivateKey = clientPrivateKey;
-    this.#workerPublicKey = workerPublicKey;
-    this.#userInfo = userInfo;
     this.#options = Object.freeze(options);
   }
 
-  static async setup(
-    env: DappEnv,
-    options: Web3AuthClientOptions
-  ): Promise<Web3AuthClient> {
+  async ensureSetup(): Promise<void> {
+    if (this.ready) {
+      return;
+    }
+
     // Don't keep any reference to these around after this function since they
     // internally store a reference to the private key. Once we have the private
     // key, send it to the worker and forget about it. After this function, the
     // only reference to the private key is in the worker, and this client and
     // provider will be destroyed by the garbage collector, hopefully ASAP.
     const { client, provider } = await connectClientAndProvider(
-      env.device === 'mobile',
-      options
+      this.env.device === 'mobile',
+      this.#options
     );
 
     // Get connected user info.
@@ -69,7 +61,7 @@ export class Web3AuthClient implements WalletClient {
       method: 'private_key',
     });
     if (typeof privateKeyHex !== 'string') {
-      throw new Error(`Failed to connect to ${options.loginProvider}`);
+      throw new Error(`Failed to connect to ${this.#options.loginProvider}`);
     }
 
     // Generate a private key for this client to interact with the worker.
@@ -79,7 +71,7 @@ export class Web3AuthClient implements WalletClient {
       .toString('hex');
 
     // Spawn a new worker that will handle the private key and signing.
-    const worker = new Worker(new URL('./worker.js', import.meta.url));
+    const worker = new Worker(new URL('./web3auth.worker.js', import.meta.url));
 
     // Begin two-step handshake to authenticate with the worker and exchange
     // communication public keys as well as the wallet private key.
@@ -140,18 +132,17 @@ export class Web3AuthClient implements WalletClient {
       }
     );
 
-    // Store this client's private key for future message sending signatures.
-    return new Web3AuthClient(
-      env,
-      worker,
-      clientPrivateKey,
-      workerPublicKey,
-      userInfo,
-      options
-    );
+    // Store the setup instances.
+    this.#worker = worker;
+    this.#clientPrivateKey = clientPrivateKey;
+    this.#workerPublicKey = workerPublicKey;
+    this.#userInfo = userInfo;
+    this.ready = true;
   }
 
   async connect(_chainIds: string | string[]) {
+    await this.ensureSetup();
+
     const _chains = [_chainIds].flat().map((chainId) => {
       const chain = chains.find(({ chain_id }) => chain_id === chainId);
       if (!chain) {
@@ -162,17 +153,15 @@ export class Web3AuthClient implements WalletClient {
     });
 
     // Create signers.
-    await Promise.all(
-      _chains.map(async (chain) => {
-        this.#signers[chain.chain_id] = new Web3AuthSigner(
-          chain,
-          this.#worker,
-          this.#clientPrivateKey,
-          this.#workerPublicKey,
-          this.#options.promptSign
-        );
-      })
-    );
+    _chains.forEach((chain) => {
+      this.#signers[chain.chain_id] = new Web3AuthSigner(
+        chain,
+        this.#worker,
+        this.#clientPrivateKey,
+        this.#workerPublicKey,
+        this.#options.promptSign
+      );
+    });
   }
 
   async disconnect() {
@@ -199,7 +188,10 @@ export class Web3AuthClient implements WalletClient {
     }
     this.#signers = {};
     this.#userInfo = {};
-    terminate?.call(this.#worker);
+    if (this.#worker) {
+      terminate?.call(this.#worker);
+      this.#worker = undefined;
+    }
   }
 
   async getSimpleAccount(chainId: string) {

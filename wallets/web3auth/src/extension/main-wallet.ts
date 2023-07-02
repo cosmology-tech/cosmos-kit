@@ -1,9 +1,10 @@
 import { MainWalletBase } from '@cosmos-kit/core';
-import { OPENLOGIN_NETWORK } from '@toruslabs/openlogin';
+import { getHashQueryParams, OPENLOGIN_NETWORK } from '@toruslabs/openlogin';
 
 import { Web3AuthChainWallet } from './chain-wallet';
 import { Web3AuthClient } from './client';
 import { Web3AuthWalletInfo } from './types';
+import { WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY } from './utils';
 
 export class Web3AuthWallet extends MainWalletBase {
   constructor(walletInfo: Web3AuthWalletInfo) {
@@ -44,8 +45,30 @@ export class Web3AuthWallet extends MainWalletBase {
 
     this.initingClient();
     try {
-      const client = await Web3AuthClient.setup(this.env, options);
-      this.initClientDone(client);
+      this.initClientDone(new Web3AuthClient(this.env, options));
+
+      // Force connect to this wallet if the redirect auto connect key is set
+      // and there is a wallet in the hash.
+      const redirectAutoConnect = localStorage.getItem(
+        WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY
+      );
+      if (redirectAutoConnect !== options.loginProvider) {
+        return;
+      }
+
+      // Same logic used in `@web3auth/openlogin-adapter` init function to
+      // determine if the adapter should attempt to connect from the redirect.
+      const redirectResult = getHashQueryParams();
+      const shouldAutoConnect =
+        Object.keys(redirectResult).length > 0 && !!redirectResult._pid;
+
+      if (shouldAutoConnect) {
+        try {
+          await this.connect(true);
+        } catch (error) {
+          this.logger?.error(error);
+        }
+      }
     } catch (error) {
       this.logger?.error(error);
       this.initClientError(error);
