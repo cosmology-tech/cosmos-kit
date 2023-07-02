@@ -21,7 +21,7 @@ import {
 // localStorage to indicate that we should try to reconnect to this wallet
 // after the redirect. This should be implemented by the WalletManagerProvider.
 export const WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY =
-  '__cosmodal_web3auth_redirect_auto_connect';
+  '__cosmos-kit_web3auth_redirect_auto_connect';
 
 // In case these get overwritten by an attacker.
 const postMessage =
@@ -126,7 +126,9 @@ export const connectClientAndProvider = async (
   // Popups are blocked by default on mobile browsers, so use redirect. Popup is
   // safer for desktop browsers, so use that if not mobile.
   const uxMode =
-    isMobile && !options.forcePopup ? UX_MODE.REDIRECT : UX_MODE.POPUP;
+    options.forceType === 'redirect' || (isMobile && !options.forceType)
+      ? UX_MODE.REDIRECT
+      : UX_MODE.POPUP;
   // If using redirect method while trying to login, set localStorage key
   // indicating that we should try to reconnect to this wallet after the
   // redirect on library init.

@@ -31,7 +31,7 @@ export type Web3AuthClientOptions = {
   // The popup is safer, but mobile browsers tend to have less extensions (and
   // browser extensions are the main security concern for the redirect method).
   // Forcing popup means that the popup method will be used on mobile as well.
-  forcePopup?: boolean;
+  forceType?: 'popup' | 'redirect';
 
   // Function to prompt the user to sign a transaction.
   promptSign: PromptSign;
