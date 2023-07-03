@@ -1,0 +1,35 @@
+{
+  "folders": [
+    {
+      "path": "../packages/core/"
+    },
+    {
+      "path": "../packages/docs/"
+    },
+    {
+      "path": "../packages/example/"
+    },
+    {
+      "path": "../packages/ins/"
+    },
+    {
+      "path": "../packages/react/"
+    },
+    {
+      "path": "../packages/react-lite/"
+    },
+    {
+      "path": "../packages/walletconnect/"
+    },
+    {
+      "path": "../public/"
+    },
+    {
+      "path": "../wallets/"
+    },
+
+  ],
+  "settings": {
+    "jest.jestCommandLine": "yarn test"
+  }
+}
