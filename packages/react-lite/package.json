@@ -22,24 +22,19 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "source": "src/index.ts",
-  "main": "dist/cosmos-kit-react-lite.cjs.js",
-  "module": "dist/cosmos-kit-react-lite.esm.js",
-  "types": "dist/cosmos-kit-react-lite.d.ts",
+  "source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": {
-        "import": "./dist/cosmos-kit-react-lite.d.ts",
-        "default": "./dist/cosmos-kit-react-lite.d.ts"
+        "import": "./dist/index.d.ts",
+        "default": "./dist/index.d.ts"
       },
-      "development": {
-        "module": "./dist/cosmos-kit-react-lite.esm.js",
-        "import": "./dist/cosmos-kit-react-lite.esm.js",
-        "default": "./dist/cosmos-kit-react-lite.cjs.js"
-      },
-      "module": "./dist/cosmos-kit-react-lite.esm.js",
-      "import": "./dist/cosmos-kit-react-lite.esm.js",
-      "default": "./dist/cosmos-kit-react-lite.cjs.js"
+      "module": "./dist/index.mjs",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -51,11 +46,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "parcel build --config .parcelrc",
-    "watch": "parcel watch --config .parcelrc",
+    "build": "tsup --config tsup.config.ts",
+    "watch": "tsup --config tsup.config.ts --watch",
     "clear": "rm -rf ./dist",
     "prepare": "npm run build",
-    "dev": "parcel watch",
+    "dev": "yarn watch",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
     "test": "jest",
@@ -91,12 +86,6 @@
     "@babel/preset-react": "^7.22.5",
     "@cosmjs/cosmwasm-stargate": "0.29.0",
     "@cosmjs/stargate": "0.29.0",
-    "@parcel/config-default": "2.8.3",
-    "@parcel/core": "2.8.3",
-    "@parcel/transformer-js": "2.8.3",
-    "@parcel/transformer-react-refresh-wrap": "2.8.3",
-    "@parcel/transformer-typescript-tsc": "2.8.3",
-    "@parcel/transformer-typescript-types": "2.8.3",
     "@types/jest": "29.0.0",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
@@ -110,17 +99,16 @@
     "eslint-plugin-unused-imports": "2.0.0",
     "jest": "29.0.2",
     "jest-in-case": "1.0.2",
-    "parcel": "2.8.3",
     "prettier": "2.1.2",
     "regenerator-runtime": "0.13.7",
     "ts-jest": "29.0.1",
+    "tsup": "^7.1.0",
     "typescript": "4.8.3",
     "webpack": "5.74.0"
   },
   "dependencies": {
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^1.7.1-beta.6",
-    "react": "18.2.0"
+    "@cosmos-kit/core": "^1.7.1-beta.6"
   },
   "resolutions": {
     "@types/react": "^18.2"
@@ -128,8 +116,8 @@
   "peerDependencies": {
     "@cosmjs/cosmwasm-stargate": ">= 0.28",
     "@cosmjs/stargate": ">= 0.28",
-    "react": "18",
-    "react-dom": "18"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "gitHead": "0f174bf8c1799158d87dfcfb97c642e51835b8d0"
 }

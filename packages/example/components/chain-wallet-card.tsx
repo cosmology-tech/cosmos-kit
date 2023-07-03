@@ -1,39 +1,50 @@
 import { ChainName } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
+import { Button } from "@/components/button";
+import { Badge } from "@/components/badge";
+import { useIsClient } from "../hooks";
 import { ConnectedShowAddress } from "./react";
 
-export const ChainWalletdiv = ({
+export const ChainWalletCard = ({
   chainName,
   type = "address-on-page",
 }: {
   chainName: ChainName;
-  type: string;
+  type: "address-in-modal" | "address-on-page";
 }) => {
   const { chain, status, address } = useChain(chainName);
+  const isClient = useIsClient();
 
-  switch (type) {
-    case "address-in-modal":
-      return (
-        <div>
-          <h5>{chain.pretty_name}</h5>
-          <button>View Address</button>
-        </div>
-      );
-    case "address-on-page":
-      return (
-        <div>
-          <h5>{chain.pretty_name}</h5>
-          <div>
-            <ConnectedShowAddress
-              address={address}
-              isLoading={status === "Connecting"}
-              isRound={true}
-              size={"sm"}
-            />
-          </div>
-        </div>
-      );
-    default:
-      throw new Error("No such chain card type: " + type);
+  if (!isClient) return null;
+
+  if (type === "address-in-modal") {
+    return (
+      <div className="flex space-x-10">
+        <Badge variant="outline">
+          <p className="leading-7 [&:not(:first-child)]:mt-6">
+            {chain.pretty_name}
+          </p>
+        </Badge>
+        <Button>View address</Button>
+      </div>
+    );
   }
+
+  if (type === "address-on-page") {
+    <div className="flex space-x-10">
+      <Badge variant="outline">
+        <p className="leading-7 [&:not(:first-child)]:mt-6">
+          {chain.pretty_name}
+        </p>
+      </Badge>
+      <ConnectedShowAddress
+        address={address}
+        isLoading={status === "Connecting"}
+        isRound={true}
+        size={"sm"}
+      />
+    </div>;
+  }
+
+  return null;
 };
