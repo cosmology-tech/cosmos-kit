@@ -6,7 +6,7 @@ export const leapExtensionInfo: Wallet = {
   prettyName: 'Leap',
   logo: logo,
   mode: 'extension',
-  mobileDisabled: true,
+  mobileDisabled: () => !('leap' in window || /LeapCosmos/i.test(navigator.userAgent)),
   rejectMessage: {
     source: 'Request rejected',
   },

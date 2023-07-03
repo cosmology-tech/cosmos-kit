@@ -10,11 +10,12 @@ import {
 } from '@cosmos-kit/core';
 import React, {
   useCallback,
-  useMemo,
   useEffect,
-  useState,
+  useMemo,
   useRef,
+  useState,
 } from 'react';
+
 import { ChakraProviderWithGivenTheme } from './components';
 import { defaultModalViews } from './components/views';
 
@@ -111,35 +112,38 @@ export const WalletModal = ({
 
   const modalView = useMemo(() => {
     let ViewComponent;
-    switch (currentView) {
-      case ModalView.WalletList:
-        ViewComponent = modalViews[`${currentView}`] as (
-          props: WalletListViewProps
-        ) => JSX.Element;
-        const wallets =
-          walletRepo?.isMobile && !includeAllWalletsOnMobile
-            ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
-            : walletRepo?.wallets;
-        return (
-          <ViewComponent
-            onClose={onCloseModal}
-            wallets={wallets || []}
-            initialFocus={initialFocus}
-          />
-        );
-      default:
-        if (!current) return <div />;
+    if (currentView === ModalView.WalletList) {
+      ViewComponent = modalViews[`${currentView}`] as (
+        props: WalletListViewProps
+      ) => JSX.Element;
+      const wallets =
+        walletRepo?.isMobile && !includeAllWalletsOnMobile
+          ? walletRepo?.wallets.filter((w) =>
+              typeof w.walletInfo.mobileDisabled === 'boolean'
+                ? !w.walletInfo.mobileDisabled
+                : !w.walletInfo.mobileDisabled()
+            )
+          : walletRepo?.wallets;
+      return (
+        <ViewComponent
+          onClose={onCloseModal}
+          wallets={wallets || []}
+          initialFocus={initialFocus}
+        />
+      );
+    } else {
+      if (!current) return <div />;
 
-        ViewComponent = modalViews[`${currentView}`] as (
-          props: WalletViewProps
-        ) => JSX.Element;
-        return (
-          <ViewComponent
-            onClose={onCloseModal}
-            onReturn={onReturn}
-            wallet={current}
-          />
-        );
+      ViewComponent = modalViews[`${currentView}`] as (
+        props: WalletViewProps
+      ) => JSX.Element;
+      return (
+        <ViewComponent
+          onClose={onCloseModal}
+          onReturn={onReturn}
+          wallet={current}
+        />
+      );
     }
   }, [
     currentView,
