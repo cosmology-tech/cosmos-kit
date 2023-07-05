@@ -6575,7 +6575,6 @@
     tslib "1.14.1"
 
 "@walletconnect/types-v1@npm:@walletconnect/types@1.8.0", "@walletconnect/types@^1.8.0":
-  name "@walletconnect/types-v1"
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz#3f5e85b2d6b149337f727ab8a71b8471d8d9a195"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==
