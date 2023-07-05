@@ -36,7 +36,20 @@
       "import": "./dist/index.mjs",
       "default": "./dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json"},
+  "tsup": {
+    "clean": true,
+    "dts": true,
+    "dts-resolve": true,
+    "entry": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "splitting": false,
+    "sourcemap": true
   },
   "directories": {
     "lib": "src",
@@ -46,11 +59,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup --config tsup.config.ts",
-    "watch": "tsup --config tsup.config.ts --watch",
-    "clear": "rm -rf ./dist",
-    "prepare": "npm run build",
+    "build": "tsup",
+    "prepare": "npm rum build",
     "dev": "yarn watch",
+    "watch": "tsup --watch",
+    "clear": "rm -rf ./dist",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
     "test": "jest",
@@ -77,9 +90,7 @@
   },
   "jest": {
     "testPathIgnorePatterns": [
-      "main/",
-      "module/",
-      "types/"
+      "dist/"
     ]
   },
   "devDependencies": {

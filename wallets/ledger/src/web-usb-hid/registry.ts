@@ -1,13 +1,13 @@
-import logo from '../logo.svg';
 import { Wallet } from '@cosmos-kit/core';
+import { ICON } from '../constant';
 
 export const LedgerInfo: Wallet = {
   name: 'ledger-web-usb-hid',
   prettyName: 'Ledger',
-  logo: logo,
+  logo: ICON,
   mode: 'ledger',
   mobileDisabled: true,
   rejectMessage: {
     source: 'Request rejected',
-  }
+  },
 };

@@ -1,10 +1,10 @@
-import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
+import { ICON } from '../constant';
 
 export const shellExtensionInfo: Wallet = {
   name: 'shell-extension',
   prettyName: 'Shell Wallet',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

@@ -1,10 +1,11 @@
-import logo from './logo.png';
 import { Wallet } from '@cosmos-kit/core';
+
+import { ICON } from '../constant';
 
 export const vectisExtensionInfo: Wallet = {
   name: 'vectis-extension',
   prettyName: 'Vectis',
-  logo: logo,
+  logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
   rejectMessage: {

@@ -18,6 +18,7 @@ import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
+import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
