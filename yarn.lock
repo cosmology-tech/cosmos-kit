@@ -2525,10 +2525,10 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.30.1.tgz#6d92582341be3c2ec8d82090253cfa4b7f959edb"
   integrity sha512-KvvX58MGMWh7xA+N+deCfunkA/ZNDvFLw4YbOmX3f/XBIkqrVY7qlotfy2aNb1kgp6h4B6Yc8YawJPDTfvWX7g==
 
-"@cosmology-ui/react@1.1.0-beta.9":
-  version "1.1.0-beta.9"
-  resolved "https://registry.npmjs.org/@cosmology-ui/react/-/react-1.1.0-beta.9.tgz#7360498aae3ba4ed52dc28557bd92a9245f6acda"
-  integrity sha512-YgQLAotNR6WI+KyIIWOa87Vj7hW0pg6udv5jK1rNvg1prHCEZ1iy41ZYkPCNn5XWNw1OFajMBUHOY1G6B3V4Zw==
+"@cosmology-ui/react@1.1.0-beta.10":
+  version "1.1.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@cosmology-ui/react/-/react-1.1.0-beta.10.tgz#8e0efe93f1b295d01e08ba6900c581542b9b8064"
+  integrity sha512-awrMbiPqIyVQ7ni7C70rRVKFbWYCKGF78t0TTP659B8HiS1KnCOXczP/Iia3HFS4Ms2ojQ3edJdg/F0P6UOl4A==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@formkit/auto-animate" "1.0.0-beta.6"

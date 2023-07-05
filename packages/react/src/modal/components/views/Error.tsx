@@ -29,7 +29,6 @@ export function ErrorView({
         name: wallet.walletInfo.name,
         prettyName: wallet.walletInfo.prettyName,
         logo: wallet.walletInfo.logo,
-        isMobile: wallet.walletInfo.mode === 'wallet-connect',
         mobileDisabled: wallet.walletInfo.mobileDisabled,
       }}
       contentHeader={'Oops! Something wrong...'}

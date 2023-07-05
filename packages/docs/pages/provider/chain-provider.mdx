@@ -110,12 +110,6 @@ In addition, you can integrate new wallets in a few steps.
 
 🔌 [How to integrate new wallets into CosmosKit](/integrating-wallets/adding-new-wallets)
 
-### wrappedWithChakra
-
-Required when `ChainProvider` is wrapped inside `ChakraProvider`. By default `false`.
-
-This property is used for CosmosKit to auto-apply your *Chakra Theme* instead of the *Default CosmosKit Theme* in the default modal. If you wrap `ChainProvider` within a `ChakraProvider`, make sure `wrappedWithChakra` is set `true`.
-
 ### walletconnectOptions
 
 Required when `mobile` wallets dependent on `@comos-kit/walletconnect`(implements walletconnect v2 connection) are added in [`wallets`](#wallets).
@@ -398,8 +392,6 @@ If set `true`, will throw error when wallet status to be `WalletStatus.Error`, `
 ## Optional Properties Only for Default Modal
 
 These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only counts when property [`walletModal`](#walletmodal) is `undefined`.
-
-> Note: If you are using `Chakra UI` in your app, make sure `ChainProvider` is wrapped inside `ChakraProvider` and [`wrappedWithChakra`](#wrappedwithchakra) property in `ChainProvider` is set `true`.
 
 ### modalViews
 

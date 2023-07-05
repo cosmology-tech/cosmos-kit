@@ -6,23 +6,24 @@ import "@cosmology-ui/react/styles";
 import { Chain } from "@chain-registry/types";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
-import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { ChainProvider } from "@cosmos-kit/react";
-import { wallets as shellWallets } from "@cosmos-kit/shell";
-import { wallets as stationWallets } from "@cosmos-kit/station";
-import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
-import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
-import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
-import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 
-import { RootLayout } from "@/components/layout";
+// import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
+// import { wallets as shellWallets } from "@cosmos-kit/shell";
+// import { wallets as stationWallets } from "@cosmos-kit/station";
+// import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
+// import { wallets as trustWallets } from "@cosmos-kit/trust";
+// import { wallets as vectisWallets } from "@cosmos-kit/vectis";
+// import { wallets as web3authWallets } from "@cosmos-kit/web3auth";
+// import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
+// import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
+
+import { RootLayout } from "components/layout";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 

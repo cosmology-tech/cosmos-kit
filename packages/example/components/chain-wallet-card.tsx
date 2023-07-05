@@ -1,7 +1,7 @@
 import { ChainName } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
-import { Button } from "@/components/button";
-import { Badge } from "@/components/badge";
+import { Button } from "components/button";
+import { Badge } from "components/badge";
 import { useIsClient } from "../hooks";
 import { ConnectedShowAddress } from "./react";
 

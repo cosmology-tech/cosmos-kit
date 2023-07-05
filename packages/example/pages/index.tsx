@@ -1,10 +1,10 @@
 import { useChain, useWallet } from "@cosmos-kit/react";
 import { useEffect } from "react";
 import { PaperPlaneIcon, ResetIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/card";
-import { Badge } from "@/components/badge";
-import { ChainWalletCard } from "../components/chain-wallet-card";
+import { Button } from "components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "components/card";
+import { Badge } from "components/badge";
+import { ChainWalletCard } from "components/chain-wallet-card";
 import { useIsClient } from "../hooks";
 
 // const chainNames_1 = ["cosmoshub"];
@@ -17,7 +17,9 @@ const chainNames_2 = ["stargaze", "chihuahua"];
 // const chainNames_2 = [];
 
 export default function IndexPage() {
-  const { username, connect, disconnect, wallet } = useChain(chainNames_1[0]);
+  const { username, connect, disconnect, wallet, openView } = useChain(
+    chainNames_1[0]
+  );
   const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
 
   const isClient = useIsClient();
@@ -43,12 +45,16 @@ export default function IndexPage() {
     if (globalStatus === "Connected") {
       return (
         <>
-          <Badge className="flex justify-center items-center space-x-2">
-            <span className="flex h-2 w-2 translate-y-1 rounded-full bg-green-500 leading-4 mb-2" />
-            <span>Connected to: {wallet?.prettyName}</span>
-          </Badge>
+          <Button variant="default" size="sm" onClick={() => openView()}>
+            <div className="flex justify-center items-center space-x-2">
+              <span className="flex h-2 w-2 translate-y-1 rounded-full bg-green-500 leading-4 mb-2" />
+              <span>Connected to: {wallet?.prettyName}</span>
+            </div>
+          </Button>
 
-          <Badge variant="outline">Account name: {username}</Badge>
+          <Badge className="flex" variant="outline">
+            Account name: {username}
+          </Badge>
 
           <Button
             variant="destructive"
@@ -71,9 +77,9 @@ export default function IndexPage() {
     <Card className="min-w-[350px] max-w-[800px] mt-20 mx-auto p-10">
       <CardHeader>
         <CardTitle>
-          <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          <p className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
             ChainProvider Test
-          </h1>
+          </p>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">

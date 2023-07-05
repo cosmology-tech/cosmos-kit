@@ -28,7 +28,6 @@ export function ConnectedView({
         name: walletInfo.name,
         prettyName: walletInfo.prettyName,
         logo: walletInfo.logo,
-        isMobile: walletInfo.mode === 'wallet-connect',
         mobileDisabled: walletInfo.mobileDisabled,
       }}
       status="Connected"

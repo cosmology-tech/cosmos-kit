@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "components/theme-provider";
 import { ModeToggle } from "./mode-toggle";
 
 interface RootLayoutProps {
