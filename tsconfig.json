@@ -10,6 +10,7 @@
     "isolatedModules": true,
     "allowJs": true,
     "downlevelIteration": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   }
 }

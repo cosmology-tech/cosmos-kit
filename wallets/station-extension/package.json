@@ -37,7 +37,8 @@
   "scripts": {
     "build": "tsup",
     "prepare": "npm rum build",
-    "dev": "cross-env NODE_ENV=development babel-node src/index",
+    "dev": "yarn watch",
+    "watch": "tsup --watch",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
     "test": "jest",
