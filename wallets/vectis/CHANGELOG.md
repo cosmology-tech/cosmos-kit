@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis@0.15.38-beta.6...@cosmos-kit/vectis@1.0.0) (2023-07-05)
+
+### Bug Fixes
+
+- use tsup and prettify the index example ([cb4196a](https://github.com/cosmology-tech/cosmos-kit/commit/cb4196a1e34f708c355897274afbb80c1f46d1de))
+
 ## [0.15.38-beta.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/vectis@0.15.38-beta.5...@cosmos-kit/vectis@0.15.38-beta.6) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/vectis

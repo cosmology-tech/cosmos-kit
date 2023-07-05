@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-mobile@0.34.2-beta.6...@cosmos-kit/keplr-mobile@1.0.0) (2023-07-05)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-mobile
+
 ## [0.34.2-beta.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-mobile@0.34.2-beta.5...@cosmos-kit/keplr-mobile@0.34.2-beta.6) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/keplr-mobile

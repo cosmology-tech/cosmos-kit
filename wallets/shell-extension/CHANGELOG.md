@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/shell-extension@0.2.5-beta.3...@cosmos-kit/shell-extension@1.0.0) (2023-07-05)
+
+### Bug Fixes
+
+- mismatch version ([fcdf7ab](https://github.com/cosmology-tech/cosmos-kit/commit/fcdf7abdeee579ff6bff72af5fa88f175f75f470))
+
 ## [0.2.5-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/shell-extension@0.2.5-beta.2...@cosmos-kit/shell-extension@0.2.5-beta.3) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/shell-extension

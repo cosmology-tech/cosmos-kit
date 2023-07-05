@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.45.18",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -18,7 +18,7 @@
   "dependencies": {
     "@cosmology-ui/react": "1.1.0-beta.9",
     "@cosmos-kit/coin98": "^0.2.18",
-    "@cosmos-kit/core": "1.7.1-beta.6",
+    "@cosmos-kit/core": "^2.0.0",
     "@cosmos-kit/cosmostation": "^0.15.39",
     "@cosmos-kit/keplr": "^0.33.41",
     "@cosmos-kit/leap": "^0.15.11",
@@ -51,7 +51,8 @@
   "resolutions": {
     "@types/react": "^18.2"
   },
-  "devDependencies": {    "@babel/plugin-proposal-decorators": "^7.20.7",
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.20.7",
     "@babel/plugin-syntax-bigint": "7.8.3",
     "@babel/preset-env": "7.19.1",
     "@babel/preset-react": "7.18.6",
