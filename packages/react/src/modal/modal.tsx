@@ -27,12 +27,16 @@ export function WalletModal({
   const [qrMsg, setQRMsg] = useState<string>(''); //   message of QRCode error
 
   const current = walletRepo?.current;
-  (current?.client as any)?.setActions?.({
-    qrUrl: {
-      state: setQRState,
-      message: setQRMsg,
-    },
-  });
+
+  useEffect(() => {
+    (current?.client as any)?.setActions?.({
+      qrUrl: {
+        state: setQRState,
+        message: setQRMsg,
+      },
+    });
+  }, [walletRepo]);
+
   const walletStatus = current?.walletStatus;
   const message = current?.message;
 

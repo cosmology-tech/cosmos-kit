@@ -16,9 +16,12 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
     await wallet.connect(true);
-    // if (wallet.isWalletConnected) {
-    //   onClose();
-    // }
+
+    if (wallet.isWalletConnected) {
+      setTimeout(() => {
+        onClose();
+      }, 200);
+    }
   }, []);
 
   useEffect(() => {
@@ -54,7 +57,11 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
           name: wallet.walletInfo.name,
           prettyName: wallet.walletInfo.prettyName,
           logo: wallet.walletInfo.logo,
-          isMobile: wallet.walletInfo.mode === 'wallet-connect',
+          // subLogo can either be 'walletConnect' or a valid <img /> src attribute
+          subLogo:
+            wallet.walletInfo.mode === 'wallet-connect'
+              ? 'walletConnect'
+              : undefined,
           mobileDisabled: wallet.walletInfo.mobileDisabled,
           downloadUrl: '',
           originalWallet: wallet,

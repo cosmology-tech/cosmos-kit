@@ -3,13 +3,13 @@ import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
 import { useModalTheme } from "@cosmos-kit/react";
 
-import { Button } from "@/components/button";
+import { Button } from "components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/dropdown-menu";
+} from "components/dropdown-menu";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();

@@ -126,7 +126,7 @@
   },
   "dependencies": {
     "@chain-registry/types": "0.13.1",
-    "@cosmology-ui/react": "1.1.0-beta.9",
+    "@cosmology-ui/react": "1.1.0-beta.10",
     "@cosmos-kit/core": "^2.0.0",
     "@cosmos-kit/react-lite": "^2.0.0",
     "@emotion/react": "^11.10.6",
