@@ -51,6 +51,7 @@
     ],
     "splitting": false,
     "sourcemap": true,
+    "skipNodeModulesBundle": true,
     "bundle": true,
     "skipNodeModulesBundle": true,
     "external": [

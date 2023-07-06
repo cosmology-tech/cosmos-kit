@@ -50,7 +50,8 @@
       "esm"
     ],
     "splitting": false,
-    "sourcemap": true
+    "sourcemap": true,
+    "skipNodeModulesBundle": true
   },
   "directories": {
     "lib": "src",
