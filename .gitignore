@@ -4,7 +4,7 @@
 **/node_modules
 coverage
 packages/**/build
-packages/**/main
+packages/*/main
 packages/**/module
 packages/**/dist
 wallets/**/build
