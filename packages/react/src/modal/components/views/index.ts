@@ -1,4 +1,4 @@
-export * from './config';
+export * from './_utils';
 export * from './Connected';
 export * from './Connecting';
 export * from './Error';

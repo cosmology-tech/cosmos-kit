@@ -1,7 +1,7 @@
 import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
 
-import { ModalViewImpl } from './config';
+import { ModalViewImpl, getWalletProp } from './_utils';
 
 export function RejectedView({
   onClose,
@@ -28,12 +28,7 @@ export function RejectedView({
   const modalContent = (
     <ConnectModalStatus
       status="Rejected"
-      wallet={{
-        name: wallet.walletInfo.name,
-        prettyName: wallet.walletInfo.prettyName,
-        logo: wallet.walletInfo.logo,
-        mobileDisabled: wallet.walletInfo.mobileDisabled,
-      }}
+      wallet={getWalletProp(wallet.walletInfo)}
       contentHeader={'Request Rejected'}
       contentDesc={
         wallet.rejectMessageTarget || 'Connection permission is denied.'

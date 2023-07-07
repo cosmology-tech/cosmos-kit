@@ -65,6 +65,14 @@ An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
 See our docs on [integrating your wallet](https://docs.cosmoskit.com/integrating-wallets)
 
+### 🚀 Running Example
+
+```sh
+yarn build
+cd package/example
+yarn dev
+```
+
 ## 🛠 Developing
 
 Checkout the repository and bootstrap the yarn workspace:
@@ -74,7 +82,6 @@ Checkout the repository and bootstrap the yarn workspace:
 git clone https://github.com/cosmology-tech/cosmos-kit
 cd cosmos-kit
 yarn
-yarn bootstrap
 ```
 
 ### Building

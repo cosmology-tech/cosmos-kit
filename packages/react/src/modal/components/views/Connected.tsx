@@ -2,7 +2,7 @@ import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
 
 import { AstronautSvg } from '../Astronaut';
-import { ModalViewImpl } from './config';
+import { ModalViewImpl, getWalletProp } from './_utils';
 
 export function ConnectedView({
   onClose,
@@ -24,12 +24,7 @@ export function ConnectedView({
 
   const modalContent = (
     <ConnectModalStatus
-      wallet={{
-        name: walletInfo.name,
-        prettyName: walletInfo.prettyName,
-        logo: walletInfo.logo,
-        mobileDisabled: walletInfo.mobileDisabled,
-      }}
+      wallet={getWalletProp(walletInfo)}
       status="Connected"
       connectedInfo={{
         name: username,

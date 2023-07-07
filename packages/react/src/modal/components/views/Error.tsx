@@ -1,7 +1,7 @@
 import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
 
-import { ModalViewImpl } from './config';
+import { ModalViewImpl, getWalletProp } from './_utils';
 
 export function ErrorView({
   onClose,
@@ -9,7 +9,7 @@ export function ErrorView({
   wallet,
 }: WalletViewProps): ModalViewImpl {
   const {
-    walletInfo: { prettyName, logo },
+    walletInfo: { prettyName },
     message,
   } = wallet;
 
@@ -25,12 +25,7 @@ export function ErrorView({
   const modalContent = (
     <ConnectModalStatus
       status="Error"
-      wallet={{
-        name: wallet.walletInfo.name,
-        prettyName: wallet.walletInfo.prettyName,
-        logo: wallet.walletInfo.logo,
-        mobileDisabled: wallet.walletInfo.mobileDisabled,
-      }}
+      wallet={getWalletProp(wallet.walletInfo)}
       contentHeader={'Oops! Something wrong...'}
       contentDesc={message}
       onChangeWallet={onReturn}

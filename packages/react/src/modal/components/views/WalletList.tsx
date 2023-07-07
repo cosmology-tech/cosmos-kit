@@ -5,6 +5,7 @@ import {
 } from '@cosmology-ui/react';
 import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { getWalletProp } from './_utils';
 
 interface DynamicWalletListProps {
   wallets: WalletListViewProps['wallets'];
@@ -53,20 +54,19 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
             return 1;
           }
         })
-        .map((wallet, i) => ({
-          name: wallet.walletInfo.name,
-          prettyName: wallet.walletInfo.prettyName,
-          logo: wallet.walletInfo.logo,
-          // subLogo can either be 'walletConnect' or a valid <img /> src attribute
-          subLogo:
-            wallet.walletInfo.mode === 'wallet-connect'
-              ? 'walletConnect'
-              : undefined,
-          mobileDisabled: wallet.walletInfo.mobileDisabled,
-          downloadUrl: '',
-          originalWallet: wallet,
-          shape: i < 2 && isLargeScreen ? 'square' : 'list',
-        })),
+        .map((wallet, i) => {
+          return {
+            ...getWalletProp(wallet.walletInfo),
+            // subLogo can either be 'walletConnect' or a valid <img /> src attribute
+            subLogo:
+              wallet.walletInfo.mode === 'wallet-connect'
+                ? 'walletConnect'
+                : undefined,
+            downloadUrl: '',
+            originalWallet: wallet,
+            shape: i < 2 && isLargeScreen ? 'square' : 'list',
+          };
+        }),
     [wallets, isLargeScreen]
   );
 

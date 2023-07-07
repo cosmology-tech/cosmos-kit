@@ -6,7 +6,7 @@ import { GrFirefox } from 'react-icons/gr';
 import { RiChromeFill } from 'react-icons/ri';
 import { RiAppStoreFill } from 'react-icons/ri';
 
-import { ModalViewImpl } from './config';
+import { ModalViewImpl, getWalletProp } from './_utils';
 
 export function NotExistView({
   onClose,
@@ -36,12 +36,7 @@ export function NotExistView({
   const modalContent = (
     <ConnectModalStatus
       status="NotExist"
-      wallet={{
-        name: wallet.walletInfo.name,
-        prettyName: wallet.walletInfo.prettyName,
-        logo: wallet.walletInfo.logo,
-        mobileDisabled: wallet.walletInfo.mobileDisabled,
-      }}
+      wallet={getWalletProp(wallet.walletInfo)}
       contentHeader={`${prettyName} Not Installed`}
       contentDesc={
         onInstall

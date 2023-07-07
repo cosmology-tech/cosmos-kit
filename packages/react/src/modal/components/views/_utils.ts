@@ -1,5 +1,6 @@
 import {
   ModalViews,
+  Wallet,
   WalletListViewProps,
   WalletViewProps,
 } from '@cosmos-kit/core';
@@ -33,3 +34,14 @@ export const defaultModalViews: Record<
   QRCode: QRCodeView,
   WalletList: WalletListView,
 };
+
+export function getWalletProp(wallet: Wallet) {
+  const { prettyName, mode, name, logo, mobileDisabled } = wallet;
+  return {
+    name,
+    prettyName,
+    logo,
+    mobileDisabled,
+    isMobile: mode === 'wallet-connect',
+  };
+}
