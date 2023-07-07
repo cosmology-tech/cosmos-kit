@@ -1,7 +1,7 @@
 import * as React from "react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useTheme } from "next-themes";
-import { useModalTheme } from "@cosmos-kit/react";
+// import { useModalTheme } from "@cosmos-kit/react";
 
 import { Button } from "components/button";
 import {
@@ -13,7 +13,7 @@ import {
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
-  const { modalTheme, setModalTheme } = useModalTheme();
+  // const { modalTheme, setModalTheme } = useModalTheme();
 
   return (
     <>
@@ -29,7 +29,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("light");
-              setModalTheme("light");
+              // setModalTheme("light");
             }}
           >
             Light

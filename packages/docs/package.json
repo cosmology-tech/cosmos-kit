@@ -39,21 +39,19 @@
     "react-icons": "4.4.0"
   },
   "resolutions": {
-    "@types/react": "^18.2"
+    "@types/react": "18.2"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-bigint": "7.8.3",
-    "@babel/preset-env": "7.19.1",
-    "@babel/preset-react": "7.18.6",
-    "@babel/preset-typescript": "7.18.6",
-    "@types/node": "18.7.18",
-    "@types/react": "^18.2",
-    "@types/react-dom": "^18.2",
-    "babel-loader": "8.2.5",
-    "eslint": "8.23.1",
-    "eslint-config-next": "12.3.1",
-    "ts-loader": "9.4.1",
-    "typescript": "4.8.3"
+    "@babel/preset-env": "7.22.7",
+    "@babel/preset-react": "7.22.5",
+    "@babel/preset-typescript": "7.22.5",
+    "@types/react": "18.2",
+    "@types/react-dom": "18.2",
+    "babel-loader": "9.1.2",
+    "babel-plugin-inline-import-data-uri": "1.0.1",
+    "postcss": "8.4.24",
+    "shadcn-ui": "0.2.3",
+    "tailwindcss": "3.3.2"
   },
   "dependenciesMeta": {
     "nextra": {

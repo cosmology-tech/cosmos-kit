@@ -5,7 +5,7 @@ import {
 } from '@cosmology-ui/react';
 import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getWalletProp } from './_utils';
+import { getWalletProp } from './config';
 
 interface DynamicWalletListProps {
   wallets: WalletListViewProps['wallets'];
