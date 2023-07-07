@@ -5,7 +5,7 @@ import {
 } from '@cosmology-ui/react';
 import { ExpiredError, State, WalletViewProps } from '@cosmos-kit/core';
 
-import { ModalViewImpl } from './_utils';
+import { ModalViewImpl } from './config';
 
 export function QRCodeView({
   onClose,

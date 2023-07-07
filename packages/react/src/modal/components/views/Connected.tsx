@@ -2,7 +2,7 @@ import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
 
 import { AstronautSvg } from '../Astronaut';
-import { ModalViewImpl, getWalletProp } from './_utils';
+import { ModalViewImpl, getWalletProp } from './config';
 
 export function ConnectedView({
   onClose,

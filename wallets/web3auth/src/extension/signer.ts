@@ -1,159 +1,211 @@
-import { wasmTypes } from '@cosmjs/cosmwasm-stargate/build/modules';
+import { Chain } from '@chain-registry/types';
+import {
+  AminoSignResponse,
+  OfflineAminoSigner,
+  StdSignDoc,
+} from '@cosmjs/amino';
 import {
   AccountData,
-  DirectSecp256k1Wallet,
   DirectSignResponse,
   OfflineDirectSigner,
 } from '@cosmjs/proto-signing';
-import { Registry } from '@cosmjs/proto-signing/build/registry';
-import { defaultRegistryTypes } from '@cosmjs/stargate';
-import { SignDoc, TxBody } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import eccrypto from '@toruslabs/eccrypto';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { Web3AuthClient } from './client';
+import { PromptSign, SignData, ToWorkerMessage } from './types';
+import { hashObject, sendAndListenOnce } from './utils';
 
-const registry = new Registry([...defaultRegistryTypes, ...wasmTypes]);
+export class Web3AuthSigner implements OfflineDirectSigner, OfflineAminoSigner {
+  chain: Chain;
+  #worker: Worker;
+  #clientPrivateKey: Buffer;
+  #workerPublicKey: Buffer;
+  #promptSign: PromptSign;
 
-export class Web3AuthCustomSigner implements OfflineDirectSigner {
-  client: Web3AuthClient;
-  chainId: string;
-
-  constructor(client: Web3AuthClient, chainId: string) {
-    this.client = client;
-    this.chainId = chainId;
-  }
-
-  async getSigner(chainId: string): Promise<DirectSecp256k1Wallet> {
-    if (!this.client.signers[chainId]) {
-      await this.client.connect(chainId);
-    }
-
-    return this.client.signers[chainId];
+  constructor(
+    chain: Chain,
+    worker: Worker,
+    clientPrivateKey: Buffer,
+    workerPublicKey: Buffer,
+    promptSign: PromptSign
+  ) {
+    this.chain = chain;
+    this.#worker = worker;
+    this.#clientPrivateKey = clientPrivateKey;
+    this.#workerPublicKey = workerPublicKey;
+    this.#promptSign = promptSign;
   }
 
   async getAccounts(): Promise<readonly AccountData[]> {
-    return (await this.getSigner(this.chainId)).getAccounts();
+    let accounts: AccountData[] | undefined;
+    const id = Date.now();
+    // Should not resolve until accounts are received.
+    await sendAndListenOnce(
+      this.#worker,
+      {
+        type: 'request_accounts',
+        payload: {
+          id,
+          chainBech32Prefix: this.chain.bech32_prefix,
+        },
+      },
+      async (data) => {
+        if (data.type === 'accounts' && data.payload.id === id) {
+          // Verify signature.
+          await eccrypto.verify(
+            this.#workerPublicKey,
+            hashObject(data.payload),
+            Buffer.from(data.signature)
+          );
+
+          if (data.payload.response.type === 'success') {
+            accounts = data.payload.response.accounts;
+            return true;
+          } else {
+            throw new Error(data.payload.response.error);
+          }
+        }
+
+        return false;
+      }
+    );
+
+    if (!accounts) {
+      throw new Error('Failed to get accounts');
+    }
+
+    return accounts;
   }
 
   async signDirect(
     signerAddress: string,
     signDoc: SignDoc
   ): Promise<DirectSignResponse> {
-    if (signDoc.chainId !== this.chainId) {
+    if (signDoc.chainId !== this.chain.chain_id) {
       throw new Error('Chain ID mismatch');
     }
 
-    const signer = await this.getSigner(signDoc.chainId);
+    const signData: SignData = {
+      type: 'direct',
+      value: signDoc,
+    };
+    if (!(await this.#promptSign(signerAddress, signData))) {
+      throw new Error('Request rejected');
+    }
 
-    // TODO: Improve prompt UI.
-    const decodedMessages = TxBody.decode(signDoc.bodyBytes).messages.map(
-      (message) => ({
-        '@type': message.typeUrl,
-        ...registry.decode(message),
-      })
+    // Create and sign signature request.
+    const id = Date.now();
+    const message: ToWorkerMessage = {
+      type: 'request_sign',
+      payload: {
+        id,
+        signerAddress,
+        chainBech32Prefix: this.chain.bech32_prefix,
+        data: signData,
+      },
+      signature: new Uint8Array(),
+    };
+    message.signature = await eccrypto.sign(
+      this.#clientPrivateKey,
+      hashObject(message.payload)
     );
 
-    return new Promise((resolve, reject) => {
-      // Add modal to body.
-      const modal = document.createElement('div');
-      modal.id = 'web3auth-modal';
-      modal.style.position = 'fixed';
-      modal.style.top = '0';
-      modal.style.left = '0';
-      modal.style.width = '100%';
-      modal.style.height = '100%';
-      modal.style.zIndex = '999999';
-      modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      modal.style.display = 'flex';
-      modal.style.justifyContent = 'center';
-      modal.style.alignItems = 'center';
-      document.body.appendChild(modal);
+    let response: DirectSignResponse | undefined;
+    // Should not resolve until response is received.
+    await sendAndListenOnce(this.#worker, message, async (data) => {
+      if (data.type === 'sign' && data.payload.id === id) {
+        // Verify signature.
+        await eccrypto.verify(
+          this.#workerPublicKey,
+          hashObject(data.payload),
+          Buffer.from(data.signature)
+        );
 
-      // Add modal content.
-      const modalContent = document.createElement('div');
-      modalContent.style.backgroundColor = '#fff';
-      modalContent.style.padding = '1rem';
-      modalContent.style.borderRadius = '0.5rem';
-      modalContent.style.maxWidth = '50rem';
-      modalContent.style.width = '100%';
-      modalContent.style.maxHeight = '50rem';
-      modalContent.style.overflow = 'auto';
-      modal.appendChild(modalContent);
-
-      // Add modal title.
-      const modalTitle = document.createElement('h2');
-      modalTitle.innerText = 'Web3Auth';
-      modalTitle.style.margin = '0';
-      modalTitle.style.padding = '0';
-      modalTitle.style.fontSize = '1.5rem';
-      modalTitle.style.fontWeight = 'bold';
-      modalContent.appendChild(modalTitle);
-
-      // Add modal description.
-      const modalDescription = document.createElement('p');
-      modalDescription.innerText = 'Sign transaction?';
-      modalDescription.style.margin = '0';
-      modalDescription.style.padding = '0';
-      modalDescription.style.fontSize = '1rem';
-      modalDescription.style.fontWeight = 'normal';
-      modalContent.appendChild(modalDescription);
-
-      // Add modal JSON.
-      const modalJson = document.createElement('pre');
-      modalJson.innerText = JSON.stringify(decodedMessages, null, 2);
-      modalJson.style.margin = '0';
-      modalJson.style.padding = '0';
-      modalJson.style.fontSize = '1rem';
-      modalJson.style.fontWeight = 'normal';
-      modalContent.appendChild(modalJson);
-
-      // Add modal buttons.
-      const modalButtons = document.createElement('div');
-      modalButtons.style.margin = '0';
-      modalButtons.style.padding = '0';
-      modalButtons.style.display = 'flex';
-      modalButtons.style.justifyContent = 'flex-end';
-      modalContent.appendChild(modalButtons);
-
-      // Add modal cancel button.
-      const modalCancelButton = document.createElement('button');
-      modalCancelButton.innerText = 'Cancel';
-      modalCancelButton.style.margin = '0';
-      modalCancelButton.style.padding = '0.5rem 1rem';
-      modalCancelButton.style.fontSize = '1rem';
-      modalCancelButton.style.fontWeight = 'bold';
-      modalCancelButton.style.backgroundColor = '#fff';
-      modalCancelButton.style.border = '1px solid #000';
-      modalCancelButton.style.borderRadius = '0.25rem';
-      modalCancelButton.style.cursor = 'pointer';
-      modalCancelButton.onclick = () => {
-        const modal = document.getElementById('web3auth-modal');
-        if (modal) {
-          modal.remove();
+        if (data.payload.response.type === 'error') {
+          throw new Error(data.payload.response.value);
         }
-        reject(new Error('Request rejected'));
-      };
-      modalButtons.appendChild(modalCancelButton);
 
-      // Add modal confirm button.
-      const modalConfirmButton = document.createElement('button');
-      modalConfirmButton.innerText = 'Confirm';
-      modalConfirmButton.style.margin = '0 0 0 0.5rem';
-      modalConfirmButton.style.padding = '0.5rem 1rem';
-      modalConfirmButton.style.fontSize = '1rem';
-      modalConfirmButton.style.fontWeight = 'bold';
-      modalConfirmButton.style.backgroundColor = '#000';
-      modalConfirmButton.style.color = '#fff';
-      modalConfirmButton.style.border = '1px solid #000';
-      modalConfirmButton.style.borderRadius = '0.25rem';
-      modalConfirmButton.style.cursor = 'pointer';
-      modalConfirmButton.onclick = () => {
-        const modal = document.getElementById('web3auth-modal');
-        if (modal) {
-          modal.remove();
+        // Type-check, should always be true.
+        if (data.payload.response.type === 'direct') {
+          response = data.payload.response.value;
         }
-        signer.signDirect(signerAddress, signDoc).then(resolve).catch(reject);
-      };
-      modalButtons.appendChild(modalConfirmButton);
+
+        return true;
+      }
+
+      return false;
     });
+
+    if (!response) {
+      throw new Error('Failed to get response');
+    }
+
+    return response;
+  }
+
+  async signAmino(
+    signerAddress: string,
+    signDoc: StdSignDoc
+  ): Promise<AminoSignResponse> {
+    if (signDoc.chain_id !== this.chain.chain_id) {
+      throw new Error('Chain ID mismatch');
+    }
+
+    const signData: SignData = {
+      type: 'amino',
+      value: signDoc,
+    };
+    if (!(await this.#promptSign(signerAddress, signData))) {
+      throw new Error('Request rejected');
+    }
+
+    // Create and sign signature request.
+    const id = Date.now();
+    const message: ToWorkerMessage = {
+      type: 'request_sign',
+      payload: {
+        id,
+        signerAddress,
+        chainBech32Prefix: this.chain.bech32_prefix,
+        data: signData,
+      },
+      signature: new Uint8Array(),
+    };
+    message.signature = await eccrypto.sign(
+      this.#clientPrivateKey,
+      hashObject(message.payload)
+    );
+
+    let response: AminoSignResponse | undefined;
+    // Should not resolve until response is received.
+    await sendAndListenOnce(this.#worker, message, async (data) => {
+      if (data.type === 'sign' && data.payload.id === id) {
+        // Verify signature.
+        await eccrypto.verify(
+          this.#workerPublicKey,
+          hashObject(data.payload),
+          Buffer.from(data.signature)
+        );
+
+        if (data.payload.response.type === 'error') {
+          throw new Error(data.payload.response.value);
+        }
+
+        // Type-check, should always be true.
+        if (data.payload.response.type === 'amino') {
+          response = data.payload.response.value;
+        }
+
+        return true;
+      }
+
+      return false;
+    });
+
+    if (!response) {
+      throw new Error('Failed to get response');
+    }
+
+    return response;
   }
 }

@@ -6,7 +6,7 @@ import { GrFirefox } from 'react-icons/gr';
 import { RiChromeFill } from 'react-icons/ri';
 import { RiAppStoreFill } from 'react-icons/ri';
 
-import { ModalViewImpl, getWalletProp } from './_utils';
+import { ModalViewImpl, getWalletProp } from './config';
 
 export function NotExistView({
   onClose,
