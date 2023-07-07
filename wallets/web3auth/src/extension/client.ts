@@ -43,6 +43,10 @@ export class Web3AuthClient implements WalletClient {
       return;
     }
 
+    if (!this.#options) {
+      throw new Error('Web3Auth client not initialized');
+    }
+
     // Don't keep any reference to these around after this function since they
     // internally store a reference to the private key. Once we have the private
     // key, send it to the worker and forget about it. After this function, the
@@ -154,6 +158,15 @@ export class Web3AuthClient implements WalletClient {
 
     // Create signers.
     _chains.forEach((chain) => {
+      if (
+        !this.#worker ||
+        !this.#clientPrivateKey ||
+        !this.#workerPublicKey ||
+        !this.#options
+      ) {
+        throw new Error('Web3Auth client not initialized');
+      }
+
       this.#signers[chain.chain_id] = new Web3AuthSigner(
         chain,
         this.#worker,
@@ -165,6 +178,10 @@ export class Web3AuthClient implements WalletClient {
   }
 
   async disconnect() {
+    if (!this.#options) {
+      throw new Error('Web3Auth client not initialized');
+    }
+
     // In case this web3auth client uses the redirect auto connect method, clear
     // it so that it does not automatically connect on the next page load.
     localStorage.removeItem(WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY);
@@ -205,6 +222,10 @@ export class Web3AuthClient implements WalletClient {
   }
 
   async getAccount(chainId: string) {
+    if (!this.#userInfo) {
+      throw new Error('Web3Auth client not initialized');
+    }
+
     const { address, algo, pubkey } = (
       await this.getOfflineSigner(chainId).getAccounts()
     )[0];

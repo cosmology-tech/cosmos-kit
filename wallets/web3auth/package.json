@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "tsup": {
@@ -21,7 +21,6 @@
       "src/**/*.ts"
     ],
     "format": [
-      "cjs",
       "esm"
     ],
     "splitting": false,
@@ -69,7 +68,8 @@
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.0.0",
-    "@solana/web3.js": "^1.78.0",
+    "@solana/web3.js": "^1.77.3",
+    "@toruslabs/eccrypto": "^2.1.1",
     "@web3auth/base": "^5.1.0",
     "@web3auth/no-modal": "^5.1.0",
     "@web3auth/openlogin-adapter": "^5.1.1",

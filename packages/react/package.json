@@ -39,7 +39,6 @@
     ],
     "splitting": false,
     "sourcemap": true,
-    "skipNodeModulesBundle": true,
     "bundle": true,
     "external": [
       "react"
