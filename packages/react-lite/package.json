@@ -39,7 +39,11 @@
     ],
     "splitting": false,
     "sourcemap": true,
-    "skipNodeModulesBundle": true
+    "bundle": true,
+    "skipNodeModulesBundle": true,
+    "external": [
+      "react"
+    ]
   },
   "directories": {
     "lib": "src",
