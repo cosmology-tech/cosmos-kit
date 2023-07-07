@@ -17,23 +17,80 @@ yarn add @cosmoskit/web3auth
 ## import the wallets
 
 ```js
-import { wallets as web3auth } from '@cosmos-kit/web3auth';
+import { makeWeb3AuthWallets, PromptSign } from "@cosmos-kit/web3auth";
+import { useMemo, useState } from "react";
 ```
+
+## set up web3auth account to retrieve a client ID
+
+https://web3auth.io/docs/dashboard-setup/
 
 ## add to your provider
 
 ```js
 function MyCosmosApp({ Component, pageProps }: AppProps) {
+  const [web3AuthPrompt, setWeb3AuthPrompt] = useState<{
+    signData: SignData
+    resolve: (approved: boolean) => void
+  } | undefined>();
+  const web3AuthWallets = useMemo(
+    () =>
+      makeWeb3AuthWallets({
+        loginMethods: [
+          // add whichever login methods you want to support
+          {
+            provider: "google",
+            name: "Google",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+          },
+        ],
+        // get client ID and network from your web3auth dashboard:
+        // https://web3auth.io/docs/dashboard-setup/get-client-id
+        client: {
+          clientId: "localhostid",
+          web3AuthNetwork: "testnet",
+          // leave chainNamespace as "other" unless you know what you're doing
+          chainConfig: {
+            chainNamespace: "other",
+          },
+        },
+        // set state to show data to sign and approve/reject buttons in modal
+        promptSign: async (_, signData) =>
+          new Promise((resolve) =>
+            setWeb3AuthPrompt({
+              signData,
+              resolve: (approved) => {
+                setWeb3AuthPrompt(undefined);
+                resolve(approved);
+              },
+            })
+          ),
+      }),
+    []
+  );
+
   return (
     <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...web3auth]}
+        wallets={[...web3Auth]}
         wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
+
+        {/* wallet signature prompt */}
+        <Modal
+          visible={web3AuthPrompt !== undefined}
+          onClose={() => web3AuthPrompt?.resolve(false)}
+        >
+          <DisplayDataToSign
+            data={signData}
+            approve={() => web3AuthPrompt?.resolve(true)}
+            reject={() => web3AuthPrompt?.resolve(false)}
+          />
+        </Modal>
       </ChainProvider>
     </ChakraProvider>
   );
