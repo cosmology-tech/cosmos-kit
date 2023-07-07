@@ -1,87 +1,197 @@
-import { OfflineAminoSigner } from '@cosmjs/amino';
-import { DirectSecp256k1Wallet } from '@cosmjs/proto-signing';
-import { WalletClient } from '@cosmos-kit/core';
-import { CHAIN_NAMESPACES } from '@web3auth/base';
-import { Web3Auth } from '@web3auth/modal';
+import { OfflineAminoSigner, StdSignature } from '@cosmjs/amino';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { DappEnv, WalletClient } from '@cosmos-kit/core';
+import { makeADR36AminoSignDoc } from '@keplr-wallet/cosmos';
+import eccrypto from '@toruslabs/eccrypto';
+import { UserInfo } from '@web3auth/base';
 import { chains } from 'chain-registry';
 
-import { Web3AuthCustomSigner } from './signer';
+import { Web3AuthSigner } from './signer';
+import { Web3AuthClientOptions } from './types';
+import {
+  connectClientAndProvider,
+  decrypt,
+  sendAndListenOnce,
+  WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY,
+} from './utils';
+
+// In case these get overwritten by an attacker.
+const terminate =
+  typeof Worker !== 'undefined' ? Worker.prototype.terminate : undefined;
 
 export class Web3AuthClient implements WalletClient {
-  readonly client: Web3Auth;
+  env: DappEnv;
 
-  modalInitComplete = false;
+  #worker?: Worker;
+  #clientPrivateKey?: Buffer;
+  #workerPublicKey?: Buffer;
+  #userInfo?: Partial<UserInfo>;
+  #options?: Web3AuthClientOptions;
 
-  // Map chainId to signer.
-  signers: Record<string, DirectSecp256k1Wallet | undefined> = {};
+  // Map chain ID to signer.
+  #signers: Record<string, Web3AuthSigner | undefined> = {};
 
-  constructor() {
-    this.client = new Web3Auth({
-      // Get from developer dashboard.
-      clientId: 'randomlocalhost',
-      chainConfig: {
-        chainNamespace: CHAIN_NAMESPACES.OTHER,
-      },
-    });
+  ready = false;
+
+  constructor(env: DappEnv, options: Web3AuthClientOptions) {
+    this.env = env;
+    this.#options = Object.freeze(options);
   }
 
-  async getPrivateKey(): Promise<Uint8Array> {
-    const privateKeyHex = await this.client.provider.request({
-      method: 'private_key',
-    });
-    if (typeof privateKeyHex !== 'string') {
-      throw new Error('Invalid private key');
-    }
-    return Uint8Array.from(Buffer.from(privateKeyHex, 'hex'));
-  }
-
-  async connect(_chainIds: string | string[]) {
-    // Only connect to chains that are not already connected.
-    const chainIds = [_chainIds]
-      .flat()
-      .filter((chainId) => !(chainId in this.signers));
-    if (chainIds.length === 0) {
+  async ensureSetup(): Promise<void> {
+    if (this.ready) {
       return;
     }
 
-    if (!this.modalInitComplete) {
-      await this.client.initModal();
-      this.modalInitComplete = true;
+    // Don't keep any reference to these around after this function since they
+    // internally store a reference to the private key. Once we have the private
+    // key, send it to the worker and forget about it. After this function, the
+    // only reference to the private key is in the worker, and this client and
+    // provider will be destroyed by the garbage collector, hopefully ASAP.
+    const { client, provider } = await connectClientAndProvider(
+      this.env.device === 'mobile',
+      this.#options
+    );
+
+    // Get connected user info.
+    const userInfo = await client.getUserInfo();
+
+    // Get the private key.
+    const privateKeyHex = await provider?.request({
+      method: 'private_key',
+    });
+    if (typeof privateKeyHex !== 'string') {
+      throw new Error(`Failed to connect to ${this.#options.loginProvider}`);
     }
 
-    await this.client.connect();
+    // Generate a private key for this client to interact with the worker.
+    const clientPrivateKey = eccrypto.generatePrivate();
+    const clientPublicKey = eccrypto
+      .getPublic(clientPrivateKey)
+      .toString('hex');
 
-    // Get private key.
-    const privateKey = await this.getPrivateKey();
+    // Spawn a new worker that will handle the private key and signing.
+    const worker = new Worker(new URL('./web3auth.worker.js', import.meta.url));
 
-    // TODO: Is there a better way to get the prefix for a chain ID. Retrieve
-    // from passed in chain info somehow?
+    // Begin two-step handshake to authenticate with the worker and exchange
+    // communication public keys as well as the wallet private key.
 
-    // Get chain prefixes for IDs, erroring if any could not be found.
-    const chainPrefixes = chainIds.map((chainId): string => {
+    // 1. Send client public key so the worker can verify our signatures, and
+    //    get the worker public key for encrypting the wallet private key in the
+    //    next init step.
+    let workerPublicKey: Buffer | undefined;
+    await sendAndListenOnce(
+      worker,
+      {
+        type: 'init_1',
+        payload: {
+          publicKey: clientPublicKey,
+        },
+      },
+      async (data) => {
+        if (data.type === 'ready_1') {
+          workerPublicKey = await decrypt(
+            clientPrivateKey,
+            data.payload.encryptedPublicKey
+          );
+          return true;
+        } else if (data.type === 'init_error') {
+          throw new Error(data.payload.error);
+        }
+
+        return false;
+      }
+    );
+    if (!workerPublicKey) {
+      throw new Error('Failed to authenticate with worker');
+    }
+
+    // 2. Encrypt and send the wallet private key to the worker. This is the
+    //    last usage of `workerPublicKey`, so it should get garbage collected
+    //    ASAP once this function ends.
+    const encryptedPrivateKey = await eccrypto.encrypt(
+      workerPublicKey,
+      Buffer.from(privateKeyHex, 'hex')
+    );
+    await sendAndListenOnce(
+      worker,
+      {
+        type: 'init_2',
+        payload: {
+          encryptedPrivateKey,
+        },
+      },
+      (data) => {
+        if (data.type === 'ready_2') {
+          return true;
+        } else if (data.type === 'init_error') {
+          throw new Error(data.payload.error);
+        }
+
+        return false;
+      }
+    );
+
+    // Store the setup instances.
+    this.#worker = worker;
+    this.#clientPrivateKey = clientPrivateKey;
+    this.#workerPublicKey = workerPublicKey;
+    this.#userInfo = userInfo;
+    this.ready = true;
+  }
+
+  async connect(_chainIds: string | string[]) {
+    await this.ensureSetup();
+
+    const _chains = [_chainIds].flat().map((chainId) => {
       const chain = chains.find(({ chain_id }) => chain_id === chainId);
       if (!chain) {
         throw new Error(`Chain ID ${chainId} not found`);
       }
-      return chain.bech32_prefix;
+
+      return chain;
     });
 
-    // Create signers for chains.
-    await Promise.all(
-      chainIds.map(async (chainId, index) => {
-        this.signers[chainId] = await DirectSecp256k1Wallet.fromKey(
-          privateKey,
-          chainPrefixes[index]
-        );
-      })
-    );
+    // Create signers.
+    _chains.forEach((chain) => {
+      this.#signers[chain.chain_id] = new Web3AuthSigner(
+        chain,
+        this.#worker,
+        this.#clientPrivateKey,
+        this.#workerPublicKey,
+        this.#options.promptSign
+      );
+    });
   }
 
   async disconnect() {
-    if (this.client.status === 'connected') {
-      await this.client.logout();
+    // In case this web3auth client uses the redirect auto connect method, clear
+    // it so that it does not automatically connect on the next page load.
+    localStorage.removeItem(WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY);
+
+    // Attempt to logout by first connecting a new client and then logging out
+    // if connected. It does not attempt to log in if it cannot automatically
+    // login from the cached session. This removes the need to keep the client
+    // around, which internally keeps a reference to the private key.
+    try {
+      const { client } = await connectClientAndProvider(
+        this.env.device === 'mobile',
+        this.#options,
+        { dontAttemptLogin: true }
+      );
+
+      await client.logout({
+        cleanup: true,
+      });
+    } catch (err) {
+      console.warn('Web3Auth failed to logout:', err);
     }
-    this.signers = {};
+    this.#signers = {};
+    this.#userInfo = {};
+    if (this.#worker) {
+      terminate?.call(this.#worker);
+      this.#worker = undefined;
+    }
   }
 
   async getSimpleAccount(chainId: string) {
@@ -95,32 +205,46 @@ export class Web3AuthClient implements WalletClient {
   }
 
   async getAccount(chainId: string) {
-    await this.connect(chainId);
-
-    const signer = this.signers[chainId];
-    if (!signer) {
-      throw new Error('Signer not enabled');
-    }
-
-    const info = await this.client.getUserInfo();
-
-    const account = (await signer.getAccounts())[0];
+    const { address, algo, pubkey } = (
+      await this.getOfflineSigner(chainId).getAccounts()
+    )[0];
 
     return {
-      username: info.name || info.email || account.address,
-      ...account,
+      username: this.#userInfo.name || this.#userInfo.email || address,
+      algo,
+      pubkey,
+      address,
     };
   }
 
   getOfflineSigner(chainId: string) {
-    return this.getOfflineSignerDirect(chainId);
+    const signer = this.#signers[chainId];
+    if (!signer) {
+      throw new Error('Signer not enabled');
+    }
+    return signer;
   }
 
-  getOfflineSignerAmino(): OfflineAminoSigner {
-    throw new Error('Not implemented');
+  getOfflineSignerAmino(chainId: string): OfflineAminoSigner {
+    return this.getOfflineSigner(chainId);
   }
 
-  getOfflineSignerDirect(chainId: string) {
-    return new Web3AuthCustomSigner(this, chainId);
+  getOfflineSignerDirect(chainId: string): OfflineDirectSigner {
+    return this.getOfflineSigner(chainId);
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    // ADR 036
+    // https://docs.cosmos.network/v0.47/architecture/adr-036-arbitrary-signature
+    const signDoc = makeADR36AminoSignDoc(signer, data);
+
+    const offlineSigner = await this.getOfflineSignerAmino(chainId);
+    const { signature } = await offlineSigner.signAmino(signer, signDoc);
+
+    return signature;
   }
 }
