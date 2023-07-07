@@ -29,17 +29,14 @@ import { wallets as leap } from "@cosmos-kit/leap";
 ```js
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...leap]}
-        wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
       </ChainProvider>
-    </ChakraProvider>
   );
 }
 

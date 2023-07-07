@@ -70,12 +70,10 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
   );
 
   return (
-    <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...web3Auth]}
-        wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
@@ -92,7 +90,6 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
           />
         </Modal>
       </ChainProvider>
-    </ChakraProvider>
   );
 }
 

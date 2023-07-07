@@ -1,6 +1,20 @@
 # How to use CosmosKit
 
 > 💡 Make sure you are using `React18`
+>
+> `CosmosKit V1` is deprecated, we suggest use `CosmosKit V2`
+
+## Major Changes in V2
+
+1. `ChakraUI` Removed
+
+In CosmosKit V2, we discard the dependency on `ChakraUI` due to numerous runtime errors and the cost of CSS-in-JS.
+
+Main changes lie on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@cosmology-ui/react`, which is our UI Kit in Cosmology. The latest `@cosmology-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
+
+1. Build Process Changed
+
+In CosmosKit V2, we used `tsup` to compile CommonJS, ESM and types. Different from V1 that separate these files in different folders (`main`, `module` and `types`), in V2, they are put in a single folder `dist` and differentiate with different suffix (`.js`, `mjs` and `.d.ts`). In this way non-index sources can easily find its corresponding typings.
 
 ## Quickstart
 
@@ -38,7 +52,6 @@ function CosmosApp() {
       chains={chains} // supported chains
       assetLists={assets} // supported asset lists
       wallets={wallets} // supported wallets
-      wrappedWithChakra={true}
       walletConnectOptions={...} // required if `wallets` contains mobile wallets
     >
       <YourWalletRelatedComponents />
@@ -86,15 +99,3 @@ It records current wallet name. You can use this key to implement auto-connectio
 - **Type**: `SimpleAccount[]`
 
 It records the connected chains' account information. It's used for account restore when refreshing in CosmosKit. And it will expire after provided [session duration](#sessionoptions).
-
-## Advanced
-
-### Beta Version 
-
-In our beta version of CosmosKit, we discard the dependency on `ChakraUI` due to numerous runtime errors and the cost of CSS-in-JS.
-
-Main changes lie on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@cosmology-ui/react`, which is our UI Kit in Cosmology. The latest `@cosmology-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
-
-### Prerelease Version
-
-In our prerelease version of CosmosKit, we used `tsup` to compile CommonJS, ESM and types. Different from normal versions that separate these files in different folders (`main`, `module` and `types`), in the prerelease version, they are put in a single folder `dist` and differentiate with different suffix (`.js`, `mjs` and `.d.ts`). In this way non-index sources can easily find its corresponding typings.

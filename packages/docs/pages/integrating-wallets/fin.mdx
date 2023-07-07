@@ -1,27 +1,26 @@
-# How to Add Trust Wallet to CosmosKit
+# How to Add Fin Wallet to CosmosKit
 
-There are three packages for Trust
+There are two packages for fin
 
-- `@cosmoskit/trust`
-- `@cosmoskit/trust-extension`
-- `@cosmoskit/trust-mobile`
+- `@cosmoskit/fin`
+- `@cosmoskit/fin-extension`
 
-`@cosmoskit/trust` export all available trust wallets, while if you only want to add a particular one, choose `@cosmoskit/trust-extension` or `@cosmoskit/trust-mobile`
+`@cosmoskit/fin` export all available fin wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmoskit/fin-extension`
 
 > Note: all these packages export `wallets` and it's an array of `MainWalletBase`
 
-Take `@cosmoskit/trust` for example
+Take `@cosmoskit/fin` for example
 
-## install `@cosmoskit/trust`
+## add `@cosmoskit/fin`
 
 ```
-yarn add @cosmoskit/trust
+yarn add @cosmoskit/fin
 ```
 
 ## import the wallets
 
 ```js
-import { wallets as trust } from "@cosmos-kit/trust";
+import { wallets as fin } from "@cosmos-kit/fin";
 ```
 
 ## add to your provider
@@ -32,7 +31,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...trust]}
+        wallets={[...fin]}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />

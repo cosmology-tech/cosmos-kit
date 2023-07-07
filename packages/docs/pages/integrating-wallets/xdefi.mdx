@@ -28,17 +28,14 @@ import { wallets as xdefi } from "@cosmos-kit/xdefi";
 ```js
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...xdefi]}
-        wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
       </ChainProvider>
-    </ChakraProvider>
   );
 }
 

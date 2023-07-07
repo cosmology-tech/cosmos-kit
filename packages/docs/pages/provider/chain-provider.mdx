@@ -87,9 +87,9 @@ Required property of type `MainWalletBase[]`
 It defines supported wallets. There are several wallets out of box.
 
 ```ts
-import { wallets as keplrWallet } from '@cosmos-kit/keplr';
-import { wallets as cosmostationWallets } from '@cosmos-kit/cosmostation';
-import { wallets as leapwallets } from '@cosmos-kit/leap';
+import { wallets as keplrWallet } from "@cosmos-kit/keplr";
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { wallets as leapwallets } from "@cosmos-kit/leap";
 ```
 
 If you don't like the default wallet settings such as icon, app name (they would be displayed on default modal), you can choose to provide your own settings by importing wallets like this.
@@ -316,7 +316,7 @@ const sessionOptions: SessionOptions = {
   duration: 1800000, // half an hour
   callback: () => {
     this.mainWallets.forEach((w) => w.disconnectAll(false));
-    window?.localStorage.removeItem('cosmos-kit@1:core//accounts');
+    window?.localStorage.removeItem("cosmos-kit@1:core//accounts");
   },
 };
 ```
@@ -410,15 +410,15 @@ type ModalViewImplGetter = (
 ) => ModalViewImpl;
 
 type ModalViews = {
-    Connecting?: (props: WalletViewProps) => ModalViewImplGetter;
-    Connected?: (props: WalletViewProps) => ModalViewImplGetter;
-    Error?: (props: WalletViewProps) => ModalViewImplGetter;
-    NotExist?: (props: WalletViewProps) => ModalViewImplGetter;
-    Rejected?: (props: WalletViewProps) => ModalViewImplGetter;
-    QRCode?: (props: WalletViewProps) => ModalViewImplGetter;
+  Connecting?: (props: WalletViewProps) => ModalViewImplGetter;
+  Connected?: (props: WalletViewProps) => ModalViewImplGetter;
+  Error?: (props: WalletViewProps) => ModalViewImplGetter;
+  NotExist?: (props: WalletViewProps) => ModalViewImplGetter;
+  Rejected?: (props: WalletViewProps) => ModalViewImplGetter;
+  QRCode?: (props: WalletViewProps) => ModalViewImplGetter;
 } & {
-    WalletList?: (props: WalletListViewProps) => JSX.Element;
-}
+  WalletList?: (props: WalletListViewProps) => JSX.Element;
+};
 
 export interface WalletViewProps {
   onClose: () => void;
@@ -431,6 +431,7 @@ export interface WalletListViewProps {
   wallets: ChainWalletBase[];
 }
 ```
+
 #### customize modal with `modalViews`
 
 Example of using self-defined modal views.
@@ -471,12 +472,6 @@ function CosmosApp() {
   );
 }
 ```
-
-### modalTheme
-
-Optional property. It will overwrite default theme applied in `DefaultModal`.
-
-You can import `DefaultTheme` object from `@cosmos-kit/react`. Since we are using `Chakra` for modal UI, please refer to [`Chakra Theme Page`](https://chakra-ui.com/docs/styled-system/customize-theme) for more information customizing modal theme.
 
 ### includeAllWalletsOnMobile
 

@@ -28,17 +28,14 @@ import { wallets as shell } from "@cosmos-kit/shell";
 ```js
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...shell]}
-        wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
       </ChainProvider>
-    </ChakraProvider>
   );
 }
 

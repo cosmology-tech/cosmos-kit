@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { defaultTheme, ChainProvider } from "@cosmos-kit/react";
+import { ChainProvider } from "@cosmos-kit/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { assets, chains } from "chain-registry";
 import { wallets as cosmostation } from "@cosmos-kit/cosmostation";
@@ -18,7 +18,7 @@ import React from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
+    <ChakraProvider>
       <ChainProvider
         chains={chains}
         assetLists={assets}
@@ -34,7 +34,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...frontier,
           ...exodus,
         ]}
-        wrappedWithChakra={true}
         walletConnectOptions={{
           signClient: {
             projectId: "61e6745dc9a852e0ed9ba60d28212357",

@@ -21,7 +21,7 @@ yarn add @cosmoskit/keplr
 ## import the wallets
 
 ```js
-import { wallets as keplr } from '@cosmos-kit/keplr';
+import { wallets as keplr } from "@cosmos-kit/keplr";
 ```
 
 ## add to your provider
@@ -29,17 +29,14 @@ import { wallets as keplr } from '@cosmos-kit/keplr';
 ```js
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...keplr]}
-        wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
       </ChainProvider>
-    </ChakraProvider>
   );
 }
 

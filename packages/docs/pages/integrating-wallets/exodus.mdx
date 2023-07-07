@@ -20,7 +20,7 @@ yarn add @cosmoskit/exodus
 ## import the wallets
 
 ```js
-import { wallets as exodus } from '@cosmos-kit/exodus';
+import { wallets as exodus } from "@cosmos-kit/exodus";
 ```
 
 ## add to your provider
@@ -28,20 +28,16 @@ import { wallets as exodus } from '@cosmos-kit/exodus';
 ```js
 function MyCosmosApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={defaultTheme}>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[...exodus]}
-        wrappedWithChakra={true}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
       </ChainProvider>
-    </ChakraProvider>
   );
 }
 
 export default MyCosmosApp;
 ```
-
