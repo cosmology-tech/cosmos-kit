@@ -1,0 +1,1 @@
+export { wallets } from './wallets';

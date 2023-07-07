@@ -1336,7 +1336,7 @@
 
 "@chain-registry/types@^0.16.0":
   version "0.16.0"
-  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.16.0.tgz#f76409186899a976d33693d7f458c33d71a66730"
+  resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.16.0.tgz#f76409186899a976d33693d7f458c33d71a66730"
   integrity sha512-4j6vq2Vqn/nF+UBjvRPUVs6eM3+5rJ+dPmEWpd/OoNH3wTy1k6aoilcSTZRR//vGcI5EOVGsxhhJxUzo2qqweA==
   dependencies:
     "@babel/runtime" "^7.21.0"
@@ -3348,6 +3348,11 @@
     react "18.2.0"
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
+
+"@cosmos-kit/shell@^0.2.5":
+  version "0.2.4"
+  dependencies:
+    "@cosmos-kit/shell-extension" "^0.2.4"
 
 "@cosmostation/extension-client@0.1.11":
   version "0.1.11"
@@ -6603,6 +6608,7 @@
     tslib "1.14.1"
 
 "@walletconnect/types-v1@npm:@walletconnect/types@1.8.0", "@walletconnect/types@^1.8.0":
+  name "@walletconnect/types-v1"
   version "1.8.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-1.8.0.tgz#3f5e85b2d6b149337f727ab8a71b8471d8d9a195"
   integrity sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==
@@ -8077,7 +8083,7 @@ chain-registry@1.4.0:
     "@babel/runtime" "^7.19.4"
     "@chain-registry/types" "^0.13.1"
 
-chain-registry@^1.10.0, chain-registry@^1.14.0, chain-registry@^1.5.0:
+chain-registry@^1.10.0, chain-registry@^1.14.0, chain-registry@^1.15.0, chain-registry@^1.5.0:
   version "1.15.0"
   resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.15.0.tgz#60df8a9aa9d613d7a87a9c6416287afd5b4e7d36"
   integrity sha512-nzmAGf6z4LDCkDrU/aQ/0itU74gWH6Gyc3wraVaw7E6cY3qWRAqJa+TG1QUL0fZOY1n25T2speFwlZoUWuHboQ==
