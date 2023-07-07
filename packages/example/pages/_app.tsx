@@ -13,7 +13,6 @@ import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
-s;
 import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 // import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 // import { wallets as shellWallets } from "@cosmos-kit/shell";
@@ -23,7 +22,6 @@ import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 // import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 // import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
-
 import { RootLayout } from "components/layout";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
