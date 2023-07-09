@@ -22,7 +22,7 @@ import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 // import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
 // import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
-// import { wallets as finWallets } from "@cosmos-kit/fin";
+import { wallets as finWallets } from "@cosmos-kit/fin";
 import { RootLayout } from "components/layout";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";

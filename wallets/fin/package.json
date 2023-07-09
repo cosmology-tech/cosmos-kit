@@ -81,7 +81,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@cosmos-kit/fin-extension": "^0.1.1"
+    "@cosmos-kit/fin-extension": "^2.0.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

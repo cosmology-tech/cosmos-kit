@@ -45,6 +45,9 @@ export class Web3AuthWallet extends MainWalletBase {
 
     this.initingClient();
     try {
+      if (typeof this.env === 'undefined') {
+        throw new Error('Undefined env.');
+      }
       this.initClientDone(new Web3AuthClient(this.env, options));
 
       // Force connect to this wallet if the redirect auto connect key is set

@@ -68,7 +68,7 @@ const sendTokens = (
   };
 };
 
-export default function Home() {
+export default function () {
   const [cosmo_getAccount, setCosmo_getAccount] = useState<
     string | undefined
   >();

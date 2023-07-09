@@ -41,7 +41,6 @@
     "cosmjs-utils": "0.1.0",
     "juno-network": "0.9.0",
     "next": "12.3.4",
-    "next-transpile-modules": "^10.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "4.7.1",
