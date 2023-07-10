@@ -21,8 +21,6 @@ export function stringTruncateFromdiv(str: string, maxLength: number) {
 export const ConnectedShowAddress = ({
   address,
   walletIcon,
-  isLoading,
-  isRound,
   size = "md",
   maxDisplayLength,
 }: CopyAddressType) => {

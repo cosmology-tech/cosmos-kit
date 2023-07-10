@@ -129,7 +129,9 @@ export function WalletModal({
     qrState,
     walletStatus,
     walletRepo,
+    wallets,
     message,
+    initialFocus,
     qrMsg,
   ]);
 
