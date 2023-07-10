@@ -46,6 +46,8 @@ export const ConnectedShowAddress = ({
       );
   }, [address]);
 
+  if (!address) return null;
+
   return (
     <Badge variant="outline">
       {address && walletIcon && (
@@ -53,7 +55,7 @@ export const ConnectedShowAddress = ({
           <img alt={displayAddress} src={walletIcon} width={50} />
         </div>
       )}
-      <p className="leading-7 [&:not(:first-child)]:mt-6">{address}</p>
+      <p className="leading-7 [&:not(:first-child)]:mt-6">{displayAddress}</p>
     </Badge>
   );
 };
