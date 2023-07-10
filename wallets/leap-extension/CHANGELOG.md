@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@0.17.2...@cosmos-kit/leap-extension@0.18.0) (2023-07-10)
+
+
+### Features
+
+* add leap mobile webview support ([14b0d45](https://github.com/cosmology-tech/cosmos-kit/commit/14b0d45d88a809d2b95f45d56b5c745418e1dd21))
+
+
+
+
+
 ## [0.17.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@0.17.1...@cosmos-kit/leap-extension@0.17.2) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/leap-extension

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/compass@0.1.7...@cosmos-kit/compass@0.1.8) (2023-07-10)
+
+**Note:** Version bump only for package @cosmos-kit/compass
+
+
+
+
+
 ## [0.1.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/compass@0.1.6...@cosmos-kit/compass@0.1.7) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/compass

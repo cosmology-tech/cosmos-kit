@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.19](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.3.18...@cosmos-kit/walletconnect@0.3.19) (2023-07-10)
+
+**Note:** Version bump only for package @cosmos-kit/walletconnect
+
+
+
+
+
 ## [0.3.18](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/walletconnect@0.3.17...@cosmos-kit/walletconnect@0.3.18) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/walletconnect
