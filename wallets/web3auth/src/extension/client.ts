@@ -75,7 +75,20 @@ export class Web3AuthClient implements WalletClient {
       .toString('hex');
 
     // Spawn a new worker that will handle the private key and signing.
-    const worker = new Worker(new URL('./web3auth.worker.js', import.meta.url));
+    const worker = new Worker(
+      new URL(
+        // Gets packaged into `dist/index` file, so need to access `extension`
+        // subdirectory where `web3auth.worker.*` ends up.
+        `./extension/web3auth.worker.${
+          // CommonJS
+          typeof module !== 'undefined' && typeof exports !== 'undefined'
+            ? ''
+            : // ESM
+              'm'
+        }js`,
+        import.meta.url
+      )
+    );
 
     // Begin two-step handshake to authenticate with the worker and exchange
     // communication public keys as well as the wallet private key.

@@ -26,31 +26,32 @@ import { wallets as finWallets } from "@cosmos-kit/fin";
 import { RootLayout } from "components/layout";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
+import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // const web3AuthWallets = useMemo(
-  //   () =>
-  //     makeWeb3AuthWallets({
-  //       loginMethods: [
-  //         {
-  //           provider: "google",
-  //           name: "Google",
-  //           logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-  //         },
-  //       ],
-  //       client: {
-  //         clientId: "localhostid",
-  //         web3AuthNetwork: "testnet",
-  //         chainConfig: {
-  //           chainNamespace: "other",
-  //         },
-  //       },
-  //       promptSign: async (...args) =>
-  //         // eslint-disable-next-line no-alert
-  //         confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
-  //     }),
-  //   []
-  // );
+  const web3AuthWallets = useMemo(
+    () =>
+      makeWeb3AuthWallets({
+        loginMethods: [
+          {
+            provider: "google",
+            name: "Google",
+            logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+          },
+        ],
+        client: {
+          clientId: "localhostid",
+          web3AuthNetwork: "testnet",
+          chainConfig: {
+            chainNamespace: "other",
+          },
+        },
+        promptSign: async (...args) =>
+          // eslint-disable-next-line no-alert
+          confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
+      }),
+    []
+  );
 
   return (
     <RootLayout>
@@ -75,7 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...ExtensionWallets,
           // ...coin98Wallets,
           ...finWallets,
-          // ...web3AuthWallets,
+          ...web3AuthWallets,
         ]}
         throwErrors={false}
         defaultNameService={"stargaze"}
