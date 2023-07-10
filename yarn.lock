@@ -5464,9 +5464,9 @@
   dependencies:
     tslib "1.14.1"
 
-"@walletconnect/sign-client@^2.7.2":
+"@walletconnect/sign-client@^2.9.0":
   version "2.9.0"
-  resolved "https://registry.npmjs.org/@walletconnect/sign-client/-/sign-client-2.9.0.tgz#fd3b0acb68bc8d56350f01ed70f8c6326e6e89fa"
+  resolved "https://registry.yarnpkg.com/@walletconnect/sign-client/-/sign-client-2.9.0.tgz#fd3b0acb68bc8d56350f01ed70f8c6326e6e89fa"
   integrity sha512-mEKc4LlLMebCe45qzqh+MX4ilQK4kOEBzLY6YJpG8EhyT45eX4JMNA7qQoYa9MRMaaVb/7USJcc4e3ZrjZvQmA==
   dependencies:
     "@walletconnect/core" "2.9.0"
@@ -5498,7 +5498,7 @@
     "@walletconnect/logger" "^2.0.1"
     events "^3.3.0"
 
-"@walletconnect/types@2.9.0", "@walletconnect/types@^2.5.2", "@walletconnect/types@^2.7.2":
+"@walletconnect/types@2.9.0", "@walletconnect/types@^2.5.2", "@walletconnect/types@^2.9.0":
   version "2.9.0"
   resolved "https://registry.npmjs.org/@walletconnect/types/-/types-2.9.0.tgz#6e5dfdc7212c1ec4ab49a1ec409c743e16093f72"
   integrity sha512-ORopsMfSRvUYqtjKKd6scfg8o4/aGebipLxx92AuuUgMTERSU6cGmIrK6rdLu7W6FBJkmngPLEGc9mRqAb9Lug==
@@ -5510,7 +5510,7 @@
     "@walletconnect/logger" "^2.0.1"
     events "^3.3.0"
 
-"@walletconnect/utils@2.9.0", "@walletconnect/utils@^2.5.2", "@walletconnect/utils@^2.7.2":
+"@walletconnect/utils@2.9.0", "@walletconnect/utils@^2.5.2", "@walletconnect/utils@^2.9.0":
   version "2.9.0"
   resolved "https://registry.npmjs.org/@walletconnect/utils/-/utils-2.9.0.tgz#c73925edb9fefe79021bcf028e957028f986b728"
   integrity sha512-7Tu3m6dZL84KofrNBcblsgpSqU2vdo9ImLD7zWimLXERVGNQ8smXG+gmhQYblebIBhsPzjy9N38YMC3nPlfQNw==
