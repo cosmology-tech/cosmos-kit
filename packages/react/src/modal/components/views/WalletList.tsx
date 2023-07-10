@@ -2,7 +2,7 @@ import {
   ConnectModalHead,
   ConnectModalWalletList,
   ConnectModalWalletListProps,
-} from '@cosmology-ui/react';
+} from '@interchain-ui/react';
 import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getWalletProp } from './config';

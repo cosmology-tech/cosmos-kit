@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-imports */
 import "../style/global.css";
-import "@cosmology-ui/react/styles";
+import "@interchain-ui/react/styles";
 
 import { Chain } from "@chain-registry/types";
 import { Decimal } from "@cosmjs/math";
