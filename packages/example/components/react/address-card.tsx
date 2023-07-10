@@ -1,4 +1,5 @@
 import { WalletStatus } from "@cosmos-kit/core";
+import { Badge } from "components/badge";
 import React, { ReactNode, useEffect, useState } from "react";
 
 import { CopyAddressType } from "../types";
@@ -46,14 +47,14 @@ export const ConnectedShowAddress = ({
   }, [address]);
 
   return (
-    <button>
+    <Badge variant="outline">
       {address && walletIcon && (
         <div>
           <img alt={displayAddress} src={walletIcon} width={50} />
         </div>
       )}
-      <span>{displayAddress}</span>
-    </button>
+      <p className="leading-7 [&:not(:first-child)]:mt-6">{address}</p>
+    </Badge>
   );
 };
 

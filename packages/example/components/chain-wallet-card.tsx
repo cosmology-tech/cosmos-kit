@@ -21,7 +21,7 @@ export const ChainWalletCard = ({
   if (type === "address-in-modal") {
     return (
       <div className="flex space-x-4">
-        <Badge variant="secondary">
+        <Badge variant="default">
           <p className="leading-7 [&:not(:first-child)]:mt-6">
             {chain.pretty_name}
           </p>
@@ -31,25 +31,29 @@ export const ChainWalletCard = ({
             <p className="leading-7 [&:not(:first-child)]:mt-6">{address}</p>
           </Badge>
         )}
-        <Button onClick={() => openView()}>View address</Button>
+        <Button disabled={status === "Connecting"} onClick={() => openView()}>
+          {status === "Connecting" ? "Connecting..." : "View address"}
+        </Button>
       </div>
     );
   }
 
   if (type === "address-on-page") {
-    <div className="flex space-x-10">
-      <Badge variant="outline">
-        <p className="leading-7 [&:not(:first-child)]:mt-6">
-          {chain.pretty_name}
-        </p>
-      </Badge>
-      <ConnectedShowAddress
-        address={address}
-        isLoading={status === "Connecting"}
-        isRound={true}
-        size={"sm"}
-      />
-    </div>;
+    return (
+      <div className="flex space-x-10">
+        <Badge variant="default">
+          <p className="leading-7 [&:not(:first-child)]:mt-6">
+            {chain.pretty_name}
+          </p>
+        </Badge>
+        <ConnectedShowAddress
+          address={address}
+          isLoading={status === "Connecting"}
+          isRound={true}
+          size={"sm"}
+        />
+      </div>
+    );
   }
 
   return null;
