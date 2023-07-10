@@ -1,11 +1,12 @@
 import { ChainContext, ChainName } from '@cosmos-kit/core';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { walletContext } from '../provider';
 import { getChainWalletContext } from '../utils';
 
 export const useChain = (chainName: ChainName, sync = true): ChainContext => {
   const context = useContext(walletContext);
+  const [_, forceRender] = useState(0);
 
   if (!context) {
     throw new Error('You have forgot to use ChainProvider.');
@@ -41,6 +42,11 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     sync
   );
 
+  useEffect(() => {
+    forceRender((i) => i + 1);
+  }, [chainWalletContext.address]);
+
+  console.log('@useChain address', chainWalletContext.address);
   return {
     ...chainWalletContext,
     walletRepo,

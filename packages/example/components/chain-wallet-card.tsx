@@ -13,7 +13,8 @@ export const ChainWalletCard = ({
   chainName: ChainName;
   type: "address-in-modal" | "address-on-page";
 }) => {
-  const { chain, status, address, openView } = useChain(chainName);
+  const { chain, status, address, openView, chainWallet, walletRepo } =
+    useChain(chainName);
   const isClient = useIsClient();
 
   if (!isClient) return null;
@@ -34,19 +35,22 @@ export const ChainWalletCard = ({
   }
 
   if (type === "address-on-page") {
+    console.log("address on page", { address, chainWallet, walletRepo });
     return (
-      <div className="flex space-x-10">
+      <div className="flex space-x-4">
         <Badge variant="default">
           <p className="leading-7 [&:not(:first-child)]:mt-6">
             {chain.pretty_name}
           </p>
         </Badge>
-        <ConnectedShowAddress
-          address={address}
-          isLoading={status === "Connecting"}
-          isRound={true}
-          size={"sm"}
-        />
+        {address && (
+          <ConnectedShowAddress
+            address={address}
+            isLoading={status === "Connecting"}
+            isRound={true}
+            size={"sm"}
+          />
+        )}
       </div>
     );
   }

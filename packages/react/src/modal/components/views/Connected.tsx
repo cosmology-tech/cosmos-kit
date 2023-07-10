@@ -11,7 +11,9 @@ export function ConnectedView({
 }: WalletViewProps): ModalViewImpl {
   const { walletInfo, username, address } = wallet;
 
-  const onDisconnect = () => wallet.disconnect(true);
+  const onDisconnect = async () => {
+    await wallet.disconnect(true);
+  };
 
   const modalHead = (
     <ConnectModalHead
@@ -27,7 +29,7 @@ export function ConnectedView({
       wallet={getWalletProp(walletInfo)}
       status="Connected"
       connectedInfo={{
-        name: username,
+        name: username ?? 'Wallet',
         avatar: (
           <AstronautSvg
             style={{
