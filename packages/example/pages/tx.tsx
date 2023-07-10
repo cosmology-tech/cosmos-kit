@@ -147,7 +147,7 @@ export default function () {
   };
 
   return (
-    <Card className="min-w-[350px] max-w-[800px] mt-20 mx-auto p-10">
+    <Card className="min-w-[350px] max-w-[1700px] mt-20 mx-auto p-10">
       <CardHeader>
         <CardTitle>
           <p className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
@@ -155,28 +155,30 @@ export default function () {
           </p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-5">
-        <ChainsTXWalletSection chainName={chainName} />
+      <CardContent className="space-y-5 divide-y">
+        <div>
+          <ChainsTXWalletSection chainName={chainName} />
 
-        <SendTokensdiv
-          isConnectWallet={status === "Connected"}
-          balance={balance.toNumber()}
-          isFetchingBalance={isFetchingBalance}
-          response={resp}
-          sendTokensbuttonText="Send Tokens"
-          handleClickSendTokens={sendTokens(
-            getSigningStargateClient as () => Promise<SigningStargateClient>,
-            setResp as () => any,
-            address as string
-          )}
-          handleClickGetBalance={() => {
-            setFetchingBalance(true);
-            getBalance();
-          }}
-        />
+          <SendTokensdiv
+            isConnectWallet={status === "Connected"}
+            balance={balance.toNumber()}
+            isFetchingBalance={isFetchingBalance}
+            response={resp}
+            sendTokensbuttonText="Send Tokens"
+            handleClickSendTokens={sendTokens(
+              getSigningStargateClient as () => Promise<SigningStargateClient>,
+              setResp as () => any,
+              address as string
+            )}
+            handleClickGetBalance={() => {
+              setFetchingBalance(true);
+              getBalance();
+            }}
+          />
+        </div>
 
-        <div className="flex flex-col space-y-4">
-          <div>
+        <div className="flex space-x-4 py-4">
+          <div className="w-[180px]">
             <Button
               variant="default"
               onClick={async () => {
@@ -188,17 +190,15 @@ export default function () {
             </Button>
           </div>
 
-          {cosmo_getAccount && (
-            <Card>
-              <CardContent>
-                <pre>{prettifyJson(cosmo_getAccount)}</pre>
-              </CardContent>
-            </Card>
-          )}
+          <Card className="flex-1">
+            <CardContent className="p-4 min-w-[200px] min-h-[200px]">
+              <pre>{prettifyJson(cosmo_getAccount ?? "{}")}</pre>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="flex flex-col space-y-4">
-          <div>
+        <div className="flex space-x-4 py-4">
+          <div className="w-[180px]">
             <Button
               variant="default"
               onClick={async () => {
@@ -216,13 +216,11 @@ export default function () {
             </Button>
           </div>
 
-          {cosmos_signAmino && (
-            <Card>
-              <CardContent>
-                <pre>{prettifyJson(cosmos_signAmino)}</pre>
-              </CardContent>
-            </Card>
-          )}
+          <Card className="flex-1">
+            <CardContent className="p-4 min-w-[200px] min-h-[200px]">
+              <pre>{prettifyJson(cosmos_signAmino ?? "{}")}</pre>
+            </CardContent>
+          </Card>
         </div>
       </CardContent>
     </Card>
