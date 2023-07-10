@@ -26,11 +26,6 @@ export const ChainWalletCard = ({
             {chain.pretty_name}
           </p>
         </Badge>
-        {address && (
-          <Badge variant="outline">
-            <p className="leading-7 [&:not(:first-child)]:mt-6">{address}</p>
-          </Badge>
-        )}
         <Button disabled={status === "Connecting"} onClick={() => openView()}>
           {status === "Connecting" ? "Connecting..." : "View address"}
         </Button>

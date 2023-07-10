@@ -26,7 +26,10 @@ export const ConnectedShowAddress = ({
   size = "md",
   maxDisplayLength,
 }: CopyAddressType) => {
-  const [displayAddress, setDisplayAddress] = useState("");
+  const [displayAddress, setDisplayAddress] = useState(
+    "address not available yet"
+  );
+
   const defaultMaxLength = {
     lg: 14,
     md: 16,
@@ -34,16 +37,18 @@ export const ConnectedShowAddress = ({
   };
 
   useEffect(() => {
-    if (!address) setDisplayAddress("address not identified yet");
-    if (address && maxDisplayLength)
+    if (!address) {
+      setDisplayAddress("address not available yet");
+    } else if (maxDisplayLength) {
       setDisplayAddress(stringTruncateFromdiv(address, maxDisplayLength));
-    if (address && !maxDisplayLength)
+    } else {
       setDisplayAddress(
         stringTruncateFromdiv(
           address,
           defaultMaxLength[size as keyof typeof defaultMaxLength]
         )
       );
+    }
   }, [address]);
 
   if (!address) return null;
