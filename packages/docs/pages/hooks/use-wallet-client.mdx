@@ -3,9 +3,9 @@
 - required provider: [**ChainProvider**](https://docs.cosmoskit.com/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite`
 
 - parameters:
-    - **walletName?**: `WalletName` ( = `string` );
+  - **walletName?**: `WalletName` ( = `string` );
 
-> if `walletName` is `undefined`, using `currentWallet` instead. See LocalStorage key `cosmos-kit@1:core//current-wallet`
+> if `walletName` is `undefined`, using `currentWallet` instead. See LocalStorage key `cosmos-kit@2:core//current-wallet`
 
 - return type: [**WalletClientContext**](#type---walletclientcontext)
 
@@ -13,12 +13,11 @@
 
 ### Properties
 
-| Name      | Description | Type | Default |
-| ----------- | ----------- | -- | -- |
-| **client**   | wallet client     | `WalletClient \| undefined` | `undefined` |
-| **status**   | wallet client status     | `State` | `State.Init` |
-| **message**   | error message if wallet client is undefined    | `string \| undefined` | `undefined` |
-
+| Name        | Description                                 | Type                        | Default      |
+| ----------- | ------------------------------------------- | --------------------------- | ------------ |
+| **client**  | wallet client                               | `WalletClient \| undefined` | `undefined`  |
+| **status**  | wallet client status                        | `State`                     | `State.Init` |
+| **message** | error message if wallet client is undefined | `string \| undefined`       | `undefined`  |
 
 ## Examples
 

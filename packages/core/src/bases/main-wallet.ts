@@ -162,7 +162,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.setState(State.Done);
     this.activate();
     window?.localStorage.setItem(
-      'cosmos-kit@1:core//current-wallet',
+      'cosmos-kit@2:core//current-wallet',
       this.walletName
     );
   }

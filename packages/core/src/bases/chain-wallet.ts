@@ -121,7 +121,7 @@ export class ChainWalletBase extends WalletBase {
     this._mutable.data = data;
     this.actions?.data?.(data);
     const accountsStr = window.localStorage.getItem(
-      'cosmos-kit@1:core//accounts'
+      'cosmos-kit@2:core//accounts'
     );
     let accounts: SimpleAccount[] = accountsStr ? JSON.parse(accountsStr) : [];
     if (typeof data === 'undefined') {
@@ -136,7 +136,7 @@ export class ChainWalletBase extends WalletBase {
     }
 
     window?.localStorage.setItem(
-      'cosmos-kit@1:core//accounts',
+      'cosmos-kit@2:core//accounts',
       JSON.stringify(accounts)
     );
     this.session?.update();
@@ -185,7 +185,7 @@ export class ChainWalletBase extends WalletBase {
     }
     if (!this.isWalletRejected) {
       window?.localStorage.setItem(
-        'cosmos-kit@1:core//current-wallet',
+        'cosmos-kit@2:core//current-wallet',
         this.walletName
       );
     }

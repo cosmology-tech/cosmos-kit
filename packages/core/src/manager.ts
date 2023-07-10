@@ -60,7 +60,7 @@ export class WalletManager extends StateBase {
       duration: 1800000,
       callback: () => {
         this.mainWallets.forEach((w) => w.disconnectAll(false));
-        window?.localStorage.removeItem('cosmos-kit@1:core//accounts');
+        window?.localStorage.removeItem('cosmos-kit@2:core//accounts');
       },
       ...sessionOptions,
     });
@@ -124,7 +124,7 @@ export class WalletManager extends StateBase {
     this.repelWallet = value;
     this.walletRepos.forEach((repo) => (repo.repelWallet = value));
     window?.localStorage.setItem(
-      'cosmos-kit@1:core//repel-wallet',
+      'cosmos-kit@2:core//repel-wallet',
       value.toString()
     );
   }
@@ -290,7 +290,7 @@ export class WalletManager extends StateBase {
     this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
     this.coreEmitter.emit('refresh_connection');
     const walletName = window.localStorage.getItem(
-      'cosmos-kit@1:core//current-wallet'
+      'cosmos-kit@2:core//current-wallet'
     );
     if (walletName) {
       await this.getMainWallet(walletName).connect();
@@ -302,10 +302,10 @@ export class WalletManager extends StateBase {
 
   private _restoreAccounts = async () => {
     const walletName = window.localStorage.getItem(
-      'cosmos-kit@1:core//current-wallet'
+      'cosmos-kit@2:core//current-wallet'
     );
     const accountsStr = window.localStorage.getItem(
-      'cosmos-kit@1:core//accounts'
+      'cosmos-kit@2:core//accounts'
     );
     if (walletName) {
       const mainWallet = this.getMainWallet(walletName);

@@ -316,7 +316,7 @@ const sessionOptions: SessionOptions = {
   duration: 1800000, // half an hour
   callback: () => {
     this.mainWallets.forEach((w) => w.disconnectAll(false));
-    window?.localStorage.removeItem("cosmos-kit@1:core//accounts");
+    window?.localStorage.removeItem("cosmos-kit@2:core//accounts");
   },
 };
 ```
