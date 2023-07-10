@@ -28,14 +28,12 @@ export function WalletModal({
 
   const current = walletRepo?.current;
 
-  useEffect(() => {
-    (current?.client as any)?.setActions?.({
-      qrUrl: {
-        state: setQRState,
-        message: setQRMsg,
-      },
-    });
-  }, [walletRepo]);
+  (current?.client as any)?.setActions?.({
+    qrUrl: {
+      state: setQRState,
+      message: setQRMsg,
+    },
+  });
 
   const walletStatus = current?.walletStatus;
   const message = current?.message;
@@ -90,7 +88,12 @@ export function WalletModal({
   const wallets = useMemo(
     () =>
       walletRepo?.isMobile && !includeAllWalletsOnMobile
-        ? walletRepo?.wallets.filter((w) => !w.walletInfo.mobileDisabled)
+        ? walletRepo?.wallets.filter((w) =>
+            typeof w.walletInfo.mobileDisabled === 'boolean'
+              ? !w.walletInfo.mobileDisabled
+              : // @ts-expect-error fix
+                !w.walletInfo.mobileDisabled()
+          )
         : walletRepo?.wallets,
     [walletRepo, includeAllWalletsOnMobile]
   );
