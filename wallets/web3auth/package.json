@@ -21,11 +21,13 @@
       "src/**/*.ts"
     ],
     "format": [
+      "cjs",
       "esm"
     ],
     "splitting": false,
     "sourcemap": true,
-    "skipNodeModulesBundle": true
+    "skipNodeModulesBundle": true,
+    "shims": true
   },
   "directories": {
     "lib": "src",
