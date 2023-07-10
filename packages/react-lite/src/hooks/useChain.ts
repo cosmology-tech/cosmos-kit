@@ -46,7 +46,6 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     forceRender((i) => i + 1);
   }, [chainWalletContext.address]);
 
-  console.log('@useChain address', chainWalletContext.address);
   return {
     ...chainWalletContext,
     walletRepo,
