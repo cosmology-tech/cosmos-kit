@@ -8,7 +8,11 @@ import { assets } from "chain-registry";
 import { cosmos } from "juno-network";
 import { useState } from "react";
 
-import { ChainsTXWalletSection, SendTokensdiv } from "../components";
+import { Button } from "components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "components/card";
+
+import { ChainsTXWalletSection } from "../components/chains-tx-wallet";
+import { SendTokensdiv } from "../components/react/send-tokens-card";
 import { ExtendedHttpEndpoint } from "@cosmos-kit/core";
 
 const chainName = "cosmoshub";
@@ -143,10 +147,17 @@ export default function () {
   };
 
   return (
-    <div>
-      <ChainsTXWalletSection chainName={chainName} />
+    <Card className="min-w-[350px] max-w-[800px] mt-20 mx-auto p-10">
+      <CardHeader>
+        <CardTitle>
+          <p className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+            Tx test
+          </p>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <ChainsTXWalletSection chainName={chainName} />
 
-      <div>
         <SendTokensdiv
           isConnectWallet={status === "Connected"}
           balance={balance.toNumber()}
@@ -163,47 +174,61 @@ export default function () {
             getBalance();
           }}
         />
-        <div>
-          <button
-            onClick={async () => {
-              const r = await (client as any).getAccount("cosmoshub-4");
-              setCosmo_getAccount(JSON.stringify(r));
-            }}
-          >
-            cosmos_getAccounts
-          </button>
+
+        <div className="flex flex-col space-y-4">
+          <div>
+            <Button
+              variant="default"
+              onClick={async () => {
+                const r = await (client as any).getAccount("cosmoshub-4");
+                setCosmo_getAccount(JSON.stringify(r));
+              }}
+            >
+              cosmos_getAccounts
+            </Button>
+          </div>
+
           {cosmo_getAccount && (
-            <div>
-              <div>
-                <span>{cosmo_getAccount}</span>
-              </div>
-            </div>
+            <Card>
+              <CardContent>
+                <pre>{prettifyJson(cosmo_getAccount)}</pre>
+              </CardContent>
+            </Card>
           )}
         </div>
-        <div>
-          <button
-            onClick={async () => {
-              if (address) {
-                const r = await client?.signAmino?.(
-                  "cosmoshub-4",
-                  address,
-                  aminoSignDoc
-                );
-                setCosmos_signAmino(JSON.stringify(r));
-              }
-            }}
-          >
-            cosmos_signAmino
-          </button>
+
+        <div className="flex flex-col space-y-4">
+          <div>
+            <Button
+              variant="default"
+              onClick={async () => {
+                if (address) {
+                  const r = await client?.signAmino?.(
+                    "cosmoshub-4",
+                    address,
+                    aminoSignDoc
+                  );
+                  setCosmos_signAmino(JSON.stringify(r));
+                }
+              }}
+            >
+              cosmos_signAmino
+            </Button>
+          </div>
+
           {cosmos_signAmino && (
-            <div>
-              <div>
-                <span>{cosmos_signAmino}</span>
-              </div>
-            </div>
+            <Card>
+              <CardContent>
+                <pre>{prettifyJson(cosmos_signAmino)}</pre>
+              </CardContent>
+            </Card>
           )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
+}
+
+function prettifyJson(jsonString: string) {
+  return JSON.stringify(JSON.parse(jsonString), null, 2);
 }

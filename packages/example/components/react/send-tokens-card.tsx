@@ -1,5 +1,9 @@
 import React from "react";
 
+import { Badge } from "components/badge";
+import { Button } from "components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "components/card";
+
 export const SendTokensdiv = ({
   balance,
   response,
@@ -28,27 +32,32 @@ export const SendTokensdiv = ({
   }
   return (
     <div>
-      <div>
-        <span>
+      <div className="flex space-x-4">
+        <Badge variant="outline" className="min-w-[150px]">
           Balance:&ensp;
           <span>{balance}</span>
-        </span>
-        <button onClick={handleClickGetBalance}>
+        </Badge>
+        <Button size="sm" variant="default" onClick={handleClickGetBalance}>
           {getBalancebuttonText || "Fetch Balance"}
-        </button>
-      </div>
-      <div>
-        <button onClick={handleClickSendTokens}>
+        </Button>
+        <Button size="sm" variant="default" onClick={handleClickSendTokens}>
           {sendTokensbuttonText || "Send Tokens (to self)"}
-        </button>
+        </Button>
       </div>
+
       {response && (
-        <div>
-          <span>Result</span>
-          <div>
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              <p className="scroll-m-20 text-md font-extrabold tracking-tight">
+                Result
+              </p>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
             <pre>{response}</pre>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

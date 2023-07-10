@@ -1,6 +1,6 @@
 import { ChainName } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
-import { MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 
 import {
   Astronaut,
@@ -17,13 +17,9 @@ import {
   Rejected,
   RejectedWarn,
   WalletConnectComponent,
-} from ".";
+} from "./react";
 
-export const ChainsTXWalletSection = ({
-  chainName,
-}: {
-  chainName: ChainName;
-}) => {
+export function ChainsTXWalletSection({ chainName }: { chainName: ChainName }) {
   const walletManager = useChain(chainName);
   const {
     chain: { pretty_name },
@@ -82,6 +78,7 @@ export const ChainsTXWalletSection = ({
   const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
+
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={status}
@@ -99,20 +96,16 @@ export const ChainsTXWalletSection = ({
   );
 
   return (
-    <div>
-      <div>
-        <div>
-          <ChainDiv prettyName={pretty_name || chainName} icon={logoUrl} />
-        </div>
-        <div>
-          <div>
-            {userInfo}
-            {addressBtn}
-            <div>{connectWalletbutton}</div>
-            <div>{connectWalletWarn}</div>
-          </div>
-        </div>
+    <div className="space-y-4">
+      <div className="flex space-x-2">
+        <div>{connectWalletbutton}</div>
+        <ChainDiv prettyName={pretty_name || chainName} icon={logoUrl} />
+        {addressBtn}
       </div>
+
+      {userInfo}
+
+      <div>{connectWalletWarn}</div>
     </div>
   );
-};
+}

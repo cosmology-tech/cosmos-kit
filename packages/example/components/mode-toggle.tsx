@@ -37,7 +37,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("dark");
-              setModalTheme("dark");
+              // setModalTheme("dark");
             }}
           >
             Dark
@@ -45,7 +45,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("system");
-              setModalTheme("system");
+              // setModalTheme("system");
             }}
           >
             System
