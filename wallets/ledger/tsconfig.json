@@ -2,8 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": "src",
-    "outDir": "dist"
+    "rootDir": "src"
   },
   "include": ["src/**/*", "web-hid.ts", "we-usb.ts"],
   "exclude": ["node_modules"]

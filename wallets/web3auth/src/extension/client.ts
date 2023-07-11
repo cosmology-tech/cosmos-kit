@@ -86,7 +86,8 @@ export class Web3AuthClient implements WalletClient {
             : // ESM
               'm'
         }js`,
-        import.meta.url
+        // import.meta.url
+        require('url').pathToFileURL(__filename).toString()
       )
     );
 

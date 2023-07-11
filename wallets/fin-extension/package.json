@@ -23,10 +23,9 @@
     "module"
   ],
   "scripts": {
-    "build:main": "cross-env BABEL_ENV=production babel src --out-dir main --delete-dir-on-start --extensions \".tsx,.ts,.js\"",
-    "build:module": "cross-env MODULE=true babel src --out-dir module --delete-dir-on-start  --extensions \".tsx,.ts,.js\"",
-    "build": "npm run build:module && npm run build:main",
-    "build:ts": "tsc --project ./tsconfig.json",
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs",
+    "build:mjs": "yarn tsc -p tsconfig.json --outDir mjs --module es2022 --declaration false",
+    "build": "rm -rf dist && yarn build:cjs && yarn build:mjs && find mjs -type f -name *.js -exec rename -S '.js' '.mjs' {} +  && find mjs -type f -name *.mjs -exec rename -S 'mjs/' 'dist/' {} + && rm -rf mjs",
     "prepare": "npm run build",
     "dev": "cross-env NODE_ENV=development babel-node src/index",
     "lint": "eslint --ext .tsx,.ts .",
@@ -93,7 +92,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.8.0",
-    "@cosmos-kit/core": "^1.5.5"
+    "@cosmos-kit/core": "^2.0.0"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

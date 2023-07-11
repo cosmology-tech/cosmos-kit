@@ -12,7 +12,7 @@ import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
-// import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
+import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 // import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 // import { wallets as shellWallets } from "@cosmos-kit/shell";
 // import { wallets as stationWallets } from "@cosmos-kit/station";
@@ -26,7 +26,7 @@ import { wallets as finWallets } from "@cosmos-kit/fin";
 import { RootLayout } from "components/layout";
 
 import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
-import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
+import { useMemo } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const web3AuthWallets = useMemo(
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           ...omniWallets,
           ...keplrWallets,
-          // ...web3authWallets,
+          ...web3AuthWallets,
           // ...cosmostationWallets,
           // ...exodusWallets,
           // ...shellWallets,
@@ -77,7 +77,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...ExtensionWallets,
           // ...coin98Wallets,
           ...finWallets,
-          ...web3AuthWallets,
         ]}
         throwErrors={false}
         defaultNameService={"stargaze"}

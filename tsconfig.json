@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "declaration": true,
     "esModuleInterop": true,
     "target": "es2022",
