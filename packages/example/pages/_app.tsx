@@ -8,7 +8,6 @@ import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
-import { useMemo } from "react";
 import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
@@ -17,6 +16,7 @@ import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 // import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 // import { wallets as shellWallets } from "@cosmos-kit/shell";
 // import { wallets as stationWallets } from "@cosmos-kit/station";
+import { wallets as omniWallets } from "@cosmos-kit/omni";
 // import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
 // import { wallets as trustWallets } from "@cosmos-kit/trust";
 // import { wallets as vectisWallets } from "@cosmos-kit/vectis";
@@ -58,6 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={[...chains, terra2testnet]}
         assetLists={[...assets, terra2testnetAssets]}
         wallets={[
+          ...omniWallets,
           ...keplrWallets,
           // ...web3authWallets,
           // ...cosmostationWallets,

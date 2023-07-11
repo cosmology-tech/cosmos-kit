@@ -14,7 +14,7 @@ import { useIsClient } from "../hooks";
 // const chainNames_2 = ["stargaze", "chihuahua"];
 
 const chainNames_1 = ["osmosis"];
-const chainNames_2 = ["stargaze"];
+const chainNames_2: string[] = [];
 
 // const chainNames_1 = ["coreum"];
 // const chainNames_2 = [];
