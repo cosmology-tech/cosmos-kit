@@ -1,6 +1,7 @@
 import { WalletStatus } from "@cosmos-kit/core";
 import React, { MouseEventHandler, ReactNode } from "react";
 
+import { Button } from "components/button";
 import { ConnectWalletType } from "../types";
 
 export const ConnectWalletbutton = ({
@@ -13,11 +14,11 @@ export const ConnectWalletbutton = ({
   return (
     <>
       {isLoading ? (
-        <button>Connecting</button>
+        <Button disabled>Connecting...</Button>
       ) : (
-        <button disabled={isDisabled} onClick={onClickConnectBtn}>
+        <Button disabled={isDisabled} onClick={onClickConnectBtn}>
           {buttonText ? buttonText : "Connect Wallet"}
-        </button>
+        </Button>
       )}
     </>
   );

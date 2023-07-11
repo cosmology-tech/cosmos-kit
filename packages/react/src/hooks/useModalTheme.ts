@@ -1,4 +1,4 @@
-import { ModePreference, store } from '@cosmology-ui/react';
+import { ModePreference, store } from '@interchain-ui/react';
 import { useCallback, useMemo } from 'react';
 import { create } from 'zustand';
 import { shallow } from 'zustand/shallow';

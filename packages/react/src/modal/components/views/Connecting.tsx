@@ -1,4 +1,4 @@
-import { ConnectModalHead, ConnectModalStatus } from '@cosmology-ui/react';
+import { ConnectModalHead, ConnectModalStatus } from '@interchain-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
 
 import { ModalViewImpl, getWalletProp } from './config';

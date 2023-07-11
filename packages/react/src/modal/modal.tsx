@@ -1,4 +1,4 @@
-import { ConnectModal, ThemeProvider } from '@cosmology-ui/react';
+import { ConnectModal, ThemeProvider } from '@interchain-ui/react';
 import {
   ModalView,
   State,

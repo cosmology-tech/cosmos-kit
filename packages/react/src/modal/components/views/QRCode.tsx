@@ -2,7 +2,7 @@ import {
   ConnectModalHead,
   ConnectModalQRCode,
   QRCodeStatus,
-} from '@cosmology-ui/react';
+} from '@interchain-ui/react';
 import { ExpiredError, State, WalletViewProps } from '@cosmos-kit/core';
 
 import { ModalViewImpl } from './config';

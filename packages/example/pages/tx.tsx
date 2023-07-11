@@ -8,7 +8,11 @@ import { assets } from "chain-registry";
 import { cosmos } from "juno-network";
 import { useState } from "react";
 
-import { ChainsTXWalletSection, SendTokensdiv } from "../components";
+import { Button } from "components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "components/card";
+
+import { ChainsTXWalletSection } from "../components/chains-tx-wallet";
+import { SendTokensdiv } from "../components/react/send-tokens-card";
 import { ExtendedHttpEndpoint } from "@cosmos-kit/core";
 
 const chainName = "cosmoshub";
@@ -143,67 +147,86 @@ export default function () {
   };
 
   return (
-    <div>
-      <ChainsTXWalletSection chainName={chainName} />
+    <Card className="min-w-[350px] max-w-[1700px] mt-20 mx-auto p-10">
+      <CardHeader>
+        <CardTitle>
+          <p className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+            Tx test
+          </p>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-5 divide-y">
+        <div>
+          <ChainsTXWalletSection chainName={chainName} />
 
-      <div>
-        <SendTokensdiv
-          isConnectWallet={status === "Connected"}
-          balance={balance.toNumber()}
-          isFetchingBalance={isFetchingBalance}
-          response={resp}
-          sendTokensbuttonText="Send Tokens"
-          handleClickSendTokens={sendTokens(
-            getSigningStargateClient as () => Promise<SigningStargateClient>,
-            setResp as () => any,
-            address as string
-          )}
-          handleClickGetBalance={() => {
-            setFetchingBalance(true);
-            getBalance();
-          }}
-        />
-        <div>
-          <button
-            onClick={async () => {
-              const r = await (client as any).getAccount("cosmoshub-4");
-              setCosmo_getAccount(JSON.stringify(r));
+          <SendTokensdiv
+            isConnectWallet={status === "Connected"}
+            balance={balance.toNumber()}
+            isFetchingBalance={isFetchingBalance}
+            response={resp}
+            sendTokensbuttonText="Send Tokens"
+            handleClickSendTokens={sendTokens(
+              getSigningStargateClient as () => Promise<SigningStargateClient>,
+              setResp as () => any,
+              address as string
+            )}
+            handleClickGetBalance={() => {
+              setFetchingBalance(true);
+              getBalance();
             }}
-          >
-            cosmos_getAccounts
-          </button>
-          {cosmo_getAccount && (
-            <div>
-              <div>
-                <span>{cosmo_getAccount}</span>
-              </div>
-            </div>
-          )}
+          />
         </div>
-        <div>
-          <button
-            onClick={async () => {
-              if (address) {
-                const r = await client?.signAmino?.(
-                  "cosmoshub-4",
-                  address,
-                  aminoSignDoc
-                );
-                setCosmos_signAmino(JSON.stringify(r));
-              }
-            }}
-          >
-            cosmos_signAmino
-          </button>
-          {cosmos_signAmino && (
-            <div>
-              <div>
-                <span>{cosmos_signAmino}</span>
-              </div>
-            </div>
-          )}
+
+        <div className="flex space-x-4 py-4">
+          <div className="w-[180px]">
+            <Button
+              variant="default"
+              onClick={async () => {
+                const r = await (client as any).getAccount("cosmoshub-4");
+                setCosmo_getAccount(JSON.stringify(r));
+              }}
+            >
+              cosmos_getAccounts
+            </Button>
+          </div>
+
+          <Card className="flex-1">
+            <CardContent className="p-4 min-w-[200px] min-h-[200px]">
+              <pre>{prettifyJson(cosmo_getAccount ?? "{}")}</pre>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-    </div>
+
+        <div className="flex space-x-4 py-4">
+          <div className="w-[180px]">
+            <Button
+              variant="default"
+              onClick={async () => {
+                if (address) {
+                  const r = await client?.signAmino?.(
+                    "cosmoshub-4",
+                    address,
+                    aminoSignDoc
+                  );
+                  setCosmos_signAmino(JSON.stringify(r));
+                }
+              }}
+            >
+              cosmos_signAmino
+            </Button>
+          </div>
+
+          <Card className="flex-1">
+            <CardContent className="p-4 min-w-[200px] min-h-[200px]">
+              <pre>{prettifyJson(cosmos_signAmino ?? "{}")}</pre>
+            </CardContent>
+          </Card>
+        </div>
+      </CardContent>
+    </Card>
   );
+}
+
+function prettifyJson(jsonString: string) {
+  return JSON.stringify(JSON.parse(jsonString), null, 2);
 }

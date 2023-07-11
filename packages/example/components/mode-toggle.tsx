@@ -1,8 +1,5 @@
-import * as React from "react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { useTheme } from "next-themes";
 // import { useModalTheme } from "@cosmos-kit/react";
-
 import { Button } from "components/button";
 import {
   DropdownMenu,
@@ -10,6 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "components/dropdown-menu";
+import { useTheme } from "next-themes";
+import * as React from "react";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
@@ -37,7 +36,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("dark");
-              setModalTheme("dark");
+              // setModalTheme("dark");
             }}
           >
             Dark
@@ -45,7 +44,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("system");
-              setModalTheme("system");
+              // setModalTheme("system");
             }}
           >
             System

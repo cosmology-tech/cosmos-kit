@@ -10,7 +10,7 @@
 
 In CosmosKit V2, we discard the dependency on `ChakraUI` due to numerous runtime errors and the cost of CSS-in-JS.
 
-Main changes lie on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@cosmology-ui/react`, which is our UI Kit in Cosmology. The latest `@cosmology-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
+Main changes lie on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@interchain-ui/react`, which is our UI Kit in Cosmology. The latest `@interchain-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
 
 1. Build Process Changed
 
@@ -28,7 +28,7 @@ In CosmosKit V2, we used `tsup` to compile CommonJS, ESM and types. Different fr
 yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 ```
 
-`@cosmos-kit/react` includes default modal made with `@cosmology-ui/react`. If [customized modal](/provider/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app.
+`@cosmos-kit/react` includes default modal made with `@interchain-ui/react`. If [customized modal](/provider/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app.
 
 ### 2️⃣ Wrap Provider
 

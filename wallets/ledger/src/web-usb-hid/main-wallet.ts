@@ -2,7 +2,7 @@ import { EndpointOptions, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { LedgerChianWallet } from './chain-wallet';
 import { LedgerClient } from './client';
-import { TransportType, getCosmosApp } from './utils';
+import { TransportType } from './utils';
 
 export class LedgerMainWallet extends MainWalletBase {
   transportType: TransportType
@@ -19,8 +19,7 @@ export class LedgerMainWallet extends MainWalletBase {
   async initClient() {
     this.initingClient();
     try {
-      const ledger = await getCosmosApp(this.transportType);
-      this.initClientDone(ledger ? new LedgerClient(ledger): undefined);
+      this.initClientDone(new LedgerClient());
     } catch (error) {
       this.logger?.error(error);
       this.initClientError(error);

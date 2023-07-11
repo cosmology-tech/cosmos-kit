@@ -35,7 +35,6 @@ export const ChainWalletCard = ({
   }
 
   if (type === "address-on-page") {
-    console.log("address on page", { address, chainWallet, walletRepo });
     return (
       <div className="flex space-x-4">
         <Badge variant="default">

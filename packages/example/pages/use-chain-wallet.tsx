@@ -1,4 +1,4 @@
-import { ClipboardCopyText } from "@cosmology-ui/react";
+import { ClipboardCopyText } from "@interchain-ui/react";
 import { useChainWallet } from "@cosmos-kit/react";
 
 export default () => {
