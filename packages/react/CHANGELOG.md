@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.0.0...@cosmos-kit/react@2.0.1-beta.0) (2023-07-11)
+
+### Bug Fixes
+
+- build ([70c1645](https://github.com/cosmology-tech/cosmos-kit/commit/70c1645bf0c2dc13167c99dce533ca80f510e657))
+- fallback username ([9d02795](https://github.com/cosmology-tech/cosmos-kit/commit/9d02795c268b97dfcaf961328def053f2494b4aa))
+- feedback from june ([c8cec87](https://github.com/cosmology-tech/cosmos-kit/commit/c8cec878b05196e66b7b539bb9290bbbbc52e328))
+- merge conflicts ([37a2b6b](https://github.com/cosmology-tech/cosmos-kit/commit/37a2b6b8e93ddde11d2955c57a3d19169f64c4fa))
+- QRcode not shown ([426df33](https://github.com/cosmology-tech/cosmos-kit/commit/426df3386d3e3583ef5f81a8c6795e6cda1478b9))
+- use interchain-ui package ([a63ff36](https://github.com/cosmology-tech/cosmos-kit/commit/a63ff3601b6143637e3f670d957f33561cc4968e))
+- useChain address not trigger rerender ([13975de](https://github.com/cosmology-tech/cosmos-kit/commit/13975de3ef8bc27f1bdd951b0a4c4bb9eea2fff0))
+
 # [2.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@1.3.32-beta.7...@cosmos-kit/react@2.0.0) (2023-07-05)
 
 ### Bug Fixes

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.0.0...@cosmos-kit/react-lite@2.0.1-beta.0) (2023-07-11)
+
+### Bug Fixes
+
+- merge conflicts ([37a2b6b](https://github.com/cosmology-tech/cosmos-kit/commit/37a2b6b8e93ddde11d2955c57a3d19169f64c4fa))
+- useChain address not trigger rerender ([13975de](https://github.com/cosmology-tech/cosmos-kit/commit/13975de3ef8bc27f1bdd951b0a4c4bb9eea2fff0))
+
 # [2.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@1.5.2-beta.6...@cosmos-kit/react-lite@2.0.0) (2023-07-05)
 
 ### Bug Fixes
