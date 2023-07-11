@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.0.0...docs@2.0.1-beta.0) (2023-07-11)
+
+### Bug Fixes
+
+- feedback from june ([c8cec87](https://github.com/cosmology-tech/cosmos-kit/commit/c8cec878b05196e66b7b539bb9290bbbbc52e328))
+- use interchain-ui package ([a63ff36](https://github.com/cosmology-tech/cosmos-kit/commit/a63ff3601b6143637e3f670d957f33561cc4968e))
+
 # [2.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@1.11.1...docs@2.0.0) (2023-07-05)
 
 ### Bug Fixes

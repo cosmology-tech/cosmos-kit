@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@1.0.0...example@2.0.1-beta.0) (2023-07-11)
+
+### Bug Fixes
+
+- example address ([d2ce2dc](https://github.com/cosmology-tech/cosmos-kit/commit/d2ce2dc89527c4aee6a8f98619be0945e3b322b6))
+- example chain address ([f6b12aa](https://github.com/cosmology-tech/cosmos-kit/commit/f6b12aaff11dfb3c6352c66aae0c5561ef92ef9f))
+- feedback from june ([c8cec87](https://github.com/cosmology-tech/cosmos-kit/commit/c8cec878b05196e66b7b539bb9290bbbbc52e328))
+- lerna issues ([7b2a034](https://github.com/cosmology-tech/cosmos-kit/commit/7b2a03419e14682a37ad73f93e236a82fe531d08))
+- next config ([6dcbc4f](https://github.com/cosmology-tech/cosmos-kit/commit/6dcbc4f208fdcdad76d6f57fe3c55e929364884c))
+- tx ([6e75226](https://github.com/cosmology-tech/cosmos-kit/commit/6e7522635eadae5c31769f1ffbd68415d3235e3f))
+- tx example ([c8b01f0](https://github.com/cosmology-tech/cosmos-kit/commit/c8b01f06b4a0192f970e5b8468425a12bf2e296e))
+- use interchain-ui package ([a63ff36](https://github.com/cosmology-tech/cosmos-kit/commit/a63ff3601b6143637e3f670d957f33561cc4968e))
+- useChain address not trigger rerender ([13975de](https://github.com/cosmology-tech/cosmos-kit/commit/13975de3ef8bc27f1bdd951b0a4c4bb9eea2fff0))
+
 # [1.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@0.45.18...example@1.0.0) (2023-07-05)
 
 ### Bug Fixes
