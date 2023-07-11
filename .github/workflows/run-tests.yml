@@ -20,7 +20,5 @@ jobs:
           node-version: 18.16.0
       - name: deps
         run: yarn
-      - name: bootstrap
-        run: yarn bootstrap
       - name: build
         run: yarn build
