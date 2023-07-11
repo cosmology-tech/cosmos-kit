@@ -1,12 +1,12 @@
-import { ConnectModalHead, ConnectModalStatus } from '@interchain-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
-import { FaAndroid } from 'react-icons/fa';
-import { GoDesktopDownload } from 'react-icons/go';
-import { GrFirefox } from 'react-icons/gr';
-import { RiChromeFill } from 'react-icons/ri';
-import { RiAppStoreFill } from 'react-icons/ri';
+import { ConnectModalHead, ConnectModalStatus } from '@interchain-ui/react';
+import { FaAndroid } from '@react-icons/all-files/fa/FaAndroid';
+import { GoDesktopDownload } from '@react-icons/all-files/go/GoDesktopDownload';
+import { GrFirefox } from '@react-icons/all-files/gr/GrFirefox';
+import { RiAppStoreFill } from '@react-icons/all-files/ri/RiAppStoreFill';
+import { RiChromeFill } from '@react-icons/all-files/ri/RiChromeFill';
 
-import { ModalViewImpl, getWalletProp } from './config';
+import { getWalletProp, ModalViewImpl } from './config';
 
 export function NotExistView({
   onClose,

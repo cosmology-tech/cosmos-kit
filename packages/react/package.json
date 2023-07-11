@@ -78,7 +78,7 @@
     "@cosmos-kit/core": "^2.0.1-beta.1",
     "@cosmos-kit/react-lite": "^2.0.1-beta.1",
     "@interchain-ui/react": "1.1.7",
-    "react-icons": "4.4.0"
+    "@react-icons/all-files": "^4.1.0"
   },
   "resolutions": {
     "@types/react": "18.2.0"

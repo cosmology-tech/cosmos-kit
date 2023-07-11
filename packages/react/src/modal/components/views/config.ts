@@ -22,18 +22,16 @@ export type ModalViewImplGetter = (
   props: WalletViewProps | WalletListViewProps
 ) => ModalViewImpl;
 
-export const defaultModalViews: Record<
-  keyof ModalViews,
-  ModalViewImplGetter
-> = {
-  Connecting: ConnectingView,
-  Connected: ConnectedView,
-  Error: ErrorView,
-  NotExist: NotExistView,
-  Rejected: RejectedView,
-  QRCode: QRCodeView,
-  WalletList: WalletListView,
-};
+export const defaultModalViews: Record<keyof ModalViews, ModalViewImplGetter> =
+  {
+    Connecting: ConnectingView,
+    Connected: ConnectedView,
+    Error: ErrorView,
+    NotExist: NotExistView,
+    Rejected: RejectedView,
+    QRCode: QRCodeView,
+    WalletList: WalletListView,
+  };
 
 export function getWalletProp(wallet: Wallet) {
   const { prettyName, mode, name, logo, mobileDisabled } = wallet;

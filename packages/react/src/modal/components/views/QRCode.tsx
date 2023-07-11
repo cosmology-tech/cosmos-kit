@@ -1,9 +1,9 @@
+import { ExpiredError, State, WalletViewProps } from '@cosmos-kit/core';
 import {
   ConnectModalHead,
   ConnectModalQRCode,
   QRCodeStatus,
 } from '@interchain-ui/react';
-import { ExpiredError, State, WalletViewProps } from '@cosmos-kit/core';
 
 import { ModalViewImpl } from './config';
 

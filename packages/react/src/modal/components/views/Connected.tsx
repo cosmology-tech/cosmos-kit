@@ -1,8 +1,8 @@
-import { ConnectModalHead, ConnectModalStatus } from '@interchain-ui/react';
 import { WalletViewProps } from '@cosmos-kit/core';
+import { ConnectModalHead, ConnectModalStatus } from '@interchain-ui/react';
 
 import { AstronautSvg } from '../Astronaut';
-import { ModalViewImpl, getWalletProp } from './config';
+import { getWalletProp, ModalViewImpl } from './config';
 
 export function ConnectedView({
   onClose,
