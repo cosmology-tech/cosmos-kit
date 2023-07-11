@@ -16,7 +16,8 @@
     "lib": "src"
   },
   "files": [
-    "dist"
+    "dist",
+    "!CHANGELOG.md"
   ],
   "scripts": {
     "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs",

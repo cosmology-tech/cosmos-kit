@@ -1,4 +1,3 @@
-import { useConfig } from "nextra-theme-docs";
 import React from "react";
 
 /**
