@@ -2766,10 +2766,10 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@1.1.8":
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.1.8.tgz#b24f5b6b65caff1b4c851e63db0d11ce5f3fc467"
-  integrity sha512-FC0qWhYv7sG2k2dT1aRTHszw+saAMahgSryF1E6WFntMQttVemaY+ZAXs/4QL/Wzp9OWt58vpa5uYVnBuyas7A==
+"@interchain-ui/react@1.1.10":
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.1.10.tgz#78828d4037bcf66d8be7ddb66d9e614fa624f63b"
+  integrity sha512-3m1oLFpKmvKreBn+Xonfpl1J8UZasbEdXLjEZ7A/sXycHuwr6mm4XfJftXx80VBuGVvkLOZEyGMZK84KgA30Qg==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@formkit/auto-animate" "1.0.0-beta.6"
