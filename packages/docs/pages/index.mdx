@@ -1,7 +1,7 @@
 import React from "react";
 import { WalletSection } from "../components";
 
-# cosmos-kit
+# Introduction
 
 <p align="center" width="100%">
   <img
@@ -12,38 +12,43 @@ import { WalletSection } from "../components";
   />
 </p>
 
-<div width="100%" style={{
-  display:'flex',
-  justifyContent:'center',
-  alignItems: 'center',
-  paddingTop: '12px'
-  }}>
-<div style={{paddingRight:'4px'}}>
-  <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
-    <img
-      height="20"
-      src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg"
-    />
-  </a>
-</div>
-<div style={{paddingRight:'4px'}}>
-  <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/core/LICENSE">
-    <img
-      height="20"
-      src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"
-    />
-  </a>
-</div>
-  
-<div style={{paddingRight:'4px'}}>
-  <a href="https://www.npmjs.com/package/@cosmos-kit/react">
-    <img
-      height="20"
-      src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Freact%2Fpackage.json"
-    />
-  </a>
+<div
+  width="100%"
+  style={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: "12px",
+  }}
+>
+  <div style={{ paddingRight: "4px" }}>
+    <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
+      <img
+        height="20"
+        src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg"
+      />
+    </a>
+  </div>
+  <div style={{ paddingRight: "4px" }}>
+    <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/packages/core/LICENSE">
+      <img
+        height="20"
+        src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"
+      />
+    </a>
+  </div>
+
+
+  <div style={{ paddingRight: "4px" }}>
+    <a href="https://www.npmjs.com/package/@cosmos-kit/react">
+      <img
+        height="20"
+        src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Freact%2Fpackage.json"
+      />
+    </a>
   </div>
 </div>
+
 
 CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
@@ -71,6 +76,18 @@ Core pakcage of CosmosKit, including types, utils and base classes.
 
 A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem.
 
+### [@cosmos-kit/react-lite](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react-lite)
+
+A lighter version of `@cosmos-kit/react` without the default modal.
+
+### [@cosmos-kit/ins](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/ins)
+
+Interchain Name System implementation
+
+### [@cosmos-kit/walletconnect](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/walletconnect)
+
+[Wallet Connect V2](https://walletconnect.com/) support tools (usually used when integrating mobile wallets).
+
 ### [WALLETS](/integrating-wallets)
 
 Wallets integrated in CosmosKit.
@@ -81,9 +98,10 @@ An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
 ## Related Projects
 
-### [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) 
+### [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app)
 
 Set up a modern Cosmos app by running one command ⚛️
-### [chain-registry](https://github.com/cosmology-tech/chain-registry) 
+
+### [chain-registry](https://github.com/cosmology-tech/chain-registry)
 
 An npm module for the official Cosmos chain-registry
