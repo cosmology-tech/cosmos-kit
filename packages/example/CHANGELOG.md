@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.0.1-beta.0...example@2.0.1-beta.1) (2023-07-12)
+
+### Bug Fixes
+
+- react-icons bundle size ([549e7ed](https://github.com/cosmology-tech/cosmos-kit/commit/549e7ed135c12dc85d7aea556f645ba2b24c5ce8))
+
 ## [2.0.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@1.0.0...example@2.0.1-beta.0) (2023-07-11)
 
 ### Bug Fixes

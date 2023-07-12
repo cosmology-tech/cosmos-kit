@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "2.0.1-beta.0",
+  "version": "2.0.1-beta.1",
   "private": true,
   "main": "index.js",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "@cosmos-kit/frontier": "^2.0.1-beta.0",
     "@cosmos-kit/keplr": "^2.0.1-beta.0",
     "@cosmos-kit/leap": "^2.0.1-beta.0",
-    "@cosmos-kit/react": "^2.0.1-beta.0",
+    "@cosmos-kit/react": "^2.0.1-beta.2",
     "@cosmos-kit/vectis": "^2.0.1-beta.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",

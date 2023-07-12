@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.0.1-beta.0",
+  "version": "2.0.1-beta.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,7 +23,7 @@
     "@cosmos-kit/ins": "^2.0.1-beta.0",
     "@cosmos-kit/keplr": "^2.0.1-beta.0",
     "@cosmos-kit/leap": "^2.0.1-beta.0",
-    "@cosmos-kit/react": "^2.0.1-beta.0",
+    "@cosmos-kit/react": "^2.0.1-beta.2",
     "@cosmos-kit/shell": "^2.0.1-beta.0",
     "@cosmos-kit/station": "^2.0.1-beta.0",
     "@cosmos-kit/vectis": "^2.0.1-beta.0",
