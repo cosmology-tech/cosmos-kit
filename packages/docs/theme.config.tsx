@@ -1,5 +1,6 @@
 import React from "react";
-import { DocsThemeConfig } from "nextra-theme-docs";
+import { DocsThemeConfig, useConfig } from "nextra-theme-docs";
+import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
   logo: (
@@ -16,18 +17,29 @@ const config: DocsThemeConfig = {
   project: {
     link: "https://github.com/cosmology-tech/cosmos-kit",
   },
-  head: (
-    <>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:title" content="CosmosKit" />
-      <meta property="og:description" content="the crypto wallet connector" />
-    </>
-  ),
+  head: () => {
+    const { asPath, defaultLocale, locale } = useRouter();
+    const { title } = useConfig();
+    const url =
+      "https://docs.cosmoskit.com/" +
+      (defaultLocale === locale ? asPath : `/${locale}${asPath}`);
+
+    return (
+      <>
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={`${title} - CosmosKit`} />
+        <meta
+          property="og:description"
+          content={"The crypto wallet connector"}
+        />
+        <title>{`${title} - CosmosKit`}</title>
+      </>
+    );
+  },
   sidebar: {
     defaultMenuCollapseLevel: 1,
   },
   footer: {
-    // text: `BSD ${new Date().getFullYear()} © ComosKit.`,
     text: (
       <span>
         🛠 Built by Cosmology — if you like our tools, please consider delegating
