@@ -3,7 +3,7 @@ import { ICON } from '../constant';
 
 export const shellExtensionInfo: Wallet = {
   name: 'shell-extension',
-  prettyName: 'Shell Wallet',
+  prettyName: 'Shell',
   logo: ICON,
   mode: 'extension',
   mobileDisabled: true,

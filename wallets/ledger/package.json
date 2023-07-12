@@ -5,22 +5,13 @@
   "author": "developers@cosmology.tech",
   "contributors": [
     {
-      "name": "Jun Liu"
-    },
-    {
       "name": "Tom Wang"
     },
     {
+      "name": "Jun Liu"
+    },
+    {
       "name": "Dan Lynch"
-    },
-    {
-      "name": "Noah Saso"
-    },
-    {
-      "name": "Eliot Baker"
-    },
-    {
-      "name": "Delivan Jeonghyeok Yoo"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -28,20 +19,6 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
-  "exports": {
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.mjs",
-      "require": "./dist/*.js",
-      "default": "./dist/*.js"
-    },
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
-    }
-  },
   "directories": {
     "lib": "src",
     "test": "__tests__"

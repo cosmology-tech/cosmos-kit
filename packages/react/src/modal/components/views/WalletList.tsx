@@ -47,7 +47,10 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
     () =>
       wallets
         .sort((a, b) => {
-          if (a.walletInfo.mode === b.walletInfo.mode) {
+          if (
+            a.walletInfo.mode !== 'wallet-connect' &&
+            b.walletInfo.mode !== 'wallet-connect'
+          ) {
             return 0;
           } else if (a.walletInfo.mode !== 'wallet-connect') {
             return -1;

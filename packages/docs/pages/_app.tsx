@@ -6,9 +6,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { assets, chains } from "chain-registry";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
+import { wallets as exodusWallets } from "@cosmos-kit/exodus";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
-import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
+// import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
@@ -16,37 +16,37 @@ import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
-import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
+import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { wallets as finWallets } from "@cosmos-kit/fin";
 import "nextra-theme-docs/style.css";
 import React, { useMemo } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const web3AuthWallets = useMemo(
-    () =>
-      makeWeb3AuthWallets({
-        loginMethods: [
-          {
-            provider: "google",
-            name: "Google",
-            logo:
-              "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-          },
-        ],
-        client: {
-          clientId: "localhostid",
-          web3AuthNetwork: "testnet",
-          chainConfig: {
-            chainNamespace: "other",
-          },
-        },
-        promptSign: async (...args) =>
-          // eslint-disable-next-line no-alert
-          confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
-      }),
-    []
-  );
+  // const web3AuthWallets = useMemo(
+  //   () =>
+  //     makeWeb3AuthWallets({
+  //       loginMethods: [
+  //         {
+  //           provider: "google",
+  //           name: "Google",
+  //           logo:
+  //             "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+  //         },
+  //       ],
+  //       client: {
+  //         clientId: "localhostid",
+  //         web3AuthNetwork: "testnet",
+  //         chainConfig: {
+  //           chainNamespace: "other",
+  //         },
+  //       },
+  //       promptSign: async (...args) =>
+  //         // eslint-disable-next-line no-alert
+  //         confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
+  //     }),
+  //   []
+  // );
 
   return (
     <ChakraProvider>
@@ -56,7 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           ...keplrWallets,
           ...ledgerWallets,
-          ...web3AuthWallets,
+          // ...web3AuthWallets,
           ...trustWallets,
           ...stationWallets,
           ...cosmostationWallets,

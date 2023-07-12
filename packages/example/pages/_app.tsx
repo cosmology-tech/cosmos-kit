@@ -10,18 +10,19 @@ import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
+import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as exodusWallets } from "@cosmos-kit/exodus";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
-// import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
-// import { wallets as shellWallets } from "@cosmos-kit/shell";
-// import { wallets as stationWallets } from "@cosmos-kit/station";
+import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
+import { wallets as shellWallets } from "@cosmos-kit/shell";
+import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
-// import { wallets as ExtensionWallets } from "@cosmos-kit/station-extension";
-// import { wallets as trustWallets } from "@cosmos-kit/trust";
-// import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-// import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
-// import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
+import { wallets as vectisWallets } from "@cosmos-kit/vectis";
+import { wallets as frontierWallets } from "@cosmos-kit/frontier";
+import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
+import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { wallets as finWallets } from "@cosmos-kit/fin";
 import { RootLayout } from "components/layout";
 
@@ -29,29 +30,30 @@ import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 import { useMemo } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // const web3AuthWallets = useMemo(
-  //   () =>
-  //     makeWeb3AuthWallets({
-  //       loginMethods: [
-  //         {
-  //           provider: "google",
-  //           name: "Google",
-  //           logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-  //         },
-  //       ],
-  //       client: {
-  //         clientId: "localhostid",
-  //         web3AuthNetwork: "testnet",
-  //         chainConfig: {
-  //           chainNamespace: "other",
-  //         },
-  //       },
-  //       promptSign: async (...args) =>
-  //         // eslint-disable-next-line no-alert
-  //         confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
-  //     }),
-  //   []
-  // );
+  const web3AuthWallets = useMemo(
+    () =>
+      makeWeb3AuthWallets({
+        loginMethods: [
+          {
+            provider: "google",
+            name: "Google",
+            logo:
+              "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+          },
+        ],
+        client: {
+          clientId: "localhostid",
+          web3AuthNetwork: "testnet",
+          chainConfig: {
+            chainNamespace: "other",
+          },
+        },
+        promptSign: async (...args) =>
+          // eslint-disable-next-line no-alert
+          confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
+      }),
+    []
+  );
 
   return (
     <RootLayout>
@@ -59,23 +61,20 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={[...chains, terra2testnet]}
         assetLists={[...assets, terra2testnetAssets]}
         wallets={[
-          ...omniWallets,
           ...keplrWallets,
-          // ...web3AuthWallets,
-          // ...cosmostationWallets,
-          // ...exodusWallets,
-          // ...shellWallets,
+          ...ledgerWallets,
+          ...web3AuthWallets,
+          ...trustWallets,
+          ...stationWallets,
           ...cosmostationWallets,
+          ...omniWallets,
           ...exodusWallets,
-          // ...leapWallets,
-          // ...vectisWallets,
-          // ...xdefiWallets,
-          // ...omniWallets,
-          // ...trustWallets,
-          // ...frontierWallets,
-          // ...stationWallets,
-          // ...ExtensionWallets,
-          // ...coin98Wallets,
+          ...shellWallets,
+          ...leapWallets,
+          ...vectisWallets,
+          ...xdefiWallets,
+          ...frontierWallets,
+          ...coin98Wallets,
           ...finWallets,
         ]}
         throwErrors={false}
