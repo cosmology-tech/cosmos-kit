@@ -1,38 +1,74 @@
+import "@interchain-ui/react/styles";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChainProvider } from "@cosmos-kit/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { assets, chains } from "chain-registry";
-import { wallets as cosmostation } from "@cosmos-kit/cosmostation";
-import { wallets as keplr } from "@cosmos-kit/keplr";
-import { wallets as leap } from "@cosmos-kit/leap";
-import { wallets as frontier } from "@cosmos-kit/frontier";
-import { wallets as vectis } from "@cosmos-kit/vectis";
-import { wallets as xdefi } from "@cosmos-kit/xdefi-extension";
-import { wallets as exodus } from "@cosmos-kit/exodus-extension";
-import { wallets as omni } from "@cosmos-kit/omni";
-import { wallets as trust } from "@cosmos-kit/trust";
-import { wallets as station } from "@cosmos-kit/station";
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as exodusWallets } from "@cosmos-kit/exodus-extension";
+import { wallets as keplrWallets } from "@cosmos-kit/keplr";
+import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
+import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
+import { wallets as shellWallets } from "@cosmos-kit/shell";
+import { wallets as stationWallets } from "@cosmos-kit/station";
+import { wallets as omniWallets } from "@cosmos-kit/omni";
+import { wallets as trustWallets } from "@cosmos-kit/trust";
+import { wallets as vectisWallets } from "@cosmos-kit/vectis";
+import { wallets as frontierWallets } from "@cosmos-kit/frontier";
+import { wallets as xdefiWallets } from "@cosmos-kit/xdefi-extension";
+import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
+import { wallets as finWallets } from "@cosmos-kit/fin";
 import "nextra-theme-docs/style.css";
-import React from "react";
+import React, { useMemo } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const web3AuthWallets = useMemo(
+    () =>
+      makeWeb3AuthWallets({
+        loginMethods: [
+          {
+            provider: "google",
+            name: "Google",
+            logo:
+              "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+          },
+        ],
+        client: {
+          clientId: "localhostid",
+          web3AuthNetwork: "testnet",
+          chainConfig: {
+            chainNamespace: "other",
+          },
+        },
+        promptSign: async (...args) =>
+          // eslint-disable-next-line no-alert
+          confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
+      }),
+    []
+  );
+
   return (
     <ChakraProvider>
       <ChainProvider
         chains={chains}
         assetLists={assets}
         wallets={[
-          ...keplr,
-          ...cosmostation,
-          ...leap,
-          ...vectis,
-          ...xdefi,
-          ...omni,
-          ...trust,
-          ...station,
-          ...frontier,
-          ...exodus,
+          ...keplrWallets,
+          ...ledgerWallets,
+          ...web3AuthWallets,
+          ...trustWallets,
+          ...stationWallets,
+          ...cosmostationWallets,
+          ...omniWallets,
+          ...exodusWallets,
+          ...shellWallets,
+          ...leapWallets,
+          ...vectisWallets,
+          ...xdefiWallets,
+          ...frontierWallets,
+          ...coin98Wallets,
+          ...finWallets,
         ]}
         walletConnectOptions={{
           signClient: {

@@ -3,22 +3,28 @@
 > 💡 Make sure you are using `React18`
 >
 > `CosmosKit V1` is deprecated, we suggest use `CosmosKit V2`
->
-> In V2, we require developers **`import "@interchain-ui/react/styles"`** in your top-level route/layout if you are using our default modal in `@cosmos-kit/react`. i.e. in `_app.tsx` for next project.
->
-> And also notice that we don't export `defaultTheme` any more in `@cosmos-kit/react`.
 
-## Major Changes in V2
+## CosmosKit V2
+
+### Major Changes
 
 1. `ChakraUI` Removed
 
 In CosmosKit V2, we discard the dependency on `ChakraUI` due to numerous runtime errors and the cost of CSS-in-JS.
 
-Main changes lie on `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@interchain-ui/react`, which is our UI Kit in Cosmology. The latest `@interchain-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
+Main changes lie in `@cosmos-kit/react`, where the default modal locates. All the modal components are imported from `@interchain-ui/react`, which is our UI Kit in Cosmology. The latest `@interchain-ui/react` discards `ChakraUI` and instead adopts a pure CSS styling solution through a package called `vanilla-extract`.
 
 2. Build Process Changed
 
 In CosmosKit V2, we used pure `tsc` to compile CommonJS, ESM (es2022) and types. Different from V1 that separate these files in different folders (`main`, `module` and `types`), in V2, they are put in a single folder `dist` and differentiate with different suffix (`.js`, `mjs` and `.d.ts`). In this way non-index sources can easily find its corresponding typings.
+
+### Migration Guides
+
+1. In CosmosKit V2, we require developers **`import "@interchain-ui/react/styles"`** in your top-level route/layout if you are using our default modal in `@cosmos-kit/react`. i.e. in `_app.tsx` for next project.
+
+2. We don't export `defaultTheme` any more in `@cosmos-kit/react` in CosmosKit V2.
+
+3. `WrappedWithChakra` and `modalTheme` is removed in properties of `ChainProvider` from `@cosmos-kit/react`.
 
 ## Quickstart
 
@@ -29,10 +35,12 @@ In CosmosKit V2, we used pure `tsc` to compile CommonJS, ESM (es2022) and types.
 ### 1️⃣ Install Dependencies
 
 ```sh
-yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
+yarn add @cosmos-kit/react chain-registry
 ```
 
 `@cosmos-kit/react` includes default modal made with `@interchain-ui/react`. If [customized modal](/provider/chain-provider/#customize-modal-with-walletmodal) is providered, you can use `@cosmos-kit/react-lite` instead to lighter your app.
+
+There are multiple wallets supported by CosmosKit. Details see [Integrating Wallets](/integrating-wallets)
 
 ### 2️⃣ Wrap Provider
 

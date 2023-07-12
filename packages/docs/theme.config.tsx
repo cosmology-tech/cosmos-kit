@@ -1,9 +1,21 @@
 import React from "react";
+import { DocsThemeConfig } from "nextra-theme-docs";
 
-/**
- * @type {import('nextra-theme-docs').DocsThemeConfig}
- */
-export default {
+const config: DocsThemeConfig = {
+  logo: (
+    <>
+      <img
+        src="https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg"
+        width="50px"
+      ></img>
+      <span className="mr-2 font-extrabold hidden md:inline">
+        &nbsp;&nbsp;CosmosKit
+      </span>
+    </>
+  ),
+  project: {
+    link: "https://github.com/cosmology-tech/cosmos-kit",
+  },
   head: (
     <>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,23 +47,11 @@ export default {
   chat: {
     link: "https://discord.gg/6hy8KQ9aJY",
   },
-  project: {
-    link: "https://github.com/cosmology-tech/cosmos-kit",
-  },
   docsRepositoryBase:
     "https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/docs",
   editLink: {
     text: "Edit this page on GitHub",
   },
-  logo: (
-    <>
-      <img
-        src="https://user-images.githubusercontent.com/545047/190171432-5526db8f-9952-45ce-a745-bea4302f912b.svg"
-        width="50px"
-      ></img>
-      <span className="mr-2 font-extrabold hidden md:inline">
-        &nbsp;&nbsp;CosmosKit
-      </span>
-    </>
-  ),
 };
+
+export default config;

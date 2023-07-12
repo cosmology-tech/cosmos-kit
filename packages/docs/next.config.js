@@ -1,11 +1,11 @@
-const withNextra = require('nextra')({
-  theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.js',
+const withNextra = require("nextra")({
+  theme: "nextra-theme-docs",
+  themeConfig: "./theme.config.tsx",
   unstable_staticImage: true,
   unstable_flexsearch: {
-    codeblock: false
-  }
-})
+    codeblock: false,
+  },
+});
 
 module.exports = {
   ...withNextra({
@@ -22,23 +22,25 @@ module.exports = {
             options: {
               presets: [
                 "@babel/preset-env",
-                ["@babel/preset-react", { "runtime": "automatic" }],
+                ["@babel/preset-react", { runtime: "automatic" }],
                 ["@babel/typescript", { allowDeclareFields: true }],
               ],
-              plugins: [
-                'inline-import-data-uri'
-              ]
+              plugins: ["inline-import-data-uri"],
             },
           },
         ],
       });
 
-      config.resolve.extensions.push('.ts', '.tsx');
+      config.resolve.extensions.push(".ts", ".tsx");
       return config;
     },
   }),
   images: {
-    domains: ['user-images.githubusercontent.com', 'github.com', 'img.shields.io'],
-    unoptimized: true
-  }
-}
+    domains: [
+      "user-images.githubusercontent.com",
+      "github.com",
+      "img.shields.io",
+    ],
+    unoptimized: true,
+  },
+};
