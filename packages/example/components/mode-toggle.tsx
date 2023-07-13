@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-// import { useModalTheme } from "@cosmos-kit/react";
+import { useModalTheme } from "@cosmos-kit/react";
 import { Button } from "components/button";
 import {
   DropdownMenu,
@@ -12,13 +12,13 @@ import * as React from "react";
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
-  // const { modalTheme, setModalTheme } = useModalTheme();
+  const { modalTheme, setModalTheme } = useModalTheme();
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" data-modal-theme={modalTheme}>
             <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
@@ -28,7 +28,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("light");
-              // setModalTheme("light");
+              setModalTheme("light");
             }}
           >
             Light
@@ -36,7 +36,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("dark");
-              // setModalTheme("dark");
+              setModalTheme("dark");
             }}
           >
             Dark
@@ -44,7 +44,7 @@ export function ModeToggle() {
           <DropdownMenuItem
             onClick={() => {
               setTheme("system");
-              // setModalTheme("system");
+              setModalTheme("system");
             }}
           >
             System
