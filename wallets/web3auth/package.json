@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/web3auth",
-  "version": "2.0.1-beta.2",
+  "version": "2.0.1-beta.3",
   "description": "cosmos-kit wallet connector for Web3Auth",
   "author": "noah@noah.zone",
   "contributors": [
@@ -64,13 +64,13 @@
     "libsodium-wrappers-sumo": "^0.7.11"
   },
   "peerDependencies": {
+    "@chainsafe/ssz": "^0.11.1",
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
+    "@ethersproject/providers": "^5.7.2",
     "@keplr-wallet/cosmos": ">= 0.10",
     "chain-registry": "*",
-    "cosmjs-types": ">= 0.5",
-    "@chainsafe/ssz": "^0.11.1",
-    "@ethersproject/providers": "^5.7.2"
+    "cosmjs-types": ">= 0.5"
   },
   "gitHead": "0f174bf8c1799158d87dfcfb97c642e51835b8d0"
 }
