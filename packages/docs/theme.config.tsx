@@ -17,6 +17,18 @@ const config: DocsThemeConfig = {
   project: {
     link: "https://github.com/cosmology-tech/cosmos-kit",
   },
+  useNextSeoProps() {
+    const { asPath } = useRouter();
+    if (asPath !== "/") {
+      return {
+        titleTemplate: "%s – CosmosKit",
+      };
+    } else {
+      return {
+        titleTemplate: "%s",
+      };
+    }
+  },
   head: () => {
     const { asPath, defaultLocale, locale } = useRouter();
     const { title } = useConfig();
@@ -24,15 +36,16 @@ const config: DocsThemeConfig = {
       "https://docs.cosmoskit.com/" +
       (defaultLocale === locale ? asPath : `/${locale}${asPath}`);
 
+    const _title = asPath !== "/" ? `${title} - CosmosKit` : `${title}`;
     return (
       <>
         <meta property="og:url" content={url} />
-        <meta property="og:title" content={`${title} - CosmosKit`} />
+        <meta property="og:title" content={_title} />
         <meta
           property="og:description"
           content={"The crypto wallet connector"}
         />
-        <title>{`${title} - CosmosKit`}</title>
+        <title>{_title}</title>
       </>
     );
   },

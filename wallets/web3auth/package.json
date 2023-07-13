@@ -10,6 +10,7 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
@@ -67,7 +68,9 @@
     "@cosmjs/proto-signing": ">= 0.28",
     "@keplr-wallet/cosmos": ">= 0.10",
     "chain-registry": "*",
-    "cosmjs-types": ">= 0.5"
+    "cosmjs-types": ">= 0.5",
+    "@chainsafe/ssz": "^0.11.1",
+    "@ethersproject/providers": "^5.7.2"
   },
   "gitHead": "0f174bf8c1799158d87dfcfb97c642e51835b8d0"
 }

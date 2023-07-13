@@ -14,6 +14,7 @@ import {
   sendAndListenOnce,
   WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY,
 } from './utils';
+import { pathToFileURL } from 'url';
 
 // In case these get overwritten by an attacker.
 const terminate =
@@ -79,12 +80,12 @@ export class Web3AuthClient implements WalletClient {
       new URL(
         `./web3auth.worker.${
           // CommonJS
-          typeof module !== "undefined" && typeof exports !== "undefined"
-            ? ""
+          typeof module !== 'undefined' && typeof exports !== 'undefined'
+            ? ''
             : // ESM
-              "m"
+              'm'
         }js`,
-        require('url').pathToFileURL(__filename).toString()
+        pathToFileURL(__filename).toString()
       )
     );
 

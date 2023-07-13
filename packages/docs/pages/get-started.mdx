@@ -26,6 +26,8 @@ In CosmosKit V2, we used pure `tsc` to compile CommonJS, ESM (es2022) and types.
 
 3. `WrappedWithChakra` and `modalTheme` is removed in properties of `ChainProvider` from `@cosmos-kit/react`.
 
+4. `Web3Auth` wallet instance import has been replaced by constructing the wallet instance with a wallet generator function. In this way the web3auth implementation becomes much more secure, and also makes it support any of the login providers. See details [here](/integrating-wallets/web3auth)
+
 ## Quickstart
 
 🏁 Get started quickly by using [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) to help you build high-quality Cosmos apps fast!
