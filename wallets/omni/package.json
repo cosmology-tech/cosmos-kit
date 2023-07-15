@@ -36,7 +36,7 @@
     "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs",
     "build:mjs": "yarn tsc -p tsconfig.json --outDir mjs --module es2022 --declaration false",
     "build": "rm -rf dist && yarn build:cjs && yarn build:mjs && find mjs -type f -name *.js -exec rename -S '.js' '.mjs' {} +  && find mjs -type f -name *.mjs -exec rename -S 'mjs/' 'dist/' {} + && rm -rf mjs",
-    "prepare": "npm rum build",
+    "prepare": "npm run build",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
     "test": "jest",
