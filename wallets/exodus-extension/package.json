@@ -17,9 +17,13 @@
     "!CHANGELOG.md"
   ],
   "scripts": {
-    "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs",
-    "build:mjs": "yarn tsc -p tsconfig.json --outDir mjs --module es2022 --declaration false",
-    "build": "rm -rf dist && yarn build:cjs && yarn build:mjs && find mjs -type f -name *.js -exec rename -S '.js' '.mjs' {} +  && find mjs -type f -name *.mjs -exec rename -S 'mjs/' 'dist/' {} + && rm -rf mjs",
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs || true",
+    "build:mjs": "yarn tsc -p tsconfig.json --outDir mjs --module es2022 --declaration false || true",
+    "clean:mjs": "rimraf mjs",
+    "clean:dist": "rimraf dist",
+    "clean": "npm run clean:mjs && npm run clean:dist",
+    "build:rename": "publish-scripts --cmd rename --srcDir mjs --outDir dist --findExt js --replaceExt mjs --no-rmDir",
+    "build": "npm run clean && npm run build:cjs && npm run build:mjs && npm run build:rename",
     "prepare": "npm run build",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
