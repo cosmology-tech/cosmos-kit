@@ -1,23 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useChain, useWallet, useWalletClient } from "@cosmos-kit/react";
 import { Badge } from "components/badge";
 import { Button } from "components/button";
 import { PaperPlaneIcon, ResetIcon } from "@radix-ui/react-icons";
+
+const DEFAULT_TO_ADDRESS = "cosmos1xane5m7g6a845pfwldh6kparm357wu3grrt7hc"
 
 export type SignResult = {
   signature: Buffer | null;
   return_code: string | number;
 }
 
+export type Account = {
+  '@type': string,
+  address: string,
+  pub_key: { '@type': string, 'key': string }
+  account_number: string
+  sequence: string
+}
+
+export function getAccountURL(address: string) {
+  return `https://rest.cosmos.directory/cosmoshub/cosmos/auth/v1beta1/accounts/${address}`
+}
+
 export default function() {
+  const [toAddress, setToAddress] = useState<string>(DEFAULT_TO_ADDRESS)
+  const [account, setAccount] = useState<Account>({} as Account)
   const [isReviewing, setIsReviewing] = useState(false);
-  const [signResult, setSignResult] = useState<SignResult>({} as SignResult); // [result, setResult
+  const [signResult, setSignResult] = useState<SignResult>({} as SignResult);
   const { username, address, connect, disconnect, wallet, openView } = useChain('cosmoshub');
   const { status: globalStatus } = useWallet();
   const { client } = useWalletClient('ledger-web-usb-hid')
 
+  useEffect(() => {
+    if (address) {
+      fetch(getAccountURL(address))
+        .then(res => res.json())
+        .then(data => setAccount(data?.account))
+    }
+  }, [address]);
+
   const message = {
-    "account_number": "1678911",
+    "account_number": account.account_number ?? "",
     "chain_id": "cosmoshub-4",
     "fee": { "amount": [{ "amount": "500", "denom": "uatom" }], "gas": "200000" },
     "memo": "Send tokens from Ledger Nano S",
@@ -26,12 +50,12 @@ export default function() {
         "type": "cosmos-sdk/MsgSend",
         "value": {
           "amount": { "amount": "1000", "denom": "uatom" },
-          "from_address": "cosmos1qpmamxumd5kzh4vzhewuetl0zsqtxhs4gjkk68",
-          "to_address": "cosmos1xane5m7g6a845pfwldh6kparm357wu3grrt7hc"
+          "from_address": address ?? "",
+          "to_address": toAddress ?? ""
         }
       }
     ],
-    "sequence": "1" // change this to your sequence
+    "sequence": account.sequence ?? ""
   }
 
   async function sign() {
@@ -74,6 +98,7 @@ export default function() {
             variant="destructive"
             onClick={async () => {
               await disconnect();
+              setAccount({} as Account)
               setSignResult({} as SignResult)
               // setGlobalStatus(WalletStatus.Disconnected);
             }}
@@ -94,7 +119,16 @@ export default function() {
     <div className="space-y-5">
       <div className="flex justify-start space-x-5">{getGlobalbutton()}</div>
       <div className="space-y-4">
-        <p className="font-mono">Address: {address}</p>
+        <p className="font-mono">
+          <span className="text-sm font-semibold text-gray-600">From Address: </span> {address}</p>
+        <p className="font-mono flex items-center">
+          <span className="text-sm font-semibold text-gray-600">To Address: </span>
+          <input
+            type="text" value={toAddress}
+            onChange={(e) => setToAddress(e.target.value)}
+            placeholder={DEFAULT_TO_ADDRESS}
+            className="ml-4 flex-1 border border-gray-300 rounded-md px-2 py-1" />
+        </p>
         <p className="font-mono">
           Message:
           { globalStatus === 'Connected'
