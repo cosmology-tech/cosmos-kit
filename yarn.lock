@@ -3349,10 +3349,30 @@
     react-icons "^4.4.0"
     react-resize-detector "^8.0.3"
 
-"@cosmos-kit/shell@^0.2.5":
-  version "0.2.4"
+"@cosmos-kit/core@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/core/-/core-1.8.0.tgz#4ab5e96c983cda55de3475cb75443a8a0fd7f01b"
+  integrity sha512-07+upbiwT1IaIhpxINk1g4+T5z9uaQ0ZJhqVAAMoN32fch8D1FmHHaf3PQa/J3uG+KifbhnANwrdtgvnYB8cLw==
   dependencies:
-    "@cosmos-kit/shell-extension" "^0.2.4"
+    "@chain-registry/types" "0.13.0"
+    "@walletconnect/types" "2.7.2"
+    bowser "2.11.0"
+    events "3.3.0"
+
+"@cosmos-kit/shell-extension@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/shell-extension/-/shell-extension-0.2.5.tgz#386858669080e22b69e19d4f29ea2a038bac0c3a"
+  integrity sha512-9GPWDcIBbkvpE8qJ5PPLgLYpLcQeHawQeHbnIDWbm3k3jiKOsknqy1DKQfNy3a+LwGUnCGZyF6p8JxBFxtrqWg==
+  dependencies:
+    "@chain-registry/keplr" "1.8.0"
+    "@cosmos-kit/core" "^1.8.0"
+
+"@cosmos-kit/shell@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/shell/-/shell-0.2.5.tgz#7755a6421fd12966c40827aef08d540ac15d5e0d"
+  integrity sha512-BnJl3X5+qDdM6NBlnRyCqmnKbDn7bjwidt78cijNrsikfdFPjLpNDSLTdWEdVrgdxIcUqbEP08hp3HkeinLhqw==
+  dependencies:
+    "@cosmos-kit/shell-extension" "^0.2.5"
 
 "@cosmostation/extension-client@0.1.11":
   version "0.1.11"
