@@ -76,6 +76,7 @@ export function ChainProvider({
   const [, setMsg] = useState<string | undefined>();
 
   const [, setClientState] = useState<State>(State.Init);
+  const [, setClientMsg] = useState<string | undefined>();
 
   walletManager.setActions({
     viewOpen: setViewOpen,
@@ -105,6 +106,7 @@ export function ChainProvider({
       state: setState,
       message: setMsg,
       clientState: setClientState,
+      clientMessage: setClientMsg,
     });
   });
 

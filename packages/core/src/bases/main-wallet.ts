@@ -70,6 +70,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.clientMutable.message = error?.message;
     this.clientMutable.state = State.Error;
     this.actions?.clientState?.(State.Error);
+    this.actions?.clientMessage?.(error?.message);
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initClientError(error);
     });
