@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/coin98",
-  "version": "2.0.1-beta.4",
+  "version": "2.0.1-beta.5",
   "description": "cosmos-kit wallet connector",
   "author": "tamvt@coin98.finance",
   "contributors": [
@@ -52,6 +52,6 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/coin98-extension": "^2.0.1-beta.4"
+    "@cosmos-kit/coin98-extension": "^2.0.1-beta.5"
   }
 }

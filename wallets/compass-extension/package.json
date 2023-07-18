@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/compass-extension",
-  "version": "2.0.1-beta.4",
+  "version": "2.0.1-beta.5",
   "description": "cosmos-kit wallet connector",
   "author": "himanshu.singh@leapwallet.io",
   "contributors": [
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.8.0",
-    "@cosmos-kit/core": "^2.0.1-beta.4"
+    "@cosmos-kit/core": "^2.0.1-beta.5"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
