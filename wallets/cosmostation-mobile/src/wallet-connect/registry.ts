@@ -27,7 +27,7 @@ export const cosmostationMobileInfo: Wallet = {
     name: 'Cosmostation',
     projectId:
       'feb6ff1fb426db18110f5a80c7adbde846d0a7e96b2bc53af4b73aaf32552bea',
-    formatNativeUrl: (appUrl: string, wcUri: string, name: string): string => {
+    formatNativeUrl: (appUrl: string, wcUri: string, _name: string): string => {
       const plainAppUrl = appUrl.replaceAll('/', '').replaceAll(':', '');
       // const encodedWcUrl = encodeURIComponent(wcUri);
       return `${plainAppUrl}://wc?${wcUri}`;
