@@ -29,7 +29,7 @@
     "clean:dist": "rimraf dist",
     "clean": "npm run clean:mjs && npm run clean:dist",
     "build:rename": "publish-scripts --cmd rename --srcDir mjs --outDir dist --findExt js --replaceExt mjs --no-rmDir",
-    "build": "npm run clean && npm run build:cjs && npm run build:mjs && npm run build:rename",
+    "build": "npm run clean && npm run build:cjs && npm run build:mjs && npm run build:rename && npm run clean:mjs",
     "prepare": "npm run build",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
@@ -65,7 +65,8 @@
     "@web3auth/base": "^5.1.0",
     "@web3auth/no-modal": "^5.1.0",
     "@web3auth/openlogin-adapter": "^5.1.1",
-    "libsodium-wrappers-sumo": "^0.7.11"
+    "libsodium-wrappers-sumo": "^0.7.11",
+    "url": "^0.11.1"
   },
   "peerDependencies": {
     "@chainsafe/ssz": "^0.11.1",
