@@ -1,0 +1,51 @@
+## How to connect multiple chains at once ?
+
+### Case 1. For A Specific Wallet
+Let's take `keplr-extension` for example.
+```javascript
+import { useWalletClient } from '@cosmos-kit/react';
+
+export default function Home() {
+  const { client } = useWalletClient('keplr-extension');  // or comostation-extension, leap-extension, etc.
+
+  useEffect(() => {
+    if (client) {
+      client.enable?.(['cosmoshub-4', 'osmosis-1', 'juno-1'])
+      client.getAccount?.('juno-4').then((account) => console.log(account))
+      client.getAccount?.('osmosis-1').then((account) => console.log(account))
+      client.getAccount?.('cosmoshub-4').then((account) => console.log(account))
+    }
+  })
+  // ...
+}
+```
+
+### Case 2. No Specific Wallets
+There's no `useChains` hook in CosmosKit at the moment, so the best you can do for now is below.
+```javascript
+export default function Home() {
+  const { connect } = useChain('cosmoshub');  // or juno, osmosis, etc.
+  const { client } = useWalletClient();
+
+  useEffect(() => {
+    if (client) {
+      client.enable?.(['cosmoshub-4', 'osmosis-1', 'juno-1'])
+      client.getAccount?.('juno-4').then((account) => console.log(account))
+      client.getAccount?.('osmosis-1').then((account) => console.log(account))
+      client.getAccount?.('cosmoshub-4').then((account) => console.log(account))
+    }
+  })
+
+  return (
+    <div style={{ textAlign: 'center', margin: '4rem' }}>
+      <Button onClick={connect}>Connect</Button>
+    </div>
+  );
+}
+```
+
+
+### Related Issuse
+* https://github.com/cosmology-tech/cosmos-kit/issues/164
+* https://github.com/cosmology-tech/cosmos-kit/issues/262
+* https://github.com/cosmology-tech/cosmos-kit/issues/263

@@ -18,7 +18,7 @@ export const cosmostationExtensionInfo: Wallet = {
       link: 'https://cosmostation.io/wallet/#extension',
     },
   ],
-  mobileDisabled: true,
+  mobileDisabled: () => !('cosmostation' in window || /Cosmostation/i.test(navigator.userAgent)),
   rejectMessage: {
     source:
       'The requested account and/or method has not been authorized by the user.',

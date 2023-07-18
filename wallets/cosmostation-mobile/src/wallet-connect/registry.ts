@@ -23,7 +23,7 @@ export const cosmostationMobileInfo: Wallet = {
       link: 'https://cosmostation.io/wallet/#extension',
     },
   ],
-  mobileDisabled: false,
+  mobileDisabled: () => 'cosmostation' in window || /Cosmostation/i.test(navigator.userAgent),
   walletconnect: {
     name: 'Cosmostation',
     projectId:

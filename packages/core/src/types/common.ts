@@ -24,6 +24,7 @@ export interface StateActions<T> extends Actions {
   state?: Dispatch<State>;
   data?: Dispatch<T | undefined>;
   message?: Dispatch<string | undefined>;
+  clientState?: Dispatch<State>;
 }
 
 export interface WalletClientActions {

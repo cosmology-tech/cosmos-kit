@@ -74,7 +74,7 @@ export interface Wallet {
   name: WalletName;
   prettyName: string;
   mode: WalletMode;
-  mobileDisabled: boolean;
+  mobileDisabled: boolean | (() => boolean);
   rejectMessage?:
   | {
     source: string; // message from wallet app

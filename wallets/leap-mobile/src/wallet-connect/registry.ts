@@ -7,7 +7,7 @@ export const LeapMobileInfo: Wallet = {
   prettyName: 'Leap Mobile',
   logo: ICON,
   mode: 'wallet-connect',
-  mobileDisabled: false,
+  mobileDisabled: () => 'leap' in window && /LeapCosmos/i.test(navigator.userAgent),
   rejectMessage: {
     source: 'Request rejected',
   },
