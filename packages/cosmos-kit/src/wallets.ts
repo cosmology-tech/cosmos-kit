@@ -10,7 +10,7 @@ import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
 import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
 import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
 // import { wallets as ledgerUSB } from '@cosmos-kit/ledger';
-import { wallets as finExtension } from '@cosmos-kit/fin-extension';
+// import { wallets as finExtension } from '@cosmos-kit/fin-extension';
 import { wallets as omniMobile } from '@cosmos-kit/omni-mobile';
 import { wallets as stationExtension } from '@cosmos-kit/station-extension';
 import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
@@ -29,6 +29,7 @@ export type WalletName =
   | 'xdefi'
   | 'vectis'
   | 'frontier'
+  | 'fin'
   | 'omni'
   | 'coin98'
   | 'shell'
