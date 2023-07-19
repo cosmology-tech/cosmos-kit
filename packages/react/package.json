@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react",
-  "version": "2.0.1-beta.8",
+  "version": "2.0.1-beta.9",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -79,8 +79,8 @@
   },
   "dependencies": {
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^2.0.1-beta.5",
-    "@cosmos-kit/react-lite": "^2.0.1-beta.5",
+    "@cosmos-kit/core": "^2.0.1-beta.6",
+    "@cosmos-kit/react-lite": "^2.0.1-beta.6",
     "@interchain-ui/react": "1.1.11",
     "@react-icons/all-files": "^4.1.0"
   },
