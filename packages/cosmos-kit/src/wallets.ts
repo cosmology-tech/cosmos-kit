@@ -10,10 +10,11 @@ import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
 import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
 import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
 // import { wallets as ledgerUSB } from '@cosmos-kit/ledger';
+import { wallets as finExtension } from '@cosmos-kit/fin-extension';
 import { wallets as omniMobile } from '@cosmos-kit/omni-mobile';
 import { wallets as stationExtension } from '@cosmos-kit/station-extension';
 import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
-// import { wallets as trustExtension } from '@cosmos-kit/trust-extension'
+import { wallets as shellExtension } from '@cosmos-kit/shell-extension'
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
 import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
 
@@ -30,6 +31,7 @@ export type WalletName =
   | 'frontier'
   | 'omni'
   | 'coin98'
+  | 'shell'
   | 'compass';
 
 export type WalletList<
@@ -70,6 +72,7 @@ export const xdefi = createWalletList(xdefiExtension[0], null);
 export const vectis = createWalletList(vectisExtension[0], null);
 export const frontier = createWalletList(frontierExtension[0], null);
 export const omni = createWalletList(null, omniMobile[0]);
+export const shell = createWalletList(shellExtension[0], null);
 export const coin98 = createWalletList(coin98Extension[0], null);
 export const compass = createWalletList(compassExtension[0], null);
 
