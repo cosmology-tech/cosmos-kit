@@ -74,6 +74,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initClientError(error);
     });
+    this.logger?.error(error);
     if (this.throwErrors) {
       throw new Error(this.clientMutable.message);
     }

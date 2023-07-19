@@ -20,7 +20,6 @@ export class FinExtensionWallet extends MainWalletBase {
       const fin = await getFinFromExtension();
       this.initClientDone(fin ? new FinClient(fin) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

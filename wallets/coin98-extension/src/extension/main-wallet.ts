@@ -20,7 +20,6 @@ export class Coin98ExtensionWallet extends MainWalletBase {
       const coin98 = await getCoin98FromExtension();
       this.initClientDone(coin98 ? new Coin98Client(coin98) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

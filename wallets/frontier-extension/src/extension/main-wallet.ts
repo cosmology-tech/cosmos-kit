@@ -16,7 +16,6 @@ export class FrontierExtensionWallet extends MainWalletBase {
       const frontier = await getFrontierFromExtension();
       this.initClientDone(frontier ? new FrontierClient(frontier) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

@@ -63,10 +63,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...omniWallets,
           ...exodusWallets,
           ...shellWallets,
-          ...leapWallets,
           ...vectisWallets,
-          ...xdefiWallets,
           ...frontierWallets,
+          ...leapWallets,
+          ...xdefiWallets,
           ...coin98Wallets,
           ...finWallets,
         ]}

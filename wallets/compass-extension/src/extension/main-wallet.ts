@@ -16,7 +16,6 @@ export class CompassExtensionWallet extends MainWalletBase {
       const compass = await getCompassFromExtension();
       this.initClientDone(compass ? new CompassClient(compass) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

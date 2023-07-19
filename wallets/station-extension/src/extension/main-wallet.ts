@@ -16,7 +16,6 @@ export class StationExtensionWallet extends MainWalletBase {
       const terra = await getStationFromExtension();
       this.initClientDone(terra ? new StationClient(terra) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

@@ -26,7 +26,6 @@ import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { wallets as finWallets } from "@cosmos-kit/fin";
 import { RootLayout } from "components/layout";
 
-import { terra2testnet, terra2testnetAssets } from "../config/terra2testnet";
 import { useMemo } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -37,8 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //         {
   //           provider: "google",
   //           name: "Google",
-  //           logo:
-  //             "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+  //           logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
   //         },
   //       ],
   //       client: {
@@ -58,12 +56,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RootLayout>
       <ChainProvider
-        chains={[...chains, terra2testnet]}
-        assetLists={[...assets, terra2testnetAssets]}
+        chains={[...chains]}
+        assetLists={[...assets]}
         wallets={[
           ...keplrWallets,
           ...ledgerWallets,
-          // ...web3AuthWallets,
+          ...web3AuthWallets,
           ...trustWallets,
           ...stationWallets,
           ...cosmostationWallets,

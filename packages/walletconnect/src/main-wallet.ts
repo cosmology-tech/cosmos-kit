@@ -45,7 +45,6 @@ export class WCWallet extends MainWalletBase {
 
       this.initClientDone(client);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

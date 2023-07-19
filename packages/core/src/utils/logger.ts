@@ -24,6 +24,7 @@ export class Logger {
     'INFO',
     'WARN',
     'ERROR',
+    'NONE',
   ];
 
   public constructor(level: LogLevel = 'INFO') {

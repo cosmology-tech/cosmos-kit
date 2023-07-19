@@ -73,7 +73,6 @@ export class Web3AuthWallet extends MainWalletBase {
         }
       }
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

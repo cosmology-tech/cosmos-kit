@@ -5,7 +5,7 @@ import { LedgerClient } from './client';
 import { TransportType } from './utils';
 
 export class LedgerMainWallet extends MainWalletBase {
-  transportType: TransportType
+  transportType: TransportType;
   constructor(
     walletInfo: Wallet,
     preferredEndpoints?: EndpointOptions['endpoints'],
@@ -21,7 +21,6 @@ export class LedgerMainWallet extends MainWalletBase {
     try {
       this.initClientDone(new LedgerClient());
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

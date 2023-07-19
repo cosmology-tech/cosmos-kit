@@ -20,7 +20,6 @@ export class ShellExtensionWallet extends MainWalletBase {
       const shell = await getShellFromExtension();
       this.initClientDone(shell ? new ShellClient(shell) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }

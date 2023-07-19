@@ -16,7 +16,6 @@ export class TrustExtensionWallet extends MainWalletBase {
       const trust = await getTrustFromExtension();
       this.initClientDone(trust ? new TrustClient(trust) : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }
