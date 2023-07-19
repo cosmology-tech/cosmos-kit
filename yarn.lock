@@ -3430,21 +3430,6 @@
   dependencies:
     "@cosmos-kit/exodus-extension" "^0.1.3"
 
-"@cosmos-kit/fin-extension@^0.1.1":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@cosmos-kit/fin-extension/-/fin-extension-0.0.2.tgz#b3b5f29e9a89f6ab63ae09747e4fe6a11ca7f880"
-  integrity sha512-YbQK8csr65xOO3S36D+koNEWII1WHgqBxPqSf8TIJyyUiv0CWeRnav/SBkXkB2q1vVS912pLOlY9qQqvdD3PYw==
-  dependencies:
-    "@chain-registry/keplr" "1.8.0"
-    "@cosmos-kit/core" "^1.5.5"
-
-"@cosmos-kit/fin@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@cosmos-kit/fin/-/fin-0.0.2.tgz#424150aea57264c45fe6936e83a5160bb12dfcc3"
-  integrity sha512-+qfLFxiux/8WLaM63XyztVVJ6PrhoZH1ydVJ9Qi6yd+k84tkX7mnCINOhsH6ld2+LAOTKJUsDIWOWrNCECnpsg==
-  dependencies:
-    "@cosmos-kit/fin-extension" "^0.1.1"
-
 "@cosmos-kit/frontier-extension@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@cosmos-kit/frontier-extension/-/frontier-extension-0.2.3.tgz#6b23007a33e97dd717e7b4d1faa54448dc9ed4d9"
