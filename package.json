@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "0.7.1",
+  "version": "2.0.0",
   "publishConfig": {
     "access": "restricted"
   },
