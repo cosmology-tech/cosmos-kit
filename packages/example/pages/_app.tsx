@@ -24,9 +24,9 @@ import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { wallets as finWallets } from "@cosmos-kit/fin";
-import { RootLayout } from "components/layout";
+import { RootLayout } from "../components/layout";
 
-import { useMemo } from "react";
+import React from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const web3AuthWallets = useMemo(
