@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/web3auth@2.0.1-beta.8...@cosmos-kit/web3auth@2.0.1) (2023-07-21)
+
+**Note:** Version bump only for package @cosmos-kit/web3auth
+
 ## [2.0.1-beta.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/web3auth@2.0.1-beta.7...@cosmos-kit/web3auth@2.0.1-beta.8) (2023-07-19)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
