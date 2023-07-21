@@ -39,7 +39,8 @@ export function getWalletProp(wallet: Wallet) {
     name,
     prettyName,
     logo,
-    mobileDisabled,
+    mobileDisabled:
+      typeof mobileDisabled === 'boolean' ? mobileDisabled : mobileDisabled(),
     isMobile: mode === 'wallet-connect',
   };
 }

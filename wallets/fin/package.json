@@ -85,5 +85,6 @@
   },
   "dependencies": {
     "@cosmos-kit/fin-extension": "^2.0.1"
-  }
+  },
+  "gitHead": "2c20b02438f2715d62bc69df58380af9685c4b3d"
 }
