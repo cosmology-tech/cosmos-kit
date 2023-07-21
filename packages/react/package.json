@@ -88,8 +88,6 @@
     "@types/react": "18.2.0"
   },
   "peerDependencies": {
-    "@cosmjs/cosmwasm-stargate": ">= 0.28",
-    "@cosmjs/stargate": ">= 0.28",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

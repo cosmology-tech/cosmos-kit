@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           ...keplrWallets,
           ...ledgerWallets,
-          ...web3AuthWallets,
+          // ...web3AuthWallets,
           ...trustWallets,
           ...stationWallets,
           ...cosmostationWallets,
