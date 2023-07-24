@@ -106,3 +106,10 @@ function Component ({ chainName }: { chainName: string }) => {
 - **Type**: `string`
 
 It records current wallet name. You can use this key to implement auto-connection in dapp. And it will expire after provided [session duration](#sessionoptions).
+
+### accounts
+
+- **Key**: `cosmos-kit@2:core//accounts`
+- **Type**: `SimpleAccount[]`
+
+It records the connected chains' account information. It's used for account restore when refreshing in CosmosKit. And it will expire after provided [session duration](#sessionoptions).
