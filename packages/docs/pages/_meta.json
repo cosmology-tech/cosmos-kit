@@ -3,7 +3,6 @@
   "get-started": "Get Started",
   "provider": "Provider",
   "hooks": "Hooks",
-  "cosmos": "Cosmos",
   "cookbook": "Cookbook",
   "integrating-wallets": "Integrating Wallets"
 }

@@ -61,6 +61,7 @@ export class WalletManager extends StateBase {
       callback: () => {
         this.mainWallets.forEach((w) => w.disconnectAll(false));
         window?.localStorage.removeItem('cosmos-kit@2:core//accounts');
+        window?.localStorage.removeItem('cosmos-kit@2:core//current-wallet');
       },
       ...sessionOptions,
     });
@@ -231,9 +232,8 @@ export class WalletManager extends StateBase {
     chainName: ChainName,
     walletName: WalletName
   ): ChainWalletBase => {
-    const chainWallet: ChainWalletBase | undefined = this.getMainWallet(
-      walletName
-    ).getChainWallet(chainName);
+    const chainWallet: ChainWalletBase | undefined =
+      this.getMainWallet(walletName).getChainWallet(chainName);
 
     if (!chainWallet) {
       throw new Error(`${chainName} is not provided!`);
@@ -325,7 +325,10 @@ export class WalletManager extends StateBase {
         });
       }
     }
-    if (walletName && accountsStr && accountsStr !== '[]') {
+    // if (walletName && accountsStr && accountsStr !== '[]') {
+    //   await this._reconnect();
+    // }
+    if (walletName) {
       await this._reconnect();
     }
   };
