@@ -324,13 +324,13 @@ export class WalletManager extends StateBase {
           chainWallet?.setState(State.Done);
         });
       }
+      if (mainWallet.walletInfo.mode !== 'wallet-connect') {
+        await this._reconnect();
+      }
     }
     // if (walletName && accountsStr && accountsStr !== '[]') {
     //   await this._reconnect();
     // }
-    if (walletName) {
-      await this._reconnect();
-    }
   };
 
   onMounted = async () => {
