@@ -1,6 +1,7 @@
 {
   "index": "Introduction",
   "get-started": "Get Started",
+  "migration-to-v2": "Migration to V2",
   "provider": "Provider",
   "hooks": "Hooks",
   "cookbook": "Cookbook",
