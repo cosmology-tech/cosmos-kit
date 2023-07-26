@@ -33,9 +33,8 @@
     "test": "__tests__"
   },
   "files": [
-    "types",
-    "main",
-    "module"
+    "dist",
+    "!CHANGELOG.md"
   ],
   "scripts": {
     "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs || true",
