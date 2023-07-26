@@ -1,10 +1,10 @@
+import { Chain } from '@chain-registry/types';
 import { OfflineAminoSigner, StdSignature } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { DappEnv, WalletClient } from '@cosmos-kit/core';
 import { makeADR36AminoSignDoc } from '@keplr-wallet/cosmos';
 import eccrypto from '@toruslabs/eccrypto';
 import { UserInfo } from '@web3auth/base';
-import { chains } from 'chain-registry';
 
 import { Web3AuthSigner } from './signer';
 import { Web3AuthClientOptions } from './types';
@@ -14,7 +14,6 @@ import {
   sendAndListenOnce,
   WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY,
 } from './utils';
-import { pathToFileURL } from 'url';
 
 // In case these get overwritten by an attacker.
 const terminate =
@@ -22,6 +21,7 @@ const terminate =
 
 export class Web3AuthClient implements WalletClient {
   env: DappEnv;
+  getChain: (chainId: string) => Chain | undefined;
 
   #worker?: Worker;
   #clientPrivateKey?: Buffer;
@@ -34,9 +34,14 @@ export class Web3AuthClient implements WalletClient {
 
   ready = false;
 
-  constructor(env: DappEnv, options: Web3AuthClientOptions) {
+  constructor(
+    env: DappEnv,
+    options: Web3AuthClientOptions,
+    getChain: (chainId: string) => Chain | undefined
+  ) {
     this.env = env;
     this.#options = Object.freeze(options);
+    this.getChain = getChain;
   }
 
   async ensureSetup(): Promise<void> {
@@ -76,18 +81,7 @@ export class Web3AuthClient implements WalletClient {
       .toString('hex');
 
     // Spawn a new worker that will handle the private key and signing.
-    const worker = new Worker(
-      new URL(
-        `./web3auth.worker.${
-          // CommonJS
-          typeof module !== 'undefined' && typeof exports !== 'undefined'
-            ? ''
-            : // ESM
-              'm'
-        }js`,
-        pathToFileURL(__filename).toString()
-      )
-    );
+    const worker = new Worker(new URL('./web3auth.worker.js', import.meta.url));
 
     // Begin two-step handshake to authenticate with the worker and exchange
     // communication public keys as well as the wallet private key.
@@ -160,7 +154,7 @@ export class Web3AuthClient implements WalletClient {
     await this.ensureSetup();
 
     const _chains = [_chainIds].flat().map((chainId) => {
-      const chain = chains.find(({ chain_id }) => chain_id === chainId);
+      const chain = this.getChain(chainId);
       if (!chain) {
         throw new Error(`Chain ID ${chainId} not found`);
       }

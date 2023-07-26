@@ -1,15 +1,16 @@
 import { sha256 } from '@cosmjs/crypto';
 import { toUtf8 } from '@cosmjs/encoding';
 import eccrypto, { Ecies } from '@toruslabs/eccrypto';
-import { UX_MODE } from '@toruslabs/openlogin';
 import {
   ADAPTER_STATUS,
   CHAIN_NAMESPACES,
+  CustomChainConfig,
   SafeEventEmitterProvider,
   WALLET_ADAPTERS,
 } from '@web3auth/base';
+import { CommonPrivateKeyProvider } from '@web3auth/base-provider';
 import { Web3AuthNoModal } from '@web3auth/no-modal';
-import { OpenloginAdapter } from '@web3auth/openlogin-adapter';
+import { OpenloginAdapter, UX_MODE } from '@web3auth/openlogin-adapter';
 
 import {
   FromWorkerMessage,
@@ -115,12 +116,19 @@ export const connectClientAndProvider = async (
   client: Web3AuthNoModal;
   provider: SafeEventEmitterProvider | null;
 }> => {
+  const chainConfig: CustomChainConfig = {
+    chainId: 'other',
+    rpcTarget: 'other',
+    displayName: 'other',
+    blockExplorer: 'other',
+    ticker: 'other',
+    tickerName: 'other',
+    ...options.client.chainConfig,
+    chainNamespace: CHAIN_NAMESPACES.OTHER,
+  };
   const client = new Web3AuthNoModal({
     ...options.client,
-    chainConfig: {
-      ...options.client.chainConfig,
-      chainNamespace: CHAIN_NAMESPACES.OTHER,
-    },
+    chainConfig,
   });
 
   // Popups are blocked by default on mobile browsers, so use redirect. Popup is
@@ -140,7 +148,13 @@ export const connectClientAndProvider = async (
     );
   }
 
+  const privateKeyProvider = new CommonPrivateKeyProvider({
+    config: {
+      chainConfig,
+    },
+  });
   const openloginAdapter = new OpenloginAdapter({
+    privateKeyProvider,
     adapterSettings: {
       uxMode,
       // Setting both to empty strings prevents the popup from opening when
@@ -156,12 +170,11 @@ export const connectClientAndProvider = async (
   client.configureAdapter(openloginAdapter);
 
   await client.init();
-
-  const provider =
-    client.provider ??
-    (await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-      loginProvider: options.loginProvider,
-    }));
+  const provider = client.connected
+    ? client.provider
+    : await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+        loginProvider: options.loginProvider,
+      });
 
   if (usingRedirect) {
     if (client.status === ADAPTER_STATUS.CONNECTED) {
