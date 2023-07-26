@@ -24,7 +24,12 @@ export type Web3AuthClientOptions = {
   client: {
     clientId: string;
     web3AuthNetwork: OPENLOGIN_NETWORK_TYPE;
-  } & Web3AuthNoModalOptions;
+  } & Omit<Web3AuthNoModalOptions, 'chainConfig'> & {
+      chainConfig?: Omit<
+        Web3AuthNoModalOptions['chainConfig'],
+        'chainNamespace'
+      >;
+    };
 
   // Mobile devices block popups by default, so the default behavior is to use
   // the redirect method to sign-in on mobile, and the popup method on desktop.
