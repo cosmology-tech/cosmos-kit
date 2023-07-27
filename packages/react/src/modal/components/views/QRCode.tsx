@@ -14,8 +14,9 @@ export function QRCodeView({
 }: WalletViewProps): ModalViewImpl {
   const {
     walletInfo: { prettyName },
-    qrUrl: { data, state, message },
   } = wallet;
+
+  const { data, state, message } = wallet.qrUrl ?? {};
 
   function getParts() {
     let desc = `Open ${prettyName} App to Scan`;
