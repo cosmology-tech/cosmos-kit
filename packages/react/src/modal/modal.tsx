@@ -1,10 +1,10 @@
-import { ConnectModal, ThemeProvider } from '@interchain-ui/react';
 import {
   ModalView,
   State,
   WalletModalProps,
   WalletStatus,
 } from '@cosmos-kit/core';
+import { ConnectModal, ThemeProvider } from '@interchain-ui/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { defaultModalViews, ModalViewImpl } from './components/views';
@@ -91,8 +91,7 @@ export function WalletModal({
         ? walletRepo?.wallets.filter((w) =>
             typeof w.walletInfo.mobileDisabled === 'boolean'
               ? !w.walletInfo.mobileDisabled
-              : // @ts-expect-error fix
-                !w.walletInfo.mobileDisabled()
+              : !w.walletInfo.mobileDisabled()
           )
         : walletRepo?.wallets,
     [walletRepo, includeAllWalletsOnMobile]
