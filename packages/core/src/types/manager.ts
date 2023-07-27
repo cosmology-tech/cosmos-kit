@@ -19,22 +19,6 @@ export interface SignerOptions {
   preferredSignType?: (chain: Chain) => SignType | undefined; // using `amino` if undefined
 }
 
-export interface ViewOptions {
-  alwaysOpenView?: boolean;
-  closeViewWhenWalletIsConnected?: boolean;
-  closeViewWhenWalletIsDisconnected?: boolean;
-  closeViewWhenWalletIsRejected?: boolean;
-}
-
-export interface StorageOptions {
-  disabled?: boolean;
-  /**
-   * Duration in ms.
-   */
-  duration?: number;
-  clearOnTabClose?: boolean;
-}
-
 export interface SessionOptions {
   /**
    * Duration in ms.
