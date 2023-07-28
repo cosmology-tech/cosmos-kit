@@ -11,7 +11,7 @@
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "directories": {
     "lib": "src"
