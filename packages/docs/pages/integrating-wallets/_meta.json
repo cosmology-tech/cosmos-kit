@@ -1,6 +1,7 @@
 {
   "index": "Introduction",
   "adding-new-wallets": "Adding New Wallets",
+  "adding-all-wallets": "Adding All Wallets",
   "compass": "@ Compass",
   "cosmostation": "@ Cosmostation Wallet",
   "exodus": "@ Exodus",
@@ -8,7 +9,7 @@
   "frontier": "@ Frontier Wallet",
   "keplr": "@ Keplr Wallet",
   "leap": "@ Leap Wallet",
-  "ledger": "@ Ledger (Beta)",
+  "ledger": "@ Ledger",
   "omni": "@ Omni",
   "shell": "@ Shell",
   "station": "@ Station Wallet",

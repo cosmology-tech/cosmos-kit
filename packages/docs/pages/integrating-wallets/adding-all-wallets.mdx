@@ -1,0 +1,56 @@
+# How to Add All Wallets at Once
+
+The `cosmos-kit` package exports all supported `wallets` in CosmosKit.
+
+## Add `cosmos-kit`
+
+```sh
+# npm
+npm i cosmos-kit
+
+# pnpm
+pnpm i cosmos-kit
+
+# yarn
+yarn add cosmos-kit
+```
+
+## Import the wallets
+
+```js
+import { wallets } from "cosmos-kit";
+```
+
+## Add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={wallets}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
+
+## Subset of wallets
+```js
+import { wallets } from 'cosmos-kit'
+
+wallets.mobile      // An array of mobile wallets
+wallets.extension   // An array of extension wallets
+wallets.for('keplr', 'cosmostation')            // [KeplrExtensionWallet, KeplrMobileWallet, CosmostationExtensionWallet, CosmostationMobileWallet]
+wallets.for('keplr', 'cosmostation').mobile     // [KeplrMobileWallet, CosmostationMobileWallet]
+wallets.for('keplr', 'cosmostation').extension  // [KeplrExtensionWallet, CosmostationExtensionWallet]
+wallets.not('coin98', 'compass')                // wallets except Coin98 and Compass
+wallets.keplr           // [KeplrExtensionWallet, KeplrMobileWallet]
+wallets.keplr.mobile    // KeplrMobileWallet
+wallets.keplr.extension // KeplrExtensionWallet
+```
