@@ -74,7 +74,9 @@ export class Web3AuthWallet extends MainWalletBase {
       // attempt to connect from the redirect.
       const redirectResult = getHashQueryParams();
       const shouldAutoConnect =
-        Object.keys(redirectResult).length > 0 && !!redirectResult.sessionId;
+        Object.keys(redirectResult).length > 0 &&
+        !!redirectResult.sessionId &&
+        !redirectResult.error;
 
       if (shouldAutoConnect) {
         try {
@@ -82,6 +84,10 @@ export class Web3AuthWallet extends MainWalletBase {
         } catch (error) {
           this.logger?.error(error);
         }
+      } else {
+        // Don't try to connect again if no hash query params ready. This
+        // prevents auto-connect loops.
+        localStorage.removeItem(WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY);
       }
     } catch (error) {
       this.initClientError(error);

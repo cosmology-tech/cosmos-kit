@@ -170,11 +170,27 @@ export const connectClientAndProvider = async (
   client.configureAdapter(openloginAdapter);
 
   await client.init();
-  const provider = client.connected
-    ? client.provider
-    : await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+
+  let provider = client.connected ? client.provider : null;
+  if (!client.connected) {
+    try {
+      provider = await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
         loginProvider: options.loginProvider,
       });
+    } catch (err) {
+      // Unnecessary error thrown during redirect, so log and ignore it.
+      if (
+        usingRedirect &&
+        err instanceof Error &&
+        err.message.includes('null')
+      ) {
+        console.error(err);
+      } else {
+        // Rethrow all other relevant errors.
+        throw err;
+      }
+    }
+  }
 
   if (usingRedirect) {
     if (client.status === ADAPTER_STATUS.CONNECTED) {

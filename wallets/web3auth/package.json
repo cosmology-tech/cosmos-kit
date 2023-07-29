@@ -23,7 +23,7 @@
     "!CHANGELOG.md"
   ],
   "scripts": {
-    "build:mjs": "yarn tsc -p tsconfig.json --outDir dist --module es2022 --declaration false || true",
+    "build:mjs": "yarn tsc -p tsconfig.json --outDir dist --module es2022 || true",
     "clean:dist": "rimraf dist",
     "clean": "npm run clean:dist",
     "build": "npm run clean && npm run build:mjs",
