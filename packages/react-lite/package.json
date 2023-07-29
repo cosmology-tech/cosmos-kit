@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react-lite",
-  "version": "2.0.3",
+  "version": "2.1.1",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -23,25 +23,26 @@
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "source": "./src/index.ts",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "cjs/index.d.ts",
   "directories": {
     "lib": "src",
     "test": "__tests__"
   },
   "files": [
-    "dist",
-    "!CHANGELOG.md"
+    "cjs",
+    "esm",
+    "!CHANGELOG.md",
+    "!LICENSE"
   ],
   "scripts": {
-    "build:cjs": "yarn tsc -p tsconfig.json --outDir dist --module commonjs || true",
-    "build:mjs": "yarn tsc -p tsconfig.json --outDir mjs --module es2022 --declaration false || true",
-    "clean:mjs": "rimraf mjs",
-    "clean:dist": "rimraf dist",
-    "clean": "npm run clean:mjs && npm run clean:dist",
-    "build:rename": "publish-scripts --cmd rename --srcDir mjs --outDir dist --findExt js --replaceExt mjs --no-rmDir",
-    "build": "npm run clean && npm run build:cjs && npm run build:mjs && npm run build:rename && npm run clean:mjs",
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
+    "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
+    "clean:cjs": "rimraf cjs",
+    "clean:esm": "rimraf esm",
+    "clean": "npm run clean:cjs && npm run clean:esm",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
     "prepare": "npm run build",
     "clear": "rm -rf ./dist",
     "lint": "eslint --ext .tsx,.ts .",
@@ -79,7 +80,7 @@
   },
   "dependencies": {
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^2.0.3"
+    "@cosmos-kit/core": "^2.1.0"
   },
   "resolutions": {
     "@types/react": "^18.2"

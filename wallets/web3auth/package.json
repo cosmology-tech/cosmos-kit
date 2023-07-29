@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/web3auth",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "cosmos-kit wallet connector for Web3Auth",
   "author": "noah@noah.zone",
   "contributors": [
@@ -11,22 +11,24 @@
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "esm/index.js",
+  "module": "esm/index.js",
+  "typings": "esm/index.d.ts",
   "directories": {
     "lib": "src",
     "test": "__tests__"
   },
   "files": [
-    "dist",
-    "!CHANGELOG.md"
+    "cjs",
+    "esm",
+    "!CHANGELOG.md",
+    "!LICENSE"
   ],
   "scripts": {
-    "build:mjs": "yarn tsc -p tsconfig.json --outDir dist --module es2022 || true",
-    "clean:dist": "rimraf dist",
-    "clean": "npm run clean:dist",
-    "build": "npm run clean && npm run build:mjs",
+    "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
+    "clean:esm": "rimraf esm",
+    "clean": "npm run clean:esm",
+    "build": "npm run clean && npm run build:esm",
     "prepare": "npm run build",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
@@ -57,7 +59,7 @@
   },
   "dependencies": {
     "@chain-registry/types": "0.13.1",
-    "@cosmos-kit/core": "^2.0.3",
+    "@cosmos-kit/core": "^2.1.0",
     "@solana/web3.js": "^1.77.3",
     "@toruslabs/eccrypto": "^2.1.1",
     "@web3auth/base": "^5.1.0",

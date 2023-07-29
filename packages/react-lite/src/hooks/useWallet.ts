@@ -28,17 +28,14 @@ export const useWallet = (
     };
   }
 
-  const {
-    walletInfo,
-    getChainWalletList,
-    getGlobalStatusAndMessage,
-  } = mainWallet;
+  const { walletInfo, getChainWalletList, getGlobalStatusAndMessage } =
+    mainWallet;
 
   const [globalStatus, globalMessage] = getGlobalStatusAndMessage(activeOnly);
 
   return {
     mainWallet,
-    chainWallets: getChainWalletList(activeOnly),
+    chainWallets: getChainWalletList(false),
     wallet: walletInfo,
     status: globalStatus,
     message: globalMessage,

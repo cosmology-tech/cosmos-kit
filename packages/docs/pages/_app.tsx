@@ -1,24 +1,11 @@
 import "@interchain-ui/react/styles";
 import "../styles/globals.css";
+import { wallets } from 'cosmos-kit'
 import type { AppProps } from "next/app";
+import { assets, chains } from "chain-registry";
 import { ChainProvider } from "@cosmos-kit/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { assets, chains } from "chain-registry";
-import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as exodusWallets } from "@cosmos-kit/exodus";
-import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
-import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
-import { wallets as shellWallets } from "@cosmos-kit/shell";
-import { wallets as stationWallets } from "@cosmos-kit/station";
-import { wallets as omniWallets } from "@cosmos-kit/omni";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
-import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-import { wallets as frontierWallets } from "@cosmos-kit/frontier";
-import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
-import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
-import { wallets as finWallets } from "@cosmos-kit/fin";
 import "nextra-theme-docs/style.css";
 import React, { useMemo } from "react";
 
@@ -53,23 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[
-          ...keplrWallets,
-          ...ledgerWallets,
-          // ...web3AuthWallets,
-          ...trustWallets,
-          ...stationWallets,
-          ...cosmostationWallets,
-          ...omniWallets,
-          ...exodusWallets,
-          ...shellWallets,
-          ...vectisWallets,
-          ...frontierWallets,
-          ...leapWallets,
-          ...xdefiWallets,
-          ...coin98Wallets,
-          ...finWallets,
-        ]}
+        wallets={wallets}
         walletConnectOptions={{
           signClient: {
             projectId: "61e6745dc9a852e0ed9ba60d28212357",

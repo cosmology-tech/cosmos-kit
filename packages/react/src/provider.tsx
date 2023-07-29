@@ -36,7 +36,6 @@ export const ChainProvider = ({
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalViews?: typeof defaultModalViews;
-  wrappedWithChakra?: boolean;
   throwErrors?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
@@ -87,8 +86,5 @@ export const ChainProvider = ({
     ),
     [defaultModalViews]
   );
-
-  logger.debug('Wrap with <ChakraProviderWithGivenTheme>.');
-
   return withChainProvider(defaultModal);
 };

@@ -2756,10 +2756,10 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@1.1.11":
-  version "1.1.11"
-  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.1.11.tgz"
-  integrity sha512-7SiShvyCTlPfhLM/OAZ08noV4X+rtpwTgprqa+HFGnQ9TL/Ahrzs+uo+r/gNoFr1QkD4fsLQdpdRTCnU9T389g==
+"@interchain-ui/react@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.3.0.tgz#57e98420c37585055880c1ab56cadb2a59e473db"
+  integrity sha512-17Forqigz0o0vUsg9b+oJoYiYTr5FLwCcj5VNivOBH4+Icg/IzAl7nR5UeCkcpXbd6QHdFPBZtijLKLmfj1O1Q==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@formkit/auto-animate" "1.0.0-beta.6"
@@ -2768,7 +2768,6 @@
     "@vanilla-extract/css-utils" "^0.1.3"
     "@vanilla-extract/dynamic" "^2.0.3"
     "@vanilla-extract/recipes" "^0.4.0"
-    "@vanilla-extract/sprinkles" "^1.6.1"
     "@zag-js/dialog" "^0.9.2"
     "@zag-js/react" "^0.9.2"
     animejs "^3.2.1"
@@ -2779,6 +2778,7 @@
     lodash "^4.17.21"
     motion "^10.16.2"
     polished "^4.2.2"
+    rainbow-sprinkles "^0.17.0"
     zustand "^4.3.8"
 
 "@iov/crypto@2.1.0":
@@ -5239,11 +5239,6 @@
   version "0.4.0"
   resolved "https://registry.npmjs.org/@vanilla-extract/recipes/-/recipes-0.4.0.tgz"
   integrity sha512-gFgB7BofUYbtbxINHK6DhMv1JDFDXp/YI/Xm+cqKar+1I/2dfxPepeDxSexL6YB4ftfeaDw8Kn5zydMvHcGOEQ==
-
-"@vanilla-extract/sprinkles@^1.6.1":
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/@vanilla-extract/sprinkles/-/sprinkles-1.6.1.tgz"
-  integrity sha512-N/RGKwGAAidBupZ436RpuweRQHEFGU+mvAqBo8PRMAjJEmHoPDttV8RObaMLrJHWLqvX+XUMinHUnD0hFRQISw==
 
 "@walletconnect/core@2.9.0":
   version "2.9.0"
@@ -13561,6 +13556,11 @@ quick-lru@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-4.0.1.tgz"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
+
+rainbow-sprinkles@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/rainbow-sprinkles/-/rainbow-sprinkles-0.17.0.tgz#6ee06c6decc767b89bf01fc5fe87ecf859fd4c2f"
+  integrity sha512-ok3NrylQ0szvJtuBYaB/w09L9zOvvqcSQrvycT2A5XJxQNvwvkeADvTqQWGOQ3b6MkO8UmYccBPt8g8vVvxM9A==
 
 randombytes@^2.1.0:
   version "2.1.0"

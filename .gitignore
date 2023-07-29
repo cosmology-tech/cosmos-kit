@@ -7,10 +7,14 @@ packages/**/build
 packages/**/main
 packages/**/module
 packages/**/dist
+packages/**/cjs
+packages/**/esm
 wallets/**/build
 wallets/**/main
 wallets/**/module
 wallets/**/dist
+wallets/**/cjs
+wallets/**/esm
 packages/example/pages/tmp.tsx
 packages/example/utils/tmp.ts
 .idea

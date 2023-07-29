@@ -13,7 +13,7 @@ import { useIsClient } from "../hooks";
 // const chainNames_1 = ["osmosis", "cosmoshub"];
 // const chainNames_2 = ["stargaze", "chihuahua"];
 
-const chainNames_1 = ["osmosis"];
+const chainNames_1 = ["cosmoshub"];
 const chainNames_2: string[] = [];
 
 // const chainNames_1 = ["coreum"];
@@ -24,7 +24,6 @@ export default function IndexPage() {
     chainNames_1[0]
   );
   const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
-
   const isClient = useIsClient();
 
   useEffect(() => {
