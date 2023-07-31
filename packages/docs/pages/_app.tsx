@@ -1,6 +1,6 @@
 import "@interchain-ui/react/styles";
 import "../styles/globals.css";
-import { wallets } from 'cosmos-kit'
+import { wallets } from "cosmos-kit";
 import type { AppProps } from "next/app";
 import { assets, chains } from "chain-registry";
 import { ChainProvider } from "@cosmos-kit/react";
@@ -17,8 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   //         {
   //           provider: "google",
   //           name: "Google",
-  //           logo:
-  //             "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+  //           logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
   //         },
   //       ],
   //       client: {
