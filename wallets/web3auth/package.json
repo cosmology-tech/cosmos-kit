@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/web3auth",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "cosmos-kit wallet connector for Web3Auth",
   "author": "noah@noah.zone",
   "contributors": [
@@ -10,9 +10,10 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "cjs/index.js",
+  "type": "module",
+  "main": "esm/index.js",
   "module": "esm/index.js",
-  "types": "cjs/index.d.ts",
+  "typings": "esm/index.d.ts",
   "directories": {
     "lib": "src",
     "test": "__tests__"
@@ -24,12 +25,10 @@
     "!LICENSE"
   ],
   "scripts": {
-    "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
     "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
-    "clean:cjs": "rimraf cjs",
     "clean:esm": "rimraf esm",
-    "clean": "npm run clean:cjs && npm run clean:esm",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "clean": "npm run clean:esm",
+    "build": "npm run clean && npm run build:esm",
     "prepare": "npm run build",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix .",
@@ -59,22 +58,23 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.1.0",
+    "@chain-registry/types": "0.13.1",
+    "@cosmos-kit/core": "^2.1.1",
     "@solana/web3.js": "^1.77.3",
     "@toruslabs/eccrypto": "^2.1.1",
     "@web3auth/base": "^5.1.0",
-    "@web3auth/no-modal": "^5.1.0",
-    "@web3auth/openlogin-adapter": "^5.1.1",
-    "libsodium-wrappers-sumo": "^0.7.11",
+    "@web3auth/base-provider": "^6.1.4",
+    "@web3auth/ethereum-provider": "^6.1.5",
+    "@web3auth/no-modal": "^6.1.4",
+    "@web3auth/openlogin-adapter": "^6.1.4",
+    "@web3auth/solana-provider": "^6.1.4",
+    "ethereum-cryptography": "^2.1.2",
     "url": "^0.11.1"
   },
   "peerDependencies": {
-    "@chainsafe/ssz": "^0.11.1",
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28",
-    "@ethersproject/providers": "^5.7.2",
     "@keplr-wallet/cosmos": ">= 0.10",
-    "chain-registry": "*",
     "cosmjs-types": ">= 0.5"
   },
   "gitHead": "2c20b02438f2715d62bc69df58380af9685c4b3d"
