@@ -2,11 +2,11 @@ import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { AccountData, DirectSignResponse } from '@cosmjs/proto-signing';
 import { Wallet } from '@cosmos-kit/core';
 import { Ecies } from '@toruslabs/eccrypto';
+import { Web3AuthNoModalOptions } from '@web3auth/no-modal';
 import {
   LOGIN_PROVIDER_TYPE,
   OPENLOGIN_NETWORK_TYPE,
-} from '@toruslabs/openlogin';
-import { Web3AuthNoModalOptions } from '@web3auth/no-modal';
+} from '@web3auth/openlogin-adapter';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export type Web3AuthWalletInfo = Wallet & { options: Web3AuthClientOptions };
@@ -24,7 +24,12 @@ export type Web3AuthClientOptions = {
   client: {
     clientId: string;
     web3AuthNetwork: OPENLOGIN_NETWORK_TYPE;
-  } & Web3AuthNoModalOptions;
+  } & Omit<Web3AuthNoModalOptions, 'chainConfig'> & {
+      chainConfig?: Omit<
+        Web3AuthNoModalOptions['chainConfig'],
+        'chainNamespace'
+      >;
+    };
 
   // Mobile devices block popups by default, so the default behavior is to use
   // the redirect method to sign-in on mobile, and the popup method on desktop.

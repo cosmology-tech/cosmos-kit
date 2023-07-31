@@ -1,5 +1,6 @@
 import { MainWalletBase } from '@cosmos-kit/core';
-import { getHashQueryParams, OPENLOGIN_NETWORK } from '@toruslabs/openlogin';
+import { getHashQueryParams } from '@toruslabs/openlogin';
+import { OPENLOGIN_NETWORK } from '@web3auth/openlogin-adapter';
 
 import { Web3AuthChainWallet } from './chain-wallet';
 import { Web3AuthClient } from './client';
@@ -48,7 +49,16 @@ export class Web3AuthWallet extends MainWalletBase {
       if (typeof this.env === 'undefined') {
         throw new Error('Undefined env.');
       }
-      this.initClientDone(new Web3AuthClient(this.env, options));
+      this.initClientDone(
+        new Web3AuthClient(
+          this.env,
+          options,
+          (chainId) =>
+            this.getChainWalletList().find(
+              (chainWallet) => chainWallet.chainId === chainId
+            )?.chain
+        )
+      );
 
       // Force connect to this wallet if the redirect auto connect key is set
       // and there is a wallet in the hash.
@@ -59,11 +69,14 @@ export class Web3AuthWallet extends MainWalletBase {
         return;
       }
 
-      // Same logic used in `@web3auth/openlogin-adapter` init function to
-      // determine if the adapter should attempt to connect from the redirect.
+      // Same logic used in `@web3auth/openlogin-adapter` >
+      // `@toruslabs/openlogin` init function to determine if the adapter should
+      // attempt to connect from the redirect.
       const redirectResult = getHashQueryParams();
       const shouldAutoConnect =
-        Object.keys(redirectResult).length > 0 && !!redirectResult._pid;
+        Object.keys(redirectResult).length > 0 &&
+        !!redirectResult.sessionId &&
+        !redirectResult.error;
 
       if (shouldAutoConnect) {
         try {
@@ -71,6 +84,10 @@ export class Web3AuthWallet extends MainWalletBase {
         } catch (error) {
           this.logger?.error(error);
         }
+      } else {
+        // Don't try to connect again if no hash query params ready. This
+        // prevents auto-connect loops.
+        localStorage.removeItem(WEB3AUTH_REDIRECT_AUTO_CONNECT_KEY);
       }
     } catch (error) {
       this.initClientError(error);

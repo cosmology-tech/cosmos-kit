@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src",
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "module": "es2022"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
