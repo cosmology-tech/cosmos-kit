@@ -77,7 +77,7 @@ export function WalletModal({
   const onCloseModal = useCallback(() => {
     setOpen(false);
     if (walletStatus === 'Connecting') {
-      current?.reset();
+      current?.disconnect();
     }
   }, [setOpen, walletStatus, current]);
 

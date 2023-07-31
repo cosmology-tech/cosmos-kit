@@ -60,7 +60,6 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "7.11.2",
     "@chain-registry/types": "0.13.1",
     "@cosmos-kit/core": "^2.1.1",
     "@terra-money/feather.js": "^1.0.4",

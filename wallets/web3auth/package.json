@@ -19,7 +19,6 @@
     "test": "__tests__"
   },
   "files": [
-    "cjs",
     "esm",
     "!CHANGELOG.md",
     "!LICENSE"
