@@ -143,20 +143,18 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   defineGetters(wallets);
 
   wallets.for = function (...ns: WalletName[]) {
-    const names = Array.from(new Set(ns));
+    const names = Array.from(new Set(ns))
     return defineGetters(
-      wallets.filter((wallet: MainWalletBase) =>
-        names.some((name: WalletName) => wallet.walletInfo.name.includes(name))
-      )
+      names.map((name: WalletName) =>
+        wallets.filter((wallet: MainWalletBase) => wallet.walletInfo.name.startsWith(name))).flat()
     );
   };
 
   wallets.not = function (...ns: WalletName[]) {
     const names = Array.from(new Set(ns));
     return defineGetters(
-      wallets.filter(
-        (wallet: MainWalletBase) =>
-          !names.some((name: WalletName) => wallet.walletInfo.name.includes(name))
+      wallets.filter((wallet: MainWalletBase) =>
+        !names.some((name: WalletName) => wallet.walletInfo.name.startsWith(name))
       )
     );
   };
