@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
@@ -309,34 +310,31 @@ export class WalletManager extends StateBase {
     const walletName = window.localStorage.getItem(
       'cosmos-kit@2:core//current-wallet'
     );
-    const accountsStr = window.localStorage.getItem(
-      'cosmos-kit@2:core//accounts'
-    );
     if (walletName) {
       const mainWallet = this.getMainWallet(walletName);
       mainWallet.activate();
-      if (accountsStr && accountsStr !== '[]') {
-        const accounts: SimpleAccount[] = JSON.parse(accountsStr);
-        accounts.forEach((data) => {
-          const chainWallet = mainWallet
-            .getChainWalletList(false)
-            .find(
-              (w) =>
-                w.chainRecord.chain.chain_id === data.chainId &&
-                w.namespace === data.namespace
-            );
-          chainWallet?.setData(data);
-          chainWallet?.setState(State.Done);
-        });
+      if (mainWallet.walletInfo.mode === 'wallet-connect') {
+        const accountsStr = window.localStorage.getItem(
+          'cosmos-kit@2:core//accounts'
+        );
+        if (accountsStr && accountsStr !== '[]') {
+          const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+          accounts.forEach((data) => {
+            const chainWallet = mainWallet
+              .getChainWalletList(false)
+              .find(
+                (w) =>
+                  w.chainRecord.chain.chain_id === data.chainId &&
+                  w.namespace === data.namespace
+              );
+            chainWallet?.setData(data);
+            chainWallet?.setState(State.Done);
+          });
+        }
+      } else {
+        await this._reconnect(walletName);
       }
-      // if (mainWallet.walletInfo.mode !== 'wallet-connect') {
-      //   await this._reconnect();
-      // }
-      await this._reconnect(walletName);
     }
-    // if (walletName && accountsStr && accountsStr !== '[]') {
-    //   await this._reconnect();
-    // }
   };
 
   onMounted = async () => {

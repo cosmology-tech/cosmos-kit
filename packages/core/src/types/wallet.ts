@@ -60,13 +60,13 @@ export interface Metadata {
 
 export interface AppUrl {
   native?:
-  | string
-  | {
-    android?: string;
-    ios?: string;
-    macos?: string;
-    windows?: string;
-  };
+    | string
+    | {
+        android?: string;
+        ios?: string;
+        macos?: string;
+        windows?: string;
+      };
   universal?: string;
 }
 
@@ -76,11 +76,11 @@ export interface Wallet {
   mode: WalletMode;
   mobileDisabled: boolean | (() => boolean);
   rejectMessage?:
-  | {
-    source: string; // message from wallet app
-    target?: string; // message stored in walletManager, default 'Request Rejected!'
-  }
-  | string; // message from wallet app
+    | {
+        source: string; // message from wallet app
+        target?: string; // message stored in walletManager, default 'Request Rejected!'
+      }
+    | string; // message from wallet app
   rejectCode?: number; // code from wallet app
   connectEventNamesOnWindow?: string[];
   connectEventNamesOnClient?: string[];
@@ -151,7 +151,8 @@ export const SuggestTokenTypes = {
   ERC20: 'erc20',
 } as const;
 
-export type SuggestTokenType = typeof SuggestTokenTypes[keyof typeof SuggestTokenTypes];
+export type SuggestTokenType =
+  typeof SuggestTokenTypes[keyof typeof SuggestTokenTypes];
 
 export interface SuggestToken {
   chainId: string;
@@ -180,7 +181,10 @@ export interface WalletClient {
   ) => Promise<OfflineSigner> | OfflineSigner;
   getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
   getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
-  sign?: (signDoc: StdSignDoc, accountIndex?: number) => Promise<{
+  sign?: (
+    signDoc: StdSignDoc,
+    accountIndex?: number
+  ) => Promise<{
     signature: null | Buffer;
     return_code: number | string;
   }>;
@@ -226,7 +230,7 @@ export interface WalletClient {
 export type WalletAdapter = ChainWalletBase | MainWalletBase;
 
 export interface IChainWallet {
-  new(walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
+  new (walletInfo: Wallet, chainInfo: ChainRecord): ChainWalletBase;
 }
 
 export type NameServiceName = string;

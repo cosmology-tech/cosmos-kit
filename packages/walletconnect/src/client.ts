@@ -376,7 +376,8 @@ export class WCClient implements WalletClient {
 
   async connect(chainIds: string | string[]) {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
+      // throw new Error('WalletConnect is not initialized');
     }
 
     if (this.qrUrl.state !== 'Init') {
@@ -455,7 +456,8 @@ export class WCClient implements WalletClient {
 
   async disconnect() {
     if (typeof this.signClient === 'undefined') {
-      throw new Error('WalletConnect is not initialized');
+      await this.init();
+      // throw new Error('WalletConnect is not initialized');
     }
     if (this.sessions.length === 0) {
       return;
