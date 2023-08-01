@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={wallets}
+        wallets={wallets.for('keplr',  'ledger', 'trust', 'station', 'cosmostation', 'omni', 'exodus', 'shell', 'vectis', 'frontier', 'leap', 'xdefi', 'coin98', 'fin')}
         walletConnectOptions={{
           signClient: {
             projectId: "61e6745dc9a852e0ed9ba60d28212357",
