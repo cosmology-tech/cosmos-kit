@@ -6,27 +6,27 @@ import "@interchain-ui/react/styles";
 import { Chain } from "@chain-registry/types";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
-import { assets, chains } from "chain-registry";
-import type { AppProps } from "next/app";
-import { ChainProvider } from "@cosmos-kit/react";
-import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as exodusWallets } from "@cosmos-kit/exodus";
-import { wallets as keplrWallets } from "@cosmos-kit/keplr";
-// import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
+import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
+import { wallets as exodusWallets } from "@cosmos-kit/exodus";
+import { wallets as finWallets } from "@cosmos-kit/fin";
+import { wallets as frontierWallets } from "@cosmos-kit/frontier";
+import { wallets as keplrWallets } from "@cosmos-kit/keplr";
+import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
+import { wallets as omniWallets } from "@cosmos-kit/omni";
+import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
-import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-import { wallets as frontierWallets } from "@cosmos-kit/frontier";
+// import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
-import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
-import { wallets as finWallets } from "@cosmos-kit/fin";
-import { RootLayout } from "../components/layout";
+import { assets, chains } from "chain-registry";
+import type { AppProps } from "next/app";
+import React, { useMemo } from "react";
 
-import React from "react";
+import { RootLayout } from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const web3AuthWallets = useMemo(
@@ -42,9 +42,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   //       client: {
   //         clientId: "localhostid",
   //         web3AuthNetwork: "testnet",
-  //         chainConfig: {
-  //           chainNamespace: "other",
-  //         },
   //       },
   //       promptSign: async (...args) =>
   //         // eslint-disable-next-line no-alert

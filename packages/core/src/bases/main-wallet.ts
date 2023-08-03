@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+import EventEmitter from 'events';
+
 import {
   ChainName,
   ChainRecord,
@@ -11,7 +14,6 @@ import {
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
-import EventEmitter from 'events';
 
 export abstract class MainWalletBase extends WalletBase {
   protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
@@ -74,7 +76,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initClientError(error);
     });
-    this.logger?.error(error);
+    // this.logger?.error(error);
     if (this.throwErrors) {
       throw new Error(this.clientMutable.message);
     }
@@ -132,7 +134,7 @@ export abstract class MainWalletBase extends WalletBase {
     return this.chainWalletMap?.get(chainName);
   };
 
-  getChainWalletList = (activeOnly: boolean = true) => {
+  getChainWalletList = (activeOnly = true) => {
     const allChainWallets = Array.from(this.chainWalletMap.values());
     return activeOnly
       ? allChainWallets.filter((w) => w.isActive)
@@ -140,7 +142,7 @@ export abstract class MainWalletBase extends WalletBase {
   };
 
   getGlobalStatusAndMessage = (
-    activeOnly: boolean = true
+    activeOnly = true
   ): [WalletStatus, string | undefined] => {
     const chainWalletList = this.getChainWalletList(activeOnly);
 
@@ -179,7 +181,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.inactivate();
   }
 
-  async connectAll(activeOnly: boolean = true, exclude?: ChainName) {
+  async connectAll(activeOnly = true, exclude?: ChainName) {
     const chainWalletList = this.getChainWalletList(activeOnly);
     for (const w of chainWalletList) {
       if (w.chainName !== exclude) {
@@ -188,7 +190,7 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  async disconnectAll(activeOnly: boolean = true, exclude?: ChainName) {
+  async disconnectAll(activeOnly = true, exclude?: ChainName) {
     const chainWalletList = this.getChainWalletList(activeOnly);
     for (const w of chainWalletList) {
       if (w.chainName !== exclude) {

@@ -7,10 +7,10 @@ import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
 import {
-  DappEnv,
   ChainRecord,
-  WalletName,
+  DappEnv,
   ExtendedHttpEndpoint,
+  WalletName,
 } from './types';
 import { Session } from './utils';
 
@@ -23,7 +23,7 @@ export class WalletRepo extends StateBase {
   private _wallets: ChainWalletBase[];
   namespace = 'cosmos';
   session: Session;
-  repelWallet: boolean = true;
+  repelWallet = true;
 
   constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
     super();
@@ -74,6 +74,14 @@ export class WalletRepo extends StateBase {
 
   get wallets(): ChainWalletBase[] {
     return this._wallets;
+  }
+
+  get platformEnabledWallets(): ChainWalletBase[] {
+    return this._wallets.filter((w) =>
+      typeof w.walletInfo.mobileDisabled === 'boolean'
+        ? !w.walletInfo.mobileDisabled
+        : !w.walletInfo.mobileDisabled()
+    );
   }
 
   get isSingleWallet() {

@@ -88,11 +88,7 @@ export function WalletModal({
   const wallets = useMemo(
     () =>
       walletRepo?.isMobile && !includeAllWalletsOnMobile
-        ? walletRepo?.wallets.filter((w) =>
-            typeof w.walletInfo.mobileDisabled === 'boolean'
-              ? !w.walletInfo.mobileDisabled
-              : !w.walletInfo.mobileDisabled()
-          )
+        ? walletRepo?.platformEnabledWallets
         : walletRepo?.wallets,
     [walletRepo, includeAllWalletsOnMobile]
   );

@@ -176,7 +176,7 @@ export class ChainWalletBase extends WalletBase {
       this.setState(State.Done);
       this.setMessage(void 0);
     } catch (e) {
-      this.logger?.error(e);
+      // this.logger?.error(e);
       if (e && this.rejectMatched(e as Error)) {
         this.setRejected();
       } else {

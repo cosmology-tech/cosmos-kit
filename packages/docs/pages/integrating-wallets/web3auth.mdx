@@ -49,10 +49,6 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
         client: {
           clientId: "localhostid",
           web3AuthNetwork: "testnet",
-          // leave chainNamespace as "other" unless you know what you're doing
-          chainConfig: {
-            chainNamespace: "other",
-          },
         },
         // set state to show data to sign and approve/reject buttons in modal
         promptSign: async (_, signData) =>

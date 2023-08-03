@@ -477,4 +477,6 @@ function CosmosApp() {
 
 ### includeAllWalletsOnMobile
 
-Optional property. By default `false`, which means on mobile only wallets with registry property `mobileDisabled` is set `false` or `undefined` be displayed on wallet list page of default modal. For example, all `extension` wallets are set `mobileDisabled` `true`. Therefore you can't see `extension` wallets on mobile by default. If you want to see all wallets on mobile, set `includeAllWalletsOnMobile` `true`;
+Optional property. By default `false`, which means on mobile only wallets with registry value of `mobileDisabled` (or returned value of `mobileDisabled` function) is `false` or `undefined` be displayed on wallet list page of default modal.
+
+For example, most `extension` wallets are set `mobileDisabled` `true`. Therefore you can't see `extension` wallets on mobile by default. If you want to see all wallets on mobile, set `includeAllWalletsOnMobile` `true`;

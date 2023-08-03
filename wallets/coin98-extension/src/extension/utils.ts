@@ -1,11 +1,12 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
+
 import { Coin98 } from './types';
 // import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 interface Coin98Window {
   coin98?: {
-    keplr: Coin98
-  }
+    keplr: Coin98;
+  };
 }
 
 export const getCoin98FromExtension: () => Promise<

@@ -25,11 +25,6 @@ export default function IndexPage() {
     chainNames_1[0]
   );
   const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
-  console.log(
-    "%cindex.tsx line:27 globalStatus",
-    "color: #007acc;",
-    globalStatus
-  );
   const isClient = useIsClient();
 
   useEffect(() => {

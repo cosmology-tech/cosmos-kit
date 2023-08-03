@@ -1,5 +1,5 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
@@ -10,6 +10,7 @@ import {
   SignType,
   WalletClient,
 } from '@cosmos-kit/core';
+
 import { Coin98 } from './types';
 
 export class Coin98Client implements WalletClient {
@@ -24,11 +25,11 @@ export class Coin98Client implements WalletClient {
   }
 
   async connect(chainIds: string | string[]) {
-    await this.client.enable(chainIds)
+    await this.client.enable(chainIds);
   }
 
   async getSimpleAccount(chainId: string) {
-    await this.enable(chainId)
+    await this.enable(chainId);
     const { address, username } = await this.getAccount(chainId);
     return {
       namespace: 'cosmos',
@@ -39,7 +40,7 @@ export class Coin98Client implements WalletClient {
   }
 
   async getAccount(chainId: string) {
-    await this.enable(chainId)
+    await this.enable(chainId);
     const key = await this.client.getKey(chainId);
     return {
       username: key.name,
@@ -76,15 +77,13 @@ export class Coin98Client implements WalletClient {
     );
 
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.rest as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.rest as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rest?.[0];
     }
 
     if (chainInfo.preferredEndpoints?.rpc?.[0]) {
-      (suggestChain.rpc as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
+      (suggestChain.rpc as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
     await this.client.experimentalSuggestChain(suggestChain);

@@ -7,7 +7,8 @@ export const leapExtensionInfo: Wallet = {
   prettyName: 'Leap',
   logo: ICON,
   mode: 'extension',
-  mobileDisabled: () => !('leap' in window || /LeapCosmos/i.test(navigator.userAgent)),
+  mobileDisabled: () =>
+    !('leap' in window || /LeapCosmos/i.test(navigator.userAgent)),
   rejectMessage: {
     source: 'Request rejected',
   },
@@ -16,12 +17,10 @@ export const leapExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link:
-        'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
+      link: 'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
     },
     {
-      link:
-        'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
+      link: 'https://chrome.google.com/webstore/detail/leap-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
     },
   ],
 };

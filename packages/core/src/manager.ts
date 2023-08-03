@@ -322,11 +322,10 @@ export class WalletManager extends StateBase {
                 w.chainRecord.chain.chain_id === data.chainId &&
                 w.namespace === data.namespace
             );
+          chainWallet?.activate();
           if (mainWallet.walletInfo.mode === 'wallet-connect') {
             chainWallet?.setData(data);
             chainWallet?.setState(State.Done);
-          } else {
-            chainWallet?.activate();
           }
         });
       }
@@ -371,13 +370,12 @@ export class WalletManager extends StateBase {
 
         if (wallet.walletInfo.mode === 'wallet-connect') {
           await wallet.initClient(this.walletConnectOptions);
-          wallet.emitter?.emit('broadcast_client', wallet.client);
-          this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
         } else {
           await wallet.initClient();
-          wallet.emitter?.emit('broadcast_client', wallet.client);
-          this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
         }
+        wallet.chainWalletMap?.forEach((chainWallet) => {
+          chainWallet.initClientDone(wallet.client);
+        });
       })
     );
 
