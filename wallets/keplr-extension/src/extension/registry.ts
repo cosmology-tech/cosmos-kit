@@ -1,4 +1,5 @@
 import { Wallet } from '@cosmos-kit/core';
+import { Window as KeplrWindow } from '@keplr-wallet/types';
 
 import { ICON } from '../constant';
 
@@ -9,8 +10,14 @@ export const keplrExtensionInfo: Wallet = {
   mode: 'extension',
   // In the Keplr Mobile in-app browser, Keplr is available in window.keplr,
   // similar to the extension on a desktop browser. For this reason, we must
-  // manually check what mode the window.keplr client is in on init.
-  mobileDisabled: false,
+  // check what mode the window.keplr client is in once it's available.
+  mobileDisabled: () =>
+    !(
+      typeof document !== 'undefined' &&
+      document.readyState === 'complete' &&
+      (window as KeplrWindow).keplr &&
+      (window as KeplrWindow).keplr.mode === 'mobile-web'
+    ),
   rejectMessage: {
     source: 'Request rejected',
   },
