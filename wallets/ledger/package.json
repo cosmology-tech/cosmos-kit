@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/ledger",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -65,7 +65,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.1.4",
+    "@cosmos-kit/core": "^2.2.0",
     "@ledgerhq/hw-app-cosmos": "^6.28.1",
     "@ledgerhq/hw-transport-webhid": "^6.27.15",
     "@ledgerhq/hw-transport-webusb": "^6.27.15"

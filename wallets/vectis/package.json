@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/vectis",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "cosmos-kit wallet connector",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -53,7 +53,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/vectis-extension": "^2.1.4"
+    "@cosmos-kit/vectis-extension": "^2.1.5"
   },
   "gitHead": "2c20b02438f2715d62bc69df58380af9685c4b3d"
 }
