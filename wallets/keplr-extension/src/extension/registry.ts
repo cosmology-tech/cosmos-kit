@@ -7,7 +7,10 @@ export const keplrExtensionInfo: Wallet = {
   prettyName: 'Keplr',
   logo: ICON,
   mode: 'extension',
-  mobileDisabled: true,
+  // In the Keplr Mobile in-app browser, Keplr is available in window.keplr,
+  // similar to the extension on a desktop browser. For this reason, we must
+  // manually check what mode the window.keplr client is in on init.
+  mobileDisabled: false,
   rejectMessage: {
     source: 'Request rejected',
   },
@@ -16,8 +19,7 @@ export const keplrExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link:
-        'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
+      link: 'https://chrome.google.com/webstore/detail/keplr/dmkamcknogkgcdfhhbddcghachkejeap?hl=en',
     },
     {
       device: 'desktop',
