@@ -292,18 +292,13 @@ export class WalletManager extends StateBase {
     return await this.getWalletRepo(_chainName).getNameService();
   };
 
-  private _reconnect = async (wallet: WalletName) => {
-    const walletName = window.localStorage.getItem(
-      'cosmos-kit@2:core//current-wallet'
-    );
-    if (walletName && wallet === walletName) {
-      this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
-      this.coreEmitter.emit('refresh_connection');
-      await this.getMainWallet(walletName).connect();
-      await this.getMainWallet(walletName)
-        .getChainWalletList(true)[0]
-        ?.connect(true);
-    }
+  private _reconnect = async (walletName: WalletName) => {
+    this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
+    this.coreEmitter.emit('refresh_connection');
+    await this.getMainWallet(walletName).connect();
+    await this.getMainWallet(walletName)
+      .getChainWalletList(true)[0]
+      ?.connect(true);
   };
 
   private _restoreAccounts = async () => {
@@ -313,25 +308,30 @@ export class WalletManager extends StateBase {
     if (walletName) {
       const mainWallet = this.getMainWallet(walletName);
       mainWallet.activate();
-      if (mainWallet.walletInfo.mode === 'wallet-connect') {
-        const accountsStr = window.localStorage.getItem(
-          'cosmos-kit@2:core//accounts'
-        );
-        if (accountsStr && accountsStr !== '[]') {
-          const accounts: SimpleAccount[] = JSON.parse(accountsStr);
-          accounts.forEach((data) => {
-            const chainWallet = mainWallet
-              .getChainWalletList(false)
-              .find(
-                (w) =>
-                  w.chainRecord.chain.chain_id === data.chainId &&
-                  w.namespace === data.namespace
-              );
+
+      const accountsStr = window.localStorage.getItem(
+        'cosmos-kit@2:core//accounts'
+      );
+      if (accountsStr && accountsStr !== '[]') {
+        const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+        accounts.forEach((data) => {
+          const chainWallet = mainWallet
+            .getChainWalletList(false)
+            .find(
+              (w) =>
+                w.chainRecord.chain.chain_id === data.chainId &&
+                w.namespace === data.namespace
+            );
+          if (mainWallet.walletInfo.mode === 'wallet-connect') {
             chainWallet?.setData(data);
             chainWallet?.setState(State.Done);
-          });
-        }
-      } else {
+          } else {
+            chainWallet?.activate();
+          }
+        });
+      }
+
+      if (mainWallet.walletInfo.mode !== 'wallet-connect') {
         await this._reconnect(walletName);
       }
     }

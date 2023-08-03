@@ -1,10 +1,11 @@
 import { useChain, useWallet } from "@cosmos-kit/react";
-import { useEffect } from "react";
 import { PaperPlaneIcon, ResetIcon } from "@radix-ui/react-icons";
+import { Badge } from "components/badge";
 import { Button } from "components/button";
 import { Card, CardContent, CardHeader, CardTitle } from "components/card";
-import { Badge } from "components/badge";
 import { ChainWalletCard } from "components/chain-wallet-card";
+import { useEffect } from "react";
+
 import { useIsClient } from "../hooks";
 
 // const chainNames_1 = ["cosmoshub"];
@@ -14,7 +15,7 @@ import { useIsClient } from "../hooks";
 // const chainNames_2 = ["stargaze", "chihuahua"];
 
 const chainNames_1 = ["cosmoshub"];
-const chainNames_2: string[] = [];
+const chainNames_2: string[] = ["osmosis"];
 
 // const chainNames_1 = ["coreum"];
 // const chainNames_2 = [];
@@ -24,6 +25,11 @@ export default function IndexPage() {
     chainNames_1[0]
   );
   const { status: globalStatus, mainWallet } = useWallet(); // status here is the global wallet status for all activated chains (chain is activated when call useChain)
+  console.log(
+    "%cindex.tsx line:27 globalStatus",
+    "color: #007acc;",
+    globalStatus
+  );
   const isClient = useIsClient();
 
   useEffect(() => {
