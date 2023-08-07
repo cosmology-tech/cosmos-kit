@@ -77,11 +77,13 @@ export class WalletRepo extends StateBase {
   }
 
   get platformEnabledWallets(): ChainWalletBase[] {
-    return this._wallets.filter((w) =>
-      typeof w.walletInfo.mobileDisabled === 'boolean'
-        ? !w.walletInfo.mobileDisabled
-        : !w.walletInfo.mobileDisabled()
-    );
+    return this.isMobile
+      ? this._wallets.filter((w) =>
+          typeof w.walletInfo.mobileDisabled === 'boolean'
+            ? !w.walletInfo.mobileDisabled
+            : !w.walletInfo.mobileDisabled()
+        )
+      : this._wallets;
   }
 
   get isSingleWallet() {

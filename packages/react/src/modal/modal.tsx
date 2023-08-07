@@ -87,7 +87,7 @@ export function WalletModal({
 
   const wallets = useMemo(
     () =>
-      walletRepo?.isMobile && !includeAllWalletsOnMobile
+      !includeAllWalletsOnMobile
         ? walletRepo?.platformEnabledWallets
         : walletRepo?.wallets,
     [walletRepo, includeAllWalletsOnMobile]
