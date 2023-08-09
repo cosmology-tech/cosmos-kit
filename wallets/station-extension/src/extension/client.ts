@@ -1,7 +1,8 @@
-import { WalletClient, WalletAccount } from '@cosmos-kit/core';
+import { fromBase64 } from '@cosmjs/encoding';
+import { WalletAccount, WalletClient } from '@cosmos-kit/core';
+
 import { StationExtension } from './extension';
 import { OfflineSigner } from './signer';
-import { fromBase64 } from '@cosmjs/encoding';
 
 export class StationClient implements WalletClient {
   readonly client: StationExtension;
@@ -36,13 +37,11 @@ export class StationClient implements WalletClient {
 
     const coinTypeByChainId = networkInfo.coinType;
 
-    if(!account.pubkey) {
+    if (!account.pubkey) {
       account = await this.client.getPubKey();
 
       if (!account?.pubkey) {
-        return Promise.reject(
-          `Cannot find account public key.`
-        );
+        return Promise.reject(`Cannot find account public key.`);
       }
     }
 

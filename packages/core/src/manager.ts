@@ -328,6 +328,7 @@ export class WalletManager extends StateBase {
             chainWallet?.setState(State.Done);
           }
         });
+        mainWallet.setState(State.Done);
       }
 
       if (mainWallet.walletInfo.mode !== 'wallet-connect') {
