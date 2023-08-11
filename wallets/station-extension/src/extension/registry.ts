@@ -8,7 +8,10 @@ export const stationExtensionInfo: Wallet = {
   logo: ICON,
   mode: 'extension',
   mobileDisabled: true,
-  connectEventNamesOnWindow: [],
+  connectEventNamesOnWindow: [
+    'station_wallet_change',
+    'station_network_change',
+  ],
   rejectMessage: {
     source: 'Request rejected',
   },
@@ -24,6 +27,12 @@ export const stationExtensionInfo: Wallet = {
       browser: 'firefox',
       link:
         'https://addons.mozilla.org/en-US/firefox/addon/terra-station-wallet/',
+    },
+    {
+      device: 'desktop',
+      browser: 'edge',
+      link:
+        'https://microsoftedge.microsoft.com/addons/detail/station-wallet/ajkhoeiiokighlmdnlakpjfoobnjinie',
     },
   ],
 };

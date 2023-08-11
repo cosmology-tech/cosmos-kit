@@ -346,6 +346,7 @@ export class ChainWalletBase extends WalletBase {
         gasPrice = this.signingStargateOptions?.gasPrice;
         break;
       case 'cosmwasm':
+        // @ts-expect-error
         gasPrice = this.signingCosmwasmOptions?.gasPrice;
         break;
       default:

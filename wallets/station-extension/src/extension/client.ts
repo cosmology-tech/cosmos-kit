@@ -1,62 +1,64 @@
-import { fromBase64 } from '@cosmjs/encoding';
-import { WalletAccount, WalletClient } from '@cosmos-kit/core';
-
-import { StationExtension } from './extension';
-import { OfflineSigner } from './signer';
+import { WalletClient, WalletAccount } from '@cosmos-kit/core';
+import Station from '@terra-money/station-connector';
 
 export class StationClient implements WalletClient {
-  readonly client: StationExtension;
+  readonly client: Station;
 
-  constructor(client: StationExtension) {
+  constructor(client: Station) {
     this.client = client;
   }
 
   async disconnect() {
-    this.client.disconnect();
+    return;
   }
 
   async getSimpleAccount(chainId: string) {
-    const account = await this.getAccount(chainId);
+    const { name, addresses } = await this.client?.connect();
+
+    const address = addresses[chainId];
+
+    if (!address)
+      throw new Error(
+        `Requested chainId (${chainId}) is not available, try to switch network on the Station extension.`
+      );
+
     return {
       namespace: 'cosmos',
       chainId,
-      address: account.address,
+      address,
+      username: name,
     };
   }
 
   async getAccount(chainId: string): Promise<WalletAccount> {
-    let account = await this.client.connect();
-    const infos = await this.client.info();
-    const networkInfo = infos[chainId];
-
-    if (!networkInfo) {
-      return Promise.reject(
-        `Unsupported chainId: ${chainId}. Please swap to ${chainId} network in Station Wallet.`
+    const info = (await this.client?.info())[chainId];
+    if (!info)
+      throw new Error(
+        `The requested chainID (${chainId}) is not available, try to switch network on the Station extension.`
       );
+
+    let { name, addresses, pubkey: pubkeys } = await this.client?.connect();
+    if (!pubkeys) {
+      pubkeys = (await this.client?.getPublicKey()).pubkey;
     }
+    const pubkey = pubkeys?.[info.coinType];
+    const address = addresses[chainId];
 
-    const coinTypeByChainId = networkInfo.coinType;
-
-    if (!account.pubkey) {
-      account = await this.client.getPubKey();
-
-      if (!account?.pubkey) {
-        return Promise.reject(`Cannot find account public key.`);
-      }
-    }
-
-    const accountPubkey = account.pubkey[coinTypeByChainId];
+    if (!address || !pubkey)
+      throw new Error(
+        'The requested account is not available, try to use a different wallet on the Station extension or to import it again.'
+      );
 
     return {
-      address: account.addresses[chainId],
+      address,
+      pubkey: Buffer.from(pubkey, 'base64'),
+      username: name,
+      isNanoLedger: true,
       algo: 'secp256k1',
-      pubkey: fromBase64(accountPubkey),
     };
   }
 
   async getOfflineSigner(chainId: string) {
-    const accountInfo = await this.getAccount(chainId);
-
-    return new OfflineSigner(this.client, accountInfo);
+    return await this.client.getOfflineSigner(chainId);
   }
 }
