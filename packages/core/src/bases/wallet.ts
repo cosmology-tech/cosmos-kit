@@ -72,6 +72,14 @@ export abstract class WalletBase extends StateBase {
     return this._walletInfo;
   }
 
+  get isModeExtension() {
+    return this.walletInfo.mode === 'extension';
+  }
+
+  get isModeWalletConnect() {
+    return this.walletInfo.mode === 'wallet-connect';
+  }
+
   get downloadInfo(): DownloadInfo | undefined {
     let downloads: DownloadInfo[] = this.walletInfo.downloads || [];
 
