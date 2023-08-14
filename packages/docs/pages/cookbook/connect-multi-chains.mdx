@@ -1,6 +1,9 @@
 ## How to connect multiple chains?
 
-### Case 1. For A Specific Wallet (No Modal Required)
+### 1. Use `useChains` Hook
+CosmosKit introduces **[`useChains`](/hooks/use-chains)** hook starting from `v2.3.0`. Use it to connect to multiple chains.
+
+### 2. For A Specific Wallet (No Modal Required)
 
 Let's take `keplr-extension` for example.
 
@@ -24,9 +27,9 @@ export default function Home() {
 }
 ```
 
-### Case 2. No Specific Wallets (Modal Required)
+### 3. No Specific Wallets (Modal Required, Version Prior to `v2.3.0`)
 
-There's no `useChains` hook in CosmosKit at the moment, so the best you can do for now is below.
+There's no `useChains` hook in CosmosKit then, so the best you can do is below.
 
 ```javascript
 export default function Home() {
