@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet-extension@2.0.9...@cosmos-kit/okxwallet-extension@2.0.10) (2023-08-17)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet-extension
+
 ## [2.0.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet-extension@2.0.8...@cosmos-kit/okxwallet-extension@2.0.9) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/okxwallet-extension
