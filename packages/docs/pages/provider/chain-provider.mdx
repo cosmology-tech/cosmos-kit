@@ -395,6 +395,21 @@ If set `true`, will throw error when wallet status to be `WalletStatus.Error`, `
 
 These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only counts when property [`walletModal`](#walletmodal) is `undefined`.
 
+### modalTheme
+
+Optional property to customize default modal theme.
+
+**Type**
+
+```tsx
+type ThemeCustomizationProps = Pick<
+  // This type comes from @interchain-ui/react
+  ThemeProviderProps,
+  'defaultTheme' | 'overrides' | 'themeDefs' | 'customTheme'
+>;
+```
+
+
 ### modalViews
 
 Optional property of type `ModalViews`.

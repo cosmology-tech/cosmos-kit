@@ -13,7 +13,7 @@ import {
 import { ChainProvider as ChainProviderLite } from '@cosmos-kit/react-lite';
 import { ReactNode, useCallback, useMemo } from 'react';
 
-import { WalletModal } from './modal';
+import { ThemeCustomizationProps, WalletModal } from './modal';
 import { defaultModalViews } from './modal/components/views';
 
 export const ChainProvider = ({
@@ -30,6 +30,7 @@ export const ChainProvider = ({
   sessionOptions,
   logLevel = 'WARN',
   children,
+  modalTheme = {},
 }: {
   chains: Chain[];
   assetLists: AssetList[];
@@ -44,6 +45,7 @@ export const ChainProvider = ({
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
   children: ReactNode;
+  modalTheme?: ThemeCustomizationProps;
 }) => {
   const logger = useMemo(() => new Logger(logLevel), []);
 
@@ -78,6 +80,7 @@ export const ChainProvider = ({
     (props: WalletModalProps) => (
       <WalletModal
         {...props}
+        {...modalTheme}
         modalViews={{
           ...defaultModalViews,
           ...modalViews,

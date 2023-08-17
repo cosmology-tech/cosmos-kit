@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/okxwallet",
-  "version": "2.0.12",
+  "version": "2.1.0",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -53,7 +53,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/okxwallet-extension": "^2.0.12"
+    "@cosmos-kit/okxwallet-extension": "^2.1.0"
   },
-  "gitHead": "196c18be0c259b9bc280453f9dbf6b23fa897a39"
+  "gitHead": "4e5a90510271d84165d456fece16ab0b2b4b3ee5"
 }
