@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/xdefi",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@xdefiwallet.io",
   "contributors": [
@@ -53,7 +53,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/xdefi-extension": "^2.1.9"
+    "@cosmos-kit/xdefi-extension": "^2.1.10"
   },
   "gitHead": "609d4d2454648f93bc0457ce066b6f8ee7336628"
 }

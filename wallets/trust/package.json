@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "cosmos-kit wallet connector",
   "contributors": [
     {
@@ -51,7 +51,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/trust-mobile": "^2.1.9"
+    "@cosmos-kit/trust-mobile": "^2.1.10"
   },
   "gitHead": "609d4d2454648f93bc0457ce066b6f8ee7336628"
 }

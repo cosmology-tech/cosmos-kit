@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust-mobile",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -71,8 +71,8 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.3.1",
-    "@cosmos-kit/walletconnect": "^2.1.9"
+    "@cosmos-kit/core": "^2.3.2",
+    "@cosmos-kit/walletconnect": "^2.1.10"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
