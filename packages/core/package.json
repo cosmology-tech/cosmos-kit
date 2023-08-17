@@ -1,7 +1,7 @@
 {
   "name": "@cosmos-kit/core",
   "version": "2.3.4",
-  "description": "cosmos-kit wallet connector core",
+  "description": "cosmos-kit wallet connector core package",
   "author": "developers@cosmology.tech",
   "contributors": [
     {
@@ -85,5 +85,5 @@
     "@cosmjs/stargate": ">= 0.28",
     "cosmjs-types": ">= 0.5"
   },
-  "gitHead": "2c05efa9019938410d4ebd496a59ff06b4105d40"
+  "gitHead": "4e5a90510271d84165d456fece16ab0b2b4b3ee5"
 }
