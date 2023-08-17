@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import {
   CosmWasmClient,
   SigningCosmWasmClient,
@@ -31,8 +32,8 @@ import {
   getNameServiceRegistryFromChainName,
   isValidEndpoint,
 } from '../utils';
-import { WalletBase } from './wallet';
 import { MainWalletBase } from './main-wallet';
+import { WalletBase } from './wallet';
 
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;

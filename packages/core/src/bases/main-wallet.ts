@@ -82,7 +82,7 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  protected onSetChainsDone(): void { }
+  protected onSetChainsDone(): void {}
 
   setChains(chains: ChainRecord[], overwrite = true): void {
     if (overwrite || !this._chainWalletMap) {
@@ -186,9 +186,13 @@ export abstract class MainWalletBase extends WalletBase {
     const chainWalletList = this.getChainWalletList(activeOnly);
 
     // Avoid duplicate connect popups in wallet mobile Apps when using useChains
-    if (chainWalletList.length > 0
-      && chainWalletList.every(wallet => wallet.isModeWalletConnect && wallet.connectChains)) {
-      return
+    if (
+      chainWalletList.length > 0 &&
+      chainWalletList.every(
+        (wallet) => wallet.isModeWalletConnect && wallet.connectChains
+      )
+    ) {
+      return;
     }
 
     for (const w of chainWalletList) {

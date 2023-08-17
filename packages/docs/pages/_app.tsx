@@ -5,31 +5,31 @@ import type { AppProps } from "next/app";
 import { assets, chains } from "chain-registry";
 import { ChainProvider } from "@cosmos-kit/react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
+// import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import "nextra-theme-docs/style.css";
 import React, { useMemo } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const web3AuthWallets = useMemo(
-    () =>
-      makeWeb3AuthWallets({
-        loginMethods: [
-          {
-            provider: "google",
-            name: "Google",
-            logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
-          },
-        ],
-        client: {
-          clientId: "localhostid",
-          web3AuthNetwork: "testnet",
-        },
-        promptSign: async (...args) =>
-          // eslint-disable-next-line no-alert
-          confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
-      }),
-    []
-  );
+  // const web3AuthWallets = useMemo(
+  //   () =>
+  //     makeWeb3AuthWallets({
+  //       loginMethods: [
+  //         {
+  //           provider: "google",
+  //           name: "Google",
+  //           logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+  //         },
+  //       ],
+  //       client: {
+  //         clientId: "localhostid",
+  //         web3AuthNetwork: "testnet",
+  //       },
+  //       promptSign: async (...args) =>
+  //         // eslint-disable-next-line no-alert
+  //         confirm("Sign transaction? \n" + JSON.stringify(args, null, 2)),
+  //     }),
+  //   []
+  // );
 
   return (
     <ChakraProvider>
@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             "coin98",
             "fin"
           ),
-          ...web3AuthWallets,
+          // ...web3AuthWallets,
         ]}
         walletConnectOptions={{
           signClient: {
