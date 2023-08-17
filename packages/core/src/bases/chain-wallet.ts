@@ -32,13 +32,16 @@ import {
   isValidEndpoint,
 } from '../utils';
 import { WalletBase } from './wallet';
+import { MainWalletBase } from './main-wallet';
 
 export class ChainWalletBase extends WalletBase {
+  mainWallet: MainWalletBase;
   protected _chainRecord: ChainRecord;
   rpcEndpoints?: (string | ExtendedHttpEndpoint)[] = [];
   restEndpoints?: (string | ExtendedHttpEndpoint)[] = [];
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
+  connectChains?: () => Promise<any>;
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
   isLazy?: boolean; // stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
@@ -146,12 +149,16 @@ export class ChainWalletBase extends WalletBase {
     throw new Error('initClient not implemented');
   }
 
-  async update() {
+  async update(options = { connect: true }) {
     this.setState(State.Pending);
     this.setMessage(void 0);
 
     try {
-      await this?.client?.connect?.(this.chainId);
+      if (options.connect) {
+        this.connectChains
+          ? await this.connectChains()
+          : await this?.client?.connect?.(this.chainId);
+      }
 
       let account: SimpleAccount;
       try {

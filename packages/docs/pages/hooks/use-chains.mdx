@@ -1,0 +1,58 @@
+## Hook - useChains
+
+- required provider: [**ChainProvider**](/provider/chain-provider) from either `@cosmos-kit/react` or `@cosmos-kit/react-lite`
+
+> To use `useChains` with `ChainProvider` from `@cosmos-kit/react-lite`, property [`walletModal`](/provider/chain-provider#walletmodal) must be provided. Or you can choose `ChainProvider` from `@cosmos-kit/react`, which provides `DefaultModal`. Or you can use [`useChainWallet`](/hooks/use-chain-wallet) instead.
+
+- parameters:
+    - **chainNames**: `ChainName[]`
+    - **sync**: `boolean` = `true`
+
+> prarameter `sync` means whether to synchronize connection and disconnection to all other activated chainWallets.
+
+- return type: **Record&lt;ChainName, [**ChainContext**](/hooks/use-chain#type-chaincontext)&gt;**
+
+## Usage
+```jsx
+export default function () {
+  const chains = useChains(['cosmoshub', 'osmosis', 'stargaze', 'juno', 'akash']);
+
+  // Notice: calling chains.chainName.connect() will connect to all 5 chains above.
+
+  return <div className="space-y-4">
+    <Button onClick={() => chains.cosmoshub.connect() }>
+      { chains.cosmoshub.isWalletConnected ? 'Disconnect' : 'Connect' }
+    </Button>
+    <table className="table-fixed font-mono">
+      <thead>
+        <tr>
+          <th className="w-80">Code</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>chains.cosmoshub.address</td>
+          <td>{chains.cosmoshub.address}</td>
+        </tr>
+        <tr>
+          <td>chains.osmosis.address</td>
+          <td>{chains.osmosis.address}</td>
+        </tr>
+        <tr>
+          <td>chains.stargaze.address</td>
+          <td>{chains.stargaze.address}</td>
+        </tr>
+        <tr>
+          <td>chains.juno.address</td>
+          <td>{chains.juno.address}</td>
+        </tr>
+        <tr>
+          <td>chains.akash.address</td>
+          <td>{chains.akash.address}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>;
+}
+```
