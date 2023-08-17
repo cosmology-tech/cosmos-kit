@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cosmostation",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "description": "cosmos-kit wallet connector",
   "author": "soaryong@stamper.network",
   "contributors": [
@@ -58,8 +58,8 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/cosmostation-extension": "^2.1.11",
-    "@cosmos-kit/cosmostation-mobile": "^2.1.11"
+    "@cosmos-kit/cosmostation-extension": "^2.1.12",
+    "@cosmos-kit/cosmostation-mobile": "^2.1.12"
   },
   "gitHead": "2c05efa9019938410d4ebd496a59ff06b4105d40"
 }
