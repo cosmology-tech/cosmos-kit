@@ -24,13 +24,13 @@ In CosmosKit V2, we used pure `tsc` to compile CommonJS, ESM (es2022) instead of
 
 ## Customizing the default modal
 
-Customizing the default modal styles is done through `customDefaultModalProps` prop of `<ChainProvider />`
+Customizing the default modal styles is done through `modalTheme` prop of `<ChainProvider />`
 
 We are currently providing 2 ways to customize the default modal:
 
 1. Overriding the theme object:
 
-By using the `customDefaultModalProps.themeDefs` and `customDefaultModalProps.customTheme`, you can override all of the theme tokens however you want
+By using the `modalTheme.themeDefs` and `modalTheme.customTheme`, you can override all of the theme tokens however you want
 
 ```TSX
 
@@ -351,7 +351,7 @@ The full object shape of `themeDefs[index].vars` is as below
 
 2. Overriding css vars specific to a component.
 
-This is done through the `customDefaultModalProps.overrides` prop, which is a record with keys corresponding to a slot names and values are objects of overridable property name and its value in each theme mode.
+This is done through the `modalTheme.overrides` prop, which is a record with keys corresponding to a slot names and values are objects of overridable property name and its value in each theme mode.
 
 ```json
 {

@@ -30,7 +30,7 @@ export const ChainProvider = ({
   sessionOptions,
   logLevel = 'WARN',
   children,
-  customDefaultModalProps = {},
+  modalTheme = {},
 }: {
   chains: Chain[];
   assetLists: AssetList[];
@@ -45,7 +45,7 @@ export const ChainProvider = ({
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
   children: ReactNode;
-  customDefaultModalProps?: ThemeCustomizationProps;
+  modalTheme?: ThemeCustomizationProps;
 }) => {
   const logger = useMemo(() => new Logger(logLevel), []);
 
@@ -80,7 +80,7 @@ export const ChainProvider = ({
     (props: WalletModalProps) => (
       <WalletModal
         {...props}
-        {...customDefaultModalProps}
+        {...modalTheme}
         modalViews={{
           ...defaultModalViews,
           ...modalViews,
