@@ -1,0 +1,271 @@
+import { StdSignature } from '@cosmjs/amino';
+import {
+  SignType,
+  SimpleAccount,
+  WalletAccount,
+  WalletClient,
+} from '@cosmos-kit/core';
+
+import { IframeSigner } from './signer';
+import { sendAndListenOnce } from './utils';
+
+export class IframeClient implements WalletClient {
+  async getSimpleAccount(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'getSimpleAccount',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response as SimpleAccount;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async connect(...params) {
+    await sendAndListenOnce(
+      {
+        method: 'connect',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'error') {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  // Do nothing on disconnect.
+
+  // TODO: on
+  // TODO: off
+
+  async enable(...params) {
+    await sendAndListenOnce(
+      {
+        method: 'enable',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'error') {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async suggestToken(...params) {
+    await sendAndListenOnce(
+      {
+        method: 'suggestToken',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'error') {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async addChain(...params) {
+    await sendAndListenOnce(
+      {
+        method: 'addChain',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response as WalletAccount;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async getAccount(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'getAccount',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response as WalletAccount;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  getOfflineSigner(chainId: string, preferredSignType?: SignType) {
+    switch (preferredSignType) {
+      case 'amino':
+        return this.getOfflineSignerAmino(chainId);
+      case 'direct':
+        return this.getOfflineSignerDirect(chainId);
+      default:
+        return this.getOfflineSignerAmino(chainId);
+    }
+    // return this.client.getOfflineSignerAuto(chainId);
+  }
+
+  getOfflineSignerAmino(chainId: string) {
+    return new IframeSigner(chainId, 'amino');
+  }
+
+  getOfflineSignerDirect(chainId: string) {
+    return new IframeSigner(chainId, 'direct');
+  }
+
+  async sign(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'sign',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async signAmino(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'signAmino',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async signDirect(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'signDirect',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async signArbitrary(...params): Promise<StdSignature> {
+    return await sendAndListenOnce(
+      {
+        method: 'signArbitrary',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async getEnigmaPubKey(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'getEnigmaPubKey',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async getEnigmaTxEncryptionKey(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'getEnigmaTxEncryptionKey',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async enigmaEncrypt(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'enigmaEncrypt',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async enigmaDecrypt(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'enigmaDecrypt',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+
+  async sendTx(...params) {
+    return await sendAndListenOnce(
+      {
+        method: 'sendTx',
+        params,
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+}
