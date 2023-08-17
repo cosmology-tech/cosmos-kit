@@ -18,9 +18,10 @@
     "test": "__tests__"
   },
   "files": [
-    "types",
-    "main",
-    "module"
+    "cjs",
+    "esm",
+    "!CHANGELOG.md",
+    "!LICENSE"
   ],
   "scripts": {
     "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
