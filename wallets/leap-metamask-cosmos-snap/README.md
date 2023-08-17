@@ -14,7 +14,7 @@
 
 CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-@cosmos-kit/leap-extension is the leap integration for CosmosKit.
+@cosmos-kit/leap-metamask-cosmos-snap is the metamask integration for CosmosKit using leap-metamask-cosmos-snap.
 
 ## Related
 
