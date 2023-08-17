@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/exodus",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "@cosmos-kit/exodus is the Exodus integration for CosmosKit",
   "author": "devs@exodus.io",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -48,7 +48,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/exodus-extension": "^2.1.7"
+    "@cosmos-kit/exodus-extension": "^2.1.8"
   },
   "gitHead": "2c20b02438f2715d62bc69df58380af9685c4b3d"
 }
