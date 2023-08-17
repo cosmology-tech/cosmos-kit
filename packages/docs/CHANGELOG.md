@@ -3,21 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.3.0...docs@2.3.1) (2023-08-17)
+
+### Bug Fixes
+
+- rename prop ([85f97d6](https://github.com/cosmology-tech/cosmos-kit/commit/85f97d687f58ad9c4769fcc35f7767235c0e8955))
+- s ([f27484b](https://github.com/cosmology-tech/cosmos-kit/commit/f27484b9e464c4bec76ab5fbd5370ba06072b0d8))
+
 # [2.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.2.7...docs@2.3.0) (2023-08-17)
 
 **Note:** Version bump only for package docs
 
-
-
-
-
 ## [2.2.7](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.2.6...docs@2.2.7) (2023-08-17)
 
 **Note:** Version bump only for package docs
-
-
-
-
 
 ## [2.2.6](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.2.5...docs@2.2.6) (2023-08-17)
 
