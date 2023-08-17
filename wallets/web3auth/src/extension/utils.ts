@@ -10,7 +10,11 @@ import {
 } from '@web3auth/base';
 import { CommonPrivateKeyProvider } from '@web3auth/base-provider';
 import { Web3AuthNoModal } from '@web3auth/no-modal';
-import { OpenloginAdapter, UX_MODE } from '@web3auth/openlogin-adapter';
+import {
+  OpenloginAdapter,
+  OpenloginLoginParams,
+  UX_MODE,
+} from '@web3auth/openlogin-adapter';
 
 import {
   FromWorkerMessage,
@@ -157,14 +161,6 @@ export const connectClientAndProvider = async (
     privateKeyProvider,
     adapterSettings: {
       uxMode,
-      // Setting both to empty strings prevents the popup from opening when
-      // attempted, ensuring no login attempt is made. Essentially, this makes
-      // the `connectTo` method called on the client below throw an error if a
-      // session is not already logged in and cached.
-      ...(dontAttemptLogin && {
-        _startUrl: '',
-        _popupUrl: '',
-      }),
     },
   });
   client.configureAdapter(openloginAdapter);
@@ -172,11 +168,11 @@ export const connectClientAndProvider = async (
   await client.init();
 
   let provider = client.connected ? client.provider : null;
-  if (!client.connected) {
+  if (!client.connected && !dontAttemptLogin) {
     try {
       provider = await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
         loginProvider: options.loginProvider,
-      });
+      } as OpenloginLoginParams);
     } catch (err) {
       // Unnecessary error thrown during redirect, so log and ignore it.
       if (

@@ -112,6 +112,7 @@ export abstract class MainWalletBase extends WalletBase {
 
       const chainWallet = new this.ChainWallet(this.walletInfo, chain);
 
+      chainWallet.mainWallet = this;
       chainWallet.emitter = this.emitter;
       chainWallet.logger = this.logger;
       chainWallet.throwErrors = this.throwErrors;
@@ -183,6 +184,17 @@ export abstract class MainWalletBase extends WalletBase {
 
   async connectAll(activeOnly = true, exclude?: ChainName) {
     const chainWalletList = this.getChainWalletList(activeOnly);
+
+    // Avoid duplicate connect popups in wallet mobile Apps when using useChains
+    if (
+      chainWalletList.length > 0 &&
+      chainWalletList.every(
+        (wallet) => wallet.isModeWalletConnect && wallet.connectChains
+      )
+    ) {
+      return;
+    }
+
     for (const w of chainWalletList) {
       if (w.chainName !== exclude) {
         await w.connect();

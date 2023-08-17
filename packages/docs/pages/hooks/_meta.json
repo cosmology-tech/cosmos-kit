@@ -1,6 +1,7 @@
 {
   "index": "Introduction",
   "use-chain": "- useChain",
+  "use-chains": "- useChains",
   "use-chain-wallet": "- useChainWallet",
   "use-manager": "- useManager",
   "use-modal-theme": "- useModalTheme",

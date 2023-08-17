@@ -4,10 +4,25 @@ import {
   WalletModalProps,
   WalletStatus,
 } from '@cosmos-kit/core';
-import { ConnectModal, ThemeProvider } from '@interchain-ui/react';
+import {
+  ConnectModal,
+  ThemeProvider,
+  ThemeProviderProps,
+} from '@interchain-ui/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { defaultModalViews, ModalViewImpl } from './components/views';
+
+export type ThemeCustomizationProps = Pick<
+  ThemeProviderProps,
+  'defaultTheme' | 'overrides' | 'themeDefs' | 'customTheme'
+>;
+
+export type WalletModalComponentProps = WalletModalProps &
+  ThemeCustomizationProps & {
+    modalViews: typeof defaultModalViews;
+    includeAllWalletsOnMobile?: boolean;
+  };
 
 export function WalletModal({
   isOpen,
@@ -15,10 +30,11 @@ export function WalletModal({
   walletRepo,
   modalViews,
   includeAllWalletsOnMobile,
-}: WalletModalProps & {
-  modalViews: typeof defaultModalViews;
-  includeAllWalletsOnMobile?: boolean;
-}) {
+  overrides,
+  themeDefs,
+  customTheme,
+  defaultTheme,
+}: WalletModalComponentProps) {
   const initialFocus = useRef();
   const [currentView, setCurrentView] = useState<ModalView>(
     ModalView.WalletList
@@ -131,7 +147,12 @@ export function WalletModal({
   ]);
 
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      defaultTheme={defaultTheme}
+      overrides={overrides}
+      themeDefs={themeDefs}
+      customTheme={customTheme}
+    >
       <ConnectModal
         isOpen={isOpen}
         header={modalView.head}
