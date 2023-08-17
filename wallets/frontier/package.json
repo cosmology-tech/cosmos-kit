@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/frontier",
-  "version": "2.1.10",
+  "version": "2.1.11",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@frontierwallet.io",
   "contributors": [
@@ -53,7 +53,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/frontier-extension": "^2.1.10"
+    "@cosmos-kit/frontier-extension": "^2.1.11"
   },
   "gitHead": "2c05efa9019938410d4ebd496a59ff06b4105d40"
 }
