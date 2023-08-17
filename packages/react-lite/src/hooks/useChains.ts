@@ -1,5 +1,6 @@
 import { ChainContext, ChainName } from '@cosmos-kit/core';
 import { useContext } from 'react';
+
 import { walletContext } from '../provider';
 import { getChainWalletContext } from '../utils';
 
@@ -19,7 +20,9 @@ export function useChains(chainNames: ChainName[], sync = true) {
     );
   }
 
-  const repos = names.map((chainName) => walletManager.getWalletRepo(chainName));
+  const repos = names.map((chainName) =>
+    walletManager.getWalletRepo(chainName)
+  );
   const ids = repos.map((repo) => repo.chainRecord.chain.chain_id);
 
   return names.reduce((result, chainName, index) => {
@@ -29,16 +32,19 @@ export function useChains(chainNames: ChainName[], sync = true) {
 
     walletRepo.wallets.forEach((wallet) => {
       if (wallet.isModeExtension) {
-        wallet.callbacks.beforeConnect = async () => await wallet?.client?.enable?.(ids)
+        wallet.callbacks.beforeConnect = async () =>
+          await wallet?.client?.enable?.(ids);
       }
 
       if (wallet.isModeWalletConnect) {
         wallet.connectChains = async () => {
-          await wallet?.client?.connect?.(ids)
+          await wallet?.client?.connect?.(ids);
           for (const name of names.filter((name) => name !== chainName)) {
-            await wallet.mainWallet.getChainWallet(name).update({ connect: false })
+            await wallet.mainWallet
+              .getChainWallet(name)
+              .update({ connect: false });
           }
-        }
+        };
       }
     });
 
@@ -76,8 +82,8 @@ export function useChains(chainNames: ChainName[], sync = true) {
       getStargateClient,
       getCosmWasmClient,
       getNameService,
-    }
+    };
 
-    return result
-  }, {} as Record<ChainName, ChainContext>)
+    return result;
+  }, {} as Record<ChainName, ChainContext>);
 }
