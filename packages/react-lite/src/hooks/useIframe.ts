@@ -1,13 +1,44 @@
+import { OfflineAminoSigner } from '@cosmjs/amino';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   IframeToParentMessage,
   ParentToIframeMessage,
+  WalletClient,
   WalletStatus,
 } from '@cosmos-kit/core';
 import { RefCallback, useCallback, useEffect, useState } from 'react';
 
 import { useWallet } from './useWallet';
 
-export const useIframe = (): RefCallback<HTMLIFrameElement | null> => {
+export type FunctionKeys<T> = {
+  [K in keyof T]: T[K] extends (...args: unknown[]) => unknown ? K : never;
+}[keyof T];
+
+export type UseIframeOptions = {
+  // If returns true, it was handled by us and an error will be thrown to the
+  // iframe wallet.
+  walletClientOverrides?: Partial<{
+    [K in FunctionKeys<WalletClient>]: (
+      ...params: Parameters<WalletClient[K]>
+    ) => boolean | Promise<boolean>;
+  }>;
+  aminoSignerOverrides?: Partial<{
+    [K in keyof OfflineAminoSigner]: (
+      ...params: Parameters<OfflineAminoSigner[K]>
+    ) => boolean | Promise<boolean>;
+  }>;
+  directSignerOverrides?: Partial<{
+    [K in keyof OfflineDirectSigner]: (
+      ...params: Parameters<OfflineDirectSigner[K]>
+    ) => boolean | Promise<boolean>;
+  }>;
+};
+
+export const useIframe = ({
+  walletClientOverrides,
+  aminoSignerOverrides,
+  directSignerOverrides,
+}: UseIframeOptions = {}): RefCallback<HTMLIFrameElement | null> => {
   const wallet = useWallet();
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
 
@@ -20,8 +51,6 @@ export const useIframe = (): RefCallback<HTMLIFrameElement | null> => {
       if (event.source !== iframe.contentWindow) {
         return;
       }
-
-      console.log('parent received iframe message', event.data, wallet);
 
       if (
         'id' in event.data &&
@@ -54,20 +83,48 @@ export const useIframe = (): RefCallback<HTMLIFrameElement | null> => {
               throw new Error(`No ${subMethod} method`);
             }
 
-            msg = {
-              type: 'success',
-              response: await signer[subMethod](...params),
-            };
+            // Try to run override method, and throw error back to iframe if the
+            // override handles it.
+            if (
+              (event.data.signType === 'amino' &&
+                subMethod in aminoSignerOverrides &&
+                (await aminoSignerOverrides[subMethod](...params))) ||
+              (event.data.signType === 'direct' &&
+                subMethod in directSignerOverrides &&
+                (await directSignerOverrides[subMethod](...params)))
+            ) {
+              msg = {
+                type: 'error',
+                // TODO: improve message? or handling?
+                error: 'Handled by outer wallet.',
+              };
+            } else {
+              msg = {
+                type: 'success',
+                response: await signer[subMethod](...params),
+              };
+            }
           } else {
-            console.log(client, method, params);
-
-            msg = {
-              type: 'success',
-              response:
-                method in client && typeof client[method] === 'function'
-                  ? await client[method](...params)
-                  : undefined,
-            };
+            // Try to run override method, and throw error back to iframe if the
+            // override handles it.
+            if (
+              method in walletClientOverrides &&
+              (await walletClientOverrides[method](...params))
+            ) {
+              msg = {
+                type: 'error',
+                // TODO: improve message? or handling?
+                error: 'Handled by outer wallet.',
+              };
+            } else {
+              msg = {
+                type: 'success',
+                response:
+                  method in client && typeof client[method] === 'function'
+                    ? await client[method](...params)
+                    : undefined,
+              };
+            }
           }
         } catch (err) {
           msg = {
