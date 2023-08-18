@@ -1,7 +1,11 @@
-import { IFRAME_KEYSTORECHANGE_EVENT, Wallet } from '@cosmos-kit/core';
+import {
+  IFRAME_KEYSTORECHANGE_EVENT,
+  IFRAME_WALLET_ID,
+  Wallet,
+} from '@cosmos-kit/core';
 
 export const iframeExtensionInfo: Wallet = {
-  name: 'iframe-parent',
+  name: IFRAME_WALLET_ID,
   prettyName: 'Iframe Parent',
   mode: 'extension',
   mobileDisabled: false,

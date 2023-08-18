@@ -9,7 +9,7 @@ import {
 
 import { IframeWallet } from './main-wallet';
 import { iframeExtensionInfo } from './registry';
-import { IframeSigner } from './signer';
+import { IframeAminoSigner, IframeDirectSigner } from './signers';
 import { sendAndListenOnce } from './utils';
 
 export class IframeClient implements WalletClient {
@@ -123,23 +123,19 @@ export class IframeClient implements WalletClient {
   }
 
   getOfflineSigner(chainId: string, preferredSignType?: SignType) {
-    switch (preferredSignType) {
-      case 'amino':
-        return this.getOfflineSignerAmino(chainId);
-      case 'direct':
-        return this.getOfflineSignerDirect(chainId);
-      default:
-        return this.getOfflineSignerAmino(chainId);
+    if (preferredSignType === 'direct') {
+      return this.getOfflineSignerDirect(chainId);
+    } else {
+      return this.getOfflineSignerAmino(chainId);
     }
-    // return this.client.getOfflineSignerAuto(chainId);
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return new IframeSigner(chainId, 'amino');
+    return new IframeAminoSigner(chainId);
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return new IframeSigner(chainId, 'direct');
+    return new IframeDirectSigner(chainId);
   }
 
   async sign(...params) {

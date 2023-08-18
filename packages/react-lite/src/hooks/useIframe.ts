@@ -118,7 +118,9 @@ export const useIframe = ({
               !(subMethod in signer) ||
               typeof signer[subMethod] !== 'function'
             ) {
-              throw new Error(`No ${subMethod} method`);
+              throw new Error(
+                `No ${subMethod} ${event.data.signType} signer method for ${event.data.chainId}.`
+              );
             }
 
             // Try to run override method, and throw error back to iframe if the

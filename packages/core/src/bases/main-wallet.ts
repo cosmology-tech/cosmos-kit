@@ -7,6 +7,7 @@ import {
   DappEnv,
   EndpointOptions,
   IChainWallet,
+  IFRAME_WALLET_ID,
   State,
   Wallet,
   WalletClient,
@@ -169,10 +170,12 @@ export abstract class MainWalletBase extends WalletBase {
     this.setMessage(void 0);
     this.setState(State.Done);
     this.activate();
-    window?.localStorage.setItem(
-      'cosmos-kit@2:core//current-wallet',
-      this.walletName
-    );
+    if (this.walletName !== IFRAME_WALLET_ID) {
+      window?.localStorage.setItem(
+        'cosmos-kit@2:core//current-wallet',
+        this.walletName
+      );
+    }
   }
 
   reset() {

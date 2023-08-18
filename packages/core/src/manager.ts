@@ -12,6 +12,7 @@ import {
   DeviceType,
   EndpointOptions,
   EventName,
+  IFRAME_WALLET_ID,
   NameServiceName,
   OS,
   SessionOptions,
@@ -315,9 +316,11 @@ export class WalletManager extends StateBase {
   };
 
   private _restoreAccounts = async () => {
-    const walletName = window.localStorage.getItem(
-      'cosmos-kit@2:core//current-wallet'
-    );
+    const walletName =
+      window.top !== window.self
+        ? // If in an iframe, try to use the iframe-parent wallet.
+          IFRAME_WALLET_ID
+        : window.localStorage.getItem('cosmos-kit@2:core//current-wallet');
     if (walletName) {
       const mainWallet = this.getMainWallet(walletName);
       mainWallet.activate();

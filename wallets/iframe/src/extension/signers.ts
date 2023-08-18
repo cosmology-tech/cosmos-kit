@@ -4,18 +4,11 @@ import {
   DirectSignResponse,
   OfflineDirectSigner,
 } from '@cosmjs/proto-signing';
-import { SignType } from '@cosmos-kit/core';
 
 import { sendAndListenOnce } from './utils';
 
-export class IframeSigner implements OfflineDirectSigner, OfflineAminoSigner {
-  chainId: string;
-  signType: SignType;
-
-  constructor(chainId: string, signType: SignType) {
-    this.chainId = chainId;
-    this.signType = signType;
-  }
+export class IframeDirectSigner implements OfflineDirectSigner {
+  constructor(public chainId: string) {}
 
   async getAccounts(...params): Promise<readonly AccountData[]> {
     return await sendAndListenOnce(
@@ -23,7 +16,7 @@ export class IframeSigner implements OfflineDirectSigner, OfflineAminoSigner {
         method: 'signer:getAccounts',
         params,
         chainId: this.chainId,
-        signType: this.signType,
+        signType: 'direct',
       },
       async (data) => {
         if (data.type === 'success') {
@@ -41,7 +34,29 @@ export class IframeSigner implements OfflineDirectSigner, OfflineAminoSigner {
         method: 'signer:signDirect',
         params,
         chainId: this.chainId,
-        signType: this.signType,
+        signType: 'direct',
+      },
+      async (data) => {
+        if (data.type === 'success') {
+          return data.response;
+        } else {
+          throw new Error(data.error);
+        }
+      }
+    );
+  }
+}
+
+export class IframeAminoSigner implements OfflineAminoSigner {
+  constructor(public chainId: string) {}
+
+  async getAccounts(...params): Promise<readonly AccountData[]> {
+    return await sendAndListenOnce(
+      {
+        method: 'signer:getAccounts',
+        params,
+        chainId: this.chainId,
+        signType: 'amino',
       },
       async (data) => {
         if (data.type === 'success') {
@@ -59,7 +74,7 @@ export class IframeSigner implements OfflineDirectSigner, OfflineAminoSigner {
         method: 'signer:signAmino',
         params,
         chainId: this.chainId,
-        signType: this.signType,
+        signType: 'amino',
       },
       async (data) => {
         if (data.type === 'success') {
