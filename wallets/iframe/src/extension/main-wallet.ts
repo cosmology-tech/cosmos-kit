@@ -23,6 +23,6 @@ export class IframeWallet extends MainWalletBase {
       return;
     }
 
-    this.initClientDone(new IframeClient());
+    this.initClientDone(new IframeClient(this));
   }
 }

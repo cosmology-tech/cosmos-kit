@@ -26,3 +26,6 @@ export type ParentToIframeMessage = {
       response?: undefined;
     }
 );
+
+export const IFRAME_KEYSTORECHANGE_EVENT = 'iframe_keystorechange';
+export const IFRAME_PARENT_DISCONNECTED = 'Parent wallet not connected.';

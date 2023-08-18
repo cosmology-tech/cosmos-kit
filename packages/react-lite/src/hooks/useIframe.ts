@@ -1,14 +1,15 @@
 import { OfflineAminoSigner } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
+  IFRAME_KEYSTORECHANGE_EVENT,
+  IFRAME_PARENT_DISCONNECTED,
   IframeToParentMessage,
   ParentToIframeMessage,
   WalletClient,
-  WalletStatus,
 } from '@cosmos-kit/core';
 import { RefCallback, useCallback, useEffect, useState } from 'react';
 
-import { useWallet } from './useWallet';
+import { useConnectedWallet } from './useConnectedWallet';
 
 export type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: unknown[]) => unknown ? K : never;
@@ -39,8 +40,44 @@ export const useIframe = ({
   aminoSignerOverrides,
   directSignerOverrides,
 }: UseIframeOptions = {}): RefCallback<HTMLIFrameElement | null> => {
-  const wallet = useWallet();
+  const wallet = useConnectedWallet();
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
+
+  // Broadcast keystore change event to iframe wallet.
+  useEffect(() => {
+    if (!wallet || typeof window === 'undefined') {
+      return;
+    }
+
+    const notifyIframe = () => {
+      iframe?.contentWindow.dispatchEvent(
+        new Event(IFRAME_KEYSTORECHANGE_EVENT)
+      );
+    };
+
+    wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
+      window.addEventListener(eventName, notifyIframe);
+    });
+    wallet.walletInfo.connectEventNamesOnClient?.forEach(async (eventName) => {
+      wallet.client?.on?.(eventName, notifyIframe);
+    });
+
+    return () => {
+      wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
+        window.removeEventListener(eventName, notifyIframe);
+      });
+      wallet.walletInfo.connectEventNamesOnClient?.forEach(
+        async (eventName) => {
+          wallet.client?.off?.(eventName, notifyIframe);
+        }
+      );
+    };
+  }, [wallet, iframe]);
+
+  // Whenever wallet changes, broadcast keystore change event to iframe wallet.
+  useEffect(() => {
+    iframe?.contentWindow.dispatchEvent(new Event(IFRAME_KEYSTORECHANGE_EVENT));
+  }, [wallet, iframe]);
 
   useEffect(() => {
     if (!iframe) {
@@ -61,11 +98,12 @@ export const useIframe = ({
 
         let msg: Omit<ParentToIframeMessage, 'id'> | undefined;
         try {
-          if (wallet.status !== WalletStatus.Connected) {
-            throw new Error(wallet.message || 'Parent wallet not connected.');
+          if (!wallet) {
+            throw new Error(IFRAME_PARENT_DISCONNECTED);
           }
 
-          const { client } = wallet.mainWallet;
+          const { client } = wallet;
+
           if (method.startsWith('signer:')) {
             if (!event.data.chainId || !event.data.signType) {
               throw new Error('Missing chainId or signType');
@@ -117,12 +155,22 @@ export const useIframe = ({
                 error: 'Handled by outer wallet.',
               };
             } else {
+              let response =
+                method in client && typeof client[method] === 'function'
+                  ? await client[method](...params)
+                  : undefined;
+
+              // Respond with connected wallet info on successful connect.
+              if (method === 'connect') {
+                response = {
+                  prettyName: wallet.walletInfo.prettyName,
+                  logo: wallet.walletInfo.logo,
+                };
+              }
+
               msg = {
                 type: 'success',
-                response:
-                  method in client && typeof client[method] === 'function'
-                    ? await client[method](...params)
-                    : undefined,
+                response,
               };
             }
           }

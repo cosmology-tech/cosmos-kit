@@ -1,4 +1,4 @@
-import { Wallet } from '@cosmos-kit/core';
+import { IFRAME_KEYSTORECHANGE_EVENT, Wallet } from '@cosmos-kit/core';
 
 export const iframeExtensionInfo: Wallet = {
   name: 'iframe-parent',
@@ -8,5 +8,5 @@ export const iframeExtensionInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
-  connectEventNamesOnWindow: ['iframe_keystorechange'],
+  connectEventNamesOnWindow: [IFRAME_KEYSTORECHANGE_EVENT],
 };
