@@ -126,10 +126,12 @@ export const useIframe = ({
             // Try to run override method, and throw error back to iframe if the
             // override handles it.
             if (
-              (event.data.signType === 'amino' &&
+              (aminoSignerOverrides &&
+                event.data.signType === 'amino' &&
                 subMethod in aminoSignerOverrides &&
                 (await aminoSignerOverrides[subMethod](...params))) ||
-              (event.data.signType === 'direct' &&
+              (directSignerOverrides &&
+                event.data.signType === 'direct' &&
                 subMethod in directSignerOverrides &&
                 (await directSignerOverrides[subMethod](...params)))
             ) {
@@ -148,6 +150,7 @@ export const useIframe = ({
             // Try to run override method, and throw error back to iframe if the
             // override handles it.
             if (
+              walletClientOverrides &&
               method in walletClientOverrides &&
               (await walletClientOverrides[method](...params))
             ) {
