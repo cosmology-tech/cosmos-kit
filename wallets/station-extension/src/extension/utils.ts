@@ -1,24 +1,46 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
-
-import { StationExtension } from './extension';
+import Station from '@terra-money/station-connector';
 
 interface StationWindow {
-  isStationExtensionAvailable?: boolean;
+  station?: Station;
 }
 
 export const getStationFromExtension: () => Promise<
-  StationExtension | undefined
+  Station | undefined
 > = async () => {
   if (typeof window === 'undefined') {
     return void 0;
   }
 
-  if (!(window as StationWindow).isStationExtensionAvailable) {
-    throw ClientNotExistError;
+  const station = (window as StationWindow).station;
+
+  if (station) {
+    return station;
   }
 
-  const stationExtension = new StationExtension();
-  await stationExtension.init();
+  if (document.readyState === 'complete') {
+    if (station) {
+      return station;
+    } else {
+      throw ClientNotExistError;
+    }
+  }
 
-  return stationExtension;
+  return new Promise((resolve, reject) => {
+    const documentStateChange = (event: Event) => {
+      if (
+        event.target &&
+        (event.target as Document).readyState === 'complete'
+      ) {
+        if (station) {
+          resolve(station);
+        } else {
+          reject(ClientNotExistError.message);
+        }
+        document.removeEventListener('readystatechange', documentStateChange);
+      }
+    };
+
+    document.addEventListener('readystatechange', documentStateChange);
+  });
 };
