@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -75,7 +75,7 @@
     "@cosmos-kit/compass": "^2.3.1",
     "@cosmos-kit/cosmostation": "^2.3.1",
     "@cosmos-kit/exodus": "^2.3.1",
-    "@cosmos-kit/fin": "^2.3.1",
+    "@cosmos-kit/fin": "^2.3.2",
     "@cosmos-kit/frontier": "^2.3.1",
     "@cosmos-kit/keplr": "^2.3.1",
     "@cosmos-kit/leap": "^2.3.1",
