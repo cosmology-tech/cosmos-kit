@@ -309,26 +309,28 @@ export class WalletManager extends StateBase {
       const mainWallet = this.getMainWallet(walletName);
       mainWallet.activate();
 
-      const accountsStr = window.localStorage.getItem(
-        'cosmos-kit@2:core//accounts'
-      );
-      if (accountsStr && accountsStr !== '[]') {
-        const accounts: SimpleAccount[] = JSON.parse(accountsStr);
-        accounts.forEach((data) => {
-          const chainWallet = mainWallet
-            .getChainWalletList(false)
-            .find(
-              (w) =>
-                w.chainRecord.chain.chain_id === data.chainId &&
-                w.namespace === data.namespace
-            );
-          chainWallet?.activate();
-          if (mainWallet.walletInfo.mode === 'wallet-connect') {
-            chainWallet?.setData(data);
-            chainWallet?.setState(State.Done);
-          }
-        });
-        mainWallet.setState(State.Done);
+      if (mainWallet.clientMutable.state === State.Done) {
+        const accountsStr = window.localStorage.getItem(
+          'cosmos-kit@2:core//accounts'
+        );
+        if (accountsStr && accountsStr !== '[]') {
+          const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+          accounts.forEach((data) => {
+            const chainWallet = mainWallet
+              .getChainWalletList(false)
+              .find(
+                (w) =>
+                  w.chainRecord.chain.chain_id === data.chainId &&
+                  w.namespace === data.namespace
+              );
+            chainWallet?.activate();
+            if (mainWallet.walletInfo.mode === 'wallet-connect') {
+              chainWallet?.setData(data);
+              chainWallet?.setState(State.Done);
+            }
+          });
+          mainWallet.setState(State.Done);
+        }
       }
 
       if (mainWallet.walletInfo.mode !== 'wallet-connect') {

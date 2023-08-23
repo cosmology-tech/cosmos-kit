@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/fin",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "description": "cosmos-kit wallet connector",
   "author": "quangmv@coin98.finance",
   "contributors": [
@@ -10,9 +10,9 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "main/index.js",
-  "module": "module/index.js",
-  "typings": "types/index.d.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "typings": "cjs/index.d.ts",
   "directories": {
     "lib": "src"
   },
@@ -53,7 +53,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/fin-extension": "^2.3.0"
+    "@cosmos-kit/fin-extension": "^2.3.2"
   },
-  "gitHead": "4e5a90510271d84165d456fece16ab0b2b4b3ee5"
+  "gitHead": "686ef895821fd908175d5901c3dea45f63316b7e"
 }
