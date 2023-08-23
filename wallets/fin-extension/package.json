@@ -10,9 +10,9 @@
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "main/index.js",
-  "module": "module/index.js",
-  "typings": "types/index.d.ts",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "typings": "cjs/index.d.ts",
   "directories": {
     "lib": "src",
     "test": "__tests__"
