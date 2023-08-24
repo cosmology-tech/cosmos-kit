@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-extension",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.8.0",
-    "@cosmos-kit/core": "^2.5.1"
+    "@cosmos-kit/core": "^2.5.2"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
