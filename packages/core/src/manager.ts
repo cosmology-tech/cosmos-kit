@@ -39,6 +39,7 @@ export class WalletManager extends StateBase {
   repelWallet = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
   isLazy?: boolean; // stands for `globalIsLazy` setting
   throwErrors: boolean;
+  subscribeConnectEvents: boolean;
   private _reconnectMap = {};
 
   constructor(
@@ -47,6 +48,7 @@ export class WalletManager extends StateBase {
     wallets: MainWalletBase[],
     logger: Logger,
     throwErrors = false,
+    subscribeConnectEvents = true,
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
@@ -55,6 +57,7 @@ export class WalletManager extends StateBase {
   ) {
     super();
     this.throwErrors = throwErrors;
+    this.subscribeConnectEvents = subscribeConnectEvents;
     this.coreEmitter = new EventEmitter();
     this.logger = logger;
     if (defaultNameService) this.defaultNameService = defaultNameService;
@@ -70,7 +73,8 @@ export class WalletManager extends StateBase {
     this.walletConnectOptions = walletConnectOptions;
     wallets.forEach(
       ({ walletName }) =>
-        (this._reconnectMap[walletName] = () => this._reconnect(walletName))
+        (this._reconnectMap[walletName] = () =>
+          this._reconnect(walletName, true))
     );
     this.init(
       chains,
@@ -292,7 +296,16 @@ export class WalletManager extends StateBase {
     return await this.getWalletRepo(_chainName).getNameService();
   };
 
-  private _reconnect = async (walletName: WalletName) => {
+  private _reconnect = async (
+    walletName: WalletName,
+    checkConnection = false
+  ) => {
+    if (
+      checkConnection &&
+      this.getMainWallet(walletName)?.isWalletDisconnected
+    ) {
+      return;
+    }
     this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
     this.coreEmitter.emit('refresh_connection');
     await this.getMainWallet(walletName).connect();
@@ -355,21 +368,22 @@ export class WalletManager extends StateBase {
       this.mainWallets.map(async (wallet) => {
         wallet.setEnv(env);
         wallet.emitter?.emit('broadcast_env', env);
-
-        wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-          window.addEventListener(
-            eventName,
-            this._reconnectMap[wallet.walletName]!
-          );
-        });
-        wallet.walletInfo.connectEventNamesOnClient?.forEach(
-          async (eventName) => {
-            wallet.client?.on?.(
+        if (this.subscribeConnectEvents) {
+          wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
+            window.addEventListener(
               eventName,
               this._reconnectMap[wallet.walletName]!
             );
-          }
-        );
+          });
+          wallet.walletInfo.connectEventNamesOnClient?.forEach(
+            async (eventName) => {
+              wallet.client?.on?.(
+                eventName,
+                this._reconnectMap[wallet.walletName]!
+              );
+            }
+          );
+        }
 
         if (wallet.walletInfo.mode === 'wallet-connect') {
           await wallet.initClient(this.walletConnectOptions);

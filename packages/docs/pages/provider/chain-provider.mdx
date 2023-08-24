@@ -391,6 +391,14 @@ Optional property. By default `false`.
 
 If set `true`, will throw error when wallet status to be `WalletStatus.Error`, `WalletStatus.Rejected` or `WalletStatus.NotExist`, or wallet client status to be `State.Error`.
 
+### subscribeConnectEvents
+
+Optional property. By default `true`.
+
+**Type:** `boolean`
+
+If set `false`, will NOT subscribe registered `connectEventNamesOnWindow` and `connectEventNamesOnClient` in [wallet registry](/integrating-wallets/adding-new-wallets#optional-properties).
+
 ## Optional Properties Only for Default Modal
 
 These properties **only** exist in `ChainProvider` from `@cosmos-kit/react`, and only counts when property [`walletModal`](#walletmodal) is `undefined`.
@@ -405,10 +413,9 @@ Optional property to customize default modal theme.
 type ThemeCustomizationProps = Pick<
   // This type comes from @interchain-ui/react
   ThemeProviderProps,
-  'defaultTheme' | 'overrides' | 'themeDefs' | 'customTheme'
+  "defaultTheme" | "overrides" | "themeDefs" | "customTheme"
 >;
 ```
-
 
 ### modalViews
 

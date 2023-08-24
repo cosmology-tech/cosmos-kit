@@ -4,8 +4,8 @@ import {
   SigningStargateClientOptions,
   StargateClientOptions,
 } from '@cosmjs/stargate';
-import { SignType } from './common';
 
+import { SignType } from './common';
 import { Endpoints } from './manager';
 
 export type ChainName = string;

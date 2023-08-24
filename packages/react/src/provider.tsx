@@ -23,6 +23,7 @@ export const ChainProvider = ({
   walletModal,
   modalViews,
   throwErrors = false,
+  subscribeConnectEvents = true,
   defaultNameService = 'icns',
   walletConnectOptions,
   signerOptions,
@@ -38,6 +39,7 @@ export const ChainProvider = ({
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalViews?: typeof defaultModalViews;
   throwErrors?: boolean;
+  subscribeConnectEvents?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
   signerOptions?: SignerOptions;
@@ -58,6 +60,7 @@ export const ChainProvider = ({
       wallets={wallets}
       walletModal={modal}
       throwErrors={throwErrors}
+      subscribeConnectEvents={subscribeConnectEvents}
       defaultNameService={defaultNameService}
       walletConnectOptions={walletConnectOptions}
       signerOptions={signerOptions}

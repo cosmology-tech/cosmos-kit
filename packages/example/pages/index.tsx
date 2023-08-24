@@ -15,10 +15,10 @@ import { useIsClient } from "../hooks";
 // const chainNames_2 = ["stargaze", "chihuahua"];
 
 const chainNames_1 = ["cosmoshub"];
-const chainNames_2: string[] = ["osmosis"];
+// const chainNames_2: string[] = ["osmosis"];
 
 // const chainNames_1 = ["coreum"];
-// const chainNames_2 = [];
+const chainNames_2: string[] = [];
 
 export default function IndexPage() {
   const { username, connect, disconnect, wallet, openView } = useChain(
