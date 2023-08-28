@@ -1,4 +1,9 @@
-import { WalletContext, WalletName, WalletStatus } from '@cosmos-kit/core';
+import {
+  State,
+  WalletContext,
+  WalletName,
+  WalletStatus,
+} from '@cosmos-kit/core';
 import { useContext } from 'react';
 
 import { walletContext } from '../provider';
@@ -16,7 +21,9 @@ export const useWallet = (
   const { walletManager } = context;
   const mainWallet = walletName
     ? walletManager.getMainWallet(walletName)
-    : walletManager.mainWallets.find((w) => w.isActive);
+    : walletManager.mainWallets.find(
+        (w) => w.isActive && w.clientMutable.state !== State.Error
+      );
 
   if (!mainWallet) {
     return {
