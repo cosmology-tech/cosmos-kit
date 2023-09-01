@@ -16,12 +16,14 @@
 ```jsx
 export default function () {
   const chains = useChains(['cosmoshub', 'osmosis', 'stargaze', 'juno', 'akash']);
-
+  const connected = Object.values(chains).every(chain => chain.isWalletConnected);
+  const { connect, openView } = chains.cosmoshub;
+  
   // Notice: calling chains.chainName.connect() will connect to all 5 chains above.
 
   return <div className="space-y-4">
-    <Button onClick={() => chains.cosmoshub.connect() }>
-      { chains.cosmoshub.isWalletConnected ? 'Disconnect' : 'Connect' }
+    <Button onClick={() => connected ? openView() : connect() }>
+      { connected ? 'Disconnect' : 'Connect' }
     </Button>
     <table className="table-fixed font-mono">
       <thead>
