@@ -1,4 +1,4 @@
-import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode, Key, StdTx } from '@keplr-wallet/types';
@@ -31,6 +31,11 @@ export interface Okxwallet {
       accountNumber?: Long | null;
     }
   ): Promise<DirectSignResponse>;
+  signArbitrary: (
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ) => Promise<StdSignature>;
   sendTx(
     chainId: string,
     tx: StdTx | Uint8Array,

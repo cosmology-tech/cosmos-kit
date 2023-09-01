@@ -1,3 +1,4 @@
+import { StdSignature } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
 import { WalletClient } from '@cosmos-kit/core';
 
@@ -32,6 +33,14 @@ export class OkxwalletClient implements WalletClient {
       algo: key.algo as Algo,
       pubkey: key.pubKey,
     };
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    return await this.client.signArbitrary(chainId, signer, data);
   }
 
   getOfflineSigner(chainId: string) {
