@@ -1,15 +1,18 @@
+import Link from "next/link";
 import { useChains } from "@cosmos-kit/react-lite";
 import { Button } from "components/button";
 
 export default function () {
   const chains = useChains(['cosmoshub', 'osmosis', 'stargaze', 'juno', 'akash']);
-
-  return <div className="space-y-4">
+  const connected = Object.values(chains).every(chain => chain.isWalletConnected);
+  const { connect, openView } = chains.cosmoshub;
+  
+  return <div className="space-y-4 mx-auto max-w-3xl">
     <pre>
       <code>const chains = useChains(['cosmoshub', 'osmosis', 'stargaze', 'juno', 'akash']);</code>
     </pre>
-    <Button onClick={() => chains.cosmoshub.connect() }>
-      { chains.cosmoshub.isWalletConnected ? 'Disconnect' : 'Connect' }
+    <Button onClick={() => connected ? openView() : connect() }>
+      { connected ? 'Disconnect' : 'Connect' }
     </Button>
     <table className="table-fixed font-mono">
       <thead>
@@ -41,5 +44,6 @@ export default function () {
         </tr>
       </tbody>
     </table>
+    <p className="text-center"><Link href="/use-chain">See useChain</Link></p>
   </div>;
 }
