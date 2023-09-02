@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.6](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.6.5...example@2.6.6) (2023-09-02)
+
+### Bug Fixes
+
+- useChains bug when one chain has connected ([694c02c](https://github.com/cosmology-tech/cosmos-kit/commit/694c02c46c67fb70ff959134d81de6c0ee879f10))
+
 ## [2.6.5](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.6.4...example@2.6.5) (2023-08-28)
 
 **Note:** Version bump only for package example

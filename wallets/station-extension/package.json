@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/station-extension",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "@cosmos-kit/station-extension is the Station integration for CosmosKit",
   "author": "kanisorn@alleslab.com",
   "contributors": [

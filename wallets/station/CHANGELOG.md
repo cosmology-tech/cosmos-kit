@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station@2.3.3...@cosmos-kit/station@2.3.4) (2023-09-02)
+
+**Note:** Version bump only for package @cosmos-kit/station
+
 ## [2.3.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station@2.3.2...@cosmos-kit/station@2.3.3) (2023-08-24)
 
 **Note:** Version bump only for package @cosmos-kit/station
