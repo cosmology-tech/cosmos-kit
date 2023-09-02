@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import { WalletAccount, WalletClient } from '@cosmos-kit/core';
+import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import { SignOptions, WalletAccount, WalletClient } from '@cosmos-kit/core';
 import Station from '@terra-money/station-connector';
 
 export class StationClient implements WalletClient {
@@ -14,7 +15,7 @@ export class StationClient implements WalletClient {
   }
 
   async getSimpleAccount(chainId: string) {
-    const { name, addresses } = await this.client?.connect();
+    const { name, addresses } = await this.client.connect();
 
     const address = addresses[chainId];
 
@@ -32,15 +33,15 @@ export class StationClient implements WalletClient {
   }
 
   async getAccount(chainId: string): Promise<WalletAccount> {
-    const info = (await this.client?.info())[chainId];
+    const info = (await this.client.info())[chainId];
     if (!info)
       throw new Error(
         `The requested chainID (${chainId}) is not available, try to switch network on the Station extension.`
       );
 
-    let { name, addresses, pubkey: pubkeys } = await this.client?.connect();
+    let { name, addresses, pubkey: pubkeys } = await this.client.connect();
     if (!pubkeys) {
-      pubkeys = (await this.client?.getPublicKey()).pubkey;
+      pubkeys = (await this.client.getPublicKey()).pubkey;
     }
     const pubkey = pubkeys?.[info.coinType];
     const address = addresses[chainId];
@@ -57,6 +58,15 @@ export class StationClient implements WalletClient {
       isNanoLedger: true,
       algo: 'secp256k1',
     };
+  }
+
+  async signAmino(
+    chainId: string,
+    signer: string,
+    signDoc: StdSignDoc,
+    _signOptions?: SignOptions
+  ): Promise<AminoSignResponse> {
+    return await this.client.keplr.signAmino(chainId, signer, signDoc);
   }
 
   async getOfflineSigner(chainId: string) {
