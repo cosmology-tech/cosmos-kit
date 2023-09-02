@@ -1,5 +1,5 @@
 import { chainRegistryChainToCosmostation } from '@chain-registry/cosmostation';
-import { StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
@@ -36,14 +36,14 @@ export class CosmostationClient implements WalletClient {
   async suggestToken({ chainName, tokens, type }: SuggestToken) {
     if (type === 'cw20') {
       await this.cosmos.request({
-        method: "cos_addTokensCW20",
+        method: 'cos_addTokensCW20',
         params: {
           chainName,
-          tokens
+          tokens,
         },
       });
     }
-  };
+  }
 
   async getSimpleAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);
@@ -115,9 +115,8 @@ export class CosmostationClient implements WalletClient {
       chainInfo.assetList ? [chainInfo.assetList] : []
     );
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.restURL as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.restURL as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rest?.[0];
     }
     const result = (await this.cosmos.request({
       method: 'cos_addChain',
@@ -185,14 +184,15 @@ export class CosmostationClient implements WalletClient {
       return await this.ikeplr.signArbitrary(chainId, signer, data);
     } catch (error) {
       // https://github.com/cosmostation/cosmostation-chrome-extension-client/blob/main/src/cosmos.ts#LL70C17-L70C28
-      const message = typeof data === 'string' ? data : new TextDecoder('utf-8').decode(data)
+      const message =
+        typeof data === 'string' ? data : new TextDecoder('utf-8').decode(data);
       return await this.cosmos.request({
         method: 'cos_signMessage',
         params: {
           chainName: chainId,
           signer,
-          message
-        }
+          message,
+        },
       });
     }
   }
