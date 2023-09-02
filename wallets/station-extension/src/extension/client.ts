@@ -1,4 +1,5 @@
-import { WalletClient, WalletAccount } from '@cosmos-kit/core';
+/* eslint-disable no-unsafe-optional-chaining */
+import { WalletAccount, WalletClient } from '@cosmos-kit/core';
 import Station from '@terra-money/station-connector';
 
 export class StationClient implements WalletClient {
