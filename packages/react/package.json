@@ -82,7 +82,6 @@
     "@chain-registry/types": "0.13.1",
     "@cosmos-kit/core": "^2.5.3",
     "@cosmos-kit/react-lite": "^2.4.5",
-    "@interchain-ui/react": "1.4.1",
     "@react-icons/all-files": "^4.1.0"
   },
   "resolutions": {
@@ -90,7 +89,8 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@interchain-ui/react": "1.5.0"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "gitHead": "5c1c8f9409391f257530a68278b8f2ede9c0f958"
