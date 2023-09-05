@@ -74,6 +74,7 @@ export interface Wallet {
   name: WalletName;
   prettyName: string;
   mode: WalletMode;
+  metamask_snap?: boolean;
   mobileDisabled: boolean | (() => boolean);
   description?: string;
   rejectMessage?:
