@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.6.6",
+  "version": "2.7.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,8 +23,8 @@
     "@cosmos-kit/ins": "^2.1.2",
     "@cosmos-kit/keplr": "^2.3.4",
     "@cosmos-kit/leap": "^2.3.3",
-    "@cosmos-kit/ledger": "^2.3.3",
-    "@cosmos-kit/react": "^2.6.5",
+    "@cosmos-kit/ledger": "^2.4.0",
+    "@cosmos-kit/react": "^2.7.0",
     "@cosmos-kit/shell": "^2.3.3",
     "@cosmos-kit/station": "^2.3.4",
     "@cosmos-kit/vectis": "^2.3.3",
