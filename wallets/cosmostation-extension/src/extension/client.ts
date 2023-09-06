@@ -134,19 +134,19 @@ export class CosmostationClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    if (!this.ikeplr?.signAmino) {
-      return await this.cosmos.request({
-        method: 'cos_signAmino',
-        params: {
-          chainName: chainId,
-          doc: signDoc,
-          isEditMemo: signOptions?.preferNoSetMemo,
-          isEditFee: signOptions?.preferNoSetFee,
-        },
-      });
+    if (this.ikeplr?.signAmino) {
+      return await this.ikeplr.signAmino(chainId, signer, signDoc, signOptions);
     }
 
-    return await this.ikeplr.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.cosmos.request({
+      method: 'cos_signAmino',
+      params: {
+        chainName: chainId,
+        doc: signDoc,
+        isEditMemo: signOptions?.preferNoSetMemo,
+        isEditFee: signOptions?.preferNoSetFee,
+      },
+    });
   }
 
   async signDirect(
@@ -155,19 +155,24 @@ export class CosmostationClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    if (!this.ikeplr?.signDirect) {
-      return await this.cosmos.request({
-        method: 'cos_signDirect',
-        params: {
-          chainName: chainId,
-          doc: signDoc,
-          isEditMemo: signOptions?.preferNoSetMemo,
-          isEditFee: signOptions?.preferNoSetFee,
-        },
-      });
+    if (this.ikeplr?.signDirect) {
+      return await this.ikeplr.signDirect(
+        chainId,
+        signer,
+        signDoc,
+        signOptions
+      );
     }
 
-    return await this.ikeplr.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.cosmos.request({
+      method: 'cos_signDirect',
+      params: {
+        chainName: chainId,
+        doc: signDoc,
+        isEditMemo: signOptions?.preferNoSetMemo,
+        isEditFee: signOptions?.preferNoSetFee,
+      },
+    });
   }
 
   async signArbitrary(
