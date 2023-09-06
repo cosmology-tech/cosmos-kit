@@ -134,9 +134,7 @@ export class CosmostationClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    try {
-      return await this.ikeplr.signAmino(chainId, signer, signDoc, signOptions);
-    } catch (error) {
+    if (!this.ikeplr?.signAmino) {
       return await this.cosmos.request({
         method: 'cos_signAmino',
         params: {
@@ -147,6 +145,8 @@ export class CosmostationClient implements WalletClient {
         },
       });
     }
+
+    return await this.ikeplr.signAmino(chainId, signer, signDoc, signOptions);
   }
 
   async signDirect(
@@ -155,14 +155,7 @@ export class CosmostationClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    try {
-      return await this.ikeplr.signDirect(
-        chainId,
-        signer,
-        signDoc,
-        signOptions
-      );
-    } catch (error) {
+    if (!this.ikeplr?.signDirect) {
       return await this.cosmos.request({
         method: 'cos_signDirect',
         params: {
@@ -173,6 +166,8 @@ export class CosmostationClient implements WalletClient {
         },
       });
     }
+
+    return await this.ikeplr.signDirect(chainId, signer, signDoc, signOptions);
   }
 
   async signArbitrary(
