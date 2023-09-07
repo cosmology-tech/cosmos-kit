@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/shell",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -65,7 +65,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/shell-extension": "^2.3.3"
+    "@cosmos-kit/shell-extension": "^2.3.4"
   },
   "gitHead": "5c1c8f9409391f257530a68278b8f2ede9c0f958"
 }

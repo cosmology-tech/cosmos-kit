@@ -3,21 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-metamask-cosmos-snap@0.0.2...@cosmos-kit/leap-metamask-cosmos-snap@0.1.0) (2023-09-07)
+
+### Features
+
+- new metamask_snap field ([2ac61ce](https://github.com/cosmology-tech/cosmos-kit/commit/2ac61cebb8fa885cb129484d0c852acd2ec1ea73))
+
 ## 0.0.2 (2023-08-25)
 
 **Note:** Version bump only for package @cosmos-kit/leap-metamask-cosmos-snap
 
-
-
-
-
 # [2.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@2.3.1...@cosmos-kit/leap-extension@2.4.0) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/leap-extension
-
-
-
-
 
 ## [2.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@2.3.0...@cosmos-kit/leap-extension@2.3.1) (2023-08-17)
 

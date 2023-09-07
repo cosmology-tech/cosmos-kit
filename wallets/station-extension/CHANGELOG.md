@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station-extension@2.4.0...@cosmos-kit/station-extension@2.4.1) (2023-09-07)
+
+### Bug Fixes
+
+- terra initial connect ([ac29e95](https://github.com/cosmology-tech/cosmos-kit/commit/ac29e95d31764432c21c4ca3361ed28b3885a8e4))
+
 # [2.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/station-extension@2.3.3...@cosmos-kit/station-extension@2.4.0) (2023-09-02)
 
 ### Features

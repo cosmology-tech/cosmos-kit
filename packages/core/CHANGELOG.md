@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.5.3...@cosmos-kit/core@2.6.0) (2023-09-07)
+
+### Features
+
+- new metamask_snap field ([2ac61ce](https://github.com/cosmology-tech/cosmos-kit/commit/2ac61cebb8fa885cb129484d0c852acd2ec1ea73))
+
 ## [2.5.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.5.2...@cosmos-kit/core@2.5.3) (2023-08-24)
 
 **Note:** Version bump only for package @cosmos-kit/core
