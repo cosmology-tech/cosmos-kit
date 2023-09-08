@@ -1,5 +1,5 @@
 import { OfflineAminoSigner } from '@cosmjs/amino';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { AccountData, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   IFRAME_KEYSTORECHANGE_EVENT,
   IFRAME_PARENT_DISCONNECTED,
@@ -15,7 +15,20 @@ export type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: unknown[]) => unknown ? K : never;
 }[keyof T];
 
+export type Mutable<T> = {
+  -readonly [k in keyof T]: T[k];
+};
+
+export type AccountReplacement = {
+  address: string;
+  username?: string;
+  pubkey?: Uint8Array;
+};
+
 export type UseIframeOptions = {
+  accountReplacement?: (
+    chainId: string
+  ) => AccountReplacement | Promise<AccountReplacement> | undefined;
   // If returns true, it was handled by us and an error will be thrown to the
   // iframe wallet.
   walletClientOverrides?: Partial<{
@@ -36,6 +49,7 @@ export type UseIframeOptions = {
 };
 
 export const useIframe = ({
+  accountReplacement,
   walletClientOverrides,
   aminoSignerOverrides,
   directSignerOverrides,
@@ -141,9 +155,26 @@ export const useIframe = ({
                 error: 'Handled by outer wallet.',
               };
             } else {
+              const response = await signer[subMethod](...params);
+
+              // If getting accounts, replace address.
+              if (subMethod === 'getAccounts' && accountReplacement) {
+                const account = await accountReplacement(event.data.chainId);
+                if (account) {
+                  (response as Mutable<AccountData>[]).forEach(
+                    (responseAccount) => {
+                      responseAccount.address = account.address;
+                      if (account.pubkey) {
+                        responseAccount.pubkey = account.pubkey;
+                      }
+                    }
+                  );
+                }
+              }
+
               msg = {
                 type: 'success',
-                response: await signer[subMethod](...params),
+                response,
               };
             }
           } else {
@@ -171,6 +202,25 @@ export const useIframe = ({
                   prettyName: wallet.walletInfo.prettyName,
                   logo: wallet.walletInfo.logo,
                 };
+              }
+
+              // If getting accounts, replace address.
+              if (
+                (method === 'getAccount' || method === 'getSimpleAccount') &&
+                accountReplacement &&
+                params.length === 1 &&
+                typeof params[0] === 'string'
+              ) {
+                const account = await accountReplacement(params[0]);
+                if (account) {
+                  response.address = account.address;
+                  if (account.username) {
+                    response.username = account.username;
+                  }
+                  if (account.pubkey && response.pubkey) {
+                    response.pubkey = account.pubkey;
+                  }
+                }
               }
 
               msg = {
