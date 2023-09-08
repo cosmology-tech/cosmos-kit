@@ -1,6 +1,7 @@
 import { sha256 } from '@cosmjs/crypto';
 import { toUtf8 } from '@cosmjs/encoding';
-import { IframeToParentMessage, ParentToIframeMessage } from '@cosmos-kit/core';
+
+import { IframeToParentMessage, ParentToIframeMessage } from '../../types';
 
 // Listen for a message and remove the listener if the callback returns true or
 // if it throws an error.

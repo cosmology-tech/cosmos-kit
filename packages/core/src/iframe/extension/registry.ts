@@ -2,7 +2,7 @@ import {
   IFRAME_KEYSTORECHANGE_EVENT,
   IFRAME_WALLET_ID,
   Wallet,
-} from '@cosmos-kit/core';
+} from '../../types';
 
 export const iframeExtensionInfo: Wallet = {
   name: IFRAME_WALLET_ID,

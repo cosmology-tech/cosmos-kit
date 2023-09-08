@@ -1,12 +1,12 @@
 import { StdSignature } from '@cosmjs/amino';
+
 import {
   IFRAME_PARENT_DISCONNECTED,
   SignType,
   SimpleAccount,
   WalletAccount,
   WalletClient,
-} from '@cosmos-kit/core';
-
+} from '../../types';
 import { IframeWallet } from './main-wallet';
 import { iframeExtensionInfo } from './registry';
 import { IframeAminoSigner, IframeDirectSigner } from './signers';

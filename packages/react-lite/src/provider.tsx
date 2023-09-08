@@ -34,6 +34,7 @@ export function ChainProvider({
   endpointOptions,
   sessionOptions,
   logLevel = 'WARN',
+  disableIframe = false,
   children,
 }: {
   chains: Chain[];
@@ -48,6 +49,7 @@ export function ChainProvider({
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
+  disableIframe?: boolean;
   children: ReactNode;
 }) {
   const logger = useMemo(() => new Logger(logLevel), []);
@@ -60,6 +62,7 @@ export function ChainProvider({
         logger,
         throwErrors,
         subscribeConnectEvents,
+        disableIframe,
         defaultNameService,
         walletConnectOptions,
         signerOptions,

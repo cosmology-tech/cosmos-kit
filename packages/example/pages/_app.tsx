@@ -11,7 +11,6 @@ import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus";
 import { wallets as finWallets } from "@cosmos-kit/fin";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
-import { wallets as iframeWallets } from "@cosmos-kit/iframe";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as leapMetamaskSnapWallets } from "@cosmos-kit/leap-metamask-cosmos-snap";
@@ -58,7 +57,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={[...chains]}
         assetLists={[...assets]}
         wallets={[
-          ...iframeWallets,
           ...keplrWallets,
           ...ledgerWallets,
           // ...web3AuthWallets,

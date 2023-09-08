@@ -1,6 +1,5 @@
-import { EndpointOptions, Wallet } from '@cosmos-kit/core';
-import { MainWalletBase } from '@cosmos-kit/core';
-
+import { MainWalletBase } from '../../bases';
+import { EndpointOptions, Wallet } from '../../types';
 import { ChainIframe } from './chain-wallet';
 import { IframeClient } from './client';
 
