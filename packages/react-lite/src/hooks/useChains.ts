@@ -75,9 +75,11 @@ export function useChains(chainNames: ChainName[], sync = true) {
       assets: assetList,
       openView,
       closeView,
-      connect: () => connect(localStorage.getItem(
-        'cosmos-kit@2:core//current-wallet'
-      ), sync),
+      connect: () =>
+        connect(
+          localStorage.getItem('cosmos-kit@2:core//current-wallet'),
+          sync
+        ),
       disconnect: () => disconnect(void 0, sync),
       getRpcEndpoint,
       getRestEndpoint,

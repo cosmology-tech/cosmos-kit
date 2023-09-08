@@ -39,8 +39,8 @@ export class IframeClient implements WalletClient {
       },
       async (data) => {
         if (data.type === 'success') {
-          // On connect, update logo to match parent's wallet.
-          iframeExtensionInfo.prettyName = `${data.response.prettyName} (iframe)`;
+          // On connect, update info based on data from parent.
+          iframeExtensionInfo.prettyName = data.response.prettyName;
           iframeExtensionInfo.logo = data.response.logo;
         } else if (data.type === 'error') {
           if (data.error === IFRAME_PARENT_DISCONNECTED) {
@@ -51,12 +51,6 @@ export class IframeClient implements WalletClient {
         }
       }
     );
-  }
-
-  async disconnect() {
-    // Reset metadata on disconnect.
-    iframeExtensionInfo.prettyName = 'Iframe Parent';
-    iframeExtensionInfo.logo = undefined;
   }
 
   // TODO: on

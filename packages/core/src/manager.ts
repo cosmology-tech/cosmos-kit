@@ -76,8 +76,8 @@ export class WalletManager extends StateBase {
       ...sessionOptions,
     });
     this.walletConnectOptions = walletConnectOptions;
-    // Add iframe wallet to wallet list unless disabled.
-    wallets = [...wallets, ...(disableIframe ? [] : [iframeWallet])];
+    // Add iframe wallet to beginning of wallet list unless disabled.
+    wallets = [...(disableIframe ? [] : [iframeWallet]), ...wallets];
     wallets.forEach(
       ({ walletName }) =>
         (this._reconnectMap[walletName] = () =>

@@ -26,6 +26,10 @@ export type AccountReplacement = {
 };
 
 export type UseIframeOptions = {
+  walletInfo?: {
+    prettyName?: string;
+    logo?: string;
+  };
   accountReplacement?: (
     chainId: string
   ) => AccountReplacement | Promise<AccountReplacement> | undefined;
@@ -49,6 +53,7 @@ export type UseIframeOptions = {
 };
 
 export const useIframe = ({
+  walletInfo,
   accountReplacement,
   walletClientOverrides,
   aminoSignerOverrides,
@@ -199,8 +204,9 @@ export const useIframe = ({
               // Respond with connected wallet info on successful connect.
               if (method === 'connect') {
                 response = {
-                  prettyName: wallet.walletInfo.prettyName,
-                  logo: wallet.walletInfo.logo,
+                  prettyName:
+                    walletInfo?.prettyName || wallet.walletInfo.prettyName,
+                  logo: walletInfo?.logo || wallet.walletInfo.logo,
                 };
               }
 
