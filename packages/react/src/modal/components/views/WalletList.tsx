@@ -61,9 +61,11 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
               wallet.walletInfo.mode === 'wallet-connect'
                 ? 'walletConnect'
                 : undefined,
+            btmLogo: wallet.walletInfo.metamask_snap ? 'MetaMask' : undefined,
+            badge: wallet.walletInfo.metamask_snap ? 'SNAP' : undefined,
+            shape: i < 2 && isLargeScreen ? 'square' : 'list',
             downloadUrl: '',
             originalWallet: wallet,
-            shape: i < 2 && isLargeScreen ? 'square' : 'list',
           };
         }),
     [wallets, isLargeScreen]
