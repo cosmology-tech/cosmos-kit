@@ -1,7 +1,6 @@
 import { OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
 import {
-  BroadcastMode,
   ChainRecord,
   SignType,
 } from '@cosmos-kit/core';
