@@ -1,12 +1,12 @@
 import { Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
-import { ChainCosmosExtensionMetamask } from './chain-wallet';
+import { ChainCosmosExtensionMetamaskSnap } from './chain-wallet';
 import { CosmosExensionClient } from './client';
 
 export class CosmosMetamaskExtensionWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {
-    super(walletInfo, ChainCosmosExtensionMetamask);
+    super(walletInfo, ChainCosmosExtensionMetamaskSnap);
   }
 
   async initClient() {

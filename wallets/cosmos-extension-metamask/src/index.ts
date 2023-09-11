@@ -1,2 +1,2 @@
 export * from './extension';
-export * from './snap';
+export * from './cosmos-metamask-extension';
