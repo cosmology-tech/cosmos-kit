@@ -1,17 +1,18 @@
-import { OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, DirectSignResponse } from '@cosmjs/proto-signing';
 import { SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
-import { SignDoc } from '@keplr-wallet/types';
 
-import { cosmjsOfflineSigner } from './cosmjs-offline-signer';
+import { ChainInfo, CosmjsOfflineSigner, experimentalSuggestChain, signArbitrary } from '@leapwallet/cosmos-snap-provider';
 import {
   connectSnap,
   getKey,
   getSnap,
   requestSignAmino,
-  requestSignDirect,
-} from './snap-connector';
+  requestSignature,
+  ProviderLong
+} from '@leapwallet/cosmos-snap-provider';
+import Long from 'long';
 
 export class CosmosSnapClient implements WalletClient {
   readonly snapInstalled: boolean = false;
@@ -41,10 +42,10 @@ export class CosmosSnapClient implements WalletClient {
     await this.handleConnect();
     const key = await getKey(chainId);
     return {
-      username: key.name,
-      address: key.bech32Address,
+      username: key?.address,
+      address: key.address,
       algo: key.algo as Algo,
-      pubkey: key.pubKey,
+      pubkey: key.pubkey,
     };
   }
 
@@ -60,11 +61,11 @@ export class CosmosSnapClient implements WalletClient {
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return (new cosmjsOfflineSigner(chainId) as unknown) as OfflineAminoSigner;
+    return (new CosmjsOfflineSigner(chainId) as unknown) as OfflineAminoSigner;
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return new cosmjsOfflineSigner(chainId);
+    return new CosmjsOfflineSigner(chainId);
   }
 
   async signAmino(
@@ -72,15 +73,55 @@ export class CosmosSnapClient implements WalletClient {
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ) {
+  ): Promise<AminoSignResponse> {
     return requestSignAmino(chainId, signer, signDoc);
   }
 
-  async signDirect(chainId: string, signer: string, signDoc: SignDoc) {
-    return (requestSignDirect(
+  async signDirect(chainId: string, signer: string, signDoc: {
+    bodyBytes?: Uint8Array | null;
+    authInfoBytes?: Uint8Array | null;
+    chainId?: string | null;
+    accountNumber?: ProviderLong | null;
+  }) {
+    const signature = (requestSignature(
       chainId,
       signer,
-      signDoc
+      signDoc // @ts-nocheck
     ) as unknown) as DirectSignResponse;
+
+    const accountNumber = signDoc.accountNumber;
+    const modifiedAccountNumber = new Long(
+      accountNumber!.low,
+      accountNumber!.high,
+      accountNumber!.unsigned
+    );
+
+    return {
+      signature: signature.signature,
+      signed: {
+        ...signature.signed,
+        accountNumber: `${modifiedAccountNumber.toString()}`,
+        authInfoBytes: new Uint8Array(
+          Object.values(signature.signed.authInfoBytes)
+        ),
+        bodyBytes: new Uint8Array(Object.values(signature.signed.bodyBytes)),
+      },
+    };
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string
+  ): Promise<StdSignature> {
+    return (await signArbitrary(
+      chainId,
+      signer,
+      data
+    )) as unknown as StdSignature;
+  }
+
+  async addChain(chainInfo: ChainInfo) {
+    await experimentalSuggestChain(chainInfo);
   }
 }
