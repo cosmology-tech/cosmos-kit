@@ -13,6 +13,7 @@ import { wallets as finWallets } from "@cosmos-kit/fin";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as leapMetamaskSnapWallets } from "@cosmos-kit/leap-metamask-cosmos-snap";
 import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { ChainProvider } from "@cosmos-kit/react";
@@ -66,6 +67,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...exodusWallets,
           ...shellWallets,
           ...leapWallets,
+          ...leapMetamaskSnapWallets,
           ...vectisWallets,
           ...xdefiWallets,
           ...frontierWallets,
