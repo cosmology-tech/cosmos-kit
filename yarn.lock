@@ -2182,10 +2182,10 @@
   resolved "https://registry.npmjs.org/@cosmostation/extension-client/-/extension-client-0.1.11.tgz"
   integrity sha512-CkmNPmYn07UhP0z3PxGRRpgTcBJ/gS1ay/J2jfYsBi/4gnXvpQ3xOZdMU0qdxhFOjh1Xt7kflYsztk9ljMnJcw==
 
-"@cosmsnap/snapper@^0.1.17":
-  version "0.1.17"
-  resolved "https://registry.yarnpkg.com/@cosmsnap/snapper/-/snapper-0.1.17.tgz#2f49fb9772ead9039d5e3fb5581b3d7e81595036"
-  integrity sha512-SD0shI+8F3kdWiP89Wnr18sw9a4GVlEaLWWgOseo+rEWVhu7YtdNIFg01/gfkrvnL1BevsohwgRWav7WvpeQZg==
+"@cosmsnap/snapper@^0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@cosmsnap/snapper/-/snapper-0.1.21.tgz#75610725590028ad8c36721cfe88c97b9909dd32"
+  integrity sha512-X3jIe+JrxDRU7LxTarAp9naANYuAwPfF6/9GN8h6h3EO2GVU9UeDj8gDdSkbTg6Mf6xoiPvsFDsPqmqZVJWvmA==
   dependencies:
     "@keplr-wallet/proto-types" "0.12.12"
     "@keplr-wallet/types" "0.12.12"
