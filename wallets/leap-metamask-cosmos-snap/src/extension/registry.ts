@@ -9,7 +9,7 @@ export const metamaskCosmosSnapInfo: Wallet = {
   prettyName: 'Leap MetaMask',
   logo: ICON,
   mode: 'extension',
-  metamask_snap: true,
+  extends: 'MetaMask',
   mobileDisabled: () => !('ethereum' in window),
   rejectMessage: {
     source: 'Request rejected',
