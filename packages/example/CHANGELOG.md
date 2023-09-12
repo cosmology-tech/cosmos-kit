@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.7.2...example@2.8.0) (2023-09-12)
+
+### Features
+
+- metamask snaps support ([6c66a08](https://github.com/cosmology-tech/cosmos-kit/commit/6c66a080b07fef10ec7da021713f59084bdb3c54))
+
 ## [2.7.2](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.7.1...example@2.7.2) (2023-09-07)
 
 **Note:** Version bump only for package example
