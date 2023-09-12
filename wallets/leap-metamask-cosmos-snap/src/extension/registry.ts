@@ -5,8 +5,8 @@ import { ICON } from '../constant';
 export const metamaskCosmosSnapInfo: Wallet = {
   name: 'leap-metamask-cosmos-snap',
   description:
-    'The Leap MetaMask Cosmos Snap allows signing of Cosmos transactions using MetaMask.',
-  prettyName: 'Leap Metamask Cosmos Snap',
+    'The Leap Cosmos MetaMask Snap allows signing of Cosmos transactions using MetaMask.',
+  prettyName: 'Leap Cosmos MetaMask Snap',
   logo: ICON,
   mode: 'extension',
   mobileDisabled: () => !('ethereum' in window),
@@ -18,11 +18,11 @@ export const metamaskCosmosSnapInfo: Wallet = {
       device: 'desktop',
       browser: 'chrome',
       link:
-        'https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk',
+        'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn',
     },
     {
       link:
-        'https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk',
+        'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn',
     },
   ],
 };
