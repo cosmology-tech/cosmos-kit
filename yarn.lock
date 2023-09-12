@@ -2497,10 +2497,10 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.5.0.tgz#53e321c600e57d072a3d22de5ff2ebb0f01462db"
-  integrity sha512-4fDJ8jWfQFEGSOAwM2+Su15Ot6SiuC1DHTiEYofL/8tTxaKWuRv/iOevJivq3YQd6xsXeYO0kwEFaRBkO6+b6A==
+"@interchain-ui/react@1.7.1", "@interchain-ui/react@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.7.1.tgz#aa3d1d1c7e444c80c0e05a1ee6a6188eeba50ed9"
+  integrity sha512-Ggz8Pqb8EbAW+e9sP5eAeYHNYvsSXEyMz3Gd0MnYQjdTGO4SkTEVry+cP9WEY2jzRmWZzXF4fdNSpg2gAr/98w==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@floating-ui/dom" "^1.5.1"
@@ -4769,7 +4769,7 @@
 
 "@types/react@*", "@types/react@18.2", "@types/react@>=16", "@types/react@^18.2":
   version "18.2.0"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.0.tgz#15cda145354accfc09a18d2f2305f9fc099ada21"
   integrity sha512-0FLj93y5USLHdnhIhABk83rm8XEGA7kH3cr+YUlvxoUGp1xNt/DINUMvqPxLyOQMzLmZe8i4RTHbvb8MC7NmrA==
   dependencies:
     "@types/prop-types" "*"
