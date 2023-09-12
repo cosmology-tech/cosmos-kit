@@ -4,10 +4,10 @@ import { toUtf8 } from '@cosmjs/encoding';
 import { IframeToParentMessage, ParentToIframeMessage } from '../../types';
 
 // Listen for a message and remove the listener if the callback returns true or
-// if it throws an error.
+// if it throws an error. Returns a function that removes the listener.
 export const listenOnce = (
   callback: (message: ParentToIframeMessage) => boolean | Promise<boolean>
-) => {
+): (() => void) => {
   const listener = async ({ data }: MessageEvent) => {
     let remove;
     try {
@@ -19,11 +19,17 @@ export const listenOnce = (
     }
 
     if (remove) {
-      window.removeEventListener('message', listener);
+      removeListener();
     }
   };
 
+  const removeListener = () => window.removeEventListener('message', listener);
+
+  // Add listener.
   window.addEventListener('message', listener);
+
+  // Return function that removes the listener.
+  return removeListener;
 };
 
 // Send message to parent and listen for a response. Returns a promise that
@@ -37,7 +43,7 @@ export const sendAndListenOnce = <T>(
     const id = Date.now();
 
     // Add one-time listener that waits for a response.
-    listenOnce(async (data) => {
+    const removeListener = listenOnce(async (data) => {
       // Verify we are receiving a response for the correct message.
       if (data.id !== id) {
         return false;
@@ -52,14 +58,20 @@ export const sendAndListenOnce = <T>(
       return true;
     });
 
-    // Send the message to our parent.
-    window.top.postMessage(
-      {
-        ...message,
-        id,
-      },
-      '*'
-    );
+    try {
+      // Send the message to our parent.
+      window.top.postMessage(
+        {
+          ...message,
+          id,
+        },
+        '*'
+      );
+    } catch (err) {
+      // If fails to send, remove the listener and reject.
+      removeListener();
+      reject(err);
+    }
   });
 
 // Used for signing and verifying objects.
