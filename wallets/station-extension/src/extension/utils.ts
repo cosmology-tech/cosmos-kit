@@ -32,6 +32,7 @@ export const getStationFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
+        const station = (window as StationWindow).station;
         if (station) {
           resolve(station);
         } else {

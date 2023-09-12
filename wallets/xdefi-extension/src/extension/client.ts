@@ -1,4 +1,4 @@
-import { StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode, SignType } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';

@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet-extension@2.3.1...@cosmos-kit/okxwallet-extension@2.3.2) (2023-09-07)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet-extension
+
+## [2.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet-extension@2.3.0...@cosmos-kit/okxwallet-extension@2.3.1) (2023-09-07)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet-extension
+
+# [2.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet-extension@2.2.3...@cosmos-kit/okxwallet-extension@2.3.0) (2023-09-02)
+
+### Features
+
+- Add Missing Sign Methods to Wallet Clients ([#1](https://github.com/cosmology-tech/cosmos-kit/issues/1)) ([0657840](https://github.com/cosmology-tech/cosmos-kit/commit/06578403a64a210023943031c40a9caf70d49866))
+- add signArbitrary to OKX ([804d6b1](https://github.com/cosmology-tech/cosmos-kit/commit/804d6b157bd8728337c288306c0d901f29970273))
+
 ## [2.2.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet-extension@2.2.2...@cosmos-kit/okxwallet-extension@2.2.3) (2023-08-24)
 
 **Note:** Version bump only for package @cosmos-kit/okxwallet-extension

@@ -43,7 +43,6 @@ export class KeplrClient implements WalletClient {
 
   async getAccount(chainId: string) {
     const key = await this.client.getKey(chainId);
-    console.log('%cclient.ts line:45 key', 'color: #007acc;', key);
     return {
       username: key.name,
       address: key.bech32Address,

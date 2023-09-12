@@ -2463,12 +2463,27 @@
   resolved "https://registry.npmjs.org/@floating-ui/core/-/core-1.3.1.tgz"
   integrity sha512-Bu+AMaXNjrpjh41znzHqaz3r2Nr8hHuHZT6V2LBKMhyMl0FgKA62PNYbqnfgmzOhoWZj70Zecisbo4H1rotP5g==
 
+"@floating-ui/core@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.4.1.tgz#0d633f4b76052668afb932492ac452f7ebe97f17"
+  integrity sha512-jk3WqquEJRlcyu7997NtR5PibI+y5bi+LS3hPmguVClypenMsCY3CBa3LAQnozRCtCrYWSEtAdiskpamuJRFOQ==
+  dependencies:
+    "@floating-ui/utils" "^0.1.1"
+
 "@floating-ui/dom@^1.0.1", "@floating-ui/dom@^1.3.0":
   version "1.4.4"
   resolved "https://registry.npmjs.org/@floating-ui/dom/-/dom-1.4.4.tgz"
   integrity sha512-21hhDEPOiWkGp0Ys4Wi6Neriah7HweToKra626CIK712B5m9qkdz54OP9gVldUg+URnBTpv/j/bi/skmGdstXQ==
   dependencies:
     "@floating-ui/core" "^1.3.1"
+
+"@floating-ui/dom@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.5.1.tgz#88b70defd002fe851f17b4a25efb2d3c04d7a8d7"
+  integrity sha512-KwvVcPSXg6mQygvA1TjbN/gh///36kKtllIF8SUm0qpFj8+rvYrpvlYdL1JoA71SHpDqgSSdGOSoQ0Mp3uY5aw==
+  dependencies:
+    "@floating-ui/core" "^1.4.1"
+    "@floating-ui/utils" "^0.1.1"
 
 "@floating-ui/react-dom@^2.0.0", "@floating-ui/react-dom@^2.0.1":
   version "2.0.1"
@@ -2539,12 +2554,13 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@1.4.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.4.1.tgz#92e9eb3d657596a84f7c93c509a1c4a3f8771f10"
-  integrity sha512-UCvDqVVmapAbDHecv08ftAs1xl5EYNrrCQPaWrKW6L+BGVKrxIhIY5f/d8hT8mjSLi0JPZ7v2NTHUFJaAs9fSw==
+"@interchain-ui/react@1.7.1", "@interchain-ui/react@^1.7.1":
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.7.1.tgz#aa3d1d1c7e444c80c0e05a1ee6a6188eeba50ed9"
+  integrity sha512-Ggz8Pqb8EbAW+e9sP5eAeYHNYvsSXEyMz3Gd0MnYQjdTGO4SkTEVry+cP9WEY2jzRmWZzXF4fdNSpg2gAr/98w==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
+    "@floating-ui/dom" "^1.5.1"
     "@floating-ui/react" "^0.25.0"
     "@formkit/auto-animate" "1.0.0-beta.6"
     "@vanilla-extract/css" "^1.12.0"
@@ -2562,7 +2578,6 @@
     lodash "^4.17.21"
     motion "^10.16.2"
     rainbow-sprinkles "^0.17.0"
-    type-fest "^4.2.0"
     zustand "^4.3.8"
 
 "@iov/crypto@2.1.0":
@@ -4821,7 +4836,7 @@
 
 "@types/react@*", "@types/react@18.2", "@types/react@>=16", "@types/react@^18.2":
   version "18.2.0"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.0.tgz"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.0.tgz#15cda145354accfc09a18d2f2305f9fc099ada21"
   integrity sha512-0FLj93y5USLHdnhIhABk83rm8XEGA7kH3cr+YUlvxoUGp1xNt/DINUMvqPxLyOQMzLmZe8i4RTHbvb8MC7NmrA==
   dependencies:
     "@types/prop-types" "*"
@@ -14381,11 +14396,6 @@ type-fest@^1.0.2:
   version "1.4.0"
   resolved "https://registry.npmjs.org/type-fest/-/type-fest-1.4.0.tgz"
   integrity sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==
-
-type-fest@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-4.2.0.tgz#e259430307710e77721ecf6f545840acad72195f"
-  integrity sha512-5zknd7Dss75pMSED270A1RQS3KloqRJA9XbXLe0eCxyw7xXFb3rd+9B0UQ/0E+LQT6lnrLviEolYORlRWamn4w==
 
 type-tagger@^1.0.0:
   version "1.0.0"

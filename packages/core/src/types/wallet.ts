@@ -74,6 +74,7 @@ export interface Wallet {
   name: WalletName;
   prettyName: string;
   mode: WalletMode;
+  extends?: 'MetaMask'
   mobileDisabled: boolean | (() => boolean);
   description?: string;
   rejectMessage?:
