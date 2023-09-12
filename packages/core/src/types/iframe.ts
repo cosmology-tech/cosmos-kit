@@ -27,6 +27,12 @@ export type ParentToIframeMessage = {
     }
 );
 
+// The message sent to register or unregister an event listener on the parent.
+export type EventListenerIframeMessage = {
+  id: number;
+  type: string;
+};
+
 export const IFRAME_WALLET_ID = 'iframe';
 export const IFRAME_KEYSTORECHANGE_EVENT = 'iframe_keystorechange';
 export const IFRAME_PARENT_DISCONNECTED = 'Parent wallet not connected.';

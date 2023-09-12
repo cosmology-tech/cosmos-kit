@@ -25,30 +25,62 @@ export type AccountReplacement = {
   pubkey?: Uint8Array;
 };
 
+// Throw an error, defaulting to "Handled by outer wallet."
+export type OverrideHandlerError = {
+  type: 'error';
+  error?: string;
+};
+
+// Return successfully with a specific value.
+export type OverrideHandlerSuccess = {
+  type: 'success';
+  value: unknown;
+};
+
+// Execute the function normally.
+export type OverrideHandlerExecute = {
+  type: 'execute';
+};
+
+export type OverrideHandler =
+  | OverrideHandlerError
+  | OverrideHandlerSuccess
+  | OverrideHandlerExecute
+  // If nothing is returned, defaults to an error.
+  | undefined
+  | void;
+
 export type UseIframeOptions = {
+  // Optionally ovrerides the connected wallet metadata in the iframe upon
+  // successful connection.
   walletInfo?: {
     prettyName?: string;
     logo?: string;
   };
+  // If defined and returns a valid object, it will be used to replace the
+  // account in functions that return account details, such as getAccounts and
+  // getSimpleAccount.
   accountReplacement?: (
     chainId: string
   ) => AccountReplacement | Promise<AccountReplacement> | undefined;
-  // If returns true, it was handled by us and an error will be thrown to the
-  // iframe wallet.
+  // If defined, the relevant override will be called with the parameters. The
+  // return value determines how the iframe should handle the function. By
+  // default, if nothing is returned, an error will be thrown with the message
+  // "Handled by outer wallet."
   walletClientOverrides?: Partial<{
     [K in FunctionKeys<WalletClient>]: (
       ...params: Parameters<WalletClient[K]>
-    ) => boolean | Promise<boolean>;
+    ) => OverrideHandler | Promise<OverrideHandler>;
   }>;
   aminoSignerOverrides?: Partial<{
     [K in keyof OfflineAminoSigner]: (
       ...params: Parameters<OfflineAminoSigner[K]>
-    ) => boolean | Promise<boolean>;
+    ) => OverrideHandler | Promise<OverrideHandler>;
   }>;
   directSignerOverrides?: Partial<{
     [K in keyof OfflineDirectSigner]: (
       ...params: Parameters<OfflineDirectSigner[K]>
-    ) => boolean | Promise<boolean>;
+    ) => OverrideHandler | Promise<OverrideHandler>;
   }>;
 };
 
@@ -142,24 +174,36 @@ export const useIframe = ({
               );
             }
 
-            // Try to run override method, and throw error back to iframe if the
-            // override handles it.
+            // Try amino signer override method.
             if (
-              (aminoSignerOverrides &&
-                event.data.signType === 'amino' &&
-                subMethod in aminoSignerOverrides &&
-                (await aminoSignerOverrides[subMethod](...params))) ||
-              (directSignerOverrides &&
-                event.data.signType === 'direct' &&
-                subMethod in directSignerOverrides &&
-                (await directSignerOverrides[subMethod](...params)))
+              aminoSignerOverrides &&
+              event.data.signType === 'amino' &&
+              subMethod in aminoSignerOverrides
             ) {
-              msg = {
-                type: 'error',
-                // TODO: improve message? or handling?
-                error: 'Handled by outer wallet.',
-              };
-            } else {
+              const handledMsg = processOverrideHandler(
+                await aminoSignerOverrides[subMethod](...params)
+              );
+              if (handledMsg) {
+                msg = handledMsg;
+              }
+            }
+
+            // Try direct signer override method.
+            if (
+              directSignerOverrides &&
+              event.data.signType === 'direct' &&
+              subMethod in directSignerOverrides
+            ) {
+              const handledMsg = processOverrideHandler(
+                await directSignerOverrides[subMethod](...params)
+              );
+              if (handledMsg) {
+                msg = handledMsg;
+              }
+            }
+
+            // If neither override handles it, run the original method.
+            if (!msg) {
               const response = await signer[subMethod](...params);
 
               // If getting accounts, replace address.
@@ -183,19 +227,18 @@ export const useIframe = ({
               };
             }
           } else {
-            // Try to run override method, and throw error back to iframe if the
-            // override handles it.
-            if (
-              walletClientOverrides &&
-              method in walletClientOverrides &&
-              (await walletClientOverrides[method](...params))
-            ) {
-              msg = {
-                type: 'error',
-                // TODO: improve message? or handling?
-                error: 'Handled by outer wallet.',
-              };
-            } else {
+            // Try override method.
+            if (walletClientOverrides && method in walletClientOverrides) {
+              const handledMsg = processOverrideHandler(
+                await walletClientOverrides[method](...params)
+              );
+              if (handledMsg) {
+                msg = handledMsg;
+              }
+            }
+
+            // If no override handles it, run the original method.
+            if (!msg) {
               let response =
                 method in client && typeof client[method] === 'function'
                   ? await client[method](...params)
@@ -210,7 +253,7 @@ export const useIframe = ({
                 };
               }
 
-              // If getting accounts, replace address.
+              // If getting accounts, try to replace info.
               if (
                 (method === 'getAccount' || method === 'getSimpleAccount') &&
                 accountReplacement &&
@@ -264,4 +307,22 @@ export const useIframe = ({
   );
 
   return refCallback;
+};
+
+const processOverrideHandler = (
+  handler: OverrideHandler
+): Omit<ParentToIframeMessage, 'id'> | undefined => {
+  if (!handler || handler.type === 'error') {
+    return {
+      type: 'error',
+      error:
+        (handler && handler.type === 'error' && handler.error) ||
+        'Handled by outer wallet.',
+    };
+  } else if (handler.type === 'success') {
+    return {
+      type: 'success',
+      response: handler.value,
+    };
+  }
 };

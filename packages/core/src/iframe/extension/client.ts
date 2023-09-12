@@ -53,8 +53,19 @@ export class IframeClient implements WalletClient {
     );
   }
 
-  // TODO: on
-  // TODO: off
+  // Cannot implement because the event only makes sense in the context of the
+  // DOM where it happened, and references to the iframe's window are not
+  // available in the parent.
+  on(_type: string, _listener: EventListenerOrEventListenerObject) {
+    throw new Error('Not implemented');
+  }
+
+  // Cannot implement because the event only makes sense in the context of the
+  // DOM where it happened, and references to the iframe's window are not
+  // available in the parent.
+  off(_type: string, _listener: EventListenerOrEventListenerObject) {
+    throw new Error('Not implemented');
+  }
 
   async enable(...params) {
     await sendAndListenOnce(
