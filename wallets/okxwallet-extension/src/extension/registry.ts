@@ -4,7 +4,7 @@ import { ICON } from '../constant';
 
 export const OkxwalletExtensionInfo: Wallet = {
   name: 'okxwallet-extension',
-  prettyName: 'okxwallet',
+  prettyName: 'OKX Wallet',
   logo: ICON,
   mode: 'extension',
   mobileDisabled: true,

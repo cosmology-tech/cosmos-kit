@@ -6,10 +6,10 @@ export const metamaskCosmosSnapInfo: Wallet = {
   name: 'leap-metamask-cosmos-snap',
   description:
     'The Leap MetaMask Cosmos Snap allows signing of Cosmos transactions using MetaMask.',
-  prettyName: 'Leap Metamask Cosmos Snap',
+  prettyName: 'Leap MetaMask',
   logo: ICON,
   mode: 'extension',
-  metamask_snap: true,
+  extends: 'MetaMask',
   mobileDisabled: () => !('ethereum' in window),
   rejectMessage: {
     source: 'Request rejected',

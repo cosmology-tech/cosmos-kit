@@ -23,6 +23,7 @@ import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
+import { wallets as leapMetaMaskSnap } from '@cosmos-kit/leap-metamask-cosmos-snap';
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import React, { useMemo } from "react";
@@ -67,7 +68,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...exodusWallets,
           ...shellWallets,
           ...leapWallets,
+<<<<<<< HEAD
           ...leapMetamaskSnapWallets,
+=======
+          ...leapMetaMaskSnap,
+>>>>>>> 351b4a900168a5e75436b2b44c127a4b04c9f860
           ...vectisWallets,
           ...xdefiWallets,
           ...frontierWallets,
