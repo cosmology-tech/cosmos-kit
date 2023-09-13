@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -21,7 +21,7 @@
     "@cosmos-kit/cosmostation": "^2.3.7",
     "@cosmos-kit/fin": "^2.3.8",
     "@cosmos-kit/ins": "^2.1.2",
-    "@cosmos-kit/keplr": "^2.3.7",
+    "@cosmos-kit/keplr": "^2.3.8",
     "@cosmos-kit/leap": "^2.3.6",
     "@cosmos-kit/ledger": "^2.4.3",
     "@cosmos-kit/react": "^2.8.0",
