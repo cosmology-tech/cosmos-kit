@@ -38,7 +38,7 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
     };
   }, []);
 
-  const walletsData: ConnectModalWalletListProps['wallets'] = useMemo(
+  const walletsData = useMemo(
     () =>
       wallets
         .sort((a, b) => {
@@ -54,16 +54,18 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
           }
         })
         .map((wallet, i) => {
+          const props = getWalletProp(wallet.walletInfo);
           return {
-            ...getWalletProp(wallet.walletInfo),
+            ...props,
+            logo: typeof props.logo === 'object' ? props.logo.major : props.logo,
             // subLogo can either be 'walletConnect' or a valid <img /> src attribute
             subLogo:
               wallet.walletInfo.mode === 'wallet-connect'
                 ? 'walletConnect'
                 : undefined,
-            btmLogo: wallet.walletInfo.extends,
+            btmLogo: typeof props.logo === 'object' ? props.logo.minor : wallet.walletInfo.extends,
             badge: ({ MetaMask: 'SNAP' })[wallet.walletInfo.extends],
-            shape: i < 2 && isLargeScreen ? 'square' : 'list',
+            shape: (i < 2 && isLargeScreen ? 'square' : 'list') as ('square' | 'list'),
             downloadUrl: '',
             originalWallet: wallet,
           };
