@@ -1,5 +1,5 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { StdSignature, StdSignDoc } from '@cosmjs/amino';
+import { OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   ChainRecord,
@@ -63,12 +63,36 @@ export class KeplrClient implements WalletClient {
     // return this.client.getOfflineSignerAuto(chainId);
   }
 
-  getOfflineSignerAmino(chainId: string) {
-    return this.client.getOfflineSignerOnlyAmino(chainId);
+  getOfflineSignerAmino(chainId: string): OfflineAminoSigner {
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signAmino: async (signerAddress, signDoc) => {
+        return this.signAmino(chainId, signerAddress, signDoc, {
+          preferNoSetFee: true,
+          preferNoSetMemo: true,
+          disableBalanceCheck: true,
+        });
+      },
+    };
+    // return this.client.getOfflineSignerOnlyAmino(chainId);
   }
 
-  getOfflineSignerDirect(chainId: string) {
-    return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
+  getOfflineSignerDirect(chainId: string): OfflineDirectSigner {
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signDirect: async (signerAddress, signDoc) => {
+        return this.signDirect(chainId, signerAddress, signDoc, {
+          preferNoSetFee: true,
+          preferNoSetMemo: true,
+          disableBalanceCheck: true,
+        });
+      },
+    };
+    // return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
   }
 
   async addChain(chainInfo: ChainRecord) {
