@@ -1,0 +1,36 @@
+# How to Add Leap Metamask Cosmos Snap to CosmosKit
+
+- `@cosmos-kit/cosmos-extension-metamask`
+
+`@cosmos-kit/cosmos-extension-metamask` export wallets for connecting to the official Cosmos MetaMask Snap
+
+## add `@cosmos-kit/cosmos-extension-metamask`
+
+```
+yarn add @cosmos-kit/cosmos-extension-metamask
+```
+
+## import the wallets
+
+```js
+import { wallets as cosmos-extension-mm } from "@cosmos-kit/cosmos-extension-metamask";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...cosmos-extension-mm]}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
