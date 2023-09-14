@@ -54,16 +54,14 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
           }
         })
         .map((wallet, i) => {
-          const props = getWalletProp(wallet.walletInfo);
           return {
-            ...props,
-            logo: typeof props.logo === 'object' ? props.logo.major : props.logo,
+            ...getWalletProp(wallet.walletInfo),
             // subLogo can either be 'walletConnect' or a valid <img /> src attribute
             subLogo:
               wallet.walletInfo.mode === 'wallet-connect'
                 ? 'walletConnect'
                 : undefined,
-            btmLogo: typeof props.logo === 'object' ? props.logo.minor : wallet.walletInfo.extends,
+            btmLogo: typeof wallet.walletInfo.logo === 'object' ? wallet.walletInfo.logo.minor : wallet.walletInfo.extends,
             badge: ({ MetaMask: 'SNAP' })[wallet.walletInfo.extends],
             shape: (i < 2 && isLargeScreen ? 'square' : 'list') as ('square' | 'list'),
             downloadUrl: '',
