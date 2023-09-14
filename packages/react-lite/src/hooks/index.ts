@@ -1,7 +1,6 @@
 export * from './useChain';
 export * from './useChains';
 export * from './useChainWallet';
-export * from './useConnectedWallet';
 export * from './useIframe';
 export * from './useManager';
 export * from './useNameService';

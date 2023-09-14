@@ -1,7 +1,8 @@
 import { useChain, useIframe } from "@cosmos-kit/react-lite";
+import { useState } from "react";
 
 export default () => {
-  const iframeRef = useIframe();
+  const { iframeRef } = useIframe();
 
   const { username, connect, disconnect, wallet, status } =
     useChain("cosmoshub");
@@ -35,18 +36,63 @@ export default () => {
     return <button onClick={() => connect()}>Connect Wallet</button>;
   };
 
+  const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
+  const [url, setUrl] = useState("");
+
+  const go = () => {
+    if (iframe) {
+      iframe.src = url;
+    }
+  };
+
   return (
     <>
       {getConnectButton()}
 
-      <iframe
-        ref={iframeRef}
-        src="http://localhost:3009/use-chains"
-        style={{
-          width: "100%",
-          height: "1000px",
-        }}
-      ></iframe>
+      <div className="flex flex-col gap-2 mt-8">
+        <div className="flex flex-row justify-between items-center gap-2">
+          <input
+            className="grow"
+            style={{
+              padding: 4,
+              borderRadius: 4,
+            }}
+            type="text"
+            autoComplete="off"
+            onChange={(event) => setUrl(event.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                go();
+              }
+            }}
+            placeholder="URL"
+            value={url}
+          />
+
+          <button
+            onClick={go}
+            style={{
+              padding: 4,
+              borderRadius: 4,
+              backgroundColor: "#333333",
+            }}
+          >
+            Go
+          </button>
+        </div>
+
+        <iframe
+          ref={(ref) => {
+            setIframe(ref);
+            iframeRef(ref);
+          }}
+          style={{
+            width: "100%",
+            height: "75vh",
+            borderRadius: 4,
+          }}
+        ></iframe>
+      </div>
     </>
   );
 };

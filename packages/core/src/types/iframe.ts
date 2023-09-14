@@ -1,7 +1,7 @@
 import { SignType } from './common';
 
 export type IframeToParentMessage = {
-  id: number;
+  id: string;
 
   method: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,7 +12,7 @@ export type IframeToParentMessage = {
 };
 
 export type ParentToIframeMessage = {
-  id: number;
+  id: string;
 } & (
   | {
       type: 'success';
@@ -29,7 +29,7 @@ export type ParentToIframeMessage = {
 
 // The message sent to register or unregister an event listener on the parent.
 export type EventListenerIframeMessage = {
-  id: number;
+  id: string;
   type: string;
 };
 

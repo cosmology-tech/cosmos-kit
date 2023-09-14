@@ -4,12 +4,14 @@ import {
   IFRAME_KEYSTORECHANGE_EVENT,
   IFRAME_PARENT_DISCONNECTED,
   IframeToParentMessage,
+  MainWalletBase,
   ParentToIframeMessage,
   WalletClient,
+  WalletName,
 } from '@cosmos-kit/core';
 import { RefCallback, useCallback, useEffect, useState } from 'react';
 
-import { useConnectedWallet } from './useConnectedWallet';
+import { useWallet } from './useWallet';
 
 export type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: unknown[]) => unknown ? K : never;
@@ -51,6 +53,7 @@ export type OverrideHandler =
   | void;
 
 export type UseIframeOptions = {
+  walletName?: WalletName;
   // Optionally ovrerides the connected wallet metadata in the iframe upon
   // successful connection.
   walletInfo?: {
@@ -85,13 +88,17 @@ export type UseIframeOptions = {
 };
 
 export const useIframe = ({
+  walletName,
   walletInfo,
   accountReplacement,
   walletClientOverrides,
   aminoSignerOverrides,
   directSignerOverrides,
-}: UseIframeOptions = {}): RefCallback<HTMLIFrameElement | null> => {
-  const wallet = useConnectedWallet();
+}: UseIframeOptions = {}): {
+  wallet: MainWalletBase;
+  iframeRef: RefCallback<HTMLIFrameElement | null>;
+} => {
+  const wallet = useWallet(walletName).mainWallet;
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
 
   // Broadcast keystore change event to iframe wallet.
@@ -239,19 +246,10 @@ export const useIframe = ({
 
             // If no override handles it, run the original method.
             if (!msg) {
-              let response =
+              const response =
                 method in client && typeof client[method] === 'function'
                   ? await client[method](...params)
                   : undefined;
-
-              // Respond with connected wallet info on successful connect.
-              if (method === 'connect') {
-                response = {
-                  prettyName:
-                    walletInfo?.prettyName || wallet.walletInfo.prettyName,
-                  logo: walletInfo?.logo || wallet.walletInfo.logo,
-                };
-              }
 
               // If getting accounts, try to replace info.
               if (
@@ -275,6 +273,15 @@ export const useIframe = ({
               msg = {
                 type: 'success',
                 response,
+              };
+            }
+
+            // Respond with parent wallet info on successful connect.
+            if (msg.type === 'success' && method === 'connect') {
+              msg.response = {
+                prettyName:
+                  walletInfo?.prettyName || wallet.walletInfo.prettyName,
+                logo: walletInfo?.logo || wallet.walletInfo.logo,
               };
             }
           }
@@ -301,12 +308,15 @@ export const useIframe = ({
     };
   }, [iframe, wallet]);
 
-  const refCallback: RefCallback<HTMLIFrameElement | null> = useCallback(
+  const iframeRef: RefCallback<HTMLIFrameElement | null> = useCallback(
     (iframe) => setIframe(iframe),
     []
   );
 
-  return refCallback;
+  return {
+    wallet,
+    iframeRef,
+  };
 };
 
 const processOverrideHandler = (

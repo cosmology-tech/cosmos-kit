@@ -1,6 +1,7 @@
 import { StdSignature } from '@cosmjs/amino';
 
 import {
+  ChainRecord,
   IFRAME_PARENT_DISCONNECTED,
   SignType,
   SimpleAccount,
@@ -94,6 +95,21 @@ export class IframeClient implements WalletClient {
   }
 
   async addChain(...params) {
+    // `clientOptions` in the chain record may contain
+    // `SigningStargateClientOptions` or `SigningCosmWasmClientOptions`, which
+    // may contain a types registry that cannot be cloned when using
+    // window.postMessage. `addChain` functions typically do not care about
+    // `clientOptions` as they are just used for adding chain metadata to a
+    // wallet, so we remove the `clientOptions` from the chain record here.
+    let chainRecord: ChainRecord = params[0];
+    if (chainRecord && 'clientOptions' in chainRecord) {
+      chainRecord = {
+        ...chainRecord,
+        clientOptions: {},
+      };
+      params[0] = chainRecord;
+    }
+
     await sendAndListenOnce(
       {
         method: 'addChain',

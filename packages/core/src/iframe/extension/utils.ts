@@ -1,5 +1,6 @@
 import { sha256 } from '@cosmjs/crypto';
 import { toUtf8 } from '@cosmjs/encoding';
+import { v4 as uuidv4 } from 'uuid';
 
 import { IframeToParentMessage, ParentToIframeMessage } from '../../types';
 
@@ -40,7 +41,7 @@ export const sendAndListenOnce = <T>(
   callback: (message: ParentToIframeMessage) => T
 ): Promise<T> =>
   new Promise<T>((resolve, reject) => {
-    const id = Date.now();
+    const id = uuidv4();
 
     // Add one-time listener that waits for a response.
     const removeListener = listenOnce(async (data) => {
