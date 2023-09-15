@@ -3039,10 +3039,10 @@
     big-integer "^1.6.48"
     utility-types "^3.10.0"
 
-"@leapwallet/cosmos-snap-provider@0.1.20":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-snap-provider/-/cosmos-snap-provider-0.1.20.tgz#b0c36f3b0e2cfa441769c6ed93bd4238f62a66d4"
-  integrity sha512-VUoxun5prJdLTjkCRU3EBLwx2CNnvYnP9deSiffwCx4lQQzcN38gSIHs3rfXpdyLdPv1jIi6nVVsqIVKFzvB1w==
+"@leapwallet/cosmos-snap-provider@0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-snap-provider/-/cosmos-snap-provider-0.1.21.tgz#b50205858d818a8583558f725b1b1909d35e995f"
+  integrity sha512-2B6bmjx+cU/bNKdNzswsWohX2vw1nmSbctzLEe022AdtKfh9nCzpDq1/a73oXXqZOdUOSDE0KggjTP/zxRo8AA==
   dependencies:
     "@cosmjs/amino" "^0.31.0"
     "@cosmjs/proto-signing" "^0.31.0"
