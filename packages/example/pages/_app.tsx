@@ -73,7 +73,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           ...frontierWallets,
           ...coin98Wallets,
           ...finWallets,
-          ...leapCosmosMetamask,
         ]}
         throwErrors={false}
         subscribeConnectEvents={false}
