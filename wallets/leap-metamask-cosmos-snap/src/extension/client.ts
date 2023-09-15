@@ -1,6 +1,6 @@
 import { AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, DirectSignResponse } from '@cosmjs/proto-signing';
-import { SignType } from '@cosmos-kit/core';
+import { ChainRecord, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { ChainInfo, CosmjsOfflineSigner, experimentalSuggestChain, signArbitrary } from '@leapwallet/cosmos-snap-provider';
@@ -82,11 +82,11 @@ export class CosmosSnapClient implements WalletClient {
     authInfoBytes?: Uint8Array | null;
     chainId?: string | null;
     accountNumber?: ProviderLong | null;
-  }) {
+  }): Promise<DirectSignResponse> {
     const signature = (requestSignature(
       chainId,
       signer,
-      signDoc // @ts-nocheck
+      signDoc
     ) as unknown) as DirectSignResponse;
 
     const accountNumber = signDoc.accountNumber;
@@ -100,7 +100,7 @@ export class CosmosSnapClient implements WalletClient {
       signature: signature.signature,
       signed: {
         ...signature.signed,
-        accountNumber: `${modifiedAccountNumber.toString()}`,
+        accountNumber: modifiedAccountNumber,
         authInfoBytes: new Uint8Array(
           Object.values(signature.signed.authInfoBytes)
         ),
@@ -121,7 +121,13 @@ export class CosmosSnapClient implements WalletClient {
     )) as unknown as StdSignature;
   }
 
-  async addChain(chainInfo: ChainInfo) {
+  async addChain(chainRecord: ChainRecord): Promise<void> {
+    const chainInfo: ChainInfo = {
+      chainId: chainRecord?.chain?.chain_id,
+      chainName: chainRecord?.chain?.chain_name,
+      bip44: { coinType: chainRecord?.chain?.slip44 },
+      bech32Config: { bech32PrefixAccAddr: chainRecord?.chain?.bech32_prefix },
+    }
     await experimentalSuggestChain(chainInfo);
   }
 }
