@@ -2,7 +2,6 @@
   "lerna": "7",
   "conventionalCommits": true,
   "npmClient": "yarn",
-  "useWorkspaces": true,
   "npmClientArgs": ["--no-lockfile"],
   "packages": ["packages/*", "wallets/*"],
   "version": "independent",
