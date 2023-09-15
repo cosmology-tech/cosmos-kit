@@ -86,7 +86,7 @@ export class CosmosSnapClient implements WalletClient {
     const signature = (requestSignature(
       chainId,
       signer,
-      signDoc // @ts-nocheck
+      signDoc
     ) as unknown) as DirectSignResponse;
 
     const accountNumber = signDoc.accountNumber;
