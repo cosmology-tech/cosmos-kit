@@ -50,7 +50,8 @@
 | **connectEventNamesOnWindow** | `string[]`                                         | window event names to fire auto-connect                                                                                                        |
 | **connectEventNamesOnClient** | `string[]`                                         | wallet client event names to fire auto-connect (make sure `on` and `off` methods are defined in [`WalletClient`](#2️⃣-implement-walletclient))   |
 | **downloads**                 | [`DownloadInfo[]`](https://github.com/cosmology-tech/cosmos-kit/blob/ce50648487e73c1f6f17777347df7984168381af/packages/core/src/types/wallet.ts#L28-L31) | wallet app/extension download information |
-| **logo**                      | `string`                                           | wallet logo url, display on default modal                                                                                                     |
+| **logo**                      | `string` \| `{ major: string, minor: string }`     | wallet logo url, display on default modal. For MetaMask Snaps, use `logo: { major: METAMASK_LOGO, minor: WALLET_LOGO }`|
+| **extends**                   | 'MetaMask'                                         | indicate it's a MetaMask Snap
 
 #### Examples
 
