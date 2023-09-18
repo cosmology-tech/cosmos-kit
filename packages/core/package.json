@@ -76,7 +76,8 @@
     "@chain-registry/types": "0.13.0",
     "@walletconnect/types": "2.7.2",
     "bowser": "2.11.0",
-    "events": "3.3.0"
+    "events": "3.3.0",
+    "uuid": "^9.0.1"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

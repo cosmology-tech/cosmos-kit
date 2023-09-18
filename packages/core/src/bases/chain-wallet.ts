@@ -21,6 +21,7 @@ import {
   ChainRecord,
   CosmosClientType,
   ExtendedHttpEndpoint,
+  IFRAME_WALLET_ID,
   SignType,
   SimpleAccount,
   State,
@@ -191,7 +192,7 @@ export class ChainWalletBase extends WalletBase {
         this.setError(e as Error);
       }
     }
-    if (!this.isWalletRejected) {
+    if (!this.isWalletRejected && this.walletName !== IFRAME_WALLET_ID) {
       window?.localStorage.setItem(
         'cosmos-kit@2:core//current-wallet',
         this.walletName

@@ -5,6 +5,7 @@ import EventEmitter from 'events';
 import {
   Callbacks,
   DownloadInfo,
+  IFRAME_WALLET_ID,
   Mutable,
   State,
   Wallet,
@@ -147,7 +148,9 @@ export abstract class WalletBase extends StateBase {
     await this.callbacks?.beforeDisconnect?.();
     await this.client?.disconnect?.();
     this.reset();
-    window.localStorage.removeItem('cosmos-kit@2:core//current-wallet');
+    if (this.walletName !== IFRAME_WALLET_ID) {
+      window.localStorage.removeItem('cosmos-kit@2:core//current-wallet');
+    }
     if (sync) {
       this.emitter?.emit('sync_disconnect', (this as any).chainName);
       this.logger?.debug('[WALLET EVENT] Emit `sync_disconnect`');

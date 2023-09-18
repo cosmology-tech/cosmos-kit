@@ -161,7 +161,9 @@ export function getChainWalletContext(
         [chainId, ...params],
         'signDirect'
       ),
-    signArbitrary: (...params: Parameters<ChainWalletContext['signArbitrary']>) =>
+    signArbitrary: (
+      ...params: Parameters<ChainWalletContext['signArbitrary']>
+    ) =>
       clientMethodAssert(
         wallet?.client?.signArbitrary.bind(wallet.client),
         [chainId, ...params],
@@ -175,3 +177,52 @@ export function getChainWalletContext(
       ),
   };
 }
+
+// Listen for a message and remove the listener if the callback returns true or
+// if it throws an error.
+export const listenOnce = (
+  callback: (message: unknown) => boolean | Promise<boolean>
+) => {
+  const listener = async ({ data }: MessageEvent) => {
+    let remove;
+    try {
+      remove = await callback(data);
+    } catch (error) {
+      console.error(error);
+      remove = true;
+    }
+
+    if (remove) {
+      window.removeEventListener('message', listener);
+    }
+  };
+
+  window.addEventListener('message', listener);
+};
+
+// Send message to iframe and listen for a response. Returns a promise that
+// resolves when the callback returns true and rejects if it throws an error.
+export const sendAndListenOnce = (
+  iframe: HTMLIFrameElement,
+  message: unknown,
+  callback: (message: unknown) => boolean | Promise<boolean>
+): Promise<void> =>
+  new Promise<void>((resolve, reject) => {
+    // Add one-time listener that waits for a response.
+    listenOnce(async (data) => {
+      try {
+        if (await callback(data)) {
+          resolve();
+          return true;
+        } else {
+          return false;
+        }
+      } catch (err) {
+        reject(err);
+        return true;
+      }
+    });
+
+    // Send the message to the iframe.
+    iframe.contentWindow.postMessage(message);
+  });

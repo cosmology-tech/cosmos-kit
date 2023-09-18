@@ -4,6 +4,7 @@ import Bowser from 'bowser';
 import EventEmitter from 'events';
 
 import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
+import { iframeWallet } from './iframe';
 import { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
@@ -12,6 +13,7 @@ import {
   DeviceType,
   EndpointOptions,
   EventName,
+  IFRAME_WALLET_ID,
   NameServiceName,
   OS,
   SessionOptions,
@@ -40,6 +42,7 @@ export class WalletManager extends StateBase {
   isLazy?: boolean; // stands for `globalIsLazy` setting
   throwErrors: boolean;
   subscribeConnectEvents: boolean;
+  disableIframe: boolean;
   private _reconnectMap = {};
 
   constructor(
@@ -49,6 +52,7 @@ export class WalletManager extends StateBase {
     logger: Logger,
     throwErrors = false,
     subscribeConnectEvents = true,
+    disableIframe = false,
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
@@ -58,6 +62,7 @@ export class WalletManager extends StateBase {
     super();
     this.throwErrors = throwErrors;
     this.subscribeConnectEvents = subscribeConnectEvents;
+    this.disableIframe = disableIframe;
     this.coreEmitter = new EventEmitter();
     this.logger = logger;
     if (defaultNameService) this.defaultNameService = defaultNameService;
@@ -71,6 +76,15 @@ export class WalletManager extends StateBase {
       ...sessionOptions,
     });
     this.walletConnectOptions = walletConnectOptions;
+    // Add iframe wallet to beginning of wallet list unless not in iframe or
+    // iframe is disabled.
+    wallets = [
+      ...((typeof window !== 'undefined' && window.top === window.self) ||
+      disableIframe
+        ? []
+        : [iframeWallet]),
+      ...wallets,
+    ];
     wallets.forEach(
       ({ walletName }) =>
         (this._reconnectMap[walletName] = () =>
@@ -315,9 +329,11 @@ export class WalletManager extends StateBase {
   };
 
   private _restoreAccounts = async () => {
-    const walletName = window.localStorage.getItem(
-      'cosmos-kit@2:core//current-wallet'
-    );
+    const walletName =
+      // If in an iframe and not disabled, default to the iframe wallet.
+      !this.disableIframe && window.top !== window.self
+        ? IFRAME_WALLET_ID
+        : window.localStorage.getItem('cosmos-kit@2:core//current-wallet');
     if (walletName) {
       const mainWallet = this.getMainWallet(walletName);
       mainWallet.activate();
