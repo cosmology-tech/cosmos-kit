@@ -443,3 +443,23 @@ Supported overridable slots/components and their overridable state/attributes ar
   ]
 }
 ```
+
+## Improvement in bundle size in v2
+
+Since we dropped Chakra UI to build our own foundational UI system. The bundle size dropped a lot.
+Here are some screenshots and bundle size improvement
+
+### Core UI size improvement
+
+In the new package `@interchain-ui/react`, package size dropped from 362kb to 159kb (minified + gzipped)
+
+![Old](../public/bundle-size-screenshots/old-cosmology-ui.png)
+![New](../public/bundle-size-screenshots/new-interchain-ui.png)
+
+### Cosmos Kit size improvement
+
+Additionally, we also reduce the bundle size of cosmos kit by significant amount, from 386kb to just 28kb (minified + gzipped)
+![Old](../public/bundle-size-screenshots/old-v1-cosmos-kit.png)
+![New](../public/bundle-size-screenshots/new-v2-cosmos-kit.png)
+
+We're pretty happy with the improvement in V2 so far and looking to improve it much more.

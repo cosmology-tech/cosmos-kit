@@ -9,6 +9,7 @@ import { wallets as keplrExtension } from '@cosmos-kit/keplr-extension';
 import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
 import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
 import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
+import { wallets as leapMetamaskCosmosSnap } from '@cosmos-kit/leap-metamask-cosmos-snap';
 import { wallets as ledgerUSB } from '@cosmos-kit/ledger';
 import { wallets as omniMobile } from '@cosmos-kit/omni-mobile';
 import { wallets as finExtension } from '@cosmos-kit/fin-extension';
@@ -51,9 +52,10 @@ export type WalletList<
 
 export function createWalletList<
   ExtensionWallet extends MainWalletBase | null,
-  MobileWallet extends MainWalletBase | null
->(extension: ExtensionWallet | null, mobile: MobileWallet | null) {
-  const list = [extension, mobile].filter((wallet) => Boolean(wallet)) as WalletList<ExtensionWallet, MobileWallet>;
+  MobileWallet extends MainWalletBase | null,
+  MetaMaskSnap extends MainWalletBase | null
+>(extension: ExtensionWallet | null, mobile: MobileWallet | null, snap?: MetaMaskSnap) {
+  const list = [extension, mobile, snap].filter((wallet) => Boolean(wallet)) as WalletList<ExtensionWallet, MobileWallet>;
   list.mobile = mobile;
   list.extension = extension;
   return list;
@@ -65,8 +67,8 @@ export const cosmostation = createWalletList(
   cosmostationMobile[0]
 );
 export const ledger = ledgerUSB;
+export const leap = createWalletList(leapExtension[0], leapMobile[0], leapMetamaskCosmosSnap[0])
 export const station = createWalletList(stationExtension[0], null);
-export const leap = createWalletList(leapExtension[0], leapMobile[0]);
 export const exodus = createWalletList(exodusExtension[0], null);
 export const trust = createWalletList(null, trustMobile[0]);
 export const xdefi = createWalletList(xdefiExtension[0], null);

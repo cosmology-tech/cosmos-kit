@@ -87,7 +87,7 @@ export interface Wallet {
   connectEventNamesOnWindow?: string[];
   connectEventNamesOnClient?: string[];
   downloads?: DownloadInfo[];
-  logo?: string;
+  logo?: string | { major: string; minor: string };
   walletconnect?: {
     name: string;
     projectId: string;

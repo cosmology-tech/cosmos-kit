@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.8.0...@cosmos-kit/react@2.8.1) (2023-09-15)
+
+### Bug Fixes
+
+- fix logo type mismatch ([ab3508b](https://github.com/cosmology-tech/cosmos-kit/commit/ab3508bdea3281b3de8467d25ce592267b7d6482))
+
 # [2.8.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.7.2...@cosmos-kit/react@2.8.0) (2023-09-12)
 
 ### Features
