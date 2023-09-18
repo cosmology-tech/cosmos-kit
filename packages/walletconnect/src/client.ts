@@ -53,6 +53,10 @@ export class WCClient implements WalletClient {
   options?: WalletConnectOptions;
   relayUrl?: string;
   env?: DappEnv;
+  requiredNamespaces?: {
+    methods: string[];
+    events: string[];
+  };
 
   constructor(walletInfo: Wallet) {
     if (!walletInfo.walletconnect) {
@@ -64,6 +68,8 @@ export class WCClient implements WalletClient {
 
     this.qrUrl = { state: State.Init };
     this.appUrl = { state: State.Init };
+
+    this.requiredNamespaces = walletInfo.walletconnect.requiredNamespaces;
   }
 
   get isMobile() {
@@ -401,9 +407,14 @@ export class WCClient implements WalletClient {
           'cosmos_getAccounts',
           'cosmos_signAmino',
           'cosmos_signDirect',
+          ...(this.requiredNamespaces?.methods ?? []),
         ],
         chains: chainIdsWithNS,
-        events: ['chainChanged', 'accountsChanged'],
+        events: [
+          'chainChanged',
+          'accountsChanged',
+          ...(this.requiredNamespaces?.methods ?? []),
+        ],
       },
     };
     let connectResp: any;
