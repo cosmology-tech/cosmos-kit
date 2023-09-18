@@ -102,7 +102,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         logLevel={"DEBUG"}
-        wrappedWithChakra={true} // required if `ChainProvider` is imported from `@cosmos-kit/react`
         endpointOptions={{
           isLazy: true,
           endpoints: {
@@ -126,6 +125,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             },
           },
         }}
+        disableIframe={false}
       >
         <Component {...pageProps} />
       </ChainProvider>
