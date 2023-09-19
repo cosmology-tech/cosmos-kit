@@ -91,6 +91,10 @@ export interface Wallet {
   walletconnect?: {
     name: string;
     projectId: string;
+    requiredNamespaces?: {
+      methods: string[];
+      events: string[];
+    };
     encoding?: BufferEncoding; // encoding for bytes, default 'hex'
     mobile?: AppUrl; // redirect link on mobile
     formatNativeUrl?: (

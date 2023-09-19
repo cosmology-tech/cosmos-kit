@@ -51,7 +51,7 @@ export const keplrMobileInfo: Wallet = {
         case 'ios':
           return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
         case 'android':
-          return `${plainAppUrl}://wcV2?${encodedWcUrl}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
+          return `intent://wcV2?${encodedWcUrl}#Intent;package=com.chainapsis.keplr;scheme=keplrwallet;end;`;
         default:
           return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
       }
