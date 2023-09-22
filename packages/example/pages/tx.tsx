@@ -2,18 +2,17 @@
 import { Asset, AssetList } from "@chain-registry/types";
 import { StdFee } from "@cosmjs/amino";
 import { SigningStargateClient } from "@cosmjs/stargate";
+import { ExtendedHttpEndpoint } from "@cosmos-kit/core";
 import { useChain, useWalletClient } from "@cosmos-kit/react";
 import BigNumber from "bignumber.js";
 import { assets } from "chain-registry";
+import { Button } from "components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "components/card";
 import { cosmos } from "juno-network";
 import { useState } from "react";
 
-import { Button } from "components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "components/card";
-
 import { ChainsTXWalletSection } from "../components/chains-tx-wallet";
 import { SendTokensdiv } from "../components/react/send-tokens-card";
-import { ExtendedHttpEndpoint } from "@cosmos-kit/core";
 
 const chainName = "cosmoshub";
 
