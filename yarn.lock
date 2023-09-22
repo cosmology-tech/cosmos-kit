@@ -2568,7 +2568,7 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@^1.7.1":
+"@interchain-ui/react@1.7.1", "@interchain-ui/react@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.7.1.tgz#aa3d1d1c7e444c80c0e05a1ee6a6188eeba50ed9"
   integrity sha512-Ggz8Pqb8EbAW+e9sP5eAeYHNYvsSXEyMz3Gd0MnYQjdTGO4SkTEVry+cP9WEY2jzRmWZzXF4fdNSpg2gAr/98w==
@@ -3039,10 +3039,10 @@
     big-integer "^1.6.48"
     utility-types "^3.10.0"
 
-"@leapwallet/cosmos-snap-provider@0.1.22":
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-snap-provider/-/cosmos-snap-provider-0.1.22.tgz#684bf04c23721268803ae9fea7a88c6d3bbbea27"
-  integrity sha512-4shW8JU6bRMwY1HGey7dQeFnL7yL1bU9V8wJ1Y6LcFv2XDxQx3pNpaXsmUNAcf3G/EViZkdrFm++KmmDmLAyIA==
+"@leapwallet/cosmos-snap-provider@0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-snap-provider/-/cosmos-snap-provider-0.1.23.tgz#f1a9f954cc110520230d65b70a29fb92550fab14"
+  integrity sha512-AW29NFarYkA9F6CEQ5nwga1M+tPhryTDGsHb/6fJLzOsBBY8X+X4wYv9zgvmtSOtJ3cGVM5h/pRE2VqILn06Bw==
   dependencies:
     "@cosmjs/amino" "^0.31.0"
     "@cosmjs/proto-signing" "^0.31.0"
