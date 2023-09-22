@@ -36,3 +36,5 @@ export type EventListenerIframeMessage = {
 export const IFRAME_WALLET_ID = 'iframe';
 export const IFRAME_KEYSTORECHANGE_EVENT = 'iframe_keystorechange';
 export const IFRAME_PARENT_DISCONNECTED = 'Outer wallet not connected.';
+export const IFRAME_DEFAULT_PRETTY_NAME = 'Outer Wallet';
+export const IFRAME_DEFAULT_LOGO = undefined;

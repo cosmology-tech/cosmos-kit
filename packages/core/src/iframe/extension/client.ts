@@ -2,6 +2,8 @@ import { StdSignature } from '@cosmjs/amino';
 
 import {
   ChainRecord,
+  IFRAME_DEFAULT_LOGO,
+  IFRAME_DEFAULT_PRETTY_NAME,
   IFRAME_PARENT_DISCONNECTED,
   SignType,
   SimpleAccount,
@@ -45,6 +47,10 @@ export class IframeClient implements WalletClient {
           iframeExtensionInfo.logo = data.response.logo;
         } else if (data.type === 'error') {
           if (data.error === IFRAME_PARENT_DISCONNECTED) {
+            // On disconnect, remove parent info.
+            iframeExtensionInfo.prettyName = IFRAME_DEFAULT_PRETTY_NAME;
+            iframeExtensionInfo.logo = IFRAME_DEFAULT_LOGO;
+
             await this.wallet.disconnect();
           }
 
