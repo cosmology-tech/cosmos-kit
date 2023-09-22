@@ -6,7 +6,7 @@ import {
 
 export const iframeExtensionInfo: Wallet = {
   name: IFRAME_WALLET_ID,
-  prettyName: 'Iframe Parent',
+  prettyName: 'Outer Wallet',
   mode: 'extension',
   mobileDisabled: false,
   rejectMessage: {

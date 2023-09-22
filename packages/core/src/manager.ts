@@ -13,6 +13,7 @@ import {
   DeviceType,
   EndpointOptions,
   EventName,
+  IFRAME_KEYSTORECHANGE_EVENT,
   IFRAME_WALLET_ID,
   NameServiceName,
   OS,
@@ -368,8 +369,19 @@ export class WalletManager extends StateBase {
     }
   };
 
+  _reconnectToIframe = () => this._reconnect(IFRAME_WALLET_ID);
+
   onMounted = async () => {
     if (typeof window === 'undefined') return;
+
+    // If in iframe, listen for keystore change event and reconnect if the
+    // parent changes.
+    if (!this.disableIframe && window.top !== window.self) {
+      window.addEventListener(
+        IFRAME_KEYSTORECHANGE_EVENT,
+        this._reconnectToIframe
+      );
+    }
 
     const parser = Bowser.getParser(window.navigator.userAgent);
     const env = {
@@ -419,6 +431,15 @@ export class WalletManager extends StateBase {
     if (typeof window === 'undefined') {
       return;
     }
+
+    // If in iframe, stop listening for keystore change event.
+    if (!this.disableIframe && window.top !== window.self) {
+      window.removeEventListener(
+        IFRAME_KEYSTORECHANGE_EVENT,
+        this._reconnectToIframe
+      );
+    }
+
     this.mainWallets.forEach((wallet) => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
         window.removeEventListener(
