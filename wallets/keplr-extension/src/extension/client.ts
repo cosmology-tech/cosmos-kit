@@ -11,6 +11,16 @@ import {
   WalletClient,
 } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
+import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing';
+import {
+  AuthInfo,
+  SignDoc,
+  SignerInfo,
+  Tx,
+  TxBody,
+} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+
+import { addressBytesFromBech32 } from './utils';
 
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
@@ -120,5 +130,64 @@ export class KeplrClient implements WalletClient {
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
     return await this.client.sendTx(chainId, tx, mode);
+  }
+
+  async signAATx(
+    chainID: string,
+    accountAddress: string,
+    accountNumber: number,
+    sequence: number,
+    unsignedTx: Uint8Array
+  ) {
+    const accountAddrBytes = addressBytesFromBech32(accountAddress);
+
+    const body = TxBody.decode(unsignedTx);
+
+    const authInfo = AuthInfo.fromPartial({
+      signerInfos: [
+        SignerInfo.fromPartial({
+          publicKey: {
+            typeUrl: '/abstractaccount.v1.NilPubKey',
+            value: new Uint8Array([10, 32, ...accountAddrBytes]), // a little hack to encode the pk into proto bytes
+          },
+          modeInfo: {
+            single: {
+              mode: SignMode.SIGN_MODE_DIRECT,
+            },
+          },
+          sequence: sequence,
+        }),
+      ],
+      fee: {
+        amount: [],
+        gasLimit: 200000,
+      },
+    });
+
+    // prepare sign bytes
+    const signDoc = SignDoc.fromPartial({
+      bodyBytes: TxBody.encode(body).finish(),
+      authInfoBytes: AuthInfo.encode(authInfo).finish(),
+      chainId: chainID,
+      accountNumber: accountNumber,
+    });
+    const signBytes = SignDoc.encode(signDoc).finish();
+
+    // const signBytesHex = "0x" + encodeHex(signBytes);
+    const sender = await this.client.getKey(chainID);
+    const signArbSig = await this.client.signArbitrary(
+      chainID,
+      sender.bech32Address,
+      signBytes
+    );
+    const signArbSigBytes = new TextEncoder().encode(
+      JSON.stringify(signArbSig)
+    );
+
+    return Tx.fromPartial({
+      body,
+      authInfo,
+      signatures: [signArbSigBytes],
+    });
   }
 }

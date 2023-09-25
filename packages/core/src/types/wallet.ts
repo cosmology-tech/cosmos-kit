@@ -15,6 +15,7 @@ import { SignClientTypes } from '@walletconnect/types';
 import { ChainWalletBase, MainWalletBase } from '../bases';
 import { ChainName, ChainRecord } from './chain';
 import { DappEnv, Mutable, OS, SignType } from './common';
+import { Tx } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export interface Key {
   readonly name: string;
@@ -221,6 +222,13 @@ export interface WalletClient {
     tx: Uint8Array,
     mode: BroadcastMode
   ) => Promise<Uint8Array>;
+  signAATx?: (
+    chainID: string,
+    accountAddress: Bech32Address,
+    accountNumber: number,
+    sequence: number,
+    unsignedTx: Uint8Array
+  ) => Promise<Tx>;
 }
 
 export type WalletAdapter = ChainWalletBase | MainWalletBase;

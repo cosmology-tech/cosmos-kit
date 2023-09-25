@@ -1,5 +1,11 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
 import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
+import bech32 from 'bech32';
+
+export function addressBytesFromBech32(str) {
+  const { words } = bech32.decode(str);
+  return bech32.fromWords(words);
+}
 
 export const getKeplrFromExtension: () => Promise<
   Keplr | undefined

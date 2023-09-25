@@ -13,7 +13,7 @@ import {
   StargateClientOptions,
   StdFee,
 } from '@cosmjs/stargate';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import {Tx, TxRaw} from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 import { NameService } from '../name-service';
 import {
@@ -115,6 +115,14 @@ export class ChainWalletBase extends WalletBase {
 
   get address(): string | undefined {
     return this.data?.address;
+  }
+
+  get abstractAccountAddress(): string | undefined {
+    return this.data?.abstractAccountAddress;
+  }
+
+  get abstractAccountNumber(): number | undefined {
+    return this.data?.abstractAccountNumber;
   }
 
   setData(data: SimpleAccount | undefined) {
@@ -384,6 +392,49 @@ export class ChainWalletBase extends WalletBase {
     } else {
       usedFee = fee;
     }
+
+    return await client.sign(this.address, messages, usedFee, memo || '');
+  };
+
+  signAA = async (
+    messages: EncodeObject[],
+    fee?: StdFee | number,
+    memo?: string,
+    type?: CosmosClientType
+  ): Promise<TxRaw> => {
+    if (!this.abstractAccountAddress) {
+      throw new Error(
+        'Abstract Account Address is required to estimate fee. Please set address.'
+      );
+    }
+    if (!this.abstractAccountNumber) {
+      throw new Error(
+        'Abstract Account Number is required to sign tx. Please set account number.'
+      );
+    }
+    const client = await this.getSigningClient(type);
+    let usedFee: StdFee;
+    if (typeof fee === 'undefined' || typeof fee === 'number') {
+      usedFee = await this.estimateFee(messages, type, memo, fee);
+    } else {
+      usedFee = fee;
+    }
+
+    let aaSignData = {
+      address: this.abstractAccountAddress,
+      chainID: this.chainId,
+      accountNumber: 0, //todo
+      sequence: 0, // todo
+    };
+
+    let txJson: Tx = {
+      body: {
+        messages: messages,
+        memo: memo,
+      },
+      authInfo: {},
+      signatures: [],
+    };
 
     return await client.sign(this.address, messages, usedFee, memo || '');
   };
