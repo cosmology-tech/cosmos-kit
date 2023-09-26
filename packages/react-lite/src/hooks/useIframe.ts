@@ -103,16 +103,21 @@ export const useIframe = ({
 
   // Broadcast keystore change event to iframe wallet.
   useEffect(() => {
-    if (!wallet || typeof window === 'undefined') {
-      return;
-    }
-
     const notifyIframe = () => {
       iframe?.contentWindow.dispatchEvent(
         new Event(IFRAME_KEYSTORECHANGE_EVENT)
       );
     };
 
+    // Notify inner window of keystore change on any wallet client change
+    // (likely either connection or disconnection).
+    notifyIframe();
+
+    if (!wallet || typeof window === 'undefined') {
+      return;
+    }
+
+    // Notify inner window of keystore change on any wallet connect event.
     wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
       window.addEventListener(eventName, notifyIframe);
     });
@@ -279,8 +284,9 @@ export const useIframe = ({
             // Respond with parent wallet info on successful connect.
             if (msg.type === 'success' && method === 'connect') {
               msg.response = {
-                prettyName:
-                  walletInfo?.prettyName || wallet.walletInfo.prettyName,
+                prettyName: `${
+                  walletInfo?.prettyName || wallet.walletInfo.prettyName
+                } (Outer)`,
                 logo: walletInfo?.logo || wallet.walletInfo.logo,
               };
             }
