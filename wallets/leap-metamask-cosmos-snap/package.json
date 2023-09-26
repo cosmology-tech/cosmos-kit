@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-metamask-cosmos-snap",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.8.0",
-    "@cosmos-kit/core": "^2.6.5",
+    "@cosmos-kit/core": "^2.6.6",
     "@leapwallet/cosmos-snap-provider": "0.1.23",
     "@metamask/providers": "^11.1.1"
   },
