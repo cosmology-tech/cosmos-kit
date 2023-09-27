@@ -57,7 +57,7 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/types": "0.13.1",
+    "@chain-registry/types": "0.17.0",
     "@cosmos-kit/core": "^2.6.6",
     "@solana/web3.js": "^1.77.3",
     "@toruslabs/eccrypto": "^2.1.1",
