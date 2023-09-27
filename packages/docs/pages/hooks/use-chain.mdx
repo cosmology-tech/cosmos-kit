@@ -8,7 +8,7 @@
     - **chainName**: `ChainName` ( = `string` );
     - **sync**: `boolean` = `true`
 
-> prarameter `sync` means whether to synchronize connection and disconnection to all other activated chainWallets.
+> parameter `sync` means whether to synchronize connection and disconnection to all other activated chainWallets.
 
 - return type: [**ChainContext**](#type-chaincontext)
 
@@ -45,8 +45,8 @@
 | **getRestEndpoint**  | return rest endpoint, `isLazy` explanation is [here](/provider/chain-provider#isLazy)    | **isLazy**?: `boolean` | `string \| ExtendedHttpEndpoint` | Y |
 | **getStargateClient**  | - | - | `StargateClient` | Y |
 | **getCosmWasmClient**  | - | - | `CosmWasmClient` | Y |
-| **getSigningStargateClient**  | always vaildate endpoint in method | - | `SigningStargateClient` | Y |
-| **getSigningCosmWasmClient**  | always vaildate endpoint in method | - | `SigningCosmWasmClient` | Y |
+| **getSigningStargateClient**  | always validate endpoint in method | - | `SigningStargateClient` | Y |
+| **getSigningCosmWasmClient**  | always validate endpoint in method | - | `SigningCosmWasmClient` | Y |
 | **getNameService**  | get name service object supported on provided chain  | - | `NameService` | Y |
 | **estimateFee**  | if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**type**?: `CosmosClientType`,<br />**memo**?: `string`,<br />**multiplier**?: `number` | `StdFee` | Y |
 | **sign**  | using `cosmjs`. if **type** is `undefined`, default using `SigningStargateClient` |     **messages**: `EncodeObject[]`,<br />**fee**?: `StdFee`,<br />**memo**?: `string`,<br />**type**?: `CosmosClientType` | `TxRaw` | Y |
@@ -68,7 +68,7 @@
 | ----------- | ----------- | -- | -- | -- |
 | **enable**  | - | - | `void` | Y |
 | **getAccount**  | - | - | `WalletAccount` | Y |
-| **getOfflineSigner**  | prioritize returning `preferredSignType` (in `ChainProvider` properties, by default `amino`) corresponding signer if it is available, otherwise return siger that is provided. | - | `OfflineSigner` | Y |
+| **getOfflineSigner**  | prioritize returning `preferredSignType` (in `ChainProvider` properties, by default `amino`) corresponding signer if it is available, otherwise return signer that is provided. | - | `OfflineSigner` | Y |
 | **getOfflineSignerAmino**  | - | - | `OfflineAminoSigner` | N |
 | **getOfflineSignerDirect**  | - | - | `OfflineDirectSigner` | N |
 | **signAmino**  | - |   **signer**: `string`,<br />**signDoc**: `StdSignDoc`,<br />**signOptions**?: `SignOptions` | `AminoSignResponse` | Y |
