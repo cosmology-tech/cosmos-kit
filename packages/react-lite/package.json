@@ -79,7 +79,7 @@
     "@types/react-dom": "^18.2"
   },
   "dependencies": {
-    "@chain-registry/types": "0.13.1",
+    "@chain-registry/types": "0.17.0",
     "@cosmos-kit/core": "^2.6.6"
   },
   "resolutions": {
