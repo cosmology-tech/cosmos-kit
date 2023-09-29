@@ -104,9 +104,9 @@ export const useIframe = ({
   // Broadcast keystore change event to iframe wallet.
   useEffect(() => {
     const notifyIframe = () => {
-      iframe?.contentWindow.dispatchEvent(
-        new Event(IFRAME_KEYSTORECHANGE_EVENT)
-      );
+      iframe?.contentWindow.postMessage({
+        event: IFRAME_KEYSTORECHANGE_EVENT,
+      });
     };
 
     // Notify inner window of keystore change on any wallet client change
@@ -139,7 +139,9 @@ export const useIframe = ({
 
   // Whenever wallet changes, broadcast keystore change event to iframe wallet.
   useEffect(() => {
-    iframe?.contentWindow.dispatchEvent(new Event(IFRAME_KEYSTORECHANGE_EVENT));
+    iframe?.contentWindow.postMessage({
+      event: IFRAME_KEYSTORECHANGE_EVENT,
+    });
   }, [wallet, iframe]);
 
   useEffect(() => {

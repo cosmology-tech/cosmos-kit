@@ -369,18 +369,29 @@ export class WalletManager extends StateBase {
     }
   };
 
-  _reconnectToIframe = () => this._reconnect(IFRAME_WALLET_ID);
+  _handleIframeKeystoreChangeEvent = (event: MessageEvent) => {
+    if (
+      'event' in event.data &&
+      event.data.event === IFRAME_KEYSTORECHANGE_EVENT
+    ) {
+      // Dispatch event to our window.
+      window.dispatchEvent(new Event(IFRAME_KEYSTORECHANGE_EVENT));
+
+      // Reconnect if the parent updates.
+      this._reconnect(IFRAME_WALLET_ID);
+    }
+  };
 
   onMounted = async () => {
     if (typeof window === 'undefined') return;
 
-    // If in iframe, listen for keystore change event and reconnect if the
-    // parent changes.
+    // If in iframe, rebroadcast keystore change event messages as events and
+    // reconnect if the parent changes. Since the outer window can be a
+    // different origin (and it most likely is), it cannot dispatch events on
+    // our (the iframe's) window. Thus, it posts a message with the event name
+    // to our window and we broadcast it.
     if (!this.disableIframe && window.top !== window.self) {
-      window.addEventListener(
-        IFRAME_KEYSTORECHANGE_EVENT,
-        this._reconnectToIframe
-      );
+      window.addEventListener('message', this._handleIframeKeystoreChangeEvent);
     }
 
     const parser = Bowser.getParser(window.navigator.userAgent);
@@ -435,8 +446,8 @@ export class WalletManager extends StateBase {
     // If in iframe, stop listening for keystore change event.
     if (!this.disableIframe && window.top !== window.self) {
       window.removeEventListener(
-        IFRAME_KEYSTORECHANGE_EVENT,
-        this._reconnectToIframe
+        'message',
+        this._handleIframeKeystoreChangeEvent
       );
     }
 
