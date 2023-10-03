@@ -22,6 +22,7 @@ import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
+import { wallets as stytchWallets } from "../../../wallets/stytch";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
@@ -57,6 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={[...chains]}
         assetLists={[...assets]}
         wallets={[
+          ...stytchWallets,
           ...keplrWallets,
           ...ledgerWallets,
           // ...web3AuthWallets,
