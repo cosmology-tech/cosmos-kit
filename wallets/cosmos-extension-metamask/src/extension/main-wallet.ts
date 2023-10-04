@@ -2,7 +2,7 @@ import { Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainCosmosExtensionMetamaskSnap } from './chain-wallet';
-import { CosmosExensionClient } from './client';
+import { CosmosExtensionClient } from './client';
 
 export class CosmosMetamaskExtensionWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {
@@ -12,7 +12,7 @@ export class CosmosMetamaskExtensionWallet extends MainWalletBase {
   async initClient() {
     this.initingClient();
     try {
-      this.initClientDone(new CosmosExensionClient());
+      this.initClientDone(new CosmosExtensionClient());
     } catch (error) {
       this.initClientError(error);
     }
