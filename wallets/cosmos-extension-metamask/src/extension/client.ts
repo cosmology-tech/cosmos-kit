@@ -5,17 +5,14 @@ import {
   SignType,
 } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
-import { isSnapInitialized, isSnapInstalled, CosmosSnap, suggestChain, Chain, CosmJSOfflineSigner } from '@cosmsnap/snapper';
+import { CosmosSnap, suggestChain, Chain, CosmJSOfflineSigner, installSnap } from '@cosmsnap/snapper';
 import { SignDoc } from '@keplr-wallet/types';
 
-export class CosmosExensionClient implements WalletClient {
-  cosmos: CosmosSnap = new CosmosSnap();
-  snapInitialized: boolean = false;
-  snapInstalled: boolean = false;
+export class CosmosExtensionClient implements WalletClient {
+  cosmos: CosmosSnap
 
   constructor() {
-    isSnapInitialized().then(res => this.snapInitialized = res);
-    isSnapInstalled().then(res => this.snapInstalled = res);
+    this.cosmos = new CosmosSnap();
   }
 
   async addChain(chainInfo: ChainRecord) {
@@ -23,7 +20,7 @@ export class CosmosExensionClient implements WalletClient {
   }
 
   async getSimpleAccount(chainId: string) {
-    const { address } = await this.cosmos.getAccount(chainId);
+    const { address } = await this.getAccount(chainId);
     return {
       namespace: 'cosmos',
       chainId,
@@ -32,6 +29,7 @@ export class CosmosExensionClient implements WalletClient {
   }
 
   async getAccount(chainId: string) {
+    await installSnap();
     const key = await this.cosmos.getAccount(chainId);
     return {
       address: key.address,
