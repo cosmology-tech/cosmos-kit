@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmos-extension-metamask@0.1.6...@cosmos-kit/cosmos-extension-metamask@0.1.8) (2023-10-04)
+
+**Note:** Version bump only for package @cosmos-kit/cosmos-extension-metamask
+
+
+
+
+
 ## [0.1.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cosmos-extension-metamask@0.1.5...@cosmos-kit/cosmos-extension-metamask@0.1.6) (2023-09-26)
 
 **Note:** Version bump only for package @cosmos-kit/cosmos-extension-metamask
