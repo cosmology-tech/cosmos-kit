@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/fin-extension@2.3.13...@cosmos-kit/fin-extension@2.3.14) (2023-10-05)
+
+**Note:** Version bump only for package @cosmos-kit/fin-extension
+
+
+
+
+
 ## [2.3.13](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/fin-extension@2.3.12...@cosmos-kit/fin-extension@2.3.13) (2023-10-04)
 
 **Note:** Version bump only for package @cosmos-kit/fin-extension
