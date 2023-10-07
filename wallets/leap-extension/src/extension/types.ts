@@ -24,6 +24,9 @@ export interface LeapSignOptions {
 }
 
 export interface Leap {
+  defaultOptions: {
+    sign?: LeapSignOptions;
+  };
   disconnect(): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
   suggestToken(chainId: string, contractAddress: string): Promise<void>;

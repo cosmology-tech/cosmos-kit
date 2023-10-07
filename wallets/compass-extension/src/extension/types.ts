@@ -24,6 +24,9 @@ export interface CompassSignOptions {
 }
 
 export interface Compass {
+  defaultOptions: {
+    sign?: CompassSignOptions;
+  };
   disconnect(): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
   suggestToken(chainId: string, contractAddress: string): Promise<void>;
