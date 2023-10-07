@@ -1,4 +1,4 @@
-import { OfflineAminoSigner, StdSignDoc } from '@cosmjs/amino';
+import { OfflineAminoSigner, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
 import {
   ChainRecord,
@@ -65,6 +65,15 @@ export class CosmosExtensionClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     return await this.cosmos.signAmino(chainId, signer, signDoc);
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    const signature = await this.cosmos.signArbitrary(chainId, signer, data);
+    return signature
   }
 
   async signDirect(
