@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { Algo, StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { Algo, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import {
   BroadcastMode,
   ChainRecord,
@@ -35,14 +35,8 @@ export class VectisClient implements WalletClient {
   }
 
   async getAccount(chainId: string) {
-    const {
-      address,
-      algo,
-      pubkey,
-      name,
-      isNanoLedger,
-      isVectisAccount,
-    } = await this.client.getKey(chainId);
+    const { address, algo, pubkey, name, isNanoLedger, isVectisAccount } =
+      await this.client.getKey(chainId);
     return {
       username: name,
       address,
@@ -79,15 +73,13 @@ export class VectisClient implements WalletClient {
     );
 
     if (preferredEndpoints?.rest?.[0]) {
-      (chainInfo.rest as
-        | string
-        | ExtendedHttpEndpoint) = preferredEndpoints?.rest?.[0];
+      (chainInfo.rest as string | ExtendedHttpEndpoint) =
+        preferredEndpoints?.rest?.[0];
     }
 
     if (preferredEndpoints?.rpc?.[0]) {
-      (chainInfo.rpc as
-        | string
-        | ExtendedHttpEndpoint) = preferredEndpoints?.rpc?.[0];
+      (chainInfo.rpc as string | ExtendedHttpEndpoint) =
+        preferredEndpoints?.rpc?.[0];
     }
 
     await this.client.suggestChains([chainInfo]);

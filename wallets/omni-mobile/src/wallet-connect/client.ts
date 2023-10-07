@@ -1,7 +1,7 @@
-import { DirectSignDoc, SignOptions, Wallet } from '@cosmos-kit/core';
-import { WCClient } from '@cosmos-kit/walletconnect';
 import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
+import { DirectSignDoc, SignOptions, Wallet } from '@cosmos-kit/core';
+import { WCClient } from '@cosmos-kit/walletconnect';
 
 export class OmniClient extends WCClient {
   constructor(walletInfo: Wallet) {

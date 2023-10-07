@@ -14,6 +14,19 @@ import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor(client: Keplr) {
     this.client = client;
@@ -69,11 +82,12 @@ export class KeplrClient implements WalletClient {
         return [await this.getAccount(chainId)];
       },
       signAmino: async (signerAddress, signDoc) => {
-        return this.signAmino(chainId, signerAddress, signDoc, {
-          preferNoSetFee: true,
-          preferNoSetMemo: true,
-          disableBalanceCheck: true,
-        });
+        return this.signAmino(
+          chainId,
+          signerAddress,
+          signDoc,
+          this.defaultSignOptions
+        );
       },
     };
     // return this.client.getOfflineSignerOnlyAmino(chainId);
@@ -85,11 +99,12 @@ export class KeplrClient implements WalletClient {
         return [await this.getAccount(chainId)];
       },
       signDirect: async (signerAddress, signDoc) => {
-        return this.signDirect(chainId, signerAddress, signDoc, {
-          preferNoSetFee: true,
-          preferNoSetMemo: true,
-          disableBalanceCheck: true,
-        });
+        return this.signDirect(
+          chainId,
+          signerAddress,
+          signDoc,
+          this.defaultSignOptions
+        );
       },
     };
     // return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
@@ -120,7 +135,12 @@ export class KeplrClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.client.signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signArbitrary(
@@ -137,7 +157,12 @@ export class KeplrClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.client.signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {

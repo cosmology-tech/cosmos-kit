@@ -7,6 +7,19 @@ import { XDEFI } from './types';
 
 export class XDEFIClient implements WalletClient {
   readonly client: XDEFI;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor(client: XDEFI) {
     this.client = client;
@@ -66,7 +79,12 @@ export class XDEFIClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.client.signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signDirect(
@@ -75,7 +93,12 @@ export class XDEFIClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.client.signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signArbitrary(

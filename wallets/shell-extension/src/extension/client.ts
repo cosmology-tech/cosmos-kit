@@ -10,12 +10,27 @@ import {
   SuggestToken,
   WalletClient,
 } from '@cosmos-kit/core';
-import { BroadcastMode, Keplr } from '@keplr-wallet/types';
+import { BroadcastMode } from '@keplr-wallet/types';
+
+import { Shell } from './types';
 
 export class ShellClient implements WalletClient {
-  readonly client: Keplr;
+  readonly client: Shell;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
 
-  constructor(client: Keplr) {
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
+
+  constructor(client: Shell) {
     this.client = client;
   }
 
@@ -78,15 +93,13 @@ export class ShellClient implements WalletClient {
     );
 
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.rest as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.rest as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rest?.[0];
     }
 
     if (chainInfo.preferredEndpoints?.rpc?.[0]) {
-      (suggestChain.rpc as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
+      (suggestChain.rpc as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
     await this.client.experimentalSuggestChain(suggestChain);
@@ -98,7 +111,12 @@ export class ShellClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.client.signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signArbitrary(
@@ -115,7 +133,12 @@ export class ShellClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.client.signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {

@@ -187,6 +187,10 @@ export interface WalletClient {
   ) => Promise<OfflineSigner> | OfflineSigner;
   getOfflineSignerAmino?: (chainId: string) => OfflineAminoSigner;
   getOfflineSignerDirect?: (chainId: string) => OfflineDirectSigner;
+
+  readonly defaultSignOptions?: SignOptions;
+  setDefaultSignOptions?: (options: SignOptions) => void;
+
   sign?: (
     signDoc: StdSignDoc,
     accountIndex?: number

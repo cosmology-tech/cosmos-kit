@@ -15,6 +15,19 @@ import { Coin98 } from './types';
 
 export class Coin98Client implements WalletClient {
   readonly client: Coin98;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor(client: Coin98) {
     this.client = client;
@@ -95,7 +108,12 @@ export class Coin98Client implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.client.signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signDirect(
@@ -104,7 +122,12 @@ export class Coin98Client implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.client.signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signArbitrary(

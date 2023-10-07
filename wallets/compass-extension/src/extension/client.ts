@@ -1,3 +1,4 @@
+import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
@@ -8,12 +9,24 @@ import {
   SuggestToken,
 } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
-import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 
 import { Compass } from './types';
 
 export class CompassClient implements WalletClient {
   readonly client: Compass;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor(client: Compass) {
     this.client = client;
@@ -38,15 +51,13 @@ export class CompassClient implements WalletClient {
     );
 
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
-      (suggestChain.rest as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rest?.[0];
+      (suggestChain.rest as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rest?.[0];
     }
 
     if (chainInfo.preferredEndpoints?.rpc?.[0]) {
-      (suggestChain.rpc as
-        | string
-        | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
+      (suggestChain.rpc as string | ExtendedHttpEndpoint) =
+        chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
     await this.client.experimentalSuggestChain(suggestChain);
@@ -102,7 +113,12 @@ export class CompassClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.client.signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signArbitrary(
@@ -119,7 +135,12 @@ export class CompassClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.client.signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {

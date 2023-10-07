@@ -1,22 +1,38 @@
-import { OfflineAminoSigner, StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import {
-  ChainRecord,
-  SignType,
-} from '@cosmos-kit/core';
+import { ChainRecord, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
-import { CosmosSnap, suggestChain, Chain, CosmJSOfflineSigner, installSnap } from '@cosmsnap/snapper';
+import {
+  Chain,
+  CosmJSOfflineSigner,
+  CosmosSnap,
+  installSnap,
+  suggestChain,
+} from '@cosmsnap/snapper';
 import { SignDoc } from '@keplr-wallet/types';
 
 export class CosmosExtensionClient implements WalletClient {
-  cosmos: CosmosSnap
+  cosmos: CosmosSnap;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor() {
     this.cosmos = new CosmosSnap();
   }
 
   async addChain(chainInfo: ChainRecord) {
-    await suggestChain(chainInfo.chain as unknown as Chain)
+    await suggestChain(chainInfo.chain as unknown as Chain);
   }
 
   async getSimpleAccount(chainId: string) {
@@ -51,7 +67,7 @@ export class CosmosExtensionClient implements WalletClient {
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return (new CosmJSOfflineSigner(chainId) as unknown) as OfflineAminoSigner;
+    return new CosmJSOfflineSigner(chainId) as unknown as OfflineAminoSigner;
   }
 
   getOfflineSignerDirect(chainId: string) {
@@ -73,7 +89,7 @@ export class CosmosExtensionClient implements WalletClient {
     data: string | Uint8Array
   ): Promise<StdSignature> {
     const signature = await this.cosmos.signArbitrary(chainId, signer, data);
-    return signature
+    return signature;
   }
 
   async signDirect(

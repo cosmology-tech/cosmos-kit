@@ -1,21 +1,43 @@
-import { AminoSignResponse, OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
+import {
+  AminoSignResponse,
+  OfflineAminoSigner,
+  StdSignature,
+  StdSignDoc,
+} from '@cosmjs/amino';
 import { Algo, DirectSignResponse } from '@cosmjs/proto-signing';
 import { ChainRecord, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
-
-import { ChainInfo, CosmjsOfflineSigner, experimentalSuggestChain, signArbitrary } from '@leapwallet/cosmos-snap-provider';
+import {
+  ChainInfo,
+  CosmjsOfflineSigner,
+  experimentalSuggestChain,
+  signArbitrary,
+} from '@leapwallet/cosmos-snap-provider';
 import {
   connectSnap,
   getKey,
   getSnap,
+  ProviderLong,
   requestSignAmino,
   requestSignature,
-  ProviderLong
 } from '@leapwallet/cosmos-snap-provider';
 import Long from 'long';
 
 export class CosmosSnapClient implements WalletClient {
   readonly snapInstalled: boolean = false;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor() {
     this.snapInstalled = localStorage.getItem('snapInstalled') === 'true';
@@ -61,7 +83,7 @@ export class CosmosSnapClient implements WalletClient {
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return (new CosmjsOfflineSigner(chainId) as unknown) as OfflineAminoSigner;
+    return new CosmjsOfflineSigner(chainId) as unknown as OfflineAminoSigner;
   }
 
   getOfflineSignerDirect(chainId: string) {
@@ -77,17 +99,21 @@ export class CosmosSnapClient implements WalletClient {
     return requestSignAmino(chainId, signer, signDoc);
   }
 
-  async signDirect(chainId: string, signer: string, signDoc: {
-    bodyBytes?: Uint8Array | null;
-    authInfoBytes?: Uint8Array | null;
-    chainId?: string | null;
-    accountNumber?: ProviderLong | null;
-  }): Promise<DirectSignResponse> {
-    const signature = (requestSignature(
+  async signDirect(
+    chainId: string,
+    signer: string,
+    signDoc: {
+      bodyBytes?: Uint8Array | null;
+      authInfoBytes?: Uint8Array | null;
+      chainId?: string | null;
+      accountNumber?: ProviderLong | null;
+    }
+  ): Promise<DirectSignResponse> {
+    const signature = requestSignature(
       chainId,
       signer,
       signDoc
-    ) as unknown) as DirectSignResponse;
+    ) as unknown as DirectSignResponse;
 
     const accountNumber = signDoc.accountNumber;
     const modifiedAccountNumber = new Long(
@@ -127,7 +153,7 @@ export class CosmosSnapClient implements WalletClient {
       chainName: chainRecord?.chain?.chain_name,
       bip44: { coinType: chainRecord?.chain?.slip44 },
       bech32Config: { bech32PrefixAccAddr: chainRecord?.chain?.bech32_prefix },
-    }
+    };
     await experimentalSuggestChain(chainInfo);
   }
 }

@@ -1,4 +1,4 @@
-import { StdSignDoc, StdSignature } from '@cosmjs/amino';
+import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode, SignType } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
@@ -7,6 +7,19 @@ import { Frontier } from './types';
 
 export class FrontierClient implements WalletClient {
   readonly client: Frontier;
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor(client: Frontier) {
     this.client = client;
@@ -32,7 +45,6 @@ export class FrontierClient implements WalletClient {
 
   async getAccount(chainId: string) {
     const key = await this.client.getKey(chainId);
-    console.log('%cclient.ts line:25 key', 'color: #007acc;', key);
     return {
       username: key.name,
       address: key.bech32Address,
@@ -67,7 +79,12 @@ export class FrontierClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signAmino(chainId, signer, signDoc, signOptions);
+    return await this.client.signAmino(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signDirect(
@@ -76,7 +93,12 @@ export class FrontierClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(chainId, signer, signDoc, signOptions);
+    return await this.client.signDirect(
+      chainId,
+      signer,
+      signDoc,
+      signOptions || this.defaultSignOptions
+    );
   }
 
   async signArbitrary(

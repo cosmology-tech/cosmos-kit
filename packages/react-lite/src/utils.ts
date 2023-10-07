@@ -113,6 +113,15 @@ export function getChainWalletContext(
     qrUrl: wallet?.client?.qrUrl,
     appUrl: wallet?.client?.appUrl,
 
+    defaultSignOptions: wallet?.client?.defaultSignOptions,
+    setDefaultSignOptions: (
+      ...params: Parameters<ChainWalletContext['setDefaultSignOptions']>
+    ) =>
+      clientMethodAssert(
+        wallet?.client?.setDefaultSignOptions.bind(wallet.client),
+        [...params],
+        'setDefaultSignOptions'
+      ),
     enable: () =>
       clientMethodAssert(
         wallet?.client?.enable.bind(wallet.client),

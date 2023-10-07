@@ -1,10 +1,10 @@
-import { ClientNotExistError } from '@cosmos-kit/core';
-// import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
-import { Shell } from './types';
 import { OfflineAminoSigner } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
-
+import { ClientNotExistError } from '@cosmos-kit/core';
 import { SecretUtils } from 'secretjs/types/enigmautils';
+
+// import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
+import { Shell } from './types';
 
 export interface ShellWindow {
   shellwallet?: Shell;

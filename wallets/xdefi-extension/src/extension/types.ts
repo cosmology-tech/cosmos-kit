@@ -1,8 +1,8 @@
 import {
   AminoSignResponse,
   OfflineAminoSigner,
-  StdSignDoc,
   StdSignature,
+  StdSignDoc,
 } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';

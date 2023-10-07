@@ -57,6 +57,11 @@ export class WCClient implements WalletClient {
     methods: string[];
     events: string[];
   };
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
 
   constructor(walletInfo: Wallet) {
     if (!walletInfo.walletconnect) {
@@ -70,6 +75,14 @@ export class WCClient implements WalletClient {
     this.appUrl = { state: State.Init };
 
     this.requiredNamespaces = walletInfo.walletconnect.requiredNamespaces;
+  }
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
   }
 
   get isMobile() {
@@ -597,7 +610,7 @@ export class WCClient implements WalletClient {
       chainId,
       signer,
       signDoc,
-      signOptions
+      signOptions || this.defaultSignOptions
     )) as AminoSignResponse;
     return result;
   }
@@ -648,7 +661,7 @@ export class WCClient implements WalletClient {
       chainId,
       signer,
       signDoc,
-      signOptions
+      signOptions || this.defaultSignOptions
     )) as WCSignDirectResponse;
     return {
       signed: {

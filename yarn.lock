@@ -1070,7 +1070,7 @@
   resolved "https://registry.npmjs.org/@braintree/sanitize-url/-/sanitize-url-6.0.2.tgz"
   integrity sha512-Tbsj02wXCbqGmzdnXNk0SOF19ChhRU70BsroIi4Pm6Ehp56in6vch94mfbdQ17DozxkL3BAVjbZ4Qc1a0HFRAg==
 
-"@chain-registry/cosmostation@1.23.0":
+"@chain-registry/cosmostation@1.23.0", "@chain-registry/cosmostation@^1.23.0":
   version "1.23.0"
   resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.23.0.tgz#591ac567bb554cdbf8f335ee54abc14416fe5668"
   integrity sha512-WpA8/i5rqsAwhDrKbz7TaIfSJJkA2NSQlc6Lh2ThT8H8SigiPtBGiEqBy1OFkSF+vBsG64NPCu7XUxLP/e+/oA==
@@ -1079,16 +1079,6 @@
     "@chain-registry/types" "^0.17.0"
     "@chain-registry/utils" "^1.14.0"
     "@cosmostation/extension-client" "0.1.15"
-
-"@chain-registry/cosmostation@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.8.0.tgz"
-  integrity sha512-WfJio/CN6cOWUgToVwW4oXOg6gqh37AImVG4AO1LZtOpVjHMgdCGfcXqy2rwlw9netIw2OouHQfjxo7GZapXSg==
-  dependencies:
-    "@babel/runtime" "^7.19.4"
-    "@chain-registry/types" "^0.13.1"
-    "@chain-registry/utils" "^1.3.0"
-    "@cosmostation/extension-client" "0.1.11"
 
 "@chain-registry/keplr@1.25.0":
   version "1.25.0"
@@ -1108,13 +1098,6 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@chain-registry/types@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.13.1.tgz"
-  integrity sha512-NF4x7pqkQJ/zSQLoT28sYlBdzWUyCTFvWgVE9hJ2jkirX+It9VUHP5j1wtTq+vxQ74SZk2V8vRBo2uuoEYBB1A==
-  dependencies:
-    "@babel/runtime" "^7.19.4"
-
 "@chain-registry/types@^0.16.0":
   version "0.16.0"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.16.0.tgz"
@@ -1130,15 +1113,6 @@
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
     bignumber.js "9.1.1"
-    sha.js "^2.4.11"
-
-"@chain-registry/utils@^1.3.0":
-  version "1.12.0"
-  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.12.0.tgz"
-  integrity sha512-gAGk4ItsIYEobRSczXliedwxvFeMcR2HQy3/Q83vVYeHq7bzvltg5Pp8JOLPC59uz8QDCH/dGvK0012l5f+tSg==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-    "@chain-registry/types" "^0.16.0"
     sha.js "^2.4.11"
 
 "@chakra-ui/accordion@2.1.4":
@@ -2230,11 +2204,6 @@
   version "0.31.1"
   resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.31.1.tgz#e6055cd7d722fa72df9cbd0d39cd1f7a9ac80483"
   integrity sha512-n4Se1wu4GnKwztQHNFfJvUeWcpvx3o8cWhSbNs9JQShEuB3nv3R5lqFBtDCgHZF/emFQAP+ZjF8bTfCs9UBGhA==
-
-"@cosmostation/extension-client@0.1.11":
-  version "0.1.11"
-  resolved "https://registry.npmjs.org/@cosmostation/extension-client/-/extension-client-0.1.11.tgz"
-  integrity sha512-CkmNPmYn07UhP0z3PxGRRpgTcBJ/gS1ay/J2jfYsBi/4gnXvpQ3xOZdMU0qdxhFOjh1Xt7kflYsztk9ljMnJcw==
 
 "@cosmostation/extension-client@0.1.15":
   version "0.1.15"
@@ -6283,14 +6252,6 @@ ccount@^2.0.0:
   resolved "https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
-chain-registry@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.4.0.tgz"
-  integrity sha512-kBQ2OOUdgDZnQNLEGO6Kp6dvM7YfZJfE+KQkGWqw2OBOuz+d+M7XyucU9q9Wj3n06xDTCQShximl/3wAA72pYQ==
-  dependencies:
-    "@babel/runtime" "^7.19.4"
-    "@chain-registry/types" "^0.13.1"
-
 chain-registry@^1.13.0:
   version "1.16.0"
   resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.16.0.tgz"
@@ -6306,6 +6267,14 @@ chain-registry@^1.18.0:
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.16.0"
+
+chain-registry@^1.20.0:
+  version "1.20.0"
+  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.20.0.tgz#1442a1d715a7ebf57781aeb185e3cbaa7b08196c"
+  integrity sha512-kBeQVdopECXasauhaA+HiJNSB0UpzNmxtv5AvIpJBAZc3nuM2wzPxaHAiPz1OG5ifYwMraOkvPNxwOnXd1nZzw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.17.0"
 
 chakra-react-select@^4.6.0:
   version "4.6.0"

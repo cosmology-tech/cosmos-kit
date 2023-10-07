@@ -27,13 +27,7 @@ import { ChainWalletBase, MainWalletBase } from '../bases';
 import { NameService } from '../name-service';
 import { WalletRepo } from '../repository';
 import { ChainName, ChainRecord } from './chain';
-import {
-  CosmosClientType,
-  ModalTheme,
-  Mutable,
-  SignType,
-  State,
-} from './common';
+import { CosmosClientType, ModalTheme, Mutable, State } from './common';
 import {
   EndpointOptions,
   EventName,
@@ -108,7 +102,9 @@ export interface ChainWalletContext {
   // from wallet client
   qrUrl: Mutable<string> | undefined;
   appUrl: Mutable<AppUrl> | undefined;
+  defaultSignOptions: SignOptions;
 
+  setDefaultSignOptions: (options: SignOptions) => void;
   enable: () => Promise<void>;
   suggestToken: (data: SuggestToken) => Promise<void>;
   getAccount: () => Promise<WalletAccount>;

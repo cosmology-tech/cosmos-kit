@@ -20,6 +20,19 @@ export class CosmostationClient implements WalletClient {
     string,
     Map<EventListenerOrEventListenerObject, Event>
   > = new Map();
+  private _defaultSignOptions: SignOptions = {
+    preferNoSetFee: true,
+    preferNoSetMemo: true,
+    disableBalanceCheck: true,
+  };
+
+  get defaultSignOptions() {
+    return this._defaultSignOptions;
+  }
+
+  setDefaultSignOptions(options: SignOptions) {
+    this._defaultSignOptions = options;
+  }
 
   constructor(client: Cosmostation) {
     this.client = client;
@@ -135,7 +148,12 @@ export class CosmostationClient implements WalletClient {
     signOptions?: SignOptions
   ) {
     if (this.ikeplr?.signAmino) {
-      return await this.ikeplr.signAmino(chainId, signer, signDoc, signOptions);
+      return await this.ikeplr.signAmino(
+        chainId,
+        signer,
+        signDoc,
+        signOptions || this.defaultSignOptions
+      );
     }
 
     return await this.cosmos.request({
@@ -143,8 +161,8 @@ export class CosmostationClient implements WalletClient {
       params: {
         chainName: chainId,
         doc: signDoc,
-        isEditMemo: signOptions?.preferNoSetMemo,
-        isEditFee: signOptions?.preferNoSetFee,
+        isEditMemo: (signOptions || this.defaultSignOptions).preferNoSetMemo,
+        isEditFee: (signOptions || this.defaultSignOptions).preferNoSetFee,
       },
     });
   }
@@ -160,7 +178,7 @@ export class CosmostationClient implements WalletClient {
         chainId,
         signer,
         signDoc,
-        signOptions
+        signOptions || this.defaultSignOptions
       );
     }
 
@@ -169,8 +187,8 @@ export class CosmostationClient implements WalletClient {
       params: {
         chainName: chainId,
         doc: signDoc,
-        isEditMemo: signOptions?.preferNoSetMemo,
-        isEditFee: signOptions?.preferNoSetFee,
+        isEditMemo: (signOptions || this.defaultSignOptions).preferNoSetMemo,
+        isEditFee: (signOptions || this.defaultSignOptions).preferNoSetFee,
       },
     });
   }
