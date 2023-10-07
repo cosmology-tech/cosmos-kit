@@ -1,5 +1,9 @@
+export * from './hooks';
+export * from './modal';
+export * from './provider';
 export {
   useChain,
+  useChains,
   useChainWallet,
   useManager,
   useNameService,
@@ -7,7 +11,3 @@ export {
   useWalletClient,
   walletContext,
 } from '@cosmos-kit/react-lite';
-
-export * from './modal';
-export * from './provider';
-export * from './hooks';
