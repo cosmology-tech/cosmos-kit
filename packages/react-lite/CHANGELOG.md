@@ -3,29 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.4.15](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.4.14...@cosmos-kit/react-lite@2.4.15) (2023-10-06)
+# [2.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.4.15...@cosmos-kit/react-lite@2.5.0) (2023-10-07)
 
 **Note:** Version bump only for package @cosmos-kit/react-lite
 
+## [2.4.15](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.4.14...@cosmos-kit/react-lite@2.4.15) (2023-10-06)
 
-
-
+**Note:** Version bump only for package @cosmos-kit/react-lite
 
 ## [2.4.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.4.13...@cosmos-kit/react-lite@2.4.14) (2023-10-05)
 
 **Note:** Version bump only for package @cosmos-kit/react-lite
 
-
-
-
-
 ## [2.4.13](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.4.12...@cosmos-kit/react-lite@2.4.13) (2023-10-04)
 
 **Note:** Version bump only for package @cosmos-kit/react-lite
-
-
-
-
 
 ## [2.4.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react-lite@2.4.11...@cosmos-kit/react-lite@2.4.12) (2023-09-26)
 
