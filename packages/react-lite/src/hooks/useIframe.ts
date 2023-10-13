@@ -169,30 +169,12 @@ export const useIframe = ({
 
         let msg: Omit<ParentToIframeMessage, 'id'> | undefined;
         try {
-          if (!wallet) {
-            throw new Error(IFRAME_PARENT_DISCONNECTED);
-          }
-
-          const { client } = wallet;
-
           if (method.startsWith('signer:')) {
             if (!event.data.chainId || !event.data.signType) {
               throw new Error('Missing chainId or signType');
             }
 
-            const signer =
-              event.data.signType === 'direct'
-                ? await client.getOfflineSignerDirect(event.data.chainId)
-                : await client.getOfflineSignerAmino(event.data.chainId);
             const subMethod = method.substring('signer:'.length);
-            if (
-              !(subMethod in signer) ||
-              typeof signer[subMethod] !== 'function'
-            ) {
-              throw new Error(
-                `No ${subMethod} ${event.data.signType} signer method for ${event.data.chainId}.`
-              );
-            }
 
             // Try amino signer override method.
             if (
@@ -224,6 +206,28 @@ export const useIframe = ({
 
             // If neither override handles it, run the original method.
             if (!msg) {
+              // If wallet not connected and no override, throw.
+              if (!wallet) {
+                throw new Error(IFRAME_PARENT_DISCONNECTED);
+              }
+
+              const signer =
+                event.data.signType === 'direct'
+                  ? await wallet.client.getOfflineSignerDirect(
+                      event.data.chainId
+                    )
+                  : await wallet.client.getOfflineSignerAmino(
+                      event.data.chainId
+                    );
+              if (
+                !(subMethod in signer) ||
+                typeof signer[subMethod] !== 'function'
+              ) {
+                throw new Error(
+                  `No ${subMethod} ${event.data.signType} signer method for ${event.data.chainId}.`
+                );
+              }
+
               const response = await signer[subMethod](...params);
 
               // If getting accounts, replace address.
@@ -259,9 +263,15 @@ export const useIframe = ({
 
             // If no override handles it, run the original method.
             if (!msg) {
+              // If wallet not connected and no override, throw.
+              if (!wallet) {
+                throw new Error(IFRAME_PARENT_DISCONNECTED);
+              }
+
               const response =
-                method in client && typeof client[method] === 'function'
-                  ? await client[method](...params)
+                method in wallet.client &&
+                typeof wallet.client[method] === 'function'
+                  ? await wallet.client[method](...params)
                   : undefined;
 
               // If getting accounts, try to replace info.
