@@ -39,6 +39,7 @@ export const getXDEFIFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
+        const xdefi = (window as XDEFIWindow)?.xfi?.keplr;
         if (xdefi) {
           resolve(xdefi);
         } else {
