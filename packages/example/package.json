@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -18,10 +18,10 @@
   "dependencies": {
     "@cosmos-kit/coin98": "^2.4.0",
     "@cosmos-kit/core": "^2.7.0",
-    "@cosmos-kit/cosmostation": "^2.4.0",
+    "@cosmos-kit/cosmostation": "^2.4.1",
     "@cosmos-kit/fin": "^2.4.0",
     "@cosmos-kit/ins": "^2.1.2",
-    "@cosmos-kit/keplr": "^2.4.0",
+    "@cosmos-kit/keplr": "^2.4.1",
     "@cosmos-kit/leap": "^2.4.0",
     "@cosmos-kit/leap-metamask-cosmos-snap": "^0.3.0",
     "@cosmos-kit/ledger": "^2.5.0",

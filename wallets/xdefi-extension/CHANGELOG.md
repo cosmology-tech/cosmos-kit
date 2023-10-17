@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi-extension@2.5.0...@cosmos-kit/xdefi-extension@2.5.1) (2023-10-17)
+
+### Bug Fixes
+
+- race condition when getting wallet when document state changes ([2aa252a](https://github.com/cosmology-tech/cosmos-kit/commit/2aa252a6735e3a1a5f3bdaa3eea9925dea7138c3))
+
 # [2.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/xdefi-extension@2.4.9...@cosmos-kit/xdefi-extension@2.5.0) (2023-10-07)
 
 **Note:** Version bump only for package @cosmos-kit/xdefi-extension
