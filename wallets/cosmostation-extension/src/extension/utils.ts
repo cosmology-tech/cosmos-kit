@@ -33,6 +33,7 @@ export const getCosmostationFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
+        const cosmostation = (window as CosmostationWindow).cosmostation;
         if (cosmostation) {
           resolve(cosmostation);
         } else {

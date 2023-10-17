@@ -28,6 +28,7 @@ export const getKeplrFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
+        const keplr = (window as KeplrWindow).keplr;
         if (keplr) {
           resolve(keplr);
         } else {
