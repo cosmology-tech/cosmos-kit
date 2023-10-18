@@ -15,7 +15,7 @@ import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

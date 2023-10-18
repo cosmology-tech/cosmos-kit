@@ -15,7 +15,7 @@ import { Compass } from './types';
 export class CompassClient implements WalletClient {
   readonly client: Compass;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

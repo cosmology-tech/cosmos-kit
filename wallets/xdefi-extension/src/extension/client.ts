@@ -8,7 +8,7 @@ import { XDEFI } from './types';
 export class XDEFIClient implements WalletClient {
   readonly client: XDEFI;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

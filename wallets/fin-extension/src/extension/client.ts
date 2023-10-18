@@ -16,7 +16,7 @@ import { Fin } from './types';
 export class FinClient implements WalletClient {
   readonly client: Fin;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

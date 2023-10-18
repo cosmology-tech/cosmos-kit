@@ -21,7 +21,7 @@ export class CosmostationClient implements WalletClient {
     Map<EventListenerOrEventListenerObject, Event>
   > = new Map();
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

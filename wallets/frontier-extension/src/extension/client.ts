@@ -8,7 +8,7 @@ import { Frontier } from './types';
 export class FrontierClient implements WalletClient {
   readonly client: Frontier;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

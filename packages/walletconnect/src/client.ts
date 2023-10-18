@@ -58,7 +58,7 @@ export class WCClient implements WalletClient {
     events: string[];
   };
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

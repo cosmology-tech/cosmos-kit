@@ -26,7 +26,7 @@ import Long from 'long';
 export class CosmosSnapClient implements WalletClient {
   readonly snapInstalled: boolean = false;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

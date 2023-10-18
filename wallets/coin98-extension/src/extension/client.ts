@@ -16,7 +16,7 @@ import { Coin98 } from './types';
 export class Coin98Client implements WalletClient {
   readonly client: Coin98;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };
