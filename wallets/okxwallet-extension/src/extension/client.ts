@@ -7,7 +7,7 @@ import { Okxwallet } from './types';
 export class OkxwalletClient implements WalletClient {
   readonly client: Okxwallet;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

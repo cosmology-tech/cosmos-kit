@@ -15,7 +15,7 @@ import { Leap } from './types';
 export class LeapClient implements WalletClient {
   readonly client: Leap;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

@@ -17,7 +17,7 @@ import { Shell } from './types';
 export class ShellClient implements WalletClient {
   readonly client: Shell;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };

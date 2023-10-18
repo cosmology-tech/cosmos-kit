@@ -14,7 +14,7 @@ import { SignDoc } from '@keplr-wallet/types';
 export class CosmosExtensionClient implements WalletClient {
   cosmos: CosmosSnap;
   private _defaultSignOptions: SignOptions = {
-    preferNoSetFee: true,
+    preferNoSetFee: false,
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };
