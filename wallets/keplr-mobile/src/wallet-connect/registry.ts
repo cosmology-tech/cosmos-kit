@@ -45,7 +45,7 @@ export const keplrMobileInfo: Wallet = {
       os: OS | undefined,
       _name: string
     ): string => {
-      const plainAppUrl = appUrl.replaceAll('/', '').replaceAll(':', '');
+      const plainAppUrl = appUrl.split(':')[0];
       const encodedWcUrl = encodeURIComponent(wcUri);
       switch (os) {
         case 'ios':
