@@ -54,7 +54,7 @@ export type OverrideHandler =
 
 export type UseIframeOptions = {
   walletName?: WalletName;
-  // Optionally ovrerides the connected wallet metadata in the iframe upon
+  // Optionally overrides the connected wallet metadata in the iframe upon
   // successful connection.
   walletInfo?: {
     prettyName?: string;
@@ -302,9 +302,9 @@ export const useIframe = ({
             // Respond with parent wallet info on successful connect.
             if (msg.type === 'success' && method === 'connect') {
               msg.response = {
-                prettyName: `${
-                  walletInfo?.prettyName || wallet.walletInfo.prettyName
-                } (Outer)`,
+                prettyName:
+                  walletInfo?.prettyName ||
+                  `${wallet.walletInfo.prettyName} (Outer)`,
                 logo: walletInfo?.logo || wallet.walletInfo.logo,
               };
             }
