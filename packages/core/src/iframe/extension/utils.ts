@@ -61,7 +61,7 @@ export const sendAndListenOnce = <T>(
 
     try {
       // Send the message to our parent.
-      window.top.postMessage(
+      window.parent.postMessage(
         {
           ...message,
           id,
