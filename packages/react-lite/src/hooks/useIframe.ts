@@ -304,7 +304,7 @@ export const useIframe = ({
               msg.response = {
                 prettyName:
                   walletInfo?.prettyName ||
-                  `${wallet.walletInfo.prettyName} (Outer)`,
+                  `${wallet.walletInfo.prettyName} (Outer Wallet)`,
                 logo: walletInfo?.logo || wallet.walletInfo.logo,
               };
             }
