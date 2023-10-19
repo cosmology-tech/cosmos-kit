@@ -1,0 +1,58 @@
+## Hook - useIframe
+
+- required provider: [**ChainProvider**](/provider/chain-provider) from either
+  `@cosmos-kit/react` or `@cosmos-kit/react-lite`
+
+- parameters:
+  - **walletName?**: `WalletName` ( = `string` );
+  - **walletInfo?**: `{ prettyName?: string; logo?: string }`
+  - **accountReplacement?**: `(chainId: string) => AccountReplacement | Promise<AccountReplacement> | undefined`
+  - **walletClientOverrides?**: `Partial<Record<string, OverrideHandler | Promise<OverrideHandler>>>`
+  - **aminoSignerOverrides?**: `Partial<Record<string, OverrideHandler | Promise<OverrideHandler>>>`
+  - **directSignerOverrides?**: `Partial<Record<string, OverrideHandler | Promise<OverrideHandler>>>`
+
+> `walletName` optionally chooses a wallet to use, like the
+> [`useWallet`](./use-wallet) hook. If unset, the main wallet is used.
+>
+> `walletInfo` optionally sets the iframe's connected wallet metadata. If unset,
+> the currently connected wallet metadata is used.
+>
+> `accountReplacement` optionally overrides the account details returned from
+> the wallet.
+>
+> `walletClientOverrides`, `aminoSignerOverrides`, and `directSignerOverrides`
+> allow fine-grained control over the various client methods such that the
+> controlling app can heavily customize the wallet passthrough experience. For
+> example, this allows the app to manually handle and wrap messages from the
+> nested app, like a smart contract wallet may want to do.
+>
+> Explore the types to better understand how to implement advanced functionality.
+
+- return type: **`{ wallet: MainWalletBase; iframeRef: RefCallback<HTMLIframeElement | null>}`**
+
+## Usage
+
+```jsx
+export default function () {
+  const { iframeRef } = useIframe();
+  const { connect, disconnect, isWalletConnected } = useChain("cosmoshub");
+
+  return (
+    <div className="space-y-4">
+      <Button onClick={() => (isWalletConnected ? disconnect() : connect())}>
+        {isWalletConnected ? "Disconnect" : "Connect"}
+      </Button>
+
+      <iframe
+        ref={iframeRef}
+        style={{
+          width: "100%",
+          height: "75vh",
+          borderRadius: 4,
+        }}
+        src="https://example-cosmos-kit-dapp.zone"
+      ></iframe>
+    </div>
+  );
+}
+```

@@ -30,6 +30,7 @@ export const ChainProvider = ({
   endpointOptions,
   sessionOptions,
   logLevel = 'WARN',
+  disableIframe = false,
   children,
   modalTheme = {},
 }: {
@@ -46,6 +47,7 @@ export const ChainProvider = ({
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
+  disableIframe?: boolean;
   children: ReactNode;
   modalTheme?: ThemeCustomizationProps;
 }) => {
@@ -67,6 +69,7 @@ export const ChainProvider = ({
       endpointOptions={endpointOptions}
       sessionOptions={sessionOptions}
       logLevel={logLevel}
+      disableIframe={disableIframe}
     >
       {children}
     </ChainProviderLite>

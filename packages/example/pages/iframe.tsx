@@ -1,8 +1,10 @@
 import { useChain, useIframe } from "@cosmos-kit/react-lite";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default () => {
   const { iframeRef } = useIframe();
+  const router = useRouter();
 
   const { username, connect, disconnect, wallet, status } =
     useChain("cosmoshub");
@@ -38,6 +40,19 @@ export default () => {
 
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
   const [url, setUrl] = useState("");
+  useEffect(() => {
+    if (
+      router.isReady &&
+      typeof router.query.url === "string" &&
+      router.query.url &&
+      !url
+    ) {
+      setUrl(router.query.url as string);
+      if (iframe) {
+        iframe.src = url;
+      }
+    }
+  }, [router, iframe]);
 
   const go = () => {
     if (iframe) {
