@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={[...chains.filter((c) => c.chain_name == "cosmoshub")]}
         assetLists={[...assets]}
         wallets={[
-          ...leapWallets,
+          // ...leapWallets,
           // ...snapWallet,
           ...keplrWallets,
           // ...ledgerWallets,

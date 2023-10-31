@@ -145,6 +145,17 @@ export class WalletManager extends StateBase {
       repo.session = this.session;
       this.walletRepos.push(repo);
     });
+    this.checkEndpoints(endpointOptions?.endpoints);
+  }
+
+  private checkEndpoints(endpoints?: EndpointOptions['endpoints']) {
+    Object.keys(endpoints || {}).map((key) => {
+      if (this.chainRecords.findIndex((c) => c.name === key) === -1) {
+        this.logger?.warn(
+          `You are providing endpointOptions with unrecognized chain NAME ${key} (NOT found such chain in ChainProvider property "chains")`
+        );
+      }
+    });
   }
 
   setWalletRepel(value: boolean) {
@@ -182,6 +193,8 @@ export class WalletManager extends StateBase {
         this.chainRecords[index] = chainRecord;
       }
     });
+
+    this.checkEndpoints(endpoints);
 
     this.mainWallets.forEach((wallet) => {
       wallet.setChains(newChainRecords, false);
