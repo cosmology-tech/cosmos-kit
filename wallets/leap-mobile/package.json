@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-mobile",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -72,8 +72,8 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.25.0",
-    "@cosmos-kit/core": "^2.7.3",
-    "@cosmos-kit/walletconnect": "^2.4.4"
+    "@cosmos-kit/core": "^2.7.4",
+    "@cosmos-kit/walletconnect": "^2.4.5"
   },
   "gitHead": "209629afb7bbed747db6f5fb81263cfe7f9740e9"
 }
