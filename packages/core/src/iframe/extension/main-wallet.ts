@@ -15,7 +15,7 @@ export class IframeWallet extends MainWalletBase {
   async initClient() {
     this.initingClient();
 
-    if (window.top === window.self) {
+    if (window.parent === window.self) {
       this.initClientError(
         new Error('This wallet must be used inside of an iframe.')
       );

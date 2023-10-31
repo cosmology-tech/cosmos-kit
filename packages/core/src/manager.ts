@@ -80,7 +80,7 @@ export class WalletManager extends StateBase {
     // Add iframe wallet to beginning of wallet list unless not in iframe or
     // iframe is disabled.
     wallets = [
-      ...((typeof window !== 'undefined' && window.top === window.self) ||
+      ...((typeof window !== 'undefined' && window.parent === window.self) ||
       disableIframe
         ? []
         : [iframeWallet]),
@@ -333,7 +333,7 @@ export class WalletManager extends StateBase {
   private _restoreAccounts = async () => {
     const walletName =
       // If in an iframe and not disabled, default to the iframe wallet.
-      !this.disableIframe && window.top !== window.self
+      !this.disableIframe && window.parent !== window.self
         ? IFRAME_WALLET_ID
         : window.localStorage.getItem('cosmos-kit@2:core//current-wallet');
     if (walletName) {
@@ -391,7 +391,7 @@ export class WalletManager extends StateBase {
     // different origin (and it most likely is), it cannot dispatch events on
     // our (the iframe's) window. Thus, it posts a message with the event name
     // to our window and we broadcast it.
-    if (!this.disableIframe && window.top !== window.self) {
+    if (!this.disableIframe && window.parent !== window.self) {
       window.addEventListener('message', this._handleIframeKeystoreChangeEvent);
     }
 
@@ -445,7 +445,7 @@ export class WalletManager extends StateBase {
     }
 
     // If in iframe, stop listening for keystore change event.
-    if (!this.disableIframe && window.top !== window.self) {
+    if (!this.disableIframe && window.parent !== window.self) {
       window.removeEventListener(
         'message',
         this._handleIframeKeystoreChangeEvent
