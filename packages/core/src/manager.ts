@@ -114,16 +114,17 @@ export class WalletManager extends StateBase {
     );
     this.isLazy = endpointOptions?.isLazy;
 
-    this.chainRecords = chains.map((chain) =>
-      convertChain(
+    this.chainRecords = chains.map((chain) => {
+      const converted = convertChain(
         chain,
         assetLists,
         signerOptions,
         endpointOptions?.endpoints?.[chain.chain_name],
         this.isLazy,
         this.logger
-      )
-    );
+      );
+      return converted;
+    });
 
     this.mainWallets = wallets.map((wallet) => {
       wallet.logger = this.logger;

@@ -15,7 +15,17 @@ export function convertChain(
   const assetList = assetLists.find(
     (list) => list.chain_name === chain.chain_name
   );
-  return {
+  const _preferredEndpoints = {
+    ...preferredEndpoints,
+    isLazy: getIsLazy(
+      isLazy,
+      preferredEndpoints?.isLazy,
+      void 0,
+      void 0,
+      logger
+    ),
+  };
+  const converted = {
     name: chain.chain_name,
     chain,
     assetList,
@@ -25,15 +35,8 @@ export function convertChain(
       signingCosmwasm: signerOptions?.signingCosmwasm?.(chain),
       preferredSignType: signerOptions?.preferredSignType?.(chain) || 'amino',
     },
-    preferredEndpoints: {
-      ...preferredEndpoints,
-      isLazy: getIsLazy(
-        isLazy,
-        preferredEndpoints?.isLazy,
-        void 0,
-        void 0,
-        logger
-      ),
-    },
+    preferredEndpoints: _preferredEndpoints,
   };
+
+  return converted;
 }

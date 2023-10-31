@@ -91,8 +91,9 @@ export abstract class MainWalletBase extends WalletBase {
     }
     chains.forEach((chain) => {
       const isTestNet = chain.name.includes('testnet');
-      chain.preferredEndpoints = {
-        ...chain.preferredEndpoints,
+
+      const preferredEndpoints = {
+        isLazy: chain.preferredEndpoints.isLazy,
         rpc: [
           ...(chain.preferredEndpoints?.rpc || []),
           ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
@@ -111,7 +112,10 @@ export abstract class MainWalletBase extends WalletBase {
         ],
       };
 
-      const chainWallet = new this.ChainWallet(this.walletInfo, chain);
+      const chainWallet = new this.ChainWallet(this.walletInfo, {
+        ...chain,
+        preferredEndpoints,
+      });
 
       chainWallet.mainWallet = this;
       chainWallet.emitter = this.emitter;

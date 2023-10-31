@@ -54,25 +54,25 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RootLayout>
       <ChainProvider
-        chains={[...chains]}
+        chains={[...chains.filter((c) => c.chain_name == "cosmoshub")]}
         assetLists={[...assets]}
         wallets={[
           ...leapWallets,
-          ...snapWallet,
+          // ...snapWallet,
           ...keplrWallets,
-          ...ledgerWallets,
+          // ...ledgerWallets,
           // ...web3AuthWallets,
-          ...trustWallets,
-          ...stationWallets,
-          ...cosmostationWallets,
-          ...omniWallets,
-          ...exodusWallets,
-          ...shellWallets,
-          ...vectisWallets,
-          ...xdefiWallets,
-          ...frontierWallets,
-          ...coin98Wallets,
-          ...finWallets,
+          // ...trustWallets,
+          // ...stationWallets,
+          // ...cosmostationWallets,
+          // ...omniWallets,
+          // ...exodusWallets,
+          // ...shellWallets,
+          // ...vectisWallets,
+          // ...xdefiWallets,
+          // ...frontierWallets,
+          // ...coin98Wallets,
+          // ...finWallets,
         ]}
         throwErrors={false}
         subscribeConnectEvents={false}
@@ -108,23 +108,21 @@ function MyApp({ Component, pageProps }: AppProps) {
           isLazy: true,
           endpoints: {
             cosmoshub: {
-              isLazy: false,
               rpc: [
                 {
-                  isLazy: true,
-                  url: "https://rpc.cosmos.directory/cosmoshub",
+                  url: "https://rpc.cosmos.directory/cosmoshub2",
                   headers: {},
                 },
               ],
             },
-            terra2: {
-              rpc: ["https://terra-rpc.lavenderfive.com/"],
-              rest: ["https://phoenix-lcd.terra.dev/"],
-            },
-            terra2testnet: {
-              rpc: ["https://terra-testnet-rpc.polkachu.com/"],
-              rest: ["https://pisco-lcd.terra.dev/"],
-            },
+            // terra2: {
+            //   rpc: ["https://terra-rpc.lavenderfive.com/"],
+            //   rest: ["https://phoenix-lcd.terra.dev/"],
+            // },
+            // terra2testnet: {
+            //   rpc: ["https://terra-testnet-rpc.polkachu.com/"],
+            //   rest: ["https://pisco-lcd.terra.dev/"],
+            // },
           },
         }}
         disableIframe={false}
