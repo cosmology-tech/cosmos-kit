@@ -1,8 +1,10 @@
 import {
   ModalView,
   State,
+  WalletListViewProps,
   WalletModalProps,
   WalletStatus,
+  WalletViewProps,
 } from '@cosmos-kit/core';
 import {
   ConnectModal,
@@ -11,7 +13,12 @@ import {
 } from '@interchain-ui/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { defaultModalViews, ModalViewImpl } from './components/views';
+import {
+  defaultModalViews,
+  ModalViewImpl,
+  WalletListImplGetter,
+  WalletViewImplGetter,
+} from './components/views';
 
 export type ThemeCustomizationProps = Pick<
   ThemeProviderProps,
@@ -110,16 +117,23 @@ export function WalletModal({
   );
 
   const modalView: ModalViewImpl = useMemo(() => {
-    const getImplementation = modalViews[`${currentView}`];
-
     switch (currentView) {
-      case ModalView.WalletList:
+      case ModalView.WalletList: {
+        const getImplementation = modalViews[
+          `${currentView}`
+        ] as WalletListImplGetter;
+
         return getImplementation({
           onClose: onCloseModal,
           wallets: wallets || [],
           initialFocus: initialFocus,
-        });
-      default:
+        } as WalletListViewProps);
+      }
+      default: {
+        const getImplementation = modalViews[
+          `${currentView}`
+        ] as WalletViewImplGetter;
+
         if (!current) {
           return {
             head: null,
@@ -130,7 +144,8 @@ export function WalletModal({
           onClose: onCloseModal,
           onReturn: onReturn,
           wallet: current,
-        });
+        } as WalletViewProps);
+      }
     }
   }, [
     currentView,

@@ -16,7 +16,9 @@ import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as snapWallet } from "@cosmos-kit/leap-metamask-cosmos-snap";
 import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
-import { ChainProvider } from "@cosmos-kit/react";
+// Show how to custom modal views
+import { ChainProvider, defaultModalViews } from "@cosmos-kit/react";
+// import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
@@ -27,6 +29,7 @@ import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import React, { useMemo } from "react";
 
+import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -126,6 +129,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         disableIframe={false}
+        modalViews={{
+          ...defaultModalViews,
+          Connected: CustomConnectedView,
+        }}
       >
         <Component {...pageProps} />
       </ChainProvider>

@@ -1,5 +1,5 @@
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useModalTheme } from "@cosmos-kit/react";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Button } from "components/button";
 import {
   DropdownMenu,

@@ -1,28 +1,13 @@
-import { ModePreference, store } from '@interchain-ui/react';
-import { useCallback, useMemo } from 'react';
-import { create } from 'zustand';
-import { shallow } from 'zustand/shallow';
-
-const useStore = create(store);
-
-const useCosmologyUIStore = () => {
-  return useStore(
-    (state) => ({
-      theme: state.theme,
-      themeClass: state.themeClass,
-      setThemeMode: state.setThemeMode,
-    }),
-    shallow
-  );
-};
+import { ModePreference, useTheme } from '@interchain-ui/react';
+import * as React from 'react';
 
 export function useModalTheme() {
-  const { theme, setThemeMode } = useCosmologyUIStore();
+  const { theme, setColorMode } = useTheme();
 
-  const value = useMemo(() => theme, [theme]);
+  const value = React.useMemo(() => theme, [theme]);
 
-  const setModalTheme = useCallback((mode: ModePreference) => {
-    setThemeMode(mode);
+  const setModalTheme = React.useCallback((mode: ModePreference) => {
+    setColorMode(mode);
   }, []);
 
   return {

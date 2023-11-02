@@ -8,7 +8,7 @@ const withTM = require("next-transpile-modules")(["@cosmos-kit/web3auth"]);
 module.exports = withTM(
   withBundleAnalyzer({
     reactStrictMode: true,
-    swcMinify: false,
+    swcMinify: true,
     webpack: (config) => {
       config.module.rules.push({
         test: /\.(ts|tsx)$/,

@@ -18,11 +18,16 @@ export type ModalViewImpl = {
   content: React.ReactNode;
 };
 
-export type ModalViewImplGetter = (
-  props: WalletViewProps | WalletListViewProps
+export type WalletViewImplGetter = (props: WalletViewProps) => ModalViewImpl;
+
+export type WalletListImplGetter = (
+  props: WalletListViewProps
 ) => ModalViewImpl;
 
-export const defaultModalViews: Record<keyof ModalViews, ModalViewImplGetter> = {
+export const defaultModalViews: Record<
+  keyof ModalViews,
+  WalletViewImplGetter | WalletListImplGetter
+> = {
   Connecting: ConnectingView,
   Connected: ConnectedView,
   Error: ErrorView,

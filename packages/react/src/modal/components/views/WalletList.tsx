@@ -1,9 +1,5 @@
 import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
-import {
-  ConnectModalHead,
-  ConnectModalWalletList,
-  ConnectModalWalletListProps,
-} from '@interchain-ui/react';
+import { ConnectModalHead, ConnectModalWalletList } from '@interchain-ui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getWalletProp } from './config';
@@ -61,9 +57,14 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
               wallet.walletInfo.mode === 'wallet-connect'
                 ? 'walletConnect'
                 : undefined,
-            btmLogo: typeof wallet.walletInfo.logo === 'object' ? wallet.walletInfo.logo.minor : wallet.walletInfo.extends,
-            badge: ({ MetaMask: 'SNAP' })[wallet.walletInfo.extends],
-            shape: (i < 2 && isLargeScreen ? 'square' : 'list') as ('square' | 'list'),
+            btmLogo:
+              typeof wallet.walletInfo.logo === 'object'
+                ? wallet.walletInfo.logo.minor
+                : wallet.walletInfo.extends,
+            badge: { MetaMask: 'SNAP' }[wallet.walletInfo.extends],
+            shape: (i < 2 && isLargeScreen ? 'square' : 'list') as
+              | 'square'
+              | 'list',
             downloadUrl: '',
             originalWallet: wallet,
           };
