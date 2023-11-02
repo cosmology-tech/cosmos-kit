@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-metamask-cosmos-snap",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [

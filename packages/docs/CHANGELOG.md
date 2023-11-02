@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.7](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.6.6...docs@2.6.7) (2023-11-02)
+
+### Bug Fixes
+
+- **react:** upgrade deps and fix small type issues ([2bedc28](https://github.com/cosmology-tech/cosmos-kit/commit/2bedc28023fc5cf73b90c21c9eed07e6c386e4d5))
+- stuff ([d8d8f00](https://github.com/cosmology-tech/cosmos-kit/commit/d8d8f003739c0402962e2250ff18fc21caad4ab6))
+
 ## [2.6.6](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.6.5...docs@2.6.6) (2023-10-31)
 
 **Note:** Version bump only for package docs
