@@ -2,16 +2,13 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
 });
 
-const withTM = require("next-transpile-modules")([
-  "@cosmos-kit/web3auth",
-  "@interchain-ui/react",
-]);
+const withTM = require("next-transpile-modules")(["@cosmos-kit/web3auth"]);
 
 /** @type {import('next').NextConfig} */
 module.exports = withTM(
   withBundleAnalyzer({
     reactStrictMode: true,
-    swcMinify: false,
+    swcMinify: true,
     webpack: (config) => {
       config.module.rules.push({
         test: /\.(ts|tsx)$/,

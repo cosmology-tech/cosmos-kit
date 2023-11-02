@@ -29,7 +29,7 @@ import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import React, { useMemo } from "react";
 
-// import { CustomConnectedView } from "../components/custom-connected";
+import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -129,10 +129,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         disableIframe={false}
-        // modalViews={{
-        //   ...defaultModalViews,
-        //   Connected: CustomConnectedView,
-        // }}
+        modalViews={{
+          ...defaultModalViews,
+          Connected: CustomConnectedView,
+        }}
       >
         <Component {...pageProps} />
       </ChainProvider>
