@@ -8,6 +8,7 @@ import {
   SignOptions,
   SignType,
   SuggestToken,
+  WalletAccount,
   WalletClient,
 } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
@@ -54,13 +55,14 @@ export class KeplrClient implements WalletClient {
     };
   }
 
-  async getAccount(chainId: string) {
+  async getAccount(chainId: string): Promise<WalletAccount> {
     const key = await this.client.getKey(chainId);
     return {
       username: key.name,
       address: key.bech32Address,
       algo: key.algo as Algo,
       pubkey: key.pubKey,
+      isNanoLedger: key.isNanoLedger,
     };
   }
 
