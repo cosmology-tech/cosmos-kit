@@ -62,7 +62,6 @@ export class WCClient implements WalletClient {
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };
-  connectParams?: EngineTypes.ConnectParams;
 
   constructor(walletInfo: Wallet) {
     if (!walletInfo.walletconnect) {
@@ -394,13 +393,9 @@ export class WCClient implements WalletClient {
     }
   }
 
-  setConnectParams(params: EngineTypes.ConnectParams) {
-    this.connectParams = params;
-  }
-
   async connect(
     chainIds: string | string[],
-    params?: EngineTypes.ConnectParams
+    options?: EngineTypes.ConnectParams
   ) {
     if (typeof this.signClient === 'undefined') {
       await this.init();
@@ -444,8 +439,7 @@ export class WCClient implements WalletClient {
       connectResp = await this.signClient.connect({
         pairingTopic: pairing?.topic,
         requiredNamespaces,
-        ...this.connectParams,
-        ...params,
+        ...options,
       });
 
       // https://github.com/cosmology-tech/projects-issues/issues/349

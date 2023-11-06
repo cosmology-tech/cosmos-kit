@@ -173,7 +173,7 @@ export interface WalletClient {
   qrUrl?: Mutable<string>;
   appUrl?: Mutable<AppUrl>;
 
-  connect?: (chainIds: string | string[]) => Promise<void>; // called when chain wallet connect is called
+  connect?: (chainIds: string | string[], options?: any) => Promise<void>; // called when chain wallet connect is called
   disconnect?: () => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;

@@ -5666,7 +5666,7 @@
   dependencies:
     tslib "1.14.1"
 
-"@walletconnect/types@2.10.4", "@walletconnect/types@^2.9.0":
+"@walletconnect/types@2.10.4":
   version "2.10.4"
   resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.10.4.tgz#23f6e4bd785671812dc6ea96848a6bd7ea78f038"
   integrity sha512-eQpOElyiwJp3tepuOS3TS9dXTl9jVVlrC3iVA8bytnbLagkAUxmiv/s7PyDFx+ndXwQVh8PFBkWg1oxGwgCSBA==
@@ -5674,18 +5674,6 @@
     "@walletconnect/events" "^1.0.1"
     "@walletconnect/heartbeat" "1.2.1"
     "@walletconnect/jsonrpc-types" "1.0.3"
-    "@walletconnect/keyvaluestorage" "^1.0.2"
-    "@walletconnect/logger" "^2.0.1"
-    events "^3.3.0"
-
-"@walletconnect/types@2.7.2":
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.7.2.tgz#508d1755110864dee294f955e09b7da3f8ee0064"
-  integrity sha512-1O2UefakZpT0ErRfEAXY7Ls3qdUrKDky/DsK088xR6klyfkQOx+aSVH0fJYLhmnqPTuvp3lrqNbsDc0s6/6nvg==
-  dependencies:
-    "@walletconnect/events" "^1.0.1"
-    "@walletconnect/heartbeat" "1.2.1"
-    "@walletconnect/jsonrpc-types" "^1.0.2"
     "@walletconnect/keyvaluestorage" "^1.0.2"
     "@walletconnect/logger" "^2.0.1"
     events "^3.3.0"
