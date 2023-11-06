@@ -398,7 +398,10 @@ export class WCClient implements WalletClient {
     this.connectParams = params;
   }
 
-  async connect(chainIds: string | string[]) {
+  async connect(
+    chainIds: string | string[],
+    params?: EngineTypes.ConnectParams
+  ) {
     if (typeof this.signClient === 'undefined') {
       await this.init();
       // throw new Error('WalletConnect is not initialized');
@@ -442,6 +445,7 @@ export class WCClient implements WalletClient {
         pairingTopic: pairing?.topic,
         requiredNamespaces,
         ...this.connectParams,
+        ...params,
       });
 
       // https://github.com/cosmology-tech/projects-issues/issues/349
