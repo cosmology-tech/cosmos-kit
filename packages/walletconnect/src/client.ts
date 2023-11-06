@@ -27,7 +27,7 @@ import {
   WalletConnectOptions,
 } from '@cosmos-kit/core';
 import SignClient from '@walletconnect/sign-client';
-import { PairingTypes, SessionTypes } from '@walletconnect/types';
+import { EngineTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
 import { getSdkError } from '@walletconnect/utils';
 import EventEmitter from 'events';
 import Long from 'long';
@@ -62,6 +62,7 @@ export class WCClient implements WalletClient {
     preferNoSetMemo: true,
     disableBalanceCheck: true,
   };
+  connectParams?: EngineTypes.ConnectParams;
 
   constructor(walletInfo: Wallet) {
     if (!walletInfo.walletconnect) {
@@ -393,6 +394,10 @@ export class WCClient implements WalletClient {
     }
   }
 
+  setConnectParams(params: EngineTypes.ConnectParams) {
+    this.connectParams = params;
+  }
+
   async connect(chainIds: string | string[]) {
     if (typeof this.signClient === 'undefined') {
       await this.init();
@@ -436,6 +441,7 @@ export class WCClient implements WalletClient {
       connectResp = await this.signClient.connect({
         pairingTopic: pairing?.topic,
         requiredNamespaces,
+        ...this.connectParams,
       });
 
       // https://github.com/cosmology-tech/projects-issues/issues/349
