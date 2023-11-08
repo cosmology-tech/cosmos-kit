@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/trust-extension",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "description": "cosmos-kit wallet connector",
   "contributors": [
     {
@@ -57,7 +57,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.7.6"
+    "@cosmos-kit/core": "^2.7.7"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
