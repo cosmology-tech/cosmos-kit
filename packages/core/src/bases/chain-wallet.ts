@@ -47,12 +47,15 @@ export class ChainWalletBase extends WalletBase {
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
   isLazy?: boolean; // stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
+  preferredSignType: SignType;
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
     this._chainRecord = chainRecord;
     this.rpcEndpoints = chainRecord.preferredEndpoints?.rpc;
     this.restEndpoints = chainRecord.preferredEndpoints?.rest;
+    this.preferredSignType =
+      chainRecord.clientOptions?.preferredSignType || 'amino';
   }
 
   get chainRecord() {
@@ -88,10 +91,6 @@ export class ChainWalletBase extends WalletBase {
 
   get signingCosmwasmOptions(): SigningCosmWasmClientOptions | undefined {
     return this.chainRecord.clientOptions?.signingCosmwasm;
-  }
-
-  get preferredSignType(): SignType {
-    return this.chainRecord.clientOptions?.preferredSignType || 'amino';
   }
 
   get chain() {
@@ -288,10 +287,11 @@ export class ChainWalletBase extends WalletBase {
     return new NameService(client, registry);
   };
 
-  async initOfflineSigner() {
+  async initOfflineSigner(preferredSignType?: SignType) {
     if (typeof this.client === 'undefined') {
       throw new Error('WalletClient is not initialized');
     }
+    if (preferredSignType) this.preferredSignType = preferredSignType;
     this.offlineSigner = await this.client.getOfflineSigner(
       this.chainId,
       this.preferredSignType
