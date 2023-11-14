@@ -37,7 +37,7 @@
     "react-icons": "4.4.0"
   },
   "resolutions": {
-    "@types/react": "18.2"
+    "@types/react": "^18"
   },
   "devDependencies": {
     "@babel/preset-env": "7.22.7",

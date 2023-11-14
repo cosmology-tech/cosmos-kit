@@ -11,7 +11,13 @@ import {
   ThemeProvider,
   ThemeProviderProps,
 } from '@interchain-ui/react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import {
   defaultModalViews,
@@ -20,10 +26,18 @@ import {
   WalletViewImplGetter,
 } from './components/views';
 
-export type ThemeCustomizationProps = Pick<
-  ThemeProviderProps,
-  'defaultTheme' | 'overrides' | 'themeDefs' | 'customTheme'
->;
+export type ModalCustomizationProps = {
+  modalContainerClassName?: string;
+  modalContentClassName?: string;
+  modalChildrenClassName?: string;
+  modalContentStyles?: React.CSSProperties;
+};
+
+export type ThemeCustomizationProps = ModalCustomizationProps &
+  Pick<
+    ThemeProviderProps,
+    'defaultTheme' | 'overrides' | 'themeDefs' | 'customTheme'
+  >;
 
 export type WalletModalComponentProps = WalletModalProps &
   ThemeCustomizationProps & {
@@ -41,6 +55,11 @@ export function WalletModal({
   themeDefs,
   customTheme,
   defaultTheme,
+  // ==== Custom modal styles
+  modalContainerClassName,
+  modalContentClassName,
+  modalChildrenClassName,
+  modalContentStyles,
 }: WalletModalComponentProps) {
   const initialFocus = useRef();
   const [currentView, setCurrentView] = useState<ModalView>(
@@ -172,6 +191,10 @@ export function WalletModal({
         isOpen={isOpen}
         header={modalView.head}
         onClose={onCloseModal}
+        modalContainerClassName={modalContainerClassName}
+        modalContentClassName={modalContentClassName}
+        modalChildrenClassName={modalChildrenClassName}
+        modalContentStyles={modalContentStyles}
       >
         {modalView.content}
       </ConnectModal>

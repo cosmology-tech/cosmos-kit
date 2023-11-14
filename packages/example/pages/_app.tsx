@@ -29,7 +29,7 @@ import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import React, { useMemo } from "react";
 
-import { CustomConnectedView } from "../components/custom-connected";
+// import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -60,9 +60,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={[...chains.filter((c) => c.chain_name == "cosmoshub")]}
         assetLists={[...assets]}
         wallets={[
+          ...keplrWallets,
           // ...leapWallets,
           // ...snapWallet,
-          ...keplrWallets,
           // ...ledgerWallets,
           // ...web3AuthWallets,
           // ...trustWallets,
@@ -129,10 +129,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         disableIframe={false}
-        modalViews={{
-          ...defaultModalViews,
-          Connected: CustomConnectedView,
-        }}
+        // // ==== Custom base modal customization
+        // // modalTheme={{
+        // //   modalContentClassName: "my-custom-modal-content",
+        // }}
+        // // ==== Custom components
+        // // modalViews={{
+        // //   ...defaultModalViews,
+        // //   Connected: CustomConnectedView,
+        // // }}
       >
         <Component {...pageProps} />
       </ChainProvider>

@@ -15,6 +15,11 @@
     "invalidate": "AWS_PROFILE=webinc aws cloudfront create-invalidation --distribution-id E1J4F8FDME5L4Z --paths \"/*\"",
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
+  "overrides": {
+    "next": {
+      "@swc/helpers": "0.5.1"
+    }
+  },
   "dependencies": {
     "@cosmos-kit/coin98": "^2.4.8",
     "@cosmos-kit/core": "^2.7.7",
@@ -30,7 +35,7 @@
     "@cosmos-kit/station": "^2.4.7",
     "@cosmos-kit/vectis": "^2.4.7",
     "@cosmos-kit/web3auth": "^2.4.7",
-    "@interchain-ui/react": "1.11.0",
+    "@interchain-ui/react": "1.13.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-slot": "^1.0.2",
@@ -42,7 +47,7 @@
     "clsx": "^1.2.1",
     "cosmjs-utils": "0.1.0",
     "juno-network": "0.9.0",
-    "next": "12.3.4",
+    "next": "^13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "4.7.1",
