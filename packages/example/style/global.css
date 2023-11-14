@@ -79,3 +79,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+.my-custom-modal-content {
+  padding: 0 50px;
+}
