@@ -444,6 +444,17 @@ Supported overridable slots/components and their overridable state/attributes ar
 }
 ```
 
+Additionally, you can customize the base modal class names using the follow properties of `<ChainProvider />`'s `modalTheme` prop:
+
+```ts
+type ModalCustomizationProps = {
+  modalContainerClassName?: string;
+  modalContentClassName?: string;
+  modalChildrenClassName?: string;
+  modalContentStyles?: React.CSSProperties;
+};
+```
+
 ## Improvement in bundle size in v2
 
 Since we dropped Chakra UI to build our own foundational UI system. The bundle size dropped a lot.
