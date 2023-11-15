@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.13](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.9.12...example@2.9.13) (2023-11-15)
+
+### Bug Fixes
+
+- **react:** allow pass through custom classes to base modal ([cde4b7e](https://github.com/cosmology-tech/cosmos-kit/commit/cde4b7e2fcfbfd8e106eba4153e34d02a5c85887))
+
 ## [2.9.12](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.9.11...example@2.9.12) (2023-11-08)
 
 **Note:** Version bump only for package example
