@@ -84,6 +84,7 @@ export class CompassClient implements WalletClient {
       address: key.bech32Address,
       algo: key.algo as Algo,
       pubkey: key.pubKey,
+      isNanoLedger: key.isNanoLedger,
     };
   }
 
