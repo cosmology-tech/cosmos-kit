@@ -1,0 +1,60 @@
+{
+  "name": "@cosmos-kit/ninji",
+  "version": "2.4.8",
+  "description": "cosmos-kit wallet connector",
+  "author": "quangmv@coin98.finance",
+  "contributors": [
+    {
+      "name": "Be Quang"
+    }
+  ],
+  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "typings": "cjs/index.d.ts",
+  "directories": {
+    "lib": "src"
+  },
+  "files": [
+    "cjs",
+    "esm",
+    "!CHANGELOG.md",
+    "!LICENSE"
+  ],
+  "scripts": {
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
+    "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
+    "clean:cjs": "rimraf cjs",
+    "clean:esm": "rimraf esm",
+    "clean": "npm run clean:cjs && npm run clean:esm",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "prepare": "npm run build",
+    "lint": "eslint --ext .tsx,.ts .",
+    "format": "eslint --ext .tsx,.ts --fix .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmology-tech/cosmos-kit"
+  },
+  "keywords": [
+    "cosmos-kit",
+    "cosmos",
+    "injective",
+    "ninji",
+    "wallet"
+  ],
+  "bugs": {
+    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
+  },
+  "dependencies": {
+    "@cosmos-kit/ninji-extension": "^2.4.8"
+  },
+  "gitHead": "209629afb7bbed747db6f5fb81263cfe7f9740e9"
+}
