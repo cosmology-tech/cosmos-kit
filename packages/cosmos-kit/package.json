@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "2.5.11",
+  "version": "2.5.12",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -72,13 +72,13 @@
   },
   "dependencies": {
     "@cosmos-kit/coin98": "^2.4.8",
-    "@cosmos-kit/compass": "^2.4.8",
+    "@cosmos-kit/compass": "^2.4.9",
     "@cosmos-kit/cosmostation": "^2.4.10",
     "@cosmos-kit/exodus": "^2.4.7",
     "@cosmos-kit/fin": "^2.4.8",
     "@cosmos-kit/frontier": "^2.4.8",
     "@cosmos-kit/keplr": "^2.4.11",
-    "@cosmos-kit/leap": "^2.4.10",
+    "@cosmos-kit/leap": "^2.4.11",
     "@cosmos-kit/ledger": "^2.5.7",
     "@cosmos-kit/omni": "^2.4.9",
     "@cosmos-kit/shell": "^2.4.8",
