@@ -15,6 +15,7 @@ import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as snapWallet } from "@cosmos-kit/leap-metamask-cosmos-snap";
 import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
+import { wallets as ninjiWallets } from "@cosmos-kit/ninji";
 import { wallets as omniWallets } from "@cosmos-kit/omni";
 // Show how to custom modal views
 import { ChainProvider, defaultModalViews } from "@cosmos-kit/react";
@@ -62,6 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           ...keplrWallets,
           // ...leapWallets,
+          // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
           // ...web3AuthWallets,
