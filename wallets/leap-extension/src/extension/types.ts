@@ -30,6 +30,7 @@ export interface Leap {
   disconnect(): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
   suggestToken(chainId: string, contractAddress: string): Promise<void>;
+  suggestCW20Token(chainId: string, contractAddress: string): Promise<void>;
   mode: 'extension';
   getKey(chainId: string): Promise<Key>;
   getOfflineSigner(chainId: string): OfflineAminoSigner & OfflineDirectSigner;
