@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.9.10...@cosmos-kit/react@2.9.11) (2023-11-24)
+
+### Bug Fixes
+
+- **react:** move interchain ui to peerDependency to avoid css conflicts ([581c976](https://github.com/cosmology-tech/cosmos-kit/commit/581c9760f83765945d39385a5ef9e579df29d2db))
+
 ## [2.9.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.9.9...@cosmos-kit/react@2.9.10) (2023-11-15)
 
 ### Bug Fixes

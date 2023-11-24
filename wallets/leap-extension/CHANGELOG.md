@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@2.5.9...@cosmos-kit/leap-extension@2.5.10) (2023-11-24)
+
+### Bug Fixes
+
+- update suggestToken with suggestCW20Token for leap-extension ([f8d44ef](https://github.com/cosmology-tech/cosmos-kit/commit/f8d44ef1a0c1af2dd507e11a576e3c21cab46953))
+
 ## [2.5.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@2.5.8...@cosmos-kit/leap-extension@2.5.9) (2023-11-23)
 
 **Note:** Version bump only for package @cosmos-kit/leap-extension
