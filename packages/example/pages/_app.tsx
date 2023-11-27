@@ -115,7 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             cosmoshub: {
               rpc: [
                 {
-                  url: "https://rpc.cosmos.directory/cosmoshub2",
+                  url: "https://rpc.cosmos.directory/cosmoshub",
                   headers: {},
                 },
               ],

@@ -245,7 +245,10 @@ export class WCClient implements WalletClient {
     this.logger?.debug('RESTORED SESSIONS: ', this.sessions);
   }
 
-  getSession(namespace: string, chainId: string) {
+  async getSession(namespace: string, chainId: string) {
+    if (typeof this.signClient === 'undefined') {
+      await this.init();
+    }
     return this.sessions.find((s) =>
       s.namespaces[namespace]?.accounts?.find((account) =>
         account.startsWith(`${namespace}:${chainId}`)
@@ -549,7 +552,7 @@ export class WCClient implements WalletClient {
   }
 
   protected async _getAccount(chainId: string) {
-    const session = this.getSession('cosmos', chainId);
+    const session = await this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
@@ -582,7 +585,7 @@ export class WCClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    const session = this.getSession('cosmos', chainId);
+    const session = await this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
@@ -625,7 +628,7 @@ export class WCClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    const session = this.getSession('cosmos', chainId);
+    const session = await this.getSession('cosmos', chainId);
     if (!session) {
       throw new Error(`Session for ${chainId} not established yet.`);
     }
