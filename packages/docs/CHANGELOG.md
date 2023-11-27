@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.6.15](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.6.14...docs@2.6.15) (2023-11-27)
+
+### Bug Fixes
+
+- **docs:** zIndex issue in chain dropdown ([5802cbc](https://github.com/cosmology-tech/cosmos-kit/commit/5802cbcb6cf2b2dd815995c2b0ee9567d93ec0c7))
+
 ## [2.6.14](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.6.13...docs@2.6.14) (2023-11-24)
 
 ### Bug Fixes
