@@ -271,7 +271,7 @@ export const ChangeChainDropdown = ({
   onChange,
 }: ChangeChainDropdownType) => {
   return (
-    <Box w="full" position="relative" zIndex={150}>
+    <Box w="full" position="relative">
       <SelectOptions data={data} value={selectedItem} onChange={onChange} />
     </Box>
   );
