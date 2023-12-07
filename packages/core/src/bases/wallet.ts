@@ -67,6 +67,10 @@ export abstract class WalletBase extends StateBase {
   initClientError(error: Error | undefined) {
     this.clientMutable.message = error?.message;
     this.clientMutable.state = State.Error;
+    if (this.walletInfo.mode !== 'wallet-connect') {
+      this.mutable.message = error?.message;
+      this.mutable.state = State.Error;
+    }
   }
 
   get walletInfo(): Wallet {

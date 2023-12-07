@@ -73,7 +73,7 @@ const config: DocsThemeConfig = {
     link: "https://discord.gg/6hy8KQ9aJY",
   },
   docsRepositoryBase:
-    "https://github.com/cosmology-tech/cosmos-kit/tree/develop/packages/docs",
+    "https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/docs",
   editLink: {
     text: "Edit this page on GitHub",
   },
