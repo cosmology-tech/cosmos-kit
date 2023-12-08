@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RootLayout>
       <ChainProvider
-        chains={[...chains.filter((c) => c.chain_name == "cosmoshub")]}
+        chains={chains}
         assetLists={[...assets]}
         wallets={[
           ...keplrWallets,
