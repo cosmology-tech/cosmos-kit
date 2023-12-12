@@ -14,7 +14,9 @@
 
 CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-@cosmos-kit/leap-social-login is the metamask integration for CosmosKit using leap-metamask-cosmos-snap.
+`@cosmos-kit/leap-social-login` is the social login integration for CosmosKit using `@leapwallet/cosmos-social-login-capsule-provider`
+
+> It has a dependent package [@leapwallet/cosmos-social-login-capsule-provider-ui](https://www.npmjs.com/package/@leapwallet/cosmos-social-login-capsule-provider-ui)
 
 ## Related
 
