@@ -1,20 +1,15 @@
 import { Wallet } from '@cosmos-kit/core'
+import { LEAP_SOCIAL_LOGIN_LOGO } from './constant'
 
-export const LeapCapsuleInfo: Wallet = {
-  name: 'leap-cosmos-capsule',
+export const LeapSocialLoginInfo: Wallet = {
+  name: 'leap-cosmos-social',
   prettyName: 'Sign In with Email',
-  logo: 'https://leap-wallet-assets.s3.amazonaws.com/social-login/mail.svg',
+  logo: `${LEAP_SOCIAL_LOGIN_LOGO}`,
   mode: 'extension',
   mobileDisabled: false,
   rejectMessage: {
     source: 'Request rejected',
   },
   downloads: [
-    {
-      device: 'desktop',
-      browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk',
-    },
   ],
-  connectEventNamesOnWindow: ['leap_keystorechange'],
 }
