@@ -61,7 +61,7 @@
   "dependencies": {
     "@chain-registry/keplr": "1.25.0",
     "@cosmos-kit/core": "^2.7.8",
-    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.25"
+    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.26"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

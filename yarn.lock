@@ -3397,10 +3397,10 @@
     bignumber.js "^9.1.2"
     long "^5.2.3"
 
-"@leapwallet/cosmos-social-login-capsule-provider@0.0.25":
-  version "0.0.25"
-  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.25.tgz#2ea19b76eb83f5299d07ae7cf2688c39fdb28b0e"
-  integrity sha512-Y+lVSAhTjx2Nef05ZQJiqT8HOfkR6Cr1W/vk2GKrpiInKVmMzUQkLefWKAEZDvaoXHx2Q3rFMqndiWiQg4Y3QA==
+"@leapwallet/cosmos-social-login-capsule-provider@0.0.26":
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.26.tgz#becd9090600333ea96c1d29eeab24d89dcc70f1e"
+  integrity sha512-PTKdZz71+Gef4Mr0I8ZR9yNVPp5QWRdUGfkoF5+F3JXHu+ikRj5M2l4mOOAx3X7XCMBBTu9HfyUM3d+Qv8+kDw==
   dependencies:
     "@cosmjs/amino" "^0.31.3"
     "@leapwallet/capsule-web-sdk-lite" "^0.29.0"
