@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={[...assets]}
         wallets={[
           ...keplrWallets,
-          // ...leapWallets,
+          ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
