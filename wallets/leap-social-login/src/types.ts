@@ -11,13 +11,8 @@ export interface LeapAccount {
   pubKey: string
 }
 
-export type GetSnapsResponse = Record<string, Snap>
-
-export type Snap = {
-  permissionName: string
-  id: string
-  version: string
-  initialPermissions: Record<string, unknown>
+export type capsuleOptions = {
+  apiKey: string
 }
 
 export type CosmosCapsule = {
@@ -25,7 +20,7 @@ export type CosmosCapsule = {
   suggestToken: (chainId: string, contractAddress: string) => Promise<void>
   experimentalSuggestChain: (chainInfo: unknown) => Promise<void>
   disconnect: () => Promise<void>
-  getKey: (chainId: string) => Promise<unknown>
+  getKey: (chainId: string) => Promise<LeapAccount>
   getOfflineSignerOnlyAmino: (chainId: string) => Promise<OfflineDirectSigner>
   getOfflineSigner: (chainId: string) => Promise<OfflineDirectSigner>
   signAmino: (chainId: string, signer: string, signDoc: StdSignDoc) => Promise<StdSignature>
