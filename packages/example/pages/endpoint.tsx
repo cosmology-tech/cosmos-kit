@@ -1,22 +1,42 @@
-import { useChainWallet } from "@cosmos-kit/react";
-import { useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useChainWallet, useManager } from "@cosmos-kit/react";
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
 
-const Test = () => {
-  const { getRpcEndpoint } = useChainWallet("cosmoshub", "keplr-extension");
+const Page = () => {
+  const { chainWallet } = useChainWallet("cosmoshub", "keplr-extension");
+  const { addEndpoints } = useManager();
+  const [endpoints, setEndpoints] = useState<string[]>([]);
+  const [n, setn] = useState(0);
 
   useEffect(() => {
-    const fn = async () => {
-      const rpc = await getRpcEndpoint();
-      console.log("%cendpoint.tsx line:10 rpc", "color: #007acc;", rpc);
-    };
-    fn();
-  }, []);
+    if (n !== 0) {
+      addEndpoints({ cosmoshub: { rpc: [`endpoint added ${n}`] } });
+    }
+    setEndpoints(
+      chainWallet?.preferredEndpoints?.rpc?.map((rpc) => {
+        return typeof rpc === "string" ? rpc : rpc.url;
+      }) || []
+    );
+  }, [n]);
 
   return (
-    <div>
-      <button>Vote</button>
-    </div>
+    <>
+      <Button
+        onClick={() => {
+          setn(n + 1);
+        }}
+      >
+        Add Endpoint
+      </Button>
+      <ListGroup>
+        {endpoints.map((endpoint, i) => {
+          return <ListGroup.Item key={i}>{endpoint}</ListGroup.Item>;
+        })}
+      </ListGroup>
+    </>
   );
 };
 
-export default Test;
+export default Page;

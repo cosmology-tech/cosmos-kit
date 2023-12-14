@@ -79,8 +79,10 @@ export class ChainWalletBase extends WalletBase {
 
   addEndpoints(endpoints?: Endpoints) {
     this._chainRecord.preferredEndpoints = {
-      ...endpoints,
-      ...this.preferredEndpoints,
+      isLazy: endpoints?.isLazy ?? this.preferredEndpoints?.isLazy,
+      rpc: [...(endpoints?.rpc || []), ...this.preferredEndpoints?.rpc] || [],
+      rest:
+        [...(endpoints?.rest || []), ...this.preferredEndpoints?.rest] || [],
     };
   }
 
