@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/coin98-extension",
-  "version": "2.5.10",
+  "version": "2.5.11",
   "description": "cosmos-kit wallet connector",
   "author": "tamvt@coin98.finance",
   "contributors": [
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.25.0",
-    "@cosmos-kit/core": "^2.7.9"
+    "@cosmos-kit/core": "^2.7.10"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

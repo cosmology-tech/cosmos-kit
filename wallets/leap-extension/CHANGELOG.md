@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.13](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@2.5.12...@cosmos-kit/leap-extension@2.5.13) (2023-12-14)
+
+**Note:** Version bump only for package @cosmos-kit/leap-extension
+
 ## [2.5.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-extension@2.5.11...@cosmos-kit/leap-extension@2.5.12) (2023-12-14)
 
 **Note:** Version bump only for package @cosmos-kit/leap-extension
