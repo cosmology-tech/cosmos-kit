@@ -32,7 +32,6 @@ import React, { useMemo } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
-import { CustomModal } from "components/custom-modal";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const web3AuthWallets = useMemo(
@@ -59,7 +58,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RootLayout>
       <ChainProvider
-        chains={[...chains.filter((c) => c.chain_name == "cosmoshub")]}
+        chains={chains}
         assetLists={[...assets]}
         wallets={[
           ...keplrWallets,

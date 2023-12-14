@@ -167,6 +167,12 @@ export class WalletManager extends StateBase {
     );
   }
 
+  addEndpoints = (endpoints: EndpointOptions['endpoints']) => {
+    this.mainWallets.forEach((mainWallet) => {
+      mainWallet.addEnpoints(endpoints);
+    });
+  };
+
   addChains = (
     chains: Chain[],
     assetLists: AssetList[],

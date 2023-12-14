@@ -20,6 +20,7 @@ import { NameService } from '../name-service';
 import {
   ChainRecord,
   CosmosClientType,
+  Endpoints,
   ExtendedHttpEndpoint,
   IFRAME_WALLET_ID,
   SignType,
@@ -39,23 +40,48 @@ import { WalletBase } from './wallet';
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;
   protected _chainRecord: ChainRecord;
-  rpcEndpoints?: (string | ExtendedHttpEndpoint)[] = [];
-  restEndpoints?: (string | ExtendedHttpEndpoint)[] = [];
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
   connectChains?: () => Promise<any>;
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
-  isLazy?: boolean; // stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
   preferredSignType: SignType;
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
     this._chainRecord = chainRecord;
-    this.rpcEndpoints = chainRecord.preferredEndpoints?.rpc;
-    this.restEndpoints = chainRecord.preferredEndpoints?.rest;
     this.preferredSignType =
       chainRecord.clientOptions?.preferredSignType || 'amino';
+  }
+
+  get isTestNet() {
+    return this.chainName.includes('testnet');
+  }
+
+  get preferredEndpoints() {
+    return this.chainRecord.preferredEndpoints;
+  }
+
+  get rpcEndpoints() {
+    return this.preferredEndpoints?.rpc || [];
+  }
+
+  get restEndpoints() {
+    return this.preferredEndpoints?.rest || [];
+  }
+
+  /**
+   * stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
+   */
+  get isLazy() {
+    return this.preferredEndpoints.isLazy;
+  }
+
+  addEndpoints(endpoints?: Endpoints) {
+    this._chainRecord.preferredEndpoints = {
+      ...endpoints,
+      ...this.preferredEndpoints,
+    };
   }
 
   get chainRecord() {
