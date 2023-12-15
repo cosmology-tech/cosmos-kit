@@ -23,7 +23,7 @@
     "@cosmos-kit/core": "^2.7.10",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@interchain-ui/react": "^1.13.17",
+    "@interchain-ui/react": "^1.16.6",
     "chain-registry": "^1.23.0",
     "chakra-react-select": "^4.6.0",
     "cosmos-kit": "^2.6.0",

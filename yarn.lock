@@ -1080,6 +1080,17 @@
     "@chain-registry/utils" "^1.15.0"
     "@cosmostation/extension-client" "0.1.15"
 
+"@chain-registry/keplr@1.25.0":
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.25.0.tgz#581a10760951c1d1185c6874199df08283a21d46"
+  integrity sha512-mEr5HypYEaQnYcuGp3PBTqo67WV0MQyBP2dOtl+ab2fkyB5PYa01D5B2Yu5V6V7eXLmKDvvvfiRO23NWQzFHxg==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.17.0"
+    "@keplr-wallet/cosmos" "0.12.28"
+    "@keplr-wallet/crypto" "0.12.28"
+    semver "^7.5.0"
+
 "@chain-registry/keplr@1.28.0":
   version "1.28.0"
   resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.28.0.tgz#c53d52ff0487eb6798722eb1cf5bd4dc82a141be"
@@ -2154,6 +2165,16 @@
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.31.3.tgz"
   integrity sha512-VBhAgzrrYdIe0O5IbKRqwszbQa7ZyQLx9nEQuHQ3HUplQW7P44COG/ye2n6AzCudtqxmwdX7nyX8ta1J07GoqA==
 
+"@cosmos-kit/leap-metamask-cosmos-snap@^0.3.9":
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/leap-metamask-cosmos-snap/-/leap-metamask-cosmos-snap-0.3.12.tgz#eb7cfd2a938f61c717ccf19d2d7667ed2389b426"
+  integrity sha512-MuTLwm/2nKIdbEU3EFjGPTOd6g2BQKlFEkPBTfnhGOGDBNy5gvitmNvWAzTXBdnc2DDnODoCAH3Ko/tLl652eg==
+  dependencies:
+    "@chain-registry/keplr" "1.25.0"
+    "@cosmos-kit/core" "^2.7.10"
+    "@leapwallet/cosmos-snap-provider" "0.1.25"
+    "@metamask/providers" "^11.1.1"
+
 "@cosmos-kit/leap@latest":
   version "2.4.13"
   resolved "https://registry.npmjs.org/@cosmos-kit/leap/-/leap-2.4.13.tgz#32937410c00f40d0d79dd7ba9111b09ded296e63"
@@ -2823,35 +2844,10 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@interchain-ui/react@^1.13.17":
-  version "1.13.17"
-  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.13.17.tgz"
-  integrity sha512-51/2Rd8vfizPETC7q+3FWv5v6sYZwQJfjbEE3qn9nvFPqJ4Ai/YgHkf2Ft9RM0DphDOFFUfb4nsDldY11N+uPA==
-  dependencies:
-    "@fastify/deepmerge" "^1.3.0"
-    "@floating-ui/dom" "^1.5.2"
-    "@floating-ui/react" "^0.26.0"
-    "@formkit/auto-animate" "^0.8.1"
-    "@react-aria/utils" "^3.21.1"
-    "@vanilla-extract/css" "^1.14.0"
-    "@vanilla-extract/dynamic" "^2.1.0"
-    "@vanilla-extract/recipes" "^0.5.1"
-    animejs "^3.2.1"
-    bignumber.js "^9.1.1"
-    client-only "^0.0.1"
-    clsx "^1.2.1"
-    copy-to-clipboard "^3.3.3"
-    immer "^9.0.19"
-    lodash "^4.17.21"
-    rainbow-sprinkles "^0.17.0"
-    react-aria "^3.29.1"
-    react-stately "^3.27.1"
-    zustand "4.4.6"
-
-"@interchain-ui/react@^1.14.2":
-  version "1.14.2"
-  resolved "https://registry.npmjs.org/@interchain-ui/react/-/react-1.14.2.tgz"
-  integrity sha512-YA3Dkq4FOUOcKHoH8iTqozowo5VisaT4iPffkGnxkkShlMY/NwC5V4q5WbdkNaefKmlIoUJDKle/Pyx9UL4iyw==
+"@interchain-ui/react@^1.16.6":
+  version "1.16.6"
+  resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.16.6.tgz#78806e1e8689bda7ba89f368fd4299948a313f96"
+  integrity sha512-apy+LvX9ZjXvg19lQ3HspJA2Jd3Zwc9zLmx0HGNmbZTziyyRJEuY0etkUOsxp1Y0w3ycPQ2coTzbktfW01w0kw==
   dependencies:
     "@fastify/deepmerge" "^1.3.0"
     "@floating-ui/dom" "^1.5.2"
