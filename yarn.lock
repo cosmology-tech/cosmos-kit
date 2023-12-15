@@ -1080,6 +1080,17 @@
     "@chain-registry/utils" "^1.15.0"
     "@cosmostation/extension-client" "0.1.15"
 
+"@chain-registry/keplr@1.25.0":
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.25.0.tgz#581a10760951c1d1185c6874199df08283a21d46"
+  integrity sha512-mEr5HypYEaQnYcuGp3PBTqo67WV0MQyBP2dOtl+ab2fkyB5PYa01D5B2Yu5V6V7eXLmKDvvvfiRO23NWQzFHxg==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.17.0"
+    "@keplr-wallet/cosmos" "0.12.28"
+    "@keplr-wallet/crypto" "0.12.28"
+    semver "^7.5.0"
+
 "@chain-registry/keplr@1.28.0":
   version "1.28.0"
   resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.28.0.tgz#c53d52ff0487eb6798722eb1cf5bd4dc82a141be"
@@ -2153,6 +2164,16 @@
   version "0.31.3"
   resolved "https://registry.npmjs.org/@cosmjs/utils/-/utils-0.31.3.tgz"
   integrity sha512-VBhAgzrrYdIe0O5IbKRqwszbQa7ZyQLx9nEQuHQ3HUplQW7P44COG/ye2n6AzCudtqxmwdX7nyX8ta1J07GoqA==
+
+"@cosmos-kit/leap-metamask-cosmos-snap@^0.3.9":
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/leap-metamask-cosmos-snap/-/leap-metamask-cosmos-snap-0.3.12.tgz#eb7cfd2a938f61c717ccf19d2d7667ed2389b426"
+  integrity sha512-MuTLwm/2nKIdbEU3EFjGPTOd6g2BQKlFEkPBTfnhGOGDBNy5gvitmNvWAzTXBdnc2DDnODoCAH3Ko/tLl652eg==
+  dependencies:
+    "@chain-registry/keplr" "1.25.0"
+    "@cosmos-kit/core" "^2.7.10"
+    "@leapwallet/cosmos-snap-provider" "0.1.25"
+    "@metamask/providers" "^11.1.1"
 
 "@cosmos-kit/leap@latest":
   version "2.4.13"
