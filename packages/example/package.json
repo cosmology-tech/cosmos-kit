@@ -43,7 +43,7 @@
     "@web3modal/ui": "^2.0.0-rc.1",
     "bignumber.js": "^9.1.1",
     "bootstrap": "^5.3.2",
-    "chain-registry": "^1.13.0",
+    "chain-registry": "^1.23.0",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cosmjs-utils": "0.1.0",

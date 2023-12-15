@@ -85,8 +85,6 @@
     "@cosmos-kit/station": "^2.4.10",
     "@cosmos-kit/trust": "^2.4.13",
     "@cosmos-kit/vectis": "^2.4.10",
-    "@cosmos-kit/xdefi": "^2.4.12",
-    "chain-registry": "^1.18.0"
-  },
-  "gitHead": "76c57970fe75c0ffead8fbe0236027cc156c314c"
+    "@cosmos-kit/xdefi": "^2.4.12"
+  }
 }

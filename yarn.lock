@@ -1070,20 +1070,20 @@
   resolved "https://registry.npmjs.org/@braintree/sanitize-url/-/sanitize-url-6.0.4.tgz"
   integrity sha512-s3jaWicZd0pkP0jf5ysyHUI/RE7MHos6qlToFcGWXVp+ykHOy77OUMrfbgJ9it2C5bow7OIQwYYaHjk9XlBQ2A==
 
-"@chain-registry/cosmostation@1.23.0", "@chain-registry/cosmostation@^1.23.0":
-  version "1.23.0"
-  resolved "https://registry.npmjs.org/@chain-registry/cosmostation/-/cosmostation-1.23.0.tgz"
-  integrity sha512-WpA8/i5rqsAwhDrKbz7TaIfSJJkA2NSQlc6Lh2ThT8H8SigiPtBGiEqBy1OFkSF+vBsG64NPCu7XUxLP/e+/oA==
+"@chain-registry/cosmostation@1.26.0", "@chain-registry/cosmostation@^1.26.0":
+  version "1.26.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/cosmostation/-/cosmostation-1.26.0.tgz#0d3967b8d320168a5c9c7b56b3352dcf3f2945b0"
+  integrity sha512-MmjThpQ0U0EJF66UJzPy67iKC9hY7ljrpGtQOPfeYGB/lUlKZTsE/mgF2XkKGUf7wJK8LugOqU5Zul7C1/ZA4Q==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
-    "@chain-registry/utils" "^1.14.0"
+    "@chain-registry/utils" "^1.15.0"
     "@cosmostation/extension-client" "0.1.15"
 
-"@chain-registry/keplr@1.25.0":
-  version "1.25.0"
-  resolved "https://registry.npmjs.org/@chain-registry/keplr/-/keplr-1.25.0.tgz"
-  integrity sha512-mEr5HypYEaQnYcuGp3PBTqo67WV0MQyBP2dOtl+ab2fkyB5PYa01D5B2Yu5V6V7eXLmKDvvvfiRO23NWQzFHxg==
+"@chain-registry/keplr@1.28.0":
+  version "1.28.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.28.0.tgz#c53d52ff0487eb6798722eb1cf5bd4dc82a141be"
+  integrity sha512-MRAEgUpafyGLRDQc4SPB+R/If4CL2SREqdbxZMKHX9aeqzKXhJlEM5IPjJTZCWTbUP/eGXC9JNjxPNUYd92PqQ==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
@@ -1098,10 +1098,10 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@chain-registry/utils@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.npmjs.org/@chain-registry/utils/-/utils-1.14.0.tgz"
-  integrity sha512-Xn55RSG76UrE0EAuZMgAiH/zC0xHc+904ydcdMr4Ix+ZsK6nxjwX4mRl9MOx83I1H+Om9GTMtDuXAjy0zxBmqg==
+"@chain-registry/utils@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/utils/-/utils-1.15.0.tgz#a44e5dd34439fe2538531998687185a3527f769c"
+  integrity sha512-rAQID9ZSFgpvnYKtJGokIsjh4deGdrgDi19e3LYXAQ9QWRxHo8QVSEo14cdSd+R+lB+lvu5RG26ni1BPSMzRQQ==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
@@ -6226,9 +6226,9 @@
     csstype "^3.0.2"
 
 "@types/react@>=16.9.11":
-  version "18.2.42"
-  resolved "https://registry.npmjs.org/@types/react/-/react-18.2.42.tgz"
-  integrity sha512-c1zEr96MjakLYus/wPnuWDo1/zErfdU9rNsIGmE+NV71nx88FG9Ttgo5dqorXTu/LImX2f63WBP986gJkMPNbA==
+  version "18.2.45"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.45.tgz#253f4fac288e7e751ab3dc542000fb687422c15c"
+  integrity sha512-TtAxCNrlrBp8GoeEp1npd5g+d/OejJHFxS3OWmrPBMFaVQMSN0OFySozJio5BHxTuTeug00AVXVAjfDSfk+lUg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -7673,10 +7673,10 @@ ccount@^2.0.0:
   resolved "https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
-chain-registry@^1.13.0, chain-registry@^1.18.0, chain-registry@^1.20.0:
-  version "1.20.0"
-  resolved "https://registry.npmjs.org/chain-registry/-/chain-registry-1.20.0.tgz"
-  integrity sha512-kBeQVdopECXasauhaA+HiJNSB0UpzNmxtv5AvIpJBAZc3nuM2wzPxaHAiPz1OG5ifYwMraOkvPNxwOnXd1nZzw==
+chain-registry@^1.23.0:
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/chain-registry/-/chain-registry-1.23.0.tgz#1c3f708a0434193f008045c907c7f84737467b84"
+  integrity sha512-ZTGV9eVef9USdpRUcvGbs+9JOs+fo6pV2ZxfMb+uQ/kAMQrhZ77I64ljfEXij7h4ssR8B0wNqFRoZi9gmx3mBg==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@chain-registry/types" "^0.17.0"
