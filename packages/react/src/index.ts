@@ -11,6 +11,7 @@ export {
   useChain,
   useChains,
   useChainWallet,
+  useIframe,
   useManager,
   useNameService,
   useWallet,
