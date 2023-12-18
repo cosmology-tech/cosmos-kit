@@ -199,10 +199,12 @@ export class ChainWalletBase extends WalletBase {
         account = await this?.client?.getSimpleAccount(this.chainId);
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
+          this.logger?.debug(`Fetching rejected.`);
           this.setRejected();
           return;
         }
         if (this.client && this?.client?.addChain) {
+          this.logger?.debug(`Going to add chain ${this.chainId}`);
           await this.client.addChain(this.chainRecord);
           account = await this.client.getSimpleAccount(this.chainId);
         } else {
