@@ -1,19 +1,54 @@
 import Link from "next/link";
-import { useChains } from "@cosmos-kit/react-lite";
 import { Button } from "components/button";
+import { useChains } from "@cosmos-kit/react-lite";
+import { useState, MouseEvent } from "react";
+
+const CHAIN_NAMES = ['cosmoshub', 'osmosis', 'juno', 'akash', 'stargaze'];
+const CHAIN_BUTTONS = [
+  { value: 'mars', label: 'Add Mars Hub' },
+  { value: 'migaloo', label: 'Add Migaloo' },
+  { value: 'chihuahua', label: 'Add Chihuahua' }
+];
 
 export default function () {
-  const chains = useChains(['cosmoshub', 'osmosis', 'stargaze', 'juno', 'akash']);
+  const [names, setNames] = useState(CHAIN_NAMES);
+  const chains = useChains(names);
   const connected = Object.values(chains).every(chain => chain.isWalletConnected);
   const { connect, openView } = chains.cosmoshub;
+
+  function onReset() {
+    setNames(CHAIN_NAMES);
+  }
+
+  function onAddChain(e: MouseEvent) {
+    const name = (e.target as HTMLButtonElement).dataset.name || '';
+    if (names.includes(name)) return;
+    setNames([...names, name]);
+  }
   
   return <div className="space-y-4 mx-auto max-w-3xl">
-    <pre>
-      <code>const chains = useChains(['cosmoshub', 'osmosis', 'stargaze', 'juno', 'akash']);</code>
-    </pre>
+    <div className="flex font-mono space-x-4">
+      <p>Chains: </p>
+      {names.map((name) => <p key={name} className="font-semibold">{name}</p>)}
+    </div>
+    <div className="flex space-x-2">
+      {CHAIN_BUTTONS.map(({ value, label }) => (
+        <Button
+          key={value}
+          data-name={value}
+          onClick={onAddChain}
+          disabled={names.includes(value)}
+        >
+          {label}
+        </Button>
+      ))}
+      <Button onClick={onReset}>Reset</Button>
+    </div>
+    <hr />
     <Button onClick={() => connected ? openView() : connect() }>
       { connected ? 'Disconnect' : 'Connect' }
     </Button>
+    <hr />
     <table className="table-fixed font-mono">
       <thead>
         <tr>
@@ -22,28 +57,15 @@ export default function () {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>chains.cosmoshub.address</td>
-          <td>{chains.cosmoshub.address}</td>
-        </tr>
-        <tr>
-          <td>chains.osmosis.address</td>
-          <td>{chains.osmosis.address}</td>
-        </tr>
-        <tr>
-          <td>chains.stargaze.address</td>
-          <td>{chains.stargaze.address}</td>
-        </tr>
-        <tr>
-          <td>chains.juno.address</td>
-          <td>{chains.juno.address}</td>
-        </tr>
-        <tr>
-          <td>chains.akash.address</td>
-          <td>{chains.akash.address}</td>
-        </tr>
+        {Object.entries(chains).map(([name, chain]) =>
+          <tr>
+            <td>chains.{name}.address</td>
+            <td>{chain.address}</td>
+          </tr>
+        )}
       </tbody>
     </table>
+    <hr />
     <p className="text-center"><Link href="/use-chain">See useChain</Link></p>
   </div>;
 }
