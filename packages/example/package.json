@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -30,7 +30,7 @@
     "@cosmos-kit/leap": "^2.5.1",
     "@cosmos-kit/leap-metamask-cosmos-snap": "^0.4.1",
     "@cosmos-kit/ledger": "^2.5.11",
-    "@cosmos-kit/react": "^2.9.15",
+    "@cosmos-kit/react": "^2.9.16",
     "@cosmos-kit/shell": "^2.5.1",
     "@cosmos-kit/station": "^2.4.11",
     "@cosmos-kit/vectis": "^2.5.1",
