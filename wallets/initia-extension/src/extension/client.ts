@@ -40,14 +40,11 @@ export class InitiaClient implements WalletClient {
   async getAccount(chainId: string): Promise<WalletAccount> {
     const offlineSigner = this.getOfflineSigner(chainId);
     const key = (await offlineSigner.getAccounts())[0];
-    const pubkey = key.pubkey;
-
-    console.log(Buffer.from(pubkey).toString('base64'));
 
     return {
       address: key.address,
       algo: key.algo as Algo,
-      pubkey: key.pubkey.length === 38 ? key.pubkey.slice(5) : key.pubkey,
+      pubkey: key.pubkey,
     };
   }
 
@@ -55,13 +52,5 @@ export class InitiaClient implements WalletClient {
     const offlineSigner = this.getOfflineSigner(chainId);
 
     return await offlineSigner.signDirect(signer, signDoc);
-  }
-
-  async sendTx(chainId: string, tx: Uint8Array) {
-    // HACK type for testing
-    return (await this.client.signAndBroadcast(
-      chainId,
-      tx
-    )) as unknown as Uint8Array;
   }
 }

@@ -5,7 +5,6 @@ import { ICON } from '../constant';
 export const initiaExtensionInfo: Wallet = {
   name: 'initia-extension',
   prettyName: 'Initia',
-  // TODO: replace with real logo
   logo: ICON,
   mode: 'extension',
   // In the Initia Mobile in-app browser, Initia is available in window.initia,
