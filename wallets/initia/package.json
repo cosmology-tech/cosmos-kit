@@ -1,16 +1,16 @@
 {
   "name": "@cosmos-kit/initia-extension",
   "version": "0.0.1",
-  "description": "@cosmos-kit/initia-extension is the Initia integration for CosmosKit",
-  "author": "kanisorn@alleslab.com",
+  "description": "@cosmos-kit/initia is the Initia integration for CosmosKit",
+  "author": "songwong@alleslab.com",
   "contributors": [
-    {
-      "name": "Kanisorn",
-      "email": "kanisorn@alleslab.com"
-    },
     {
       "name": "Songwong",
       "email": "songwong@alleslab.com"
+    },
+    {
+      "name": "Kanisorn",
+      "email": "kanisorn@alleslab.com"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -58,20 +58,8 @@
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "dist/"
-    ]
-  },
   "dependencies": {
-    "@chain-registry/keplr": "1.28.0",
-    "@cosmos-kit/core": "^2.7.11",
-    "@initia/initia.proto": "^0.1.20",
-    "@initia/shared": "^0.6.0"
-  },
-  "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28",
-    "@cosmjs/proto-signing": ">= 0.28"
+    "@cosmos-kit/initia-extension": "^0.0.1"
   },
   "gitHead": "162e087be99508a4bd560f7ffdd45d11a51a4801"
 }
