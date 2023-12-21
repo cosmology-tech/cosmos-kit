@@ -433,12 +433,16 @@ export class WalletManager extends StateBase {
               eventName,
               this._reconnectMap[wallet.walletName]!
             );
+            this.logger?.debug(`Add "${eventName}" event listener to window`);
           });
           wallet.walletInfo.connectEventNamesOnClient?.forEach(
             async (eventName) => {
               wallet.client?.on?.(
                 eventName,
                 this._reconnectMap[wallet.walletName]!
+              );
+              this.logger?.debug(
+                `Add "${eventName}" event listener to wallet client ${wallet.walletPrettyName}`
               );
             }
           );

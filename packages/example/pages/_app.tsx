@@ -80,7 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...finWallets,
         ]}
         throwErrors={false}
-        subscribeConnectEvents={false}
+        subscribeConnectEvents={true}
         defaultNameService={"stargaze"}
         walletConnectOptions={{
           signClient: {
