@@ -114,7 +114,16 @@ export function WalletModal({
           break;
       }
     }
-  }, [isOpen, qrState, walletStatus, qrMsg, message]);
+  }, [qrState, walletStatus, qrMsg, message]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (walletStatus === 'Connected') {
+      setCurrentView(ModalView.Connected);
+    } else {
+      setCurrentView(ModalView.WalletList);
+    }
+  }, [isOpen]);
 
   const onCloseModal = useCallback(() => {
     setOpen(false);

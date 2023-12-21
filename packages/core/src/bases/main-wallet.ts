@@ -71,11 +71,12 @@ export abstract class MainWalletBase extends WalletBase {
     });
   }
 
-  initClientError(error: Error | undefined) {
-    this.clientMutable.message = error?.message;
+  initClientError(error?: Error | string) {
+    const message = typeof error === 'string' ? error : error?.message;
+    this.clientMutable.message = message;
     this.clientMutable.state = State.Error;
     this.actions?.clientState?.(State.Error);
-    this.actions?.clientMessage?.(error?.message);
+    this.actions?.clientMessage?.(message);
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initClientError(error);
     });
@@ -85,7 +86,7 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  protected onSetChainsDone(): void {}
+  protected onSetChainsDone(): void { }
 
   private makeFinalEndpoints(chain: ChainRecord) {
     const isTestNet = chain.name.includes('testnet');
@@ -179,10 +180,15 @@ export abstract class MainWalletBase extends WalletBase {
   };
 
   async update() {
+    if (this.walletStatus === 'NotExist') {
+      return localStorage.removeItem('cosmos-kit@2:core//current-wallet');
+    }
+
     this.setData(void 0);
     this.setMessage(void 0);
     this.setState(State.Done);
     this.activate();
+
     if (this.walletName !== IFRAME_WALLET_ID) {
       window?.localStorage.setItem(
         'cosmos-kit@2:core//current-wallet',

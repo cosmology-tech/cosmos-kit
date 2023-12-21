@@ -64,11 +64,12 @@ export abstract class WalletBase extends StateBase {
     this.clientMutable.state = State.Done;
   }
 
-  initClientError(error: Error | undefined) {
-    this.clientMutable.message = error?.message;
+  initClientError(error?: Error | string) {
+    const message = typeof error === 'string' ? error : error?.message;
+    this.clientMutable.message = message;
     this.clientMutable.state = State.Error;
     if (this.walletInfo.mode !== 'wallet-connect') {
-      this.mutable.message = error?.message;
+      this.mutable.message = message;
       this.mutable.state = State.Error;
     }
   }
