@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.11...@cosmos-kit/core@2.7.12) (2023-12-22)
+
+### Bug Fixes
+
+- client and wallet state wrongly changed ([6a26281](https://github.com/cosmology-tech/cosmos-kit/commit/6a262816879b10d2ffb38f03149374822e0ad635))
+
 ## [2.7.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.10...@cosmos-kit/core@2.7.11) (2023-12-18)
 
 **Note:** Version bump only for package @cosmos-kit/core

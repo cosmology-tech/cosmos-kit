@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/omni",
-  "version": "2.4.14",
+  "version": "2.4.15",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -65,7 +65,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/omni-mobile": "^2.4.14"
+    "@cosmos-kit/omni-mobile": "^2.4.15"
   },
   "gitHead": "162e087be99508a4bd560f7ffdd45d11a51a4801"
 }

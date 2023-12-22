@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/keplr",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -65,8 +65,8 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/keplr-extension": "^2.6.1",
-    "@cosmos-kit/keplr-mobile": "^2.5.1"
+    "@cosmos-kit/keplr-extension": "^2.6.2",
+    "@cosmos-kit/keplr-mobile": "^2.5.2"
   },
   "gitHead": "162e087be99508a4bd560f7ffdd45d11a51a4801"
 }
