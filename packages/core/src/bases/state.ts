@@ -60,6 +60,11 @@ export class StateBase {
   }
 
   setState(state: State) {
+    this.logger?.debug(
+      `[State Change] ${this.state} (${
+        (this as any).walletStatus
+      }) -> ${state} (${(this as any).chainName}/${(this as any).walletName})`
+    );
     this._mutable.state = state;
     this.actions?.state?.(state);
   }

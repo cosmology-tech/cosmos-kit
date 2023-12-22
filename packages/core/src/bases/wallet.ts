@@ -57,19 +57,29 @@ export abstract class WalletBase extends StateBase {
 
   initingClient() {
     this.clientMutable.state = State.Pending;
+    this.clientMutable.message = void 0;
+    this.clientMutable.data = void 0;
   }
 
   initClientDone(client: WalletClient | undefined) {
+    if (this.walletName === 'xdefi-extension') {
+      throw new Error('tt');
+    }
     this.clientMutable.data = client;
     this.clientMutable.state = State.Done;
+    this.clientMutable.message = void 0;
   }
 
   initClientError(error: Error | undefined) {
+    this.logger?.error(
+      `${this.walletPrettyName} initClientError: ${error?.message}`
+    );
     this.clientMutable.message = error?.message;
     this.clientMutable.state = State.Error;
-    if (this.walletInfo.mode !== 'wallet-connect') {
-      this.mutable.message = error?.message;
-      this.mutable.state = State.Error;
+    if (this.isModeExtension) {
+      this.setClientNotExist();
+    } else {
+      this.setError(`InitClientError: ${error.message}`);
     }
   }
 
@@ -151,7 +161,9 @@ export abstract class WalletBase extends StateBase {
   protected _disconnect = async (sync?: boolean) => {
     await this.callbacks?.beforeDisconnect?.();
     await this.client?.disconnect?.();
-    this.reset();
+    if (this.clientMutable.state !== State.Error) {
+      this.reset();
+    }
     if (this.walletName !== IFRAME_WALLET_ID) {
       window.localStorage.removeItem('cosmos-kit@2:core//current-wallet');
     }
@@ -185,9 +197,9 @@ export abstract class WalletBase extends StateBase {
   setError(e?: Error | string) {
     this.setState(State.Error);
     this.setMessage(typeof e === 'string' ? e : e?.message);
-    if (typeof e !== 'string' && e?.stack) {
-      this.logger?.error(e.stack);
-    }
+    // if (typeof e !== 'string' && e?.stack) {
+    //   this.logger?.error(e.stack);
+    // }
     if (this.throwErrors) {
       throw new Error(this.message);
     }
@@ -210,7 +222,11 @@ export abstract class WalletBase extends StateBase {
 
     if (sync) {
       this.emitter?.emit('sync_connect', (this as any).chainName);
-      this.logger?.debug('[WALLET EVENT] Emit `sync_connect`');
+      this.logger?.debug(
+        `[Event Emit] \`sync_connect\` (${(this as any).chainName}/${
+          this.walletName
+        })`
+      );
     }
 
     try {

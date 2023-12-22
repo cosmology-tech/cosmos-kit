@@ -341,7 +341,7 @@ export class WalletManager extends StateBase {
     ) {
       return;
     }
-    this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
+    this.logger?.debug('[Event Emit] `refresh_connection` (manager)');
     this.coreEmitter.emit('refresh_connection');
     await this.getMainWallet(walletName).connect();
     await this.getMainWallet(walletName)
@@ -453,9 +453,6 @@ export class WalletManager extends StateBase {
         } else {
           await wallet.initClient();
         }
-        wallet.chainWalletMap?.forEach((chainWallet) => {
-          chainWallet.initClientDone(wallet.client);
-        });
       })
     );
 

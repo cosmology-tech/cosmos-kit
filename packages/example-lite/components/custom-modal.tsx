@@ -1,6 +1,6 @@
-import { WalletModalProps } from "@cosmos-kit/core";
+import { WalletModalProps, WalletStatus } from "@cosmos-kit/core";
 import React from "react";
-import { Button, Modal, Stack } from "react-bootstrap";
+import { Badge, Button, Modal, Stack } from "react-bootstrap";
 
 export const CustomModal = ({
   isOpen,
@@ -9,11 +9,6 @@ export const CustomModal = ({
 }: WalletModalProps) => {
   const onCloseModal = () => {
     setOpen(false);
-  };
-
-  const onConnect = (connect: () => Promise<void>) => {
-    connect?.();
-    onCloseModal();
   };
 
   return (
@@ -29,11 +24,44 @@ export const CustomModal = ({
         <Modal.Body>
           <Stack gap={3}>
             {walletRepo?.wallets.map(
-              ({ walletName, connect, walletInfo, walletStatus }) => (
-                <Button key={walletName} onClick={() => onConnect(connect)}>
-                  {walletInfo.prettyName} - {walletStatus}
-                </Button>
-              )
+              ({
+                walletName,
+                connect,
+                disconnect,
+                walletInfo,
+                walletStatus,
+                message,
+              }) => {
+                let button;
+                switch (walletStatus) {
+                  case WalletStatus.Disconnected:
+                    button = <Button onClick={() => connect()}>Connect</Button>;
+                    break;
+                  case WalletStatus.NotExist:
+                    button = <Button>Install</Button>;
+                    break;
+                  case WalletStatus.Connected:
+                    button = (
+                      <Button onClick={() => disconnect()}>Disconnect</Button>
+                    );
+                    break;
+                  case WalletStatus.Error:
+                    button = (
+                      <div className="p-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3">
+                        {message}
+                      </div>
+                    );
+                    break;
+                }
+                return (
+                  <Stack key={walletName} direction="horizontal" gap={3}>
+                    <div className="p-2">
+                      {walletInfo.prettyName} - {walletStatus}
+                    </div>
+                    <div className="p-2 ms-auto"> {button}</div>
+                  </Stack>
+                );
+              }
             )}
           </Stack>
         </Modal.Body>

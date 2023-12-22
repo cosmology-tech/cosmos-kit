@@ -15,7 +15,7 @@ import { wallets as omniMobile } from '@cosmos-kit/omni-mobile';
 import { wallets as finExtension } from '@cosmos-kit/fin-extension';
 import { wallets as stationExtension } from '@cosmos-kit/station-extension';
 import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
-import { wallets as shellExtension } from '@cosmos-kit/shell-extension'
+import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
 import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
 
@@ -41,21 +41,27 @@ export type WalletList<
   M extends MainWalletBase | null
 > = (E extends MainWalletBase
   ? M extends MainWalletBase
-  ? [E, M]
-  : [E]
+    ? [E, M]
+    : [E]
   : M extends MainWalletBase
   ? [M]
   : []) & {
-    mobile: M | null;
-    extension: E | null;
-  };
+  mobile: M | null;
+  extension: E | null;
+};
 
 export function createWalletList<
   ExtensionWallet extends MainWalletBase | null,
   MobileWallet extends MainWalletBase | null,
   MetaMaskSnap extends MainWalletBase | null
->(extension: ExtensionWallet | null, mobile: MobileWallet | null, snap?: MetaMaskSnap) {
-  const list = [extension, mobile, snap].filter((wallet) => Boolean(wallet)) as WalletList<ExtensionWallet, MobileWallet>;
+>(
+  extension: ExtensionWallet | null,
+  mobile: MobileWallet | null,
+  snap?: MetaMaskSnap
+) {
+  const list = [extension, mobile, snap].filter((wallet) =>
+    Boolean(wallet)
+  ) as WalletList<ExtensionWallet, MobileWallet>;
   list.mobile = mobile;
   list.extension = extension;
   return list;
@@ -67,7 +73,11 @@ export const cosmostation = createWalletList(
   cosmostationMobile[0]
 );
 export const ledger = ledgerUSB;
-export const leap = createWalletList(leapExtension[0], leapMobile[0], leapMetamaskCosmosSnap[0])
+export const leap = createWalletList(
+  leapExtension[0],
+  leapMobile[0],
+  leapMetamaskCosmosSnap[0]
+);
 export const station = createWalletList(stationExtension[0], null);
 export const exodus = createWalletList(exodusExtension[0], null);
 export const trust = createWalletList(null, trustMobile[0]);
@@ -109,16 +119,13 @@ export function defineGetters(wallets: MainWalletBase[]) {
     mobile: {
       get() {
         return this.filter(
-          (wallet: MainWalletBase) =>
-            wallet.walletInfo.mode === 'wallet-connect'
+          (wallet: MainWalletBase) => wallet.isModeWalletConnect
         );
       },
     },
     extension: {
       get() {
-        return this.filter(
-          (wallet: MainWalletBase) => wallet.walletInfo.mode === 'extension'
-        );
+        return this.filter((wallet: MainWalletBase) => wallet.isModeExtension);
       },
     },
   }) as SubWalletList;
@@ -145,18 +152,26 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   defineGetters(wallets);
 
   wallets.for = function (...ns: WalletName[]) {
-    const names = Array.from(new Set(ns))
+    const names = Array.from(new Set(ns));
     return defineGetters(
-      names.map((name: WalletName) =>
-        wallets.filter((wallet: MainWalletBase) => wallet.walletInfo.name.startsWith(name))).flat()
+      names
+        .map((name: WalletName) =>
+          wallets.filter((wallet: MainWalletBase) =>
+            wallet.walletInfo.name.startsWith(name)
+          )
+        )
+        .flat()
     );
   };
 
   wallets.not = function (...ns: WalletName[]) {
     const names = Array.from(new Set(ns));
     return defineGetters(
-      wallets.filter((wallet: MainWalletBase) =>
-        !names.some((name: WalletName) => wallet.walletInfo.name.startsWith(name))
+      wallets.filter(
+        (wallet: MainWalletBase) =>
+          !names.some((name: WalletName) =>
+            wallet.walletInfo.name.startsWith(name)
+          )
       )
     );
   };
@@ -178,5 +193,5 @@ export const wallets = createAllWalletList([
   ...fin,
   ...omni,
   ...coin98,
-  ...compass
+  ...compass,
 ]);
