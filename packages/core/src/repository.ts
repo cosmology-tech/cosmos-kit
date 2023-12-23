@@ -97,9 +97,7 @@ export class WalletRepo extends StateBase {
       );
       return void 0;
     }
-    return this.wallets.find(
-      (w) => !w.isWalletNotExist && !w.isWalletDisconnected
-    );
+    return this.wallets.find((w) => !w.isWalletDisconnected);
   }
 
   getWallet = (walletName: WalletName): ChainWalletBase | undefined => {
