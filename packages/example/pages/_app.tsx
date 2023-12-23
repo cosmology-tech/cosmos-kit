@@ -69,7 +69,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...web3AuthWallets,
           // ...trustWallets,
           // ...stationWallets,
-          // ...cosmostationWallets,
+          ...cosmostationWallets,
           // ...omniWallets,
           // ...exodusWallets,
           // ...shellWallets,
