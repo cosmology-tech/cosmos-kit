@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/frontier-extension",
-  "version": "2.4.13",
+  "version": "2.4.14",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@leapwallet.io",
   "contributors": [
@@ -59,7 +59,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.7.12"
+    "@cosmos-kit/core": "^2.7.13"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
