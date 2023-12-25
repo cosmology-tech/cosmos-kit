@@ -86,5 +86,6 @@
     "@cosmos-kit/trust": "^2.4.15",
     "@cosmos-kit/vectis": "^2.5.2",
     "@cosmos-kit/xdefi": "^2.4.14"
-  }
+  },
+  "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
 }

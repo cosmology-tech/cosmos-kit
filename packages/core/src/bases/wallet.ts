@@ -62,9 +62,6 @@ export abstract class WalletBase extends StateBase {
   }
 
   initClientDone(client: WalletClient | undefined) {
-    if (this.walletName === 'xdefi-extension') {
-      throw new Error('tt');
-    }
     this.clientMutable.data = client;
     this.clientMutable.state = State.Done;
     this.clientMutable.message = void 0;
