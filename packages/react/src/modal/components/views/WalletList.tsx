@@ -14,7 +14,7 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
     await wallet.connect(wallet.walletStatus !== 'NotExist');
-    if (wallet.walletStatus !== 'NotExist') {
+    if (!['Rejected', 'NotExist'].includes(wallet.walletStatus)) {
       onClose();
     }
   }, []);
