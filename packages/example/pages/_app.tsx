@@ -62,7 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={[...assets]}
         wallets={[
           ...keplrWallets,
-          ...leapWallets,
+          // ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...exodusWallets,
           // ...shellWallets,
           // ...vectisWallets,
-          // ...xdefiWallets,
+          ...xdefiWallets,
           // ...frontierWallets,
           // ...coin98Wallets,
           // ...finWallets,
