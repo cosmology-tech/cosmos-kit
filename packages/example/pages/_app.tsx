@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-imports */
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../style/global.css";
 import "@interchain-ui/react/styles";
 
