@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ninji@2.5.3...@cosmos-kit/ninji@2.5.4) (2023-12-26)
+
+**Note:** Version bump only for package @cosmos-kit/ninji
+
 ## [2.5.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ninji@2.5.2...@cosmos-kit/ninji@2.5.3) (2023-12-25)
 
 **Note:** Version bump only for package @cosmos-kit/ninji
