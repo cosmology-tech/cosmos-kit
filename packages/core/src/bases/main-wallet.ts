@@ -98,7 +98,7 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  protected onSetChainsDone(): void {}
+  protected onSetChainsDone(): void { }
 
   private makeFinalEndpoints(chain: ChainRecord) {
     const isTestNet = chain.name.includes('testnet');
@@ -192,6 +192,11 @@ export abstract class MainWalletBase extends WalletBase {
   };
 
   async update() {
+    // in case nonexist wallet is set as current wallet
+    if (this.walletStatus === 'NotExist') {
+      return localStorage.removeItem('cosmos-kit@2:core//current-wallet');
+    }
+
     this.setData(void 0);
     this.setMessage(void 0);
     this.setState(State.Done);

@@ -58,7 +58,7 @@ export default function () {
       </thead>
       <tbody>
         {Object.entries(chains).map(([name, chain]) =>
-          <tr>
+          <tr key={name}>
             <td>chains.{name}.address</td>
             <td>{chain.address}</td>
           </tr>
