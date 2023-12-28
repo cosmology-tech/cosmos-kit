@@ -46,6 +46,16 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     forceRender((i) => i + 1);
   }, [chainWalletContext.address]);
 
+  // temporary solution for sync not working when the used chain is changed without page rendering (only component rendering)
+  useEffect(() => {
+    const currentWallet = window.localStorage.getItem(
+      'cosmos-kit@2:core//current-wallet'
+    );
+    if (sync && chainWalletContext.isWalletDisconnected && currentWallet) {
+      connect(currentWallet);
+    }
+  });
+
   return {
     ...chainWalletContext,
     walletRepo,
