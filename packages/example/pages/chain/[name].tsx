@@ -1,9 +1,9 @@
 import { useChain } from "@cosmos-kit/react";
 import { chains } from "chain-registry";
 
-const chainNames = ["cosmoshub", "osmosis", "stargaze", "chihuahua"];
+export const chainNames = ["cosmoshub", "osmosis", "stargaze", "chihuahua"];
 
-const chainsInfo = chainNames.map((name) => {
+export const chainsInfo = chainNames.map((name) => {
   const chain = chains.find((chain) => chain.chain_name === name);
   return {
     name,
@@ -11,13 +11,15 @@ const chainsInfo = chainNames.map((name) => {
   };
 });
 
-function ChainLayout({
+export function ChainLayout({
   openModal,
   activeChain,
+  linkFormat,
   children,
 }: {
   openModal: () => void;
   activeChain: string;
+  linkFormat: string;
   children: JSX.Element;
 }) {
   return (
@@ -39,7 +41,7 @@ function ChainLayout({
                   className={`bd-links-link d-inline-block rounded ${
                     activeChain === name ? "active" : ""
                   }`}
-                  href={`/chain/${name}`}
+                  href={`${linkFormat}${name}`}
                 >
                   {prettyName}
                 </a>
@@ -55,7 +57,7 @@ function ChainLayout({
   );
 }
 
-function ChainTable({
+export function ChainTable({
   chainName,
   username,
   address,
@@ -96,7 +98,11 @@ export default function ChainPage(props: { name: string; prettyName: string }) {
   const { username, openView, address } = useChain(props.name);
 
   return (
-    <ChainLayout openModal={openView} activeChain={props.name}>
+    <ChainLayout
+      openModal={openView}
+      activeChain={props.name}
+      linkFormat={"/chain/"}
+    >
       <ChainTable
         chainName={props.prettyName}
         username={username}
