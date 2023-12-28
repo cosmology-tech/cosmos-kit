@@ -1,5 +1,6 @@
 import { useChain } from "@cosmos-kit/react";
 import { chains } from "chain-registry";
+import Link from "next/link";
 
 export const chainNames = ["cosmoshub", "osmosis", "stargaze", "chihuahua"];
 
@@ -37,14 +38,14 @@ export function ChainLayout({
           {chainsInfo.map(({ name, prettyName }) => {
             return (
               <li className="nav-item my-1" key={name}>
-                <a
+                <Link
                   className={`bd-links-link d-inline-block rounded ${
                     activeChain === name ? "active" : ""
                   }`}
                   href={`${linkFormat}${name}`}
                 >
                   {prettyName}
-                </a>
+                </Link>
               </li>
             );
           })}
