@@ -113,7 +113,7 @@ export class WalletRepo extends StateBase {
     this.actions?.viewOpen?.(false);
   };
 
-  connect = async (walletName?: WalletName, sync?: boolean) => {
+  connect = async (walletName?: WalletName, sync: boolean = true) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
       await wallet?.connect(sync);
@@ -122,7 +122,7 @@ export class WalletRepo extends StateBase {
     }
   };
 
-  disconnect = async (walletName?: WalletName, sync?: boolean) => {
+  disconnect = async (walletName?: WalletName, sync: boolean = true) => {
     if (walletName) {
       await this.getWallet(walletName)?.disconnect(sync);
     } else {
