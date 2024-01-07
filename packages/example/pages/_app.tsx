@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...snapWallet,
           // ...ledgerWallets,
           // ...web3AuthWallets,
-          // ...trustWallets,
+          ...trustWallets,
           // ...stationWallets,
           ...cosmostationWallets,
           // ...omniWallets,
@@ -142,6 +142,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         // //   Connected: CustomConnectedView,
         // // }}
         // walletModal={CustomModal}
+        // modalOptions={{ mobile: { displayQRCodeEveryTime: true } }}
       >
         <Component {...pageProps} />
       </ChainProvider>

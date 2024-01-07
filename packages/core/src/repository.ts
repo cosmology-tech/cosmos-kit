@@ -7,8 +7,10 @@ import { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
 import { NameService } from './name-service';
 import {
+  CallbackOptions,
   ChainRecord,
   DappEnv,
+  DisconnectOptions,
   ExtendedHttpEndpoint,
   WalletName,
 } from './types';
@@ -24,6 +26,7 @@ export class WalletRepo extends StateBase {
   namespace = 'cosmos';
   session: Session;
   repelWallet = true;
+  private callbackOptions?: CallbackOptions;
 
   constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
     super();
@@ -37,13 +40,20 @@ export class WalletRepo extends StateBase {
           beforeConnect: async () => {
             this.wallets.forEach(async (w2) => {
               if (!w2.isWalletDisconnected && w2 !== w) {
-                await w2.disconnect();
+                await w2.disconnect(
+                  false,
+                  this.callbackOptions?.beforeConnect?.disconnect
+                );
               }
             });
           },
         });
       });
     }
+  }
+
+  setCallbackOptions(options?: CallbackOptions) {
+    this.callbackOptions = options;
   }
 
   setEnv(env?: DappEnv): void {
@@ -122,11 +132,15 @@ export class WalletRepo extends StateBase {
     }
   };
 
-  disconnect = async (walletName?: WalletName, sync: boolean = true) => {
+  disconnect = async (
+    walletName?: WalletName,
+    sync: boolean = true,
+    options?: DisconnectOptions
+  ) => {
     if (walletName) {
-      await this.getWallet(walletName)?.disconnect(sync);
+      await this.getWallet(walletName)?.disconnect(sync, options);
     } else {
-      await this.current.disconnect(sync);
+      await this.current.disconnect(sync, options);
     }
   };
 

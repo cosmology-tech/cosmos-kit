@@ -3,7 +3,9 @@
 import EventEmitter from 'events';
 
 import {
+  CallbackOptions,
   Callbacks,
+  DisconnectOptions,
   DownloadInfo,
   IFRAME_WALLET_ID,
   Mutable,
@@ -155,9 +157,12 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  protected _disconnect = async (sync?: boolean) => {
+  protected _disconnect = async (
+    sync?: boolean,
+    options?: DisconnectOptions
+  ) => {
     await this.callbacks?.beforeDisconnect?.();
-    await this.client?.disconnect?.();
+    await this.client?.disconnect?.(options);
     if (this.clientMutable.state !== State.Error) {
       this.reset();
     }
@@ -171,8 +176,8 @@ export abstract class WalletBase extends StateBase {
     await this.callbacks?.afterDisconnect?.();
   };
 
-  disconnect = async (sync?: boolean) => {
-    await this._disconnect(sync);
+  disconnect = async (sync?: boolean, options?: DisconnectOptions) => {
+    await this._disconnect(sync, options);
   };
 
   setClientNotExist() {

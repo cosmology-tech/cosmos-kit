@@ -1,6 +1,7 @@
 import {
   ChainWalletBase,
   ChainWalletContext,
+  DisconnectOptions,
   WalletStatus,
 } from '@cosmos-kit/core';
 
@@ -75,8 +76,8 @@ export function getChainWalletContext(
     isWalletError: status === 'Error',
 
     connect: () => walletAssert(wallet?.connect, [void 0, sync], 'connect'),
-    disconnect: () =>
-      walletAssert(wallet?.disconnect, [void 0, sync], 'disconnect'),
+    disconnect: (options?: DisconnectOptions) =>
+      walletAssert(wallet?.disconnect, [void 0, sync, options], 'disconnect'),
     getRpcEndpoint: (isLazy?: boolean) =>
       walletAssert(wallet?.getRpcEndpoint, [isLazy], 'getRpcEndpoint'),
     getRestEndpoint: (isLazy?: boolean) =>

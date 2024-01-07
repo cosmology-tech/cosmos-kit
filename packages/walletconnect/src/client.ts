@@ -12,6 +12,7 @@ import {
   AppUrl,
   DappEnv,
   DirectSignDoc,
+  DisconnectOptions,
   ExpiredError,
   Logger,
   Mutable,
@@ -210,6 +211,20 @@ export class WCClient implements WalletClient {
         message: 'Clear inactive pairings.',
       });
       this.logger?.debug('Delete inactive pairing:', pairing.topic);
+    }
+  }
+
+  async deleteAllPairings() {
+    if (typeof this.signClient === 'undefined') {
+      throw new Error('WalletConnect is not initialized');
+    }
+
+    for (const pairing of this.signClient.pairing.getAll()) {
+      await this.signClient.pairing.delete(pairing.topic, {
+        code: 7001,
+        message: 'Clear pairings.',
+      });
+      this.logger?.debug('Delete pairing:', pairing.topic);
     }
   }
 
@@ -485,10 +500,13 @@ export class WCClient implements WalletClient {
     }
   }
 
-  async disconnect() {
+  async disconnect(options?: DisconnectOptions) {
     if (typeof this.signClient === 'undefined') {
       await this.init();
       // throw new Error('WalletConnect is not initialized');
+    }
+    if (options?.walletconnect?.removeAllPairings) {
+      await this.deleteAllPairings();
     }
     if (this.sessions.length === 0) {
       return;

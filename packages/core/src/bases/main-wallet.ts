@@ -5,6 +5,7 @@ import {
   ChainName,
   ChainRecord,
   DappEnv,
+  DisconnectOptions,
   EndpointOptions,
   IChainWallet,
   IFRAME_WALLET_ID,
@@ -98,7 +99,7 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  protected onSetChainsDone(): void { }
+  protected onSetChainsDone(): void {}
 
   private makeFinalEndpoints(chain: ChainRecord) {
     const isTestNet = chain.name.includes('testnet');
@@ -236,11 +237,15 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  async disconnectAll(activeOnly = true, exclude?: ChainName) {
+  async disconnectAll(
+    activeOnly = true,
+    exclude?: ChainName,
+    options?: DisconnectOptions
+  ) {
     const chainWalletList = this.getChainWalletList(activeOnly);
     for (const w of chainWalletList) {
       if (w.chainName !== exclude) {
-        await w.disconnect();
+        await w.disconnect(false, options);
       }
     }
   }

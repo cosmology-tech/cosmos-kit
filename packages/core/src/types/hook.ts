@@ -38,6 +38,7 @@ import {
   AppUrl,
   BroadcastMode,
   DirectSignDoc,
+  DisconnectOptions,
   NameServiceName,
   SignOptions,
   SuggestToken,
@@ -67,7 +68,7 @@ export interface ChainWalletContext {
   isWalletError: boolean;
 
   connect: () => Promise<void>;
-  disconnect: () => Promise<void>;
+  disconnect: (options?: DisconnectOptions) => Promise<void>;
   getRpcEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
   getRestEndpoint: (isLazy?: boolean) => Promise<string | ExtendedHttpEndpoint>;
   getStargateClient: () => Promise<StargateClient>;

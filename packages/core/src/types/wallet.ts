@@ -174,7 +174,7 @@ export interface WalletClient {
   appUrl?: Mutable<AppUrl>;
 
   connect?: (chainIds: string | string[], options?: any) => Promise<void>; // called when chain wallet connect is called
-  disconnect?: () => Promise<void>; // called when wallet disconnect is called
+  disconnect?: (options?: DisconnectOptions) => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
@@ -255,4 +255,20 @@ export interface NameServiceRegistry {
 
 export interface WalletConnectOptions {
   signClient: { projectId: string } & SignClientTypes.Options;
+}
+
+export interface DisconnectOptions {
+  walletconnect?: {
+    removeAllPairings?: boolean;
+  };
+}
+
+export interface ModalOptions {
+  mobile?: {
+    displayQRCodeEveryTime?: boolean; // if true, means remove all pairings when disconnect
+  };
+}
+
+export interface CallbackOptions {
+  beforeConnect?: { disconnect?: DisconnectOptions };
 }
