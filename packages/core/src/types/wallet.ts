@@ -133,7 +133,7 @@ export interface DirectSignDoc {
   /** SignDoc chainId */
   chainId?: string | null;
   /** SignDoc accountNumber */
-  accountNumber?: Long | null;
+  accountNumber?: bigint | null;
 }
 
 export declare enum BroadcastMode {

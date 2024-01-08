@@ -505,7 +505,7 @@ export class WCClient implements WalletClient {
       await this.init();
       // throw new Error('WalletConnect is not initialized');
     }
-    if (options?.walletconnect?.removeAllPairings) {
+    if (options?.walletconnect?.removeAllPairings === true) {
       await this.deleteAllPairings();
     }
     if (this.sessions.length === 0) {
@@ -691,7 +691,7 @@ export class WCClient implements WalletClient {
     return {
       signed: {
         chainId: signed.chainId,
-        accountNumber: Long.fromString(signed.accountNumber, false),
+        accountNumber: BigInt(signed.accountNumber),
         authInfoBytes: new Uint8Array(
           Buffer.from(signed.authInfoBytes, this.wcEncoding)
         ),

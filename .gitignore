@@ -21,3 +21,4 @@ packages/example/utils/tmp.ts
 /.yarnrc
 /.npmrc
 /.parcel-cache
+packages/my-example

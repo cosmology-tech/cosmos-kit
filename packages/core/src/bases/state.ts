@@ -75,6 +75,14 @@ export class StateBase {
   }
 
   setMessage(message: string | undefined) {
+    this.logger?.debug(
+      `[Message Set] ${message} (${(this as any).chainName}/${
+        (this as any).walletName
+      })`
+    );
+    if (message) {
+      throw new Error(message);
+    }
     this._mutable.message = message;
     this.actions?.message?.(message);
   }
