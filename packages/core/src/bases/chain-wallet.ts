@@ -402,7 +402,7 @@ export class ChainWalletBase extends WalletBase {
     const client = await this.getSigningClient(type);
     const gasEstimation = await client.simulate(this.address, messages, memo);
     return calculateFee(
-      Math.round(gasEstimation * (multiplier || 1.3)),
+      Math.round(gasEstimation * (multiplier || 1.4)),
       gasPrice
     );
   };

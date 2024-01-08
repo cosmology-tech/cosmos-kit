@@ -80,7 +80,7 @@ export class StateBase {
         (this as any).walletName
       })`
     );
-    if (message) {
+    if (message && message !== 'InitClient') {
       throw new Error(message);
     }
     this._mutable.message = message;
