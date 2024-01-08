@@ -31,7 +31,6 @@ import SignClient from '@walletconnect/sign-client';
 import { EngineTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
 import { getSdkError } from '@walletconnect/utils';
 import EventEmitter from 'events';
-import Long from 'long';
 
 import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
 import { CoreUtil } from './utils';

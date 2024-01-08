@@ -75,13 +75,13 @@
   "dependencies": {
     "@cosmos-kit/core": "^2.8.0",
     "@walletconnect/sign-client": "^2.9.0",
-    "@walletconnect/types": "2.10.4",
     "@walletconnect/utils": "^2.9.0",
     "events": "3.3.0"
   },
   "peerDependencies": {
-    "@cosmjs/amino": "^0.32.2",
-    "@cosmjs/proto-signing": "^0.32.2"
+    "@cosmjs/amino": ">=0.32.2",
+    "@cosmjs/proto-signing": ">=0.32.2",
+    "@walletconnect/types": "2.11.0"
   },
   "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
 }

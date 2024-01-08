@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@chain-registry/types": "0.17.0",
-    "@walletconnect/types": "2.10.4",
+    "@walletconnect/types": "2.11.0",
     "bowser": "2.11.0",
     "events": "3.3.0",
     "uuid": "^9.0.1",
