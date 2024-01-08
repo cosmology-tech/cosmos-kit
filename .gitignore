@@ -22,3 +22,4 @@ packages/example/utils/tmp.ts
 /.npmrc
 /.parcel-cache
 packages/my-example
+wallets/social-login

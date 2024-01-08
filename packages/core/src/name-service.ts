@@ -1,4 +1,4 @@
-import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import type { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { Bech32Address, NameServiceRegistry } from './types';
 
 export class NameService {

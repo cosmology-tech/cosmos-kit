@@ -1,5 +1,6 @@
 import { Actions, DappEnv, Data, Mutable, State, StateActions } from '../types';
-import { getWalletStatusFromState, Logger } from '../utils';
+import { getWalletStatusFromState } from '../utils';
+import type { Logger } from '../utils';
 
 export class StateBase {
   protected _mutable: Mutable<Data>;

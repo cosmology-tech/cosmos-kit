@@ -1,39 +1,40 @@
-import {
+import type {
   AminoSignResponse,
   OfflineAminoSigner,
   StdSignDoc,
 } from '@cosmjs/amino';
-import {
+import type {
   Algo,
   DirectSignResponse,
   OfflineDirectSigner,
 } from '@cosmjs/proto-signing';
-import {
+import type {
   AppUrl,
   DappEnv,
   DirectSignDoc,
   DisconnectOptions,
-  ExpiredError,
   Logger,
   Mutable,
-  RejectedError,
   SignOptions,
   SignType,
   SimpleAccount,
-  State,
   Wallet,
   WalletAccount,
   WalletClient,
   WalletClientActions,
   WalletConnectOptions,
 } from '@cosmos-kit/core';
-import SignClient from '@walletconnect/sign-client';
-import { EngineTypes, PairingTypes, SessionTypes } from '@walletconnect/types';
-import { getSdkError } from '@walletconnect/utils';
-import EventEmitter from 'events';
+import { State, ExpiredError, RejectedError } from '@cosmos-kit/core';
+import type {
+  EngineTypes,
+  PairingTypes,
+  SessionTypes,
+} from '@walletconnect/types';
+import type EventEmitter from 'events';
 
 import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
 import { CoreUtil } from './utils';
+import SignClient from '@walletconnect/sign-client';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -514,6 +515,7 @@ export class WCClient implements WalletClient {
     for (const session of this.sessions) {
       try {
         this.logger?.debug('Delete session:', session);
+        const { getSdkError } = await import('@walletconnect/utils');
         await this.signClient.disconnect({
           topic: session.topic,
           reason: getSdkError('USER_DISCONNECTED'),

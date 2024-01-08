@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AssetList, Chain } from '@chain-registry/types';
+import type { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
-import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
+import type { ChainWalletBase, MainWalletBase } from './bases';
+import { StateBase } from './bases';
 import { iframeWallet } from './iframe';
-import { NameService } from './name-service';
+import type { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
   ChainName,
@@ -24,12 +25,8 @@ import {
   WalletConnectOptions,
   WalletName,
 } from './types';
-import {
-  convertChain,
-  getNameServiceRegistryFromName,
-  Logger,
-  Session,
-} from './utils';
+import { convertChain, Session } from './utils';
+import type { Logger } from './utils';
 
 export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
@@ -317,6 +314,7 @@ export class WalletManager extends StateBase {
       if (!this.defaultNameService) {
         throw new Error('defaultNameService is undefined');
       }
+      const { getNameServiceRegistryFromName } = await import('./utils');
       const registry = getNameServiceRegistryFromName(this.defaultNameService);
       if (!registry) {
         throw new Error(

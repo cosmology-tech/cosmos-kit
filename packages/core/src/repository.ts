@@ -1,11 +1,11 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-console */
-import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { StargateClient } from '@cosmjs/stargate';
+import type { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import type { StargateClient } from '@cosmjs/stargate';
 
-import { ChainWalletBase } from './bases/chain-wallet';
+import type { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
-import { NameService } from './name-service';
+import type { NameService } from './name-service';
 import {
   CallbackOptions,
   ChainRecord,
@@ -14,7 +14,7 @@ import {
   ExtendedHttpEndpoint,
   WalletName,
 } from './types';
-import { Session } from './utils';
+import type { Session } from './utils';
 
 /**
  * Store all ChainWallets for a particular Chain.

@@ -14,7 +14,7 @@ import {
   WalletClient,
   WalletStatus,
 } from '../types';
-import { ChainWalletBase } from './chain-wallet';
+import type { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
 
 export abstract class MainWalletBase extends WalletBase {

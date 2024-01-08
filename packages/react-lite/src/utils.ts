@@ -10,11 +10,11 @@ export function getChainWalletContext(
   wallet?: ChainWalletBase,
   sync = true
 ): ChainWalletContext {
-  function walletAssert(
+  const walletAssert = (
     func: ((...params: any[]) => any | undefined) | undefined,
     params: any[] = [],
     name: string
-  ) {
+  ) => {
     if (!wallet) {
       throw new Error(
         `Wallet is undefined. Please choose a wallet to connect first.`
@@ -28,7 +28,7 @@ export function getChainWalletContext(
     }
 
     return func(...params);
-  }
+  };
 
   function clientMethodAssert(
     func: ((...params: any[]) => any | undefined) | undefined,

@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import EventEmitter from 'events';
+import type EventEmitter from 'events';
 
 import {
-  CallbackOptions,
   Callbacks,
   DisconnectOptions,
   DownloadInfo,
@@ -14,7 +13,8 @@ import {
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, RejectedError, Session } from '../utils';
+import { ClientNotExistError, RejectedError } from '../utils';
+import type { Session } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase extends StateBase {

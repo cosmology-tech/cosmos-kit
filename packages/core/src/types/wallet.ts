@@ -49,7 +49,11 @@ export interface DownloadInfo extends DappEnv {
   link: string;
 }
 
-export type WalletMode = 'ledger' | 'extension' | 'wallet-connect';
+export type WalletMode =
+  | 'ledger'
+  | 'extension'
+  | 'wallet-connect'
+  | 'social-login';
 
 export interface Metadata {
   name: string;
