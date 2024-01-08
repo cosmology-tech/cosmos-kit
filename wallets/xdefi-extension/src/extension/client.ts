@@ -4,6 +4,7 @@ import { BroadcastMode, SignType } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { XDEFI } from './types';
+import Long from 'long';
 
 export class XDEFIClient implements WalletClient {
   readonly client: XDEFI;
@@ -96,7 +97,10 @@ export class XDEFIClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

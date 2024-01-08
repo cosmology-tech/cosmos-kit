@@ -63,8 +63,9 @@
     "@cosmos-kit/core": "^2.8.0"
   },
   "peerDependencies": {
-    "@cosmjs/amino": "^0.32.2",
-    "@cosmjs/proto-signing": "^0.32.2"
+    "@cosmjs/amino": ">=0.32.2",
+    "@cosmjs/proto-signing": ">=0.32.2",
+    "cosmjs-types": ">=0.9.0"
   },
   "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
 }

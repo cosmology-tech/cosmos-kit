@@ -67,8 +67,8 @@
     "@terra-money/wallet-types": "^3.11.2"
   },
   "peerDependencies": {
-    "@cosmjs/amino": "^0.32.2",
-    "@cosmjs/proto-signing": "^0.32.2"
+    "@cosmjs/amino": ">=0.32.2",
+    "@cosmjs/proto-signing": ">=0.32.2"
   },
   "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
 }

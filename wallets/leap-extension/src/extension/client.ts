@@ -11,6 +11,7 @@ import {
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Leap } from './types';
+import Long from 'long';
 
 export class LeapClient implements WalletClient {
   readonly client: Leap;
@@ -139,7 +140,10 @@ export class LeapClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

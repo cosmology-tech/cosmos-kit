@@ -127,13 +127,13 @@ export interface SignOptions {
 
 export interface DirectSignDoc {
   /** SignDoc bodyBytes */
-  bodyBytes?: Uint8Array | null;
+  bodyBytes: Uint8Array | null;
   /** SignDoc authInfoBytes */
-  authInfoBytes?: Uint8Array | null;
+  authInfoBytes: Uint8Array | null;
   /** SignDoc chainId */
-  chainId?: string | null;
+  chainId: string | null;
   /** SignDoc accountNumber */
-  accountNumber?: bigint | null;
+  accountNumber: bigint | null;
 }
 
 export declare enum BroadcastMode {

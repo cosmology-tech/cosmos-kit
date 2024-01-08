@@ -4,6 +4,7 @@ import { BroadcastMode, SignType } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Frontier } from './types';
+import Long from 'long';
 
 export class FrontierClient implements WalletClient {
   readonly client: Frontier;
@@ -96,7 +97,10 @@ export class FrontierClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

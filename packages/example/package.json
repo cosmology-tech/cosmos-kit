@@ -21,6 +21,7 @@
     }
   },
   "dependencies": {
+    "@cosmjs/math": "0.29.0",
     "@cosmos-kit/coin98": "^2.6.0",
     "@cosmos-kit/core": "^2.8.0",
     "@cosmos-kit/cosmostation": "^2.6.0",
@@ -47,7 +48,7 @@
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "cosmjs-utils": "0.1.0",
-    "juno-network": "0.9.0",
+    "juno-network": "^0.15.1",
     "next": "^13",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
@@ -55,7 +56,12 @@
     "react-icons": "4.7.1",
     "react-no-ssr": "^1.1.0",
     "tailwind-merge": "^1.13.2",
-    "tailwindcss-animate": "^1.0.6"
+    "tailwindcss-animate": "^1.0.6",
+    "@cosmjs/amino": ">=0.32.2",
+    "@cosmjs/cosmwasm-stargate": ">=0.32.2",
+    "@cosmjs/proto-signing": ">=0.32.2",
+    "@cosmjs/stargate": ">=0.32.2",
+    "cosmjs-types": ">=0.9.0"
   },
   "devDependencies": {
     "@babel/preset-env": "7.22.7",
@@ -73,8 +79,5 @@
     "shadcn-ui": "0.2.3",
     "tailwindcss": "3.3.2",
     "typescript": "^5"
-  },
-  "peerDependencies": {
-    "@cosmjs/math": "0.29.0"
   }
 }

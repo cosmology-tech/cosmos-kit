@@ -5,7 +5,7 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { Algo, DirectSignResponse } from '@cosmjs/proto-signing';
-import { ChainRecord, SignType } from '@cosmos-kit/core';
+import { ChainRecord, DirectSignDoc, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
 import {
   ChainInfo,
@@ -17,10 +17,11 @@ import {
   connectSnap,
   getKey,
   getSnap,
-  ProviderLong,
   requestSignAmino,
   requestSignature,
 } from '@leapwallet/cosmos-snap-provider';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+
 import Long from 'long';
 
 export class CosmosSnapClient implements WalletClient {
@@ -87,7 +88,13 @@ export class CosmosSnapClient implements WalletClient {
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return new CosmjsOfflineSigner(chainId);
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signDirect: (signerAddress: string, signDoc: SignDoc) =>
+        this.signDirect(chainId, signerAddress, signDoc),
+    };
   }
 
   async signAmino(
@@ -102,31 +109,26 @@ export class CosmosSnapClient implements WalletClient {
   async signDirect(
     chainId: string,
     signer: string,
-    signDoc: {
-      bodyBytes?: Uint8Array | null;
-      authInfoBytes?: Uint8Array | null;
-      chainId?: string | null;
-      accountNumber?: ProviderLong | null;
-    }
+    signDoc: DirectSignDoc
   ): Promise<DirectSignResponse> {
-    const signature = requestSignature(
-      chainId,
-      signer,
-      signDoc
-    ) as unknown as DirectSignResponse;
+    const _accountNumber = Long.fromString(signDoc.accountNumber.toString());
+    const signature = requestSignature(chainId, signer, {
+      ...signDoc,
+      accountNumber: _accountNumber,
+    }) as unknown as DirectSignResponse;
 
     const accountNumber = signDoc.accountNumber;
     const modifiedAccountNumber = new Long(
-      accountNumber!.low,
-      accountNumber!.high,
-      accountNumber!.unsigned
+      _accountNumber!.low,
+      _accountNumber!.high,
+      _accountNumber!.unsigned
     );
 
     return {
       signature: signature.signature,
       signed: {
         ...signature.signed,
-        accountNumber: modifiedAccountNumber,
+        accountNumber: BigInt(modifiedAccountNumber.toString()),
         authInfoBytes: new Uint8Array(
           Object.values(signature.signed.authInfoBytes)
         ),

@@ -12,6 +12,7 @@ import {
 } from '@cosmos-kit/core';
 
 import { Fin } from './types';
+import Long from 'long';
 
 export class FinClient implements WalletClient {
   readonly client: Fin;
@@ -125,7 +126,10 @@ export class FinClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

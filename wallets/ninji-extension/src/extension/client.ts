@@ -11,6 +11,7 @@ import {
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Ninji } from './types';
+import Long from 'long';
 
 export class NinjiClient implements WalletClient {
   readonly client: Ninji;
@@ -127,7 +128,10 @@ export class NinjiClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

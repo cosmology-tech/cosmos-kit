@@ -1,6 +1,6 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { StdSignature, StdSignDoc } from '@cosmjs/amino';
-import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { Algo } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
   ChainRecord,
@@ -12,6 +12,8 @@ import {
 } from '@cosmos-kit/core';
 
 import { Coin98 } from './types';
+import Long from 'long';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export class Coin98Client implements WalletClient {
   readonly client: Coin98;
@@ -80,7 +82,13 @@ export class Coin98Client implements WalletClient {
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signDirect: (signerAddress: string, signDoc: SignDoc) =>
+        this.signDirect(chainId, signerAddress, signDoc),
+    };
   }
 
   async addChain(chainInfo: ChainRecord) {
@@ -122,12 +130,22 @@ export class Coin98Client implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(
+    const resp = await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
+    return {
+      ...resp,
+      signed: {
+        ...resp.signed,
+        accountNumber: BigInt(resp.signed.accountNumber.toString()),
+      },
+    };
   }
 
   async signArbitrary(
