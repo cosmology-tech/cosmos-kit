@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.1...@cosmos-kit/core@2.8.2) (2024-01-15)
+
+### Bug Fixes
+
+- wrong error throw ([9adffac](https://github.com/cosmology-tech/cosmos-kit/commit/9adffac4c86b9169e0664f880dd916f1107d934b))
+
 ## [2.8.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.0...@cosmos-kit/core@2.8.1) (2024-01-08)
 
 **Note:** Version bump only for package @cosmos-kit/core

@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/initia",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "@cosmos-kit/initia is the Initia integration for CosmosKit",
   "author": "songwong@alleslab.com",
   "contributors": [
@@ -59,7 +59,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/initia-extension": "^0.2.1"
+    "@cosmos-kit/initia-extension": "^0.2.2"
   },
   "gitHead": "ced0ef8f4d2e0b1f6dd815003dc351f8eda39d6a"
 }
