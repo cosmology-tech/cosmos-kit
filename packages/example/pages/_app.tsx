@@ -32,7 +32,6 @@ import React, { useMemo } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
-import { CustomModal } from "components/custom-modal";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const web3AuthWallets = useMemo(
@@ -63,7 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={[...assets]}
         wallets={[
           ...keplrWallets,
-          // ...leapWallets,
+          ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,

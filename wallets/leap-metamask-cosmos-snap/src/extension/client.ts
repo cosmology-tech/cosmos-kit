@@ -154,6 +154,6 @@ export class CosmosSnapClient implements WalletClient {
       bip44: { coinType: chainRecord?.chain?.slip44 },
       bech32Config: { bech32PrefixAccAddr: chainRecord?.chain?.bech32_prefix },
     };
-    await experimentalSuggestChain(chainInfo);
+    await experimentalSuggestChain(chainInfo, {});
   }
 }

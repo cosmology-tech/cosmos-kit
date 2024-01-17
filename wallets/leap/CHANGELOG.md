@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@2.5.0...@cosmos-kit/leap@2.5.1) (2023-12-18)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+# [2.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@2.4.16...@cosmos-kit/leap@2.5.0) (2023-12-15)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+## [2.4.16](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@2.4.15...@cosmos-kit/leap@2.4.16) (2023-12-14)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
+## [2.4.15](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@2.4.14...@cosmos-kit/leap@2.4.15) (2023-12-14)
+
+**Note:** Version bump only for package @cosmos-kit/leap
+
 ## [2.4.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap@2.4.13...@cosmos-kit/leap@2.4.14) (2023-12-07)
 
 **Note:** Version bump only for package @cosmos-kit/leap

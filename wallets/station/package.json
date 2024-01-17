@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/station",
-  "version": "2.4.8",
+  "version": "2.4.11",
   "description": "@cosmos-kit/station is the Station integration for CosmosKit",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -53,7 +53,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/station-extension": "^2.5.8"
+    "@cosmos-kit/station-extension": "^2.5.11"
   },
-  "gitHead": "209629afb7bbed747db6f5fb81263cfe7f9740e9"
+  "gitHead": "162e087be99508a4bd560f7ffdd45d11a51a4801"
 }

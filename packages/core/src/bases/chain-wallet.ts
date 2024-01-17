@@ -20,6 +20,7 @@ import { NameService } from '../name-service';
 import {
   ChainRecord,
   CosmosClientType,
+  Endpoints,
   ExtendedHttpEndpoint,
   IFRAME_WALLET_ID,
   SignType,
@@ -39,23 +40,52 @@ import { WalletBase } from './wallet';
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;
   protected _chainRecord: ChainRecord;
-  rpcEndpoints?: (string | ExtendedHttpEndpoint)[] = [];
-  restEndpoints?: (string | ExtendedHttpEndpoint)[] = [];
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
   connectChains?: () => Promise<any>;
   offlineSigner?: OfflineSigner;
   namespace = 'cosmos';
-  isLazy?: boolean; // stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
   preferredSignType: SignType;
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
     this._chainRecord = chainRecord;
-    this.rpcEndpoints = chainRecord.preferredEndpoints?.rpc;
-    this.restEndpoints = chainRecord.preferredEndpoints?.rest;
     this.preferredSignType =
       chainRecord.clientOptions?.preferredSignType || 'amino';
+  }
+
+  get isTestNet() {
+    return this.chainName.includes('testnet');
+  }
+
+  get preferredEndpoints() {
+    return this.chainRecord.preferredEndpoints;
+  }
+
+  get rpcEndpoints() {
+    return this.preferredEndpoints?.rpc || [];
+  }
+
+  get restEndpoints() {
+    return this.preferredEndpoints?.rest || [];
+  }
+
+  /**
+   * stands for real `chainIsLazy` considered both `globalIsLazy` and `chainIsLazy` settings
+   */
+  get isLazy() {
+    return this.preferredEndpoints.isLazy;
+  }
+
+  addEndpoints(endpoints?: Endpoints) {
+    this._chainRecord.preferredEndpoints = {
+      isLazy: endpoints?.isLazy ?? this.preferredEndpoints?.isLazy,
+      rpc: [...(endpoints?.rpc || []), ...(this.preferredEndpoints?.rpc || [])],
+      rest: [
+        ...(endpoints?.rest || []),
+        ...(this.preferredEndpoints?.rest || []),
+      ],
+    };
   }
 
   get chainRecord() {
@@ -169,10 +199,12 @@ export class ChainWalletBase extends WalletBase {
         account = await this?.client?.getSimpleAccount(this.chainId);
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
+          this.logger?.debug(`Fetching rejected.`);
           this.setRejected();
           return;
         }
         if (this.client && this?.client?.addChain) {
+          this.logger?.debug(`Going to add chain ${this.chainId}`);
           await this.client.addChain(this.chainRecord);
           account = await this.client.getSimpleAccount(this.chainId);
         } else {

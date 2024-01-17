@@ -6,6 +6,7 @@ import {
   ChainRecord,
   DappEnv,
   EndpointOptions,
+  Endpoints,
   IChainWallet,
   IFRAME_WALLET_ID,
   State,
@@ -15,6 +16,7 @@ import {
 } from '../types';
 import { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
+import { Chain } from '@chain-registry/types';
 
 export abstract class MainWalletBase extends WalletBase {
   protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
@@ -85,36 +87,44 @@ export abstract class MainWalletBase extends WalletBase {
 
   protected onSetChainsDone(): void {}
 
+  private makeFinalEndpoints(chain: ChainRecord) {
+    const isTestNet = chain.name.includes('testnet');
+    const preferredEndpoints = {
+      isLazy: chain.preferredEndpoints?.isLazy,
+      rpc: [
+        ...(chain.preferredEndpoints?.rpc || []),
+        ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
+        ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
+        isTestNet
+          ? `https://rpc.testcosmos.directory/${chain.name}`
+          : `https://rpc.cosmos.directory/${chain.name}`,
+      ],
+      rest: [
+        ...(chain.preferredEndpoints?.rest || []),
+        ...(this.preferredEndpoints?.[chain.name]?.rest || []),
+        ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
+        isTestNet
+          ? `https://rest.testcosmos.directory/${chain.name}`
+          : `https://rest.cosmos.directory/${chain.name}`,
+      ],
+    };
+    return preferredEndpoints;
+  }
+
+  addEnpoints(endpoints?: EndpointOptions['endpoints']) {
+    this.getChainWalletList(false).forEach((wallet) => {
+      wallet.addEndpoints(endpoints[wallet.chainName]);
+    });
+  }
+
   setChains(chains: ChainRecord[], overwrite = true): void {
     if (overwrite || !this._chainWalletMap) {
       this._chainWalletMap = new Map();
     }
     chains.forEach((chain) => {
-      const isTestNet = chain.name.includes('testnet');
-
-      const preferredEndpoints = {
-        isLazy: chain.preferredEndpoints.isLazy,
-        rpc: [
-          ...(chain.preferredEndpoints?.rpc || []),
-          ...(this.preferredEndpoints?.[chain.name]?.rpc || []),
-          ...(chain.chain?.apis?.rpc?.map((e) => e.address) || []),
-          isTestNet
-            ? `https://rpc.testcosmos.directory/${chain.name}`
-            : `https://rpc.cosmos.directory/${chain.name}`,
-        ],
-        rest: [
-          ...(chain.preferredEndpoints?.rest || []),
-          ...(this.preferredEndpoints?.[chain.name]?.rest || []),
-          ...(chain.chain?.apis?.rest?.map((e) => e.address) || []),
-          isTestNet
-            ? `https://rest.testcosmos.directory/${chain.name}`
-            : `https://rest.cosmos.directory/${chain.name}`,
-        ],
-      };
-
       const chainWallet = new this.ChainWallet(this.walletInfo, {
         ...chain,
-        preferredEndpoints,
+        preferredEndpoints: this.makeFinalEndpoints(chain),
       });
 
       chainWallet.mainWallet = this;
@@ -124,7 +134,6 @@ export abstract class MainWalletBase extends WalletBase {
       chainWallet.session = this.session;
       chainWallet.walletConnectOptions = this.walletConnectOptions;
       chainWallet.initClient = this.initClient;
-      chainWallet.isLazy = chain.preferredEndpoints?.isLazy;
 
       this._chainWalletMap!.set(chain.name, chainWallet);
     });

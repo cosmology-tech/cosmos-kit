@@ -8,24 +8,25 @@
 
 ### properties
 
-| Name                   | Description                                                                       | Type               | Default |
-| ---------------------- | --------------------------------------------------------------------------------- | ------------------ | ------- |
-| **chainRecords**       | contains all chain registry and assets information                                | `ChainRecord[]`    | []      |
-| **walletRepos**        | contains all chain wallets information, each wallet repo identified with a chain  | `WalletRepo[]`     | []      |
-| **mainWallets**        | all main wallets information                                                      | `MainWalletBase[]` | []      |
-| **defaultNameService** | -                                                                                 | `NameServiceName`  | `icns`  |
+| Name                   | Description                                                                      | Type               | Default |
+| ---------------------- | -------------------------------------------------------------------------------- | ------------------ | ------- |
+| **chainRecords**       | contains all chain registry and assets information                               | `ChainRecord[]`    | []      |
+| **walletRepos**        | contains all chain wallets information, each wallet repo identified with a chain | `WalletRepo[]`     | []      |
+| **mainWallets**        | all main wallets information                                                     | `MainWalletBase[]` | []      |
+| **defaultNameService** | -                                                                                | `NameServiceName`  | `icns`  |
 
 ### methods
 
-| Name               | Description      | Parameters   |  Return Type   | Is Async   |  
-| ------------------ | -----------------| ------------- | ------------- | ---------- |
-| **getChainRecord** | get the basic info of a chain, which contains registry and assets information for this chain    | **chainName**: `ChainName`  | `ChainRecord` | N          |
-| **getChainLogo**   | get chain logo url                                                                              | **chainName**: `ChainName`  | `string \| undefined` | N  |
-| **getWalletRepo**  | get the wallet repository of a chain, which stores all chain wallets for this chain             | **chainName**: `ChainName`  | `WalletRepo`  | N          |
-| **getNameService** | get name service object supported on provided chain, if chain not provided, using `defaultNameService` in `ChainProvider` | **chainName?**: `ChainName` \| `NameService` | Y          |
-| **addChains**      | add new chains in provider  | **chains**: `Chain[]`,<br />**assetLists**: `AssetList[]`,<br />**signerOptions**?: `SignerOptions`,<br />**endpointOptions**?: `EndpointOptions` \| `void`  | N          |
-| **on**             | attach event handler to [events](#events) | **event**: `EventName`,<br />**handler**: `(params: any) => void`  | `void`        | N          |
-| **off**            | remove attached event handler  | **event**: `EventName`,<br />**handler**: `(params: any) => void`             | `void`        | N          |
+| Name               | Description                                                                                                               | Parameters                                                                                                                                               | Return Type           | Is Async |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------- |
+| **getChainRecord** | get the basic info of a chain, which contains registry and assets information for this chain                              | **chainName**: `ChainName`                                                                                                                               | `ChainRecord`         | N        |
+| **getChainLogo**   | get chain logo url                                                                                                        | **chainName**: `ChainName`                                                                                                                               | `string \| undefined` | N        |
+| **getWalletRepo**  | get the wallet repository of a chain, which stores all chain wallets for this chain                                       | **chainName**: `ChainName`                                                                                                                               | `WalletRepo`          | N        |
+| **getNameService** | get name service object supported on provided chain, if chain not provided, using `defaultNameService` in `ChainProvider` | **chainName?**: `ChainName`                                                                                                                              | `NameService`         | Y        |
+| **addChains**      | add new chains in provider                                                                                                | **chains**: `Chain[]`,<br />**assetLists**: `AssetList[]`,<br />**signerOptions**?: `SignerOptions`,<br />**endpoints**?: `EndpointOptions["endpoints"]` | `void`                | N        |
+| **addEndpoints**   | add new endpoints                                                                                                         | **endpoints**: `EndpointOptions["endpoints"]`                                                                                                            | `void`                | N        |
+| **on**             | attach event handler to [events](#events)                                                                                 | **event**: `EventName`,<br />**handler**: `(params: any) => void`                                                                                        | `void`                | N        |
+| **off**            | remove attached event handler                                                                                             | **event**: `EventName`,<br />**handler**: `(params: any) => void`                                                                                        | `void`                | N        |
 
 ## Events
 

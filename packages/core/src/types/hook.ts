@@ -146,8 +146,9 @@ export interface ManagerContext {
     chains: Chain[],
     assetLists: AssetList[],
     signerOptions?: SignerOptions,
-    endpointOptions?: EndpointOptions
+    endpoints?: EndpointOptions['endpoints']
   ) => void;
+  addEndpoints: (endpoints?: EndpointOptions['endpoints']) => void;
   getChainLogo: (chainName: ChainName) => string | undefined;
   getNameService: (chainName?: ChainName) => Promise<NameService>;
   on: (event: EventName, handler: (params: any) => void) => void;

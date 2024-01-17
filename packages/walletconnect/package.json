@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/walletconnect",
-  "version": "2.4.11",
+  "version": "2.4.14",
   "description": "cosmos-kit wallet connector using walletconnect",
   "author": "developers@cosmology.tech",
   "contributors": [
@@ -73,7 +73,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.7.8",
+    "@cosmos-kit/core": "^2.7.11",
     "@walletconnect/sign-client": "^2.9.0",
     "@walletconnect/types": "2.10.4",
     "@walletconnect/utils": "^2.9.0",
@@ -83,5 +83,5 @@
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
   },
-  "gitHead": "209629afb7bbed747db6f5fb81263cfe7f9740e9"
+  "gitHead": "162e087be99508a4bd560f7ffdd45d11a51a4801"
 }
