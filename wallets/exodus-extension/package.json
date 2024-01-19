@@ -61,5 +61,5 @@
     "@cosmjs/amino": ">=0.32.2",
     "@cosmjs/proto-signing": ">=0.32.2"
   },
-  "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
+  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
