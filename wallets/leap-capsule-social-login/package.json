@@ -1,8 +1,8 @@
 {
-  "name": "@cosmos-kit/leap-social-login",
+  "name": "@cosmos-kit/leap-capsule-social-login",
   "version": "0.3.10",
   "description": "cosmos-kit wallet connector",
-  "author": "mayank.yadav@leapwallet.io",
+  "author": "samvel@leapwallet.io",
   "contributors": [
     {
       "name": "Mayank Yadav"
@@ -61,7 +61,7 @@
   "dependencies": {
     "@chain-registry/keplr": "1.25.0",
     "@cosmos-kit/core": "^2.7.8",
-    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.26"
+    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.29"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

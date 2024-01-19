@@ -3,20 +3,19 @@ import { MainWalletBase } from "@cosmos-kit/core";
 
 import { ChainCosmosSocial } from "./chain-wallet";
 import { CosmosCapsuleClient } from "./client";
-import { CapsuleProvider, Environment } from "@leapwallet/cosmos-social-login-capsule-provider";
+import { CapsuleProvider, CapsuleEnvironment } from "@leapwallet/cosmos-social-login-capsule-provider";
 import { capsuleOptions } from "./types";
 
 export class LeapCapsuleWallet extends MainWalletBase {
-  options: capsuleOptions;
-  constructor({ walletInfo, options }: { walletInfo: Wallet, options: capsuleOptions }) {
+  constructor(walletInfo: Wallet) {
+    console.log('reached', walletInfo);
     super(walletInfo, ChainCosmosSocial);
-    this.options = options;
   }
 
   async initClient() {
     this.initingClient();
     try {
-      this.initClientDone(new CosmosCapsuleClient({ loginProvider: new CapsuleProvider({ apiKey: process.env.CAPSULE_KEY, env: process.env.CAPSULE_ENV as unknown as Environment }) }));
+      this.initClientDone(new CosmosCapsuleClient({ loginProvider: new CapsuleProvider({ apiKey: process.env.CAPSULE_KEY || process.env.NEXT_PUBLIC_CAPSULE_KEY, env: process.env.CAPSULE_ENV || process.env.NEXT_PUBLIC_CAPSULE_ENV as unknown as CapsuleEnvironment }) }));
     } catch (error) {
       this.initClientError(error as Error);
     }

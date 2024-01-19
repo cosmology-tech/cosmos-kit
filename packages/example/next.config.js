@@ -36,8 +36,9 @@ const path = require("path");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: { esmExternals: true },
   reactStrictMode: true,
-  transpilePackages: ["@cosmos-kit/web3auth"],
+  transpilePackages: ["@cosmos-kit/web3auth", "@cosmos-kit/leap-social-login", "@leapwallet/capsule-web-sdk-lite", "@leapwallet/cosmos-social-login-capsule-provider"],
   /**
    *
    * @param {import('webpack').Configuration} config
