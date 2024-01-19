@@ -66,4 +66,4 @@ Differences:
 
 `WalletRepo` provides a different perspective from chain side to consider all chain wallets in addition to `MainWalletBase`. It's useful in some dapps that chain is the key point rather than wallet.
 
-So far `WalletRepo` is only used in [`WalletModal`](https://docs.cosmoskit.com/provider/chain-provider#walletmodal) properties.
+So far `WalletRepo` is only used in [`WalletModal`](https://docs.cosmology.zone/cosmos-kit/provider/chain-provider#walletmodal) properties.

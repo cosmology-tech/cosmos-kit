@@ -21,7 +21,7 @@ CosmosKit is a wallet adapter for developers to build apps that quickly and easi
 
 ## Documentation
 
-[docs.cosmoskit.com](https://docs.cosmoskit.com)
+[docs.cosmology.zone/cosmos-kit](https://docs.cosmology.zone/cosmos-kit)
 
 ## Installation
 
@@ -31,11 +31,11 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 ## Provider
 
-- [ChainProvider](https://docs.cosmoskit.com/chain-provider)
+- [ChainProvider](https://docs.cosmology.zone/cosmos-kit/provider/chain-provider)
 
 ## Hooks
 
-- [useChain](https://docs.cosmoskit.com/use-chain)
+- [useChain](https://docs.cosmology.zone/cosmos-kit/hooks/use-chain)
 
 ## Related
 
