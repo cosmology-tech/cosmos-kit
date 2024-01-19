@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.zone",
   "contributors": [
@@ -71,21 +71,21 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/coin98": "^2.6.2",
-    "@cosmos-kit/compass": "^2.6.2",
-    "@cosmos-kit/cosmostation": "^2.6.2",
-    "@cosmos-kit/exodus": "^2.5.2",
-    "@cosmos-kit/fin": "^2.6.2",
-    "@cosmos-kit/frontier": "^2.5.2",
-    "@cosmos-kit/keplr": "^2.6.2",
-    "@cosmos-kit/leap": "^2.6.2",
-    "@cosmos-kit/ledger": "^2.6.2",
-    "@cosmos-kit/omni": "^2.5.2",
-    "@cosmos-kit/shell": "^2.6.2",
-    "@cosmos-kit/station": "^2.5.2",
-    "@cosmos-kit/trust": "^2.5.2",
-    "@cosmos-kit/vectis": "^2.6.2",
-    "@cosmos-kit/xdefi": "^2.5.2"
+    "@cosmos-kit/coin98": "^2.6.3",
+    "@cosmos-kit/compass": "^2.6.3",
+    "@cosmos-kit/cosmostation": "^2.6.3",
+    "@cosmos-kit/exodus": "^2.5.3",
+    "@cosmos-kit/fin": "^2.6.3",
+    "@cosmos-kit/frontier": "^2.5.3",
+    "@cosmos-kit/keplr": "^2.6.3",
+    "@cosmos-kit/leap": "^2.6.3",
+    "@cosmos-kit/ledger": "^2.6.3",
+    "@cosmos-kit/omni": "^2.5.3",
+    "@cosmos-kit/shell": "^2.6.3",
+    "@cosmos-kit/station": "^2.5.3",
+    "@cosmos-kit/trust": "^2.5.3",
+    "@cosmos-kit/vectis": "^2.6.3",
+    "@cosmos-kit/xdefi": "^2.5.3"
   },
   "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/okxwallet-extension",
-  "version": "2.6.2",
+  "version": "2.6.3",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.zone",
   "contributors": [
@@ -59,7 +59,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.8.2"
+    "@cosmos-kit/core": "^2.8.3"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">=0.32.2",

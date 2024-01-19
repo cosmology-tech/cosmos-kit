@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/ninji",
-  "version": "2.6.2",
+  "version": "2.6.3",
   "description": "cosmos-kit wallet connector",
   "author": "quangmv@coin98.finance",
   "contributors": [
@@ -54,7 +54,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/ninji-extension": "^2.7.2"
+    "@cosmos-kit/ninji-extension": "^2.7.3"
   },
   "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
 }
