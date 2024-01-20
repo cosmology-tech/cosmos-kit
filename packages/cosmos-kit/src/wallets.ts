@@ -1,4 +1,5 @@
 import { MainWalletBase } from '@cosmos-kit/core';
+import { SignerOptions } from '@cosmos-kit/core';
 import { wallets as coin98Extension } from '@cosmos-kit/coin98-extension';
 import { wallets as compassExtension } from '@cosmos-kit/compass-extension';
 import { wallets as cosmostationExtension } from '@cosmos-kit/cosmostation-extension';
@@ -18,6 +19,10 @@ import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
 import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
 import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
+
+export type {
+  SignerOptions
+};
 
 export type WalletName =
   | 'keplr'
@@ -41,14 +46,14 @@ export type WalletList<
   M extends MainWalletBase | null
 > = (E extends MainWalletBase
   ? M extends MainWalletBase
-    ? [E, M]
-    : [E]
+  ? [E, M]
+  : [E]
   : M extends MainWalletBase
   ? [M]
   : []) & {
-  mobile: M | null;
-  extension: E | null;
-};
+    mobile: M | null;
+    extension: E | null;
+  };
 
 export function createWalletList<
   ExtensionWallet extends MainWalletBase | null,
