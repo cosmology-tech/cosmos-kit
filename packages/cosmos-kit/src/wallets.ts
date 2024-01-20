@@ -1,6 +1,7 @@
 import { MainWalletBase } from '@cosmos-kit/core';
 import { wallets as coin98Extension } from '@cosmos-kit/coin98-extension';
 import { wallets as compassExtension } from '@cosmos-kit/compass-extension';
+import { wallets as okxwalletExtension } from '@cosmos-kit/okxwallet-extension';
 import { wallets as cosmostationExtension } from '@cosmos-kit/cosmostation-extension';
 import { wallets as cosmostationMobile } from '@cosmos-kit/cosmostation-mobile';
 import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
@@ -23,6 +24,7 @@ export type WalletName =
   | 'keplr'
   | 'cosmostation'
   | 'ledger'
+  | 'okxwallet'
   | 'station'
   | 'leap'
   | 'exodus'
@@ -79,6 +81,7 @@ export const leap = createWalletList(
   leapMetamaskCosmosSnap[0]
 );
 export const station = createWalletList(stationExtension[0], null);
+export const okxwallet = createWalletList(okxwalletExtension[0], null);
 export const exodus = createWalletList(exodusExtension[0], null);
 export const trust = createWalletList(null, trustMobile[0]);
 export const xdefi = createWalletList(xdefiExtension[0], null);
@@ -99,6 +102,7 @@ export type AllWalletList = SubWalletList & {
   keplr: typeof keplr;
   cosmostation: typeof cosmostation;
   ledger: typeof ledger;
+  okxwallet: typeof okxwallet;
   station: typeof station;
   leap: typeof leap;
   exodus: typeof exodus;
@@ -137,6 +141,7 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.keplr = keplr;
   wallets.cosmostation = cosmostation;
   wallets.ledger = ledger;
+  wallets.okxwallet = okxwallet;
   wallets.station = station;
   wallets.leap = leap;
   wallets.exodus = exodus;
@@ -183,6 +188,7 @@ export const wallets = createAllWalletList([
   ...keplr,
   ...leap,
   ...ledger,
+  ...okxwallet,
   ...station,
   ...trust,
   ...cosmostation,

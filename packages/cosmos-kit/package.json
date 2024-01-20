@@ -80,6 +80,7 @@
     "@cosmos-kit/keplr": "^2.6.5",
     "@cosmos-kit/leap": "^2.6.5",
     "@cosmos-kit/ledger": "^2.6.5",
+    "@cosmos-kit/okxwallet-extension": "^2.6.5",
     "@cosmos-kit/omni": "^2.5.5",
     "@cosmos-kit/shell": "^2.6.5",
     "@cosmos-kit/station": "^2.5.5",
