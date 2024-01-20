@@ -181,12 +181,12 @@ export function createAllWalletList(ws: MainWalletBase[]) {
 
 export const wallets = createAllWalletList([
   ...keplr,
-  ...cosmostation,
+  ...leap,
   ...ledger,
   ...station,
-  ...leap,
-  ...exodus,
   ...trust,
+  ...cosmostation,
+  ...exodus,
   ...xdefi,
   ...vectis,
   ...frontier,
