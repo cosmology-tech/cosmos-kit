@@ -1,5 +1,4 @@
 import { MainWalletBase } from '@cosmos-kit/core';
-import { SignerOptions } from '@cosmos-kit/core';
 import { wallets as coin98Extension } from '@cosmos-kit/coin98-extension';
 import { wallets as compassExtension } from '@cosmos-kit/compass-extension';
 import { wallets as cosmostationExtension } from '@cosmos-kit/cosmostation-extension';
@@ -19,10 +18,6 @@ import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
 import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
 import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
-
-export type {
-  SignerOptions
-};
 
 export type WalletName =
   | 'keplr'
