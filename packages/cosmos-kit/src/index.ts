@@ -1,15 +1,17 @@
 export { wallets } from './wallets';
 
 import {
-    SignerOptions,
     ChainName,
+    ChainWalletBase,
+    SignerOptions,
+    WalletModalProps,
     WalletStatus,
-    WalletModalProps
 } from '@cosmos-kit/core';
 
 export type {
+    ChainName,
+    ChainWalletBase,
+    SignerOptions,
     WalletModalProps,
     WalletStatus,
-    ChainName,
-    SignerOptions
 };
