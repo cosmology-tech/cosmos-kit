@@ -4,7 +4,6 @@ import { wallets as compassExtension } from '@cosmos-kit/compass-extension';
 import { wallets as okxwalletExtension } from '@cosmos-kit/okxwallet-extension';
 import { wallets as cosmostationExtension } from '@cosmos-kit/cosmostation-extension';
 import { wallets as cosmostationMobile } from '@cosmos-kit/cosmostation-mobile';
-import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
 import { wallets as frontierExtension } from '@cosmos-kit/frontier-extension';
 import { wallets as keplrExtension } from '@cosmos-kit/keplr-extension';
 import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
@@ -27,7 +26,6 @@ export type WalletName =
   | 'okxwallet'
   | 'station'
   | 'leap'
-  | 'exodus'
   | 'trust'
   | 'xdefi'
   | 'vectis'
@@ -82,7 +80,6 @@ export const leap = createWalletList(
 );
 export const station = createWalletList(stationExtension[0], null);
 export const okxwallet = createWalletList(okxwalletExtension[0], null);
-export const exodus = createWalletList(exodusExtension[0], null);
 export const trust = createWalletList(null, trustMobile[0]);
 export const xdefi = createWalletList(xdefiExtension[0], null);
 export const vectis = createWalletList(vectisExtension[0], null);
@@ -105,7 +102,6 @@ export type AllWalletList = SubWalletList & {
   okxwallet: typeof okxwallet;
   station: typeof station;
   leap: typeof leap;
-  exodus: typeof exodus;
   trust: typeof trust;
   xdefi: typeof xdefi;
   vectis: typeof vectis;
@@ -144,7 +140,6 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.okxwallet = okxwallet;
   wallets.station = station;
   wallets.leap = leap;
-  wallets.exodus = exodus;
   wallets.trust = trust;
   wallets.xdefi = xdefi;
   wallets.vectis = vectis;
@@ -192,7 +187,6 @@ export const wallets = createAllWalletList([
   ...station,
   ...trust,
   ...cosmostation,
-  ...exodus,
   ...xdefi,
   ...vectis,
   ...frontier,
