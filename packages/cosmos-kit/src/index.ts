@@ -8,10 +8,13 @@ import {
     WalletStatus,
 } from '@cosmos-kit/core';
 
+export {
+    WalletStatus,
+    ChainWalletBase
+};
+
 export type {
     ChainName,
-    ChainWalletBase,
     SignerOptions,
     WalletModalProps,
-    WalletStatus,
 };
