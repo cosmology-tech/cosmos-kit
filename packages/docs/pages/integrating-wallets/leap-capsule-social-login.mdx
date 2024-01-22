@@ -1,0 +1,118 @@
+# @cosmos-kit/leap-capsule-social-login
+
+
+`@cosmos-kit/leap-capsule-social-login` is the social login integration for CosmosKit using `@leapwallet/cosmos-social-login-capsule-provider`
+
+> You need install [@leapwallet/cosmos-social-login-capsule-provider-ui](https://www.npmjs.com/package/@leapwallet/cosmos-social-login-capsule-provider-ui) package for UI.
+
+> When you build it kindly have the environment vairables `CAPSULE_API_KEY` and  `CAPSULE_ENV` you can get it from [UseCapsule.com](https://usecapsule.com/)
+
+## NextJS
+
+For nextjs we recommend to load the module dynamic or async as it is not yet supporting SSR.
+
+> When you build it kindly have the environment vairables `NEXT_PUBLIC_CAPSULE_API_KEY` and  `NEXT_PUBLIC_CAPSULE_ENV` you can get it from [UseCapsule.com](https://usecapsule.com/)
+
+### In next.config.js
+
+>   transpilePackages: ["@cosmos-kit/leap-social-login", "@leapwallet/capsule-web-sdk-lite", "@leapwallet/cosmos-social-login-capsule-provider"],
+
+
+### For example
+
+```jsx
+
+function MyApp({ Component, pageProps }: AppProps) {
+  const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
+  const [wallets, setWallets] = useState<MainWalletBase[]>(defaultWallets)
+  const [loadingWallets, setLoadingWallet] = useState<boolean>(false);
+    
+  useEffect(() => {
+      setLoadingWallet(true)
+      import("@cosmos-kit/leap-capsule-social-login").then(
+        (CapsuleModule) => {
+          return CapsuleModule.wallets;
+        },
+      ).then((leapSocialLogin) => {
+        setWallets([...keplrWallets, ...leapWallets, ...leapSocialLogin])
+        setLoadingWallet(false);
+      })
+    }, [])
+
+
+    if (loadingWallets) {
+      return <>Loading...</>
+    }
+
+
+    return (
+      <RootLayout>
+        <ChainProvider
+          chains={chains}
+          assetLists={[...assets]}
+          wallets={wallets}
+          throwErrors={false}
+          subscribeConnectEvents={false}
+          defaultNameService={"stargaze"}
+          logLevel={"DEBUG"}
+          endpointOptions={{
+            isLazy: true,
+            endpoints: {
+              cosmoshub: {
+                rpc: [
+                  {
+                    url: "https://rpc.cosmos.directory/cosmoshub",
+                    headers: {},
+                  },
+                ],
+              },
+            },
+          }}
+          disableIframe={false}
+          >
+          <Component {...pageProps} />
+        </ChainProvider>
+        <CustomCapsuleModalViewX />
+      </RootLayout>
+    );
+}
+
+export default MyApp;
+
+
+const LeapSocialLogin = dynamic(
+  () =>
+    import("@leapwallet/cosmos-social-login-capsule-provider-ui").then(
+      (m) => m.CustomCapsuleModalView,
+    ),
+  { ssr: false },
+);
+
+export function CustomCapsuleModalViewX() {
+  const [showCapsuleModal, setShowCapsuleModal] = useState(false);
+
+  useEffect(() => {
+    window.openCapsuleModal = () => {
+      setShowCapsuleModal(true);
+    }
+  }, [])
+
+  return (
+    <>
+      <LeapSocialLogin
+        showCapsuleModal={showCapsuleModal}
+        setShowCapsuleModal={setShowCapsuleModal}
+        theme={'dark'}
+        onAfterLoginSuccessful={() => {
+          window.successFromCapsuleModal();
+        }}
+        onLoginFailure={
+          () => {
+            window.failureFromCapsuleModal();
+          }
+        }
+      />
+    </>
+  );
+}
+```

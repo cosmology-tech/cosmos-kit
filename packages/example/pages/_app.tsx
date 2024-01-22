@@ -29,13 +29,18 @@ import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
 import { ChainName } from "@cosmos-kit/core";
+import dynamic from "next/dynamic";
+import { MainWalletBase } from "@cosmos-kit/core";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
+  const [wallets, setWallets] = useState<MainWalletBase[]>(defaultWallets);
+  const [loadingWallets, setLoadingWallet] = useState<boolean>(false);
   // const web3AuthWallets = useMemo(
   //   () =>
   //     makeWeb3AuthWallets({
@@ -57,6 +62,22 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   []
   // );
 
+  useEffect(() => {
+    setLoadingWallet(true);
+    import("@cosmos-kit/leap-capsule-social-login")
+      .then((CapsuleModule) => {
+        return CapsuleModule.wallets;
+      })
+      .then((leapSocialLogin) => {
+        setWallets([...keplrWallets, ...leapWallets, ...leapSocialLogin]);
+        setLoadingWallet(false);
+      });
+  }, []);
+
+  if (loadingWallets) {
+    return <>Loading...</>;
+  }
+
   return (
     <RootLayout>
       <ChainProvider
@@ -65,20 +86,21 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={["cosmoshub"]}
         assetLists={[]}
         wallets={[
-          ...keplrWallets,
+          ...wallets,
+          // ...keplrWallets,
           // ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
           // ...web3AuthWallets,
-          ...trustWallets,
+          // ...trustWallets,
           // ...stationWallets,
-          ...cosmostationWallets,
+          // ...cosmostationWallets,
           // ...omniWallets,
           // ...exodusWallets,
           // ...shellWallets,
           // ...vectisWallets,
-          ...xdefiWallets,
+          // ...xdefiWallets,
           // ...frontierWallets,
           // ...coin98Wallets,
           // ...finWallets,
@@ -107,6 +129,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             switch (chainName) {
               case "osmosis":
                 return {
+                  // @ts-ignore
                   gasPrice: new GasPrice(Decimal.zero(1), "uosmo"),
                 };
               default:
@@ -151,8 +174,37 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <Component {...pageProps} />
       </ChainProvider>
+      <CustomCapsuleModalViewX />
     </RootLayout>
   );
 }
 
 export default MyApp;
+
+const LeapSocialLogin = dynamic(
+  () =>
+    import("@leapwallet/cosmos-social-login-capsule-provider-ui").then(
+      (m) => m.CustomCapsuleModalView
+    ),
+  { ssr: false }
+);
+
+export function CustomCapsuleModalViewX() {
+  const [showCapsuleModal, setShowCapsuleModal] = useState(false);
+
+  return (
+    <>
+      <LeapSocialLogin
+        showCapsuleModal={showCapsuleModal}
+        setShowCapsuleModal={setShowCapsuleModal}
+        theme={"dark"}
+        onAfterLoginSuccessful={() => {
+          window.successFromCapsuleModal();
+        }}
+        onLoginFailure={() => {
+          window.failureFromCapsuleModal();
+        }}
+      />
+    </>
+  );
+}

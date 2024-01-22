@@ -78,15 +78,15 @@ export class WalletManager extends StateBase {
     // iframe is disabled.
     wallets = [
       ...((typeof window !== 'undefined' && window.parent === window.self) ||
-      disableIframe
+        disableIframe
         ? []
         : [iframeWallet]),
       ...wallets,
     ];
     wallets.forEach(
       ({ walletName }) =>
-        (this._reconnectMap[walletName] = () =>
-          this._reconnect(walletName, true))
+      (this._reconnectMap[walletName] = () =>
+        this._reconnect(walletName, true))
     );
     this.init(
       chains,
@@ -129,7 +129,7 @@ export class WalletManager extends StateBase {
       wallet.throwErrors = this.throwErrors;
       wallet.session = this.session;
       wallet.walletConnectOptions = this.walletConnectOptions;
-      wallet.setChains(this.chainRecords);
+      wallet?.setChains(this.chainRecords);
       return wallet;
     });
 
