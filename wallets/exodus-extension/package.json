@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/exodus-extension",
-  "version": "2.5.5",
+  "version": "2.5.6",
   "description": "cosmos-kit wallet connector",
   "author": "devs@exodus.io",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -54,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.8.5",
+    "@cosmos-kit/core": "^2.8.6",
     "react-icons": "4.4.0"
   },
   "peerDependencies": {
