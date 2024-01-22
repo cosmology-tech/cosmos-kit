@@ -8,7 +8,6 @@ import { capsuleOptions } from "./types";
 
 export class LeapCapsuleWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {
-    console.log('reached', walletInfo);
     super(walletInfo, ChainCosmosSocial);
   }
 
