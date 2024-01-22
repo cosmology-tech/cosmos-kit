@@ -1,5 +1,6 @@
 import { Actions, DappEnv, Data, Mutable, State, StateActions } from '../types';
-import { getWalletStatusFromState, Logger } from '../utils';
+import { getWalletStatusFromState } from '../utils';
+import type { Logger } from '../utils';
 
 export class StateBase {
   protected _mutable: Mutable<Data>;
@@ -75,6 +76,11 @@ export class StateBase {
   }
 
   setMessage(message: string | undefined) {
+    this.logger?.debug(
+      `[Message Set] ${message} (${(this as any).chainName}/${
+        (this as any).walletName
+      })`
+    );
     this._mutable.message = message;
     this.actions?.message?.(message);
   }

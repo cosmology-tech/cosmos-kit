@@ -1,6 +1,10 @@
 import { Algo } from '@cosmjs/proto-signing';
-import { SignOptions, WalletAccount, WalletClient } from '@cosmos-kit/core';
-import { type SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import {
+  DirectSignDoc,
+  SignOptions,
+  WalletAccount,
+  WalletClient,
+} from '@cosmos-kit/core';
 
 import { InitiaWallet } from './type';
 
@@ -48,7 +52,7 @@ export class InitiaClient implements WalletClient {
     };
   }
 
-  async signDirect(chainId: string, signer: string, signDoc: SignDoc) {
+  async signDirect(chainId: string, signer: string, signDoc: DirectSignDoc) {
     const offlineSigner = this.getOfflineSigner(chainId);
 
     return await offlineSigner.signDirect(signer, signDoc);

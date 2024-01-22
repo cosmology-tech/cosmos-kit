@@ -4,6 +4,7 @@ import {
   Logger,
   LogLevel,
   MainWalletBase,
+  ModalOptions,
   NameServiceName,
   SessionOptions,
   SignerOptions,
@@ -33,6 +34,7 @@ export const ChainProvider = ({
   disableIframe = false,
   children,
   modalTheme = {},
+  modalOptions,
 }: {
   chains: Chain[];
   assetLists: AssetList[];
@@ -50,6 +52,7 @@ export const ChainProvider = ({
   disableIframe?: boolean;
   children: ReactNode;
   modalTheme?: ThemeCustomizationProps;
+  modalOptions?: ModalOptions;
 }) => {
   const logger = useMemo(() => new Logger(logLevel), []);
 
@@ -91,6 +94,7 @@ export const ChainProvider = ({
           ...defaultModalViews,
           ...modalViews,
         }}
+        modalOptions={modalOptions}
       />
     ),
     [defaultModalViews]

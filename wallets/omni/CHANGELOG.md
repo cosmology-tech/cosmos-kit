@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.5.4...@cosmos-kit/omni@2.5.5) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
+
+
+
+
+## [2.5.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.5.3...@cosmos-kit/omni@2.5.4) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
+
+
+
+
+## [2.5.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.5.2...@cosmos-kit/omni@2.5.3) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
+
+
+
+
+## [2.5.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.5.1...@cosmos-kit/omni@2.5.2) (2024-01-15)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
+## [2.5.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.5.0...@cosmos-kit/omni@2.5.1) (2024-01-08)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
+# [2.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.4.17...@cosmos-kit/omni@2.5.0) (2024-01-07)
+
+**Note:** Version bump only for package @cosmos-kit/omni
+
 ## [2.4.17](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/omni@2.4.16...@cosmos-kit/omni@2.4.17) (2023-12-26)
 
 **Note:** Version bump only for package @cosmos-kit/omni

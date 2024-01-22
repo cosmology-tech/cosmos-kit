@@ -1,5 +1,5 @@
 # Integrating Wallets
 
-[supported wallets](https://docs.cosmoskit.com/integrating-wallets#supported-wallets)
+[supported wallets](https://docs.cosmology.zone/cosmos-kit/integrating-wallets#supported-wallets)
 
-[How to integrate new wallets into CosmosKit](https://docs.cosmoskit.com/integrating-wallets/adding-new-wallets)
+[How to integrate new wallets into CosmosKit](https://docs.cosmology.zone/cosmos-kit/integrating-wallets/adding-new-wallets)

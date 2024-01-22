@@ -1,4 +1,4 @@
-import { ChainContext, ChainName } from '@cosmos-kit/core';
+import { ChainContext, ChainName, DisconnectOptions } from '@cosmos-kit/core';
 import { useContext, useEffect, useState } from 'react';
 
 import { walletContext } from '../provider';
@@ -64,7 +64,8 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     openView,
     closeView,
     connect: () => connect(void 0, sync),
-    disconnect: () => disconnect(void 0, sync),
+    disconnect: (options?: DisconnectOptions) =>
+      disconnect(void 0, sync, options),
     getRpcEndpoint,
     getRestEndpoint,
     getStargateClient,

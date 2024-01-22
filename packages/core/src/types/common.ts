@@ -1,3 +1,5 @@
+import { CallbackOptions } from './wallet';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum State {
   Init = 'Init',

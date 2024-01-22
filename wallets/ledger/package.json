@@ -1,8 +1,8 @@
 {
   "name": "@cosmos-kit/ledger",
-  "version": "2.5.14",
+  "version": "2.6.5",
   "description": "cosmos-kit wallet connector",
-  "author": "developers@cosmology.tech",
+  "author": "developers@cosmology.zone",
   "contributors": [
     {
       "name": "Tom Wang"
@@ -65,14 +65,14 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.7.14",
+    "@cosmos-kit/core": "^2.8.5",
     "@ledgerhq/hw-app-cosmos": "^6.28.1",
     "@ledgerhq/hw-transport-webhid": "^6.27.15",
     "@ledgerhq/hw-transport-webusb": "^6.27.15"
   },
   "peerDependencies": {
-    "@cosmjs/amino": ">= 0.28",
-    "@cosmjs/proto-signing": ">= 0.28"
+    "@cosmjs/amino": ">=0.32.2",
+    "@cosmjs/proto-signing": ">=0.32.2"
   },
-  "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
+  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }

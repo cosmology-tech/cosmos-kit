@@ -497,6 +497,12 @@ function CosmosApp() {
 }
 ```
 
+### modalOptions
+
+- `mobile.displayQRCodeEveryTime`
+
+  By default `false`. When set `true`, it'll cause all existing pairings be removed everytime wallet is disconnected. It corresponds to the `DisconnectOptions.walletconnect.removeAllPairings` in `disconnect` method.
+
 ### includeAllWalletsOnMobile
 
 Optional property. By default `false`, which means on mobile only wallets with registry value of `mobileDisabled` (or returned value of `mobileDisabled` function) is `false` or `undefined` be displayed on wallet list page of default modal.

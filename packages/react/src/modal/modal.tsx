@@ -1,4 +1,5 @@
 import {
+  ModalOptions,
   ModalView,
   State,
   WalletListViewProps,
@@ -42,6 +43,7 @@ export type ThemeCustomizationProps = ModalCustomizationProps &
 export type WalletModalComponentProps = WalletModalProps &
   ThemeCustomizationProps & {
     modalViews: typeof defaultModalViews;
+    modalOptions?: ModalOptions;
     includeAllWalletsOnMobile?: boolean;
   };
 
@@ -50,6 +52,7 @@ export function WalletModal({
   setOpen,
   walletRepo,
   modalViews,
+  modalOptions,
   includeAllWalletsOnMobile,
   overrides,
   themeDefs,
@@ -67,6 +70,15 @@ export function WalletModal({
   );
   const [qrState, setQRState] = useState<State>(State.Init); // state of QRCode
   const [qrMsg, setQRMsg] = useState<string>(''); //   message of QRCode error
+
+  const disconnectOptions = {
+    walletconnect: {
+      removeAllPairings: modalOptions?.mobile?.displayQRCodeEveryTime,
+    },
+  };
+  walletRepo?.setCallbackOptions({
+    beforeConnect: { disconnect: disconnectOptions },
+  });
 
   const current = walletRepo?.current;
 
@@ -106,8 +118,8 @@ export function WalletModal({
         case WalletStatus.NotExist:
           setCurrentView((prev) =>
             prev === ModalView.Connected
-            ? ModalView.WalletList
-            : ModalView.NotExist
+              ? ModalView.WalletList
+              : ModalView.NotExist
           );
           break;
         case WalletStatus.Disconnected:
@@ -132,7 +144,7 @@ export function WalletModal({
   const onCloseModal = useCallback(() => {
     setOpen(false);
     if (walletStatus === 'Connecting') {
-      current?.disconnect();
+      current?.disconnect(false, disconnectOptions);
     }
   }, [setOpen, walletStatus, current]);
 
@@ -176,6 +188,7 @@ export function WalletModal({
           onClose: onCloseModal,
           onReturn: onReturn,
           wallet: current,
+          options: modalOptions,
         } as WalletViewProps);
       }
     }

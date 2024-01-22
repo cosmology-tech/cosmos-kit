@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/compass",
-  "version": "2.5.4",
+  "version": "2.6.5",
   "description": "cosmos-kit wallet connector",
   "author": "himanshu.singh@leapwallet.io",
   "contributors": [
@@ -54,7 +54,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/compass-extension": "^2.5.4"
+    "@cosmos-kit/compass-extension": "^2.6.5"
   },
-  "gitHead": "6e780893c2ca499a59b518009b1eae526d87a3da"
+  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }

@@ -49,7 +49,11 @@ export interface DownloadInfo extends DappEnv {
   link: string;
 }
 
-export type WalletMode = 'ledger' | 'extension' | 'wallet-connect';
+export type WalletMode =
+  | 'ledger'
+  | 'extension'
+  | 'wallet-connect'
+  | 'social-login';
 
 export interface Metadata {
   name: string;
@@ -127,13 +131,13 @@ export interface SignOptions {
 
 export interface DirectSignDoc {
   /** SignDoc bodyBytes */
-  bodyBytes?: Uint8Array | null;
+  bodyBytes: Uint8Array | null;
   /** SignDoc authInfoBytes */
-  authInfoBytes?: Uint8Array | null;
+  authInfoBytes: Uint8Array | null;
   /** SignDoc chainId */
-  chainId?: string | null;
+  chainId: string | null;
   /** SignDoc accountNumber */
-  accountNumber?: Long | null;
+  accountNumber: bigint | null;
 }
 
 export declare enum BroadcastMode {
@@ -174,7 +178,7 @@ export interface WalletClient {
   appUrl?: Mutable<AppUrl>;
 
   connect?: (chainIds: string | string[], options?: any) => Promise<void>; // called when chain wallet connect is called
-  disconnect?: () => Promise<void>; // called when wallet disconnect is called
+  disconnect?: (options?: DisconnectOptions) => Promise<void>; // called when wallet disconnect is called
   on?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   off?: (type: string, listener: EventListenerOrEventListenerObject) => void;
   enable?: (chainIds: string | string[]) => Promise<void>;
@@ -255,4 +259,20 @@ export interface NameServiceRegistry {
 
 export interface WalletConnectOptions {
   signClient: { projectId: string } & SignClientTypes.Options;
+}
+
+export interface DisconnectOptions {
+  walletconnect?: {
+    removeAllPairings?: boolean;
+  };
+}
+
+export interface ModalOptions {
+  mobile?: {
+    displayQRCodeEveryTime?: boolean; // if true, means remove all pairings when disconnect
+  };
+}
+
+export interface CallbackOptions {
+  beforeConnect?: { disconnect?: DisconnectOptions };
 }

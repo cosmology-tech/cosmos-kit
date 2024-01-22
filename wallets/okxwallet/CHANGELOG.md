@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.4.4...@cosmos-kit/okxwallet@2.4.5) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet
+
+
+
+
+
+## [2.4.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.4.3...@cosmos-kit/okxwallet@2.4.4) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet
+
+
+
+
+
+## [2.4.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.4.2...@cosmos-kit/okxwallet@2.4.3) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet
+
+
+
+
+
+## [2.4.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.4.1...@cosmos-kit/okxwallet@2.4.2) (2024-01-15)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet
+
+## [2.4.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.4.0...@cosmos-kit/okxwallet@2.4.1) (2024-01-08)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet
+
+# [2.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.3.15...@cosmos-kit/okxwallet@2.4.0) (2024-01-07)
+
+**Note:** Version bump only for package @cosmos-kit/okxwallet
+
 ## [2.3.15](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/okxwallet@2.3.14...@cosmos-kit/okxwallet@2.3.15) (2023-12-26)
 
 **Note:** Version bump only for package @cosmos-kit/okxwallet

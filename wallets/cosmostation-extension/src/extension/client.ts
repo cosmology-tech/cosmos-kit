@@ -1,6 +1,5 @@
 import { chainRegistryChainToCosmostation } from '@chain-registry/cosmostation';
 import { StdSignature, StdSignDoc } from '@cosmjs/amino';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
   ChainRecord,
@@ -13,6 +12,9 @@ import {
 } from '@cosmos-kit/core';
 
 import { Cosmostation, RequestAccountResponse } from './types';
+import Long from 'long';
+import { DirectSignResponse } from '@cosmjs/proto-signing';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export class CosmostationClient implements WalletClient {
   readonly client: Cosmostation;
@@ -119,7 +121,13 @@ export class CosmostationClient implements WalletClient {
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return this.ikeplr.getOfflineSigner(chainId) as OfflineDirectSigner;
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signDirect: (signerAddress: string, signDoc: SignDoc) =>
+        this.signDirect(chainId, signerAddress, signDoc),
+    };
   }
 
   async addChain(chainInfo: ChainRecord) {
@@ -172,14 +180,27 @@ export class CosmostationClient implements WalletClient {
     signer: string,
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
-  ) {
+  ): Promise<DirectSignResponse> {
     if (this.ikeplr?.signDirect) {
-      return await this.ikeplr.signDirect(
+      const resp = await this.ikeplr.signDirect(
         chainId,
         signer,
-        signDoc,
+        {
+          ...signDoc,
+          accountNumber: Long.fromString(
+            signDoc.accountNumber.toString(),
+            false
+          ),
+        },
         signOptions || this.defaultSignOptions
       );
+      return {
+        ...resp,
+        signed: {
+          ...resp.signed,
+          accountNumber: BigInt(resp.signed.accountNumber.toString()),
+        },
+      };
     }
 
     return await this.cosmos.request({

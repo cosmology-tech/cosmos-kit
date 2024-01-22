@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import EventEmitter from 'events';
+import type EventEmitter from 'events';
 
 import {
   Callbacks,
+  DisconnectOptions,
   DownloadInfo,
   IFRAME_WALLET_ID,
   Mutable,
@@ -12,7 +13,8 @@ import {
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, RejectedError, Session } from '../utils';
+import { ClientNotExistError, RejectedError } from '../utils';
+import type { Session } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase extends StateBase {
@@ -155,9 +157,12 @@ export abstract class WalletBase extends StateBase {
     this.callbacks = { ...this.callbacks, ...callbacks };
   }
 
-  protected _disconnect = async (sync?: boolean) => {
+  protected _disconnect = async (
+    sync?: boolean,
+    options?: DisconnectOptions
+  ) => {
     await this.callbacks?.beforeDisconnect?.();
-    await this.client?.disconnect?.();
+    await this.client?.disconnect?.(options);
     if (this.clientMutable.state !== State.Error) {
       this.reset();
     }
@@ -171,8 +176,8 @@ export abstract class WalletBase extends StateBase {
     await this.callbacks?.afterDisconnect?.();
   };
 
-  disconnect = async (sync?: boolean) => {
-    await this._disconnect(sync);
+  disconnect = async (sync?: boolean, options?: DisconnectOptions) => {
+    await this._disconnect(sync, options);
   };
 
   setClientNotExist() {

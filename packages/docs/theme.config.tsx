@@ -58,7 +58,7 @@ const config: DocsThemeConfig = {
         🛠 Built by Cosmology — if you like our tools, please consider delegating
         to{" "}
         <a
-          href="https://cosmology.tech/validator"
+          href="https://cosmology.zone/validator"
           target="_blank"
           rel="noreferrer"
           aria-selected="false"

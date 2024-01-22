@@ -1,6 +1,7 @@
 import {
   ChainWalletBase,
   ChainWalletContext,
+  DisconnectOptions,
   WalletStatus,
 } from '@cosmos-kit/core';
 
@@ -9,11 +10,11 @@ export function getChainWalletContext(
   wallet?: ChainWalletBase,
   sync = true
 ): ChainWalletContext {
-  function walletAssert(
+  const walletAssert = (
     func: ((...params: any[]) => any | undefined) | undefined,
     params: any[] = [],
     name: string
-  ) {
+  ) => {
     if (!wallet) {
       throw new Error(
         `Wallet is undefined. Please choose a wallet to connect first.`
@@ -27,7 +28,7 @@ export function getChainWalletContext(
     }
 
     return func(...params);
-  }
+  };
 
   function clientMethodAssert(
     func: ((...params: any[]) => any | undefined) | undefined,
@@ -75,8 +76,8 @@ export function getChainWalletContext(
     isWalletError: status === 'Error',
 
     connect: () => walletAssert(wallet?.connect, [void 0, sync], 'connect'),
-    disconnect: () =>
-      walletAssert(wallet?.disconnect, [void 0, sync], 'disconnect'),
+    disconnect: (options?: DisconnectOptions) =>
+      walletAssert(wallet?.disconnect, [void 0, sync, options], 'disconnect'),
     getRpcEndpoint: (isLazy?: boolean) =>
       walletAssert(wallet?.getRpcEndpoint, [isLazy], 'getRpcEndpoint'),
     getRestEndpoint: (isLazy?: boolean) =>

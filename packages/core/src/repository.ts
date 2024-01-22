@@ -1,18 +1,20 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-console */
-import { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
-import { StargateClient } from '@cosmjs/stargate';
+import type { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
+import type { StargateClient } from '@cosmjs/stargate';
 
-import { ChainWalletBase } from './bases/chain-wallet';
+import type { ChainWalletBase } from './bases/chain-wallet';
 import { StateBase } from './bases/state';
-import { NameService } from './name-service';
+import type { NameService } from './name-service';
 import {
+  CallbackOptions,
   ChainRecord,
   DappEnv,
+  DisconnectOptions,
   ExtendedHttpEndpoint,
   WalletName,
 } from './types';
-import { Session } from './utils';
+import type { Session } from './utils';
 
 /**
  * Store all ChainWallets for a particular Chain.
@@ -24,6 +26,7 @@ export class WalletRepo extends StateBase {
   namespace = 'cosmos';
   session: Session;
   repelWallet = true;
+  private callbackOptions?: CallbackOptions;
 
   constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
     super();
@@ -37,13 +40,20 @@ export class WalletRepo extends StateBase {
           beforeConnect: async () => {
             this.wallets.forEach(async (w2) => {
               if (!w2.isWalletDisconnected && w2 !== w) {
-                await w2.disconnect();
+                await w2.disconnect(
+                  false,
+                  this.callbackOptions?.beforeConnect?.disconnect
+                );
               }
             });
           },
         });
       });
     }
+  }
+
+  setCallbackOptions(options?: CallbackOptions) {
+    this.callbackOptions = options;
   }
 
   setEnv(env?: DappEnv): void {
@@ -113,7 +123,7 @@ export class WalletRepo extends StateBase {
     this.actions?.viewOpen?.(false);
   };
 
-  connect = async (walletName?: WalletName, sync?: boolean) => {
+  connect = async (walletName?: WalletName, sync: boolean = true) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
       await wallet?.connect(sync);
@@ -122,11 +132,15 @@ export class WalletRepo extends StateBase {
     }
   };
 
-  disconnect = async (walletName?: WalletName, sync?: boolean) => {
+  disconnect = async (
+    walletName?: WalletName,
+    sync: boolean = true,
+    options?: DisconnectOptions
+  ) => {
     if (walletName) {
-      await this.getWallet(walletName)?.disconnect(sync);
+      await this.getWallet(walletName)?.disconnect(sync, options);
     } else {
-      await this.current.disconnect(sync);
+      await this.current.disconnect(sync, options);
     }
   };
 
