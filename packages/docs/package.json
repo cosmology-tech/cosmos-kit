@@ -23,7 +23,7 @@
     "@cosmos-kit/core": "^2.8.6",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@interchain-ui/react": "^1.16.6",
+    "@interchain-ui/react": "^1.20.7",
     "chain-registry": "^1.23.0",
     "chakra-react-select": "^4.6.0",
     "cosmos-kit": "^2.8.1",
@@ -34,7 +34,8 @@
     "nextra-theme-docs": "^2.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "4.4.0"
+    "react-icons": "4.4.0",
+    "flexsearch": "^0.7.43"
   },
   "resolutions": {
     "@types/react": "^18"
