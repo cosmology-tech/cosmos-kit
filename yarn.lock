@@ -3374,9 +3374,9 @@
     "@cosmjs/math" "^0.31.0"
     "@cosmjs/utils" "^0.31.0"
 
-"@cosmjs/amino@>=0.32.2":
+"@cosmjs/amino@>=0.32.2", "@cosmjs/amino@^0.32.2":
   version "0.32.2"
-  resolved "https://registry.yarnpkg.com/@cosmjs/amino/-/amino-0.32.2.tgz#ba3cf255e4e6b1ba67461f1ef7b0b8ad3f895da7"
+  resolved "https://registry.npmjs.org/@cosmjs/amino/-/amino-0.32.2.tgz#ba3cf255e4e6b1ba67461f1ef7b0b8ad3f895da7"
   integrity sha512-lcK5RCVm4OfdAooxKcF2+NwaDVVpghOq6o/A40c2mHXDUzUoRZ33VAHjVJ9Me6vOFxshrw/XEFn1f4KObntjYA==
   dependencies:
     "@cosmjs/crypto" "^0.32.2"
@@ -3403,16 +3403,6 @@
     "@cosmjs/encoding" "^0.31.3"
     "@cosmjs/math" "^0.31.3"
     "@cosmjs/utils" "^0.31.3"
-
-"@cosmjs/amino@^0.32.2":
-  version "0.32.2"
-  resolved "https://registry.npmjs.org/@cosmjs/amino/-/amino-0.32.2.tgz#ba3cf255e4e6b1ba67461f1ef7b0b8ad3f895da7"
-  integrity sha512-lcK5RCVm4OfdAooxKcF2+NwaDVVpghOq6o/A40c2mHXDUzUoRZ33VAHjVJ9Me6vOFxshrw/XEFn1f4KObntjYA==
-  dependencies:
-    "@cosmjs/crypto" "^0.32.2"
-    "@cosmjs/encoding" "^0.32.2"
-    "@cosmjs/math" "^0.32.2"
-    "@cosmjs/utils" "^0.32.2"
 
 "@cosmjs/cosmwasm-stargate@>=0.32.2", "@cosmjs/cosmwasm-stargate@^0.32.2":
   version "0.32.2"
@@ -3744,9 +3734,9 @@
     cosmjs-types "^0.8.0"
     long "^4.0.0"
 
-"@cosmjs/proto-signing@>=0.32.2":
+"@cosmjs/proto-signing@>=0.32.2", "@cosmjs/proto-signing@^0.32.2":
   version "0.32.2"
-  resolved "https://registry.yarnpkg.com/@cosmjs/proto-signing/-/proto-signing-0.32.2.tgz#26ed2675978ce24078981f4c15a06c5d6b808f44"
+  resolved "https://registry.npmjs.org/@cosmjs/proto-signing/-/proto-signing-0.32.2.tgz#26ed2675978ce24078981f4c15a06c5d6b808f44"
   integrity sha512-UV4WwkE3W3G3s7wwU9rizNcUEz2g0W8jQZS5J6/3fiN0mRPwtPKQ6EinPN9ASqcAJ7/VQH4/9EPOw7d6XQGnqw==
   dependencies:
     "@cosmjs/amino" "^0.32.2"
@@ -3768,18 +3758,6 @@
     "@cosmjs/utils" "^0.31.3"
     cosmjs-types "^0.8.0"
     long "^4.0.0"
-
-"@cosmjs/proto-signing@^0.32.2":
-  version "0.32.2"
-  resolved "https://registry.npmjs.org/@cosmjs/proto-signing/-/proto-signing-0.32.2.tgz#26ed2675978ce24078981f4c15a06c5d6b808f44"
-  integrity sha512-UV4WwkE3W3G3s7wwU9rizNcUEz2g0W8jQZS5J6/3fiN0mRPwtPKQ6EinPN9ASqcAJ7/VQH4/9EPOw7d6XQGnqw==
-  dependencies:
-    "@cosmjs/amino" "^0.32.2"
-    "@cosmjs/crypto" "^0.32.2"
-    "@cosmjs/encoding" "^0.32.2"
-    "@cosmjs/math" "^0.32.2"
-    "@cosmjs/utils" "^0.32.2"
-    cosmjs-types "^0.9.0"
 
 "@cosmjs/socket@0.28.13":
   version "0.28.13"
@@ -5379,10 +5357,10 @@
     typescript "^5.2.2"
     vite "^5.0.0"
 
-"@leapwallet/cosmos-social-login-capsule-provider@0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.29.tgz#b4bb9446ccddd19c5f16fe95c30f75b2082342c2"
-  integrity sha512-jH9x6NdZe8DQN69s/fjaj2+AR7Frbrdw5FuhjTIRQqgmbJMlDA6jKox+m1t7PCHOPWEtzAe6iOAPlFbFVblImw==
+"@leapwallet/cosmos-social-login-capsule-provider@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.npmjs.org/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.30.tgz#0abe9a7e0dc13cb895f8e2e0537b9d1f37c9c6ad"
+  integrity sha512-hIkR8WCGH/Lmb5pBi6IYZXj4MCnHGAgZnzVuSAXCz9A0CPFk/LKHcHXgTC2KcAs3wM1B+C1e2JkpoergGTqwbQ==
   dependencies:
     "@cosmjs/amino" "^0.31.3"
     "@leapwallet/capsule-web-sdk-lite" "^0.29.0"
@@ -11233,7 +11211,7 @@ cosmjs-types@0.8.0, cosmjs-types@^0.8.0:
 
 cosmjs-types@>=0.9.0, cosmjs-types@^0.9.0:
   version "0.9.0"
-  resolved "https://registry.yarnpkg.com/cosmjs-types/-/cosmjs-types-0.9.0.tgz#c3bc482d28c7dfa25d1445093fdb2d9da1f6cfcc"
+  resolved "https://registry.npmjs.org/cosmjs-types/-/cosmjs-types-0.9.0.tgz#c3bc482d28c7dfa25d1445093fdb2d9da1f6cfcc"
   integrity sha512-MN/yUe6mkJwHnCFfsNPeCfXVhyxHYW6c/xDUzrSbBycYzw++XvWDMJArXp2pLdgD6FQ8DW79vkPjeNKVrXaHeQ==
 
 cosmjs-types@^0.4.0:

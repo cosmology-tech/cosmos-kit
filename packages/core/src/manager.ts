@@ -25,7 +25,7 @@ import {
   WalletConnectOptions,
   WalletName,
 } from './types';
-import { convertChain, Session } from './utils';
+import { convertChain, Session, WalletNotProvidedError } from './utils';
 import type { Logger } from './utils';
 
 export class WalletManager extends StateBase {
@@ -78,15 +78,15 @@ export class WalletManager extends StateBase {
     // iframe is disabled.
     wallets = [
       ...((typeof window !== 'undefined' && window.parent === window.self) ||
-        disableIframe
+      disableIframe
         ? []
         : [iframeWallet]),
       ...wallets,
     ];
     wallets.forEach(
       ({ walletName }) =>
-      (this._reconnectMap[walletName] = () =>
-        this._reconnect(walletName, true))
+        (this._reconnectMap[walletName] = () =>
+          this._reconnect(walletName, true))
     );
     this.init(
       chains,
@@ -261,7 +261,7 @@ export class WalletManager extends StateBase {
     const wallet = this.mainWallets.find((w) => w.walletName === walletName);
 
     if (!wallet) {
-      throw new Error(`Wallet ${walletName} is not provided.`);
+      throw new WalletNotProvidedError(walletName);
     }
 
     return wallet;
@@ -363,35 +363,43 @@ export class WalletManager extends StateBase {
         ? IFRAME_WALLET_ID
         : window.localStorage.getItem('cosmos-kit@2:core//current-wallet');
     if (walletName) {
-      const mainWallet = this.getMainWallet(walletName);
-      mainWallet.activate();
+      try {
+        const mainWallet = this.getMainWallet(walletName);
+        mainWallet.activate();
 
-      if (mainWallet.clientMutable.state === State.Done) {
-        const accountsStr = window.localStorage.getItem(
-          'cosmos-kit@2:core//accounts'
-        );
-        if (accountsStr && accountsStr !== '[]') {
-          const accounts: SimpleAccount[] = JSON.parse(accountsStr);
-          accounts.forEach((data) => {
-            const chainWallet = mainWallet
-              .getChainWalletList(false)
-              .find(
-                (w) =>
-                  w.chainRecord.chain?.chain_id === data.chainId &&
-                  w.namespace === data.namespace
-              );
-            chainWallet?.activate();
-            if (mainWallet.walletInfo.mode === 'wallet-connect') {
-              chainWallet?.setData(data);
-              chainWallet?.setState(State.Done);
-            }
-          });
-          mainWallet.setState(State.Done);
+        if (mainWallet.clientMutable.state === State.Done) {
+          const accountsStr = window.localStorage.getItem(
+            'cosmos-kit@2:core//accounts'
+          );
+          if (accountsStr && accountsStr !== '[]') {
+            const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+            accounts.forEach((data) => {
+              const chainWallet = mainWallet
+                .getChainWalletList(false)
+                .find(
+                  (w) =>
+                    w.chainRecord.chain?.chain_id === data.chainId &&
+                    w.namespace === data.namespace
+                );
+              chainWallet?.activate();
+              if (mainWallet.walletInfo.mode === 'wallet-connect') {
+                chainWallet?.setData(data);
+                chainWallet?.setState(State.Done);
+              }
+            });
+            mainWallet.setState(State.Done);
+          }
         }
-      }
 
-      if (mainWallet.walletInfo.mode !== 'wallet-connect') {
-        await this._reconnect(walletName);
+        if (mainWallet.walletInfo.mode !== 'wallet-connect') {
+          await this._reconnect(walletName);
+        }
+      } catch (error) {
+        if (error instanceof WalletNotProvidedError) {
+          this.logger?.warn(error.message);
+        } else {
+          throw error;
+        }
       }
     }
   };
