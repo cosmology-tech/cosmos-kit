@@ -10,7 +10,6 @@ import {
   suggestChain,
 } from '@cosmsnap/snapper';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-import Long from 'long';
 
 export class CosmosExtensionClient implements WalletClient {
   cosmos: CosmosSnap;
