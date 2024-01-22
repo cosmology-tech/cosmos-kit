@@ -114,10 +114,10 @@ export class CosmosSnapClient implements WalletClient {
     const _accountNumber = Long.fromString(signDoc.accountNumber.toString());
     const signature = requestSignature(chainId, signer, {
       ...signDoc,
+      // @ts-ignore
       accountNumber: _accountNumber,
     }) as unknown as DirectSignResponse;
 
-    const accountNumber = signDoc.accountNumber;
     const modifiedAccountNumber = new Long(
       _accountNumber!.low,
       _accountNumber!.high,
@@ -156,6 +156,6 @@ export class CosmosSnapClient implements WalletClient {
       bip44: { coinType: chainRecord?.chain?.slip44 },
       bech32Config: { bech32PrefixAccAddr: chainRecord?.chain?.bech32_prefix },
     };
-    await experimentalSuggestChain(chainInfo);
+    await experimentalSuggestChain(chainInfo, {});
   }
 }
