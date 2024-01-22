@@ -18,6 +18,7 @@ import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
 import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
 import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
+import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
 
 export type WalletName =
   | 'keplr'
@@ -34,21 +35,22 @@ export type WalletName =
   | 'omni'
   | 'coin98'
   | 'shell'
-  | 'compass';
+  | 'compass'
+  | 'exodus';
 
 export type WalletList<
   E extends MainWalletBase | null,
   M extends MainWalletBase | null
 > = (E extends MainWalletBase
   ? M extends MainWalletBase
-  ? [E, M]
-  : [E]
+    ? [E, M]
+    : [E]
   : M extends MainWalletBase
   ? [M]
   : []) & {
-    mobile: M | null;
-    extension: E | null;
-  };
+  mobile: M | null;
+  extension: E | null;
+};
 
 export function createWalletList<
   ExtensionWallet extends MainWalletBase | null,
@@ -89,6 +91,7 @@ export const omni = createWalletList(null, omniMobile[0]);
 export const shell = createWalletList(shellExtension[0], null);
 export const coin98 = createWalletList(coin98Extension[0], null);
 export const compass = createWalletList(compassExtension[0], null);
+export const exodus = createWalletList(exodusExtension[0], null);
 
 export type SubWalletList = MainWalletBase[] & {
   get mobile(): MainWalletBase[];
@@ -110,6 +113,7 @@ export type AllWalletList = SubWalletList & {
   omni: typeof omni;
   coin98: typeof coin98;
   compass: typeof compass;
+  exodus: typeof exodus;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
 };
@@ -148,6 +152,7 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.omni = omni;
   wallets.coin98 = coin98;
   wallets.compass = compass;
+  wallets.exodus = exodus;
 
   defineGetters(wallets);
 
@@ -194,4 +199,5 @@ export const wallets = createAllWalletList([
   ...omni,
   ...coin98,
   ...compass,
+  ...exodus,
 ]);
