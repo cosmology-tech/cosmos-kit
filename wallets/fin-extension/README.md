@@ -18,7 +18,7 @@ CosmosKit is a wallet adapter for developers to build apps that quickly and easi
 
 ## Credits
 
-🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.tech/validator)
+🛠 Built by Cosmology — if you like our tools, please consider delegating to [our validator ⚛️](https://cosmology.zone/validator)
 
 Code built with the help of these related projects:
 
