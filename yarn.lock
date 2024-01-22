@@ -4820,10 +4820,10 @@
     typescript "^5.2.2"
     vite "^5.0.0"
 
-"@leapwallet/cosmos-social-login-capsule-provider@0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.29.tgz#b4bb9446ccddd19c5f16fe95c30f75b2082342c2"
-  integrity sha512-jH9x6NdZe8DQN69s/fjaj2+AR7Frbrdw5FuhjTIRQqgmbJMlDA6jKox+m1t7PCHOPWEtzAe6iOAPlFbFVblImw==
+"@leapwallet/cosmos-social-login-capsule-provider@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.30.tgz#0abe9a7e0dc13cb895f8e2e0537b9d1f37c9c6ad"
+  integrity sha512-hIkR8WCGH/Lmb5pBi6IYZXj4MCnHGAgZnzVuSAXCz9A0CPFk/LKHcHXgTC2KcAs3wM1B+C1e2JkpoergGTqwbQ==
   dependencies:
     "@cosmjs/amino" "^0.31.3"
     "@leapwallet/capsule-web-sdk-lite" "^0.29.0"
