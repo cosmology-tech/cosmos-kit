@@ -12,7 +12,7 @@ export type ChainName = string;
 
 export interface ChainRecord {
   name: ChainName;
-  chain: Chain;
+  chain?: Chain;
   assetList?: AssetList;
   clientOptions?: {
     signingStargate?: SigningStargateClientOptions;

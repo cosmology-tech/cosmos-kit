@@ -13,10 +13,14 @@ import { Dispatch, SignType, StateActions } from './common';
 import { WalletName } from './wallet';
 
 export interface SignerOptions {
-  stargate?: (chain: Chain) => StargateClientOptions | undefined;
-  signingStargate?: (chain: Chain) => SigningStargateClientOptions | undefined;
-  signingCosmwasm?: (chain: Chain) => SigningCosmWasmClientOptions | undefined;
-  preferredSignType?: (chain: Chain) => SignType | undefined; // using `amino` if undefined
+  stargate?: (chain: Chain | ChainName) => StargateClientOptions | undefined;
+  signingStargate?: (
+    chain: Chain | ChainName
+  ) => SigningStargateClientOptions | undefined;
+  signingCosmwasm?: (
+    chain: Chain | ChainName
+  ) => SigningCosmWasmClientOptions | undefined;
+  preferredSignType?: (chain: Chain | ChainName) => SignType | undefined; // using `amino` if undefined
 }
 
 export interface SessionOptions {

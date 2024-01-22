@@ -44,13 +44,13 @@ export class WalletManager extends StateBase {
   private _reconnectMap = {};
 
   constructor(
-    chains: Chain[],
-    assetLists: AssetList[],
+    chains: (Chain | ChainName)[],
     wallets: MainWalletBase[],
     logger: Logger,
     throwErrors = false,
     subscribeConnectEvents = true,
     disableIframe = false,
+    assetLists?: AssetList[],
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
@@ -99,7 +99,7 @@ export class WalletManager extends StateBase {
   }
 
   init(
-    chains: Chain[],
+    chains: (Chain | ChainName)[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
     walletConnectOptions?: WalletConnectOptions,
@@ -112,11 +112,12 @@ export class WalletManager extends StateBase {
     this.isLazy = endpointOptions?.isLazy;
 
     this.chainRecords = chains.map((chain) => {
+      const chainName = typeof chain === 'string' ? chain : chain.chain_name;
       const converted = convertChain(
         chain,
         assetLists,
         signerOptions,
-        endpointOptions?.endpoints?.[chain.chain_name],
+        endpointOptions?.endpoints?.[chainName],
         this.isLazy,
         this.logger
       );
@@ -132,7 +133,7 @@ export class WalletManager extends StateBase {
       return wallet;
     });
 
-    this.chainRecords.forEach((chainRecord) => {
+    this.chainRecords.forEach((chainRecord, index) => {
       const repo = new WalletRepo(
         chainRecord,
         wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!)
@@ -141,6 +142,9 @@ export class WalletManager extends StateBase {
       repo.repelWallet = this.repelWallet;
       repo.session = this.session;
       this.walletRepos.push(repo);
+      if (repo.fetchInfo) {
+        this.chainRecords[index] = repo.chainRecord;
+      }
     });
     this.checkEndpoints(endpointOptions?.endpoints);
   }
@@ -171,21 +175,22 @@ export class WalletManager extends StateBase {
   };
 
   addChains = (
-    chains: Chain[],
+    chains: (Chain | ChainName)[],
     assetLists: AssetList[],
     signerOptions?: SignerOptions,
     endpoints?: EndpointOptions['endpoints']
   ) => {
-    const newChainRecords = chains.map((chain) =>
-      convertChain(
+    const newChainRecords = chains.map((chain) => {
+      const chainName = typeof chain === 'string' ? chain : chain.chain_name;
+      return convertChain(
         chain,
         assetLists,
         signerOptions,
-        endpoints?.[chain.chain_name],
+        endpoints?.[chainName],
         this.isLazy,
         this.logger
-      )
-    );
+      );
+    });
     newChainRecords.forEach((chainRecord) => {
       const index = this.chainRecords.findIndex(
         (chainRecord2) => chainRecord2.name !== chainRecord.name
@@ -203,7 +208,7 @@ export class WalletManager extends StateBase {
       wallet.setChains(newChainRecords, false);
     });
 
-    newChainRecords.forEach((chainRecord) => {
+    newChainRecords.forEach((chainRecord, i) => {
       const repo = new WalletRepo(
         chainRecord,
         this.mainWallets.map(
@@ -224,6 +229,10 @@ export class WalletManager extends StateBase {
       repo.logger = this.logger;
       repo.repelWallet = this.repelWallet;
       repo.session = this.session;
+
+      if (repo.fetchInfo) {
+        this.chainRecords[i] = repo.chainRecord;
+      }
 
       const index = this.walletRepos.findIndex(
         (repo2) => repo2.chainName !== repo.chainName
@@ -368,7 +377,7 @@ export class WalletManager extends StateBase {
               .getChainWalletList(false)
               .find(
                 (w) =>
-                  w.chainRecord.chain.chain_id === data.chainId &&
+                  w.chainRecord.chain?.chain_id === data.chainId &&
                   w.namespace === data.namespace
               );
             chainWallet?.activate();

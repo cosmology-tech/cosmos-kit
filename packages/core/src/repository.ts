@@ -15,6 +15,7 @@ import {
   WalletName,
 } from './types';
 import type { Session } from './utils';
+import { ChainRegistryFetcher } from '@chain-registry/client';
 
 /**
  * Store all ChainWallets for a particular Chain.
@@ -27,6 +28,7 @@ export class WalletRepo extends StateBase {
   session: Session;
   repelWallet = true;
   private callbackOptions?: CallbackOptions;
+  readonly fetchInfo: boolean = false;
 
   constructor(chainRecord: ChainRecord, wallets: ChainWalletBase[] = []) {
     super();
@@ -49,6 +51,54 @@ export class WalletRepo extends StateBase {
           },
         });
       });
+    }
+
+    if (!this.chainRecord.chain) {
+      this.fetchInfo = true;
+      const registry = new ChainRegistryFetcher({
+        urls: [
+          `https://raw.githubusercontent.com/cosmos/chain-registry/master/${chainRecord.name}/chain.json`,
+        ],
+      });
+      registry
+        .fetchUrls()
+        .then(() => {
+          this.chainRecord.chain = registry.getChain(chainRecord.name);
+          this.actions?.render?.((i) => i + 1);
+        })
+        .catch((e: Error) => {
+          this.chainRecord.chain = null;
+          this.logger?.warn(
+            `Failed to fetch chain info for chain ${chainRecord.name}: [${e.name}] ${e.message}`
+          );
+        });
+    }
+    if (!this.chainRecord.assetList) {
+      this.fetchInfo = true;
+      const registry = new ChainRegistryFetcher({
+        urls: [
+          `https://raw.githubusercontent.com/cosmos/chain-registry/master/${chainRecord.name}/assetlist.json`,
+        ],
+      });
+      registry
+        .fetchUrls()
+        .then(() => {
+          this.chainRecord.assetList = registry.getChainAssetList(
+            chainRecord.name
+          );
+          // this.actions?.render?.((i) => i + 1);
+        })
+        .catch((e: Error) => {
+          this.chainRecord.assetList = null;
+          this.logger?.warn(
+            `Failed to fetch assetList info for chain ${chainRecord.name}: [${e.name}] ${e.message}`
+          );
+        });
+    }
+    if (this.fetchInfo) {
+      this._wallets.forEach(
+        (wallet) => (wallet.chainRecord = this.chainRecord)
+      );
     }
   }
 

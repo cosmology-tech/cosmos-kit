@@ -73,6 +73,7 @@
     ]
   },
   "dependencies": {
+    "@chain-registry/client": "^1.18.0",
     "@chain-registry/types": "0.17.0",
     "@cosmjs/amino": "^0.32.2",
     "@cosmjs/cosmwasm-stargate": "^0.32.2",

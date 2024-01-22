@@ -33,6 +33,7 @@ import React, { useMemo } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
+import { ChainName } from "@cosmos-kit/core";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const web3AuthWallets = useMemo(
@@ -59,8 +60,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RootLayout>
       <ChainProvider
-        chains={chains}
-        assetLists={[...assets]}
+        // chains={chains}
+        // assetLists={[...assets]}
+        chains={["cosmoshub"]}
+        assetLists={[]}
         wallets={[
           ...keplrWallets,
           // ...leapWallets,
@@ -98,8 +101,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         signerOptions={{
-          signingStargate: (chain: Chain) => {
-            switch (chain.chain_name) {
+          signingStargate: (chain: Chain | ChainName) => {
+            const chainName =
+              typeof chain === "string" ? chain : chain.chain_name;
+            switch (chainName) {
               case "osmosis":
                 return {
                   gasPrice: new GasPrice(Decimal.zero(1), "uosmo"),

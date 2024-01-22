@@ -25,7 +25,7 @@ import { WalletBase } from './wallet';
 
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;
-  protected _chainRecord: ChainRecord;
+  chainRecord: ChainRecord;
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
   connectChains?: () => Promise<any>;
@@ -35,9 +35,17 @@ export class ChainWalletBase extends WalletBase {
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
-    this._chainRecord = chainRecord;
+    this.chainRecord = chainRecord;
     this.preferredSignType =
       chainRecord.clientOptions?.preferredSignType || 'amino';
+  }
+
+  get chain() {
+    return this.chainRecord.chain;
+  }
+
+  get assetList() {
+    return this.chainRecord.assetList;
   }
 
   get isTestNet() {
@@ -64,7 +72,7 @@ export class ChainWalletBase extends WalletBase {
   }
 
   addEndpoints(endpoints?: Endpoints) {
-    this._chainRecord.preferredEndpoints = {
+    this.chainRecord.preferredEndpoints = {
       isLazy: endpoints?.isLazy ?? this.preferredEndpoints?.isLazy,
       rpc: [...(endpoints?.rpc || []), ...(this.preferredEndpoints?.rpc || [])],
       rest: [
@@ -72,10 +80,6 @@ export class ChainWalletBase extends WalletBase {
         ...(this.preferredEndpoints?.rest || []),
       ],
     };
-  }
-
-  get chainRecord() {
-    return this._chainRecord;
   }
 
   get chainName() {
@@ -88,8 +92,8 @@ export class ChainWalletBase extends WalletBase {
       // this.chainInfo.chain.logo_URIs?.svg ||
       // this.chainInfo.chain.logo_URIs?.png ||
       // this.chainInfo.chain.logo_URIs?.jpeg ||
-      this.chainRecord.assetList?.assets[0]?.logo_URIs?.svg ||
-      this.chainRecord.assetList?.assets[0]?.logo_URIs?.png ||
+      this.assetList?.assets[0]?.logo_URIs?.svg ||
+      this.assetList?.assets[0]?.logo_URIs?.png ||
       undefined
     );
   }
@@ -109,16 +113,8 @@ export class ChainWalletBase extends WalletBase {
     return this.chainRecord.clientOptions?.signingCosmwasm;
   }
 
-  get chain() {
-    return this.chainRecord.chain;
-  }
-
   get assets() {
-    return this.chainRecord.assetList?.assets;
-  }
-
-  get assetList() {
-    return this.chainRecord.assetList;
+    return this.assetList?.assets;
   }
 
   get chainId() {
@@ -138,6 +134,11 @@ export class ChainWalletBase extends WalletBase {
   }
 
   setData(data: SimpleAccount | undefined) {
+    this.logger?.debug(
+      `[Data Change] ${JSON.stringify(this.data)} -> ${JSON.stringify(data)} (${
+        (this as any).chainName
+      }/${(this as any).walletName})`
+    );
     this._mutable.data = data;
     this.actions?.data?.(data);
     const accountsStr = window.localStorage.getItem(

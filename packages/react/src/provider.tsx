@@ -1,5 +1,6 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import {
+  ChainName,
   EndpointOptions,
   Logger,
   LogLevel,
@@ -36,7 +37,7 @@ export const ChainProvider = ({
   modalTheme = {},
   modalOptions,
 }: {
-  chains: Chain[];
+  chains: (Chain | ChainName)[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
