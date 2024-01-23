@@ -4790,10 +4790,10 @@
     bignumber.js "^9.1.2"
     long "^5.2.3"
 
-"@leapwallet/cosmos-social-login-capsule-provider-ui@^0.0.46":
-  version "0.0.46"
-  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider-ui/-/cosmos-social-login-capsule-provider-ui-0.0.46.tgz#e2c4772593c2480a58fa9dd8e5d8fe4e30610508"
-  integrity sha512-SmEwxBr0f6JvM6bkN5RdC+ElIBamNoE+cQIRJwWDy3DYaM8lYYtBqelwq3XXf76sHwvGWKtW7Qqltwupeke5ww==
+"@leapwallet/cosmos-social-login-capsule-provider-ui@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.yarnpkg.com/@leapwallet/cosmos-social-login-capsule-provider-ui/-/cosmos-social-login-capsule-provider-ui-0.0.47.tgz#f05f73fcea78be2c82d772e5afafb51ec0394629"
+  integrity sha512-DQAi7BkWN/HIEwdJYqmYkLzmH7OjdxScu3UmsxucgKM6JuG4keuof55xFvaFaJfp2CkjfqY3bV2xlP1IGvE2lg==
   dependencies:
     "@chakra-ui/react" "^2.8.1"
     "@cosmjs/amino" "^0.31.3"
