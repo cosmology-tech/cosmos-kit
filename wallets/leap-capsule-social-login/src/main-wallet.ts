@@ -4,7 +4,6 @@ import { MainWalletBase } from "@cosmos-kit/core";
 import { ChainCosmosSocial } from "./chain-wallet";
 import { CosmosCapsuleClient } from "./client";
 import { CapsuleProvider, CapsuleEnvironment } from "@leapwallet/cosmos-social-login-capsule-provider";
-import { capsuleOptions } from "./types";
 
 export class LeapCapsuleWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {

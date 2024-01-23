@@ -5,7 +5,7 @@
   "author": "samvel@leapwallet.io",
   "contributors": [
     {
-      "name": "Mayank Yadav"
+      "name": "SamvelRaja"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -61,7 +61,7 @@
   "dependencies": {
     "@chain-registry/keplr": "1.25.0",
     "@cosmos-kit/core": "^2.7.8",
-    "@leapwallet/cosmos-social-login-capsule-provider": "^0.0.30"
+    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.30"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",

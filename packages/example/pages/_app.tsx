@@ -197,12 +197,12 @@ export function CustomCapsuleModalViewX() {
       <LeapSocialLogin
         showCapsuleModal={showCapsuleModal}
         setShowCapsuleModal={setShowCapsuleModal}
-        theme={"dark"}
+        theme={"light"}
         onAfterLoginSuccessful={() => {
-          window.successFromCapsuleModal();
+          window.successFromCapsuleModal?.();
         }}
         onLoginFailure={() => {
-          window.failureFromCapsuleModal();
+          window.failureFromCapsuleModal?.();
         }}
       />
     </>

@@ -5357,7 +5357,7 @@
     typescript "^5.2.2"
     vite "^5.0.0"
 
-"@leapwallet/cosmos-social-login-capsule-provider@^0.0.30":
+"@leapwallet/cosmos-social-login-capsule-provider@0.0.30":
   version "0.0.30"
   resolved "https://registry.npmjs.org/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.30.tgz#0abe9a7e0dc13cb895f8e2e0537b9d1f37c9c6ad"
   integrity sha512-hIkR8WCGH/Lmb5pBi6IYZXj4MCnHGAgZnzVuSAXCz9A0CPFk/LKHcHXgTC2KcAs3wM1B+C1e2JkpoergGTqwbQ==
