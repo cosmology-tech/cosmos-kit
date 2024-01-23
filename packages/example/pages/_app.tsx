@@ -36,6 +36,7 @@ import { RootLayout } from "../components/layout";
 import { ChainName } from "@cosmos-kit/core";
 import dynamic from "next/dynamic";
 import { MainWalletBase } from "@cosmos-kit/core";
+// import { useTheme } from "@interchain-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
@@ -191,12 +192,14 @@ const LeapSocialLogin = dynamic(
 
 export function CustomCapsuleModalViewX() {
   const [showCapsuleModal, setShowCapsuleModal] = useState(false);
+  // const currentTheme = useTheme();
 
   return (
     <>
       <LeapSocialLogin
         showCapsuleModal={showCapsuleModal}
         setShowCapsuleModal={setShowCapsuleModal}
+        // theme={currentTheme.theme}
         theme={"light"}
         onAfterLoginSuccessful={() => {
           window.successFromCapsuleModal?.();

@@ -5357,6 +5357,36 @@
     typescript "^5.2.2"
     vite "^5.0.0"
 
+"@leapwallet/cosmos-social-login-capsule-provider-ui@^0.0.47":
+  version "0.0.47"
+  resolved "https://registry.npmjs.org/@leapwallet/cosmos-social-login-capsule-provider-ui/-/cosmos-social-login-capsule-provider-ui-0.0.47.tgz#f05f73fcea78be2c82d772e5afafb51ec0394629"
+  integrity sha512-DQAi7BkWN/HIEwdJYqmYkLzmH7OjdxScu3UmsxucgKM6JuG4keuof55xFvaFaJfp2CkjfqY3bV2xlP1IGvE2lg==
+  dependencies:
+    "@chakra-ui/react" "^2.8.1"
+    "@cosmjs/amino" "^0.31.3"
+    "@emotion/react" "^11.11.1"
+    "@emotion/styled" "^11.11.0"
+    "@heroicons/react" "^2.0.18"
+    "@leapwallet/buffer-boba" "0.1.6"
+    "@leapwallet/capsule-web-sdk-lite" "^0.29.0"
+    "@leapwallet/cosmos-social-login-core" "0.0.1"
+    "@leapwallet/parser-parfait" "^0.7.0"
+    "@vanilla-extract/css" "^1.14.0"
+    axios "^1.6.2"
+    bignumber.js "^9.1.2"
+    classnames "^2.3.2"
+    currency.js "^2.0.4"
+    date-fns "^2.30.0"
+    lerna "^7.4.2"
+    long "^5.2.3"
+    lottie-react "^2.4.0"
+    qr-code-styling "^1.6.0-rc.1"
+    react "^18.2.0"
+    react-loading-skeleton "^3.3.1"
+    swr "^2.2.4"
+    typescript "^5.2.2"
+    vite "^5.0.0"
+
 "@leapwallet/cosmos-social-login-capsule-provider@0.0.30":
   version "0.0.30"
   resolved "https://registry.npmjs.org/@leapwallet/cosmos-social-login-capsule-provider/-/cosmos-social-login-capsule-provider-0.0.30.tgz#0abe9a7e0dc13cb895f8e2e0537b9d1f37c9c6ad"
