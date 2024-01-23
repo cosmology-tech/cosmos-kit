@@ -126,7 +126,9 @@ self.onmessage = async ({ data }: MessageEvent<ToWorkerMessage>) => {
             walletPrivateKey,
             data.payload.chainBech32Prefix
           )
-        ).signDirect(data.payload.signerAddress, data.payload.data.value);
+        )
+          // @ts-ignore
+          .signDirect(data.payload.signerAddress, data.payload.data.value);
 
         payload = {
           id: data.payload.id,
