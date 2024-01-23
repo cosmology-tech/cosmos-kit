@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/vectis-extension",
-  "version": "2.6.6",
+  "version": "2.6.7",
   "description": "cosmos-kit wallet connector",
   "author": "jonlitech@gmail.com",
   "contributors": [
@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.28.0",
-    "@cosmos-kit/core": "^2.8.6"
+    "@cosmos-kit/core": "^2.8.7"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">=0.32.2",

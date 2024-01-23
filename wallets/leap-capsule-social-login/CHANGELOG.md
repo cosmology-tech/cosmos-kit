@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.11 (2024-01-23)
+
+**Note:** Version bump only for package @cosmos-kit/leap-capsule-social-login
+
 ## [0.3.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-metamask-cosmos-snap@0.3.9...@cosmos-kit/leap-metamask-cosmos-snap@0.3.10) (2023-12-07)
 
 **Note:** Version bump only for package @cosmos-kit/leap-metamask-cosmos-snap
