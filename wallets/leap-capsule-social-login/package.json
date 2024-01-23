@@ -1,23 +1,11 @@
 {
-  "name": "@cosmos-kit/walletconnect",
-  "version": "2.5.6",
-  "description": "cosmos-kit wallet connector using walletconnect",
-  "author": "developers@cosmology.zone",
+  "name": "@cosmos-kit/leap-capsule-social-login",
+  "version": "0.3.10",
+  "description": "cosmos-kit wallet connector",
+  "author": "samvel@leapwallet.io",
   "contributors": [
     {
-      "name": "Jun Liu"
-    },
-    {
-      "name": "Dan Lynch"
-    },
-    {
-      "name": "Noah Saso"
-    },
-    {
-      "name": "Eliot Baker"
-    },
-    {
-      "name": "Delivan Jeonghyeok Yoo"
+      "name": "SamvelRaja"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -59,9 +47,7 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "keplr",
     "leap",
-    "cosmostation",
     "wallet"
   ],
   "bugs": {
@@ -73,15 +59,13 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.8.6",
-    "@walletconnect/sign-client": "^2.9.0",
-    "@walletconnect/utils": "^2.9.0",
-    "events": "3.3.0",
-    "@cosmjs/proto-signing": "0.32.2"
+    "@chain-registry/keplr": "1.25.0",
+    "@cosmos-kit/core": "^2.7.8",
+    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.30"
   },
   "peerDependencies": {
-    "@cosmjs/amino": ">=0.32.2",
-    "@walletconnect/types": "2.11.0"
+    "@cosmjs/amino": ">= 0.28",
+    "@cosmjs/proto-signing": ">= 0.28"
   },
-  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
+  "gitHead": "4e5a90510271d84165d456fece16ab0b2b4b3ee5"
 }
