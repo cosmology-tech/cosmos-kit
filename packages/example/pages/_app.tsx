@@ -84,18 +84,18 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         // chains={chains}
         // assetLists={[...assets]}
-        chains={["cosmoshub"]}
+        chains={["cosmoshub", "secret"]}
         assetLists={[]}
         wallets={[
           // ...wallets,
-          ...keplrWallets,
+          // ...keplrWallets,
           // ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
           // ...web3AuthWallets,
           // ...trustWallets,
-          // ...stationWallets,
+          ...stationWallets,
           // ...cosmostationWallets,
           // ...omniWallets,
           // ...exodusWallets,
