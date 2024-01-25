@@ -42,7 +42,7 @@ export function ChainProvider({
   wallets: MainWalletBase[];
   assetLists?: AssetList[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
-  throwErrors?: boolean;
+  throwErrors?: boolean | 'connect_only';
   subscribeConnectEvents?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2

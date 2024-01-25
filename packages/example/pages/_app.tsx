@@ -87,8 +87,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={["cosmoshub"]}
         assetLists={[]}
         wallets={[
-          ...wallets,
-          // ...keplrWallets,
+          // ...wallets,
+          ...keplrWallets,
           // ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
@@ -106,7 +106,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...coin98Wallets,
           // ...finWallets,
         ]}
-        throwErrors={false}
+        // throwErrors={"connect_only"}
         subscribeConnectEvents={true}
         defaultNameService={"stargaze"}
         walletConnectOptions={{

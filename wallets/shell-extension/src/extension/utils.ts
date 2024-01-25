@@ -1,6 +1,7 @@
 import { OfflineAminoSigner } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { ClientNotExistError } from '@cosmos-kit/core';
+// @ts-ignore
 import { SecretUtils } from 'secretjs/types/enigmautils';
 
 // import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';

@@ -13,7 +13,7 @@ import {
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, RejectedError } from '../utils';
+import { ClientNotExistError, ConnectError, RejectedError } from '../utils';
 import type { Session } from '../utils';
 import { StateBase } from './state';
 
@@ -30,7 +30,7 @@ export abstract class WalletBase extends StateBase {
    * - chainWallet: activated when called by hooks (useChain, useChainWallet etc)
    */
   isActive = false;
-  throwErrors = false;
+  throwErrors: boolean | 'connect_only' = false;
 
   constructor(walletInfo: Wallet) {
     super();
@@ -180,30 +180,28 @@ export abstract class WalletBase extends StateBase {
     await this._disconnect(sync, options);
   };
 
-  setClientNotExist() {
-    this.setState(State.Error);
-    this.setMessage(ClientNotExistError.message);
-    if (this.throwErrors) {
-      throw new Error(this.message);
-    }
+  setClientNotExist(e?: Error) {
+    const error = typeof e === 'undefined' ? new Error() : e;
+    error.message = ClientNotExistError.message;
+    this.setError(error);
   }
 
-  setRejected() {
-    this.setState(State.Error);
-    this.setMessage(RejectedError.message);
-    if (this.throwErrors) {
-      throw new Error(this.message);
-    }
+  setRejected(e?: Error) {
+    const error = typeof e === 'undefined' ? new Error() : e;
+    error.message = RejectedError.message;
+    this.setError(error);
   }
 
   setError(e?: Error | string) {
+    const error =
+      typeof e === 'string' || typeof e === 'undefined' ? new Error(e) : e;
     this.setState(State.Error);
-    this.setMessage(typeof e === 'string' ? e : e?.message);
-    // if (typeof e !== 'string' && e?.stack) {
-    //   this.logger?.error(e.stack);
-    // }
-    if (this.throwErrors) {
-      throw new Error(this.message);
+    this.setMessage(error.message);
+    if (this.throwErrors === true) {
+      throw error;
+    }
+    if (this.throwErrors === 'connect_only' && error.name === 'ConnectError') {
+      throw error;
     }
   }
 
@@ -217,7 +215,9 @@ export abstract class WalletBase extends StateBase {
 
     if (this.isMobile && mobileDisabled) {
       this.setError(
-        'This wallet is not supported on mobile, please use desktop browsers.'
+        new ConnectError(
+          'This wallet is not supported on mobile, please use desktop browsers.'
+        )
       );
       return;
     }
@@ -243,13 +243,13 @@ export abstract class WalletBase extends StateBase {
         this.emitter?.emit('broadcast_client', this.client);
         this.logger?.debug('[WALLET EVENT] Emit `broadcast_client`');
         if (!this.client) {
-          this.setClientNotExist();
+          this.setClientNotExist(new ConnectError());
           return;
         }
       }
       await this.update();
     } catch (error) {
-      this.setError(error as Error);
+      this.setError(new ConnectError((error as Error).message));
     }
     await this.callbacks?.afterConnect?.();
   };

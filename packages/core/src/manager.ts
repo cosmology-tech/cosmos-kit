@@ -38,7 +38,7 @@ export class WalletManager extends StateBase {
   readonly session: Session;
   repelWallet = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
   isLazy?: boolean; // stands for `globalIsLazy` setting
-  throwErrors: boolean;
+  throwErrors: boolean | 'connect_only';
   subscribeConnectEvents: boolean;
   disableIframe: boolean;
   private _reconnectMap = {};
@@ -47,7 +47,7 @@ export class WalletManager extends StateBase {
     chains: (Chain | ChainName)[],
     wallets: MainWalletBase[],
     logger: Logger,
-    throwErrors = false,
+    throwErrors: boolean | 'connect_only',
     subscribeConnectEvents = true,
     disableIframe = false,
     assetLists?: AssetList[],

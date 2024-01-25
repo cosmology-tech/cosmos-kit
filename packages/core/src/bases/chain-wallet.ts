@@ -22,6 +22,7 @@ import {
 } from '../types';
 import type { MainWalletBase } from './main-wallet';
 import { WalletBase } from './wallet';
+import { ConnectError } from '../utils';
 
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;
@@ -187,7 +188,7 @@ export class ChainWalletBase extends WalletBase {
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.logger?.debug(`Fetching rejected.`);
-          this.setRejected();
+          this.setRejected(new ConnectError());
           return;
         }
         if (this.client && this?.client?.addChain) {
@@ -205,9 +206,9 @@ export class ChainWalletBase extends WalletBase {
     } catch (e) {
       // this.logger?.error(e);
       if (e && this.rejectMatched(e as Error)) {
-        this.setRejected();
+        this.setRejected(new ConnectError());
       } else {
-        this.setError(e as Error);
+        this.setError(new ConnectError((e as Error).message));
       }
     }
     if (!this.isWalletRejected && this.walletName !== IFRAME_WALLET_ID) {

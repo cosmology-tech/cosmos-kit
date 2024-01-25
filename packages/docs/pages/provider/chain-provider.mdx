@@ -379,7 +379,7 @@ function CosmosApp() {
 
 Optional property. By default `WARN`.
 
-**Type:** `LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE'`
+**Type:** `'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE'`
 
 Will disable logs lower than the value of `logLevel` (The log level order is the same with the order above).
 
@@ -389,9 +389,11 @@ If `logLevel` is `NONE`, no logs would be printed.
 
 Optional property. By default `false`.
 
-**Type:** `boolean`
+**Type:** `boolean | 'connect_only'`
 
 If set `true`, will throw error when wallet status to be `WalletStatus.Error`, `WalletStatus.Rejected` or `WalletStatus.NotExist`, or wallet client status to be `State.Error`.
+
+If set `connect_only`, will only throw connect errors.
 
 ### subscribeConnectEvents
 

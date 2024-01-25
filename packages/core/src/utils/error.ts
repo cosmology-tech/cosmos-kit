@@ -13,3 +13,11 @@ export class WalletNotProvidedError extends Error {
     this.walletName = walletName;
   }
 }
+
+export class ConnectError extends Error {
+  readonly name = 'ConnectError';
+
+  constructor(message?: string) {
+    super(message);
+  }
+}
