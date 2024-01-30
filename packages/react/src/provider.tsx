@@ -38,7 +38,7 @@ export const ChainProvider = ({
   modalOptions,
 }: {
   chains: (Chain | ChainName)[];
-  assetLists: AssetList[];
+  assetLists?: AssetList[];
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalViews?: typeof defaultModalViews;
