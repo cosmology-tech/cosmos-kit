@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.8.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.7...@cosmos-kit/core@2.8.8) (2024-01-25)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.8.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.6...@cosmos-kit/core@2.8.7) (2024-01-23)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.8.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.5...@cosmos-kit/core@2.8.6) (2024-01-22)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.8.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.4...@cosmos-kit/core@2.8.5) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.8.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.3...@cosmos-kit/core@2.8.4) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.8.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.2...@cosmos-kit/core@2.8.3) (2024-01-19)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.8.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.1...@cosmos-kit/core@2.8.2) (2024-01-15)
+
+### Bug Fixes
+
+- wrong error throw ([9adffac](https://github.com/cosmology-tech/cosmos-kit/commit/9adffac4c86b9169e0664f880dd916f1107d934b))
+
+## [2.8.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.0...@cosmos-kit/core@2.8.1) (2024-01-08)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+# [2.8.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.14...@cosmos-kit/core@2.8.0) (2024-01-07)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.7.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.13...@cosmos-kit/core@2.7.14) (2023-12-26)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.7.13](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.12...@cosmos-kit/core@2.7.13) (2023-12-25)
+
+**Note:** Version bump only for package @cosmos-kit/core
+
+## [2.7.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.11...@cosmos-kit/core@2.7.12) (2023-12-22)
+
+### Bug Fixes
+
+- client and wallet state wrongly changed ([6a26281](https://github.com/cosmology-tech/cosmos-kit/commit/6a262816879b10d2ffb38f03149374822e0ad635))
+
 ## [2.7.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.7.10...@cosmos-kit/core@2.7.11) (2023-12-18)
 
 **Note:** Version bump only for package @cosmos-kit/core

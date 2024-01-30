@@ -5,8 +5,8 @@ import {
   ChainName,
   ChainRecord,
   DappEnv,
+  DisconnectOptions,
   EndpointOptions,
-  Endpoints,
   IChainWallet,
   IFRAME_WALLET_ID,
   State,
@@ -14,9 +14,8 @@ import {
   WalletClient,
   WalletStatus,
 } from '../types';
-import { ChainWalletBase } from './chain-wallet';
+import type { ChainWalletBase } from './chain-wallet';
 import { WalletBase } from './wallet';
-import { Chain } from '@chain-registry/types';
 
 export abstract class MainWalletBase extends WalletBase {
   protected _chainWalletMap?: Map<ChainName, ChainWalletBase>;
@@ -28,24 +27,35 @@ export abstract class MainWalletBase extends WalletBase {
     this.ChainWallet = ChainWallet;
     this.emitter = new EventEmitter();
     this.emitter.on('broadcast_client', (client: WalletClient) => {
+      this.logger?.debug(
+        `[Event Fired] \`broadcast_client\` (${this.walletName})`
+      );
       this.chainWalletMap?.forEach((chainWallet) => {
         chainWallet.initClientDone(client);
       });
     });
     this.emitter.on('broadcast_env', (env: DappEnv) => {
+      this.logger?.debug(
+        `[Event Fired] \`broadcast_env\` (${this.walletName})`
+      );
       this.chainWalletMap?.forEach((chainWallet) => {
         chainWallet.setEnv(env);
       });
     });
     this.emitter.on('sync_connect', async (chainName?: ChainName) => {
+      this.logger?.debug(`[Event Fired] \`sync_connect\` (${this.walletName})`);
       await this.connectAll(true, chainName);
       this.update();
     });
     this.emitter.on('sync_disconnect', async (chainName?: ChainName) => {
+      this.logger?.debug(
+        `[Event Fired] \`sync_disconnect\` (${this.walletName})`
+      );
       await this.disconnectAll(true, chainName);
       this.reset();
     });
     this.emitter.on('reset', (chainIds: string[]) => {
+      this.logger?.debug(`[Event Fired] \`reset\` (${this.walletName})`);
       chainIds.forEach((chainId) =>
         Array.from(this.chainWalletMap.values())
           .find((cw) => cw.chainId === chainId)
@@ -56,7 +66,10 @@ export abstract class MainWalletBase extends WalletBase {
 
   initingClient() {
     this.clientMutable.state = State.Pending;
+    this.clientMutable.message = void 0;
+    this.clientMutable.data = void 0;
     this.actions?.clientState?.(State.Pending);
+    this.actions?.clientMessage?.(void 0);
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initingClient();
     });
@@ -65,7 +78,9 @@ export abstract class MainWalletBase extends WalletBase {
   initClientDone(client: WalletClient | undefined) {
     this.clientMutable.data = client;
     this.clientMutable.state = State.Done;
+    this.clientMutable.message = void 0;
     this.actions?.clientState?.(State.Done);
+    this.actions?.clientMessage?.(void 0);
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initClientDone(client);
     });
@@ -79,8 +94,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.chainWalletMap?.forEach((chainWallet) => {
       chainWallet.initClientError(error);
     });
-    // this.logger?.error(error);
-    if (this.throwErrors) {
+    if (this.throwErrors === true) {
       throw new Error(this.clientMutable.message);
     }
   }
@@ -179,6 +193,11 @@ export abstract class MainWalletBase extends WalletBase {
   };
 
   async update() {
+    // in case nonexist wallet is set as current wallet
+    if (this.walletStatus === 'NotExist') {
+      return localStorage.removeItem('cosmos-kit@2:core//current-wallet');
+    }
+
     this.setData(void 0);
     this.setMessage(void 0);
     this.setState(State.Done);
@@ -218,11 +237,15 @@ export abstract class MainWalletBase extends WalletBase {
     }
   }
 
-  async disconnectAll(activeOnly = true, exclude?: ChainName) {
+  async disconnectAll(
+    activeOnly = true,
+    exclude?: ChainName,
+    options?: DisconnectOptions
+  ) {
     const chainWalletList = this.getChainWalletList(activeOnly);
     for (const w of chainWalletList) {
       if (w.chainName !== exclude) {
-        await w.disconnect();
+        await w.disconnect(false, options);
       }
     }
   }

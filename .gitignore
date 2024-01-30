@@ -21,3 +21,6 @@ packages/example/utils/tmp.ts
 /.yarnrc
 /.npmrc
 /.parcel-cache
+packages/my-example
+wallets/social-login
+.yarn

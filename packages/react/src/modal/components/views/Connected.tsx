@@ -8,11 +8,16 @@ export function ConnectedView({
   onClose,
   onReturn,
   wallet,
+  options,
 }: WalletViewProps): ModalViewImpl {
   const { walletInfo, username, address } = wallet;
 
   const onDisconnect = async () => {
-    await wallet.disconnect(true);
+    await wallet.disconnect(true, {
+      walletconnect: {
+        removeAllPairings: options?.mobile.displayQRCodeEveryTime,
+      },
+    });
   };
 
   const modalHead = (

@@ -13,6 +13,7 @@ import {
 import { BroadcastMode } from '@keplr-wallet/types';
 
 import { Shell } from './types';
+import Long from 'long';
 
 export class ShellClient implements WalletClient {
   readonly client: Shell;
@@ -136,7 +137,10 @@ export class ShellClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

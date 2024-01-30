@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-imports */
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../style/global.css";
 import "@interchain-ui/react/styles";
 
@@ -28,12 +29,19 @@ import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
+import { ChainName } from "@cosmos-kit/core";
+import dynamic from "next/dynamic";
+import { MainWalletBase } from "@cosmos-kit/core";
+// import { useTheme } from "@interchain-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
+  const [wallets, setWallets] = useState<MainWalletBase[]>(defaultWallets);
+  const [loadingWallets, setLoadingWallet] = useState<boolean>(false);
   // const web3AuthWallets = useMemo(
   //   () =>
   //     makeWeb3AuthWallets({
@@ -55,20 +63,39 @@ function MyApp({ Component, pageProps }: AppProps) {
   //   []
   // );
 
+  useEffect(() => {
+    setLoadingWallet(true);
+    import("@cosmos-kit/leap-capsule-social-login")
+      .then((CapsuleModule) => {
+        return CapsuleModule.wallets;
+      })
+      .then((leapSocialLogin) => {
+        setWallets([...keplrWallets, ...leapWallets, ...leapSocialLogin]);
+        setLoadingWallet(false);
+      });
+  }, []);
+
+  if (loadingWallets) {
+    return <>Loading...</>;
+  }
+
   return (
     <RootLayout>
       <ChainProvider
-        chains={chains}
-        assetLists={[...assets]}
+        // chains={chains}
+        // assetLists={[...assets]}
+        chains={["cosmoshub", "secret"]}
+        assetLists={[]}
         wallets={[
-          ...keplrWallets,
-          ...leapWallets,
+          // ...wallets,
+          // ...keplrWallets,
+          // ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
           // ...web3AuthWallets,
           // ...trustWallets,
-          // ...stationWallets,
+          ...stationWallets,
           // ...cosmostationWallets,
           // ...omniWallets,
           // ...exodusWallets,
@@ -79,8 +106,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...coin98Wallets,
           // ...finWallets,
         ]}
-        throwErrors={false}
-        subscribeConnectEvents={false}
+        // throwErrors={"connect_only"}
+        subscribeConnectEvents={true}
         defaultNameService={"stargaze"}
         walletConnectOptions={{
           signClient: {
@@ -97,10 +124,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
         signerOptions={{
-          signingStargate: (chain: Chain) => {
-            switch (chain.chain_name) {
+          signingStargate: (chain: Chain | ChainName) => {
+            const chainName =
+              typeof chain === "string" ? chain : chain.chain_name;
+            switch (chainName) {
               case "osmosis":
                 return {
+                  // @ts-ignore
                   gasPrice: new GasPrice(Decimal.zero(1), "uosmo"),
                 };
               default:
@@ -141,11 +171,43 @@ function MyApp({ Component, pageProps }: AppProps) {
         // //   Connected: CustomConnectedView,
         // // }}
         // walletModal={CustomModal}
+        // modalOptions={{ mobile: { displayQRCodeEveryTime: true } }}
       >
         <Component {...pageProps} />
       </ChainProvider>
+      <CustomCapsuleModalViewX />
     </RootLayout>
   );
 }
 
 export default MyApp;
+
+const LeapSocialLogin = dynamic(
+  () =>
+    import("@leapwallet/cosmos-social-login-capsule-provider-ui").then(
+      (m) => m.CustomCapsuleModalView
+    ),
+  { ssr: false }
+);
+
+export function CustomCapsuleModalViewX() {
+  const [showCapsuleModal, setShowCapsuleModal] = useState(false);
+  // const currentTheme = useTheme();
+
+  return (
+    <>
+      <LeapSocialLogin
+        showCapsuleModal={showCapsuleModal}
+        setShowCapsuleModal={setShowCapsuleModal}
+        // theme={currentTheme.theme}
+        theme={"light"}
+        onAfterLoginSuccessful={() => {
+          window.successFromCapsuleModal?.();
+        }}
+        onLoginFailure={() => {
+          window.failureFromCapsuleModal?.();
+        }}
+      />
+    </>
+  );
+}

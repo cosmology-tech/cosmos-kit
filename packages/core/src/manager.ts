@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AssetList, Chain } from '@chain-registry/types';
+import type { AssetList, Chain } from '@chain-registry/types';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
-import { ChainWalletBase, MainWalletBase, StateBase } from './bases';
+import type { ChainWalletBase, MainWalletBase } from './bases';
+import { StateBase } from './bases';
 import { iframeWallet } from './iframe';
-import { NameService } from './name-service';
+import type { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
   ChainName,
@@ -24,12 +25,8 @@ import {
   WalletConnectOptions,
   WalletName,
 } from './types';
-import {
-  convertChain,
-  getNameServiceRegistryFromName,
-  Logger,
-  Session,
-} from './utils';
+import { convertChain, Session, WalletNotProvidedError } from './utils';
+import type { Logger } from './utils';
 
 export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
@@ -41,19 +38,19 @@ export class WalletManager extends StateBase {
   readonly session: Session;
   repelWallet = true; // only allow one wallet type to connect at one time. i.e. you cannot connect keplr and cosmostation at the same time
   isLazy?: boolean; // stands for `globalIsLazy` setting
-  throwErrors: boolean;
+  throwErrors: boolean | 'connect_only';
   subscribeConnectEvents: boolean;
   disableIframe: boolean;
   private _reconnectMap = {};
 
   constructor(
-    chains: Chain[],
-    assetLists: AssetList[],
+    chains: (Chain | ChainName)[],
     wallets: MainWalletBase[],
     logger: Logger,
-    throwErrors = false,
+    throwErrors: boolean | 'connect_only',
     subscribeConnectEvents = true,
     disableIframe = false,
+    assetLists?: AssetList[],
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
     signerOptions?: SignerOptions,
@@ -102,7 +99,7 @@ export class WalletManager extends StateBase {
   }
 
   init(
-    chains: Chain[],
+    chains: (Chain | ChainName)[],
     assetLists: AssetList[],
     wallets: MainWalletBase[],
     walletConnectOptions?: WalletConnectOptions,
@@ -115,11 +112,12 @@ export class WalletManager extends StateBase {
     this.isLazy = endpointOptions?.isLazy;
 
     this.chainRecords = chains.map((chain) => {
+      const chainName = typeof chain === 'string' ? chain : chain.chain_name;
       const converted = convertChain(
         chain,
         assetLists,
         signerOptions,
-        endpointOptions?.endpoints?.[chain.chain_name],
+        endpointOptions?.endpoints?.[chainName],
         this.isLazy,
         this.logger
       );
@@ -131,11 +129,11 @@ export class WalletManager extends StateBase {
       wallet.throwErrors = this.throwErrors;
       wallet.session = this.session;
       wallet.walletConnectOptions = this.walletConnectOptions;
-      wallet.setChains(this.chainRecords);
+      wallet?.setChains(this.chainRecords);
       return wallet;
     });
 
-    this.chainRecords.forEach((chainRecord) => {
+    this.chainRecords.forEach((chainRecord, index) => {
       const repo = new WalletRepo(
         chainRecord,
         wallets.map(({ getChainWallet }) => getChainWallet(chainRecord.name)!)
@@ -144,6 +142,9 @@ export class WalletManager extends StateBase {
       repo.repelWallet = this.repelWallet;
       repo.session = this.session;
       this.walletRepos.push(repo);
+      if (repo.fetchInfo) {
+        this.chainRecords[index] = repo.chainRecord;
+      }
     });
     this.checkEndpoints(endpointOptions?.endpoints);
   }
@@ -174,21 +175,22 @@ export class WalletManager extends StateBase {
   };
 
   addChains = (
-    chains: Chain[],
+    chains: (Chain | ChainName)[],
     assetLists: AssetList[],
     signerOptions?: SignerOptions,
     endpoints?: EndpointOptions['endpoints']
   ) => {
-    const newChainRecords = chains.map((chain) =>
-      convertChain(
+    const newChainRecords = chains.map((chain) => {
+      const chainName = typeof chain === 'string' ? chain : chain.chain_name;
+      return convertChain(
         chain,
         assetLists,
         signerOptions,
-        endpoints?.[chain.chain_name],
+        endpoints?.[chainName],
         this.isLazy,
         this.logger
-      )
-    );
+      );
+    });
     newChainRecords.forEach((chainRecord) => {
       const index = this.chainRecords.findIndex(
         (chainRecord2) => chainRecord2.name !== chainRecord.name
@@ -206,7 +208,7 @@ export class WalletManager extends StateBase {
       wallet.setChains(newChainRecords, false);
     });
 
-    newChainRecords.forEach((chainRecord) => {
+    newChainRecords.forEach((chainRecord, i) => {
       const repo = new WalletRepo(
         chainRecord,
         this.mainWallets.map(
@@ -227,6 +229,10 @@ export class WalletManager extends StateBase {
       repo.logger = this.logger;
       repo.repelWallet = this.repelWallet;
       repo.session = this.session;
+
+      if (repo.fetchInfo) {
+        this.chainRecords[i] = repo.chainRecord;
+      }
 
       const index = this.walletRepos.findIndex(
         (repo2) => repo2.chainName !== repo.chainName
@@ -255,7 +261,7 @@ export class WalletManager extends StateBase {
     const wallet = this.mainWallets.find((w) => w.walletName === walletName);
 
     if (!wallet) {
-      throw new Error(`Wallet ${walletName} is not provided.`);
+      throw new WalletNotProvidedError(walletName);
     }
 
     return wallet;
@@ -317,6 +323,7 @@ export class WalletManager extends StateBase {
       if (!this.defaultNameService) {
         throw new Error('defaultNameService is undefined');
       }
+      const { getNameServiceRegistryFromName } = await import('./utils');
       const registry = getNameServiceRegistryFromName(this.defaultNameService);
       if (!registry) {
         throw new Error(
@@ -341,7 +348,7 @@ export class WalletManager extends StateBase {
     ) {
       return;
     }
-    this.logger?.debug('[CORE EVENT] Emit `refresh_connection`');
+    this.logger?.debug('[Event Emit] `refresh_connection` (manager)');
     this.coreEmitter.emit('refresh_connection');
     await this.getMainWallet(walletName).connect();
     await this.getMainWallet(walletName)
@@ -356,35 +363,43 @@ export class WalletManager extends StateBase {
         ? IFRAME_WALLET_ID
         : window.localStorage.getItem('cosmos-kit@2:core//current-wallet');
     if (walletName) {
-      const mainWallet = this.getMainWallet(walletName);
-      mainWallet.activate();
+      try {
+        const mainWallet = this.getMainWallet(walletName);
+        mainWallet.activate();
 
-      if (mainWallet.clientMutable.state === State.Done) {
-        const accountsStr = window.localStorage.getItem(
-          'cosmos-kit@2:core//accounts'
-        );
-        if (accountsStr && accountsStr !== '[]') {
-          const accounts: SimpleAccount[] = JSON.parse(accountsStr);
-          accounts.forEach((data) => {
-            const chainWallet = mainWallet
-              .getChainWalletList(false)
-              .find(
-                (w) =>
-                  w.chainRecord.chain.chain_id === data.chainId &&
-                  w.namespace === data.namespace
-              );
-            chainWallet?.activate();
-            if (mainWallet.walletInfo.mode === 'wallet-connect') {
-              chainWallet?.setData(data);
-              chainWallet?.setState(State.Done);
-            }
-          });
-          mainWallet.setState(State.Done);
+        if (mainWallet.clientMutable.state === State.Done) {
+          const accountsStr = window.localStorage.getItem(
+            'cosmos-kit@2:core//accounts'
+          );
+          if (accountsStr && accountsStr !== '[]') {
+            const accounts: SimpleAccount[] = JSON.parse(accountsStr);
+            accounts.forEach((data) => {
+              const chainWallet = mainWallet
+                .getChainWalletList(false)
+                .find(
+                  (w) =>
+                    w.chainRecord.chain?.chain_id === data.chainId &&
+                    w.namespace === data.namespace
+                );
+              chainWallet?.activate();
+              if (mainWallet.walletInfo.mode === 'wallet-connect') {
+                chainWallet?.setData(data);
+                chainWallet?.setState(State.Done);
+              }
+            });
+            mainWallet.setState(State.Done);
+          }
         }
-      }
 
-      if (mainWallet.walletInfo.mode !== 'wallet-connect') {
-        await this._reconnect(walletName);
+        if (mainWallet.walletInfo.mode !== 'wallet-connect') {
+          await this._reconnect(walletName);
+        }
+      } catch (error) {
+        if (error instanceof WalletNotProvidedError) {
+          this.logger?.warn(error.message);
+        } else {
+          throw error;
+        }
       }
     }
   };
@@ -433,12 +448,16 @@ export class WalletManager extends StateBase {
               eventName,
               this._reconnectMap[wallet.walletName]!
             );
+            this.logger?.debug(`Add "${eventName}" event listener to window`);
           });
           wallet.walletInfo.connectEventNamesOnClient?.forEach(
             async (eventName) => {
               wallet.client?.on?.(
                 eventName,
                 this._reconnectMap[wallet.walletName]!
+              );
+              this.logger?.debug(
+                `Add "${eventName}" event listener to wallet client ${wallet.walletPrettyName}`
               );
             }
           );
@@ -449,9 +468,6 @@ export class WalletManager extends StateBase {
         } else {
           await wallet.initClient();
         }
-        wallet.chainWalletMap?.forEach((chainWallet) => {
-          chainWallet.initClientDone(wallet.client);
-        });
       })
     );
 

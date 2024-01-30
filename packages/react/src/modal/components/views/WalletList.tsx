@@ -13,8 +13,10 @@ function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
-    await wallet.connect(true);
-    onClose();
+    await wallet.connect(wallet.walletStatus !== 'NotExist');
+    if (!['Rejected', 'NotExist'].includes(wallet.walletStatus)) {
+      onClose();
+    }
   }, []);
 
   useEffect(() => {

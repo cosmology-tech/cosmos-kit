@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@interchain-ui/react/styles";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
-import { wallets as leapWallets } from "@cosmos-kit/leap";
+import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { ChainProvider } from "@cosmos-kit/react-lite";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChainProvider
       chains={[...chains.filter((c) => c.chain_name == "cosmoshub")]}
       assetLists={[...assets.filter((a) => a.chain_name === "cosmoshub")]}
-      wallets={[...keplrWallets, ...leapWallets]}
+      wallets={[...keplrWallets, ...xdefiWallets]}
       logLevel={"DEBUG"}
       walletModal={CustomModal}
     >

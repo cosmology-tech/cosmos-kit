@@ -5,10 +5,11 @@ import {
   StdSignDoc,
 } from '@cosmjs/amino';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
 import type { ChainInfo, EthSignType } from '@keplr-wallet/types';
 import Long from 'long';
+// @ts-ignore
 import { SecretUtils } from 'secretjs/types/enigmautils';
 
 export interface Key {

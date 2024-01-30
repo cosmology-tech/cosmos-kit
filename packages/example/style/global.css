@@ -83,3 +83,21 @@
 .my-custom-modal-content {
   padding: 0 50px;
 }
+
+.bd-links-link {
+  padding: 0.1875rem 0.5rem;
+  margin-top: 0.125rem;
+  color: #212529;
+  text-decoration: none;
+}
+
+.bd-links-link:hover,
+.bd-links-link:focus,
+.bd-links-link.active {
+  color: #000;
+  background-color: rgba(112.520718, 44.062154, 249.437846, 0.1);
+}
+
+.bd-links-link.active {
+  font-weight: 600;
+}

@@ -32,12 +32,12 @@ export function useChains(chainNames: ChainName[], sync = true) {
       if (wallet.isModeExtension) {
         wallet.callbacks.beforeConnect = async () => {
           try {
-            await wallet.client.enable?.(ids);
+            await wallet.client?.enable?.(ids);
           } catch (e) {
             for (const repo of repos) {
-              await wallet.client.addChain?.(repo.chainRecord)
+              await wallet.client?.addChain?.(repo.chainRecord)
             }
-            await wallet.client.enable?.(ids);
+            await wallet.client?.enable?.(ids);
           }
         }
       }

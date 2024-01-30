@@ -1,3 +1,6 @@
+import { AssetList, Chain } from '@chain-registry/types';
+import { CallbackOptions } from './wallet';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export enum State {
   Init = 'Init',
@@ -26,6 +29,7 @@ export interface StateActions<T> extends Actions {
   message?: Dispatch<string | undefined>;
   clientState?: Dispatch<State>;
   clientMessage?: Dispatch<string | undefined>;
+  render?: Dispatch<React.SetStateAction<number>>; // for cases that only provide chain name (rather than chain info), need time to fetch chain info
 }
 
 export interface WalletClientActions {

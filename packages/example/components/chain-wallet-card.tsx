@@ -24,7 +24,7 @@ export const ChainWalletCard = ({
       <div className="flex space-x-4">
         <Badge variant="default">
           <p className="leading-7 [&:not(:first-child)]:mt-6">
-            {chain.pretty_name}
+            {chain?.pretty_name}
           </p>
         </Badge>
         <Button disabled={status === "Connecting"} onClick={() => openView()}>
@@ -39,7 +39,7 @@ export const ChainWalletCard = ({
       <div className="flex space-x-4">
         <Badge variant="default">
           <p className="leading-7 [&:not(:first-child)]:mt-6">
-            {chain.pretty_name}
+            {chain?.pretty_name}
           </p>
         </Badge>
         {address && (

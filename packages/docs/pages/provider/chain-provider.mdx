@@ -10,9 +10,11 @@ These properties are shared by `ChainProvider`s from `@cosmos-kit/react` and `@c
 
 ### chains
 
-Required property of type `Chain[]` (imported from `chain-registry`)
+Required property of type `(Chain | string)[]`.
 
 It defines supported chains. Any actions involving chains beyound it might cause errors.
+
+If chain has been registered in `@chain-registry/client`, you can also simply provide chain name (type `string`) here and it'll fetch the chain information automatically.
 
 See [`Chain` schema](https://github.com/cosmos/chain-registry/blob/master/chain.schema.json).
 
@@ -72,14 +74,6 @@ function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-### assetLists
-
-Required property of type `AssetList[]` (comes from `chain-registry`)
-
-It provides chains related assets information.
-
-See [`AssetList` schema](https://github.com/cosmos/chain-registry/blob/master/assetlist.schema.json).
-
 ### wallets
 
 Required property of type `MainWalletBase[]`
@@ -125,6 +119,14 @@ export interface WalletConnectOptions {
 `projectId` is required and can be obtained from [WalletConnect Cloud](https://cloud.walletconnect.com/sign-in). Create (or use an existing) dapp project and copy its associated project id.
 
 ## Optional Properties
+
+### assetLists
+
+Optional property of type `AssetList[]` (comes from `chain-registry`)
+
+It provides chains related assets information. If not provided, will fetch assets information with `@chain-registry/client` according to the chain name provided in [`chains`](#chains).
+
+See [`AssetList` schema](https://github.com/cosmos/chain-registry/blob/master/assetlist.schema.json).
 
 ### walletModal
 
@@ -377,7 +379,7 @@ function CosmosApp() {
 
 Optional property. By default `WARN`.
 
-**Type:** `LogLevel = 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE'`
+**Type:** `'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'NONE'`
 
 Will disable logs lower than the value of `logLevel` (The log level order is the same with the order above).
 
@@ -387,9 +389,11 @@ If `logLevel` is `NONE`, no logs would be printed.
 
 Optional property. By default `false`.
 
-**Type:** `boolean`
+**Type:** `boolean | 'connect_only'`
 
 If set `true`, will throw error when wallet status to be `WalletStatus.Error`, `WalletStatus.Rejected` or `WalletStatus.NotExist`, or wallet client status to be `State.Error`.
+
+If set `connect_only`, will only throw connect errors.
 
 ### subscribeConnectEvents
 
@@ -496,6 +500,12 @@ function CosmosApp() {
   );
 }
 ```
+
+### modalOptions
+
+- `mobile.displayQRCodeEveryTime`
+
+  By default `false`. When set `true`, it'll cause all existing pairings be removed everytime wallet is disconnected. It corresponds to the `DisconnectOptions.walletconnect.removeAllPairings` in `disconnect` method.
 
 ### includeAllWalletsOnMobile
 

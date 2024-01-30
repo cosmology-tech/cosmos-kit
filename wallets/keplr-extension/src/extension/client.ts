@@ -12,6 +12,7 @@ import {
   WalletClient,
 } from '@cosmos-kit/core';
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
+import Long from 'long';
 
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
@@ -101,12 +102,19 @@ export class KeplrClient implements WalletClient {
         return [await this.getAccount(chainId)];
       },
       signDirect: async (signerAddress, signDoc) => {
-        return this.signDirect(
+        const resp = await this.signDirect(
           chainId,
           signerAddress,
           signDoc,
           this.defaultSignOptions
         );
+        return {
+          ...resp,
+          signed: {
+            ...resp.signed,
+            accountNumber: BigInt(resp.signed.accountNumber.toString()),
+          },
+        };
       },
     };
     // return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
@@ -159,12 +167,22 @@ export class KeplrClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.client.signDirect(
+    const resp = await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
+    return {
+      ...resp,
+      signed: {
+        ...resp.signed,
+        accountNumber: BigInt(resp.signed.accountNumber.toString()),
+      },
+    };
   }
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {

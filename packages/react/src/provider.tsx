@@ -1,9 +1,11 @@
 import { AssetList, Chain } from '@chain-registry/types';
 import {
+  ChainName,
   EndpointOptions,
   Logger,
   LogLevel,
   MainWalletBase,
+  ModalOptions,
   NameServiceName,
   SessionOptions,
   SignerOptions,
@@ -33,13 +35,14 @@ export const ChainProvider = ({
   disableIframe = false,
   children,
   modalTheme = {},
+  modalOptions,
 }: {
-  chains: Chain[];
+  chains: (Chain | ChainName)[];
   assetLists: AssetList[];
   wallets: MainWalletBase[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
   modalViews?: typeof defaultModalViews;
-  throwErrors?: boolean;
+  throwErrors?: boolean | 'connect_only';
   subscribeConnectEvents?: boolean;
   defaultNameService?: NameServiceName;
   walletConnectOptions?: WalletConnectOptions; // SignClientOptions is required if using wallet connect v2
@@ -50,6 +53,7 @@ export const ChainProvider = ({
   disableIframe?: boolean;
   children: ReactNode;
   modalTheme?: ThemeCustomizationProps;
+  modalOptions?: ModalOptions;
 }) => {
   const logger = useMemo(() => new Logger(logLevel), []);
 
@@ -91,6 +95,7 @@ export const ChainProvider = ({
           ...defaultModalViews,
           ...modalViews,
         }}
+        modalOptions={modalOptions}
       />
     ),
     [defaultModalViews]

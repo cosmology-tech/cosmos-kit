@@ -11,6 +11,7 @@ import {
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 
 import { Compass } from './types';
+import Long from 'long';
 
 export class CompassClient implements WalletClient {
   readonly client: Compass;
@@ -139,7 +140,10 @@ export class CompassClient implements WalletClient {
     return await this.client.signDirect(
       chainId,
       signer,
-      signDoc,
+      {
+        ...signDoc,
+        accountNumber: Long.fromString(signDoc.accountNumber.toString()),
+      },
       signOptions || this.defaultSignOptions
     );
   }

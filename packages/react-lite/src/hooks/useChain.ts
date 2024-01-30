@@ -1,5 +1,5 @@
-import { ChainContext, ChainName } from '@cosmos-kit/core';
-import { useContext, useEffect, useState } from 'react';
+import { ChainContext, ChainName, DisconnectOptions } from '@cosmos-kit/core';
+import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { walletContext } from '../provider';
 import { getChainWalletContext } from '../utils';
@@ -36,15 +36,32 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     getNameService,
   } = walletRepo;
 
-  const chainWalletContext = getChainWalletContext(
-    chain.chain_id,
-    current,
-    sync
-  );
+  const chainWalletContext = useMemo(() => {
+    if (chain) {
+      return getChainWalletContext(chain.chain_id, current, sync);
+    } else {
+      return void 0;
+    }
+  }, [chain, current, current?.state]);
 
   useEffect(() => {
     forceRender((i) => i + 1);
-  }, [chainWalletContext.address]);
+  }, [chain, assetList, chainWalletContext?.address]);
+
+  // temporary solution for sync not working when the used chain is changed without page rendering (only component rendering)
+  useEffect(() => {
+    const currentWallet = window.localStorage.getItem(
+      'cosmos-kit@2:core//current-wallet'
+    );
+    if (
+      sync &&
+      chainWalletContext &&
+      chainWalletContext.isWalletDisconnected &&
+      currentWallet
+    ) {
+      connect(currentWallet);
+    }
+  }, [chain, assetList]);
 
   return {
     ...chainWalletContext,
@@ -54,7 +71,8 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     openView,
     closeView,
     connect: () => connect(void 0, sync),
-    disconnect: () => disconnect(void 0, sync),
+    disconnect: (options?: DisconnectOptions) =>
+      disconnect(void 0, sync, options),
     getRpcEndpoint,
     getRestEndpoint,
     getStargateClient,

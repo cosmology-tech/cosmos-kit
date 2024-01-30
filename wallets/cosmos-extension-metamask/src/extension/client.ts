@@ -1,6 +1,6 @@
 import { OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo } from '@cosmjs/proto-signing';
-import { ChainRecord, SignType } from '@cosmos-kit/core';
+import { ChainRecord, DirectSignDoc, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
 import {
   Chain,
@@ -9,7 +9,7 @@ import {
   installSnap,
   suggestChain,
 } from '@cosmsnap/snapper';
-import { SignDoc } from '@keplr-wallet/types';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 export class CosmosExtensionClient implements WalletClient {
   cosmos: CosmosSnap;
@@ -71,7 +71,13 @@ export class CosmosExtensionClient implements WalletClient {
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return new CosmJSOfflineSigner(chainId);
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signDirect: (signerAddress: string, signDoc: SignDoc) =>
+        this.signDirect(chainId, signerAddress, signDoc),
+    };
   }
 
   async signAmino(
@@ -95,9 +101,9 @@ export class CosmosExtensionClient implements WalletClient {
   async signDirect(
     chainId: string,
     signer: string,
-    signDoc: SignDoc,
+    signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.cosmos.signDirect(chainId, signer, signDoc);
+    return this.cosmos.signDirect(chainId, signer, signDoc);
   }
 }

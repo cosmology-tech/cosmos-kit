@@ -1,20 +1,19 @@
 import { AssetList, Chain } from '@chain-registry/types';
 
-import { ChainRecord, Endpoints, SignerOptions } from '../types';
+import { ChainName, ChainRecord, Endpoints, SignerOptions } from '../types';
 import { getIsLazy } from './endpoint';
 import { Logger } from './logger';
 
 export function convertChain(
-  chain: Chain,
+  chain: Chain | ChainName,
   assetLists: AssetList[],
   signerOptions?: SignerOptions,
   preferredEndpoints?: Endpoints,
   isLazy?: boolean,
   logger?: Logger
 ): ChainRecord {
-  const assetList = assetLists.find(
-    (list) => list.chain_name === chain.chain_name
-  );
+  const chainName = typeof chain === 'string' ? chain : chain.chain_name;
+  const assetList = assetLists.find((list) => list.chain_name === chainName);
   const _preferredEndpoints = {
     ...preferredEndpoints,
     isLazy: getIsLazy(
@@ -26,8 +25,8 @@ export function convertChain(
     ),
   };
   const converted = {
-    name: chain.chain_name,
-    chain,
+    name: chainName,
+    chain: typeof chain === 'string' ? void 0 : chain,
     assetList,
     clientOptions: {
       stargate: signerOptions?.stargate?.(chain),

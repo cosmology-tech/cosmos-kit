@@ -1,22 +1,14 @@
 /* eslint-disable no-unused-expressions */
-import {
-  CosmWasmClient,
-  SigningCosmWasmClient,
-  SigningCosmWasmClientOptions,
-} from '@cosmjs/cosmwasm-stargate';
+import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { EncodeObject, OfflineSigner } from '@cosmjs/proto-signing';
 import {
-  calculateFee,
   GasPrice,
-  SigningStargateClient,
   SigningStargateClientOptions,
-  StargateClient,
   StargateClientOptions,
   StdFee,
 } from '@cosmjs/stargate';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import type { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { NameService } from '../name-service';
 import {
   ChainRecord,
   CosmosClientType,
@@ -28,18 +20,13 @@ import {
   State,
   Wallet,
 } from '../types';
-import {
-  getFastestEndpoint,
-  getIsLazy,
-  getNameServiceRegistryFromChainName,
-  isValidEndpoint,
-} from '../utils';
-import { MainWalletBase } from './main-wallet';
+import type { MainWalletBase } from './main-wallet';
 import { WalletBase } from './wallet';
+import { ConnectError } from '../utils';
 
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;
-  protected _chainRecord: ChainRecord;
+  chainRecord: ChainRecord;
   protected _rpcEndpoint?: string | ExtendedHttpEndpoint;
   protected _restEndpoint?: string | ExtendedHttpEndpoint;
   connectChains?: () => Promise<any>;
@@ -49,9 +36,17 @@ export class ChainWalletBase extends WalletBase {
 
   constructor(walletInfo: Wallet, chainRecord: ChainRecord) {
     super(walletInfo);
-    this._chainRecord = chainRecord;
+    this.chainRecord = chainRecord;
     this.preferredSignType =
       chainRecord.clientOptions?.preferredSignType || 'amino';
+  }
+
+  get chain() {
+    return this.chainRecord.chain;
+  }
+
+  get assetList() {
+    return this.chainRecord.assetList;
   }
 
   get isTestNet() {
@@ -78,7 +73,7 @@ export class ChainWalletBase extends WalletBase {
   }
 
   addEndpoints(endpoints?: Endpoints) {
-    this._chainRecord.preferredEndpoints = {
+    this.chainRecord.preferredEndpoints = {
       isLazy: endpoints?.isLazy ?? this.preferredEndpoints?.isLazy,
       rpc: [...(endpoints?.rpc || []), ...(this.preferredEndpoints?.rpc || [])],
       rest: [
@@ -86,10 +81,6 @@ export class ChainWalletBase extends WalletBase {
         ...(this.preferredEndpoints?.rest || []),
       ],
     };
-  }
-
-  get chainRecord() {
-    return this._chainRecord;
   }
 
   get chainName() {
@@ -102,8 +93,8 @@ export class ChainWalletBase extends WalletBase {
       // this.chainInfo.chain.logo_URIs?.svg ||
       // this.chainInfo.chain.logo_URIs?.png ||
       // this.chainInfo.chain.logo_URIs?.jpeg ||
-      this.chainRecord.assetList?.assets[0]?.logo_URIs?.svg ||
-      this.chainRecord.assetList?.assets[0]?.logo_URIs?.png ||
+      this.assetList?.assets[0]?.logo_URIs?.svg ||
+      this.assetList?.assets[0]?.logo_URIs?.png ||
       undefined
     );
   }
@@ -123,16 +114,8 @@ export class ChainWalletBase extends WalletBase {
     return this.chainRecord.clientOptions?.signingCosmwasm;
   }
 
-  get chain() {
-    return this.chainRecord.chain;
-  }
-
   get assets() {
-    return this.chainRecord.assetList?.assets;
-  }
-
-  get assetList() {
-    return this.chainRecord.assetList;
+    return this.assetList?.assets;
   }
 
   get chainId() {
@@ -152,6 +135,11 @@ export class ChainWalletBase extends WalletBase {
   }
 
   setData(data: SimpleAccount | undefined) {
+    this.logger?.debug(
+      `[Data Change] ${JSON.stringify(this.data)} -> ${JSON.stringify(data)} (${
+        (this as any).chainName
+      }/${(this as any).walletName})`
+    );
     this._mutable.data = data;
     this.actions?.data?.(data);
     const accountsStr = window.localStorage.getItem(
@@ -200,7 +188,7 @@ export class ChainWalletBase extends WalletBase {
       } catch (error) {
         if (this.rejectMatched(error as Error)) {
           this.logger?.debug(`Fetching rejected.`);
-          this.setRejected();
+          this.setRejected(new ConnectError());
           return;
         }
         if (this.client && this?.client?.addChain) {
@@ -218,9 +206,9 @@ export class ChainWalletBase extends WalletBase {
     } catch (e) {
       // this.logger?.error(e);
       if (e && this.rejectMatched(e as Error)) {
-        this.setRejected();
+        this.setRejected(new ConnectError());
       } else {
-        this.setError(e as Error);
+        this.setError(new ConnectError((e as Error).message));
       }
     }
     if (!this.isWalletRejected && this.walletName !== IFRAME_WALLET_ID) {
@@ -234,6 +222,7 @@ export class ChainWalletBase extends WalletBase {
   getRpcEndpoint = async (
     isLazy?: boolean
   ): Promise<string | ExtendedHttpEndpoint> => {
+    const { getIsLazy } = await import('../utils');
     const lazy = getIsLazy(
       void 0,
       this.isLazy,
@@ -252,6 +241,7 @@ export class ChainWalletBase extends WalletBase {
 
     const nodeType = 'rpc';
 
+    const { isValidEndpoint } = await import('../utils');
     if (
       this._rpcEndpoint &&
       (await isValidEndpoint(this._rpcEndpoint, nodeType, lazy, this.logger))
@@ -259,6 +249,7 @@ export class ChainWalletBase extends WalletBase {
       return this._rpcEndpoint;
     }
 
+    const { getFastestEndpoint } = await import('../utils');
     this._rpcEndpoint = await getFastestEndpoint(
       this.rpcEndpoints,
       nodeType,
@@ -270,6 +261,7 @@ export class ChainWalletBase extends WalletBase {
   getRestEndpoint = async (
     isLazy?: boolean
   ): Promise<string | ExtendedHttpEndpoint> => {
+    const { getIsLazy } = await import('../utils');
     const lazy = getIsLazy(
       void 0,
       this.isLazy,
@@ -288,6 +280,7 @@ export class ChainWalletBase extends WalletBase {
 
     const nodeType = 'rest';
 
+    const { isValidEndpoint } = await import('../utils');
     if (
       this._restEndpoint &&
       (await isValidEndpoint(this._restEndpoint, nodeType, lazy, this.logger))
@@ -295,6 +288,7 @@ export class ChainWalletBase extends WalletBase {
       return this._restEndpoint;
     }
 
+    const { getFastestEndpoint } = await import('../utils');
     this._restEndpoint = await getFastestEndpoint(
       this.restEndpoints,
       nodeType,
@@ -303,19 +297,23 @@ export class ChainWalletBase extends WalletBase {
     return this._restEndpoint;
   };
 
-  getStargateClient = async (): Promise<StargateClient> => {
+  getStargateClient = async () => {
     const rpcEndpoint = await this.getRpcEndpoint();
+    const { StargateClient } = await import('@cosmjs/stargate');
     return StargateClient.connect(rpcEndpoint, this.stargateOptions);
   };
 
-  getCosmWasmClient = async (): Promise<CosmWasmClient> => {
+  getCosmWasmClient = async () => {
     const rpcEndpoint = await this.getRpcEndpoint();
+    const { CosmWasmClient } = await import('@cosmjs/cosmwasm-stargate');
     return CosmWasmClient.connect(rpcEndpoint);
   };
 
-  getNameService = async (): Promise<NameService> => {
+  getNameService = async () => {
     const client = await this.getCosmWasmClient();
+    const { getNameServiceRegistryFromChainName } = await import('../utils');
     const registry = getNameServiceRegistryFromChainName(this.chainName);
+    const { NameService } = await import('../name-service');
     return new NameService(client, registry);
   };
 
@@ -330,12 +328,14 @@ export class ChainWalletBase extends WalletBase {
     );
   }
 
-  getSigningStargateClient = async (): Promise<SigningStargateClient> => {
+  getSigningStargateClient = async () => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
     if (!this.offlineSigner) {
       await this.initOfflineSigner();
     }
+
+    const { SigningStargateClient } = await import('@cosmjs/stargate');
 
     return SigningStargateClient.connectWithSigner(
       rpcEndpoint,
@@ -344,13 +344,14 @@ export class ChainWalletBase extends WalletBase {
     );
   };
 
-  getSigningCosmWasmClient = async (): Promise<SigningCosmWasmClient> => {
+  getSigningCosmWasmClient = async () => {
     const rpcEndpoint = await this.getRpcEndpoint();
 
     if (!this.offlineSigner) {
       await this.initOfflineSigner();
     }
 
+    const { SigningCosmWasmClient } = await import('@cosmjs/cosmwasm-stargate');
     return SigningCosmWasmClient.connectWithSigner(
       rpcEndpoint,
       this.offlineSigner,
@@ -401,8 +402,9 @@ export class ChainWalletBase extends WalletBase {
     }
     const client = await this.getSigningClient(type);
     const gasEstimation = await client.simulate(this.address, messages, memo);
+    const { calculateFee } = await import('@cosmjs/stargate');
     return calculateFee(
-      Math.round(gasEstimation * (multiplier || 1.3)),
+      Math.round(gasEstimation * (multiplier || 1.4)),
       gasPrice
     );
   };
@@ -431,6 +433,7 @@ export class ChainWalletBase extends WalletBase {
 
   broadcast = async (signedMessages: TxRaw, type?: CosmosClientType) => {
     const client = await this.getSigningClient(type);
+    const { TxRaw } = await import('cosmjs-types/cosmos/tx/v1beta1/tx');
     const txBytes = TxRaw.encode(signedMessages).finish();
 
     let timeoutMs: number | undefined, pollIntervalMs: number | undefined;
