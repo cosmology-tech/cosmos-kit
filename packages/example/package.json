@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.11.9",
+  "version": "2.11.10",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -26,9 +26,9 @@
     "@cosmjs/math": "0.29.0",
     "@cosmjs/proto-signing": ">=0.32.2",
     "@cosmjs/stargate": ">=0.32.2",
-    "@cosmos-kit/coin98": "^2.6.9",
+    "@cosmos-kit/coin98": "^2.6.10",
     "@cosmos-kit/core": "^2.8.9",
-    "@cosmos-kit/cosmostation": "^2.6.9",
+    "@cosmos-kit/cosmostation": "^2.6.10",
     "@cosmos-kit/fin": "^2.6.9",
     "@cosmos-kit/ins": "^2.1.6",
     "@cosmos-kit/keplr": "^2.6.9",
