@@ -4030,6 +4030,16 @@
     "@babel/runtime" "^7.21.0"
     axios "0.27.2"
 
+"@cosmos-kit/leap-metamask-cosmos-snap@^0.5.2":
+  version "0.5.8"
+  resolved "https://registry.npmjs.org/@cosmos-kit/leap-metamask-cosmos-snap/-/leap-metamask-cosmos-snap-0.5.8.tgz#7207280eb79c931f84cc31ef5c7ab69bc2b9ed9b"
+  integrity sha512-5vy1CfA3ZFlib/qepAeYbgr0rgk4nfFvdJc4lgIwFmOhYVsZvC2+a1rNb1f9V0cuKDsNDLLV/DhUcnrROm1TQQ==
+  dependencies:
+    "@chain-registry/keplr" "1.28.0"
+    "@cosmos-kit/core" "^2.8.8"
+    "@leapwallet/cosmos-snap-provider" "0.1.25"
+    "@metamask/providers" "^11.1.1"
+
 "@cosmos-kit/leap@latest":
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/@cosmos-kit/leap/-/leap-2.6.2.tgz#3a383301afd078aaf5a134199bf80f470d68f99c"
