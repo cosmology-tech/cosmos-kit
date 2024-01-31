@@ -89,7 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         wallets={[
           // ...wallets,
           // ...keplrWallets,
-          // ...leapWallets,
+          ...leapWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
@@ -103,7 +103,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...vectisWallets,
           // ...xdefiWallets,
           // ...frontierWallets,
-          // ...coin98Wallets,
+          ...coin98Wallets,
           // ...finWallets,
         ]}
         // throwErrors={"connect_only"}

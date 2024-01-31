@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChangeChainCombobox } from "@interchain-ui/react";
-import {
-  ChooseChainInfo,
-  ChainOption,
-  handleSelectChainDropdown,
-} from "../types";
+import { ChooseChainInfo, handleSelectChainDropdown } from "../types";
 
 export function ChooseChain({
   chainName,
