@@ -3,6 +3,7 @@ import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainMetamaskCosmosSnap } from './chain-wallet';
 import { CosmosSnapClient } from './client';
+import { isMetamaskInstalled } from './utils';
 
 export class MetamaskCosmosSnapWallet extends MainWalletBase {
   constructor(walletInfo: Wallet) {
@@ -12,9 +13,9 @@ export class MetamaskCosmosSnapWallet extends MainWalletBase {
   async initClient() {
     this.initingClient();
     try {
-      this.initClientDone(new CosmosSnapClient());
+      const installed = await isMetamaskInstalled();
+      this.initClientDone(installed ? new CosmosSnapClient() : undefined);
     } catch (error) {
-      this.logger?.error(error);
       this.initClientError(error);
     }
   }
