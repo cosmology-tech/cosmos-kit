@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "2.9.4",
+  "version": "2.9.5",
   "private": true,
   "main": "index.js",
   "license": "MIT",
@@ -20,13 +20,13 @@
   },
   "dependencies": {
     "@chakra-ui/react": "2.4.3",
-    "@cosmos-kit/core": "^2.8.8",
+    "@cosmos-kit/core": "^2.8.9",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@interchain-ui/react": "^1.20.7",
     "chain-registry": "^1.23.0",
     "chakra-react-select": "^4.6.0",
-    "cosmos-kit": "^2.8.4",
+    "cosmos-kit": "^2.8.5",
     "fast-fuzzy": "^1.12.0",
     "flexsearch": "^0.7.43",
     "framer-motion": "^9.0.7",
