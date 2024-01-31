@@ -96,9 +96,7 @@ export class StateBase {
   }
 
   get isWalletOnceConnect() {
-    return (
-      this.isWalletConnected || this.isWalletNotExist || this.isWalletError
-    );
+    return this.isWalletConnected || this.isWalletError;
   }
 
   get isWalletConnecting() {
