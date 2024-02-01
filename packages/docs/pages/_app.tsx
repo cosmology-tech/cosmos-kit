@@ -4,7 +4,6 @@ import { wallets } from "cosmos-kit";
 import type { AppProps } from "next/app";
 import { assets, chains } from "chain-registry";
 import { ChainProvider } from "@cosmos-kit/react";
-import { ChakraProvider } from "@chakra-ui/react";
 import { useConfig } from "nextra-theme-docs";
 import { ThemeProvider, useTheme } from "@interchain-ui/react";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
@@ -36,51 +35,48 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { setTheme, themeClass } = useTheme();
 
   return (
-    <ChakraProvider>
-      <ThemeProvider>
-        <ChainProvider
-          chains={chains}
-          assetLists={assets}
-          wallets={[
-            ...wallets.for(
-              "keplr",
-              "ledger",
-              "trust",
-              "station",
-              "cosmostation",
-              "omni",
-              "exodus",
-              "shell",
-              "vectis",
-              "frontier",
-              "leap",
-              "xdefi",
-              "coin98",
-              "fin"
-            ),
-            // ...web3AuthWallets,
-          ]}
-          walletConnectOptions={{
-            signClient: {
-              projectId: "61e6745dc9a852e0ed9ba60d28212357",
-              relayUrl: "wss://relay.walletconnect.org",
-              metadata: {
-                name: "CosmosKit Example",
-                description: "CosmosKit Docs",
-                url: "https://docs.cosmoskit.com/",
-                icons: [
-                  "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
-                ],
-              },
+    <ThemeProvider>
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[
+          ...wallets.for(
+            "keplr",
+            "ledger",
+            "trust",
+            "station",
+            "cosmostation",
+            "omni",
+            "shell",
+            "vectis",
+            "frontier",
+            "leap",
+            "xdefi",
+            "coin98",
+            "fin"
+          ),
+          // ...web3AuthWallets,
+        ]}
+        walletConnectOptions={{
+          signClient: {
+            projectId: "61e6745dc9a852e0ed9ba60d28212357",
+            relayUrl: "wss://relay.walletconnect.org",
+            metadata: {
+              name: "CosmosKit Example",
+              description: "CosmosKit Docs",
+              url: "https://docs.cosmoskit.com/",
+              icons: [
+                "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
+              ],
             },
-          }}
-        >
-          <div className={themeClass}>
-            <Component {...pageProps} />
-          </div>
-        </ChainProvider>
-      </ThemeProvider>
-    </ChakraProvider>
+          },
+        }}
+      >
+        <div className={themeClass}>
+          <Component {...pageProps} />
+        </div>
+      </ChainProvider>
+    </ThemeProvider>
   );
 }
 

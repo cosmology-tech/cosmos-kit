@@ -1,6 +1,6 @@
 import { useManager } from "@cosmos-kit/react";
-import { ThemeProvider } from "@interchain-ui/react";
-import { Center, Grid, GridItem } from "@chakra-ui/react";
+import { ThemeProvider, useTheme } from "@interchain-ui/react";
+import { Center, Grid, ChakraProvider, GridItem } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import {
   ChainOption,
@@ -12,6 +12,8 @@ import { ChainName } from "@cosmos-kit/core";
 import { WalletCardSection } from "./card";
 
 export const WalletSection = () => {
+  const { themeClass } = useTheme();
+
   const [chainName, setChainName] = useState<ChainName | undefined>(
     "cosmoshub"
   );
@@ -45,31 +47,35 @@ export const WalletSection = () => {
     }
   };
 
-  const chooseChain = (
-    <ChooseChain
-      chainName={chainName}
-      chainInfos={chainOptions}
-      onChange={onChainChange}
-    />
-  );
-
   return (
-    <Center py={16}>
-      <Grid
-        w="full"
-        maxW="sm"
-        templateColumns="1fr"
-        rowGap={4}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <GridItem>{chooseChain}</GridItem>
-        {chainName ? (
-          <WalletCardSection chainName={chainName}></WalletCardSection>
-        ) : (
-          <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
-        )}
-      </Grid>
-    </Center>
+    <ThemeProvider>
+      <div className={themeClass}>
+        <ChakraProvider>
+          <Center py={16}>
+            <Grid
+              w="full"
+              maxW="sm"
+              templateColumns="1fr"
+              rowGap={4}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <GridItem>
+                <ChooseChain
+                  chainName={chainName}
+                  chainInfos={chainOptions}
+                  onChange={onChainChange}
+                />
+              </GridItem>
+              {chainName ? (
+                <WalletCardSection chainName={chainName}></WalletCardSection>
+              ) : (
+                <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
+              )}
+            </Grid>
+          </Center>
+        </ChakraProvider>
+      </div>
+    </ThemeProvider>
   );
 };
