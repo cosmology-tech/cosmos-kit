@@ -1,6 +1,33 @@
-import { useState, useEffect } from "react";
-import { ChangeChainCombobox } from "@interchain-ui/react";
+import * as React from "react";
+import { Combobox, Box, Avatar, Stack, Text } from "@interchain-ui/react";
 import { ChooseChainInfo, handleSelectChainDropdown } from "../types";
+
+type Option = {
+  label: string;
+  value: string;
+};
+
+const ChainOption = (props: Option & { iconUrl: string }) => {
+  return (
+    <Stack
+      direction="horizontal"
+      space="$4"
+      attributes={{ alignItems: "center" }}
+    >
+      <Avatar
+        name={props.label}
+        getInitials={(name) => name[0]}
+        size="xs"
+        src={props.iconUrl}
+        fallbackMode="bg"
+      />
+
+      <Text fontSize="$md" fontWeight="$normal" color="$text">
+        {props.label}
+      </Text>
+    </Stack>
+  );
+};
 
 export function ChooseChain({
   chainName,
@@ -11,20 +38,16 @@ export function ChooseChain({
   chainInfos: ChooseChainInfo[];
   onChange: handleSelectChainDropdown;
 }) {
-  const [selectedChain, setSelectedChain] = useState<{
-    iconUrl?: string;
-    label: string;
-    value: string;
-  } | null>(null);
+  const [selectedKey, setSelectedKey] = React.useState<React.Key>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (chainName && chainInfos.length > 0) {
-      setSelectedChain(
-        chainInfos.filter((options) => options.chainName === chainName)[0]
+      setSelectedKey(
+        chainInfos.filter((options) => options.chainName === chainName)[0].value
       );
     }
 
-    if (!chainName) setSelectedChain(null);
+    if (!chainName) setSelectedKey(null);
   }, [chainInfos, chainName]);
 
   const chainOptions = chainInfos.map((chainInfo) => ({
@@ -34,18 +57,52 @@ export function ChooseChain({
   }));
 
   return (
-    <ChangeChainCombobox
-      isLoading={!chainInfos}
-      appearance="bold"
-      maxHeight={350}
-      valueItem={selectedChain ? selectedChain : undefined}
-      onItemSelected={(item) => {
-        console.log("[Story] Selected Item", item);
-        setSelectedChain(item);
-        const selected = chainInfos.find((c) => c.label === item.label);
-        onChange(selected);
-      }}
-      options={chainOptions}
-    />
+    <Box display="flex" justifyContent="center" alignItems="center">
+      <Combobox
+        selectedKey={selectedKey as string}
+        onSelectionChange={(item) => {
+          if (item) {
+            setSelectedKey(item);
+
+            const found =
+              chainInfos.find((options) => options.value === item) ?? null;
+
+            if (found) {
+              onChange?.(found);
+            }
+          }
+        }}
+        inputAddonStart={
+          selectedKey ? (
+            <Avatar
+              name={selectedKey as string}
+              getInitials={(name) => name[0]}
+              size="xs"
+              src={
+                chainOptions.find((i) => i.value === selectedKey)?.iconUrl ??
+                undefined
+              }
+              fallbackMode="bg"
+              attributes={{
+                paddingX: "$4",
+              }}
+            />
+          ) : null
+        }
+        styleProps={{
+          width: "350px",
+        }}
+      >
+        {chainOptions.map((option) => (
+          <Combobox.Item key={option.value} textValue={option.value}>
+            <ChainOption
+              iconUrl={option.iconUrl}
+              label={option.label}
+              value={option.value}
+            />
+          </Combobox.Item>
+        ))}
+      </Combobox>
+    </Box>
   );
 }
