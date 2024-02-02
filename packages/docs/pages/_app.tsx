@@ -8,7 +8,7 @@ import { useConfig } from "nextra-theme-docs";
 import { ThemeProvider, useTheme } from "@interchain-ui/react";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import "nextra-theme-docs/style.css";
-import React, { useMemo } from "react";
+import React from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // const web3AuthWallets = useMemo(
