@@ -14,6 +14,7 @@ import { wallets as ledgerUSB } from '@cosmos-kit/ledger';
 import { wallets as omniMobile } from '@cosmos-kit/omni-mobile';
 import { wallets as finExtension } from '@cosmos-kit/fin-extension';
 import { wallets as stationExtension } from '@cosmos-kit/station-extension';
+import { wallets as trustExtension } from '@cosmos-kit/trust-extension';
 import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
 import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
@@ -82,7 +83,7 @@ export const leap = createWalletList(
 );
 export const station = createWalletList(stationExtension[0], null);
 export const okxwallet = createWalletList(okxwalletExtension[0], null);
-export const trust = createWalletList(null, trustMobile[0]);
+export const trust = createWalletList(trustExtension[0], trustMobile[0]);
 export const xdefi = createWalletList(xdefiExtension[0], null);
 export const vectis = createWalletList(vectisExtension[0], null);
 export const frontier = createWalletList(frontierExtension[0], null);
