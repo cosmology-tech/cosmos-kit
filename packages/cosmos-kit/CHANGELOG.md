@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.8.6...cosmos-kit@2.9.0) (2024-02-02)
+
+### Features
+
+- Add support for Trust Extension ([38b3653](https://github.com/cosmology-tech/cosmos-kit/commit/38b365326457e592f739dd5bb94dbbed5405f21d))
+
 ## [2.8.6](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.8.5...cosmos-kit@2.8.6) (2024-01-31)
 
 **Note:** Version bump only for package cosmos-kit
