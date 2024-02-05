@@ -2,7 +2,7 @@ import { ClientNotExistError } from '@cosmos-kit/core';
 
 interface MetamaskWindow {
   ethereum?: {
-    isMetamask?: boolean;
+    isMetaMask?: boolean;
   };
 }
 
@@ -13,12 +13,12 @@ export const isMetamaskInstalled: () => Promise<boolean> = async () => {
 
   const ethereum = (window as MetamaskWindow).ethereum;
 
-  if (ethereum?.isMetamask) {
+  if (ethereum?.isMetaMask) {
     return true;
   }
 
   if (document.readyState === 'complete') {
-    if (ethereum?.isMetamask) {
+    if (ethereum?.isMetaMask) {
       return true;
     } else {
       throw ClientNotExistError;
@@ -31,7 +31,7 @@ export const isMetamaskInstalled: () => Promise<boolean> = async () => {
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        if (ethereum?.isMetamask) {
+        if (ethereum?.isMetaMask) {
           resolve(true);
         } else {
           reject(ClientNotExistError.message);
