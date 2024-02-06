@@ -51,19 +51,32 @@ Basically how many `chains` are provided in `ChainProvider` or `WalletManager`, 
 
 We have a class `MainWalletBase` with wallet specified to manage all chain wallets. All these chain wallets are with the same wallet name but different chain name. Accordingly we also have another class `WalletRepo`, which with chain specified to manage all chain wallets that with the same chain name but different wallet name.
 
-#### MainWalletBase vs. WalletRepo
+### MainWalletBase vs. WalletRepo
 
-Common:
-
-- Both manage chain wallets
-
-Differences:
-
-| Class          | Indentifier | ChainWallets                                                                                                                    |
-| -------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| MainWalletBase | wallet name | `cosmoshub/keplr-extension`, `osmosis/keplr-extension`, `stargaze/keplr-extension`, `chihuahua/keplr-extension` etc.            |
-| WalletRepo     | chain name  | `cosmoshub/keplr-extension`, `cosmoshub/keplr-mobile`, `cosmoshub/cosmostation-extension`, `cosmoshub/cosmostation-mobile` etc. |
-
-`WalletRepo` provides a different perspective from chain side to consider all chain wallets in addition to `MainWalletBase`. It's useful in some dapps that chain is the key point rather than wallet.
+#### 1. **MainWalletBase**
+- **Purpose**: Manages a collection of chain wallets.
+- **Key Identifier**: Wallet name.
+- **Example**: It handles wallets like cosmoshub/keplr-extension, osmosis/keplr-extension, etc. These are wallets from different chains but with the same wallet name.
+  
+#### 2. **WalletRepo**
+- **Purpose**: Manages chain wallets too, but with a different approach.
+- **Key Identifier**: Chain name.
+- **Example**: It manages wallets like cosmoshub/keplr-extension, cosmoshub/keplr-mobile, etc. These are wallets from the same chain but with different wallet names.
+  
+#### Common Point
+- **Both MainWalletBase and WalletRepo** are involved in managing chain wallets, which are wallets associated with different blockchain networks.
+  
+#### Key Differences
+- **MainWalletBase**: Focuses on managing wallets based on the wallet’s name. It doesn’t matter what chain the wallet is from; as long as they share the same wallet name, MainWalletBase manages them.
+- **WalletRepo**: Concentrates on managing wallets based on the chain’s name. Here, the specific wallet names don’t matter; WalletRepo groups and manages wallets that are on the same blockchain network.
+  
+#### Practical Use
+- **In some decentralized applications (dapps)**, the focus might be more on the blockchain network (chain) rather than the wallet itself. In such cases, WalletRepo is particularly useful because it provides a perspective based on the chain, allowing different wallets on the same chain to be managed together.
+  
+#### Summary
+- **MainWalletBase**: Manages wallets across different chains but with the same wallet name.
+- **WalletRepo**: Manages different wallets on the same chain.
+  
+In essence, these two classes offer different ways of organizing and accessing chain wallets, based on what the primary point of interest is (wallet name or chain name).
 
 So far `WalletRepo` is only used in [`WalletModal`](https://docs.cosmology.zone/cosmos-kit/provider/chain-provider#walletmodal) properties.
