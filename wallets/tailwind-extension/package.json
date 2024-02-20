@@ -8,6 +8,25 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "cjs/index.d.ts",
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "cjs",
+    "esm",
+    "!CHANGELOG.md",
+    "!LICENSE"
+  ],
+  "scripts": {
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
+    "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
+    "clean:cjs": "rimraf cjs",
+    "clean:esm": "rimraf esm",
+    "clean": "npm run clean:cjs && npm run clean:esm",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "prepare": "npm run build"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -28,15 +47,6 @@
     "testPathIgnorePatterns": [
       "dist/"
     ]
-  },
-  "scripts": {
-    "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
-    "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
-    "clean:cjs": "rimraf cjs",
-    "clean:esm": "rimraf esm",
-    "clean": "npm run clean:cjs && npm run clean:esm",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "prepare": "npm run build"
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.8.9"
