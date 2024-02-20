@@ -25,7 +25,12 @@
     "clean:esm": "rimraf esm",
     "clean": "npm run clean:cjs && npm run clean:esm",
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "lint": "eslint --ext .tsx,.ts .",
+    "format": "eslint --ext .tsx,.ts --fix .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "publishConfig": {
     "access": "public"
