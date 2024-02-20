@@ -1,14 +1,45 @@
 {
   "name": "@cosmos-kit/tailwind-extension",
-  "version": "0.1.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Cosmos-kit adapter for Tailwind extension",
+  "author": "bao@tailwind.zone",
+  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "cjs/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmology-tech/cosmos-kit"
+  },
+  "keywords": [
+    "cosmos",
+    "cosmos-kit",
+    "tailwind",
+    "wallet"
+  ],
+  "bugs": {
+    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "dist/"
+    ]
+  },
   "scripts": {
-    "clean": "rm -rf node_modules"
+    "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
+    "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
+    "clean:cjs": "rimraf cjs",
+    "clean:esm": "rimraf esm",
+    "clean": "npm run clean:cjs && npm run clean:esm",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "prepare": "npm run build"
   },
   "dependencies": {
-    "@cosmos-kit/core": "latest"
+    "@cosmos-kit/core": "^2.8.9"
   },
   "devDependencies": {
     "@cosmjs/proto-signing": "^0.32.2",
