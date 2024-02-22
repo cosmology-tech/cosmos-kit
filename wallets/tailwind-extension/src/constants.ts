@@ -9,4 +9,14 @@ export const tailwind_extension_info: Wallet = {
   mode: 'extension',
   mobileDisabled: true,
   logo: ICON,
+  downloads: [
+    {
+      device: 'desktop',
+      browser: 'chrome',
+      link: 'https://chromewebstore.google.com/detail/tailwind-wallet/dpnfollacokcbkeiidhplhjpafkbfacj',
+    },
+    {
+      link: 'https://chromewebstore.google.com/detail/tailwind-wallet/dpnfollacokcbkeiidhplhjpafkbfacj',
+    },
+  ],
 };
