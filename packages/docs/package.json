@@ -19,14 +19,10 @@
     "deploy:all": "npm run export && npm run deploy && ./seo/prepare.sh"
   },
   "dependencies": {
-    "@chakra-ui/react": "2.4.3",
     "@cosmos-kit/core": "^2.8.9",
     "@cosmos-kit/react": "^2.10.10",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@interchain-ui/react": "^1.21.18",
+    "@interchain-ui/react": "^1.21.19",
     "chain-registry": "^1.23.0",
-    "chakra-react-select": "^4.6.0",
     "cosmos-kit": "^2.9.0",
     "fast-fuzzy": "^1.12.0",
     "flexsearch": "^0.7.43",

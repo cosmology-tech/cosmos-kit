@@ -30,12 +30,7 @@
     "lib": "src",
     "test": "__tests__"
   },
-  "files": [
-    "cjs",
-    "esm",
-    "!CHANGELOG.md",
-    "!LICENSE"
-  ],
+  "files": ["cjs", "esm", "!CHANGELOG.md", "!LICENSE"],
   "scripts": {
     "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
     "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
@@ -70,9 +65,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "dist/"
-    ]
+    "testPathIgnorePatterns": ["dist/"]
   },
   "devDependencies": {
     "@types/react": "^18.2",
@@ -88,7 +81,7 @@
     "@types/react": "^18"
   },
   "peerDependencies": {
-    "@interchain-ui/react": "^1.21.18",
+    "@interchain-ui/react": "^1.21.19",
     "react": "^18",
     "react-dom": "^18"
   },
