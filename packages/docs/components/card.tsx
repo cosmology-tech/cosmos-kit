@@ -1,13 +1,6 @@
 import { useChain } from "@cosmos-kit/react";
-import {
-  Box,
-  GridItem,
-  Icon,
-  Stack,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { MouseEventHandler, useEffect } from "react";
-import { FiAlertTriangle } from "react-icons/fi";
+import { MouseEventHandler } from "react";
+import { Box, useColorModeValue } from "@interchain-ui/react";
 import {
   Astronaut,
   Error,
@@ -63,13 +56,13 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
       walletStatus={status}
       rejected={
         <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          intent="warning"
           wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
       error={
         <RejectedWarn
-          icon={<Icon as={FiAlertTriangle} mt={1} />}
+          intent="error"
           wordOfWarning={`${wallet?.prettyName}: ${message}`}
         />
       }
@@ -79,6 +72,7 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
   const userInfo = username && (
     <ConnectedUserInfo username={username} icon={<Astronaut />} />
   );
+
   const addressBtn = (
     <CopyAddressBtn
       walletStatus={status}
@@ -88,28 +82,30 @@ export const WalletCardSection = ({ chainName }: { chainName: string }) => {
 
   return (
     <>
-      {connectWalletWarn && <GridItem>{connectWalletWarn}</GridItem>}
-      <GridItem px={6}>
-        <Stack
-          justifyContent="center"
-          alignItems="center"
-          borderRadius="lg"
-          bg={useColorModeValue("white", "blackAlpha.400")}
-          boxShadow={useColorModeValue(
-            "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
-            "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
-          )}
-          spacing={4}
-          px={4}
-          py={{ base: 6, md: 12 }}
-        >
-          {userInfo}
-          {addressBtn}
-          <Box w="full" maxW={{ base: 52, md: 64 }}>
-            {connectWalletButton}
-          </Box>
-        </Stack>
-      </GridItem>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        gap="$8"
+        alignItems="center"
+        borderRadius="$lg"
+        bg={useColorModeValue("$white", "$cardBg")}
+        boxShadow={useColorModeValue(
+          "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+          "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
+        )}
+        px="$8"
+        py="$12"
+      >
+        {userInfo}
+        {addressBtn}
+
+        <Box width="$full" textAlign="center" maxWidth="$30">
+          {connectWalletButton}
+        </Box>
+      </Box>
+
+      {connectWalletWarn && <Box>{connectWalletWarn}</Box>}
     </>
   );
 };

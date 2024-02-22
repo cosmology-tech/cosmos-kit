@@ -4,8 +4,8 @@ import { wallets } from "cosmos-kit";
 import type { AppProps } from "next/app";
 import { assets, chains } from "chain-registry";
 import { ChainProvider } from "@cosmos-kit/react";
-import { useConfig } from "nextra-theme-docs";
 import { ThemeProvider, useTheme } from "@interchain-ui/react";
+import { useNextraTheme } from "../components/hooks";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import "nextra-theme-docs/style.css";
 import React from "react";
@@ -31,8 +31,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   //     }),
   //   []
   // );
-  const { nextThemes } = useConfig();
-  const { setTheme, themeClass } = useTheme();
+  const { setTheme, themeClass, theme } = useTheme();
+
+  // Sync nextra theme with interchain ui theme
+  useNextraTheme({
+    onThemeChange(theme) {
+      setTheme(theme);
+    },
+  });
 
   return (
     <ThemeProvider>

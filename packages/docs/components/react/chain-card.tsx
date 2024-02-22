@@ -1,39 +1,49 @@
-import { Box, Stack, useColorModeValue, Image, Text } from '@chakra-ui/react';
-import { ChainCardProps } from '../types';
+import Image from "next/image";
+import { Text, Box, useTheme } from "@interchain-ui/react";
 
-export const ChainCard = (props: ChainCardProps) => {
+interface IChainCard {
+  prettyName: string;
+  icon?: string;
+}
+
+export const ChainCard = (props: IChainCard) => {
+  const { theme } = useTheme();
   return (
-    <Stack
-      isInline={true}
+    <Box
+      display="flex"
       alignItems="center"
-      justifyContent={'center'}
-      spacing={3}
+      justifyContent="center"
+      gap="$4"
       overflow="hidden"
       wordBreak="break-word"
-      color={useColorModeValue('blackAlpha.800', 'whiteAlpha.800')}
-      w="full"
+      color={theme === "light" ? "$blackAlpha800" : "$whiteAlpha800"}
+      width="100%"
     >
       <Box
-        minW={10}
-        minH={10}
-        maxW={10}
-        maxH={10}
-        w="full"
-        h="full"
+        minWidth="$10"
+        minHeight="$10"
+        maxWidth="$10"
+        maxHeight="$10"
+        width="100%"
+        height="100%"
+        borderWidth="1px"
+        borderStyle="solid"
+        borderColor={theme === "light" ? "$blackAlpha200" : "$whiteAlpha200"}
         border="1px solid"
-        borderColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.200')}
-        borderRadius="full"
+        borderRadius="$full"
         overflow="hidden"
       >
         <Image
-          alt=""
-          src={props.icon}
-          fallbackSrc={'https://dummyimage.com/150/9e9e9e/ffffff&text=☒'}
+          width={24}
+          height={24}
+          alt="chain icon"
+          src={props.icon ?? "https://dummyimage.com/150/9e9e9e/ffffff&text=☒"}
         />
       </Box>
-      <Text fontSize="xl" fontWeight="semibold" paddingEnd={'18px'}>
+
+      <Text fontSize="$xl" fontWeight="$semibold">
         {props.prettyName}
       </Text>
-    </Stack>
+    </Box>
   );
 };
