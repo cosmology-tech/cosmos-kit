@@ -9,6 +9,7 @@ export const tailwind_extension_info: Wallet = {
   mode: 'extension',
   mobileDisabled: true,
   logo: ICON,
+  connectEventNamesOnWindow: ['tailwind_wallet_keystorechange'],
   downloads: [
     {
       device: 'desktop',
