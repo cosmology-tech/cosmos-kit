@@ -36,12 +36,12 @@ const ChainOption = (props: Option & { iconUrl: string }) => {
     <Stack
       direction="horizontal"
       space="$4"
-      attributes={{ alignItems: "center" }}
+      attributes={{ alignItems: "center", height: "$full" }}
     >
       <Avatar
         name={props.label}
         getInitials={(name) => name[0]}
-        size="xs"
+        size="sm"
         src={props.iconUrl}
         fallbackMode="bg"
       />
@@ -105,6 +105,7 @@ export const ChooseChain = (props: ChooseChainProps) => {
         className={themeClass}
       >
         <Combobox
+          size="md"
           items={filteredItems}
           inputValue={filterValue}
           openOnFocus
@@ -133,7 +134,7 @@ export const ChooseChain = (props: ChooseChainProps) => {
               <Avatar
                 name={selectedKey as string}
                 getInitials={(name) => name[0]}
-                size="xs"
+                size="sm"
                 src={avatarUrl}
                 fallbackMode="bg"
                 attributes={{
@@ -147,7 +148,7 @@ export const ChooseChain = (props: ChooseChainProps) => {
                 alignItems="center"
                 px="$4"
               >
-                <Skeleton width="24px" height="24px" borderRadius="$full" />
+                <Skeleton width="32px" height="32px" borderRadius="$full" />
               </Box>
             )
           }

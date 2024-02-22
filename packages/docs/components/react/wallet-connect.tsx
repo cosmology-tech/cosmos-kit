@@ -1,42 +1,70 @@
-import React, { MouseEventHandler, ReactNode } from "react";
-import { Button, Icon, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import * as React from "react";
+import {
+  Button,
+  Box,
+  Text,
+  Stack,
+  useColorModeValue,
+} from "@interchain-ui/react";
 import { IoWallet } from "react-icons/io5";
-import { ConnectWalletType } from "../types";
 import { FiAlertTriangle } from "react-icons/fi";
-import { WalletStatus } from "@cosmos-kit/core";
+import { WalletStatus } from "cosmos-kit";
+
+interface IConnectWalletButton {
+  buttonText?: string;
+  isLoading?: boolean;
+  isDisabled?: boolean;
+  onClickConnectBtn?: React.MouseEventHandler<HTMLButtonElement>;
+}
 
 export const ConnectWalletButton = ({
   buttonText,
   isLoading,
   isDisabled,
-  icon,
   onClickConnectBtn,
-}: ConnectWalletType) => {
+}: IConnectWalletButton) => {
   return (
     <Button
-      w="full"
-      minW="fit-content"
-      size="lg"
+      fluidWidth
+      size="md"
       isLoading={isLoading}
-      isDisabled={isDisabled}
-      bgImage="linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)"
-      color="white"
-      opacity={1}
-      transition="all .5s ease-in-out"
-      _hover={{
-        bgImage:
-          "linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)",
-        opacity: 0.75,
-      }}
-      _active={{
-        bgImage:
-          "linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)",
-        opacity: 0.9,
-      }}
+      disabled={isDisabled}
       onClick={onClickConnectBtn}
+      attributes={{
+        position: "relative",
+      }}
     >
-      <Icon as={icon ? icon : IoWallet} mr={2} />
-      {buttonText ? buttonText : "Connect Wallet"}
+      <div
+        style={{
+          borderRadius: "8px",
+          top: "0",
+          left: "0",
+          right: "0",
+          bottom: "0",
+          zIndex: "0",
+          margin: "-1px",
+          position: "absolute",
+          backgroundImage: `linear-gradient(109.6deg, rgba(157,75,199,1) 11.2%, rgba(119,81,204,1) 83.1%)`,
+        }}
+      />
+
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap="$4"
+        as="span"
+        borderRadius="8px"
+        style={{
+          zIndex: "1",
+        }}
+      >
+        <Box as="span">
+          <IoWallet />
+        </Box>
+
+        <Box as="span">{buttonText ? buttonText : "Connect Wallet"}</Box>
+      </Box>
     </Button>
   );
 };
@@ -46,7 +74,7 @@ export const Disconnected = ({
   onClick,
 }: {
   buttonText: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
@@ -58,7 +86,7 @@ export const Connected = ({
   onClick,
 }: {
   buttonText: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ConnectWalletButton buttonText={buttonText} onClickConnectBtn={onClick} />
@@ -76,31 +104,38 @@ export const Rejected = ({
 }: {
   buttonText: string;
   wordOfWarning?: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const bg = useColorModeValue("orange.200", "orange.300");
+  const bg = useColorModeValue("$orange200", "$orange300");
 
   return (
-    <Stack>
+    <Stack direction="vertical">
       <ConnectWalletButton
         buttonText={buttonText}
         isDisabled={false}
         onClickConnectBtn={onClick}
       />
+
       {wordOfWarning && (
         <Stack
-          isInline={true}
-          borderRadius="md"
-          bg={bg}
-          color="blackAlpha.900"
-          p={4}
-          spacing={1}
+          direction="horizontal"
+          space="$1"
+          attributes={{
+            borderRadius: "$md",
+            backgroundColor: bg,
+            color: "$text",
+            padding: "$2",
+          }}
         >
-          <Icon as={FiAlertTriangle} mt={1} />
-          <Text>
-            <Text fontWeight="semibold" as="span">
+          <Box display="inline-block">
+            <FiAlertTriangle />
+          </Box>
+
+          <Text fontSize="$sm">
+            <Text as="span" fontWeight="$semibold">
               Warning:&ensp;
             </Text>
+
             {wordOfWarning}
           </Text>
         </Stack>
@@ -116,31 +151,38 @@ export const Error = ({
 }: {
   buttonText: string;
   wordOfWarning?: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
-  const bg = useColorModeValue("orange.200", "orange.300");
+  const bg = useColorModeValue("$orange200", "$orange300");
 
   return (
-    <Stack>
+    <Stack direction="vertical">
       <ConnectWalletButton
         buttonText={buttonText}
         isDisabled={false}
         onClickConnectBtn={onClick}
       />
+
       {wordOfWarning && (
         <Stack
-          isInline={true}
-          borderRadius="md"
-          bg={bg}
-          color="blackAlpha.900"
-          p={4}
-          spacing={1}
+          direction="horizontal"
+          space="$1"
+          attributes={{
+            borderRadius: "$md",
+            backgroundColor: bg,
+            color: "$text",
+            padding: "$2",
+          }}
         >
-          <Icon as={FiAlertTriangle} mt={1} />
-          <Text>
-            <Text fontWeight="semibold" as="span">
+          <Box display="inline-block">
+            <FiAlertTriangle />
+          </Box>
+
+          <Text fontSize="$sm">
+            <Text fontWeight="$semibold" as="span">
               Warning:&ensp;
             </Text>
+
             {wordOfWarning}
           </Text>
         </Stack>
@@ -154,7 +196,7 @@ export const NotExist = ({
   onClick,
 }: {
   buttonText: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ConnectWalletButton
@@ -175,25 +217,26 @@ export const WalletConnectComponent = ({
   notExist,
 }: {
   walletStatus: WalletStatus;
-  disconnect: ReactNode;
-  connecting: ReactNode;
-  connected: ReactNode;
-  rejected: ReactNode;
-  error: ReactNode;
-  notExist: ReactNode;
+  disconnect: React.ReactNode;
+  connecting: React.ReactNode;
+  connected: React.ReactNode;
+  rejected: React.ReactNode;
+  error: React.ReactNode;
+  notExist: React.ReactNode;
 }) => {
+  console.log("walletStatus", walletStatus);
   switch (walletStatus) {
-    case "Disconnected":
+    case WalletStatus.Disconnected:
       return <>{disconnect}</>;
-    case "Connecting":
+    case WalletStatus.Connecting:
       return <>{connecting}</>;
-    case "Connected":
+    case WalletStatus.Connected:
       return <>{connected}</>;
-    case "Rejected":
+    case WalletStatus.Rejected:
       return <>{rejected}</>;
-    case "Error":
+    case WalletStatus.Error:
       return <>{error}</>;
-    case "NotExist":
+    case WalletStatus.NotExist:
       return <>{notExist}</>;
     default:
       return <>{disconnect}</>;

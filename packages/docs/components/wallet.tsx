@@ -1,6 +1,5 @@
 import { useManager } from "@cosmos-kit/react";
-import { ThemeProvider, useTheme } from "@interchain-ui/react";
-import { Center, Grid, ChakraProvider, GridItem } from "@chakra-ui/react";
+import { ThemeProvider, useTheme, Box } from "@interchain-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import {
   ChainOption,
@@ -50,31 +49,29 @@ export const WalletSection = () => {
   return (
     <ThemeProvider>
       <div className={themeClass}>
-        <ChakraProvider>
-          <Center py={16}>
-            <Grid
-              w="full"
-              maxW="sm"
-              templateColumns="1fr"
-              rowGap={4}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <GridItem>
-                <ChooseChain
-                  chainName={chainName}
-                  chainInfos={chainOptions}
-                  onChange={onChainChange}
-                />
-              </GridItem>
-              {chainName ? (
-                <WalletCardSection chainName={chainName}></WalletCardSection>
-              ) : (
-                <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
-              )}
-            </Grid>
-          </Center>
-        </ChakraProvider>
+        <Box py="$8" display="flex" justifyContent="center" alignItems="center">
+          <Box
+            display="grid"
+            width="$full"
+            maxWidth="400px"
+            gridTemplateColumns="1fr"
+            rowGap="$8"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <ChooseChain
+              chainName={chainName}
+              chainInfos={chainOptions}
+              onChange={onChainChange}
+            />
+
+            {chainName ? (
+              <WalletCardSection chainName={chainName}></WalletCardSection>
+            ) : (
+              <ConnectWalletButton buttonText={"Connect Wallet"} isDisabled />
+            )}
+          </Box>
+        </Box>
       </div>
     </ThemeProvider>
   );
