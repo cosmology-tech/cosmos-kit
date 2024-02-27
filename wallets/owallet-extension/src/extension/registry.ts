@@ -1,11 +1,11 @@
 import { Wallet } from '@cosmos-kit/core';
-import { Window as OwalletWindow } from '@keplr-wallet/types';
+import { Window as OWalletWindow } from '@keplr-wallet/types';
 
 import { ICON } from '../constant';
 
 export const owalletExtensionInfo: Wallet = {
   name: 'owallet-extension',
-  prettyName: 'Owallet',
+  prettyName: 'OWallet',
   logo: ICON,
   mode: 'extension',
   // In the Owallet Mobile in-app browser, Owallet is available in window.owallet,
@@ -16,9 +16,9 @@ export const owalletExtensionInfo: Wallet = {
       typeof document !== 'undefined' &&
       document.readyState === 'complete' &&
       //@ts-ignore
-      (window as OwalletWindow).owallet &&
+      (window as OWalletWindow).owallet &&
       //@ts-ignore
-      (window as OwalletWindow).owallet.mode === 'mobile-web'
+      (window as OWalletWindow).owallet.mode === 'mobile-web'
     ),
   rejectMessage: {
     source: 'Request rejected',

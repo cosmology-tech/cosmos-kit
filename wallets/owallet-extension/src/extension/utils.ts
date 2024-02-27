@@ -1,14 +1,14 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
-import { Keplr, Window as OwalletWindow } from '@keplr-wallet/types';
+import { Keplr, Window as OWalletWindow } from '@keplr-wallet/types';
 
-export const getOwalletFromExtension: () => Promise<
+export const getOWalletFromExtension: () => Promise<
   Keplr | undefined
 > = async () => {
   if (typeof window === 'undefined') {
     return void 0;
   }
   //@ts-ignore
-  const owallet = (window as OwalletWindow).owallet;
+  const owallet = (window as OWalletWindow).owallet;
 
   if (owallet) {
     return owallet;
@@ -29,7 +29,7 @@ export const getOwalletFromExtension: () => Promise<
         (event.target as Document).readyState === 'complete'
       ) {
         //@ts-ignore
-        const owallet = (window as OwalletWindow).owallet;
+        const owallet = (window as OWalletWindow).owallet;
         if (owallet) {
           resolve(owallet);
         } else {

@@ -3,7 +3,7 @@ import { MainWalletBase } from '@cosmos-kit/core';
 
 import { ChainOwalletExtension } from './chain-wallet';
 import { OwalletClient } from './client';
-import { getOwalletFromExtension } from './utils';
+import { getOWalletFromExtension } from './utils';
 
 export class OwalletExtensionWallet extends MainWalletBase {
   constructor(
@@ -17,7 +17,7 @@ export class OwalletExtensionWallet extends MainWalletBase {
   async initClient() {
     this.initingClient();
     try {
-      const owallet = await getOwalletFromExtension();
+      const owallet = await getOWalletFromExtension();
       this.initClientDone(owallet ? new OwalletClient(owallet) : undefined);
     } catch (error) {
       this.initClientError(error);

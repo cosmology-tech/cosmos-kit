@@ -47,7 +47,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[
           ...wallets.for(
-            "owallet",
             "keplr",
             "ledger",
             "trust",
@@ -60,7 +59,8 @@ function MyApp({ Component, pageProps }: AppProps) {
             "leap",
             "xdefi",
             "coin98",
-            "fin"
+            "fin",
+            "owallet"
           ),
           // ...web3AuthWallets,
         ]}

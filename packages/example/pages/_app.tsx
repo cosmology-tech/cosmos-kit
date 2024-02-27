@@ -91,7 +91,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...wallets,
           ...keplrWallets,
           ...leapWallets,
-          ...owalletWallets,
+          // ...owalletWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
