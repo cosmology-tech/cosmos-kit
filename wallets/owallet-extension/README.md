@@ -14,7 +14,7 @@
 
 CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-@cosmos-kit/owallet is the OWallet integration for CosmosKit.
+@cosmos-kit/owallet-extension is the OWallet integration for CosmosKit.
 
 ## Related
 
