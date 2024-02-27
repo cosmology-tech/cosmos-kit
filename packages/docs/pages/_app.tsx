@@ -47,6 +47,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={assets}
         wallets={[
           ...wallets.for(
+            "owallet",
             "keplr",
             "ledger",
             "trust",

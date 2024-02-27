@@ -13,6 +13,7 @@ import { wallets as exodusWallets } from "@cosmos-kit/exodus";
 import { wallets as finWallets } from "@cosmos-kit/fin";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
+import { wallets as owalletWallets } from "@cosmos-kit/owallet";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as snapWallet } from "@cosmos-kit/leap-metamask-cosmos-snap";
 import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
@@ -90,6 +91,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...wallets,
           ...keplrWallets,
           ...leapWallets,
+          ...owalletWallets,
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
