@@ -8,7 +8,6 @@ import { wallets as frontierExtension } from '@cosmos-kit/frontier-extension';
 import { wallets as keplrExtension } from '@cosmos-kit/keplr-extension';
 import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
 import { wallets as owalletExtension } from '@cosmos-kit/owallet-extension';
-import { wallets as owalletMobile } from '@cosmos-kit/owallet-mobile';
 import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
 import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
 import { wallets as leapMetamaskCosmosSnap } from '@cosmos-kit/leap-metamask-cosmos-snap';
@@ -97,7 +96,7 @@ export const shell = createWalletList(shellExtension[0], null);
 export const coin98 = createWalletList(coin98Extension[0], null);
 export const compass = createWalletList(compassExtension[0], null);
 export const exodus = createWalletList(exodusExtension[0], null);
-export const owallet = createWalletList(owalletExtension[0], owalletMobile[0]);
+export const owallet = createWalletList(owalletExtension[0], null);
 
 export type SubWalletList = MainWalletBase[] & {
   get mobile(): MainWalletBase[];
@@ -120,7 +119,7 @@ export type AllWalletList = SubWalletList & {
   coin98: typeof coin98;
   compass: typeof compass;
   exodus: typeof exodus;
-  owallet: typeof keplr;
+  owallet: typeof owallet;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
 };
