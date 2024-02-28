@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-metamask-cosmos-snap@0.6.0...@cosmos-kit/leap-metamask-cosmos-snap@0.6.1) (2024-02-28)
+
+### Bug Fixes
+
+- typo in leap-metamask-cosmos-snap detection ([7937415](https://github.com/cosmology-tech/cosmos-kit/commit/79374152414301653c24918dbd031e7184b151ee))
+
 # [0.6.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-metamask-cosmos-snap@0.5.8...@cosmos-kit/leap-metamask-cosmos-snap@0.6.0) (2024-01-31)
 
 ### Features

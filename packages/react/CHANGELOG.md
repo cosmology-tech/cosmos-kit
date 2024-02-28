@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.10.10...@cosmos-kit/react@2.10.11) (2024-02-28)
+
+### Bug Fixes
+
+- sync nextra theme with interchain ui theme ([160a0e9](https://github.com/cosmology-tech/cosmos-kit/commit/160a0e90f03de090e67db1403ee93c3ac60163e4))
+
 ## [2.10.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/react@2.10.9...@cosmos-kit/react@2.10.10) (2024-02-02)
 
 ### Bug Fixes
