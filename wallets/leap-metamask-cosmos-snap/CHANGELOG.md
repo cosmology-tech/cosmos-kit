@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-metamask-cosmos-snap@0.6.1...@cosmos-kit/leap-metamask-cosmos-snap@0.6.2) (2024-02-29)
+
+### Bug Fixes
+
+- Metamask snaps signDirect issue ([7b577cf](https://github.com/cosmology-tech/cosmos-kit/commit/7b577cf84956906b44f6dfd1e84ccca51d02fd58))
+
 ## [0.6.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-metamask-cosmos-snap@0.6.0...@cosmos-kit/leap-metamask-cosmos-snap@0.6.1) (2024-02-28)
 
 ### Bug Fixes

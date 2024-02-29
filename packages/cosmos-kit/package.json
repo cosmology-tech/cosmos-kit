@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.zone",
   "contributors": [
@@ -78,7 +78,7 @@
     "@cosmos-kit/fin": "^2.6.9",
     "@cosmos-kit/frontier": "^2.5.9",
     "@cosmos-kit/keplr": "^2.6.9",
-    "@cosmos-kit/leap": "^2.6.10",
+    "@cosmos-kit/leap": "^2.6.11",
     "@cosmos-kit/ledger": "^2.6.9",
     "@cosmos-kit/okxwallet-extension": "^2.6.9",
     "@cosmos-kit/omni": "^2.5.9",
