@@ -1,26 +1,23 @@
 {
-  "name": "cosmos-kit",
-  "version": "2.9.2",
+  "name": "@cosmos-kit/owallet-extension",
+  "version": "2.7.9",
   "description": "cosmos-kit wallet connector",
-  "author": "developers@cosmology.zone",
+  "author": "defi@orai.io",
   "contributors": [
     {
-      "name": "Jun Liu"
+      "name": "Toan Dang"
     },
     {
-      "name": "Tom Wang"
+      "name": "Tu Pham "
     },
     {
-      "name": "Dan Lynch"
+      "name": "Son Lai"
     },
     {
-      "name": "Noah Saso"
+      "name": "Hau Nguyen"
     },
     {
-      "name": "Eliot Baker"
-    },
-    {
-      "name": "Delivan Jeonghyeok Yoo"
+      "name": "Tu Chu"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -30,7 +27,7 @@
   "types": "cjs/index.d.ts",
   "directories": {
     "lib": "src",
-    "test": "test"
+    "test": "__tests__"
   },
   "files": [
     "cjs",
@@ -60,34 +57,27 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit"
   },
   "keywords": [
-    "cosmos-kit",
     "cosmos",
-    "keplr",
-    "leap",
-    "cosmostation",
+    "cosmos-kit",
+    "owallet",
     "wallet"
   ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "dist/"
+    ]
+  },
   "dependencies": {
-    "@cosmos-kit/coin98": "^2.6.10",
-    "@cosmos-kit/compass": "^2.6.9",
-    "@cosmos-kit/cosmostation": "^2.6.10",
-    "@cosmos-kit/exodus": "^2.5.9",
-    "@cosmos-kit/fin": "^2.6.9",
-    "@cosmos-kit/frontier": "^2.5.9",
-    "@cosmos-kit/keplr": "^2.6.9",
-    "@cosmos-kit/leap": "^2.6.11",
-    "@cosmos-kit/ledger": "^2.6.9",
-    "@cosmos-kit/okxwallet-extension": "^2.6.9",
-    "@cosmos-kit/omni": "^2.5.9",
-    "@cosmos-kit/shell": "^2.6.9",
-    "@cosmos-kit/station": "^2.5.9",
-    "@cosmos-kit/trust": "^2.6.0",
-    "@cosmos-kit/vectis": "^2.6.9",
-    "@cosmos-kit/xdefi": "^2.5.9",
-    "@cosmos-kit/owallet": "^2.5.9"
+    "@chain-registry/keplr": "1.28.0",
+    "@cosmos-kit/core": "^2.8.9",
+    "@keplr-wallet/types": "^0.12.58"
+  },
+  "peerDependencies": {
+    "@cosmjs/amino": ">=0.32.2",
+    "@cosmjs/proto-signing": ">=0.32.2"
   },
   "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
