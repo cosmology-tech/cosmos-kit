@@ -84,6 +84,7 @@
     "@cosmos-kit/omni": "^2.5.9",
     "@cosmos-kit/shell": "^2.6.9",
     "@cosmos-kit/station": "^2.5.9",
+    "@cosmos-kit/tailwind": "^1.0.1",
     "@cosmos-kit/trust": "^2.6.0",
     "@cosmos-kit/vectis": "^2.6.9",
     "@cosmos-kit/xdefi": "^2.5.9"
