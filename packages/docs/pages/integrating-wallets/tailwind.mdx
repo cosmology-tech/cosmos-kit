@@ -1,0 +1,43 @@
+# How to add TAILWIND Wallet to CosmosKit
+
+There are two packages for okxwallet
+
+- `@cosmos-kit/tailwind`
+- `@cosmos-kit/tailwind-extension`
+
+`@cosmos-kit/tailwind` export all available okxwallet wallets, while if you only want to add a particular one, choose `@cosmos-kit/tailwind-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmos-kit/tailwind` for example
+
+## install `@cosmos-kit/tailwind`
+
+```sh
+yarn add @cosmos-kit/tailwind
+```
+
+## import the wallets
+
+```ts
+import { wallets as tailwindWallet } from "@cosmos-kit/tailwind";
+```
+
+## add to your provider
+
+```ts
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...tailwindWallet]}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+
+export default MyCosmosApp;
+```

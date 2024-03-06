@@ -57,6 +57,8 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 | [@cosmos-kit/vectis](wallets/vectis)                                   | Root Wallet   | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.            |
 | [@cosmos-kit/xdefi-extension](wallets/xdefi-extension)                 | Root Wallet   | XDEFI Wallet (Extension) integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/shell](wallets/shell)                                     | Root Wallet   | Shell Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.             |
+| [@cosmos-kit/tailwind-extension](wallets/tailwind-extension/) | Extension | TAILWIND Wallet extension. Use this if you want to integrate the TAILWIND Chrome Extension |
+| [@cosmos-kit/tailwind](wallets/tailwind/) | Root Wallet | TAILWIND Wallet integration. Use this if you want to integrate any TAILWIND wallet. No mobile support yet.
 
 ### ✨ Example: [@cosmos-kit/example](packages/example)
 
