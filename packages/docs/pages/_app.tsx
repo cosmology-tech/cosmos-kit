@@ -60,6 +60,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             "xdefi",
             "coin98",
             "fin",
+            "tailwind"
             "owallet"
           ),
           // ...web3AuthWallets,

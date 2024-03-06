@@ -40,6 +40,7 @@
     "@cosmos-kit/react": "^2.10.11",
     "@cosmos-kit/shell": "^2.6.9",
     "@cosmos-kit/station": "^2.5.9",
+    "@cosmos-kit/tailwind": "^1.0.1",
     "@cosmos-kit/vectis": "^2.6.9",
     "@cosmos-kit/web3auth": "^2.5.9",
     "@interchain-ui/react": "^1.21.19",

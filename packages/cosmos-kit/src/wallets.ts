@@ -21,6 +21,7 @@ import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
 import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
 import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
+import { wallets as tailwindWallet } from '@cosmos-kit/tailwind';
 
 export type WalletName =
   | 'keplr'
@@ -38,6 +39,7 @@ export type WalletName =
   | 'coin98'
   | 'shell'
   | 'compass'
+  | 'tailwind'
   | 'owallet'
   | 'exodus';
 
@@ -96,6 +98,7 @@ export const shell = createWalletList(shellExtension[0], null);
 export const coin98 = createWalletList(coin98Extension[0], null);
 export const compass = createWalletList(compassExtension[0], null);
 export const exodus = createWalletList(exodusExtension[0], null);
+export const tailwind = createWalletList(tailwindWallet[0], null);
 export const owallet = createWalletList(owalletExtension[0], null);
 
 export type SubWalletList = MainWalletBase[] & {
@@ -119,6 +122,7 @@ export type AllWalletList = SubWalletList & {
   coin98: typeof coin98;
   compass: typeof compass;
   exodus: typeof exodus;
+  tailwind: typeof tailwind;
   owallet: typeof owallet;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
@@ -159,7 +163,9 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.coin98 = coin98;
   wallets.compass = compass;
   wallets.exodus = exodus;
+  wallets.tailwind = tailwind;
   wallets.owallet = owallet;
+  
   defineGetters(wallets);
 
   wallets.for = function (...ns: WalletName[]) {
@@ -206,5 +212,6 @@ export const wallets = createAllWalletList([
   ...coin98,
   ...compass,
   ...exodus,
+  ...tailwind,
   ...owallet,
 ]);

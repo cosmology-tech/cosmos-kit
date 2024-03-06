@@ -8,6 +8,8 @@ import { Chain } from "@chain-registry/types";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
 import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
+import { ChainName } from "@cosmos-kit/core";
+import { MainWalletBase } from "@cosmos-kit/core";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus";
 import { wallets as finWallets } from "@cosmos-kit/fin";
@@ -24,19 +26,18 @@ import { ChainProvider, defaultModalViews } from "@cosmos-kit/react";
 // import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
+import { wallets as tailwindWallet } from "@cosmos-kit/tailwind";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useState } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
-import { ChainName } from "@cosmos-kit/core";
-import dynamic from "next/dynamic";
-import { MainWalletBase } from "@cosmos-kit/core";
 // import { useTheme } from "@interchain-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -98,6 +99,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...web3AuthWallets,
           // ...trustWallets,
           ...stationWallets,
+          ...tailwindWallet,
           // ...cosmostationWallets,
           // ...omniWallets,
           // ...exodusWallets,
