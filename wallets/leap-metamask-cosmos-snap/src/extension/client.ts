@@ -21,7 +21,6 @@ import {
   requestSignature,
 } from '@leapwallet/cosmos-snap-provider';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
-
 import Long from 'long';
 
 export class CosmosSnapClient implements WalletClient {
@@ -112,11 +111,11 @@ export class CosmosSnapClient implements WalletClient {
     signDoc: DirectSignDoc
   ): Promise<DirectSignResponse> {
     const _accountNumber = Long.fromString(signDoc.accountNumber.toString());
-    const signature = requestSignature(chainId, signer, {
+    const signature = (await requestSignature(chainId, signer, {
       ...signDoc,
       // @ts-ignore
       accountNumber: _accountNumber,
-    }) as unknown as DirectSignResponse;
+    })) as unknown as DirectSignResponse;
 
     const modifiedAccountNumber = new Long(
       _accountNumber!.low,

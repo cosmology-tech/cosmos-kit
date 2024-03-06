@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react",
-  "version": "2.10.10",
+  "version": "2.10.11",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.zone",
   "contributors": [
@@ -30,7 +30,12 @@
     "lib": "src",
     "test": "__tests__"
   },
-  "files": ["cjs", "esm", "!CHANGELOG.md", "!LICENSE"],
+  "files": [
+    "cjs",
+    "esm",
+    "!CHANGELOG.md",
+    "!LICENSE"
+  ],
   "scripts": {
     "build:cjs": "yarn tsc -p tsconfig.json --outDir cjs --module commonjs || true",
     "build:esm": "yarn tsc -p tsconfig.json --outDir esm --module es2022 || true",
@@ -65,7 +70,9 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "jest": {
-    "testPathIgnorePatterns": ["dist/"]
+    "testPathIgnorePatterns": [
+      "dist/"
+    ]
   },
   "devDependencies": {
     "@types/react": "^18.2",
