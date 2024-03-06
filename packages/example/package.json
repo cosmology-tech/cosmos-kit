@@ -32,6 +32,7 @@
     "@cosmos-kit/fin": "^2.6.9",
     "@cosmos-kit/ins": "^2.1.6",
     "@cosmos-kit/keplr": "^2.6.9",
+    "@cosmos-kit/owallet": "^2.6.9",
     "@cosmos-kit/leap": "^2.6.11",
     "@cosmos-kit/leap-capsule-social-login": "^0.3.13",
     "@cosmos-kit/leap-metamask-cosmos-snap": "^0.6.2",

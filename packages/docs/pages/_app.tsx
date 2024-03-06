@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             "coin98",
             "fin",
             "tailwind"
+            "owallet"
           ),
           // ...web3AuthWallets,
         ]}

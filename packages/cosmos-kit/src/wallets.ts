@@ -7,6 +7,7 @@ import { wallets as cosmostationMobile } from '@cosmos-kit/cosmostation-mobile';
 import { wallets as frontierExtension } from '@cosmos-kit/frontier-extension';
 import { wallets as keplrExtension } from '@cosmos-kit/keplr-extension';
 import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
+import { wallets as owalletExtension } from '@cosmos-kit/owallet-extension';
 import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
 import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
 import { wallets as leapMetamaskCosmosSnap } from '@cosmos-kit/leap-metamask-cosmos-snap';
@@ -39,6 +40,7 @@ export type WalletName =
   | 'shell'
   | 'compass'
   | 'tailwind'
+  | 'owallet'
   | 'exodus';
 
 export type WalletList<
@@ -73,6 +75,7 @@ export function createWalletList<
 }
 
 export const keplr = createWalletList(keplrExtension[0], keplrMobile[0]);
+
 export const cosmostation = createWalletList(
   cosmostationExtension[0],
   cosmostationMobile[0]
@@ -96,6 +99,7 @@ export const coin98 = createWalletList(coin98Extension[0], null);
 export const compass = createWalletList(compassExtension[0], null);
 export const exodus = createWalletList(exodusExtension[0], null);
 export const tailwind = createWalletList(tailwindWallet[0], null);
+export const owallet = createWalletList(owalletExtension[0], null);
 
 export type SubWalletList = MainWalletBase[] & {
   get mobile(): MainWalletBase[];
@@ -119,6 +123,7 @@ export type AllWalletList = SubWalletList & {
   compass: typeof compass;
   exodus: typeof exodus;
   tailwind: typeof tailwind;
+  owallet: typeof owallet;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
 };
@@ -159,7 +164,8 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.compass = compass;
   wallets.exodus = exodus;
   wallets.tailwind = tailwind;
-
+  wallets.owallet = owallet;
+  
   defineGetters(wallets);
 
   wallets.for = function (...ns: WalletName[]) {
@@ -207,4 +213,5 @@ export const wallets = createAllWalletList([
   ...compass,
   ...exodus,
   ...tailwind,
+  ...owallet,
 ]);
