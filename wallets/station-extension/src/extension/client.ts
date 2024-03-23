@@ -1,5 +1,5 @@
 /* eslint-disable no-unsafe-optional-chaining */
-import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
+import { AminoSignResponse, StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { SignOptions, WalletAccount, WalletClient } from '@cosmos-kit/core';
 import Station from '@terra-money/station-connector';
 
@@ -71,5 +71,13 @@ export class StationClient implements WalletClient {
 
   async getOfflineSigner(chainId: string) {
     return await this.client.getOfflineSigner(chainId);
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    return await this.client.keplr.signArbitrary(chainId, signer, data);
   }
 }
