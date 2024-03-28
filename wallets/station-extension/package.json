@@ -63,7 +63,7 @@
     "@chain-registry/types": "0.17.0",
     "@cosmos-kit/core": "^2.8.9",
     "@terra-money/feather.js": "^1.0.8",
-    "@terra-money/station-connector": "^1.0.5",
+    "@terra-money/station-connector": "^1.1.0",
     "@terra-money/wallet-types": "^3.11.2"
   },
   "peerDependencies": {
