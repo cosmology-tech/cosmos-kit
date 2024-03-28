@@ -27,6 +27,8 @@ export const getWalletFromWindow: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
+        // re-declare variable inside the event listener
+        const tailwind = window.tailwind;
         if (tailwind) {
           resolve(tailwind);
         } else {

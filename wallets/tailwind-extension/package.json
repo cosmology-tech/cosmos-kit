@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/tailwind-extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cosmos-kit adapter for Tailwind extension",
   "author": "bao@tailwind.zone",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
