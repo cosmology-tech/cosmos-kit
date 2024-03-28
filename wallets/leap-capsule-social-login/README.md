@@ -18,13 +18,15 @@ CosmosKit is a wallet adapter for developers to build apps that quickly and easi
 
 > You need install [@leapwallet/cosmos-social-login-capsule-provider-ui](https://www.npmjs.com/package/@leapwallet/cosmos-social-login-capsule-provider-ui) package for UI.
 
-> When you build it kindly have the environment vairables `CAPSULE_API_KEY` and  `CAPSULE_ENV` you can get it from [UseCapsule.com](https://usecapsule.com/)
+> This plugin uses [Capsule](https://usecapsule.com/) for MPC based key management. In order to make this work, you'll need an API key which you can request [here](https://usecapsule.com/api) 
+
+> Once you have an API Key, include it in `CAPSULE_API_KEY`. `CAPSULE_ENV` will be `BETA` for Development and Testing, and `PROD` for Production. Once you are ready to release to Production, ping the Capsule team to get a separate API Key for Production.
 
 ## NextJS
 
 For nextjs we recommend to load the module dynamic or async as it is not yet supporting SSR.
 
-> When you build it kindly have the environment vairables `NEXT_PUBLIC_CAPSULE_API_KEY` and  `NEXT_PUBLIC_CAPSULE_ENV` you can get it from [UseCapsule.com](https://usecapsule.com/)
+> When you build it, please include environment variables `NEXT_PUBLIC_CAPSULE_API_KEY` and  `NEXT_PUBLIC_CAPSULE_ENV` as mentioned above. For further reference on Capsule, please reference the [Capsule Developer Documentation](https://docs.usecapsule.com/)
 
 ### In next.config.js
 
