@@ -13,7 +13,7 @@ yarn add @cosmos-kit/leap-metamask-cosmos-snap
 ## import the wallets
 
 ```js
-import { wallets as leap-mm-cosmos-snap } from "@cosmos-kit/leap-metamask-cosmos-snap";
+import { wallets } from "@cosmos-kit/leap-metamask-cosmos-snap";
 ```
 
 ## add to your provider
@@ -24,7 +24,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...leap-mm-cosmos-snap]}
+        wallets={[...wallets]}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />

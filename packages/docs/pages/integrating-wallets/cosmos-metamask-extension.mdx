@@ -13,7 +13,7 @@ yarn add @cosmos-kit/cosmos-extension-metamask
 ## import the wallets
 
 ```js
-import { wallets as cosmos-extension-mm } from "@cosmos-kit/cosmos-extension-metamask";
+import { wallets } from "@cosmos-kit/cosmos-extension-metamask";
 ```
 
 ## add to your provider
@@ -24,7 +24,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...cosmos-extension-mm]}
+        wallets={[...wallets]}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />
