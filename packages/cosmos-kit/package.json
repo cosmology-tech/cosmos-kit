@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "2.9.3",
+  "version": "2.9.4",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.zone",
   "contributors": [
@@ -84,8 +84,8 @@
     "@cosmos-kit/omni": "^2.5.9",
     "@cosmos-kit/owallet": "^2.6.10",
     "@cosmos-kit/shell": "^2.6.9",
-    "@cosmos-kit/station": "^2.5.9",
-    "@cosmos-kit/tailwind": "^1.0.2",
+    "@cosmos-kit/station": "^2.5.10",
+    "@cosmos-kit/tailwind": "^1.0.4",
     "@cosmos-kit/trust": "^2.6.0",
     "@cosmos-kit/vectis": "^2.6.9",
     "@cosmos-kit/xdefi": "^2.5.9"
