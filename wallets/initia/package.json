@@ -2,15 +2,15 @@
   "name": "@cosmos-kit/initia",
   "version": "0.2.9",
   "description": "@cosmos-kit/initia is the Initia integration for CosmosKit",
-  "author": "songwong@alleslab.com",
+  "author": "songwong@alleslabs.com",
   "contributors": [
     {
       "name": "Songwong",
-      "email": "songwong@alleslab.com"
+      "email": "songwong@alleslabs.com"
     },
     {
       "name": "Kanisorn",
-      "email": "kanisorn@alleslab.com"
+      "email": "kanisorn@alleslabs.com"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",

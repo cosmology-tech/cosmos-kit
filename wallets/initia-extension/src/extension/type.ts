@@ -1,25 +1,19 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { DeliverTxResponse } from '@cosmjs/stargate';
-import type {
-  CosmosChain,
-  EthereumChain,
-  InitiaChain,
-  LayerInfo,
-} from '@initia/shared';
+import type { Chain } from '@initia/initia-registry-types';
 
 export interface InitiaWallet {
-  getAddress: (chainKey: string) => Promise<string>;
+  version: string;
+  getAddress: (chainId: string) => Promise<string>;
   signAndBroadcast: (
-    chainKey: string,
-    txBody: Uint8Array,
-    layerKey?: string | null
+    chainId: string,
+    txBody: Uint8Array
   ) => Promise<DeliverTxResponse>;
-  getOfflineSigner: (
-    chainKey: string,
-    layerKey?: string | null
-  ) => OfflineDirectSigner;
-  requestAddInitiaLayer: (chain: Partial<LayerInfo>) => Promise<void>;
-  requestAddInitiaChain: (chain: Partial<InitiaChain>) => Promise<void>;
-  requestAddCosmosChain: (chain: CosmosChain) => Promise<void>;
-  requestAddEthereumChain: (chain: EthereumChain) => Promise<void>;
+  getOfflineSigner: (chainId: string) => OfflineDirectSigner;
+  requestAddInitiaLayer: (chain: Partial<Chain>) => Promise<void>;
+  signArbitrary: (data: string | Uint8Array) => Promise<string>;
+  verifyArbitrary: (
+    data: string | Uint8Array,
+    signature: string
+  ) => Promise<boolean>;
 }
