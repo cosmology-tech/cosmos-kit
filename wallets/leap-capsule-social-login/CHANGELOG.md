@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-capsule-social-login@0.3.14...@cosmos-kit/leap-capsule-social-login@0.4.0) (2024-04-20)
+
+**Note:** Version bump only for package @cosmos-kit/leap-capsule-social-login
+
+
+
+
+
 ## [0.3.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/leap-capsule-social-login@0.3.13...@cosmos-kit/leap-capsule-social-login@0.3.14) (2024-04-02)
 
 **Note:** Version bump only for package @cosmos-kit/leap-capsule-social-login
