@@ -38,7 +38,12 @@ const path = require("path");
 const nextConfig = {
   experimental: { esmExternals: true },
   reactStrictMode: true,
-  transpilePackages: ["@cosmos-kit/web3auth", "@cosmos-kit/leap-social-login", "@leapwallet/capsule-web-sdk-lite", "@leapwallet/cosmos-social-login-capsule-provider"],
+  transpilePackages: [
+    "@cosmos-kit/web3auth",
+    "@cosmos-kit/leap-social-login",
+    "@leapwallet/capsule-web-sdk-lite",
+    "@leapwallet/cosmos-social-login-capsule-provider",
+  ],
   /**
    *
    * @param {import('webpack').Configuration} config
@@ -48,6 +53,10 @@ const nextConfig = {
   webpack: (config, _context) => {
     const overridePath = path.resolve(__dirname, "../..", "node_modules/react");
     config.resolve.alias["react"] = overridePath;
+    config.resolve.alias["@cosmos-kit/react"] = path.resolve(
+      __dirname,
+      "../react"
+    );
     return config;
   },
 };

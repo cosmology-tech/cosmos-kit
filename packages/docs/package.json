@@ -21,7 +21,7 @@
   "dependencies": {
     "@cosmos-kit/core": "^2.9.0",
     "@cosmos-kit/react": "^2.11.0",
-    "@interchain-ui/react": "^1.21.19",
+    "@interchain-ui/react": "^1.23.9",
     "chain-registry": "^1.23.0",
     "cosmos-kit": "^2.10.0",
     "fast-fuzzy": "^1.12.0",

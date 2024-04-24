@@ -1,5 +1,6 @@
 /* eslint-disable no-empty */
 /* eslint-disable no-console */
+import { ChainRegistryFetcher } from '@chain-registry/client';
 import type { CosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import type { StargateClient } from '@cosmjs/stargate';
 
@@ -15,7 +16,6 @@ import {
   WalletName,
 } from './types';
 import type { Session } from './utils';
-import { ChainRegistryFetcher } from '@chain-registry/client';
 
 /**
  * Store all ChainWallets for a particular Chain.
@@ -157,9 +157,12 @@ export class WalletRepo extends StateBase {
       );
       return void 0;
     }
-    return this.wallets.find(
-      (w) => !w.isWalletNotExist && !w.isWalletDisconnected
-    );
+    // return this.wallets.find(
+    //   (w) => !w.isWalletNotExist && !w.isWalletDisconnected
+    // );
+    console.log('[DEBUG WalletRepo]', this.wallets);
+
+    return this.wallets.find((w) => !w.isWalletDisconnected);
   }
 
   getWallet = (walletName: WalletName): ChainWalletBase | undefined => {
@@ -175,7 +178,7 @@ export class WalletRepo extends StateBase {
     this.actions?.viewOpen?.(false);
   };
 
-  connect = async (walletName?: WalletName, sync: boolean = true) => {
+  connect = async (walletName?: WalletName, sync = true) => {
     if (walletName) {
       const wallet = this.getWallet(walletName);
       await wallet?.connect(sync);
@@ -186,7 +189,7 @@ export class WalletRepo extends StateBase {
 
   disconnect = async (
     walletName?: WalletName,
-    sync: boolean = true,
+    sync = true,
     options?: DisconnectOptions
   ) => {
     if (walletName) {
