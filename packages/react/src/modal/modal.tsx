@@ -92,10 +92,6 @@ export function WalletModal({
   const walletStatus = current?.walletStatus;
   const message = current?.message;
 
-  console.log(`[DEBUG] WalletModal`, {
-    walletStatus,
-  });
-
   useEffect(() => {
     if (isOpen) {
       switch (walletStatus) {
@@ -120,7 +116,6 @@ export function WalletModal({
           setCurrentView(ModalView.Rejected);
           break;
         case WalletStatus.NotExist: {
-          console.log('NOTTT EXIST');
           setCurrentView((prev) =>
             prev === ModalView.Connected
               ? ModalView.WalletList

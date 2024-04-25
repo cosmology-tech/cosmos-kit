@@ -157,10 +157,6 @@ export class WalletRepo extends StateBase {
       );
       return void 0;
     }
-    // return this.wallets.find(
-    //   (w) => !w.isWalletNotExist && !w.isWalletDisconnected
-    // );
-    console.log('[DEBUG WalletRepo]', this.wallets);
 
     return this.wallets.find((w) => !w.isWalletDisconnected);
   }

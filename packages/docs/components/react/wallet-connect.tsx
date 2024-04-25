@@ -224,7 +224,6 @@ export const WalletConnectComponent = ({
   error: React.ReactNode;
   notExist: React.ReactNode;
 }) => {
-  console.log("walletStatus", walletStatus);
   switch (walletStatus) {
     case WalletStatus.Disconnected:
       return <>{disconnect}</>;
