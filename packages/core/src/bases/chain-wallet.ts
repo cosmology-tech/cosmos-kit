@@ -50,6 +50,7 @@ export class ChainWalletBase extends WalletBase {
   }
 
   get isTestNet() {
+    // TODO query in Chain.network_type
     return this.chainName.includes('testnet');
   }
 

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "src",
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "emitDeclarationOnly": false,
+    "declaration": true,
+    "esModuleInterop": true,
+    "target": "es2022",
+    "module": "es2022",
+    "lib": [
+      "es2022",
+      "DOM"
+    ],
+    "sourceMap": false,
+    "isolatedModules": false,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
