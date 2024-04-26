@@ -1180,6 +1180,17 @@
     "@keplr-wallet/crypto" "0.12.28"
     semver "^7.5.0"
 
+"@chain-registry/keplr@1.30.0":
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.30.0.tgz#84d12378caec931b053ba9c1ffbaf171e1bae455"
+  integrity sha512-MeRYOpS7NvgNeW0h9dxhSi/0VytKNTvnk/8kL77gQbCoQU6Ki8H1sdQbC/vm7NMRWzp4Bt/mZtj4mFNIeyD/7w==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    "@chain-registry/types" "^0.17.1"
+    "@keplr-wallet/cosmos" "0.12.28"
+    "@keplr-wallet/crypto" "0.12.28"
+    semver "^7.5.0"
+
 "@chain-registry/types@0.17.0":
   version "0.17.0"
   resolved "https://registry.npmjs.org/@chain-registry/types/-/types-0.17.0.tgz"
@@ -1187,7 +1198,7 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@chain-registry/types@^0.17.0":
+"@chain-registry/types@^0.17.0", "@chain-registry/types@^0.17.1":
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.17.1.tgz#0ac7bda6178d3917834578627f232a247fe5def8"
   integrity sha512-O0CgrtJgIlqXvZm1CqDZe/7jZz068O/uuCIoyDXCegFHK03rdHacKcDGwEIUuI0MNUf8YV3jdE4xHQMSAX+79w==
@@ -3615,20 +3626,22 @@
   dependencies:
     browser-headers "^0.4.1"
 
-"@initia/initia.proto@^0.1.20":
-  version "0.1.31"
-  resolved "https://registry.yarnpkg.com/@initia/initia.proto/-/initia.proto-0.1.31.tgz#9362e30de91846a80b79d7f6094afbdd44f27bea"
-  integrity sha512-jCGI6ToowfoeecJL4mG26aNg99UETUovcJFOeTl6+Z0BvqHCAgb0tbO2fpD9lFBzTe2sYEVjAJh3X4QJu6Cxtg==
+"@initia/initia-registry-types@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@initia/initia-registry-types/-/initia-registry-types-0.0.17.tgz#aed91fd89717232928c6c41b2ba2aac92c9d67ff"
+  integrity sha512-5zBYKH1cU8I5vGUBmRYqAIbvKSJRehUOvUvDy4ohtcz5G7GjNRWvo7x7aXgMSDw5hnxTcqBCaJxsp4i8EcPIxg==
+  dependencies:
+    zod "^3.22.4"
+
+"@initia/initia.proto@^0.1.33":
+  version "0.1.33"
+  resolved "https://registry.yarnpkg.com/@initia/initia.proto/-/initia.proto-0.1.33.tgz#6afbe746f7f819b03a34e1cc8b9c28bab1b53f9b"
+  integrity sha512-cPtpyesVJh3527BLYdWF0fXFYuGaacvEWvD1JRyBYuugrBVtk+uBGgCdFeiOVSFz+/gpKiRrGPhc9KlkBv5SQQ==
   dependencies:
     "@improbable-eng/grpc-web" "^0.15.0"
     google-protobuf "^3.21.0"
     long "^5.2.3"
     protobufjs "^7.1.1"
-
-"@initia/shared@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@initia/shared/-/shared-0.6.0.tgz#e537c1ff24e84505b36cd2a3f55a54dc5a986a4d"
-  integrity sha512-qU4VDt6u14heaMA+YuUBFatLkMs9/F1kGs2ddhLxkFIBV/Nu1+s2Nz4EEf5+5UpLtEs3EwSLMzTCUuLNH2jrPQ==
 
 "@interchain-ui/react@^1.21.19":
   version "1.22.8"
@@ -19773,6 +19786,11 @@ zod@^3.20.2, zod@^3.22.3:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+
+zod@^3.22.4:
+  version "3.22.5"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.5.tgz#b9b09db03f6700b0d0b75bf0dbf0c5fc46155220"
+  integrity sha512-HqnGsCdVZ2xc0qWPLdO25WnseXThh0kEYKIdV5F/hTHO75hNZFp8thxSeHhiPrHZKrFTo1SOgkAj9po5bexZlw==
 
 zustand@^4.3.1, zustand@^4.5.2:
   version "4.5.2"
