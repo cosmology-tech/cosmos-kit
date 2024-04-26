@@ -3653,11 +3653,6 @@
     long "^5.2.3"
     protobufjs "^7.1.1"
 
-"@initia/shared@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@initia/shared/-/shared-0.6.0.tgz#e537c1ff24e84505b36cd2a3f55a54dc5a986a4d"
-  integrity sha512-qU4VDt6u14heaMA+YuUBFatLkMs9/F1kGs2ddhLxkFIBV/Nu1+s2Nz4EEf5+5UpLtEs3EwSLMzTCUuLNH2jrPQ==
-
 "@interchain-ui/react@^1.23.9":
   version "1.23.9"
   resolved "https://registry.yarnpkg.com/@interchain-ui/react/-/react-1.23.9.tgz#addb781ba56e83ab1f64b33a05e911e01691674d"
