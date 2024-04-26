@@ -85,7 +85,6 @@ export const ChainProvider = ({
   }
 
   logger.debug('Using default wallet modal.');
-  logger.debug('Hello there');
 
   const defaultModal = useCallback(
     (props: WalletModalProps) => (
