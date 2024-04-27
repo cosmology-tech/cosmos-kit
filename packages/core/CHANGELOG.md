@@ -3,13 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.9.0...@cosmos-kit/core@2.9.1) (2024-04-27)
+
+### Bug Fixes
+
+- uninstalled wallet extensions never transition into NotExist state ([f52b5a7](https://github.com/cosmology-tech/cosmos-kit/commit/f52b5a7a64b1a6021b517baf06de6400e6719092))
+
 # [2.9.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.9...@cosmos-kit/core@2.9.0) (2024-04-20)
 
 **Note:** Version bump only for package @cosmos-kit/core
-
-
-
-
 
 ## [2.8.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.8.8...@cosmos-kit/core@2.8.9) (2024-01-31)
 

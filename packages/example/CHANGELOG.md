@@ -3,13 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.12.0...example@2.12.1) (2024-04-27)
+
+### Bug Fixes
+
+- uninstalled wallet extensions never transition into NotExist state ([f52b5a7](https://github.com/cosmology-tech/cosmos-kit/commit/f52b5a7a64b1a6021b517baf06de6400e6719092))
+
 # [2.12.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.11.15...example@2.12.0) (2024-04-20)
 
 **Note:** Version bump only for package example
-
-
-
-
 
 ## [2.11.15](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.11.14...example@2.11.15) (2024-04-02)
 

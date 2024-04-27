@@ -3,13 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/initia-extension@0.3.0...@cosmos-kit/initia-extension@0.4.0) (2024-04-27)
+
+### Features
+
+- migrate initia package to the maintained one ([bd826e8](https://github.com/cosmology-tech/cosmos-kit/commit/bd826e84494e4ccf8867a5a24e7c5dd45e7e8ac0))
+
 # [0.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/initia-extension@0.2.9...@cosmos-kit/initia-extension@0.3.0) (2024-04-20)
 
 **Note:** Version bump only for package @cosmos-kit/initia-extension
-
-
-
-
 
 ## [0.2.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/initia-extension@0.2.8...@cosmos-kit/initia-extension@0.2.9) (2024-01-31)
 

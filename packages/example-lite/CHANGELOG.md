@@ -3,13 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [1.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/example-lite@1.2.9...example-lite@1.3.0) (2024-04-20)
+## [1.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/example-lite@1.3.0...example-lite@1.3.1) (2024-04-27)
 
 **Note:** Version bump only for package example-lite
 
+# [1.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/example-lite@1.2.9...example-lite@1.3.0) (2024-04-20)
 
-
-
+**Note:** Version bump only for package example-lite
 
 ## [1.2.9](https://github.com/cosmology-tech/cosmos-kit/compare/example-lite@1.2.8...example-lite@1.2.9) (2024-01-31)
 
