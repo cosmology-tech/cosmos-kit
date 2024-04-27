@@ -1,4 +1,4 @@
-import { Actions, DappEnv, Data, Mutable, State, StateActions } from '../types';
+import { Actions, DappEnv, Data, Mutable, State, StateActions, WalletStatus } from '../types';
 import { getWalletStatusFromState } from '../utils';
 import type { Logger } from '../utils';
 
@@ -91,7 +91,7 @@ export class StateBase {
     this.setState(State.Init);
   }
 
-  get walletStatus() {
+  get walletStatus(): WalletStatus {
     return getWalletStatusFromState(this.state, this.message);
   }
 
