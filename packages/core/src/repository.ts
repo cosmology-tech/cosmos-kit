@@ -158,9 +158,9 @@ export class WalletRepo extends StateBase {
       return void 0;
     }
 
-    // Return the first wallet that is not disconnected
-    // Don't filter with !w.isWalletNotExist because walletRepo.current.walletStatus won't ever transition into 'NotExist'
-    return this.wallets.find((w) => !w.isWalletDisconnected);
+    return this.wallets.find(
+      (w) => !w.isWalletNotExist && !w.isWalletDisconnected
+    );
   }
 
   getWallet = (walletName: WalletName): ChainWalletBase | undefined => {
