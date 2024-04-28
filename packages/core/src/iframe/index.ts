@@ -1,3 +1,3 @@
+export * from './constants';
 export * from './extension';
-export * from './extension/client';
 export * from './iframe';

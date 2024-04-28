@@ -1,38 +1,3 @@
-import { SignType } from './common';
-
-export type IframeToParentMessage = {
-  id: string;
-
-  method: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  params: any[];
-  // For signer messages.
-  chainId?: string;
-  signType?: SignType;
-};
-
-export type ParentToIframeMessage = {
-  id: string;
-} & (
-  | {
-      type: 'success';
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      response: any;
-      error?: undefined;
-    }
-  | {
-      type: 'error';
-      error: string;
-      response?: undefined;
-    }
-);
-
-// The message sent to register or unregister an event listener on the parent.
-export type EventListenerIframeMessage = {
-  id: string;
-  type: string;
-};
-
 export const IFRAME_WALLET_ID = 'iframe';
 export const IFRAME_KEYSTORECHANGE_EVENT = 'iframe_keystorechange';
 export const IFRAME_PARENT_DISCONNECTED = 'Outer wallet not connected.';

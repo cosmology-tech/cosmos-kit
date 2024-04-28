@@ -9,20 +9,20 @@ import {
 } from '@cosmjs/stargate';
 import type { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
+import { IFRAME_WALLET_ID } from '../iframe/constants';
 import {
   ChainRecord,
   CosmosClientType,
   Endpoints,
   ExtendedHttpEndpoint,
-  IFRAME_WALLET_ID,
   SignType,
   SimpleAccount,
   State,
   Wallet,
 } from '../types';
+import { ConnectError } from '../utils';
 import type { MainWalletBase } from './main-wallet';
 import { WalletBase } from './wallet';
-import { ConnectError } from '../utils';
 
 export class ChainWalletBase extends WalletBase {
   mainWallet: MainWalletBase;
