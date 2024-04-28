@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.9.1...@cosmos-kit/core@2.9.2) (2024-04-28)
+
+### Bug Fixes
+
+- revert PR [#425](https://github.com/cosmology-tech/cosmos-kit/issues/425) ([51641b0](https://github.com/cosmology-tech/cosmos-kit/commit/51641b076f65df441995fa5d847ae555a491c053))
+
 ## [2.9.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/core@2.9.0...@cosmos-kit/core@2.9.1) (2024-04-27)
 
 ### Bug Fixes
