@@ -26,6 +26,7 @@ import { ChainProvider, defaultModalViews } from "@cosmos-kit/react";
 // import { ChainProvider } from "@cosmos-kit/react";
 import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
+import { wallets as galaxyStationWallets } from "@cosmos-kit/galaxy-station";
 import { wallets as tailwindWallet } from "@cosmos-kit/tailwind";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
@@ -99,6 +100,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...web3AuthWallets,
           // ...trustWallets,
           ...stationWallets,
+          ...galaxyStationWallets,
           // ...tailwindWallet,
           // ...cosmostationWallets,
           // ...omniWallets,
