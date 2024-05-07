@@ -6,6 +6,10 @@ import EventEmitter from 'events';
 import type { ChainWalletBase, MainWalletBase } from './bases';
 import { StateBase } from './bases';
 import { iframeWallet } from './iframe';
+import {
+  IFRAME_KEYSTORECHANGE_EVENT,
+  IFRAME_WALLET_ID,
+} from './iframe/constants';
 import type { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
@@ -14,8 +18,6 @@ import {
   DeviceType,
   EndpointOptions,
   EventName,
-  IFRAME_KEYSTORECHANGE_EVENT,
-  IFRAME_WALLET_ID,
   NameServiceName,
   OS,
   SessionOptions,
@@ -25,8 +27,8 @@ import {
   WalletConnectOptions,
   WalletName,
 } from './types';
-import { convertChain, Session, WalletNotProvidedError } from './utils';
 import type { Logger } from './utils';
+import { convertChain, Session, WalletNotProvidedError } from './utils';
 
 export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];

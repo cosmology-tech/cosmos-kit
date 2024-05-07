@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import EventEmitter from 'events';
 
+import { IFRAME_WALLET_ID } from '../iframe/constants';
 import {
   ChainName,
   ChainRecord,
@@ -8,7 +9,6 @@ import {
   DisconnectOptions,
   EndpointOptions,
   IChainWallet,
-  IFRAME_WALLET_ID,
   State,
   Wallet,
   WalletClient,

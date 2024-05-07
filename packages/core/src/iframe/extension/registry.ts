@@ -1,10 +1,10 @@
+import { Wallet } from '../../types';
 import {
   IFRAME_DEFAULT_LOGO,
   IFRAME_DEFAULT_PRETTY_NAME,
   IFRAME_KEYSTORECHANGE_EVENT,
   IFRAME_WALLET_ID,
-  Wallet,
-} from '../../types';
+} from '../constants';
 
 export const iframeExtensionInfo: Wallet = {
   name: IFRAME_WALLET_ID,

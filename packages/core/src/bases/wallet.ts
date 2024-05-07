@@ -2,19 +2,19 @@
 /* eslint-disable no-console */
 import type EventEmitter from 'events';
 
+import { IFRAME_WALLET_ID } from '../iframe/constants';
 import {
   Callbacks,
   DisconnectOptions,
   DownloadInfo,
-  IFRAME_WALLET_ID,
   Mutable,
   State,
   Wallet,
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, ConnectError, RejectedError } from '../utils';
 import type { Session } from '../utils';
+import { ClientNotExistError, ConnectError, RejectedError } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase extends StateBase {
