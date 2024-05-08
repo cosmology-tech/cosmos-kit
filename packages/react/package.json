@@ -75,11 +75,11 @@
     ]
   },
   "devDependencies": {
+    "@chain-registry/types": "^0.17.0",
     "@types/react": "^18.2",
     "@types/react-dom": "^18.2"
   },
   "dependencies": {
-    "@chain-registry/types": "0.17.0",
     "@cosmos-kit/core": "^2.9.3",
     "@cosmos-kit/react-lite": "^2.7.3",
     "@react-icons/all-files": "^4.1.0"
@@ -88,7 +88,10 @@
     "@types/react": "^18"
   },
   "peerDependencies": {
+    "@chain-registry/types": ">= 0.17",
     "@interchain-ui/react": "^1.23.9",
+    "@types/react": ">= 17",
+    "@types/react-dom": ">= 17",
     "react": "^18",
     "react-dom": "^18"
   },
