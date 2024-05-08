@@ -1,28 +1,8 @@
 {
-  "name": "cosmos-kit",
-  "version": "2.11.0",
-  "description": "cosmos-kit wallet connector",
-  "author": "developers@cosmology.zone",
-  "contributors": [
-    {
-      "name": "Jun Liu"
-    },
-    {
-      "name": "Tom Wang"
-    },
-    {
-      "name": "Dan Lynch"
-    },
-    {
-      "name": "Noah Saso"
-    },
-    {
-      "name": "Eliot Baker"
-    },
-    {
-      "name": "Delivan Jeonghyeok Yoo"
-    }
-  ],
+  "name": "@cosmos-kit/galaxy-station-extension",
+  "version": "2.7.2",
+  "description": "@cosmos-kit/galaxy-station-extension is the Galaxy Station integration for CosmosKit",
+  "author": "Hexxagon",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "main": "cjs/index.js",
@@ -30,7 +10,7 @@
   "types": "cjs/index.d.ts",
   "directories": {
     "lib": "src",
-    "test": "test"
+    "test": "__tests__"
   },
   "files": [
     "cjs",
@@ -62,34 +42,27 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "keplr",
-    "leap",
-    "cosmostation",
+    "hexxagon",
+    "galaxy-station",
     "wallet"
   ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "dist/"
+    ]
+  },
   "dependencies": {
-    "@cosmos-kit/coin98": "^2.8.0",
-    "@cosmos-kit/compass": "^2.8.0",
-    "@cosmos-kit/cosmostation": "^2.8.0",
-    "@cosmos-kit/exodus": "^2.7.0",
-    "@cosmos-kit/fin": "^2.8.0",
-    "@cosmos-kit/frontier": "^2.7.0",
-    "@cosmos-kit/galaxy-station": "^2.6.2",
-    "@cosmos-kit/keplr": "^2.8.0",
-    "@cosmos-kit/leap": "^2.8.0",
-    "@cosmos-kit/ledger": "^2.8.0",
-    "@cosmos-kit/okxwallet-extension": "^2.8.0",
-    "@cosmos-kit/omni": "^2.7.0",
-    "@cosmos-kit/owallet": "^2.8.0",
-    "@cosmos-kit/shell": "^2.8.0",
-    "@cosmos-kit/station": "^2.7.0",
-    "@cosmos-kit/tailwind": "^1.2.0",
-    "@cosmos-kit/trust": "^2.8.0",
-    "@cosmos-kit/vectis": "^2.8.0",
-    "@cosmos-kit/xdefi": "^2.7.0"
+    "@chain-registry/types": "0.17.0",
+    "@cosmos-kit/core": "^2.9.2",
+    "@hexxagon/feather.js": "^1.0.9-beta.8",
+    "@hexxagon/station-connector": "^1.0.16-beta.0"
+  },
+  "peerDependencies": {
+    "@cosmjs/amino": ">=0.32.3",
+    "@cosmjs/proto-signing": ">=0.32.3"
   },
   "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
