@@ -1,13 +1,17 @@
 import { OfflineAminoSigner } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
-  IFRAME_KEYSTORECHANGE_EVENT,
-  IFRAME_PARENT_DISCONNECTED,
+  COSMIFRAME_KEYSTORECHANGE_EVENT,
+  COSMIFRAME_NOT_CONNECTED_MESSAGE,
   MainWalletBase,
   WalletClient,
   WalletName,
 } from '@cosmos-kit/core';
-import { Cosmiframe, OverrideHandler } from '@dao-dao/cosmiframe';
+import {
+  Cosmiframe,
+  OverrideHandler,
+  ParentMetadata,
+} from '@dao-dao/cosmiframe';
 import { RefCallback, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useWallet } from './useWallet';
@@ -17,34 +21,50 @@ export type FunctionKeys<T> = {
 }[keyof T];
 
 export type UseIframeOptions = {
+  /**
+   * Optionally attempt to use a specific wallet. Otherwise get the first active
+   * wallet.
+   */
   walletName?: WalletName;
-  // Optionally overrides the connected wallet metadata in the iframe upon
-  // successful connection.
-  walletInfo?: {
-    prettyName?: string;
-    logo?: string;
-  };
-  // If defined, the relevant override will be called with the parameters. The
-  // return value determines how the iframe should handle the function. By
-  // default, if nothing is returned, an error will be thrown with the message
-  // "Handled by outer wallet."
+  /**
+   * Optionally set the metadata that represents this parent to the iframe.
+   */
+  metadata?: ParentMetadata;
+  /**
+   * If defined, the relevant override of a wallet client function will be
+   * called with the parameters. The return value determines how the iframe
+   * should handle the function. By default, if nothing is returned, an error
+   * will be thrown with the message "Handled by outer wallet."
+   */
   walletClientOverrides?: Partial<{
     [K in FunctionKeys<WalletClient>]: (
       ...params: Parameters<WalletClient[K]>
     ) => OverrideHandler | Promise<OverrideHandler>;
   }>;
+  /**
+   * If defined, the relevant override of a direct or amino signer will be
+   * called with the parameters. The return value determines how the iframe
+   * should handle the function. By default, if nothing is returned, an error
+   * will be thrown with the message "Handled by outer wallet."
+   */
   signerOverrides?: Partial<{
     [K in keyof (OfflineAminoSigner & OfflineDirectSigner)]: (
       ...params: Parameters<(OfflineAminoSigner & OfflineDirectSigner)[K]>
     ) => OverrideHandler | Promise<OverrideHandler>;
   }>;
+  /**
+   * Optionally only respond to requests from iframes of specific origin. If
+   * undefined or empty, all origins are allowed.
+   */
+  origins?: string[];
 };
 
 export const useIframe = ({
   walletName,
-  walletInfo,
+  metadata,
   walletClientOverrides,
   signerOverrides,
+  origins,
 }: UseIframeOptions = {}): {
   wallet: MainWalletBase;
   iframeRef: RefCallback<HTMLIFrameElement | null>;
@@ -52,7 +72,6 @@ export const useIframe = ({
   const wallet = useWallet(walletName).mainWallet;
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
 
-  const [cosmiframe] = useState(() => new Cosmiframe());
   // Memoize these values with refs so the listener always uses their latest
   // values without needing to reset.
   const walletClientOverridesRef = useRef(walletClientOverrides);
@@ -65,7 +84,7 @@ export const useIframe = ({
     const notifyIframe = () => {
       iframe?.contentWindow.postMessage(
         {
-          event: IFRAME_KEYSTORECHANGE_EVENT,
+          event: COSMIFRAME_KEYSTORECHANGE_EVENT,
         },
         '*'
       );
@@ -103,7 +122,7 @@ export const useIframe = ({
   useEffect(() => {
     iframe?.contentWindow.postMessage(
       {
-        event: IFRAME_KEYSTORECHANGE_EVENT,
+        event: COSMIFRAME_KEYSTORECHANGE_EVENT,
       },
       '*'
     );
@@ -114,63 +133,53 @@ export const useIframe = ({
       return;
     }
 
-    const removeListener = cosmiframe.listen({
+    const removeListener = Cosmiframe.listen({
       iframe,
       target: wallet?.client || {},
       getOfflineSignerDirect:
         wallet?.client.getOfflineSignerDirect.bind(wallet.client) ||
-        (() => Promise.reject(IFRAME_PARENT_DISCONNECTED)),
+        (() => Promise.reject(COSMIFRAME_NOT_CONNECTED_MESSAGE)),
       getOfflineSignerAmino:
         wallet?.client.getOfflineSignerAmino.bind(wallet.client) ||
-        (() => Promise.reject(IFRAME_PARENT_DISCONNECTED)),
+        (() => Promise.reject(COSMIFRAME_NOT_CONNECTED_MESSAGE)),
       nonSignerOverrides: () => ({
         ...walletClientOverridesRef.current,
         // Override connect to return wallet info.
         connect: async (...params) => {
-          // In case override handler is successful, merge value.
-          let handlerSuccessValue;
           if (walletClientOverridesRef.current?.connect) {
-            const handler = await walletClientOverridesRef.current.connect(
+            return await walletClientOverridesRef.current.connect(
               params[0],
               params[1]
             );
-            // If not successful, return the handler as-is. Otherwise, continue
-            // on to respond with wallet info.
-            if (!handler || handler.type !== 'success') {
-              return handler;
-            }
-            handlerSuccessValue = handler.value;
           } else if (wallet?.client?.connect) {
             await wallet.client.connect(params[0], params[1]);
           } else {
             return {
               type: 'error',
-              error: IFRAME_PARENT_DISCONNECTED,
+              error: COSMIFRAME_NOT_CONNECTED_MESSAGE,
             };
           }
-
-          // Respond with parent wallet info on successful connection.
-          return {
-            type: 'success',
-            value: {
-              // In case override handler returns a value, merge with internal
-              // wallet info.
-              ...handlerSuccessValue,
-              _cosmosKit: {
-                prettyName:
-                  walletInfo?.prettyName ||
-                  `${wallet.walletInfo.prettyName} (Outer Wallet)`,
-                logo: walletInfo?.logo || wallet.walletInfo.logo,
-              },
-            },
-          };
         },
       }),
       signerOverrides: () => signerOverridesRef.current,
+      origins,
+      metadata: {
+        name:
+          metadata?.name || `${wallet.walletInfo.prettyName} (Outer Wallet)`,
+        imageUrl:
+          metadata?.imageUrl ||
+          (wallet.walletInfo.logo
+            ? typeof wallet.walletInfo.logo === 'string'
+              ? wallet.walletInfo.logo
+              : 'major' in wallet.walletInfo.logo
+              ? wallet.walletInfo.logo.major
+              : undefined
+            : undefined),
+      },
     });
 
     return removeListener;
-  }, [iframe, wallet, walletInfo]);
+  }, [iframe, wallet, metadata, origins]);
 
   const iframeRef: RefCallback<HTMLIFrameElement | null> = useCallback(
     (iframe) => setIframe(iframe),

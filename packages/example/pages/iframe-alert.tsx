@@ -13,13 +13,11 @@ export default () => {
         alert("direct: " + JSON.stringify(params, null, 2));
       },
     },
-    aminoSignerOverrides: {
+    signerOverrides: {
       signAmino: (...params: unknown[]) => {
         // eslint-disable-next-line no-alert
         alert("signer/amino: " + JSON.stringify(params, null, 2));
       },
-    },
-    directSignerOverrides: {
       signDirect: (...params: unknown[]) => {
         // eslint-disable-next-line no-alert
         alert("signer/direct: " + JSON.stringify(params, null, 2));

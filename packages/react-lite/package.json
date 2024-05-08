@@ -81,7 +81,7 @@
   "dependencies": {
     "@chain-registry/types": "0.17.0",
     "@cosmos-kit/core": "^2.9.3",
-    "@dao-dao/cosmiframe": "^0.0.4"
+    "@dao-dao/cosmiframe": "^0.1.0"
   },
   "resolutions": {
     "@types/react": "^18.2"

@@ -9,7 +9,7 @@ import {
 } from '@cosmjs/stargate';
 import type { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
-import { IFRAME_WALLET_ID } from '../iframe/constants';
+import { COSMIFRAME_WALLET_ID } from '../cosmiframe/constants';
 import {
   ChainRecord,
   CosmosClientType,
@@ -211,7 +211,7 @@ export class ChainWalletBase extends WalletBase {
         this.setError(new ConnectError((e as Error).message));
       }
     }
-    if (!this.isWalletRejected && this.walletName !== IFRAME_WALLET_ID) {
+    if (!this.isWalletRejected && this.walletName !== COSMIFRAME_WALLET_ID) {
       window?.localStorage.setItem(
         'cosmos-kit@2:core//current-wallet',
         this.walletName

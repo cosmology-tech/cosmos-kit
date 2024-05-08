@@ -82,7 +82,6 @@ function MyApp({ Component, pageProps }: AppProps) {
               },
             },
           }}
-          disableIframe={false}
           >
           <Component {...pageProps} />
         </ChainProvider>
