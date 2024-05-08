@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/tailwind-extension@1.1.3...@cosmos-kit/tailwind-extension@1.2.0) (2024-05-08)
+
+**Note:** Version bump only for package @cosmos-kit/tailwind-extension
+
+
+
+
+
 ## [1.1.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/tailwind-extension@1.1.2...@cosmos-kit/tailwind-extension@1.1.3) (2024-05-07)
 
 **Note:** Version bump only for package @cosmos-kit/tailwind-extension
