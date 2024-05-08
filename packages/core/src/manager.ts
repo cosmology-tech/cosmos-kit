@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type { AssetList, Chain } from '@chain-registry/types';
+import { isInIframe } from '@dao-dao/cosmiframe';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
 import type { ChainWalletBase, MainWalletBase } from './bases';
 import { StateBase } from './bases';
-import { iframeWallet } from './iframe';
+import { makeCosmiframeWallet } from './cosmiframe';
+import {
+  COSMIFRAME_KEYSTORECHANGE_EVENT,
+  COSMIFRAME_WALLET_ID,
+} from './cosmiframe/constants';
 import type { NameService } from './name-service';
 import { WalletRepo } from './repository';
 import {
@@ -14,8 +19,6 @@ import {
   DeviceType,
   EndpointOptions,
   EventName,
-  IFRAME_KEYSTORECHANGE_EVENT,
-  IFRAME_WALLET_ID,
   NameServiceName,
   OS,
   SessionOptions,
@@ -25,8 +28,8 @@ import {
   WalletConnectOptions,
   WalletName,
 } from './types';
-import { convertChain, Session, WalletNotProvidedError } from './utils';
 import type { Logger } from './utils';
+import { convertChain, Session, WalletNotProvidedError } from './utils';
 
 export class WalletManager extends StateBase {
   chainRecords: ChainRecord[] = [];
@@ -40,7 +43,7 @@ export class WalletManager extends StateBase {
   isLazy?: boolean; // stands for `globalIsLazy` setting
   throwErrors: boolean | 'connect_only';
   subscribeConnectEvents: boolean;
-  disableIframe: boolean;
+  cosmiframeEnabled: boolean;
   private _reconnectMap = {};
 
   constructor(
@@ -49,7 +52,7 @@ export class WalletManager extends StateBase {
     logger: Logger,
     throwErrors: boolean | 'connect_only',
     subscribeConnectEvents = true,
-    disableIframe = false,
+    allowedCosmiframeParentOrigins?: string[],
     assetLists?: AssetList[],
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
@@ -60,7 +63,6 @@ export class WalletManager extends StateBase {
     super();
     this.throwErrors = throwErrors;
     this.subscribeConnectEvents = subscribeConnectEvents;
-    this.disableIframe = disableIframe;
     this.coreEmitter = new EventEmitter();
     this.logger = logger;
     if (defaultNameService) this.defaultNameService = defaultNameService;
@@ -74,13 +76,13 @@ export class WalletManager extends StateBase {
       ...sessionOptions,
     });
     this.walletConnectOptions = walletConnectOptions;
-    // Add iframe wallet to beginning of wallet list unless not in iframe or
-    // iframe is disabled.
+    this.cosmiframeEnabled =
+      isInIframe() && !!allowedCosmiframeParentOrigins?.length;
+    // Add Cosmiframe wallet to beginning of list if enabled.
     wallets = [
-      ...((typeof window !== 'undefined' && window.parent === window.self) ||
-      disableIframe
-        ? []
-        : [iframeWallet]),
+      ...(this.cosmiframeEnabled
+        ? [makeCosmiframeWallet(allowedCosmiframeParentOrigins)]
+        : []),
       ...wallets,
     ];
     wallets.forEach(
@@ -358,9 +360,9 @@ export class WalletManager extends StateBase {
 
   private _restoreAccounts = async () => {
     const walletName =
-      // If in an iframe and not disabled, default to the iframe wallet.
-      !this.disableIframe && window.parent !== window.self
-        ? IFRAME_WALLET_ID
+      // If Cosmiframe enabled, use it by default instead of stored wallet.
+      this.cosmiframeEnabled
+        ? COSMIFRAME_WALLET_ID
         : window.localStorage.getItem('cosmos-kit@2:core//current-wallet');
     if (walletName) {
       try {
@@ -404,29 +406,33 @@ export class WalletManager extends StateBase {
     }
   };
 
-  _handleIframeKeystoreChangeEvent = (event: MessageEvent) => {
+  _handleCosmiframeKeystoreChangeEvent = (event: MessageEvent) => {
     if (
+      typeof event.data === 'object' &&
       'event' in event.data &&
-      event.data.event === IFRAME_KEYSTORECHANGE_EVENT
+      event.data.event === COSMIFRAME_KEYSTORECHANGE_EVENT
     ) {
       // Dispatch event to our window.
-      window.dispatchEvent(new Event(IFRAME_KEYSTORECHANGE_EVENT));
+      window.dispatchEvent(new Event(COSMIFRAME_KEYSTORECHANGE_EVENT));
 
       // Reconnect if the parent updates.
-      this._reconnect(IFRAME_WALLET_ID);
+      this._reconnect(COSMIFRAME_WALLET_ID);
     }
   };
 
   onMounted = async () => {
     if (typeof window === 'undefined') return;
 
-    // If in iframe, rebroadcast keystore change event messages as events and
-    // reconnect if the parent changes. Since the outer window can be a
-    // different origin (and it most likely is), it cannot dispatch events on
+    // If Cosmiframe enabled, rebroadcast keystore change event messages as
+    // events and reconnect if the parent changes. Since the outer window can be
+    // a different origin (and it most likely is), it cannot dispatch events on
     // our (the iframe's) window. Thus, it posts a message with the event name
     // to our window and we broadcast it.
-    if (!this.disableIframe && window.parent !== window.self) {
-      window.addEventListener('message', this._handleIframeKeystoreChangeEvent);
+    if (this.cosmiframeEnabled) {
+      window.addEventListener(
+        'message',
+        this._handleCosmiframeKeystoreChangeEvent
+      );
     }
 
     const parser = Bowser.getParser(window.navigator.userAgent);
@@ -479,11 +485,11 @@ export class WalletManager extends StateBase {
       return;
     }
 
-    // If in iframe, stop listening for keystore change event.
-    if (!this.disableIframe && window.parent !== window.self) {
+    // If using Cosmiframe, stop listening for keystore change event.
+    if (this.cosmiframeEnabled) {
       window.removeEventListener(
         'message',
-        this._handleIframeKeystoreChangeEvent
+        this._handleCosmiframeKeystoreChangeEvent
       );
     }
 

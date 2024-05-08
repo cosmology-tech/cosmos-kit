@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import EventEmitter from 'events';
 
+import { COSMIFRAME_WALLET_ID } from '../cosmiframe/constants';
 import {
   ChainName,
   ChainRecord,
@@ -8,7 +9,6 @@ import {
   DisconnectOptions,
   EndpointOptions,
   IChainWallet,
-  IFRAME_WALLET_ID,
   State,
   Wallet,
   WalletClient,
@@ -202,7 +202,7 @@ export abstract class MainWalletBase extends WalletBase {
     this.setMessage(void 0);
     this.setState(State.Done);
     this.activate();
-    if (this.walletName !== IFRAME_WALLET_ID) {
+    if (this.walletName !== COSMIFRAME_WALLET_ID) {
       window?.localStorage.setItem(
         'cosmos-kit@2:core//current-wallet',
         this.walletName

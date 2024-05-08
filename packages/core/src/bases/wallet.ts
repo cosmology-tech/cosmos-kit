@@ -2,19 +2,19 @@
 /* eslint-disable no-console */
 import type EventEmitter from 'events';
 
+import { COSMIFRAME_WALLET_ID } from '../cosmiframe/constants';
 import {
   Callbacks,
   DisconnectOptions,
   DownloadInfo,
-  IFRAME_WALLET_ID,
   Mutable,
   State,
   Wallet,
   WalletClient,
   WalletConnectOptions,
 } from '../types';
-import { ClientNotExistError, ConnectError, RejectedError } from '../utils';
 import type { Session } from '../utils';
+import { ClientNotExistError, ConnectError, RejectedError } from '../utils';
 import { StateBase } from './state';
 
 export abstract class WalletBase extends StateBase {
@@ -166,7 +166,7 @@ export abstract class WalletBase extends StateBase {
     if (this.clientMutable.state !== State.Error) {
       this.reset();
     }
-    if (this.walletName !== IFRAME_WALLET_ID) {
+    if (this.walletName !== COSMIFRAME_WALLET_ID) {
       window.localStorage.removeItem('cosmos-kit@2:core//current-wallet');
     }
     if (sync) {
