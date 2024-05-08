@@ -35,7 +35,11 @@ export function ChainProvider({
   endpointOptions,
   sessionOptions,
   logLevel = 'WARN',
-  disableIframe = false,
+  allowedIframeParentOrigins = [
+    'https://app.osmosis.zone',
+    'https://daodao.zone',
+    'https://dao.daodao.zone',
+  ],
   children,
 }: {
   chains: (Chain | ChainName)[];
@@ -50,7 +54,13 @@ export function ChainProvider({
   endpointOptions?: EndpointOptions;
   sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
-  disableIframe?: boolean;
+  /**
+   * Origins to allow wrapping this app in an iframe and connecting to this
+   * Cosmos Kit instance.
+   *
+   * Defaults to Osmosis and DAO DAO.
+   */
+  allowedIframeParentOrigins?: string[];
   children: ReactNode;
 }) {
   const logger = useMemo(() => new Logger(logLevel), []);
@@ -61,7 +71,7 @@ export function ChainProvider({
       logger,
       throwErrors,
       subscribeConnectEvents,
-      disableIframe,
+      allowedIframeParentOrigins,
       assetLists,
       defaultNameService,
       walletConnectOptions,

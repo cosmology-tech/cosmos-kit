@@ -7,47 +7,16 @@ import {
   WalletAccount,
   WalletClient,
 } from '../../types';
-import {
-  IFRAME_DEFAULT_LOGO,
-  IFRAME_DEFAULT_PRETTY_NAME,
-  IFRAME_PARENT_DISCONNECTED,
-} from '../constants';
-import { IframeWallet } from './main-wallet';
-import { iframeExtensionInfo } from './registry';
 
-export class IframeClient implements WalletClient {
-  private cosmiframe: Cosmiframe;
-
-  constructor(private wallet: IframeWallet) {
-    this.cosmiframe = new Cosmiframe();
-  }
+export class CosmiframeClient implements WalletClient {
+  constructor(private cosmiframe: Cosmiframe) {}
 
   async getSimpleAccount(...params) {
     return await this.cosmiframe.p.getSimpleAccount(...params);
   }
 
   async connect(...params) {
-    try {
-      const data = await this.cosmiframe.p.connect(...params);
-
-      // On connect, update info based on data from parent.
-      if (data?._cosmosKit?.prettyName) {
-        iframeExtensionInfo.prettyName = data._cosmosKit.prettyName;
-      }
-      if (data?._cosmosKit?.logo) {
-        iframeExtensionInfo.logo = data._cosmosKit.logo;
-      }
-    } catch (err) {
-      if (err instanceof Error && err.message === IFRAME_PARENT_DISCONNECTED) {
-        // On disconnect, remove parent info.
-        iframeExtensionInfo.prettyName = IFRAME_DEFAULT_PRETTY_NAME;
-        iframeExtensionInfo.logo = IFRAME_DEFAULT_LOGO;
-
-        await this.wallet.disconnect();
-      }
-
-      throw err;
-    }
+    return await this.cosmiframe.p.connect(...params);
   }
 
   // Cannot implement because the event only makes sense in the context of the

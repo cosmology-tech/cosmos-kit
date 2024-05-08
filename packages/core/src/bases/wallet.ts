@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import type EventEmitter from 'events';
 
-import { IFRAME_WALLET_ID } from '../iframe/constants';
+import { COSMIFRAME_WALLET_ID } from '../cosmiframe/constants';
 import {
   Callbacks,
   DisconnectOptions,
@@ -166,7 +166,7 @@ export abstract class WalletBase extends StateBase {
     if (this.clientMutable.state !== State.Error) {
       this.reset();
     }
-    if (this.walletName !== IFRAME_WALLET_ID) {
+    if (this.walletName !== COSMIFRAME_WALLET_ID) {
       window.localStorage.removeItem('cosmos-kit@2:core//current-wallet');
     }
     if (sync) {

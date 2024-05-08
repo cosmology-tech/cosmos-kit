@@ -164,7 +164,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             // },
           },
         }}
-        disableIframe={false}
         // // ==== Custom base modal customization
         // // modalTheme={{
         // //   modalContentClassName: "my-custom-modal-content",

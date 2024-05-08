@@ -2815,10 +2815,10 @@
     "@keplr-wallet/types" "0.12.12"
     ses "^0.18.4"
 
-"@dao-dao/cosmiframe@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@dao-dao/cosmiframe/-/cosmiframe-0.0.4.tgz#5d69e368658aaac36d79f1d72800c6eb6318e4ca"
-  integrity sha512-EmzhIRsuGBZhDIWsWzvPFHpQRnnBRj3Cprhp5xSL+trnd1ESadCbIF8sobgSUHrifnPPvF9DTIrnm5RIbuBKhg==
+"@dao-dao/cosmiframe@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@dao-dao/cosmiframe/-/cosmiframe-0.1.0.tgz#5ba241d0c14a45d62df60cff7d48ba26844ebeac"
+  integrity sha512-NW4pGt1ctqDfhn/A6RU2vwnFEu3O4aBNnBMrGnw31n+L35drYNEsA9ZB7KZsHmRRlkNx+jSuJSv2Fv0BFBDDJQ==
   dependencies:
     uuid "^9.0.1"
 
