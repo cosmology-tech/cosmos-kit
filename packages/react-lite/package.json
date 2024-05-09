@@ -75,19 +75,18 @@
     ]
   },
   "devDependencies": {
-    "@chain-registry/types": "^0.17.0",
     "@types/react": "^18.2",
     "@types/react-dom": "^18.2"
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.10.0",
-    "@dao-dao/cosmiframe": "^0.1.0"
+    "@dao-dao/cosmiframe": "^0.1.0",
+    "@chain-registry/types": "^0.29.0"
   },
   "resolutions": {
     "@types/react": "^18.2"
   },
   "peerDependencies": {
-    "@chain-registry/types": ">= 0.17",
     "@types/react": ">= 17",
     "@types/react-dom": ">= 17",
     "react": "^18",
