@@ -67,11 +67,6 @@
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "dist/"
-    ]
-  },
   "dependencies": {
     "@chain-registry/client": "^1.18.0",
     "@cosmjs/amino": "^0.32.3",
