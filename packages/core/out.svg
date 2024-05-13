@@ -1,0 +1,2159 @@
+<svg version="1.1" baseProfile="full" width="19860.3" height="1905.0" viewbox="0 0 19860.25 1905" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events">
+<desc >#.interface: fill=lightblue
+#.enumeration: fill=lightgreen
+#.type: fill=lightgray
+[WalletManager|+chainRecords: ChainRecord\[\];+walletRepos: WalletRepo\[\];+defaultNameService: string;+mainWallets: MainWalletBase\[\];+coreEmitter: EventEmitter;+walletConnectOptions?: WalletConnectOptions;+abstract session: Session;+repelWallet: boolean;+isLazy?: boolean;+throwErrors: boolean \| &quot;connect_only&quot;;+subscribeConnectEvents: boolean;+cosmiframeEnabled: boolean;+_reconnectMap: {};+addEndpoints: (endpoints: Record&lt;string, Endpoints&gt;) =&gt; void;+addChains: (chains: (string \| Chain)\[\], assetLists: AssetList\[\], signerOptions?: SignerOptions, endpoints?: Record&lt;string, Endpoints&gt;) =&gt; void;+on: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void;+off: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void;+getMainWallet: (walletName: string) =&gt; MainWalletBase;+getWalletRepo: (chainName: string) =&gt; WalletRepo;+getChainWallet: (chainName: string, walletName: string) =&gt; ChainWalletBase;+getChainRecord: (chainName: string) =&gt; ChainRecord;+getChainLogo: (chainName: string) =&gt; string;+getNameService: (chainName?: string) =&gt; Promise&lt;NameService&gt;;+_reconnect: (walletName: string, checkConnection?: boolean) =&gt; Promise&lt;void&gt;;+_restoreAccounts: () =&gt; Promise&lt;void&gt;;+_handleCosmiframeKeystoreChangeEvent: (event: MessageEvent&lt;any&gt;) =&gt; void;+onMounted: () =&gt; Promise&lt;void&gt;;+onUnmounted: () =&gt; void|+init(): void;+checkEndpoints(): void;+setWalletRepel(): void]
+[StateBase]&lt;:-[WalletManager]
+[NameService|+client: CosmWasmClient;+registry: NameServiceRegistry|+resolveName(): Promise&lt;any&gt;]
+[WalletRepo|+isActive: boolean;+chainRecord: ChainRecord;+_wallets: ChainWalletBase\[\];+namespace: string;+session: Session;+repelWallet: boolean;+callbackOptions?: CallbackOptions;+abstract fetchInfo: boolean;+getWallet: (walletName: string) =&gt; ChainWalletBase;+openView: () =&gt; void;+closeView: () =&gt; void;+connect: (walletName?: string, sync?: boolean) =&gt; Promise&lt;void&gt;;+disconnect: (walletName?: string, sync?: boolean, options?: DisconnectOptions) =&gt; Promise&lt;void&gt;;+getRpcEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string \| ExtendedHttpEndpoint&gt;;+getRestEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string \| ExtendedHttpEndpoint&gt;;+getStargateClient: () =&gt; Promise&lt;StargateClient&gt;;+getCosmWasmClient: () =&gt; Promise&lt;CosmWasmClient&gt;;+getNameService: () =&gt; Promise&lt;NameService&gt;|+setCallbackOptions(): void;+setEnv(): void;+activate(): void]
+[StateBase]&lt;:-[WalletRepo]
+[ChainWalletBase|+mainWallet: MainWalletBase;+chainRecord: ChainRecord;+_rpcEndpoint?: string \| ExtendedHttpEndpoint;+_restEndpoint?: string \| ExtendedHttpEndpoint;+connectChains?: () =&gt; Promise&lt;any&gt;;+offlineSigner?: OfflineSigner;+namespace: string;+preferredSignType: SignType;+getRpcEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string \| ExtendedHttpEndpoint&gt;;+getRestEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string \| ExtendedHttpEndpoint&gt;;+getStargateClient: () =&gt; Promise&lt;StargateClient&gt;;+getCosmWasmClient: () =&gt; Promise&lt;CosmWasmClient&gt;;+getNameService: () =&gt; Promise&lt;NameService&gt;;+getSigningStargateClient: () =&gt; Promise&lt;SigningStargateClient&gt;;+getSigningCosmWasmClient: () =&gt; Promise&lt;SigningCosmWasmClient&gt;;+getSigningClient: (type?: CosmosClientType) =&gt; Promise&lt;SigningStargateClient \| SigningCosmWasmClient&gt;;+estimateFee: (messages: EncodeObject\[\], type?: CosmosClientType, memo?: string, multiplier?: number) =&gt; Promise&lt;StdFee&gt;;+sign: (messages: EncodeObject\[\], fee?: number \| StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;TxRaw&gt;;+broadcast: (signedMessages: TxRaw, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;;+signAndBroadcast: (messages: EncodeObject\[\], fee?: number \| StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;|+addEndpoints(): void;+setData(): void;+initClient(): void \| Promise&lt;void&gt;;+update(): Promise&lt;void&gt;;+initOfflineSigner(): Promise&lt;void&gt;]
+[WalletBase]&lt;:-[ChainWalletBase]
+[MainWalletBase|+_chainWalletMap?: Map&lt;string, ChainWalletBase&gt;;+preferredEndpoints?: Record&lt;string, Endpoints&gt;;+ChainWallet: IChainWallet;+getChainWallet: (chainName: string) =&gt; ChainWalletBase;+getChainWalletList: (activeOnly?: boolean) =&gt; ChainWalletBase\[\];+getGlobalStatusAndMessage: (activeOnly?: boolean) =&gt; \[WalletStatus, string\]|+initingClient(): void;+initClientDone(): void;+initClientError(): void;+onSetChainsDone(): void;+makeFinalEndpoints(): { isLazy: boolean; rpc: (string \| ExtendedHttpEndpoint)\[\]; rest: (string \| ExtendedHttpEndpoint)\[\]; };+addEnpoints(): void;+setChains(): void;+update(): Promise&lt;void&gt;;+reset(): void;+connectAll(): Promise&lt;void&gt;;+disconnectAll(): Promise&lt;void&gt;]
+[WalletBase]&lt;:-[MainWalletBase]
+[StateBase|+_mutable: Mutable&lt;Data&gt;;+actions?: StateActions&lt;Data&gt;;+_env?: DappEnv;+logger?: Logger;+setActions: (actions: Actions) =&gt; void|+setEnv(): void;+setState(): void;+setData(): void;+setMessage(): void;+reset(): void]
+[WalletBase|+clientMutable: Mutable&lt;WalletClient&gt;;+emitter?: EventEmitter;+_walletInfo: Wallet;+callbacks?: Callbacks;+session?: Session;+walletConnectOptions?: WalletConnectOptions;+isActive: boolean;+throwErrors: boolean \| &quot;connect_only&quot;;+_disconnect: (sync?: boolean, options?: DisconnectOptions) =&gt; Promise&lt;void&gt;;+disconnect: (sync?: boolean, options?: DisconnectOptions) =&gt; Promise&lt;void&gt;;+connect: (sync?: boolean) =&gt; Promise&lt;void&gt;|+activate(): void;+inactivate(): void;+initingClient(): void;+initClientDone(): void;+initClientError(): void;+rejectMatched(): boolean;+updateCallbacks(): void;+setClientNotExist(): void;+setRejected(): void;+setError(): void;+static initClient(): void \| Promise&lt;void&gt;;+static update(): void \| Promise&lt;void&gt;]
+[StateBase]&lt;:-[WalletBase]
+[&lt;interface&gt;ChainRecord|+name: string;+chain?: Chain;+assetList?: AssetList;+clientOptions?: { signingStargate?: SigningStargateClientOptions; signingCosmwasm?: SigningCosmWasmClientOptions; stargate?: StargateClientOptions; preferredSignType?: SignType; };+preferredEndpoints?: Endpoints|]
+[&lt;interface&gt;Mutable&lt;T&gt;|+state: State;+data?: T;+message?: string|]
+[&lt;interface&gt;Actions||]
+[&lt;interface&gt;StateActions&lt;T&gt;|+state?: Dispatch&lt;State&gt;;+data?: Dispatch&lt;T&gt;;+message?: Dispatch&lt;string&gt;;+clientState?: Dispatch&lt;State&gt;;+clientMessage?: Dispatch&lt;string&gt;;+render?: Dispatch&lt;SetStateAction&lt;number&gt;&gt;|]
+[&lt;interface&gt;WalletClientActions|+qrUrl?: StateActions&lt;string&gt;;+appUrl?: StateActions&lt;string&gt;|]
+[&lt;interface&gt;Callbacks|+beforeConnect?: () =&gt; void;+beforeDisconnect?: () =&gt; void;+afterConnect?: () =&gt; void;+afterDisconnect?: () =&gt; void|]
+[&lt;interface&gt;DappEnv|+device?: DeviceType;+os?: OS;+browser?: string|]
+[&lt;enumeration&gt;State|Init;Pending;Done;Error]
+[Actions]&lt;:--[StateActions&lt;T&gt;]
+[&lt;interface&gt;ChainWalletContext|+chainWallet: ChainWalletBase;+chain: Chain;+assets: AssetList;+wallet: Wallet;+logoUrl: string;+address: string;+username: string;+message: string;+status: WalletStatus;+isWalletDisconnected: boolean;+isWalletConnecting: boolean;+isWalletConnected: boolean;+isWalletRejected: boolean;+isWalletNotExist: boolean;+isWalletError: boolean;+connect: () =&gt; Promise&lt;void&gt;;+disconnect: (options?: DisconnectOptions) =&gt; Promise&lt;void&gt;;+getRpcEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string \| ExtendedHttpEndpoint&gt;;+getRestEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string \| ExtendedHttpEndpoint&gt;;+getStargateClient: () =&gt; Promise&lt;StargateClient&gt;;+getCosmWasmClient: () =&gt; Promise&lt;CosmWasmClient&gt;;+getSigningStargateClient: () =&gt; Promise&lt;SigningStargateClient&gt;;+getSigningCosmWasmClient: () =&gt; Promise&lt;SigningCosmWasmClient&gt;;+getNameService: () =&gt; Promise&lt;NameService&gt;;+estimateFee: (messages: EncodeObject\[\], type?: CosmosClientType, memo?: string, multiplier?: number) =&gt; Promise&lt;StdFee&gt;;+sign: (messages: EncodeObject\[\], fee?: StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;TxRaw&gt;;+broadcast: (signedMessages: TxRaw, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;;+signAndBroadcast: (messages: EncodeObject\[\], fee?: StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;;+qrUrl: Mutable&lt;string&gt;;+appUrl: Mutable&lt;AppUrl&gt;;+defaultSignOptions: SignOptions;+setDefaultSignOptions: (options: SignOptions) =&gt; void;+enable: () =&gt; Promise&lt;void&gt;;+suggestToken: (data: SuggestToken) =&gt; Promise&lt;void&gt;;+getAccount: () =&gt; Promise&lt;WalletAccount&gt;;+getOfflineSigner: () =&gt; OfflineSigner;+getOfflineSignerAmino: () =&gt; OfflineAminoSigner;+getOfflineSignerDirect: () =&gt; OfflineDirectSigner;+signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;AminoSignResponse&gt;;+signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;DirectSignResponse&gt;;+signArbitrary: (signer: string, data: string \| Uint8Array) =&gt; Promise&lt;StdSignature&gt;|+sendTx(): Promise&lt;Uint8Array&gt;]
+[&lt;interface&gt;ChainContext|+wallet: Wallet;+walletRepo: WalletRepo;+openView: () =&gt; void;+closeView: () =&gt; void|]
+[&lt;interface&gt;ManagerContext|+chainRecords: ChainRecord\[\];+walletRepos: WalletRepo\[\];+mainWallets: MainWalletBase\[\];+defaultNameService: string;+getChainRecord: (chainName: string) =&gt; ChainRecord;+getWalletRepo: (chainName: string) =&gt; WalletRepo;+addChains: (chains: Chain\[\], assetLists: AssetList\[\], signerOptions?: SignerOptions, endpoints?: Record&lt;string, Endpoints&gt;) =&gt; void;+addEndpoints: (endpoints?: Record&lt;string, Endpoints&gt;) =&gt; void;+getChainLogo: (chainName: string) =&gt; string;+getNameService: (chainName?: string) =&gt; Promise&lt;NameService&gt;;+on: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void;+off: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void|]
+[&lt;interface&gt;ModalThemeContext|+modalTheme: ModalTheme;+setModalTheme: (theme: ModalTheme) =&gt; void|]
+[&lt;interface&gt;WalletContext|+mainWallet: MainWalletBase;+chainWallets: ChainWalletBase\[\];+wallet: Wallet;+status: WalletStatus;+message: string|]
+[&lt;interface&gt;WalletClientContext|+client: WalletClient;+status: State;+message: string|]
+[ChainWalletContext]&lt;:--[ChainContext]
+[&lt;interface&gt;SignerOptions|+stargate?: (chain: string \| Chain) =&gt; StargateClientOptions;+signingStargate?: (chain: string \| Chain) =&gt; SigningStargateClientOptions;+signingCosmwasm?: (chain: string \| Chain) =&gt; SigningCosmWasmClientOptions;+preferredSignType?: (chain: string \| Chain) =&gt; SignType|]
+[&lt;interface&gt;SessionOptions|+duration: number;+callback?: () =&gt; void|]
+[&lt;interface&gt;ExtendedHttpEndpoint|+isLazy?: boolean|]
+[&lt;interface&gt;Endpoints|+rpc?: (string \| ExtendedHttpEndpoint)\[\];+rest?: (string \| ExtendedHttpEndpoint)\[\];+isLazy?: boolean|]
+[&lt;interface&gt;EndpointOptions|+isLazy?: boolean;+endpoints?: Record&lt;string, Endpoints&gt;|]
+[&lt;interface&gt;ManagerActions&lt;T&gt;|+walletName?: Dispatch&lt;string&gt;;+chainName?: Dispatch&lt;string&gt;;+viewOpen?: Dispatch&lt;boolean&gt;|]
+[HttpEndpoint]&lt;:--[ExtendedHttpEndpoint]
+[StateActions&lt;T&gt;]&lt;:--[ManagerActions&lt;T&gt;]
+[&lt;interface&gt;WalletModalProps|+isOpen: boolean;+setOpen: Dispatch&lt;boolean&gt;;+walletRepo?: WalletRepo|]
+[&lt;interface&gt;WalletViewProps|+onClose: () =&gt; void;+onReturn: () =&gt; void;+wallet: ChainWalletBase;+options?: ModalOptions|]
+[&lt;interface&gt;RefObject&lt;T&gt;|+abstract current: T|]
+[&lt;interface&gt;WalletListViewProps|+onClose: () =&gt; void;+wallets: ChainWalletBase\[\];+initialFocus?: RefObject&lt;HTMLButtonElement&gt;|]
+[&lt;enumeration&gt;ModalView|WalletList;Connecting;Connected;Error;NotExist;Rejected;QRCode]
+[&lt;interface&gt;Key|+abstract name: string;+abstract algo: string;+abstract pubKey: Uint8Array;+abstract address: Uint8Array;+abstract bech32Address: string;+abstract isNanoLedger: boolean;+abstract isSmartContract?: boolean|]
+[&lt;interface&gt;SimpleAccount|+namespace: string;+chainId: string;+address: string;+username?: string|]
+[&lt;interface&gt;DownloadInfo|+icon?: string \| ((props: any) =&gt; Element);+link: string|]
+[&lt;interface&gt;Metadata|+name: string;+description: string;+url: string;+icons: string\[\]|]
+[&lt;interface&gt;AppUrl|+native?: string \| { android?: string; ios?: string; macos?: string; windows?: string; };+universal?: string|]
+[&lt;interface&gt;Wallet|+name: string;+prettyName: string;+mode: WalletMode;+extends?: &quot;MetaMask&quot;;+mobileDisabled: boolean \| (() =&gt; boolean);+description?: string;+rejectMessage?: string \| { source: string; target?: string; };+rejectCode?: number;+connectEventNamesOnWindow?: string\[\];+connectEventNamesOnClient?: string\[\];+downloads?: DownloadInfo\[\];+logo?: string \| { major: string; minor: string; };+walletconnect?: { name: string; projectId: string; requiredNamespaces?: { methods: string\[\]; events: string\[\]; }; encoding?: BufferEncoding; mobile?: AppUrl; formatNativeUrl?: (appUrl: string, wcUri: string, os: OS, name: string) =&gt; string; formatUniversalUrl?: (appUrl: string, wcUri: string, name: string) =&gt; string; }|]
+[&lt;interface&gt;WalletAccount|+username?: string;+isNanoLedger?: boolean;+isSmartContract?: boolean|]
+[&lt;interface&gt;SignOptions|+abstract preferNoSetFee?: boolean;+abstract preferNoSetMemo?: boolean;+abstract disableBalanceCheck?: boolean|]
+[&lt;interface&gt;DirectSignDoc|+bodyBytes: Uint8Array;+authInfoBytes: Uint8Array;+chainId: string;+accountNumber: bigint|]
+[&lt;interface&gt;SuggestCW20Token|+contractAddress: string;+viewingKey?: string;+imageURL?: string;+coinGeckoId?: string|]
+[&lt;interface&gt;SuggestToken|+chainId: string;+chainName: string;+type: SuggestTokenType;+tokens: SuggestCW20Token\[\]|]
+[&lt;interface&gt;WalletClient|+getSimpleAccount: (chainId: string) =&gt; Promise&lt;SimpleAccount&gt;;+qrUrl?: Mutable&lt;string&gt;;+appUrl?: Mutable&lt;AppUrl&gt;;+connect?: (chainIds: string \| string\[\], options?: any) =&gt; Promise&lt;void&gt;;+disconnect?: (options?: DisconnectOptions) =&gt; Promise&lt;void&gt;;+on?: (type: string, listener: EventListenerOrEventListenerObject) =&gt; void;+off?: (type: string, listener: EventListenerOrEventListenerObject) =&gt; void;+enable?: (chainIds: string \| string\[\]) =&gt; Promise&lt;void&gt;;+suggestToken?: (data: SuggestToken) =&gt; Promise&lt;void&gt;;+addChain?: (chainInfo: ChainRecord) =&gt; Promise&lt;void&gt;;+getAccount?: (chainId: string) =&gt; Promise&lt;WalletAccount&gt;;+getOfflineSigner?: (chainId: string, preferredSignType?: SignType) =&gt; OfflineSigner \| Promise&lt;OfflineSigner&gt;;+getOfflineSignerAmino?: (chainId: string) =&gt; OfflineAminoSigner;+getOfflineSignerDirect?: (chainId: string) =&gt; OfflineDirectSigner;+abstract defaultSignOptions?: SignOptions;+setDefaultSignOptions?: (options: SignOptions) =&gt; void;+sign?: (signDoc: StdSignDoc, accountIndex?: number) =&gt; Promise&lt;{ signature: Buffer; return_code: string \| number; }&gt;;+signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;AminoSignResponse&gt;;+signDirect?: (chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;DirectSignResponse&gt;;+signArbitrary?: (chainId: string, signer: string, data: string \| Uint8Array) =&gt; Promise&lt;StdSignature&gt;;+getEnigmaPubKey?: (chainId: string) =&gt; Promise&lt;Uint8Array&gt;;+getEnigmaTxEncryptionKey?: (chainId: string, nonce: Uint8Array) =&gt; Promise&lt;Uint8Array&gt;;+enigmaEncrypt?: (chainId: string, contractCodeHash: string, msg: object) =&gt; Promise&lt;Uint8Array&gt;;+enigmaDecrypt?: (chainId: string, ciphertext: Uint8Array, nonce: Uint8Array) =&gt; Promise&lt;Uint8Array&gt;;+sendTx?: (chainId: string, tx: Uint8Array, mode: BroadcastMode) =&gt; Promise&lt;Uint8Array&gt;|]
+[&lt;interface&gt;IChainWallet||]
+[&lt;interface&gt;NameServiceRegistry|+name: string;+contract: string;+chainName: string;+getQueryMsg: (address: string) =&gt; any;+slip173: string|]
+[&lt;interface&gt;WalletConnectOptions|+signClient: { projectId: string; } &amp; Options|]
+[&lt;interface&gt;DisconnectOptions|+walletconnect?: { removeAllPairings?: boolean; }|]
+[&lt;interface&gt;ModalOptions|+mobile?: { displayQRCodeEveryTime?: boolean; }|]
+[&lt;interface&gt;CallbackOptions|+beforeConnect?: { disconnect?: DisconnectOptions; }|]
+[&lt;enumeration&gt;WalletStatus|Disconnected;Connecting;Connected;NotExist;Rejected;Error]
+[&lt;enumeration&gt;BroadcastMode|Block;Sync;Async]
+[DappEnv]&lt;:--[DownloadInfo]
+[AccountData]&lt;:--[WalletAccount]
+[WalletNotProvidedError|+abstract walletName: string|]
+[ConnectError|+abstract name: &quot;ConnectError&quot;|]
+[Logger|+abstract logger: Console;\#abstract level: LogLevel;\#abstract levelOrder: LogLevel\[\]|+compare(): 1 \| -1 \| 0;\#trace(): void;\#debug(): void;\#info(): void;\#warn(): void;\#error(): void]
+[Session|+sessionOptions: SessionOptions;+timeoutId?: string \| number \| Timeout|+update(): void]
+[MockWallet|+defaultOptions: { sign: { preferNoSetFee: boolean; preferNoSetMemo: boolean; disableBalanceCheck: boolean; }; };+mode: &quot;extension&quot;|+disconnect(): Promise&lt;void&gt;;+enable(): Promise&lt;void&gt;;+suggestToken(): Promise&lt;void&gt;;+suggestCW20Token(): Promise&lt;void&gt;;+getKey(): Promise&lt;Key&gt;;+getOfflineSigner(): Promise&lt;OfflineAminoSigner &amp; OfflineDirectSigner&gt;;+getOfflineSignerOnlyAmino(): Promise&lt;OfflineAminoSigner&gt;;+getOfflineSignerAuto(): Promise&lt;OfflineSigner&gt;;+signAmino(): Promise&lt;AminoSignResponse&gt;;+signDirect(): Promise&lt;DirectSignResponse&gt;;+signArbitrary(): Promise&lt;StdSignature&gt;;+getEnigmaPubKey(): Promise&lt;Uint8Array&gt;;+getEnigmaTxEncryptionKey(): Promise&lt;Uint8Array&gt;;+enigmaEncrypt(): Promise&lt;Uint8Array&gt;;+enigmaDecrypt(): Promise&lt;Uint8Array&gt;;+sendTx(): Promise&lt;Uint8Array&gt;;+experimentalSuggestChain(): Promise&lt;void&gt;]
+[Mock]&lt;:--[MockWallet]
+[ChainWalletCosmiframe||]
+[ChainWalletBase]&lt;:-[ChainWalletCosmiframe]
+[CosmiframeClient|+cosmiframe: Cosmiframe|+getSimpleAccount(): Promise&lt;any&gt;;+connect(): Promise&lt;any&gt;;+enable(): Promise&lt;void&gt;;+suggestToken(): Promise&lt;void&gt;;+addChain(): Promise&lt;void&gt;;+getAccount(): Promise&lt;WalletAccount&gt;;+getOfflineSigner(): CosmiframeDirectSigner \| CosmiframeAminoSigner;+getOfflineSignerAmino(): CosmiframeAminoSigner;+getOfflineSignerDirect(): CosmiframeDirectSigner;+sign(): Promise&lt;any&gt;;+signAmino(): Promise&lt;any&gt;;+signDirect(): Promise&lt;any&gt;;+signArbitrary(): Promise&lt;StdSignature&gt;;+getEnigmaPubKey(): Promise&lt;any&gt;;+getEnigmaTxEncryptionKey(): Promise&lt;any&gt;;+enigmaEncrypt(): Promise&lt;any&gt;;+enigmaDecrypt(): Promise&lt;any&gt;;+sendTx(): Promise&lt;any&gt;]
+[WalletClient]&lt;:--[CosmiframeClient]
+[CosmiframeWallet||+initClient(): Promise&lt;void&gt;]
+[MainWalletBase]&lt;:-[CosmiframeWallet]
+[ChainMockExtension||]
+[ChainWalletBase]&lt;:-[ChainMockExtension]
+[MockClient|+abstract client: Mock;+_defaultSignOptions: SignOptions|+setDefaultSignOptions(): void;+enable(): Promise&lt;void&gt;;+suggestToken(): Promise&lt;void&gt;;+addChain(): Promise&lt;void&gt;;+disconnect(): Promise&lt;void&gt;;+getSimpleAccount(): Promise&lt;{ namespace: string; chainId: string; address: string; username: string; }&gt;;+getAccount(): Promise&lt;{ username: string; address: string; algo: Algo; pubkey: Uint8Array; isNanoLedger: boolean; }&gt;;+getOfflineSigner(): OfflineAminoSigner \| OfflineDirectSigner;+getOfflineSignerAmino(): OfflineAminoSigner;+getOfflineSignerDirect(): OfflineDirectSigner;+signAmino(): Promise&lt;AminoSignResponse&gt;;+signArbitrary(): Promise&lt;StdSignature&gt;;+signDirect(): Promise&lt;DirectSignResponse&gt;;+sendTx(): Promise&lt;Uint8Array&gt;]
+[WalletClient]&lt;:--[MockClient]
+[MockExtensionWallet||+initClient(): Promise&lt;void&gt;]
+[MainWalletBase]&lt;:-[MockExtensionWallet]
+[&lt;interface&gt;Key|+abstract name: string;+abstract algo: string;+abstract pubKey: Uint8Array;+abstract address: Uint8Array;+abstract bech32Address: string;+abstract isNanoLedger: boolean|]
+[&lt;interface&gt;MockSignOptions|+abstract preferNoSetFee?: boolean;+abstract preferNoSetMemo?: boolean;+abstract disableBalanceCheck?: boolean|]
+[&lt;interface&gt;Mock|+defaultOptions: { sign?: MockSignOptions; };+mode: &quot;extension&quot;|+disconnect(): Promise&lt;void&gt;;+enable(): Promise&lt;void&gt;;+suggestToken(): Promise&lt;void&gt;;+suggestCW20Token(): Promise&lt;void&gt;;+getKey(): Promise&lt;Key&gt;;+getOfflineSigner(): OfflineAminoSigner &amp; OfflineDirectSigner;+getOfflineSignerOnlyAmino(): OfflineAminoSigner;+getOfflineSignerAuto(): Promise&lt;OfflineSigner&gt;;+signAmino(): Promise&lt;AminoSignResponse&gt;;+signDirect(): Promise&lt;DirectSignResponse&gt;;+signArbitrary(): Promise&lt;StdSignature&gt;;+getEnigmaPubKey(): Promise&lt;Uint8Array&gt;;+getEnigmaTxEncryptionKey(): Promise&lt;Uint8Array&gt;;+enigmaEncrypt(): Promise&lt;Uint8Array&gt;;+enigmaDecrypt(): Promise&lt;Uint8Array&gt;;+sendTx(): Promise&lt;Uint8Array&gt;;+experimentalSuggestChain(): Promise&lt;void&gt;]
+[&lt;interface&gt;MockWindow|+mock?: Mock|]</desc>
+<g stroke-width="1.0" text-align="left" font="12pt Helvetica, Arial, sans-serif" font-size="12pt" font-family="Helvetica" font-weight="normal" font-style="normal">
+<g font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round" stroke="#33322E">
+<g stroke="transparent" fill="transparent">
+<rect x="0.0" y="0.0" height="1905.0" width="19860.3" stroke="none"></rect>
+</g>
+<g transform="translate(8, 8)" fill="#33322E">
+<g transform="translate(20, 20)" fill="#eee8d5" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal">
+<path d="M1407.5 408.7 L568.5 713 L568.5 733 L568.5 733.0 " fill="none"></path>
+<path d="M1409.3 413.7 L1407.5 408.7 L1405.6 403.7 L1420.0 404.2 Z"></path>
+<path d="M1579.0 466.3 L1579 713 L1579 808 L1579.0 808.0 " fill="none"></path>
+<path d="M1584.3 466.3 L1579.0 466.3 L1573.7 466.3 L1579.0 453.0 Z"></path>
+<path d="M2009.5 1196.9 L1868.25 1281 L1868.25 1301 L1868.3 1301.0 " fill="none"></path>
+<path d="M2012.3 1201.5 L2009.5 1196.9 L2006.8 1192.3 L2021.0 1190.1 Z"></path>
+<path d="M2681.5 1196.9 L2822.75 1281 L2822.75 1338.5 L2822.8 1338.5 " fill="none"></path>
+<path d="M2684.2 1192.3 L2681.5 1196.9 L2678.7 1201.5 L2670.0 1190.1 Z"></path>
+<path d="M1750.0 428.3 L2345.5 713 L2345.5 793 L2345.5 793.0 " fill="none"></path>
+<path d="M1752.3 423.5 L1750.0 428.3 L1747.7 433.1 L1738.0 422.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M3349.3 383.3 L3349.25 713 L3349.25 924.5 L3349.3 924.5 " fill="none"></path>
+</g>
+<path d="M3354.6 383.3 L3349.3 383.3 L3343.9 383.3 L3349.3 370.0 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M4585.8 706.3 L4585.75 713 L4585.75 939.5 L4585.8 939.5 " fill="none"></path>
+</g>
+<path d="M4591.1 706.3 L4585.8 706.3 L4580.4 706.3 L4585.8 693.0 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M5364.3 375.3 L5364.25 713 L5364.25 962 L5364.3 962.0 " fill="none"></path>
+</g>
+<path d="M5369.6 375.3 L5364.3 375.3 L5358.9 375.3 L5364.3 362.0 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M3349.3 1082.8 L3349.25 1281 L3349.25 1470 L3349.3 1470.0 " fill="none"></path>
+</g>
+<path d="M3354.6 1082.8 L3349.3 1082.8 L3343.9 1082.8 L3349.3 1069.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M9302.8 409.8 L9302.75 713 L9302.75 954.5 L9302.8 954.5 " fill="none"></path>
+</g>
+<path d="M9308.1 409.8 L9302.8 409.8 L9297.4 409.8 L9302.8 396.5 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M13807.8 375.3 L13807.75 713 L13807.75 947 L13807.8 947.0 " fill="none"></path>
+</g>
+<path d="M13813.1 375.3 L13807.8 375.3 L13802.4 375.3 L13807.8 362.0 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M16651.8 541.3 L16651.75 713 L16651.75 793 L16651.8 793.0 " fill="none"></path>
+</g>
+<path d="M16657.1 541.3 L16651.8 541.3 L16646.4 541.3 L16651.8 528.0 Z"></path>
+<path d="M1755.4 1751.0 L1751.5 1759 L1751.5 1790.5 L1751.5 1790.5 " fill="none"></path>
+<path d="M1760.2 1753.3 L1755.4 1751.0 L1750.6 1748.6 L1761.3 1739.0 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M18251.2 582.5 L17993.25 713 L17993.25 823 L17993.3 823.0 " fill="none"></path>
+</g>
+<path d="M18253.6 587.3 L18251.2 582.5 L18248.8 577.8 L18263.1 576.5 Z"></path>
+<path d="M2543.3 1709.0 L2469.25 1759 L2469.25 1779 L2469.3 1779.0 " fill="none"></path>
+<path d="M2546.2 1713.4 L2543.3 1709.0 L2540.3 1704.5 L2554.3 1701.5 Z"></path>
+<path d="M2203.2 1746.5 L2221.75 1759 L2221.75 1790.5 L2221.8 1790.5 " fill="none"></path>
+<path d="M2206.2 1742.0 L2203.2 1746.5 L2200.2 1750.9 L2192.2 1739.0 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M18905.4 587.0 L19003.75 713 L19003.75 778 L19003.8 778.0 " fill="none"></path>
+</g>
+<path d="M18909.6 583.7 L18905.4 587.0 L18901.2 590.3 L18897.2 576.5 Z"></path>
+<path d="M2933.0 1713.1 L2959.25 1759 L2959.25 1779 L2959.3 1779.0 " fill="none"></path>
+<path d="M2937.7 1710.4 L2933.0 1713.1 L2928.4 1715.7 L2926.4 1701.5 Z"></path>
+<g data-name="WalletManager">
+<g fill="#eee8d5" stroke="#33322E" data-name="WalletManager">
+<rect x="0.0" y="733.0" height="528.0" width="1137.0" data-name="WalletManager"></rect>
+<path d="M0.0 764.0 L1137.0 764.0" fill="none" data-name="WalletManager"></path>
+<path d="M0.0 1200.0 L1137.0 1200.0" fill="none" data-name="WalletManager"></path>
+</g>
+<g transform="translate(0, 733)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WalletManager">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletManager">
+<a id="src/manager.ts.WalletManager" xlink:href="src/manager.ts"><text x="560.5" y="13.5" stroke="none" text-anchor="middle" data-name="WalletManager">WalletManager</text></a>
+
+</g>
+</g>
+<g transform="translate(0, 764)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletManager">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletManager">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletManager">+chainRecords: ChainRecord[]</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletManager">+walletRepos: WalletRepo[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletManager">+defaultNameService: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletManager">+mainWallets: MainWalletBase[]</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletManager">+coreEmitter: EventEmitter</text>
+<text x="0.0" y="88.5" stroke="none" data-name="WalletManager">+walletConnectOptions?: WalletConnectOptions</text>
+<text x="0.0" y="103.5" stroke="none" data-name="WalletManager">+abstract session: Session</text>
+<text x="0.0" y="118.5" stroke="none" data-name="WalletManager">+repelWallet: boolean</text>
+<text x="0.0" y="133.5" stroke="none" data-name="WalletManager">+isLazy?: boolean</text>
+<text x="0.0" y="148.5" stroke="none" data-name="WalletManager">+throwErrors: boolean | &quot;connect_only&quot;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="WalletManager">+subscribeConnectEvents: boolean</text>
+<text x="0.0" y="178.5" stroke="none" data-name="WalletManager">+cosmiframeEnabled: boolean</text>
+<text x="0.0" y="193.5" stroke="none" data-name="WalletManager">+_reconnectMap: {}</text>
+<text x="0.0" y="208.5" stroke="none" data-name="WalletManager">+addEndpoints: (endpoints: Record&lt;string, Endpoints&gt;) =&gt; void</text>
+<text x="0.0" y="223.5" stroke="none" data-name="WalletManager">+addChains: (chains: (string | Chain)[], assetLists: AssetList[], signerOptions?: SignerOptions, endpoints?: Record&lt;string, Endpoints&gt;) =&gt; void</text>
+<text x="0.0" y="238.5" stroke="none" data-name="WalletManager">+on: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void</text>
+<text x="0.0" y="253.5" stroke="none" data-name="WalletManager">+off: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void</text>
+<text x="0.0" y="268.5" stroke="none" data-name="WalletManager">+getMainWallet: (walletName: string) =&gt; MainWalletBase</text>
+<text x="0.0" y="283.5" stroke="none" data-name="WalletManager">+getWalletRepo: (chainName: string) =&gt; WalletRepo</text>
+<text x="0.0" y="298.5" stroke="none" data-name="WalletManager">+getChainWallet: (chainName: string, walletName: string) =&gt; ChainWalletBase</text>
+<text x="0.0" y="313.5" stroke="none" data-name="WalletManager">+getChainRecord: (chainName: string) =&gt; ChainRecord</text>
+<text x="0.0" y="328.5" stroke="none" data-name="WalletManager">+getChainLogo: (chainName: string) =&gt; string</text>
+<text x="0.0" y="343.5" stroke="none" data-name="WalletManager">+getNameService: (chainName?: string) =&gt; Promise&lt;NameService&gt;</text>
+<text x="0.0" y="358.5" stroke="none" data-name="WalletManager">+_reconnect: (walletName: string, checkConnection?: boolean) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="373.5" stroke="none" data-name="WalletManager">+_restoreAccounts: () =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="388.5" stroke="none" data-name="WalletManager">+_handleCosmiframeKeystoreChangeEvent: (event: MessageEvent&lt;any&gt;) =&gt; void</text>
+<text x="0.0" y="403.5" stroke="none" data-name="WalletManager">+onMounted: () =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="418.5" stroke="none" data-name="WalletManager">+onUnmounted: () =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(0, 1200)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletManager">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletManager">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletManager">+init(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletManager">+checkEndpoints(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletManager">+setWalletRepel(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="StateBase">
+<g fill="#eee8d5" stroke="#33322E" data-name="StateBase">
+<rect x="1420.0" y="240.0" height="213.0" width="318.0" data-name="StateBase"></rect>
+<path d="M1420.0 271.0 L1738.0 271.0" fill="none" data-name="StateBase"></path>
+<path d="M1420.0 362.0 L1738.0 362.0" fill="none" data-name="StateBase"></path>
+</g>
+<g transform="translate(1420, 240)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="StateBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="StateBase">
+<a id="src/bases/state.ts.StateBase" xlink:href="src/bases/state.ts"><text x="151.0" y="13.5" stroke="none" text-anchor="middle" data-name="StateBase">StateBase</text></a>
+
+</g>
+</g>
+<g transform="translate(1420, 271)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StateBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="StateBase">
+<text x="0.0" y="13.5" stroke="none" data-name="StateBase">+_mutable: Mutable&lt;Data&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="StateBase">+actions?: StateActions&lt;Data&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="StateBase">+_env?: DappEnv</text>
+<text x="0.0" y="58.5" stroke="none" data-name="StateBase">+logger?: Logger</text>
+<text x="0.0" y="73.5" stroke="none" data-name="StateBase">+setActions: (actions: Actions) =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(1420, 362)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StateBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="StateBase">
+<text x="0.0" y="13.5" stroke="none" data-name="StateBase">+setEnv(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="StateBase">+setState(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="StateBase">+setData(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="StateBase">+setMessage(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="StateBase">+reset(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="NameService">
+<g fill="#eee8d5" stroke="#33322E" data-name="NameService">
+<rect x="2229.3" y="292.5" height="108.0" width="265.0" data-name="NameService"></rect>
+<path d="M2229.3 323.5 L2494.3 323.5" fill="none" data-name="NameService"></path>
+<path d="M2229.3 369.5 L2494.3 369.5" fill="none" data-name="NameService"></path>
+</g>
+<g transform="translate(2229.25, 292.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="NameService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="NameService">
+<a id="src/name-service.ts.NameService" xlink:href="src/name-service.ts"><text x="124.5" y="13.5" stroke="none" text-anchor="middle" data-name="NameService">NameService</text></a>
+
+</g>
+</g>
+<g transform="translate(2229.25, 323.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NameService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="NameService">
+<text x="0.0" y="13.5" stroke="none" data-name="NameService">+client: CosmWasmClient</text>
+<text x="0.0" y="28.5" stroke="none" data-name="NameService">+registry: NameServiceRegistry</text>
+
+</g>
+</g>
+<g transform="translate(2229.25, 369.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NameService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="NameService">
+<text x="0.0" y="13.5" stroke="none" data-name="NameService">+resolveName(): Promise&lt;any&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="WalletRepo">
+<g fill="#eee8d5" stroke="#33322E" data-name="WalletRepo">
+<rect x="1177.0" y="808.0" height="378.0" width="804.0" data-name="WalletRepo"></rect>
+<path d="M1177.0 839.0 L1981.0 839.0" fill="none" data-name="WalletRepo"></path>
+<path d="M1177.0 1125.0 L1981.0 1125.0" fill="none" data-name="WalletRepo"></path>
+</g>
+<g transform="translate(1177, 808)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WalletRepo">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletRepo">
+<a id="src/repository.ts.WalletRepo" xlink:href="src/repository.ts"><text x="394.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletRepo">WalletRepo</text></a>
+
+</g>
+</g>
+<g transform="translate(1177, 839)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletRepo">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletRepo">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletRepo">+isActive: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletRepo">+chainRecord: ChainRecord</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletRepo">+_wallets: ChainWalletBase[]</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletRepo">+namespace: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletRepo">+session: Session</text>
+<text x="0.0" y="88.5" stroke="none" data-name="WalletRepo">+repelWallet: boolean</text>
+<text x="0.0" y="103.5" stroke="none" data-name="WalletRepo">+callbackOptions?: CallbackOptions</text>
+<text x="0.0" y="118.5" stroke="none" data-name="WalletRepo">+abstract fetchInfo: boolean</text>
+<text x="0.0" y="133.5" stroke="none" data-name="WalletRepo">+getWallet: (walletName: string) =&gt; ChainWalletBase</text>
+<text x="0.0" y="148.5" stroke="none" data-name="WalletRepo">+openView: () =&gt; void</text>
+<text x="0.0" y="163.5" stroke="none" data-name="WalletRepo">+closeView: () =&gt; void</text>
+<text x="0.0" y="178.5" stroke="none" data-name="WalletRepo">+connect: (walletName?: string, sync?: boolean) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="WalletRepo">+disconnect: (walletName?: string, sync?: boolean, options?: DisconnectOptions) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="WalletRepo">+getRpcEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string | ExtendedHttpEndpoint&gt;</text>
+<text x="0.0" y="223.5" stroke="none" data-name="WalletRepo">+getRestEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string | ExtendedHttpEndpoint&gt;</text>
+<text x="0.0" y="238.5" stroke="none" data-name="WalletRepo">+getStargateClient: () =&gt; Promise&lt;StargateClient&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="WalletRepo">+getCosmWasmClient: () =&gt; Promise&lt;CosmWasmClient&gt;</text>
+<text x="0.0" y="268.5" stroke="none" data-name="WalletRepo">+getNameService: () =&gt; Promise&lt;NameService&gt;</text>
+
+</g>
+</g>
+<g transform="translate(1177, 1125)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletRepo">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletRepo">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletRepo">+setCallbackOptions(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletRepo">+setEnv(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletRepo">+activate(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="ChainWalletBase">
+<g fill="#eee8d5" stroke="#33322E" data-name="ChainWalletBase">
+<rect x="1272.3" y="1301.0" height="438.0" width="1192.0" data-name="ChainWalletBase"></rect>
+<path d="M1272.3 1332.0 L2464.3 1332.0" fill="none" data-name="ChainWalletBase"></path>
+<path d="M1272.3 1648.0 L2464.3 1648.0" fill="none" data-name="ChainWalletBase"></path>
+</g>
+<g transform="translate(1272.25, 1301)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ChainWalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ChainWalletBase">
+<a id="src/bases/chain-wallet.ts.ChainWalletBase" xlink:href="src/bases/chain-wallet.ts"><text x="588.0" y="13.5" stroke="none" text-anchor="middle" data-name="ChainWalletBase">ChainWalletBase</text></a>
+
+</g>
+</g>
+<g transform="translate(1272.25, 1332)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ChainWalletBase">
+<text x="0.0" y="13.5" stroke="none" data-name="ChainWalletBase">+mainWallet: MainWalletBase</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ChainWalletBase">+chainRecord: ChainRecord</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ChainWalletBase">+_rpcEndpoint?: string | ExtendedHttpEndpoint</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ChainWalletBase">+_restEndpoint?: string | ExtendedHttpEndpoint</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ChainWalletBase">+connectChains?: () =&gt; Promise&lt;any&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ChainWalletBase">+offlineSigner?: OfflineSigner</text>
+<text x="0.0" y="103.5" stroke="none" data-name="ChainWalletBase">+namespace: string</text>
+<text x="0.0" y="118.5" stroke="none" data-name="ChainWalletBase">+preferredSignType: SignType</text>
+<text x="0.0" y="133.5" stroke="none" data-name="ChainWalletBase">+getRpcEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string | ExtendedHttpEndpoint&gt;</text>
+<text x="0.0" y="148.5" stroke="none" data-name="ChainWalletBase">+getRestEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string | ExtendedHttpEndpoint&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="ChainWalletBase">+getStargateClient: () =&gt; Promise&lt;StargateClient&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="ChainWalletBase">+getCosmWasmClient: () =&gt; Promise&lt;CosmWasmClient&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="ChainWalletBase">+getNameService: () =&gt; Promise&lt;NameService&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="ChainWalletBase">+getSigningStargateClient: () =&gt; Promise&lt;SigningStargateClient&gt;</text>
+<text x="0.0" y="223.5" stroke="none" data-name="ChainWalletBase">+getSigningCosmWasmClient: () =&gt; Promise&lt;SigningCosmWasmClient&gt;</text>
+<text x="0.0" y="238.5" stroke="none" data-name="ChainWalletBase">+getSigningClient: (type?: CosmosClientType) =&gt; Promise&lt;SigningStargateClient | SigningCosmWasmClient&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="ChainWalletBase">+estimateFee: (messages: EncodeObject[], type?: CosmosClientType, memo?: string, multiplier?: number) =&gt; Promise&lt;StdFee&gt;</text>
+<text x="0.0" y="268.5" stroke="none" data-name="ChainWalletBase">+sign: (messages: EncodeObject[], fee?: number | StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;TxRaw&gt;</text>
+<text x="0.0" y="283.5" stroke="none" data-name="ChainWalletBase">+broadcast: (signedMessages: TxRaw, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;</text>
+<text x="0.0" y="298.5" stroke="none" data-name="ChainWalletBase">+signAndBroadcast: (messages: EncodeObject[], fee?: number | StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;</text>
+
+</g>
+</g>
+<g transform="translate(1272.25, 1648)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ChainWalletBase">
+<text x="0.0" y="13.5" stroke="none" data-name="ChainWalletBase">+addEndpoints(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ChainWalletBase">+setData(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ChainWalletBase">+initClient(): void | Promise&lt;void&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ChainWalletBase">+update(): Promise&lt;void&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ChainWalletBase">+initOfflineSigner(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="WalletBase">
+<g fill="#eee8d5" stroke="#33322E" data-name="WalletBase">
+<rect x="2021.0" y="793.0" height="408.0" width="649.0" data-name="WalletBase"></rect>
+<path d="M2021.0 824.0 L2670.0 824.0" fill="none" data-name="WalletBase"></path>
+<path d="M2021.0 1005.0 L2670.0 1005.0" fill="none" data-name="WalletBase"></path>
+</g>
+<g transform="translate(2021, 793)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletBase">
+<a id="src/bases/wallet.ts.WalletBase" xlink:href="src/bases/wallet.ts"><text x="316.5" y="13.5" stroke="none" text-anchor="middle" data-name="WalletBase">WalletBase</text></a>
+
+</g>
+</g>
+<g transform="translate(2021, 824)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletBase">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletBase">+clientMutable: Mutable&lt;WalletClient&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletBase">+emitter?: EventEmitter</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletBase">+_walletInfo: Wallet</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletBase">+callbacks?: Callbacks</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletBase">+session?: Session</text>
+<text x="0.0" y="88.5" stroke="none" data-name="WalletBase">+walletConnectOptions?: WalletConnectOptions</text>
+<text x="0.0" y="103.5" stroke="none" data-name="WalletBase">+isActive: boolean</text>
+<text x="0.0" y="118.5" stroke="none" data-name="WalletBase">+throwErrors: boolean | &quot;connect_only&quot;</text>
+<text x="0.0" y="133.5" stroke="none" data-name="WalletBase">+_disconnect: (sync?: boolean, options?: DisconnectOptions) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="148.5" stroke="none" data-name="WalletBase">+disconnect: (sync?: boolean, options?: DisconnectOptions) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="WalletBase">+connect: (sync?: boolean) =&gt; Promise&lt;void&gt;</text>
+
+</g>
+</g>
+<g transform="translate(2021, 1005)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletBase">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletBase">+activate(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletBase">+inactivate(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletBase">+initingClient(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletBase">+initClientDone(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletBase">+initClientError(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="WalletBase">+rejectMatched(): boolean</text>
+<text x="0.0" y="103.5" stroke="none" data-name="WalletBase">+updateCallbacks(): void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="WalletBase">+setClientNotExist(): void</text>
+<text x="0.0" y="133.5" stroke="none" data-name="WalletBase">+setRejected(): void</text>
+<text x="0.0" y="148.5" stroke="none" data-name="WalletBase">+setError(): void</text>
+<text x="0.0" y="163.5" stroke="none" data-name="WalletBase">+static initClient(): void | Promise&lt;void&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="WalletBase">+static update(): void | Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="MainWalletBase">
+<g fill="#eee8d5" stroke="#33322E" data-name="MainWalletBase">
+<rect x="2504.3" y="1338.5" height="363.0" width="637.0" data-name="MainWalletBase"></rect>
+<path d="M2504.3 1369.5 L3141.3 1369.5" fill="none" data-name="MainWalletBase"></path>
+<path d="M2504.3 1475.5 L3141.3 1475.5" fill="none" data-name="MainWalletBase"></path>
+</g>
+<g transform="translate(2504.25, 1338.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="MainWalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MainWalletBase">
+<a id="src/bases/main-wallet.ts.MainWalletBase" xlink:href="src/bases/main-wallet.ts"><text x="310.5" y="13.5" stroke="none" text-anchor="middle" data-name="MainWalletBase">MainWalletBase</text></a>
+
+</g>
+</g>
+<g transform="translate(2504.25, 1369.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MainWalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MainWalletBase">
+<text x="0.0" y="13.5" stroke="none" data-name="MainWalletBase">+_chainWalletMap?: Map&lt;string, ChainWalletBase&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MainWalletBase">+preferredEndpoints?: Record&lt;string, Endpoints&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="MainWalletBase">+ChainWallet: IChainWallet</text>
+<text x="0.0" y="58.5" stroke="none" data-name="MainWalletBase">+getChainWallet: (chainName: string) =&gt; ChainWalletBase</text>
+<text x="0.0" y="73.5" stroke="none" data-name="MainWalletBase">+getChainWalletList: (activeOnly?: boolean) =&gt; ChainWalletBase[]</text>
+<text x="0.0" y="88.5" stroke="none" data-name="MainWalletBase">+getGlobalStatusAndMessage: (activeOnly?: boolean) =&gt; [WalletStatus, string]</text>
+
+</g>
+</g>
+<g transform="translate(2504.25, 1475.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MainWalletBase">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MainWalletBase">
+<text x="0.0" y="13.5" stroke="none" data-name="MainWalletBase">+initingClient(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MainWalletBase">+initClientDone(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="MainWalletBase">+initClientError(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="MainWalletBase">+onSetChainsDone(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="MainWalletBase">+makeFinalEndpoints(): { isLazy: boolean</text>
+<text x="0.0" y="88.5" stroke="none" data-name="MainWalletBase">rpc: (string | ExtendedHttpEndpoint)[]</text>
+<text x="0.0" y="103.5" stroke="none" data-name="MainWalletBase">rest: (string | ExtendedHttpEndpoint)[]</text>
+<text x="0.0" y="118.5" stroke="none" data-name="MainWalletBase">}</text>
+<text x="0.0" y="133.5" stroke="none" data-name="MainWalletBase">+addEnpoints(): void</text>
+<text x="0.0" y="148.5" stroke="none" data-name="MainWalletBase">+setChains(): void</text>
+<text x="0.0" y="163.5" stroke="none" data-name="MainWalletBase">+update(): Promise&lt;void&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="MainWalletBase">+reset(): void</text>
+<text x="0.0" y="193.5" stroke="none" data-name="MainWalletBase">+connectAll(): Promise&lt;void&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="MainWalletBase">+disconnectAll(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ChainRecord">
+<g fill="lightblue" stroke="#33322E" data-name="ChainRecord">
+<rect x="2534.3" y="251.5" height="190.0" width="536.0" data-name="ChainRecord"></rect>
+<path d="M2534.3 282.5 L3070.3 282.5" fill="none" data-name="ChainRecord"></path>
+<path d="M2534.3 433.5 L3070.3 433.5" fill="none" data-name="ChainRecord"></path>
+</g>
+<g transform="translate(2534.25, 251.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainRecord">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ChainRecord">
+<a id="src/types/chain.ts.ChainRecord" xlink:href="src/types/chain.ts"><text x="260.0" y="13.5" stroke="none" text-anchor="middle" data-name="ChainRecord">ChainRecord</text></a>
+
+</g>
+</g>
+<g transform="translate(2534.25, 282.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainRecord">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ChainRecord">
+<text x="0.0" y="13.5" stroke="none" data-name="ChainRecord">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ChainRecord">+chain?: Chain</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ChainRecord">+assetList?: AssetList</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ChainRecord">+clientOptions?: { signingStargate?: SigningStargateClientOptions</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ChainRecord">signingCosmwasm?: SigningCosmWasmClientOptions</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ChainRecord">stargate?: StargateClientOptions</text>
+<text x="0.0" y="103.5" stroke="none" data-name="ChainRecord">preferredSignType?: SignType</text>
+<text x="0.0" y="118.5" stroke="none" data-name="ChainRecord">}</text>
+<text x="0.0" y="133.5" stroke="none" data-name="ChainRecord">+preferredEndpoints?: Endpoints</text>
+
+</g>
+</g>
+<g transform="translate(2534.25, 433.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainRecord">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ChainRecord">
+
+</g>
+</g>
+</g>
+<g data-name="Mutable&lt;T&gt;">
+<g fill="lightblue" stroke="#33322E" data-name="Mutable&lt;T&gt;">
+<rect x="3110.3" y="296.5" height="100.0" width="162.0" data-name="Mutable&lt;T&gt;"></rect>
+<path d="M3110.3 327.5 L3272.3 327.5" fill="none" data-name="Mutable&lt;T&gt;"></path>
+<path d="M3110.3 388.5 L3272.3 388.5" fill="none" data-name="Mutable&lt;T&gt;"></path>
+</g>
+<g transform="translate(3110.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Mutable&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Mutable&lt;T&gt;">
+<a id="src/types/common.ts.Mutable&lt;T&gt;" xlink:href="src/types/common.ts"><text x="73.0" y="13.5" stroke="none" text-anchor="middle" data-name="Mutable&lt;T&gt;">Mutable&lt;T&gt;</text></a>
+
+</g>
+</g>
+<g transform="translate(3110.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Mutable&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Mutable&lt;T&gt;">
+<text x="0.0" y="13.5" stroke="none" data-name="Mutable&lt;T&gt;">+state: State</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Mutable&lt;T&gt;">+data?: T</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Mutable&lt;T&gt;">+message?: string</text>
+
+</g>
+</g>
+<g transform="translate(3110.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Mutable&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Mutable&lt;T&gt;">
+
+</g>
+</g>
+</g>
+<g data-name="Actions">
+<g fill="lightblue" stroke="#33322E" data-name="Actions">
+<rect x="3312.3" y="323.0" height="47.0" width="74.0" data-name="Actions"></rect>
+<path d="M3312.3 354.0 L3386.3 354.0" fill="none" data-name="Actions"></path>
+<path d="M3312.3 362.0 L3386.3 362.0" fill="none" data-name="Actions"></path>
+</g>
+<g transform="translate(3312.25, 323)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Actions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Actions">
+<a id="src/types/common.ts.Actions" xlink:href="src/types/common.ts"><text x="29.0" y="13.5" stroke="none" text-anchor="middle" data-name="Actions">Actions</text></a>
+
+</g>
+</g>
+<g transform="translate(3312.25, 354)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Actions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Actions">
+
+</g>
+</g>
+<g transform="translate(3312.25, 362)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Actions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Actions">
+
+</g>
+</g>
+</g>
+<g data-name="StateActions&lt;T&gt;">
+<g fill="lightblue" stroke="#33322E" data-name="StateActions&lt;T&gt;">
+<rect x="3157.8" y="924.5" height="145.0" width="383.0" data-name="StateActions&lt;T&gt;"></rect>
+<path d="M3157.8 955.5 L3540.8 955.5" fill="none" data-name="StateActions&lt;T&gt;"></path>
+<path d="M3157.8 1061.5 L3540.8 1061.5" fill="none" data-name="StateActions&lt;T&gt;"></path>
+</g>
+<g transform="translate(3157.75, 924.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StateActions&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="StateActions&lt;T&gt;">
+<a id="src/types/common.ts.StateActions&lt;T&gt;" xlink:href="src/types/common.ts"><text x="183.5" y="13.5" stroke="none" text-anchor="middle" data-name="StateActions&lt;T&gt;">StateActions&lt;T&gt;</text></a>
+
+</g>
+</g>
+<g transform="translate(3157.75, 955.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StateActions&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="StateActions&lt;T&gt;">
+<text x="0.0" y="13.5" stroke="none" data-name="StateActions&lt;T&gt;">+state?: Dispatch&lt;State&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="StateActions&lt;T&gt;">+data?: Dispatch&lt;T&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="StateActions&lt;T&gt;">+message?: Dispatch&lt;string&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="StateActions&lt;T&gt;">+clientState?: Dispatch&lt;State&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="StateActions&lt;T&gt;">+clientMessage?: Dispatch&lt;string&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="StateActions&lt;T&gt;">+render?: Dispatch&lt;SetStateAction&lt;number&gt;&gt;</text>
+
+</g>
+</g>
+<g transform="translate(3157.75, 1061.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="StateActions&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" data-name="StateActions&lt;T&gt;">
+
+</g>
+</g>
+</g>
+<g data-name="WalletClientActions">
+<g fill="lightblue" stroke="#33322E" data-name="WalletClientActions">
+<rect x="3426.3" y="304.0" height="85.0" width="261.0" data-name="WalletClientActions"></rect>
+<path d="M3426.3 335.0 L3687.3 335.0" fill="none" data-name="WalletClientActions"></path>
+<path d="M3426.3 381.0 L3687.3 381.0" fill="none" data-name="WalletClientActions"></path>
+</g>
+<g transform="translate(3426.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClientActions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletClientActions">
+<a id="src/types/common.ts.WalletClientActions" xlink:href="src/types/common.ts"><text x="122.5" y="13.5" stroke="none" text-anchor="middle" data-name="WalletClientActions">WalletClientActions</text></a>
+
+</g>
+</g>
+<g transform="translate(3426.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClientActions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletClientActions">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletClientActions">+qrUrl?: StateActions&lt;string&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletClientActions">+appUrl?: StateActions&lt;string&gt;</text>
+
+</g>
+</g>
+<g transform="translate(3426.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClientActions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletClientActions">
+
+</g>
+</g>
+</g>
+<g data-name="Callbacks">
+<g fill="lightblue" stroke="#33322E" data-name="Callbacks">
+<rect x="3727.3" y="289.0" height="115.0" width="260.0" data-name="Callbacks"></rect>
+<path d="M3727.3 320.0 L3987.3 320.0" fill="none" data-name="Callbacks"></path>
+<path d="M3727.3 396.0 L3987.3 396.0" fill="none" data-name="Callbacks"></path>
+</g>
+<g transform="translate(3727.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Callbacks">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Callbacks">
+<a id="src/types/common.ts.Callbacks" xlink:href="src/types/common.ts"><text x="122.0" y="13.5" stroke="none" text-anchor="middle" data-name="Callbacks">Callbacks</text></a>
+
+</g>
+</g>
+<g transform="translate(3727.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Callbacks">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Callbacks">
+<text x="0.0" y="13.5" stroke="none" data-name="Callbacks">+beforeConnect?: () =&gt; void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Callbacks">+beforeDisconnect?: () =&gt; void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Callbacks">+afterConnect?: () =&gt; void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Callbacks">+afterDisconnect?: () =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(3727.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Callbacks">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Callbacks">
+
+</g>
+</g>
+</g>
+<g data-name="DappEnv">
+<g fill="lightblue" stroke="#33322E" data-name="DappEnv">
+<rect x="9207.3" y="296.5" height="100.0" width="191.0" data-name="DappEnv"></rect>
+<path d="M9207.3 327.5 L9398.3 327.5" fill="none" data-name="DappEnv"></path>
+<path d="M9207.3 388.5 L9398.3 388.5" fill="none" data-name="DappEnv"></path>
+</g>
+<g transform="translate(9207.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DappEnv">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DappEnv">
+<a id="src/types/common.ts.DappEnv" xlink:href="src/types/common.ts"><text x="87.5" y="13.5" stroke="none" text-anchor="middle" data-name="DappEnv">DappEnv</text></a>
+
+</g>
+</g>
+<g transform="translate(9207.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DappEnv">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DappEnv">
+<text x="0.0" y="13.5" stroke="none" data-name="DappEnv">+device?: DeviceType</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DappEnv">+os?: OS</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DappEnv">+browser?: string</text>
+
+</g>
+</g>
+<g transform="translate(9207.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DappEnv">
+<g transform="translate(8, 8)" fill="#33322E" data-name="DappEnv">
+
+</g>
+</g>
+</g>
+<g data-name="State">
+<g fill="lightgreen" stroke="#33322E" data-name="State">
+<rect x="5184.3" y="293.0" height="107.0" width="81.0" data-name="State"></rect>
+<path d="M5184.3 324.0 L5265.3 324.0" fill="none" data-name="State"></path>
+</g>
+<g transform="translate(5184.25, 293)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="State">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="State">
+<a id="src/types/common.ts.State" xlink:href="src/types/common.ts"><text x="32.5" y="13.5" stroke="none" text-anchor="middle" data-name="State">State</text></a>
+
+</g>
+</g>
+<g transform="translate(5184.25, 324)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="State">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="State">
+<text x="0.0" y="13.5" stroke="none" data-name="State">Init</text>
+<text x="0.0" y="28.5" stroke="none" data-name="State">Pending</text>
+<text x="0.0" y="43.5" stroke="none" data-name="State">Done</text>
+<text x="0.0" y="58.5" stroke="none" data-name="State">Error</text>
+
+</g>
+</g>
+</g>
+<g data-name="ChainWalletContext">
+<g fill="lightblue" stroke="#33322E" data-name="ChainWalletContext">
+<rect x="4027.3" y="0.0" height="693.0" width="1117.0" data-name="ChainWalletContext"></rect>
+<path d="M4027.3 31.0 L5144.3 31.0" fill="none" data-name="ChainWalletContext"></path>
+<path d="M4027.3 662.0 L5144.3 662.0" fill="none" data-name="ChainWalletContext"></path>
+</g>
+<g transform="translate(4027.25, 0)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ChainWalletContext">
+<a id="src/types/hook.ts.ChainWalletContext" xlink:href="src/types/hook.ts"><text x="550.5" y="13.5" stroke="none" text-anchor="middle" data-name="ChainWalletContext">ChainWalletContext</text></a>
+
+</g>
+</g>
+<g transform="translate(4027.25, 31)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ChainWalletContext">
+<text x="0.0" y="13.5" stroke="none" data-name="ChainWalletContext">+chainWallet: ChainWalletBase</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ChainWalletContext">+chain: Chain</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ChainWalletContext">+assets: AssetList</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ChainWalletContext">+wallet: Wallet</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ChainWalletContext">+logoUrl: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ChainWalletContext">+address: string</text>
+<text x="0.0" y="103.5" stroke="none" data-name="ChainWalletContext">+username: string</text>
+<text x="0.0" y="118.5" stroke="none" data-name="ChainWalletContext">+message: string</text>
+<text x="0.0" y="133.5" stroke="none" data-name="ChainWalletContext">+status: WalletStatus</text>
+<text x="0.0" y="148.5" stroke="none" data-name="ChainWalletContext">+isWalletDisconnected: boolean</text>
+<text x="0.0" y="163.5" stroke="none" data-name="ChainWalletContext">+isWalletConnecting: boolean</text>
+<text x="0.0" y="178.5" stroke="none" data-name="ChainWalletContext">+isWalletConnected: boolean</text>
+<text x="0.0" y="193.5" stroke="none" data-name="ChainWalletContext">+isWalletRejected: boolean</text>
+<text x="0.0" y="208.5" stroke="none" data-name="ChainWalletContext">+isWalletNotExist: boolean</text>
+<text x="0.0" y="223.5" stroke="none" data-name="ChainWalletContext">+isWalletError: boolean</text>
+<text x="0.0" y="238.5" stroke="none" data-name="ChainWalletContext">+connect: () =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="ChainWalletContext">+disconnect: (options?: DisconnectOptions) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="268.5" stroke="none" data-name="ChainWalletContext">+getRpcEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string | ExtendedHttpEndpoint&gt;</text>
+<text x="0.0" y="283.5" stroke="none" data-name="ChainWalletContext">+getRestEndpoint: (isLazy?: boolean) =&gt; Promise&lt;string | ExtendedHttpEndpoint&gt;</text>
+<text x="0.0" y="298.5" stroke="none" data-name="ChainWalletContext">+getStargateClient: () =&gt; Promise&lt;StargateClient&gt;</text>
+<text x="0.0" y="313.5" stroke="none" data-name="ChainWalletContext">+getCosmWasmClient: () =&gt; Promise&lt;CosmWasmClient&gt;</text>
+<text x="0.0" y="328.5" stroke="none" data-name="ChainWalletContext">+getSigningStargateClient: () =&gt; Promise&lt;SigningStargateClient&gt;</text>
+<text x="0.0" y="343.5" stroke="none" data-name="ChainWalletContext">+getSigningCosmWasmClient: () =&gt; Promise&lt;SigningCosmWasmClient&gt;</text>
+<text x="0.0" y="358.5" stroke="none" data-name="ChainWalletContext">+getNameService: () =&gt; Promise&lt;NameService&gt;</text>
+<text x="0.0" y="373.5" stroke="none" data-name="ChainWalletContext">+estimateFee: (messages: EncodeObject[], type?: CosmosClientType, memo?: string, multiplier?: number) =&gt; Promise&lt;StdFee&gt;</text>
+<text x="0.0" y="388.5" stroke="none" data-name="ChainWalletContext">+sign: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;TxRaw&gt;</text>
+<text x="0.0" y="403.5" stroke="none" data-name="ChainWalletContext">+broadcast: (signedMessages: TxRaw, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;</text>
+<text x="0.0" y="418.5" stroke="none" data-name="ChainWalletContext">+signAndBroadcast: (messages: EncodeObject[], fee?: StdFee, memo?: string, type?: CosmosClientType) =&gt; Promise&lt;DeliverTxResponse&gt;</text>
+<text x="0.0" y="433.5" stroke="none" data-name="ChainWalletContext">+qrUrl: Mutable&lt;string&gt;</text>
+<text x="0.0" y="448.5" stroke="none" data-name="ChainWalletContext">+appUrl: Mutable&lt;AppUrl&gt;</text>
+<text x="0.0" y="463.5" stroke="none" data-name="ChainWalletContext">+defaultSignOptions: SignOptions</text>
+<text x="0.0" y="478.5" stroke="none" data-name="ChainWalletContext">+setDefaultSignOptions: (options: SignOptions) =&gt; void</text>
+<text x="0.0" y="493.5" stroke="none" data-name="ChainWalletContext">+enable: () =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="508.5" stroke="none" data-name="ChainWalletContext">+suggestToken: (data: SuggestToken) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="523.5" stroke="none" data-name="ChainWalletContext">+getAccount: () =&gt; Promise&lt;WalletAccount&gt;</text>
+<text x="0.0" y="538.5" stroke="none" data-name="ChainWalletContext">+getOfflineSigner: () =&gt; OfflineSigner</text>
+<text x="0.0" y="553.5" stroke="none" data-name="ChainWalletContext">+getOfflineSignerAmino: () =&gt; OfflineAminoSigner</text>
+<text x="0.0" y="568.5" stroke="none" data-name="ChainWalletContext">+getOfflineSignerDirect: () =&gt; OfflineDirectSigner</text>
+<text x="0.0" y="583.5" stroke="none" data-name="ChainWalletContext">+signAmino: (signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;AminoSignResponse&gt;</text>
+<text x="0.0" y="598.5" stroke="none" data-name="ChainWalletContext">+signDirect: (signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;DirectSignResponse&gt;</text>
+<text x="0.0" y="613.5" stroke="none" data-name="ChainWalletContext">+signArbitrary: (signer: string, data: string | Uint8Array) =&gt; Promise&lt;StdSignature&gt;</text>
+
+</g>
+</g>
+<g transform="translate(4027.25, 662)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ChainWalletContext">
+<text x="0.0" y="13.5" stroke="none" data-name="ChainWalletContext">+sendTx(): Promise&lt;Uint8Array&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ChainContext">
+<g fill="lightblue" stroke="#33322E" data-name="ChainContext">
+<rect x="4478.8" y="939.5" height="115.0" width="214.0" data-name="ChainContext"></rect>
+<path d="M4478.8 970.5 L4692.8 970.5" fill="none" data-name="ChainContext"></path>
+<path d="M4478.8 1046.5 L4692.8 1046.5" fill="none" data-name="ChainContext"></path>
+</g>
+<g transform="translate(4478.75, 939.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ChainContext">
+<a id="src/types/hook.ts.ChainContext" xlink:href="src/types/hook.ts"><text x="99.0" y="13.5" stroke="none" text-anchor="middle" data-name="ChainContext">ChainContext</text></a>
+
+</g>
+</g>
+<g transform="translate(4478.75, 970.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ChainContext">
+<text x="0.0" y="13.5" stroke="none" data-name="ChainContext">+wallet: Wallet</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ChainContext">+walletRepo: WalletRepo</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ChainContext">+openView: () =&gt; void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ChainContext">+closeView: () =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(4478.75, 1046.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainContext">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ChainContext">
+
+</g>
+</g>
+</g>
+<g data-name="ManagerContext">
+<g fill="lightblue" stroke="#33322E" data-name="ManagerContext">
+<rect x="5463.3" y="229.0" height="235.0" width="1066.0" data-name="ManagerContext"></rect>
+<path d="M5463.3 260.0 L6529.3 260.0" fill="none" data-name="ManagerContext"></path>
+<path d="M5463.3 456.0 L6529.3 456.0" fill="none" data-name="ManagerContext"></path>
+</g>
+<g transform="translate(5463.25, 229)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ManagerContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ManagerContext">
+<a id="src/types/hook.ts.ManagerContext" xlink:href="src/types/hook.ts"><text x="525.0" y="13.5" stroke="none" text-anchor="middle" data-name="ManagerContext">ManagerContext</text></a>
+
+</g>
+</g>
+<g transform="translate(5463.25, 260)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ManagerContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ManagerContext">
+<text x="0.0" y="13.5" stroke="none" data-name="ManagerContext">+chainRecords: ChainRecord[]</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ManagerContext">+walletRepos: WalletRepo[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ManagerContext">+mainWallets: MainWalletBase[]</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ManagerContext">+defaultNameService: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ManagerContext">+getChainRecord: (chainName: string) =&gt; ChainRecord</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ManagerContext">+getWalletRepo: (chainName: string) =&gt; WalletRepo</text>
+<text x="0.0" y="103.5" stroke="none" data-name="ManagerContext">+addChains: (chains: Chain[], assetLists: AssetList[], signerOptions?: SignerOptions, endpoints?: Record&lt;string, Endpoints&gt;) =&gt; void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="ManagerContext">+addEndpoints: (endpoints?: Record&lt;string, Endpoints&gt;) =&gt; void</text>
+<text x="0.0" y="133.5" stroke="none" data-name="ManagerContext">+getChainLogo: (chainName: string) =&gt; string</text>
+<text x="0.0" y="148.5" stroke="none" data-name="ManagerContext">+getNameService: (chainName?: string) =&gt; Promise&lt;NameService&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="ManagerContext">+on: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void</text>
+<text x="0.0" y="178.5" stroke="none" data-name="ManagerContext">+off: (event: &quot;refresh_connection&quot;, handler: (params: any) =&gt; void) =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(5463.25, 456)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ManagerContext">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ManagerContext">
+
+</g>
+</g>
+</g>
+<g data-name="ModalThemeContext">
+<g fill="lightblue" stroke="#33322E" data-name="ModalThemeContext">
+<rect x="6569.3" y="304.0" height="85.0" width="398.0" data-name="ModalThemeContext"></rect>
+<path d="M6569.3 335.0 L6967.3 335.0" fill="none" data-name="ModalThemeContext"></path>
+<path d="M6569.3 381.0 L6967.3 381.0" fill="none" data-name="ModalThemeContext"></path>
+</g>
+<g transform="translate(6569.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalThemeContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ModalThemeContext">
+<a id="src/types/hook.ts.ModalThemeContext" xlink:href="src/types/hook.ts"><text x="191.0" y="13.5" stroke="none" text-anchor="middle" data-name="ModalThemeContext">ModalThemeContext</text></a>
+
+</g>
+</g>
+<g transform="translate(6569.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalThemeContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ModalThemeContext">
+<text x="0.0" y="13.5" stroke="none" data-name="ModalThemeContext">+modalTheme: ModalTheme</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ModalThemeContext">+setModalTheme: (theme: ModalTheme) =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(6569.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalThemeContext">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ModalThemeContext">
+
+</g>
+</g>
+</g>
+<g data-name="WalletContext">
+<g fill="lightblue" stroke="#33322E" data-name="WalletContext">
+<rect x="7007.3" y="281.5" height="130.0" width="282.0" data-name="WalletContext"></rect>
+<path d="M7007.3 312.5 L7289.3 312.5" fill="none" data-name="WalletContext"></path>
+<path d="M7007.3 403.5 L7289.3 403.5" fill="none" data-name="WalletContext"></path>
+</g>
+<g transform="translate(7007.25, 281.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletContext">
+<a id="src/types/hook.ts.WalletContext" xlink:href="src/types/hook.ts"><text x="133.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletContext">WalletContext</text></a>
+
+</g>
+</g>
+<g transform="translate(7007.25, 312.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletContext">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletContext">+mainWallet: MainWalletBase</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletContext">+chainWallets: ChainWalletBase[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletContext">+wallet: Wallet</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletContext">+status: WalletStatus</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletContext">+message: string</text>
+
+</g>
+</g>
+<g transform="translate(7007.25, 403.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletContext">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletContext">
+
+</g>
+</g>
+</g>
+<g data-name="WalletClientContext">
+<g fill="lightblue" stroke="#33322E" data-name="WalletClientContext">
+<rect x="7329.3" y="296.5" height="100.0" width="172.0" data-name="WalletClientContext"></rect>
+<path d="M7329.3 327.5 L7501.3 327.5" fill="none" data-name="WalletClientContext"></path>
+<path d="M7329.3 388.5 L7501.3 388.5" fill="none" data-name="WalletClientContext"></path>
+</g>
+<g transform="translate(7329.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClientContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletClientContext">
+<a id="src/types/hook.ts.WalletClientContext" xlink:href="src/types/hook.ts"><text x="78.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletClientContext">WalletClientContext</text></a>
+
+</g>
+</g>
+<g transform="translate(7329.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClientContext">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletClientContext">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletClientContext">+client: WalletClient</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletClientContext">+status: State</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletClientContext">+message: string</text>
+
+</g>
+</g>
+<g transform="translate(7329.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClientContext">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletClientContext">
+
+</g>
+</g>
+</g>
+<g data-name="SignerOptions">
+<g fill="lightblue" stroke="#33322E" data-name="SignerOptions">
+<rect x="7541.3" y="289.0" height="115.0" width="652.0" data-name="SignerOptions"></rect>
+<path d="M7541.3 320.0 L8193.3 320.0" fill="none" data-name="SignerOptions"></path>
+<path d="M7541.3 396.0 L8193.3 396.0" fill="none" data-name="SignerOptions"></path>
+</g>
+<g transform="translate(7541.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SignerOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SignerOptions">
+<a id="src/types/manager.ts.SignerOptions" xlink:href="src/types/manager.ts"><text x="318.0" y="13.5" stroke="none" text-anchor="middle" data-name="SignerOptions">SignerOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(7541.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SignerOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SignerOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="SignerOptions">+stargate?: (chain: string | Chain) =&gt; StargateClientOptions</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SignerOptions">+signingStargate?: (chain: string | Chain) =&gt; SigningStargateClientOptions</text>
+<text x="0.0" y="43.5" stroke="none" data-name="SignerOptions">+signingCosmwasm?: (chain: string | Chain) =&gt; SigningCosmWasmClientOptions</text>
+<text x="0.0" y="58.5" stroke="none" data-name="SignerOptions">+preferredSignType?: (chain: string | Chain) =&gt; SignType</text>
+
+</g>
+</g>
+<g transform="translate(7541.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SignerOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SignerOptions">
+
+</g>
+</g>
+</g>
+<g data-name="SessionOptions">
+<g fill="lightblue" stroke="#33322E" data-name="SessionOptions">
+<rect x="8233.3" y="304.0" height="85.0" width="186.0" data-name="SessionOptions"></rect>
+<path d="M8233.3 335.0 L8419.3 335.0" fill="none" data-name="SessionOptions"></path>
+<path d="M8233.3 381.0 L8419.3 381.0" fill="none" data-name="SessionOptions"></path>
+</g>
+<g transform="translate(8233.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SessionOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SessionOptions">
+<a id="src/types/manager.ts.SessionOptions" xlink:href="src/types/manager.ts"><text x="85.0" y="13.5" stroke="none" text-anchor="middle" data-name="SessionOptions">SessionOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(8233.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SessionOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SessionOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="SessionOptions">+duration: number</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SessionOptions">+callback?: () =&gt; void</text>
+
+</g>
+</g>
+<g transform="translate(8233.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SessionOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SessionOptions">
+
+</g>
+</g>
+</g>
+<g data-name="ExtendedHttpEndpoint">
+<g fill="lightblue" stroke="#33322E" data-name="ExtendedHttpEndpoint">
+<rect x="5267.8" y="962.0" height="70.0" width="193.0" data-name="ExtendedHttpEndpoint"></rect>
+<path d="M5267.8 993.0 L5460.8 993.0" fill="none" data-name="ExtendedHttpEndpoint"></path>
+<path d="M5267.8 1024.0 L5460.8 1024.0" fill="none" data-name="ExtendedHttpEndpoint"></path>
+</g>
+<g transform="translate(5267.75, 962)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ExtendedHttpEndpoint">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ExtendedHttpEndpoint">
+<a id="src/types/manager.ts.ExtendedHttpEndpoint" xlink:href="src/types/manager.ts"><text x="88.5" y="13.5" stroke="none" text-anchor="middle" data-name="ExtendedHttpEndpoint">ExtendedHttpEndpoint</text></a>
+
+</g>
+</g>
+<g transform="translate(5267.75, 993)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ExtendedHttpEndpoint">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ExtendedHttpEndpoint">
+<text x="0.0" y="13.5" stroke="none" data-name="ExtendedHttpEndpoint">+isLazy?: boolean</text>
+
+</g>
+</g>
+<g transform="translate(5267.75, 1024)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ExtendedHttpEndpoint">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ExtendedHttpEndpoint">
+
+</g>
+</g>
+</g>
+<g data-name="Endpoints">
+<g fill="lightblue" stroke="#33322E" data-name="Endpoints">
+<rect x="8459.3" y="296.5" height="100.0" width="334.0" data-name="Endpoints"></rect>
+<path d="M8459.3 327.5 L8793.3 327.5" fill="none" data-name="Endpoints"></path>
+<path d="M8459.3 388.5 L8793.3 388.5" fill="none" data-name="Endpoints"></path>
+</g>
+<g transform="translate(8459.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Endpoints">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Endpoints">
+<a id="src/types/manager.ts.Endpoints" xlink:href="src/types/manager.ts"><text x="159.0" y="13.5" stroke="none" text-anchor="middle" data-name="Endpoints">Endpoints</text></a>
+
+</g>
+</g>
+<g transform="translate(8459.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Endpoints">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Endpoints">
+<text x="0.0" y="13.5" stroke="none" data-name="Endpoints">+rpc?: (string | ExtendedHttpEndpoint)[]</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Endpoints">+rest?: (string | ExtendedHttpEndpoint)[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Endpoints">+isLazy?: boolean</text>
+
+</g>
+</g>
+<g transform="translate(8459.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Endpoints">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Endpoints">
+
+</g>
+</g>
+</g>
+<g data-name="EndpointOptions">
+<g fill="lightblue" stroke="#33322E" data-name="EndpointOptions">
+<rect x="8833.3" y="304.0" height="85.0" width="334.0" data-name="EndpointOptions"></rect>
+<path d="M8833.3 335.0 L9167.3 335.0" fill="none" data-name="EndpointOptions"></path>
+<path d="M8833.3 381.0 L9167.3 381.0" fill="none" data-name="EndpointOptions"></path>
+</g>
+<g transform="translate(8833.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EndpointOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="EndpointOptions">
+<a id="src/types/manager.ts.EndpointOptions" xlink:href="src/types/manager.ts"><text x="159.0" y="13.5" stroke="none" text-anchor="middle" data-name="EndpointOptions">EndpointOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(8833.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EndpointOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="EndpointOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="EndpointOptions">+isLazy?: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="EndpointOptions">+endpoints?: Record&lt;string, Endpoints&gt;</text>
+
+</g>
+</g>
+<g transform="translate(8833.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EndpointOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="EndpointOptions">
+
+</g>
+</g>
+</g>
+<g data-name="ManagerActions&lt;T&gt;">
+<g fill="lightblue" stroke="#33322E" data-name="ManagerActions&lt;T&gt;">
+<rect x="3210.8" y="1470.0" height="100.0" width="277.0" data-name="ManagerActions&lt;T&gt;"></rect>
+<path d="M3210.8 1501.0 L3487.8 1501.0" fill="none" data-name="ManagerActions&lt;T&gt;"></path>
+<path d="M3210.8 1562.0 L3487.8 1562.0" fill="none" data-name="ManagerActions&lt;T&gt;"></path>
+</g>
+<g transform="translate(3210.75, 1470)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ManagerActions&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ManagerActions&lt;T&gt;">
+<a id="src/types/manager.ts.ManagerActions&lt;T&gt;" xlink:href="src/types/manager.ts"><text x="130.5" y="13.5" stroke="none" text-anchor="middle" data-name="ManagerActions&lt;T&gt;">ManagerActions&lt;T&gt;</text></a>
+
+</g>
+</g>
+<g transform="translate(3210.75, 1501)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ManagerActions&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ManagerActions&lt;T&gt;">
+<text x="0.0" y="13.5" stroke="none" data-name="ManagerActions&lt;T&gt;">+walletName?: Dispatch&lt;string&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ManagerActions&lt;T&gt;">+chainName?: Dispatch&lt;string&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ManagerActions&lt;T&gt;">+viewOpen?: Dispatch&lt;boolean&gt;</text>
+
+</g>
+</g>
+<g transform="translate(3210.75, 1562)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ManagerActions&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ManagerActions&lt;T&gt;">
+
+</g>
+</g>
+</g>
+<g data-name="HttpEndpoint">
+<g fill="#eee8d5" stroke="#33322E" data-name="HttpEndpoint">
+<rect x="5305.3" y="331.0" height="31.0" width="118.0" data-name="HttpEndpoint"></rect>
+</g>
+<g transform="translate(5305.25, 331)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="HttpEndpoint">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="HttpEndpoint">
+<text x="51.0" y="13.5" stroke="none" text-anchor="middle" data-name="HttpEndpoint">HttpEndpoint</text>
+
+</g>
+</g>
+</g>
+<g data-name="WalletModalProps">
+<g fill="lightblue" stroke="#33322E" data-name="WalletModalProps">
+<rect x="9438.3" y="296.5" height="100.0" width="256.0" data-name="WalletModalProps"></rect>
+<path d="M9438.3 327.5 L9694.3 327.5" fill="none" data-name="WalletModalProps"></path>
+<path d="M9438.3 388.5 L9694.3 388.5" fill="none" data-name="WalletModalProps"></path>
+</g>
+<g transform="translate(9438.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletModalProps">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletModalProps">
+<a id="src/types/view.ts.WalletModalProps" xlink:href="src/types/view.ts"><text x="120.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletModalProps">WalletModalProps</text></a>
+
+</g>
+</g>
+<g transform="translate(9438.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletModalProps">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletModalProps">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletModalProps">+isOpen: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletModalProps">+setOpen: Dispatch&lt;boolean&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletModalProps">+walletRepo?: WalletRepo</text>
+
+</g>
+</g>
+<g transform="translate(9438.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletModalProps">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletModalProps">
+
+</g>
+</g>
+</g>
+<g data-name="WalletViewProps">
+<g fill="lightblue" stroke="#33322E" data-name="WalletViewProps">
+<rect x="9734.3" y="289.0" height="115.0" width="216.0" data-name="WalletViewProps"></rect>
+<path d="M9734.3 320.0 L9950.3 320.0" fill="none" data-name="WalletViewProps"></path>
+<path d="M9734.3 396.0 L9950.3 396.0" fill="none" data-name="WalletViewProps"></path>
+</g>
+<g transform="translate(9734.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletViewProps">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletViewProps">
+<a id="src/types/view.ts.WalletViewProps" xlink:href="src/types/view.ts"><text x="100.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletViewProps">WalletViewProps</text></a>
+
+</g>
+</g>
+<g transform="translate(9734.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletViewProps">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletViewProps">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletViewProps">+onClose: () =&gt; void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletViewProps">+onReturn: () =&gt; void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletViewProps">+wallet: ChainWalletBase</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletViewProps">+options?: ModalOptions</text>
+
+</g>
+</g>
+<g transform="translate(9734.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletViewProps">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletViewProps">
+
+</g>
+</g>
+</g>
+<g data-name="RefObject&lt;T&gt;">
+<g fill="lightblue" stroke="#33322E" data-name="RefObject&lt;T&gt;">
+<rect x="9990.3" y="311.5" height="70.0" width="171.0" data-name="RefObject&lt;T&gt;"></rect>
+<path d="M9990.3 342.5 L10161.3 342.5" fill="none" data-name="RefObject&lt;T&gt;"></path>
+<path d="M9990.3 373.5 L10161.3 373.5" fill="none" data-name="RefObject&lt;T&gt;"></path>
+</g>
+<g transform="translate(9990.25, 311.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RefObject&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="RefObject&lt;T&gt;">
+<a id="src/types/view.ts.RefObject&lt;T&gt;" xlink:href="src/types/view.ts"><text x="77.5" y="13.5" stroke="none" text-anchor="middle" data-name="RefObject&lt;T&gt;">RefObject&lt;T&gt;</text></a>
+
+</g>
+</g>
+<g transform="translate(9990.25, 342.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RefObject&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="RefObject&lt;T&gt;">
+<text x="0.0" y="13.5" stroke="none" data-name="RefObject&lt;T&gt;">+abstract current: T</text>
+
+</g>
+</g>
+<g transform="translate(9990.25, 373.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="RefObject&lt;T&gt;">
+<g transform="translate(8, 8)" fill="#33322E" data-name="RefObject&lt;T&gt;">
+
+</g>
+</g>
+</g>
+<g data-name="WalletListViewProps">
+<g fill="lightblue" stroke="#33322E" data-name="WalletListViewProps">
+<rect x="10201.3" y="296.5" height="100.0" width="394.0" data-name="WalletListViewProps"></rect>
+<path d="M10201.3 327.5 L10595.3 327.5" fill="none" data-name="WalletListViewProps"></path>
+<path d="M10201.3 388.5 L10595.3 388.5" fill="none" data-name="WalletListViewProps"></path>
+</g>
+<g transform="translate(10201.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletListViewProps">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletListViewProps">
+<a id="src/types/view.ts.WalletListViewProps" xlink:href="src/types/view.ts"><text x="189.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletListViewProps">WalletListViewProps</text></a>
+
+</g>
+</g>
+<g transform="translate(10201.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletListViewProps">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletListViewProps">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletListViewProps">+onClose: () =&gt; void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletListViewProps">+wallets: ChainWalletBase[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletListViewProps">+initialFocus?: RefObject&lt;HTMLButtonElement&gt;</text>
+
+</g>
+</g>
+<g transform="translate(10201.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletListViewProps">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletListViewProps">
+
+</g>
+</g>
+</g>
+<g data-name="ModalView">
+<g fill="lightgreen" stroke="#33322E" data-name="ModalView">
+<rect x="10635.3" y="270.5" height="152.0" width="106.0" data-name="ModalView"></rect>
+<path d="M10635.3 301.5 L10741.3 301.5" fill="none" data-name="ModalView"></path>
+</g>
+<g transform="translate(10635.25, 270.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalView">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ModalView">
+<a id="src/types/view.ts.ModalView" xlink:href="src/types/view.ts"><text x="45.0" y="13.5" stroke="none" text-anchor="middle" data-name="ModalView">ModalView</text></a>
+
+</g>
+</g>
+<g transform="translate(10635.25, 301.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalView">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ModalView">
+<text x="0.0" y="13.5" stroke="none" data-name="ModalView">WalletList</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ModalView">Connecting</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ModalView">Connected</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ModalView">Error</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ModalView">NotExist</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ModalView">Rejected</text>
+<text x="0.0" y="103.5" stroke="none" data-name="ModalView">QRCode</text>
+
+</g>
+</g>
+</g>
+<g data-name="Key">
+<g fill="lightblue" stroke="#33322E" data-name="Key">
+<rect x="10781.3" y="266.5" height="160.0" width="305.0" data-name="Key"></rect>
+<path d="M10781.3 297.5 L11086.3 297.5" fill="none" data-name="Key"></path>
+<path d="M10781.3 418.5 L11086.3 418.5" fill="none" data-name="Key"></path>
+</g>
+<g transform="translate(10781.25, 266.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Key">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Key">
+<a id="src/__test__/mock-extension/extension/types.ts.Key" xlink:href="src/__test__/mock-extension/extension/types.ts"><text x="144.5" y="13.5" stroke="none" text-anchor="middle" data-name="Key">Key</text></a>
+
+</g>
+</g>
+<g transform="translate(10781.25, 297.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Key">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Key">
+<text x="0.0" y="13.5" stroke="none" data-name="Key">+abstract name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Key">+abstract algo: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Key">+abstract pubKey: Uint8Array</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Key">+abstract address: Uint8Array</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Key">+abstract bech32Address: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Key">+abstract isNanoLedger: boolean</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Key">+abstract isSmartContract?: boolean</text>
+
+</g>
+</g>
+<g transform="translate(10781.25, 418.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Key">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Key">
+
+</g>
+</g>
+</g>
+<g data-name="SimpleAccount">
+<g fill="lightblue" stroke="#33322E" data-name="SimpleAccount">
+<rect x="11126.3" y="289.0" height="115.0" width="172.0" data-name="SimpleAccount"></rect>
+<path d="M11126.3 320.0 L11298.3 320.0" fill="none" data-name="SimpleAccount"></path>
+<path d="M11126.3 396.0 L11298.3 396.0" fill="none" data-name="SimpleAccount"></path>
+</g>
+<g transform="translate(11126.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SimpleAccount">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SimpleAccount">
+<a id="src/types/wallet.ts.SimpleAccount" xlink:href="src/types/wallet.ts"><text x="78.0" y="13.5" stroke="none" text-anchor="middle" data-name="SimpleAccount">SimpleAccount</text></a>
+
+</g>
+</g>
+<g transform="translate(11126.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SimpleAccount">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SimpleAccount">
+<text x="0.0" y="13.5" stroke="none" data-name="SimpleAccount">+namespace: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SimpleAccount">+chainId: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="SimpleAccount">+address: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="SimpleAccount">+username?: string</text>
+
+</g>
+</g>
+<g transform="translate(11126.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SimpleAccount">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SimpleAccount">
+
+</g>
+</g>
+</g>
+<g data-name="DownloadInfo">
+<g fill="lightblue" stroke="#33322E" data-name="DownloadInfo">
+<rect x="9132.8" y="954.5" height="85.0" width="340.0" data-name="DownloadInfo"></rect>
+<path d="M9132.8 985.5 L9472.8 985.5" fill="none" data-name="DownloadInfo"></path>
+<path d="M9132.8 1031.5 L9472.8 1031.5" fill="none" data-name="DownloadInfo"></path>
+</g>
+<g transform="translate(9132.75, 954.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DownloadInfo">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DownloadInfo">
+<a id="src/types/wallet.ts.DownloadInfo" xlink:href="src/types/wallet.ts"><text x="162.0" y="13.5" stroke="none" text-anchor="middle" data-name="DownloadInfo">DownloadInfo</text></a>
+
+</g>
+</g>
+<g transform="translate(9132.75, 985.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DownloadInfo">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DownloadInfo">
+<text x="0.0" y="13.5" stroke="none" data-name="DownloadInfo">+icon?: string | ((props: any) =&gt; Element)</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DownloadInfo">+link: string</text>
+
+</g>
+</g>
+<g transform="translate(9132.75, 1031.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DownloadInfo">
+<g transform="translate(8, 8)" fill="#33322E" data-name="DownloadInfo">
+
+</g>
+</g>
+</g>
+<g data-name="Metadata">
+<g fill="lightblue" stroke="#33322E" data-name="Metadata">
+<rect x="11338.3" y="289.0" height="115.0" width="167.0" data-name="Metadata"></rect>
+<path d="M11338.3 320.0 L11505.3 320.0" fill="none" data-name="Metadata"></path>
+<path d="M11338.3 396.0 L11505.3 396.0" fill="none" data-name="Metadata"></path>
+</g>
+<g transform="translate(11338.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Metadata">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Metadata">
+<a id="src/types/wallet.ts.Metadata" xlink:href="src/types/wallet.ts"><text x="75.5" y="13.5" stroke="none" text-anchor="middle" data-name="Metadata">Metadata</text></a>
+
+</g>
+</g>
+<g transform="translate(11338.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Metadata">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Metadata">
+<text x="0.0" y="13.5" stroke="none" data-name="Metadata">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Metadata">+description: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Metadata">+url: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Metadata">+icons: string[]</text>
+
+</g>
+</g>
+<g transform="translate(11338.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Metadata">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Metadata">
+
+</g>
+</g>
+</g>
+<g data-name="AppUrl">
+<g fill="lightblue" stroke="#33322E" data-name="AppUrl">
+<rect x="11545.3" y="274.0" height="145.0" width="288.0" data-name="AppUrl"></rect>
+<path d="M11545.3 305.0 L11833.3 305.0" fill="none" data-name="AppUrl"></path>
+<path d="M11545.3 411.0 L11833.3 411.0" fill="none" data-name="AppUrl"></path>
+</g>
+<g transform="translate(11545.25, 274)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppUrl">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AppUrl">
+<a id="src/types/wallet.ts.AppUrl" xlink:href="src/types/wallet.ts"><text x="136.0" y="13.5" stroke="none" text-anchor="middle" data-name="AppUrl">AppUrl</text></a>
+
+</g>
+</g>
+<g transform="translate(11545.25, 305)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppUrl">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="AppUrl">
+<text x="0.0" y="13.5" stroke="none" data-name="AppUrl">+native?: string | { android?: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="AppUrl">ios?: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="AppUrl">macos?: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="AppUrl">windows?: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="AppUrl">}</text>
+<text x="0.0" y="88.5" stroke="none" data-name="AppUrl">+universal?: string</text>
+
+</g>
+</g>
+<g transform="translate(11545.25, 411)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppUrl">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppUrl">
+
+</g>
+</g>
+</g>
+<g data-name="Wallet">
+<g fill="lightblue" stroke="#33322E" data-name="Wallet">
+<rect x="11873.3" y="124.0" height="445.0" width="628.0" data-name="Wallet"></rect>
+<path d="M11873.3 155.0 L12501.3 155.0" fill="none" data-name="Wallet"></path>
+<path d="M11873.3 561.0 L12501.3 561.0" fill="none" data-name="Wallet"></path>
+</g>
+<g transform="translate(11873.25, 124)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Wallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Wallet">
+<a id="src/types/wallet.ts.Wallet" xlink:href="src/types/wallet.ts"><text x="306.0" y="13.5" stroke="none" text-anchor="middle" data-name="Wallet">Wallet</text></a>
+
+</g>
+</g>
+<g transform="translate(11873.25, 155)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Wallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Wallet">
+<text x="0.0" y="13.5" stroke="none" data-name="Wallet">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Wallet">+prettyName: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Wallet">+mode: WalletMode</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Wallet">+extends?: &quot;MetaMask&quot;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Wallet">+mobileDisabled: boolean | (() =&gt; boolean)</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Wallet">+description?: string</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Wallet">+rejectMessage?: string | { source: string</text>
+<text x="0.0" y="118.5" stroke="none" data-name="Wallet">target?: string</text>
+<text x="0.0" y="133.5" stroke="none" data-name="Wallet">}</text>
+<text x="0.0" y="148.5" stroke="none" data-name="Wallet">+rejectCode?: number</text>
+<text x="0.0" y="163.5" stroke="none" data-name="Wallet">+connectEventNamesOnWindow?: string[]</text>
+<text x="0.0" y="178.5" stroke="none" data-name="Wallet">+connectEventNamesOnClient?: string[]</text>
+<text x="0.0" y="193.5" stroke="none" data-name="Wallet">+downloads?: DownloadInfo[]</text>
+<text x="0.0" y="208.5" stroke="none" data-name="Wallet">+logo?: string | { major: string</text>
+<text x="0.0" y="223.5" stroke="none" data-name="Wallet">minor: string</text>
+<text x="0.0" y="238.5" stroke="none" data-name="Wallet">}</text>
+<text x="0.0" y="253.5" stroke="none" data-name="Wallet">+walletconnect?: { name: string</text>
+<text x="0.0" y="268.5" stroke="none" data-name="Wallet">projectId: string</text>
+<text x="0.0" y="283.5" stroke="none" data-name="Wallet">requiredNamespaces?: { methods: string[]</text>
+<text x="0.0" y="298.5" stroke="none" data-name="Wallet">events: string[]</text>
+<text x="0.0" y="313.5" stroke="none" data-name="Wallet">}</text>
+<text x="0.0" y="328.5" stroke="none" data-name="Wallet">encoding?: BufferEncoding</text>
+<text x="0.0" y="343.5" stroke="none" data-name="Wallet">mobile?: AppUrl</text>
+<text x="0.0" y="358.5" stroke="none" data-name="Wallet">formatNativeUrl?: (appUrl: string, wcUri: string, os: OS, name: string) =&gt; string</text>
+<text x="0.0" y="373.5" stroke="none" data-name="Wallet">formatUniversalUrl?: (appUrl: string, wcUri: string, name: string) =&gt; string</text>
+<text x="0.0" y="388.5" stroke="none" data-name="Wallet">}</text>
+
+</g>
+</g>
+<g transform="translate(11873.25, 561)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Wallet">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Wallet">
+
+</g>
+</g>
+</g>
+<g data-name="WalletAccount">
+<g fill="lightblue" stroke="#33322E" data-name="WalletAccount">
+<rect x="13689.8" y="947.0" height="100.0" width="236.0" data-name="WalletAccount"></rect>
+<path d="M13689.8 978.0 L13925.8 978.0" fill="none" data-name="WalletAccount"></path>
+<path d="M13689.8 1039.0 L13925.8 1039.0" fill="none" data-name="WalletAccount"></path>
+</g>
+<g transform="translate(13689.75, 947)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletAccount">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletAccount">
+<a id="src/types/wallet.ts.WalletAccount" xlink:href="src/types/wallet.ts"><text x="110.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletAccount">WalletAccount</text></a>
+
+</g>
+</g>
+<g transform="translate(13689.75, 978)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletAccount">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletAccount">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletAccount">+username?: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletAccount">+isNanoLedger?: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletAccount">+isSmartContract?: boolean</text>
+
+</g>
+</g>
+<g transform="translate(13689.75, 1039)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletAccount">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletAccount">
+
+</g>
+</g>
+</g>
+<g data-name="SignOptions">
+<g fill="lightblue" stroke="#33322E" data-name="SignOptions">
+<rect x="12541.3" y="296.5" height="100.0" width="350.0" data-name="SignOptions"></rect>
+<path d="M12541.3 327.5 L12891.3 327.5" fill="none" data-name="SignOptions"></path>
+<path d="M12541.3 388.5 L12891.3 388.5" fill="none" data-name="SignOptions"></path>
+</g>
+<g transform="translate(12541.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SignOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SignOptions">
+<a id="src/types/wallet.ts.SignOptions" xlink:href="src/types/wallet.ts"><text x="167.0" y="13.5" stroke="none" text-anchor="middle" data-name="SignOptions">SignOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(12541.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SignOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SignOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="SignOptions">+abstract preferNoSetFee?: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SignOptions">+abstract preferNoSetMemo?: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="SignOptions">+abstract disableBalanceCheck?: boolean</text>
+
+</g>
+</g>
+<g transform="translate(12541.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SignOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SignOptions">
+
+</g>
+</g>
+</g>
+<g data-name="DirectSignDoc">
+<g fill="lightblue" stroke="#33322E" data-name="DirectSignDoc">
+<rect x="12931.3" y="289.0" height="115.0" width="228.0" data-name="DirectSignDoc"></rect>
+<path d="M12931.3 320.0 L13159.3 320.0" fill="none" data-name="DirectSignDoc"></path>
+<path d="M12931.3 396.0 L13159.3 396.0" fill="none" data-name="DirectSignDoc"></path>
+</g>
+<g transform="translate(12931.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DirectSignDoc">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DirectSignDoc">
+<a id="src/types/wallet.ts.DirectSignDoc" xlink:href="src/types/wallet.ts"><text x="106.0" y="13.5" stroke="none" text-anchor="middle" data-name="DirectSignDoc">DirectSignDoc</text></a>
+
+</g>
+</g>
+<g transform="translate(12931.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DirectSignDoc">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DirectSignDoc">
+<text x="0.0" y="13.5" stroke="none" data-name="DirectSignDoc">+bodyBytes: Uint8Array</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DirectSignDoc">+authInfoBytes: Uint8Array</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DirectSignDoc">+chainId: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="DirectSignDoc">+accountNumber: bigint</text>
+
+</g>
+</g>
+<g transform="translate(12931.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DirectSignDoc">
+<g transform="translate(8, 8)" fill="#33322E" data-name="DirectSignDoc">
+
+</g>
+</g>
+</g>
+<g data-name="SuggestCW20Token">
+<g fill="lightblue" stroke="#33322E" data-name="SuggestCW20Token">
+<rect x="13199.3" y="289.0" height="115.0" width="209.0" data-name="SuggestCW20Token"></rect>
+<path d="M13199.3 320.0 L13408.3 320.0" fill="none" data-name="SuggestCW20Token"></path>
+<path d="M13199.3 396.0 L13408.3 396.0" fill="none" data-name="SuggestCW20Token"></path>
+</g>
+<g transform="translate(13199.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SuggestCW20Token">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SuggestCW20Token">
+<a id="src/types/wallet.ts.SuggestCW20Token" xlink:href="src/types/wallet.ts"><text x="96.5" y="13.5" stroke="none" text-anchor="middle" data-name="SuggestCW20Token">SuggestCW20Token</text></a>
+
+</g>
+</g>
+<g transform="translate(13199.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SuggestCW20Token">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SuggestCW20Token">
+<text x="0.0" y="13.5" stroke="none" data-name="SuggestCW20Token">+contractAddress: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SuggestCW20Token">+viewingKey?: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="SuggestCW20Token">+imageURL?: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="SuggestCW20Token">+coinGeckoId?: string</text>
+
+</g>
+</g>
+<g transform="translate(13199.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SuggestCW20Token">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SuggestCW20Token">
+
+</g>
+</g>
+</g>
+<g data-name="SuggestToken">
+<g fill="lightblue" stroke="#33322E" data-name="SuggestToken">
+<rect x="13448.3" y="289.0" height="115.0" width="261.0" data-name="SuggestToken"></rect>
+<path d="M13448.3 320.0 L13709.3 320.0" fill="none" data-name="SuggestToken"></path>
+<path d="M13448.3 396.0 L13709.3 396.0" fill="none" data-name="SuggestToken"></path>
+</g>
+<g transform="translate(13448.25, 289)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SuggestToken">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SuggestToken">
+<a id="src/types/wallet.ts.SuggestToken" xlink:href="src/types/wallet.ts"><text x="122.5" y="13.5" stroke="none" text-anchor="middle" data-name="SuggestToken">SuggestToken</text></a>
+
+</g>
+</g>
+<g transform="translate(13448.25, 320)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SuggestToken">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SuggestToken">
+<text x="0.0" y="13.5" stroke="none" data-name="SuggestToken">+chainId: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SuggestToken">+chainName: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="SuggestToken">+type: SuggestTokenType</text>
+<text x="0.0" y="58.5" stroke="none" data-name="SuggestToken">+tokens: SuggestCW20Token[]</text>
+
+</g>
+</g>
+<g transform="translate(13448.25, 396)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SuggestToken">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SuggestToken">
+
+</g>
+</g>
+</g>
+<g data-name="WalletClient">
+<g fill="lightblue" stroke="#33322E" data-name="WalletClient">
+<rect x="18191.3" y="116.5" height="460.0" width="1053.0" data-name="WalletClient"></rect>
+<path d="M18191.3 147.5 L19244.3 147.5" fill="none" data-name="WalletClient"></path>
+<path d="M18191.3 568.5 L19244.3 568.5" fill="none" data-name="WalletClient"></path>
+</g>
+<g transform="translate(18191.25, 116.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletClient">
+<a id="src/types/wallet.ts.WalletClient" xlink:href="src/types/wallet.ts"><text x="518.5" y="13.5" stroke="none" text-anchor="middle" data-name="WalletClient">WalletClient</text></a>
+
+</g>
+</g>
+<g transform="translate(18191.25, 147.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletClient">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletClient">+getSimpleAccount: (chainId: string) =&gt; Promise&lt;SimpleAccount&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletClient">+qrUrl?: Mutable&lt;string&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletClient">+appUrl?: Mutable&lt;AppUrl&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletClient">+connect?: (chainIds: string | string[], options?: any) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletClient">+disconnect?: (options?: DisconnectOptions) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="WalletClient">+on?: (type: string, listener: EventListenerOrEventListenerObject) =&gt; void</text>
+<text x="0.0" y="103.5" stroke="none" data-name="WalletClient">+off?: (type: string, listener: EventListenerOrEventListenerObject) =&gt; void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="WalletClient">+enable?: (chainIds: string | string[]) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="133.5" stroke="none" data-name="WalletClient">+suggestToken?: (data: SuggestToken) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="148.5" stroke="none" data-name="WalletClient">+addChain?: (chainInfo: ChainRecord) =&gt; Promise&lt;void&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="WalletClient">+getAccount?: (chainId: string) =&gt; Promise&lt;WalletAccount&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="WalletClient">+getOfflineSigner?: (chainId: string, preferredSignType?: SignType) =&gt; OfflineSigner | Promise&lt;OfflineSigner&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="WalletClient">+getOfflineSignerAmino?: (chainId: string) =&gt; OfflineAminoSigner</text>
+<text x="0.0" y="208.5" stroke="none" data-name="WalletClient">+getOfflineSignerDirect?: (chainId: string) =&gt; OfflineDirectSigner</text>
+<text x="0.0" y="223.5" stroke="none" data-name="WalletClient">+abstract defaultSignOptions?: SignOptions</text>
+<text x="0.0" y="238.5" stroke="none" data-name="WalletClient">+setDefaultSignOptions?: (options: SignOptions) =&gt; void</text>
+<text x="0.0" y="253.5" stroke="none" data-name="WalletClient">+sign?: (signDoc: StdSignDoc, accountIndex?: number) =&gt; Promise&lt;{ signature: Buffer</text>
+<text x="0.0" y="268.5" stroke="none" data-name="WalletClient">return_code: string | number</text>
+<text x="0.0" y="283.5" stroke="none" data-name="WalletClient">}&gt;</text>
+<text x="0.0" y="298.5" stroke="none" data-name="WalletClient">+signAmino?: (chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;AminoSignResponse&gt;</text>
+<text x="0.0" y="313.5" stroke="none" data-name="WalletClient">+signDirect?: (chainId: string, signer: string, signDoc: DirectSignDoc, signOptions?: SignOptions) =&gt; Promise&lt;DirectSignResponse&gt;</text>
+<text x="0.0" y="328.5" stroke="none" data-name="WalletClient">+signArbitrary?: (chainId: string, signer: string, data: string | Uint8Array) =&gt; Promise&lt;StdSignature&gt;</text>
+<text x="0.0" y="343.5" stroke="none" data-name="WalletClient">+getEnigmaPubKey?: (chainId: string) =&gt; Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="358.5" stroke="none" data-name="WalletClient">+getEnigmaTxEncryptionKey?: (chainId: string, nonce: Uint8Array) =&gt; Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="373.5" stroke="none" data-name="WalletClient">+enigmaEncrypt?: (chainId: string, contractCodeHash: string, msg: object) =&gt; Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="388.5" stroke="none" data-name="WalletClient">+enigmaDecrypt?: (chainId: string, ciphertext: Uint8Array, nonce: Uint8Array) =&gt; Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="403.5" stroke="none" data-name="WalletClient">+sendTx?: (chainId: string, tx: Uint8Array, mode: BroadcastMode) =&gt; Promise&lt;Uint8Array&gt;</text>
+
+</g>
+</g>
+<g transform="translate(18191.25, 568.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletClient">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletClient">
+
+</g>
+</g>
+</g>
+<g data-name="IChainWallet">
+<g fill="lightblue" stroke="#33322E" data-name="IChainWallet">
+<rect x="13906.3" y="323.0" height="47.0" width="116.0" data-name="IChainWallet"></rect>
+<path d="M13906.3 354.0 L14022.3 354.0" fill="none" data-name="IChainWallet"></path>
+<path d="M13906.3 362.0 L14022.3 362.0" fill="none" data-name="IChainWallet"></path>
+</g>
+<g transform="translate(13906.25, 323)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="IChainWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="IChainWallet">
+<a id="src/types/wallet.ts.IChainWallet" xlink:href="src/types/wallet.ts"><text x="50.0" y="13.5" stroke="none" text-anchor="middle" data-name="IChainWallet">IChainWallet</text></a>
+
+</g>
+</g>
+<g transform="translate(13906.25, 354)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="IChainWallet">
+<g transform="translate(8, 8)" fill="#33322E" data-name="IChainWallet">
+
+</g>
+</g>
+<g transform="translate(13906.25, 362)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="IChainWallet">
+<g transform="translate(8, 8)" fill="#33322E" data-name="IChainWallet">
+
+</g>
+</g>
+</g>
+<g data-name="NameServiceRegistry">
+<g fill="lightblue" stroke="#33322E" data-name="NameServiceRegistry">
+<rect x="14062.3" y="281.5" height="130.0" width="331.0" data-name="NameServiceRegistry"></rect>
+<path d="M14062.3 312.5 L14393.3 312.5" fill="none" data-name="NameServiceRegistry"></path>
+<path d="M14062.3 403.5 L14393.3 403.5" fill="none" data-name="NameServiceRegistry"></path>
+</g>
+<g transform="translate(14062.25, 281.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NameServiceRegistry">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="NameServiceRegistry">
+<a id="src/types/wallet.ts.NameServiceRegistry" xlink:href="src/types/wallet.ts"><text x="157.5" y="13.5" stroke="none" text-anchor="middle" data-name="NameServiceRegistry">NameServiceRegistry</text></a>
+
+</g>
+</g>
+<g transform="translate(14062.25, 312.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NameServiceRegistry">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="NameServiceRegistry">
+<text x="0.0" y="13.5" stroke="none" data-name="NameServiceRegistry">+name: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="NameServiceRegistry">+contract: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="NameServiceRegistry">+chainName: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="NameServiceRegistry">+getQueryMsg: (address: string) =&gt; any</text>
+<text x="0.0" y="73.5" stroke="none" data-name="NameServiceRegistry">+slip173: string</text>
+
+</g>
+</g>
+<g transform="translate(14062.25, 403.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NameServiceRegistry">
+<g transform="translate(8, 8)" fill="#33322E" data-name="NameServiceRegistry">
+
+</g>
+</g>
+</g>
+<g data-name="WalletConnectOptions">
+<g fill="lightblue" stroke="#33322E" data-name="WalletConnectOptions">
+<rect x="14433.3" y="304.0" height="85.0" width="248.0" data-name="WalletConnectOptions"></rect>
+<path d="M14433.3 335.0 L14681.3 335.0" fill="none" data-name="WalletConnectOptions"></path>
+<path d="M14433.3 381.0 L14681.3 381.0" fill="none" data-name="WalletConnectOptions"></path>
+</g>
+<g transform="translate(14433.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletConnectOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletConnectOptions">
+<a id="src/types/wallet.ts.WalletConnectOptions" xlink:href="src/types/wallet.ts"><text x="116.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletConnectOptions">WalletConnectOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(14433.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletConnectOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletConnectOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletConnectOptions">+signClient: { projectId: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletConnectOptions">} &amp; Options</text>
+
+</g>
+</g>
+<g transform="translate(14433.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletConnectOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletConnectOptions">
+
+</g>
+</g>
+</g>
+<g data-name="DisconnectOptions">
+<g fill="lightblue" stroke="#33322E" data-name="DisconnectOptions">
+<rect x="14721.3" y="304.0" height="85.0" width="391.0" data-name="DisconnectOptions"></rect>
+<path d="M14721.3 335.0 L15112.3 335.0" fill="none" data-name="DisconnectOptions"></path>
+<path d="M14721.3 381.0 L15112.3 381.0" fill="none" data-name="DisconnectOptions"></path>
+</g>
+<g transform="translate(14721.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DisconnectOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DisconnectOptions">
+<a id="src/types/wallet.ts.DisconnectOptions" xlink:href="src/types/wallet.ts"><text x="187.5" y="13.5" stroke="none" text-anchor="middle" data-name="DisconnectOptions">DisconnectOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(14721.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DisconnectOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DisconnectOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="DisconnectOptions">+walletconnect?: { removeAllPairings?: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DisconnectOptions">}</text>
+
+</g>
+</g>
+<g transform="translate(14721.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DisconnectOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="DisconnectOptions">
+
+</g>
+</g>
+</g>
+<g data-name="ModalOptions">
+<g fill="lightblue" stroke="#33322E" data-name="ModalOptions">
+<rect x="15152.3" y="304.0" height="85.0" width="399.0" data-name="ModalOptions"></rect>
+<path d="M15152.3 335.0 L15551.3 335.0" fill="none" data-name="ModalOptions"></path>
+<path d="M15152.3 381.0 L15551.3 381.0" fill="none" data-name="ModalOptions"></path>
+</g>
+<g transform="translate(15152.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ModalOptions">
+<a id="src/types/wallet.ts.ModalOptions" xlink:href="src/types/wallet.ts"><text x="191.5" y="13.5" stroke="none" text-anchor="middle" data-name="ModalOptions">ModalOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(15152.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ModalOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="ModalOptions">+mobile?: { displayQRCodeEveryTime?: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ModalOptions">}</text>
+
+</g>
+</g>
+<g transform="translate(15152.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ModalOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ModalOptions">
+
+</g>
+</g>
+</g>
+<g data-name="CallbackOptions">
+<g fill="lightblue" stroke="#33322E" data-name="CallbackOptions">
+<rect x="15591.3" y="304.0" height="85.0" width="429.0" data-name="CallbackOptions"></rect>
+<path d="M15591.3 335.0 L16020.3 335.0" fill="none" data-name="CallbackOptions"></path>
+<path d="M15591.3 381.0 L16020.3 381.0" fill="none" data-name="CallbackOptions"></path>
+</g>
+<g transform="translate(15591.25, 304)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CallbackOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CallbackOptions">
+<a id="src/types/wallet.ts.CallbackOptions" xlink:href="src/types/wallet.ts"><text x="206.5" y="13.5" stroke="none" text-anchor="middle" data-name="CallbackOptions">CallbackOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(15591.25, 335)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CallbackOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CallbackOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="CallbackOptions">+beforeConnect?: { disconnect?: DisconnectOptions</text>
+<text x="0.0" y="28.5" stroke="none" data-name="CallbackOptions">}</text>
+
+</g>
+</g>
+<g transform="translate(15591.25, 381)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CallbackOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CallbackOptions">
+
+</g>
+</g>
+</g>
+<g data-name="WalletStatus">
+<g fill="lightgreen" stroke="#33322E" data-name="WalletStatus">
+<rect x="16060.3" y="278.0" height="137.0" width="124.0" data-name="WalletStatus"></rect>
+<path d="M16060.3 309.0 L16184.3 309.0" fill="none" data-name="WalletStatus"></path>
+</g>
+<g transform="translate(16060.25, 278)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletStatus">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletStatus">
+<a id="src/types/wallet.ts.WalletStatus" xlink:href="src/types/wallet.ts"><text x="54.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletStatus">WalletStatus</text></a>
+
+</g>
+</g>
+<g transform="translate(16060.25, 309)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletStatus">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletStatus">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletStatus">Disconnected</text>
+<text x="0.0" y="28.5" stroke="none" data-name="WalletStatus">Connecting</text>
+<text x="0.0" y="43.5" stroke="none" data-name="WalletStatus">Connected</text>
+<text x="0.0" y="58.5" stroke="none" data-name="WalletStatus">NotExist</text>
+<text x="0.0" y="73.5" stroke="none" data-name="WalletStatus">Rejected</text>
+<text x="0.0" y="88.5" stroke="none" data-name="WalletStatus">Error</text>
+
+</g>
+</g>
+</g>
+<g data-name="BroadcastMode">
+<g fill="lightgreen" stroke="#33322E" data-name="BroadcastMode">
+<rect x="16224.3" y="300.5" height="92.0" width="140.0" data-name="BroadcastMode"></rect>
+<path d="M16224.3 331.5 L16364.3 331.5" fill="none" data-name="BroadcastMode"></path>
+</g>
+<g transform="translate(16224.25, 300.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BroadcastMode">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="BroadcastMode">
+<a id="src/types/wallet.ts.BroadcastMode" xlink:href="src/types/wallet.ts"><text x="62.0" y="13.5" stroke="none" text-anchor="middle" data-name="BroadcastMode">BroadcastMode</text></a>
+
+</g>
+</g>
+<g transform="translate(16224.25, 331.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BroadcastMode">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BroadcastMode">
+<text x="0.0" y="13.5" stroke="none" data-name="BroadcastMode">Block</text>
+<text x="0.0" y="28.5" stroke="none" data-name="BroadcastMode">Sync</text>
+<text x="0.0" y="43.5" stroke="none" data-name="BroadcastMode">Async</text>
+
+</g>
+</g>
+</g>
+<g data-name="AccountData">
+<g fill="#eee8d5" stroke="#33322E" data-name="AccountData">
+<rect x="13749.3" y="331.0" height="31.0" width="117.0" data-name="AccountData"></rect>
+</g>
+<g transform="translate(13749.25, 331)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AccountData">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AccountData">
+<text x="50.5" y="13.5" stroke="none" text-anchor="middle" data-name="AccountData">AccountData</text>
+
+</g>
+</g>
+</g>
+<g data-name="WalletNotProvidedError">
+<g fill="#eee8d5" stroke="#33322E" data-name="WalletNotProvidedError">
+<rect x="16939.3" y="311.5" height="70.0" width="240.0" data-name="WalletNotProvidedError"></rect>
+<path d="M16939.3 342.5 L17179.3 342.5" fill="none" data-name="WalletNotProvidedError"></path>
+<path d="M16939.3 373.5 L17179.3 373.5" fill="none" data-name="WalletNotProvidedError"></path>
+</g>
+<g transform="translate(16939.25, 311.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="WalletNotProvidedError">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="WalletNotProvidedError">
+<a id="src/utils/error.ts.WalletNotProvidedError" xlink:href="src/utils/error.ts"><text x="112.0" y="13.5" stroke="none" text-anchor="middle" data-name="WalletNotProvidedError">WalletNotProvidedError</text></a>
+
+</g>
+</g>
+<g transform="translate(16939.25, 342.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletNotProvidedError">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="WalletNotProvidedError">
+<text x="0.0" y="13.5" stroke="none" data-name="WalletNotProvidedError">+abstract walletName: string</text>
+
+</g>
+</g>
+<g transform="translate(16939.25, 373.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="WalletNotProvidedError">
+<g transform="translate(8, 8)" fill="#33322E" data-name="WalletNotProvidedError">
+
+</g>
+</g>
+</g>
+<g data-name="ConnectError">
+<g fill="#eee8d5" stroke="#33322E" data-name="ConnectError">
+<rect x="17219.3" y="311.5" height="70.0" width="266.0" data-name="ConnectError"></rect>
+<path d="M17219.3 342.5 L17485.3 342.5" fill="none" data-name="ConnectError"></path>
+<path d="M17219.3 373.5 L17485.3 373.5" fill="none" data-name="ConnectError"></path>
+</g>
+<g transform="translate(17219.25, 311.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ConnectError">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ConnectError">
+<a id="src/utils/error.ts.ConnectError" xlink:href="src/utils/error.ts"><text x="125.0" y="13.5" stroke="none" text-anchor="middle" data-name="ConnectError">ConnectError</text></a>
+
+</g>
+</g>
+<g transform="translate(17219.25, 342.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ConnectError">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ConnectError">
+<text x="0.0" y="13.5" stroke="none" data-name="ConnectError">+abstract name: &quot;ConnectError&quot;</text>
+
+</g>
+</g>
+<g transform="translate(17219.25, 373.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ConnectError">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ConnectError">
+
+</g>
+</g>
+</g>
+<g data-name="Logger">
+<g fill="#eee8d5" stroke="#33322E" data-name="Logger">
+<rect x="17525.3" y="247.5" height="198.0" width="270.0" data-name="Logger"></rect>
+<path d="M17525.3 278.5 L17795.3 278.5" fill="none" data-name="Logger"></path>
+<path d="M17525.3 339.5 L17795.3 339.5" fill="none" data-name="Logger"></path>
+</g>
+<g transform="translate(17525.25, 247.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Logger">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Logger">
+<a id="src/utils/logger.ts.Logger" xlink:href="src/utils/logger.ts"><text x="127.0" y="13.5" stroke="none" text-anchor="middle" data-name="Logger">Logger</text></a>
+
+</g>
+</g>
+<g transform="translate(17525.25, 278.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Logger">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Logger">
+<text x="0.0" y="13.5" stroke="none" data-name="Logger">+abstract logger: Console</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Logger">#abstract level: LogLevel</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Logger">#abstract levelOrder: LogLevel[]</text>
+
+</g>
+</g>
+<g transform="translate(17525.25, 339.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Logger">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Logger">
+<text x="0.0" y="13.5" stroke="none" data-name="Logger">+compare(): 1 | -1 | 0</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Logger">#trace(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Logger">#debug(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Logger">#info(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Logger">#warn(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Logger">#error(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="Session">
+<g fill="#eee8d5" stroke="#33322E" data-name="Session">
+<rect x="17835.3" y="292.5" height="108.0" width="316.0" data-name="Session"></rect>
+<path d="M17835.3 323.5 L18151.3 323.5" fill="none" data-name="Session"></path>
+<path d="M17835.3 369.5 L18151.3 369.5" fill="none" data-name="Session"></path>
+</g>
+<g transform="translate(17835.25, 292.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Session">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Session">
+<a id="src/utils/session.ts.Session" xlink:href="src/utils/session.ts"><text x="150.0" y="13.5" stroke="none" text-anchor="middle" data-name="Session">Session</text></a>
+
+</g>
+</g>
+<g transform="translate(17835.25, 323.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Session">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Session">
+<text x="0.0" y="13.5" stroke="none" data-name="Session">+sessionOptions: SessionOptions</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Session">+timeoutId?: string | number | Timeout</text>
+
+</g>
+</g>
+<g transform="translate(17835.25, 369.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Session">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Session">
+<text x="0.0" y="13.5" stroke="none" data-name="Session">+update(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="MockWallet">
+<g fill="#eee8d5" stroke="#33322E" data-name="MockWallet">
+<rect x="16362.3" y="793.0" height="408.0" width="579.0" data-name="MockWallet"></rect>
+<path d="M16362.3 824.0 L16941.3 824.0" fill="none" data-name="MockWallet"></path>
+<path d="M16362.3 930.0 L16941.3 930.0" fill="none" data-name="MockWallet"></path>
+</g>
+<g transform="translate(16362.25, 793)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="MockWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MockWallet">
+<a id="src/__test__/mocker/index.ts.MockWallet" xlink:href="src/__test__/mocker/index.ts"><text x="281.5" y="13.5" stroke="none" text-anchor="middle" data-name="MockWallet">MockWallet</text></a>
+
+</g>
+</g>
+<g transform="translate(16362.25, 824)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockWallet">
+<text x="0.0" y="13.5" stroke="none" data-name="MockWallet">+defaultOptions: { sign: { preferNoSetFee: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MockWallet">preferNoSetMemo: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="MockWallet">disableBalanceCheck: boolean</text>
+<text x="0.0" y="58.5" stroke="none" data-name="MockWallet">}</text>
+<text x="0.0" y="73.5" stroke="none" data-name="MockWallet">}</text>
+<text x="0.0" y="88.5" stroke="none" data-name="MockWallet">+mode: &quot;extension&quot;</text>
+
+</g>
+</g>
+<g transform="translate(16362.25, 930)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockWallet">
+<text x="0.0" y="13.5" stroke="none" data-name="MockWallet">+disconnect(): Promise&lt;void&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MockWallet">+enable(): Promise&lt;void&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="MockWallet">+suggestToken(): Promise&lt;void&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="MockWallet">+suggestCW20Token(): Promise&lt;void&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="MockWallet">+getKey(): Promise&lt;Key&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="MockWallet">+getOfflineSigner(): Promise&lt;OfflineAminoSigner &amp; OfflineDirectSigner&gt;</text>
+<text x="0.0" y="103.5" stroke="none" data-name="MockWallet">+getOfflineSignerOnlyAmino(): Promise&lt;OfflineAminoSigner&gt;</text>
+<text x="0.0" y="118.5" stroke="none" data-name="MockWallet">+getOfflineSignerAuto(): Promise&lt;OfflineSigner&gt;</text>
+<text x="0.0" y="133.5" stroke="none" data-name="MockWallet">+signAmino(): Promise&lt;AminoSignResponse&gt;</text>
+<text x="0.0" y="148.5" stroke="none" data-name="MockWallet">+signDirect(): Promise&lt;DirectSignResponse&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="MockWallet">+signArbitrary(): Promise&lt;StdSignature&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="MockWallet">+getEnigmaPubKey(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="MockWallet">+getEnigmaTxEncryptionKey(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="MockWallet">+enigmaEncrypt(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="223.5" stroke="none" data-name="MockWallet">+enigmaDecrypt(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="238.5" stroke="none" data-name="MockWallet">+sendTx(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="MockWallet">+experimentalSuggestChain(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="Mock">
+<g fill="lightblue" stroke="#33322E" data-name="Mock">
+<rect x="16404.3" y="165.0" height="363.0" width="495.0" data-name="Mock"></rect>
+<path d="M16404.3 196.0 L16899.3 196.0" fill="none" data-name="Mock"></path>
+<path d="M16404.3 257.0 L16899.3 257.0" fill="none" data-name="Mock"></path>
+</g>
+<g transform="translate(16404.25, 165)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Mock">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Mock">
+<a id="src/__test__/mock-extension/extension/types.ts.Mock" xlink:href="src/__test__/mock-extension/extension/types.ts"><text x="239.5" y="13.5" stroke="none" text-anchor="middle" data-name="Mock">Mock</text></a>
+
+</g>
+</g>
+<g transform="translate(16404.25, 196)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Mock">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Mock">
+<text x="0.0" y="13.5" stroke="none" data-name="Mock">+defaultOptions: { sign?: MockSignOptions</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Mock">}</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Mock">+mode: &quot;extension&quot;</text>
+
+</g>
+</g>
+<g transform="translate(16404.25, 257)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Mock">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Mock">
+<text x="0.0" y="13.5" stroke="none" data-name="Mock">+disconnect(): Promise&lt;void&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Mock">+enable(): Promise&lt;void&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Mock">+suggestToken(): Promise&lt;void&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Mock">+suggestCW20Token(): Promise&lt;void&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Mock">+getKey(): Promise&lt;Key&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Mock">+getOfflineSigner(): OfflineAminoSigner &amp; OfflineDirectSigner</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Mock">+getOfflineSignerOnlyAmino(): OfflineAminoSigner</text>
+<text x="0.0" y="118.5" stroke="none" data-name="Mock">+getOfflineSignerAuto(): Promise&lt;OfflineSigner&gt;</text>
+<text x="0.0" y="133.5" stroke="none" data-name="Mock">+signAmino(): Promise&lt;AminoSignResponse&gt;</text>
+<text x="0.0" y="148.5" stroke="none" data-name="Mock">+signDirect(): Promise&lt;DirectSignResponse&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="Mock">+signArbitrary(): Promise&lt;StdSignature&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="Mock">+getEnigmaPubKey(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="Mock">+getEnigmaTxEncryptionKey(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="Mock">+enigmaEncrypt(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="223.5" stroke="none" data-name="Mock">+enigmaDecrypt(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="238.5" stroke="none" data-name="Mock">+sendTx(): Promise&lt;Uint8Array&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="Mock">+experimentalSuggestChain(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ChainWalletCosmiframe">
+<g fill="#eee8d5" stroke="#33322E" data-name="ChainWalletCosmiframe">
+<rect x="1649.0" y="1790.5" height="47.0" width="205.0" data-name="ChainWalletCosmiframe"></rect>
+<path d="M1649.0 1821.5 L1854.0 1821.5" fill="none" data-name="ChainWalletCosmiframe"></path>
+<path d="M1649.0 1829.5 L1854.0 1829.5" fill="none" data-name="ChainWalletCosmiframe"></path>
+</g>
+<g transform="translate(1649, 1790.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ChainWalletCosmiframe">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ChainWalletCosmiframe">
+<a id="src/cosmiframe/extension/chain-wallet.ts.ChainWalletCosmiframe" xlink:href="src/cosmiframe/extension/chain-wallet.ts"><text x="94.5" y="13.5" stroke="none" text-anchor="middle" data-name="ChainWalletCosmiframe">ChainWalletCosmiframe</text></a>
+
+</g>
+</g>
+<g transform="translate(1649, 1821.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletCosmiframe">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ChainWalletCosmiframe">
+
+</g>
+</g>
+<g transform="translate(1649, 1829.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainWalletCosmiframe">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ChainWalletCosmiframe">
+
+</g>
+</g>
+</g>
+<g data-name="CosmiframeClient">
+<g fill="#eee8d5" stroke="#33322E" data-name="CosmiframeClient">
+<rect x="17705.8" y="823.0" height="348.0" width="575.0" data-name="CosmiframeClient"></rect>
+<path d="M17705.8 854.0 L18280.8 854.0" fill="none" data-name="CosmiframeClient"></path>
+<path d="M17705.8 885.0 L18280.8 885.0" fill="none" data-name="CosmiframeClient"></path>
+</g>
+<g transform="translate(17705.75, 823)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CosmiframeClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CosmiframeClient">
+<a id="src/cosmiframe/extension/client.ts.CosmiframeClient" xlink:href="src/cosmiframe/extension/client.ts"><text x="279.5" y="13.5" stroke="none" text-anchor="middle" data-name="CosmiframeClient">CosmiframeClient</text></a>
+
+</g>
+</g>
+<g transform="translate(17705.75, 854)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CosmiframeClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CosmiframeClient">
+<text x="0.0" y="13.5" stroke="none" data-name="CosmiframeClient">+cosmiframe: Cosmiframe</text>
+
+</g>
+</g>
+<g transform="translate(17705.75, 885)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CosmiframeClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CosmiframeClient">
+<text x="0.0" y="13.5" stroke="none" data-name="CosmiframeClient">+getSimpleAccount(): Promise&lt;any&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="CosmiframeClient">+connect(): Promise&lt;any&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="CosmiframeClient">+enable(): Promise&lt;void&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="CosmiframeClient">+suggestToken(): Promise&lt;void&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="CosmiframeClient">+addChain(): Promise&lt;void&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="CosmiframeClient">+getAccount(): Promise&lt;WalletAccount&gt;</text>
+<text x="0.0" y="103.5" stroke="none" data-name="CosmiframeClient">+getOfflineSigner(): CosmiframeDirectSigner | CosmiframeAminoSigner</text>
+<text x="0.0" y="118.5" stroke="none" data-name="CosmiframeClient">+getOfflineSignerAmino(): CosmiframeAminoSigner</text>
+<text x="0.0" y="133.5" stroke="none" data-name="CosmiframeClient">+getOfflineSignerDirect(): CosmiframeDirectSigner</text>
+<text x="0.0" y="148.5" stroke="none" data-name="CosmiframeClient">+sign(): Promise&lt;any&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="CosmiframeClient">+signAmino(): Promise&lt;any&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="CosmiframeClient">+signDirect(): Promise&lt;any&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="CosmiframeClient">+signArbitrary(): Promise&lt;StdSignature&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="CosmiframeClient">+getEnigmaPubKey(): Promise&lt;any&gt;</text>
+<text x="0.0" y="223.5" stroke="none" data-name="CosmiframeClient">+getEnigmaTxEncryptionKey(): Promise&lt;any&gt;</text>
+<text x="0.0" y="238.5" stroke="none" data-name="CosmiframeClient">+enigmaEncrypt(): Promise&lt;any&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="CosmiframeClient">+enigmaDecrypt(): Promise&lt;any&gt;</text>
+<text x="0.0" y="268.5" stroke="none" data-name="CosmiframeClient">+sendTx(): Promise&lt;any&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="CosmiframeWallet">
+<g fill="#eee8d5" stroke="#33322E" data-name="CosmiframeWallet">
+<rect x="2352.8" y="1779.0" height="70.0" width="233.0" data-name="CosmiframeWallet"></rect>
+<path d="M2352.8 1810.0 L2585.8 1810.0" fill="none" data-name="CosmiframeWallet"></path>
+<path d="M2352.8 1818.0 L2585.8 1818.0" fill="none" data-name="CosmiframeWallet"></path>
+</g>
+<g transform="translate(2352.75, 1779)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CosmiframeWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CosmiframeWallet">
+<a id="src/cosmiframe/extension/main-wallet.ts.CosmiframeWallet" xlink:href="src/cosmiframe/extension/main-wallet.ts"><text x="108.5" y="13.5" stroke="none" text-anchor="middle" data-name="CosmiframeWallet">CosmiframeWallet</text></a>
+
+</g>
+</g>
+<g transform="translate(2352.75, 1810)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CosmiframeWallet">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CosmiframeWallet">
+
+</g>
+</g>
+<g transform="translate(2352.75, 1818)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CosmiframeWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CosmiframeWallet">
+<text x="0.0" y="13.5" stroke="none" data-name="CosmiframeWallet">+initClient(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="ChainMockExtension">
+<g fill="#eee8d5" stroke="#33322E" data-name="ChainMockExtension">
+<rect x="2130.8" y="1790.5" height="47.0" width="182.0" data-name="ChainMockExtension"></rect>
+<path d="M2130.8 1821.5 L2312.8 1821.5" fill="none" data-name="ChainMockExtension"></path>
+<path d="M2130.8 1829.5 L2312.8 1829.5" fill="none" data-name="ChainMockExtension"></path>
+</g>
+<g transform="translate(2130.75, 1790.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ChainMockExtension">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ChainMockExtension">
+<a id="src/__test__/mock-extension/extension/chain-wallet.ts.ChainMockExtension" xlink:href="src/__test__/mock-extension/extension/chain-wallet.ts"><text x="83.0" y="13.5" stroke="none" text-anchor="middle" data-name="ChainMockExtension">ChainMockExtension</text></a>
+
+</g>
+</g>
+<g transform="translate(2130.75, 1821.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainMockExtension">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ChainMockExtension">
+
+</g>
+</g>
+<g transform="translate(2130.75, 1829.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ChainMockExtension">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ChainMockExtension">
+
+</g>
+</g>
+</g>
+<g data-name="MockClient">
+<g fill="#eee8d5" stroke="#33322E" data-name="MockClient">
+<rect x="18759.3" y="778.0" height="438.0" width="489.0" data-name="MockClient"></rect>
+<path d="M18759.3 809.0 L19248.3 809.0" fill="none" data-name="MockClient"></path>
+<path d="M18759.3 855.0 L19248.3 855.0" fill="none" data-name="MockClient"></path>
+</g>
+<g transform="translate(18759.25, 778)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="MockClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MockClient">
+<a id="src/__test__/mock-extension/extension/client.ts.MockClient" xlink:href="src/__test__/mock-extension/extension/client.ts"><text x="236.5" y="13.5" stroke="none" text-anchor="middle" data-name="MockClient">MockClient</text></a>
+
+</g>
+</g>
+<g transform="translate(18759.25, 809)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockClient">
+<text x="0.0" y="13.5" stroke="none" data-name="MockClient">+abstract client: Mock</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MockClient">+_defaultSignOptions: SignOptions</text>
+
+</g>
+</g>
+<g transform="translate(18759.25, 855)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockClient">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockClient">
+<text x="0.0" y="13.5" stroke="none" data-name="MockClient">+setDefaultSignOptions(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MockClient">+enable(): Promise&lt;void&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="MockClient">+suggestToken(): Promise&lt;void&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="MockClient">+addChain(): Promise&lt;void&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="MockClient">+disconnect(): Promise&lt;void&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="MockClient">+getSimpleAccount(): Promise&lt;{ namespace: string</text>
+<text x="0.0" y="103.5" stroke="none" data-name="MockClient">chainId: string</text>
+<text x="0.0" y="118.5" stroke="none" data-name="MockClient">address: string</text>
+<text x="0.0" y="133.5" stroke="none" data-name="MockClient">username: string</text>
+<text x="0.0" y="148.5" stroke="none" data-name="MockClient">}&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="MockClient">+getAccount(): Promise&lt;{ username: string</text>
+<text x="0.0" y="178.5" stroke="none" data-name="MockClient">address: string</text>
+<text x="0.0" y="193.5" stroke="none" data-name="MockClient">algo: Algo</text>
+<text x="0.0" y="208.5" stroke="none" data-name="MockClient">pubkey: Uint8Array</text>
+<text x="0.0" y="223.5" stroke="none" data-name="MockClient">isNanoLedger: boolean</text>
+<text x="0.0" y="238.5" stroke="none" data-name="MockClient">}&gt;</text>
+<text x="0.0" y="253.5" stroke="none" data-name="MockClient">+getOfflineSigner(): OfflineAminoSigner | OfflineDirectSigner</text>
+<text x="0.0" y="268.5" stroke="none" data-name="MockClient">+getOfflineSignerAmino(): OfflineAminoSigner</text>
+<text x="0.0" y="283.5" stroke="none" data-name="MockClient">+getOfflineSignerDirect(): OfflineDirectSigner</text>
+<text x="0.0" y="298.5" stroke="none" data-name="MockClient">+signAmino(): Promise&lt;AminoSignResponse&gt;</text>
+<text x="0.0" y="313.5" stroke="none" data-name="MockClient">+signArbitrary(): Promise&lt;StdSignature&gt;</text>
+<text x="0.0" y="328.5" stroke="none" data-name="MockClient">+signDirect(): Promise&lt;DirectSignResponse&gt;</text>
+<text x="0.0" y="343.5" stroke="none" data-name="MockClient">+sendTx(): Promise&lt;Uint8Array&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="MockExtensionWallet">
+<g fill="#eee8d5" stroke="#33322E" data-name="MockExtensionWallet">
+<rect x="2842.8" y="1779.0" height="70.0" width="233.0" data-name="MockExtensionWallet"></rect>
+<path d="M2842.8 1810.0 L3075.8 1810.0" fill="none" data-name="MockExtensionWallet"></path>
+<path d="M2842.8 1818.0 L3075.8 1818.0" fill="none" data-name="MockExtensionWallet"></path>
+</g>
+<g transform="translate(2842.75, 1779)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="MockExtensionWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MockExtensionWallet">
+<a id="src/__test__/mock-extension/extension/main-wallet.ts.MockExtensionWallet" xlink:href="src/__test__/mock-extension/extension/main-wallet.ts"><text x="108.5" y="13.5" stroke="none" text-anchor="middle" data-name="MockExtensionWallet">MockExtensionWallet</text></a>
+
+</g>
+</g>
+<g transform="translate(2842.75, 1810)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockExtensionWallet">
+<g transform="translate(8, 8)" fill="#33322E" data-name="MockExtensionWallet">
+
+</g>
+</g>
+<g transform="translate(2842.75, 1818)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockExtensionWallet">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockExtensionWallet">
+<text x="0.0" y="13.5" stroke="none" data-name="MockExtensionWallet">+initClient(): Promise&lt;void&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="MockSignOptions">
+<g fill="lightblue" stroke="#33322E" data-name="MockSignOptions">
+<rect x="19284.3" y="296.5" height="100.0" width="350.0" data-name="MockSignOptions"></rect>
+<path d="M19284.3 327.5 L19634.3 327.5" fill="none" data-name="MockSignOptions"></path>
+<path d="M19284.3 388.5 L19634.3 388.5" fill="none" data-name="MockSignOptions"></path>
+</g>
+<g transform="translate(19284.25, 296.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockSignOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MockSignOptions">
+<a id="src/__test__/mock-extension/extension/types.ts.MockSignOptions" xlink:href="src/__test__/mock-extension/extension/types.ts"><text x="167.0" y="13.5" stroke="none" text-anchor="middle" data-name="MockSignOptions">MockSignOptions</text></a>
+
+</g>
+</g>
+<g transform="translate(19284.25, 327.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockSignOptions">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockSignOptions">
+<text x="0.0" y="13.5" stroke="none" data-name="MockSignOptions">+abstract preferNoSetFee?: boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="MockSignOptions">+abstract preferNoSetMemo?: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="MockSignOptions">+abstract disableBalanceCheck?: boolean</text>
+
+</g>
+</g>
+<g transform="translate(19284.25, 388.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockSignOptions">
+<g transform="translate(8, 8)" fill="#33322E" data-name="MockSignOptions">
+
+</g>
+</g>
+</g>
+<g data-name="MockWindow">
+<g fill="lightblue" stroke="#33322E" data-name="MockWindow">
+<rect x="19674.3" y="311.5" height="70.0" width="130.0" data-name="MockWindow"></rect>
+<path d="M19674.3 342.5 L19804.3 342.5" fill="none" data-name="MockWindow"></path>
+<path d="M19674.3 373.5 L19804.3 373.5" fill="none" data-name="MockWindow"></path>
+</g>
+<g transform="translate(19674.25, 311.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockWindow">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="MockWindow">
+<a id="src/__test__/mock-extension/extension/utils.ts.MockWindow" xlink:href="src/__test__/mock-extension/extension/utils.ts"><text x="57.0" y="13.5" stroke="none" text-anchor="middle" data-name="MockWindow">MockWindow</text></a>
+
+</g>
+</g>
+<g transform="translate(19674.25, 342.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockWindow">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="MockWindow">
+<text x="0.0" y="13.5" stroke="none" data-name="MockWindow">+mock?: Mock</text>
+
+</g>
+</g>
+<g transform="translate(19674.25, 373.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="MockWindow">
+<g transform="translate(8, 8)" fill="#33322E" data-name="MockWindow">
+
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

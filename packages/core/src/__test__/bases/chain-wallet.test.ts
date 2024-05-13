@@ -5,8 +5,24 @@ import { chains, assets } from 'chain-registry'
 import { AssetList, Chain } from "@chain-registry/types";
 import { ChainWalletBase } from '../../bases';
 import { ChainRecord, Endpoints, State } from '../../types';
+import nock from 'nock'
 
-
+const stargateClientConnectMock = jest.fn()
+jest.mock('@cosmjs/stargate', () => {
+  return {
+    StargateClient: {
+      connect: stargateClientConnectMock
+    }
+  }
+})
+const cosmwasmClientConnectMock = jest.fn()
+jest.mock('@cosmjs/cosmwasm-stargate', () => {
+  return {
+    CosmWasmClient: {
+      connect: cosmwasmClientConnectMock
+    }
+  }
+})
 
 function storageMock() {
   let storage = {};
@@ -47,13 +63,30 @@ describe('ChainWalletBase', () => {
   let chainRecordMock: ChainRecord;
   let stargateMock: StargateClientOptions = expect.any(Object);
   let signingCosmwasmMock: SigningCosmWasmClientOptions = expect.any(Object);
+
+  const slowRpcURL = 'http://fake-rpc-endpoint.slow'
+  const fastRpcURL = 'http://fake-rpc-endpoint.fast'
+  const slowRestURL = 'http://fake-rest-endpoint.slow'
+  const fastRestURL = 'http://fake-rest-endpoint.fast'
+
+  beforeEach(() => {
+    nock(slowRestURL).get('/cosmos/base/tendermint/v1beta1/node_info').delayConnection(5).reply(200, 'ok')
+    nock(fastRestURL).get('/cosmos/base/tendermint/v1beta1/node_info').reply(200, 'ok')
+    nock(slowRpcURL).post('/').delayConnection(5).reply(200, 'ok')
+    nock(fastRpcURL).post('/').reply(200, 'ok')
+  })
+
+  afterAll(() => {
+    nock.restore()
+  })
+
   beforeEach(() => {
     chainMock = chains.find((c) => c.chain_name === 'osmosis') as Chain;
     assetListMock = assets.find((a) => a.chain_name === 'osmosis') as AssetList;
     preferredEndpointsMock = {
       isLazy: false,
-      rpc: ['http://rpc.testnet.osmosis.zone:26657'],
-      rest: ['http://rest.testnet.osmosis.zone:1317']
+      rpc: [slowRpcURL, fastRpcURL],
+      rest: [slowRestURL, fastRestURL]
     }
     chainRecordMock = {
       name: 'osmosis-testnet',
@@ -103,7 +136,7 @@ describe('ChainWalletBase', () => {
       rpc: ['http://rpc.testnet.osmosis.zone:26657'],
     }
     chainWallet.addEndpoints(newEndpoints);
-    expect(chainWallet.preferredEndpoints.rpc?.length).toEqual(2);
+    expect(chainWallet.preferredEndpoints.rpc?.length).toEqual(3);
   })
 
   it('should have the correct chain name', () => {
@@ -160,7 +193,6 @@ describe('ChainWalletBase', () => {
     };
     chainWallet.setData(mockData)
     expect(chainWallet.namespace).toBe(mockData.namespace);
-
   })
 
   it('should set Data correctly', () => {
@@ -170,8 +202,10 @@ describe('ChainWalletBase', () => {
       address: 'cosmos1...'
     };
 
+    const localStorageSetItemMock = jest.spyOn(window.localStorage, 'setItem');
     chainWallet.setData(data);
     expect(chainWallet.mutable.data).toEqual(data);
+    expect(localStorageSetItemMock).toHaveBeenCalled()
     expect(window.localStorage.getItem('cosmos-kit@2:core//accounts')).toEqual(JSON.stringify([data]));
   })
 
@@ -185,15 +219,61 @@ describe('ChainWalletBase', () => {
       chainId: 'cosmoshub-4',
       address: 'cosmos1...'
     };
-
     jest.spyOn(chainWallet, 'client', 'get').mockReturnValue({
       getSimpleAccount: jest.fn().mockResolvedValue(mockData),
     });
-    expect(chainWallet.state).toBe(State.Init);
+    const setStateMock = jest.spyOn(chainWallet, 'setState')
     await chainWallet.update();
-    expect(chainWallet.state).toBe(State.Done);
+
+    expect(setStateMock.mock.calls[0][0]).toBe(State.Pending);
+    expect(setStateMock.mock.calls[1][0]).toBe(State.Done);
     expect(chainWallet.data.namespace).toBe(mockData.namespace);
   });
 
+  it('should set error state when update failed', async () => {
+    const errorMessageFromWalletInfo = (walletInfo.rejectMessage as { source: string }).source
+    const mockError = new Error(errorMessageFromWalletInfo);
+    jest.spyOn(chainWallet, 'client', 'get').mockReturnValue({
+      getSimpleAccount: jest.fn().mockRejectedValue(mockError),
+    })
+    expect(chainWallet.state).toBe(State.Init);
+    await chainWallet.update();
+    expect(chainWallet.state).toBe(State.Error);
+    expect(chainWallet.rejectMessageSource).toBe(errorMessageFromWalletInfo);
+    expect(chainWallet.rejectMatched(mockError)).toBeTruthy()
+  });
+
+  it('should call connectChains when update passing connect: true', () => {
+    const connectChainsMockFn = jest.fn()
+    chainWallet.connectChains = connectChainsMockFn;
+    chainWallet.update({ connect: true });
+    expect(connectChainsMockFn).toHaveBeenCalled()
+  })
+
+  it('should get rpc endpoint', async () => {
+    expect(await chainWallet.getRpcEndpoint(true)).toBe(slowRpcURL);
+  })
+
+  it('should get rest endpoint', async () => {
+    expect(await chainWallet.getRestEndpoint(true)).toBe(slowRestURL);
+  })
+
+  it('should get fastest rpc endpoint', async () => {
+    expect(await chainWallet.getRpcEndpoint()).toBe(fastRpcURL);
+  })
+
+  it('should get fastest rest endpoint', async () => {
+    expect(await chainWallet.getRestEndpoint()).toBe(fastRestURL);
+  })
+
+  it('should call getStargateClient correctly', async () => {
+    await chainWallet.getStargateClient()
+    expect(stargateClientConnectMock).toHaveBeenCalledWith(fastRpcURL, stargateMock)
+  })
+
+  it('should call getCosmWasmClient correctly', async () => {
+    await chainWallet.getCosmWasmClient()
+    expect(cosmwasmClientConnectMock).toHaveBeenCalledWith(fastRpcURL)
+  })
 
 });
