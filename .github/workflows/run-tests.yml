@@ -9,16 +9,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  wallet-tests:
+  run-tests:
     runs-on: ubuntu-latest
     steps:
       - name: checkout 🛎️
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v4
+
       - name: node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18.17.0
-      - name: deps
-        run: yarn
-      - name: build
-        run: yarn build
+          node-version: 20.9.0
+
+      - name: Deps
+        run: |
+          yarn
+          yarn build
+
+      - name: Test
+        run: |
+          cd packages/core && yarn test
