@@ -11,6 +11,7 @@ export const mockExtensionInfo: Wallet = {
   rejectMessage: {
     source: 'Request rejected',
   },
+  rejectCode: 404,
   connectEventNamesOnWindow: ['mock_keystorechange'],
   downloads: [
     {

@@ -47,7 +47,8 @@
     "format": "eslint --ext .tsx,.ts --fix .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
+    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
+    "test:coverage": "jest --coverage"
   },
   "publishConfig": {
     "access": "public"
@@ -79,7 +80,8 @@
     "cosmjs-types": "^0.9.0",
     "events": "3.3.0",
     "uuid": "^9.0.1",
-    "@chain-registry/types": "^0.29.0"
+    "@chain-registry/types": "^0.29.0",
+    "nock": "13.5.4"
   },
   "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
