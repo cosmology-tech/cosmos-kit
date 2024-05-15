@@ -1,14 +1,15 @@
 import { Decimal } from '@cosmjs/math';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { CosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { calculateFee, SigningStargateClient, StargateClientOptions } from '@cosmjs/stargate';
+import { StargateClientOptions } from '@cosmjs/stargate';
 import { mockExtensionInfo as walletInfo } from '../../test-utils/mock-extension/extension/registry';
 import { chains, assets } from 'chain-registry'
 import { AssetList, Chain } from "@chain-registry/types";
 import { ChainWalletBase } from '../../src/bases/chain-wallet';
-import { ChainRecord, Endpoints, State, WalletClient } from '../../src/types';
+import { ChainRecord, Endpoints, State } from '../../src/types';
 import nock from 'nock'
 import { nameServiceRegistries } from '../../src/config';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 
 
@@ -373,5 +374,71 @@ describe('ChainWalletBase', () => {
     expect(simulateMock).toBeCalledWith("cosmos1...", encode, expect.any(String))
     expect(stargateCalculateFeeMock).toBeCalledWith(5 * 10000, stargateGasPrice)
   })
+
+  it('should call sign correctly', async () => {
+    const encode: EncodeObject[] = [{
+      typeUrl: 'typeUrl',
+      value: 'value'
+    }]
+    expect(() => chainWallet.sign(encode)).rejects.toThrow('Address is required to estimate fee. Try connect to fetch address.')
+
+    const signMock = jest.fn()
+    const estimateFee = { amount: { denom: 'uatom', amount: 1000 } } as any
+    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
+      sign: signMock
+    } as any)
+    jest.spyOn(chainWallet, 'address', 'get').mockReturnValue('cosmos1...')
+    jest.spyOn(chainWallet, 'estimateFee').mockResolvedValue(estimateFee)
+
+    await chainWallet.sign(encode, 1000, 'memo', 'stargate')
+    expect(signMock).toBeCalledWith('cosmos1...', encode, estimateFee, 'memo')
+
+    const fee = { amount: [{ denom: 'uatom', amount: '100000' }], gas: 'gas' }
+    await chainWallet.sign(encode, fee, 'memo', 'stargate')
+    expect(signMock).toBeCalledWith('cosmos1...', encode, fee, 'memo')
+  })
+
+
+  it('should call broadcast correctly', async () => {
+    const broadcastTxMock = jest.fn()
+    const txRaw = { typeUrl: 'typeUrl' } as unknown as TxRaw
+    const signingStargateOptions = {
+      broadcastTimeoutMs: 1,
+      broadcastPollIntervalMs: 11
+    }
+
+    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
+      broadcastTx: broadcastTxMock
+    } as any)
+    jest.mock('cosmjs-types/cosmos/tx/v1beta1/tx', () => ({
+      TxRaw: {
+        encode: jest.fn().mockImplementation(() => ({
+          finish: jest.fn().mockReturnValue('txRaw')
+        }))
+      }
+    }))
+    jest.spyOn(chainWallet, 'signingStargateOptions', 'get').mockReturnValue(signingStargateOptions)
+
+    await chainWallet.broadcast(txRaw)
+    expect(broadcastTxMock).toBeCalledWith(
+      'txRaw',
+      signingStargateOptions.broadcastTimeoutMs,
+      signingStargateOptions.broadcastPollIntervalMs
+    )
+  })
+
+  it('should call signAndBroadcast correctly', async () => {
+    const encode: EncodeObject[] = [{
+      typeUrl: 'typeUrl',
+      value: 'value'
+    }]
+    chainWallet.sign = jest.fn().mockResolvedValue('txRaw')
+    chainWallet.broadcast = jest.fn()
+    await chainWallet.signAndBroadcast(encode, 1000, 'memo', 'stargate')
+
+    expect(chainWallet.sign).toBeCalledWith(encode, 1000, 'memo', 'stargate')
+    expect(chainWallet.broadcast).toBeCalledWith('txRaw', 'stargate')
+  })
+
 });
 
