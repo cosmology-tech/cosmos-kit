@@ -2,7 +2,7 @@ import { Decimal } from '@cosmjs/math';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { CosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
 import { calculateFee, SigningStargateClient, StargateClientOptions } from '@cosmjs/stargate';
-import { mockExtensionInfo as walletInfo } from '../mock-extension/extension/registry';
+import { mockExtensionInfo as walletInfo } from '../../test-utils/mock-extension/extension/registry';
 import { chains, assets } from 'chain-registry'
 import { AssetList, Chain } from "@chain-registry/types";
 import { ChainWalletBase } from '../../bases/chain-wallet';
