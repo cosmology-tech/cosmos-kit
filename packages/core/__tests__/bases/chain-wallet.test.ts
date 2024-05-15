@@ -1,28 +1,16 @@
-import { SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
-import { StargateClientOptions } from '@cosmjs/stargate';
-import { mockExtensionInfo as walletInfo } from '../mock-extension/extension/registry';
+import { Decimal } from '@cosmjs/math';
+import { EncodeObject } from '@cosmjs/proto-signing';
+import { CosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
+import { calculateFee, SigningStargateClient, StargateClientOptions } from '@cosmjs/stargate';
+import { mockExtensionInfo as walletInfo } from '../../test-utils/mock-extension/extension/registry';
 import { chains, assets } from 'chain-registry'
 import { AssetList, Chain } from "@chain-registry/types";
-import { ChainWalletBase } from '../../bases';
-import { ChainRecord, Endpoints, State } from '../../types';
+import { ChainWalletBase } from '../../src/bases/chain-wallet';
+import { ChainRecord, Endpoints, State, WalletClient } from '../../src/types';
 import nock from 'nock'
+import { nameServiceRegistries } from '../../src/config';
 
-const stargateClientConnectMock = jest.fn()
-jest.mock('@cosmjs/stargate', () => {
-  return {
-    StargateClient: {
-      connect: stargateClientConnectMock
-    }
-  }
-})
-const cosmwasmClientConnectMock = jest.fn()
-jest.mock('@cosmjs/cosmwasm-stargate', () => {
-  return {
-    CosmWasmClient: {
-      connect: cosmwasmClientConnectMock
-    }
-  }
-})
+
 
 function storageMock() {
   let storage = {};
@@ -64,6 +52,39 @@ describe('ChainWalletBase', () => {
   let stargateMock: StargateClientOptions = expect.any(Object);
   let signingCosmwasmMock: SigningCosmWasmClientOptions = expect.any(Object);
 
+  const stargateClientConnectMock = jest.fn()
+  const stargateClientConnectWithSignerMock = jest.fn()
+  const stargateCalculateFeeMock = jest.fn()
+  jest.mock('@cosmjs/stargate', () => {
+    return {
+      StargateClient: {
+        connect: stargateClientConnectMock,
+      },
+      SigningStargateClient: {
+        connectWithSigner: stargateClientConnectWithSignerMock
+      },
+      calculateFee: stargateCalculateFeeMock
+    }
+  })
+  const cosmwasmClientConnectMock = jest.fn()
+  const cosmwasmClientConnectWithSignerMock = jest.fn()
+  jest.mock('@cosmjs/cosmwasm-stargate', () => {
+    return {
+      CosmWasmClient: {
+        connect: cosmwasmClientConnectMock
+      },
+      SigningCosmWasmClient: {
+        connectWithSigner: cosmwasmClientConnectWithSignerMock
+      }
+    }
+  })
+  const NameServiceMock = jest.fn()
+  jest.mock('../../src/name-service.ts', () => {
+    return {
+      NameService: NameServiceMock
+    }
+  })
+
   const slowRpcURL = 'http://fake-rpc-endpoint.slow'
   const fastRpcURL = 'http://fake-rpc-endpoint.fast'
   const slowRestURL = 'http://fake-rest-endpoint.slow'
@@ -89,7 +110,7 @@ describe('ChainWalletBase', () => {
       rest: [slowRestURL, fastRestURL]
     }
     chainRecordMock = {
-      name: 'osmosis-testnet',
+      name: 'osmosis',
       chain: chainMock,
       assetList: assetListMock,
       preferredEndpoints: preferredEndpointsMock,
@@ -111,7 +132,7 @@ describe('ChainWalletBase', () => {
   });
 
   it('should have the correct isTestNet', () => {
-    expect(chainWallet.isTestNet).toBeTruthy();
+    expect(chainWallet.isTestNet).toBeFalsy();
   })
 
   it('should have the correct preferred endpoints', () => {
@@ -276,4 +297,81 @@ describe('ChainWalletBase', () => {
     expect(cosmwasmClientConnectMock).toHaveBeenCalledWith(fastRpcURL)
   })
 
+  it('should call getNameService correctly', async () => {
+    const clientMock = expect.any(CosmWasmClient)
+    chainWallet.getCosmWasmClient = jest.fn().mockResolvedValue(clientMock)
+    await chainWallet.getNameService()
+    expect(NameServiceMock).toBeCalledWith(clientMock, nameServiceRegistries[0])
+  })
+
+  it('should call initOfflineSigner correctly', async () => {
+    expect(() => chainWallet.initOfflineSigner()).rejects.toThrow('WalletClient is not initialized')
+    //mock initial client
+    const walletClient = {
+      getSimpleAccount: jest.fn(),
+      getOfflineSigner: jest.fn(),
+    }
+    jest.spyOn(chainWallet, 'client', 'get').mockReturnValue(walletClient);
+    await chainWallet.initOfflineSigner('amino')
+    expect(chainWallet.preferredSignType).toBe('amino')
+    expect(chainWallet.client.getOfflineSigner).toHaveBeenCalledWith(chainWallet.chainId, 'amino')
+  })
+
+  it('should call getSigningStargateClient correctly', async () => {
+    //mock initial client
+    const walletClient = {
+      getSimpleAccount: jest.fn(),
+      getOfflineSigner: jest.fn(),
+    }
+    chainWallet.offlineSigner = { getAccounts: jest.fn(), signAmino: jest.fn() }
+    jest.spyOn(chainWallet, 'client', 'get').mockReturnValue(walletClient);
+    await chainWallet.getSigningStargateClient()
+    expect(stargateClientConnectWithSignerMock).toBeCalledWith(fastRpcURL, chainWallet.offlineSigner, signingCosmwasmMock)
+  })
+
+  it('should call getSigningCosmWasmClient correctly', async () => {
+    //mock initial client
+    const walletClient = {
+      getSimpleAccount: jest.fn(),
+      getOfflineSigner: jest.fn(),
+    }
+    jest.spyOn(chainWallet, 'client', 'get').mockReturnValue(walletClient);
+
+    //without offlineSigner
+    chainWallet.initOfflineSigner = jest.fn()
+    await chainWallet.getSigningCosmWasmClient()
+    expect(chainWallet.initOfflineSigner).toBeCalled()
+
+    //with offlineSigner
+    chainWallet.offlineSigner = { getAccounts: jest.fn(), signAmino: jest.fn() }
+    await chainWallet.getSigningCosmWasmClient()
+    expect(cosmwasmClientConnectWithSignerMock).toBeCalledWith(fastRpcURL, chainWallet.offlineSigner, signingCosmwasmMock)
+  })
+
+  it('should call estimateFee correctly', async () => {
+    const encode: EncodeObject[] = [{
+      typeUrl: 'typeUrl',
+      value: 'value'
+    }]
+    expect(() => chainWallet.estimateFee(encode)).rejects.toThrow('Address is required to estimate fee. Try connect to fetch address.')
+
+    jest.spyOn(chainWallet, 'address', 'get').mockReturnValue('cosmos1...')
+    expect(() => chainWallet.estimateFee(encode)).rejects.toThrow("Gas price must be set in the client options when auto gas is used.")
+
+    const stargateGasPrice = {
+      amount: expect.any(Decimal),
+      denom: 'uatom'
+    }
+    const simulateMock = jest.fn().mockResolvedValue(10000)
+    jest.spyOn(chainWallet, 'signingStargateOptions', 'get').mockReturnValue({
+      gasPrice: stargateGasPrice
+    })
+    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
+      simulate: simulateMock
+    } as any)
+    await chainWallet.estimateFee(encode, 'stargate', 'memo', 5)
+    expect(simulateMock).toBeCalledWith("cosmos1...", encode, expect.any(String))
+    expect(stargateCalculateFeeMock).toBeCalledWith(5 * 10000, stargateGasPrice)
+  })
 });
+
