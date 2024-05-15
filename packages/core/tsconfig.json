@@ -4,6 +4,6 @@
     "baseUrl": ".",
     "rootDir": "src"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "__tests__", "test-utils"],
+  "exclude": ["dist", "node_modules", "**/*.spec.*", "**/*.test.*"]
 }

@@ -5,10 +5,10 @@ import { calculateFee, SigningStargateClient, StargateClientOptions } from '@cos
 import { mockExtensionInfo as walletInfo } from '../../test-utils/mock-extension/extension/registry';
 import { chains, assets } from 'chain-registry'
 import { AssetList, Chain } from "@chain-registry/types";
-import { ChainWalletBase } from '../../bases/chain-wallet';
-import { ChainRecord, Endpoints, State, WalletClient } from '../../types';
+import { ChainWalletBase } from '../../src/bases/chain-wallet';
+import { ChainRecord, Endpoints, State, WalletClient } from '../../src/types';
 import nock from 'nock'
-import { nameServiceRegistries } from '../../config';
+import { nameServiceRegistries } from '../../src/config';
 
 
 
@@ -79,7 +79,7 @@ describe('ChainWalletBase', () => {
     }
   })
   const NameServiceMock = jest.fn()
-  jest.mock('../../name-service.ts', () => {
+  jest.mock('../../src/name-service.ts', () => {
     return {
       NameService: NameServiceMock
     }
