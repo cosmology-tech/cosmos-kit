@@ -7067,22 +7067,22 @@
     "@stablelib/random" "^1.0.2"
     "@stablelib/wipe" "^1.0.1"
 
-"@starship-ci/cli@1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@starship-ci/cli/-/cli-1.8.0.tgz#9bee594a0f70c6dd4e9f1b70a67caed4474e9b48"
-  integrity sha512-O1hytlAxE4VR95McQKQTe72m2GjBtQmCYQJ0GjVjjxMWCZq+IdAJ4LMdbeaeRlKHVo/QyEN4v9MnTStx2XF3qA==
+"@starship-ci/cli@1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@starship-ci/cli/-/cli-1.9.0.tgz#3bfc5ac2b8734733a747e4d3594ffbf8f738bb21"
+  integrity sha512-354TRwgqtWLq+YwYhxnkOTiGLr4/HEEJdg1+tFKOI4zb2xe4hEpfWeDSJq7YnyzMs33BTUEV14tItp39EsOWew==
   dependencies:
-    "@starship-ci/client" "^1.5.0"
+    "@starship-ci/client" "^1.6.0"
     chalk "^4.1.0"
     deepmerge "^4.3.1"
     inquirerer "^1.9.0"
     js-yaml "^4.1.0"
     minimist "^1.2.8"
 
-"@starship-ci/client@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@starship-ci/client/-/client-1.5.0.tgz#866e84b76781ca6c5c6239913c1f39e6f0f89c44"
-  integrity sha512-i+d/0IC051Ai4Xk0f6V2PEzo6UTcZEtejecAF9egqgkAA56x67b3mYh43MpMYwG7tJzZKonQXU5XemqS/hxU8g==
+"@starship-ci/client@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@starship-ci/client/-/client-1.6.0.tgz#177afcf7deb9e10ce2f8fa6df919184a04c15abd"
+  integrity sha512-wg+CEl/6v42FGyyUXIVurlOL4jkDL+goGBxR3HP+B+CEJ3Ebyc4HmqAGgO8fOJuJNVkKIoe13aKT+J8NabwD1g==
   dependencies:
     chalk "^4.1.0"
     deepmerge "^4.3.1"
@@ -18223,10 +18223,10 @@ stack-utils@^2.0.3:
   dependencies:
     escape-string-regexp "^2.0.0"
 
-starshipjs@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/starshipjs/-/starshipjs-1.2.0.tgz#e59fd69ea82ce6e9a7c856b053aff971fe809948"
-  integrity sha512-k4pVxvNhcqYyiSyU9e+L+6NggjjeYyrnv17aNwKgRPzBMWjZb+yt0m6Tlf3oiAl6bhxF3w9NIScfVKeF+hAagQ==
+starshipjs@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/starshipjs/-/starshipjs-1.4.0.tgz#6df1230d98ff04e02eb3f25a6c265d4312cb82c5"
+  integrity sha512-GBJlrArYSDxaQ53dFh3g2jJhENp3YWGkTHx+Gy/hWqwnozaTAC5l0nGp5bArTpSyeP+Wy7EwkI/iv4sWwWxfdw==
   dependencies:
     "@chain-registry/client" "1.18.1"
     js-yaml "^4.1.0"
