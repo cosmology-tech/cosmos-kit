@@ -1,0 +1,29 @@
+chains:
+  - name: cosmos-2
+    type: cosmos
+    numValidators: 1
+    ports:
+      rest: 1313
+      rpc: 26653
+      faucet: 8003
+    resources:
+      cpu: '0.2'
+      memory: '200M'
+registry:
+  enabled: true
+  ports:
+    rest: 8081
+    grpc: 9091
+  resources:
+    cpu: '0.1'
+    memory: '100M'
+
+exposer:
+  resources:
+    cpu: '0.1'
+    memory: '100M'
+
+faucet:
+  resources:
+    cpu: '0.1'
+    memory: '100M'

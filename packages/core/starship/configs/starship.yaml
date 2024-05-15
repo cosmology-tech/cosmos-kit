@@ -1,0 +1,3 @@
+helmName: cosmo-kit-test
+helmFile: ./config.yaml
+helmVersion: v0.1.38

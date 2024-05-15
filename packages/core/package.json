@@ -48,7 +48,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "starship": "starship --config ./starship/configs/starship.yaml",
+    "starship:test": "jest --config ./jest.starship.config.js --verbose --bail",
+    "starship:debug": "jest --config ./jest.starship.config.js --runInBand --verbose --bail",
+    "starship:watch": "jest --watch --config ./jest.starship.config.js"
   },
   "publishConfig": {
     "access": "public"
@@ -82,6 +86,11 @@
     "uuid": "^9.0.1",
     "@chain-registry/types": "^0.29.0",
     "nock": "13.5.4"
+  },
+  "devDependencies": {
+    "osmojs": "16.14.0",
+    "@starship-ci/cli": "1.8.0",
+    "starshipjs": "^1.2.0"
   },
   "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
