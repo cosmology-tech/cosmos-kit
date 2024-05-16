@@ -13,7 +13,7 @@ describe('Test clients', () => {
   let client;
 
   beforeAll(async () => {
-    const { getRpcEndpoint } = useChain('cosmoshub');
+    const { getRpcEndpoint } = useChain('cosmos');
     client = await StargateClient.connect(getRpcEndpoint());
   });
 
