@@ -1191,6 +1191,13 @@
     "@keplr-wallet/crypto" "0.12.28"
     semver "^7.5.0"
 
+"@chain-registry/types@0.17.0":
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.17.0.tgz#bbe9176a6d30a491259fab1fcdcee2b7edf6141f"
+  integrity sha512-lavACU4oDxioUy8lZOFZN0Vrr2qR+Dg2yEh/mkrPfOldcioavREXJou0elDyyXwq4pGLC5YQ+IISCtQ4Du0bdw==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+
 "@chain-registry/types@^0.17.0", "@chain-registry/types@^0.17.1":
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.17.1.tgz#0ac7bda6178d3917834578627f232a247fe5def8"
@@ -3624,10 +3631,10 @@
     utf-8-validate "^5.0.5"
     ws "^7.5.9"
 
-"@hexxagon/station-connector@^1.0.16-beta.0":
-  version "1.0.16-beta.0"
-  resolved "https://registry.yarnpkg.com/@hexxagon/station-connector/-/station-connector-1.0.16-beta.0.tgz#e1938e04484fae54b2bea77358b21ddbd5daeb30"
-  integrity sha512-QcQRohsrYtlMkpEOC1dH28pqFs51Cig6cqMWVp01GNnUcJsFev9lKqAlhcsSO7VGVYbIz+cA30PdOZatECZKvA==
+"@hexxagon/station-connector@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@hexxagon/station-connector/-/station-connector-1.0.17.tgz#59734345a2c84437622e6f100a9498f8d99bd470"
+  integrity sha512-VrwCSHUvLtJB93vyJeY1qI6zrDQC7RsxCylYMTU3QL7IJEAOVOdHkj29UmW+HdfrgiVnJhZx9yKuc/582DSZYw==
   dependencies:
     bech32 "^2.0.0"
 

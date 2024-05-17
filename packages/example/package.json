@@ -30,7 +30,7 @@
     "@cosmos-kit/core": "^2.10.0",
     "@cosmos-kit/cosmostation": "^2.8.0",
     "@cosmos-kit/fin": "^2.8.0",
-    "@cosmos-kit/galaxy-station": "^2.6.2",
+    "@cosmos-kit/galaxy-station": "^2.6.3",
     "@cosmos-kit/ins": "^2.1.6",
     "@cosmos-kit/keplr": "^2.8.0",
     "@cosmos-kit/leap": "^2.8.0",
