@@ -24,7 +24,8 @@ export class KeplrMobileWallet extends WCWallet {
   async initClient(options?: WalletConnectOptions): Promise<void> {
     try {
       const keplr = await getKeplrFromExtension();
-      if (keplr) {
+      const userAgent: string | undefined = window.navigator.userAgent;
+      if (keplr && userAgent.includes('KeplrWalletMobile')) {
         this.initClientDone(
           keplr ? new ExtensionKeplrClient(keplr) : undefined
         );
