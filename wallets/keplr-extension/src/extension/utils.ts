@@ -1,39 +1,27 @@
-import { ClientNotExistError } from '@cosmos-kit/core';
 import { Keplr, Window as KeplrWindow } from '@keplr-wallet/types';
 
 export const getKeplrFromExtension: () => Promise<
   Keplr | undefined
 > = async () => {
   if (typeof window === 'undefined') {
-    return void 0;
+    return undefined;
   }
 
-  const keplr = (window as KeplrWindow).keplr;
-
-  if (keplr) {
-    return keplr;
+  if ((window as KeplrWindow).keplr) {
+    return (window as KeplrWindow).keplr;
   }
 
   if (document.readyState === 'complete') {
-    if (keplr) {
-      return keplr;
-    } else {
-      throw ClientNotExistError;
-    }
+    return (window as KeplrWindow).keplr;
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const documentStateChange = (event: Event) => {
       if (
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        const keplr = (window as KeplrWindow).keplr;
-        if (keplr) {
-          resolve(keplr);
-        } else {
-          reject(ClientNotExistError.message);
-        }
+        resolve((window as KeplrWindow).keplr);
         document.removeEventListener('readystatechange', documentStateChange);
       }
     };

@@ -33,6 +33,20 @@ export const keplrMobileInfo: Wallet = {
     projectId:
       '6adb6082c909901b9e7189af3a4a0223102cd6f8d5c39e39f3d49acb92b578bb',
     encoding: 'base64',
+    requiredNamespaces: {
+      methods: [
+        'cosmos_getAccounts',
+        'cosmos_signDirect',
+        'cosmos_signAmino',
+        'keplr_getKey',
+        'keplr_signAmino',
+        'keplr_signDirect',
+        'keplr_signArbitrary',
+        'keplr_enable',
+        'keplr_signEthereum',
+      ],
+      events: ['accountsChanged', 'chainChanged', 'keplr_accountsChanged'],
+    },
     mobile: {
       native: {
         ios: 'keplrwallet:',

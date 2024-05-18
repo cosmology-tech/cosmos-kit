@@ -18,7 +18,11 @@ export class KeplrExtensionWallet extends MainWalletBase {
     this.initingClient();
     try {
       const keplr = await getKeplrFromExtension();
-      this.initClientDone(keplr ? new KeplrClient(keplr) : undefined);
+      if (keplr) {
+        this.initClientDone(new KeplrClient(keplr));
+      } else {
+        new Error('Client Not Exist!');
+      }
     } catch (error) {
       this.initClientError(error);
     }
