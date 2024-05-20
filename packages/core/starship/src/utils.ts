@@ -2,7 +2,6 @@
 import { ChainInfo } from '@chain-registry/client';
 import { Bip39, Random } from '@cosmjs/crypto';
 import { Coin, DirectSecp256k1HdWallet, OfflineSigner } from '@cosmjs/proto-signing';
-import { assertIsDeliverTxSuccess, SigningStargateClient } from '@cosmjs/stargate';
 import BigNumber from 'bignumber.js';
 import { ConfigContext, useChain } from 'starshipjs';
 
@@ -33,42 +32,6 @@ export const waitUntil = (date, timeout = 90000) => {
     throw new Error('Timeout to wait until date');
   }
   return new Promise((resolve) => setTimeout(resolve, delay + 3000));
-};
-
-export const transferIbcTokens = async (
-  fromChain: string,
-  toChain: string,
-  toAddress: string,
-  amount: string,
-) => {
-  const fromChainData: any = useChain(fromChain);
-  const toChainData: any = useChain(toChain);
-  const ibcInfo = findIbcInfo(fromChainData.chainInfo, toChainData.chainInfo);
-
-  const wallet = await createTempWallet(fromChainData.chainInfo.chain.bech32_prefix);
-  const fromAddress = (await wallet.getAccounts())[0].address;
-
-  await fromChainData.creditFromFaucet(fromAddress);
-
-  const fromClient = await setupIbcClient(fromChainData.getRpcEndpoint(), wallet);
-  const token = { denom: fromChainData.getCoin().base, amount };
-
-  const resp = await sendIbcTokens(fromClient, fromAddress, toAddress, token, ibcInfo, amount);
-
-  assertIsDeliverTxSuccess(resp);
-  return token;
-};
-
-const findIbcInfo = (chainInfo: ChainInfo, toChainInfo: ChainInfo) => {
-  const registry = ConfigContext.registry;
-  const ibcInfos = registry!.getChainIbcData(chainInfo.chain.chain_id);
-  const found = ibcInfos.find(
-    (i) =>
-      i.chain_1.chain_name === chainInfo.chain.chain_id &&
-      i.chain_2.chain_name === toChainInfo.chain.chain_id,
-  );
-  if (!found) throw new Error('Cannot find IBC info');
-  return found;
 };
 
 const createTempWallet = async (bech32Prefix: string) => {

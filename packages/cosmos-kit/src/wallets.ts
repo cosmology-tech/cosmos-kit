@@ -23,6 +23,7 @@ import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
 import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
 import { wallets as tailwindWallet } from '@cosmos-kit/tailwind';
 import { wallets as galaxyStationExtension } from '@cosmos-kit/galaxy-station-extension';
+import { wallets as cosmjsExtension } from '@cosmos-kit/cosmjs-extension';
 
 export type WalletName =
   | 'keplr'
@@ -43,11 +44,12 @@ export type WalletName =
   | 'tailwind'
   | 'owallet'
   | 'exodus'
-  | 'galaxystation';
+  | 'galaxystation'
+  | 'cosmjs';
 
 export type WalletList<
   E extends MainWalletBase | null,
-  M extends MainWalletBase | null
+  M extends MainWalletBase | null,
 > = (E extends MainWalletBase
   ? M extends MainWalletBase
     ? [E, M]
@@ -62,15 +64,12 @@ export type WalletList<
 export function createWalletList<
   ExtensionWallet extends MainWalletBase | null,
   MobileWallet extends MainWalletBase | null,
-  MetaMaskSnap extends MainWalletBase | null
->(
-  extension: ExtensionWallet | null,
-  mobile: MobileWallet | null,
-  snap?: MetaMaskSnap
-) {
-  const list = [extension, mobile, snap].filter((wallet) =>
-    Boolean(wallet)
-  ) as WalletList<ExtensionWallet, MobileWallet>;
+  MetaMaskSnap extends MainWalletBase | null,
+>(extension: ExtensionWallet | null, mobile: MobileWallet | null, snap?: MetaMaskSnap) {
+  const list = [extension, mobile, snap].filter((wallet) => Boolean(wallet)) as WalletList<
+    ExtensionWallet,
+    MobileWallet
+  >;
   list.mobile = mobile;
   list.extension = extension;
   return list;
@@ -78,16 +77,9 @@ export function createWalletList<
 
 export const keplr = createWalletList(keplrExtension[0], keplrMobile[0]);
 
-export const cosmostation = createWalletList(
-  cosmostationExtension[0],
-  cosmostationMobile[0]
-);
+export const cosmostation = createWalletList(cosmostationExtension[0], cosmostationMobile[0]);
 export const ledger = ledgerUSB;
-export const leap = createWalletList(
-  leapExtension[0],
-  leapMobile[0],
-  leapMetamaskCosmosSnap[0]
-);
+export const leap = createWalletList(leapExtension[0], leapMobile[0], leapMetamaskCosmosSnap[0]);
 export const station = createWalletList(stationExtension[0], null);
 export const okxwallet = createWalletList(okxwalletExtension[0], null);
 export const trust = createWalletList(trustExtension[0], trustMobile[0]);
@@ -103,6 +95,7 @@ export const exodus = createWalletList(exodusExtension[0], null);
 export const tailwind = createWalletList(tailwindWallet[0], null);
 export const owallet = createWalletList(owalletExtension[0], null);
 export const galaxystation = createWalletList(galaxyStationExtension[0], null);
+export const cosmjs = createWalletList(cosmjsExtension[0], null);
 
 export type SubWalletList = MainWalletBase[] & {
   get mobile(): MainWalletBase[];
@@ -128,6 +121,7 @@ export type AllWalletList = SubWalletList & {
   tailwind: typeof tailwind;
   owallet: typeof owallet;
   galaxystation: typeof owallet;
+  cosmjs: typeof cosmjs;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
 };
@@ -136,9 +130,7 @@ export function defineGetters(wallets: MainWalletBase[]) {
   return Object.defineProperties(wallets, {
     mobile: {
       get() {
-        return this.filter(
-          (wallet: MainWalletBase) => wallet.isModeWalletConnect
-        );
+        return this.filter((wallet: MainWalletBase) => wallet.isModeWalletConnect);
       },
     },
     extension: {
@@ -170,6 +162,7 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.tailwind = tailwind;
   wallets.owallet = owallet;
   wallets.galaxystation = galaxystation;
+  wallets.cosmjs = cosmjs;
 
   defineGetters(wallets);
 
@@ -178,11 +171,9 @@ export function createAllWalletList(ws: MainWalletBase[]) {
     return defineGetters(
       names
         .map((name: WalletName) =>
-          wallets.filter((wallet: MainWalletBase) =>
-            wallet.walletInfo.name.startsWith(name)
-          )
+          wallets.filter((wallet: MainWalletBase) => wallet.walletInfo.name.startsWith(name)),
         )
-        .flat()
+        .flat(),
     );
   };
 
@@ -191,10 +182,8 @@ export function createAllWalletList(ws: MainWalletBase[]) {
     return defineGetters(
       wallets.filter(
         (wallet: MainWalletBase) =>
-          !names.some((name: WalletName) =>
-            wallet.walletInfo.name.startsWith(name)
-          )
-      )
+          !names.some((name: WalletName) => wallet.walletInfo.name.startsWith(name)),
+      ),
     );
   };
 
@@ -220,4 +209,5 @@ export const wallets = createAllWalletList([
   ...tailwind,
   ...owallet,
   ...galaxystation,
+  ...cosmjs,
 ]);
