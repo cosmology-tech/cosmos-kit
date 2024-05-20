@@ -34,6 +34,11 @@ export class KeplrMobileWallet extends WCWallet {
       }
     } catch (error) {
       if (error instanceof Error) {
+        if (error.message === 'Client Not Exist!') {
+          await super.initClient(options);
+          return;
+        }
+
         this.initClientError(error);
       }
     }
