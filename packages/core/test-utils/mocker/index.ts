@@ -7,10 +7,11 @@ import {
 } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { BroadcastMode } from '@cosmos-kit/core';
+
 import Long from 'long';
 
 import { Key, Mock, MockSignOptions } from '../mock-extension/extension/types';
+import { BroadcastMode } from '../../src/types';
 
 export class MockWallet implements Mock {
   defaultOptions = {
@@ -55,23 +56,29 @@ export class MockWallet implements Mock {
 
   async getOfflineSigner(
     chainId: string
-  ): Promise<OfflineAminoSigner & OfflineDirectSigner> {
+  ): OfflineAminoSigner & OfflineDirectSigner {
     return {
       // Implement Offline Signer logic as needed
+      getAccounts: jest.fn(),
+      signAmino: jest.fn(),
     } as OfflineAminoSigner & OfflineDirectSigner;
   }
 
   async getOfflineSignerOnlyAmino(
     chainId: string
-  ): Promise<OfflineAminoSigner> {
+  ): OfflineAminoSigner {
     return {
       // Implement Offline Amino Signer logic as needed
+      getAccounts: jest.fn(),
+      signAmino: jest.fn(),
     } as OfflineAminoSigner;
   }
 
   async getOfflineSignerAuto(chainId: string): Promise<OfflineSigner> {
     return {
       // Implement Auto Signer logic as needed
+      getAccounts: jest.fn(),
+      signAmino: jest.fn(),
     } as OfflineSigner;
   }
 
