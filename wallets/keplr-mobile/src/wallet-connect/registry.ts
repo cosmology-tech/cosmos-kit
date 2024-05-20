@@ -35,9 +35,6 @@ export const keplrMobileInfo: Wallet = {
     encoding: 'base64',
     requiredNamespaces: {
       methods: [
-        'cosmos_getAccounts',
-        'cosmos_signDirect',
-        'cosmos_signAmino',
         'keplr_getKey',
         'keplr_signAmino',
         'keplr_signDirect',
@@ -45,7 +42,7 @@ export const keplrMobileInfo: Wallet = {
         'keplr_enable',
         'keplr_signEthereum',
       ],
-      events: ['accountsChanged', 'chainChanged', 'keplr_accountsChanged'],
+      events: ['keplr_accountsChanged'],
     },
     mobile: {
       native: {
