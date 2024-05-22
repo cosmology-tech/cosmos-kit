@@ -447,7 +447,7 @@ export class WCClient implements WalletClient {
         events: [
           'chainChanged',
           'accountsChanged',
-          ...(this.requiredNamespaces?.methods ?? []),
+          ...(this.requiredNamespaces?.events ?? []),
         ],
       },
     };

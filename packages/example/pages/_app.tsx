@@ -197,7 +197,13 @@ const LeapSocialLogin = dynamic(
 
 export function CustomCapsuleModalViewX() {
   const [showCapsuleModal, setShowCapsuleModal] = useState(false);
-  // const currentTheme = useTheme();
+  const [oAuthMethods, setOAuthMethods] = useState<Array<any>>([])
+
+  useEffect(() => {
+    import("@leapwallet/cosmos-social-login-capsule-provider").then((capsuleProvider) => {
+      setOAuthMethods([capsuleProvider.OAuthMethod.GOOGLE, capsuleProvider.OAuthMethod.FACEBOOK, capsuleProvider.OAuthMethod.TWITTER])
+    })
+  }, [])
 
   return (
     <>
@@ -212,6 +218,9 @@ export function CustomCapsuleModalViewX() {
         onLoginFailure={() => {
           window.failureFromCapsuleModal?.();
         }}
+        logoUrl="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png"
+        appName="CosmosKit"
+        oAuthMethods={oAuthMethods}
       />
     </>
   );
