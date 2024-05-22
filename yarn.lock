@@ -4084,6 +4084,22 @@
     long "^4.0.0"
     protobufjs "^6.11.2"
 
+"@keplr-wallet/provider@0.12.89":
+  version "0.12.89"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/provider/-/provider-0.12.89.tgz#791b0d6b4f133355d2f42b7560ff6d5fa5890150"
+  integrity sha512-FChCu4ZmKTrV3Y5VVyIhENZMOS3wKdMdAT1RT0rtYetHnlW4h6aMLjnDKButakaHYRjI7RUoYEQAxDAgp8sFQA==
+  dependencies:
+    "@keplr-wallet/router" "0.12.89"
+    "@keplr-wallet/types" "0.12.89"
+    buffer "^6.0.3"
+    deepmerge "^4.2.2"
+    long "^4.0.0"
+
+"@keplr-wallet/router@0.12.89":
+  version "0.12.89"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/router/-/router-0.12.89.tgz#e893a15df061aa6ef7fdf1e6978ce0418544b221"
+  integrity sha512-cgC7uuVQQrbRxg/op67tKmA8fbbT5SgM0f+LfpUrt7BELOzfrCaYzCftDTdyVpbdYPWH4JHix8Z9rsoSke8HiA==
+
 "@keplr-wallet/simple-fetch@0.12.28":
   version "0.12.28"
   resolved "https://registry.yarnpkg.com/@keplr-wallet/simple-fetch/-/simple-fetch-0.12.28.tgz#44225df5b329c823076280df1ec9930a21b1373e"
@@ -4103,6 +4119,13 @@
   dependencies:
     long "^4.0.0"
 
+"@keplr-wallet/types@0.12.89":
+  version "0.12.89"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.12.89.tgz#e63df470f1aaf65ba9eeda2b493d61920d1d2c83"
+  integrity sha512-TEyZKlmxBkJMvySJ6nJ9GNkEPWwhGI71X/l3HSdXUm7klNswOlXPtTuPmWE9qSyYdzYnRHKWioY2Truq2GzRIg==
+  dependencies:
+    long "^4.0.0"
+
 "@keplr-wallet/types@^0.12.58":
   version "0.12.76"
   resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.12.76.tgz#61e11fb4406c0858a8a36e8b203b776c3ebb4eb2"
@@ -4118,6 +4141,17 @@
     "@keplr-wallet/types" "0.12.28"
     big-integer "^1.6.48"
     utility-types "^3.10.0"
+
+"@keplr-wallet/wc-client@0.12.89":
+  version "0.12.89"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/wc-client/-/wc-client-0.12.89.tgz#bbfb1e00a0751e99df4b8878e804eff323a3a633"
+  integrity sha512-bPbVsLxkHNmfKpRgOtHkM2F5aEGfLZKQS1M4LII/LexjJYw1KVWmUmf6dtin0Gd9fDjxDnQF965HidwZ9oP+VA==
+  dependencies:
+    "@keplr-wallet/provider" "0.12.89"
+    "@keplr-wallet/types" "0.12.89"
+    buffer "^6.0.3"
+    deepmerge "^4.2.2"
+    long "^3 || ^4 || ^5"
 
 "@leapwallet/buffer-boba@0.1.6":
   version "0.1.6"
@@ -14286,15 +14320,15 @@ long@5.2.0:
   resolved "https://registry.yarnpkg.com/long/-/long-5.2.0.tgz#2696dadf4b4da2ce3f6f6b89186085d94d52fd61"
   integrity sha512-9RTUNjK60eJbx3uz+TEGF7fUr29ZDxR5QzXcyDpeSfeH28S9ycINflOgOlppit5U+4kNTe83KQnMEerw7GmE8w==
 
+"long@^3 || ^4 || ^5", long@^5.0.0, long@^5.2.0, long@^5.2.3:
+  version "5.2.3"
+  resolved "https://registry.npmjs.org/long/-/long-5.2.3.tgz"
+  integrity sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==
+
 long@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/long/-/long-4.0.0.tgz"
   integrity sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
-
-long@^5.0.0, long@^5.2.0, long@^5.2.3:
-  version "5.2.3"
-  resolved "https://registry.npmjs.org/long/-/long-5.2.3.tgz"
-  integrity sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==
 
 longest-streak@^3.0.0:
   version "3.1.0"
