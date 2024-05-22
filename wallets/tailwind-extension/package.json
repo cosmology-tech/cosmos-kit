@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/tailwind-extension",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Cosmos-kit adapter for Tailwind extension",
   "author": "bao@tailwind.zone",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -54,7 +54,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.10.0"
+    "@cosmos-kit/core": "^2.11.0"
   },
   "devDependencies": {
     "@cosmjs/proto-signing": "^0.32.3",
