@@ -1,5 +1,5 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
-import { StdSignDoc } from '@cosmjs/amino';
+import { StdSignDoc, StdSignature } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   BroadcastMode,
@@ -136,5 +136,13 @@ export class FinClient implements WalletClient {
 
   async sendTx(chainId: string, tx: Uint8Array, mode: BroadcastMode) {
     return await this.client.sendTx(chainId, tx, mode);
+  }
+
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ): Promise<StdSignature> {
+    return await this.client.signArbitrary(chainId, signer, data);
   }
 }
