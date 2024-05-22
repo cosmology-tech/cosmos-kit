@@ -64,7 +64,7 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/keplr": "1.30.0",
+    "@chain-registry/keplr": "1.64.4",
     "@cosmos-kit/core": "^2.10.0",
     "@initia/initia-registry-types": "^0.0.17",
     "@initia/initia.proto": "^0.1.33"

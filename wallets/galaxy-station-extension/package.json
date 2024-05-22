@@ -55,7 +55,7 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/types": "0.17.0",
+    "@chain-registry/types": "0.41.3",
     "@cosmos-kit/core": "^2.10.0",
     "@hexxagon/feather.js": "^1.0.9-beta.8",
     "@hexxagon/station-connector": "^1.0.17"

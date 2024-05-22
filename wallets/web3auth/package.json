@@ -70,7 +70,7 @@
     "url": "^0.11.1"
   },
   "devDependencies": {
-    "@chain-registry/types": "^0.17.0"
+    "@chain-registry/types": "^0.41.3"
   },
   "peerDependencies": {
     "@chain-registry/types": ">= 0.17",
