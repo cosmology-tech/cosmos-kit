@@ -2,7 +2,7 @@
   "name": "example-lite",
   "private": true,
   "description": "nextjs project using react lite (custom modal)",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -11,7 +11,7 @@
   "dependencies": {
     "@cosmos-kit/core": "^2.11.0",
     "@cosmos-kit/keplr": "^2.9.0",
-    "@cosmos-kit/leap": "^2.9.0",
+    "@cosmos-kit/leap": "^2.10.0",
     "@cosmos-kit/react-lite": "^2.9.0",
     "@cosmos-kit/xdefi": "^2.8.0",
     "bootstrap": "^5.3.2",
