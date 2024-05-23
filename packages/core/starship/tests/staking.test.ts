@@ -5,9 +5,11 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { assertIsDeliverTxSuccess } from '@cosmjs/stargate';
 import BigNumber from 'bignumber.js';
 import { useChain } from 'starshipjs';
-
+import { chains, assets } from 'chain-registry';
 import { cosmos, getSigningCosmosClient } from 'osmojs';
 import { generateMnemonic } from '../src';
+import { WalletManager } from '../../src';
+import { wallets } from '@cosmos-kit/cosmjs';
 
 describe('Staking tokens testing', () => {
   let wallet, denom, address;
@@ -19,14 +21,16 @@ describe('Staking tokens testing', () => {
   let delegationAmount;
 
   beforeAll(async () => {
-    ({ chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } = useChain('cosmos'));
+    const walletManager = useChain('cosmos');
+    const { chain, chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } = walletManager;
     denom = getCoin().base;
+    const client = await walletManager.connect('cosmjs');
 
     // Initialize wallet
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
       prefix: chainInfo.chain.bech32_prefix,
     });
-    address = (await wallet.getAccounts())[0].address;
+    address = client.address;
 
     // Create custom cosmos interchain client
     queryClient = await cosmos.ClientFactory.createRPCQueryClient({

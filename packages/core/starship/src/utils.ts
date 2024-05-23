@@ -37,3 +37,8 @@ export const waitUntil = (date, timeout = 90000) => {
 const createTempWallet = async (bech32Prefix: string) => {
   return DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), { prefix: bech32Prefix });
 };
+
+export const createCosmJSWallet = async (chainInfo: ChainInfo): Promise<OfflineSigner> => {
+  const wallet = await createTempWallet(chainInfo.bech32_prefix);
+  return wallet;
+};
