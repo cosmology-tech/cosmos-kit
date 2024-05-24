@@ -21,8 +21,8 @@ describe('Staking tokens testing', () => {
   let delegationAmount;
 
   beforeAll(async () => {
-    const walletManager = useChain('cosmos');
-    const { chain, chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } = walletManager;
+    const { chain, chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } = useChain('cosmos');
+    const walletManager = new WalletManager([chain], wallets);
     denom = getCoin().base;
     const client = await walletManager.connect('cosmjs');
 
