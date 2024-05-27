@@ -3786,21 +3786,30 @@
     long "^4.0.0"
     protobufjs "^6.11.2"
 
-"@keplr-wallet/provider@0.12.90":
-  version "0.12.90"
-  resolved "https://registry.yarnpkg.com/@keplr-wallet/provider/-/provider-0.12.90.tgz#987825f6d7aed4c71d8b92760c0df2be91110462"
-  integrity sha512-4x0VFDjsSTIDd8ovvSTvQ7eLJQ4Q0eYLUWyDGhY3ircH8jgCal0J5vkG8lemddZrMq/KmKlaRppbfNPO5oiBXA==
+"@keplr-wallet/provider-extension@^0.12.95":
+  version "0.12.95"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/provider-extension/-/provider-extension-0.12.95.tgz#b004dce4a2b072fee5959f3ed978ef3181f7cc63"
+  integrity sha512-0HG75ALphS8iIpn8WyDwmoHZODEdybeSNNIhlfTZTjDwcF+RXuR4CwEbJh7ZaPxZSDXJSzR9rpFfssl3ET5pSA==
   dependencies:
-    "@keplr-wallet/router" "0.12.90"
-    "@keplr-wallet/types" "0.12.90"
+    "@keplr-wallet/types" "0.12.95"
+    deepmerge "^4.2.2"
+    long "^4.0.0"
+
+"@keplr-wallet/provider@0.12.95":
+  version "0.12.95"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/provider/-/provider-0.12.95.tgz#85285ca35bb8fe5aa4c15ec52e8abf497f6309e6"
+  integrity sha512-3b+WDv7FMgIdAhfEW76n8o/QbbeAkeY/kMmb/SN2OsRDUHxpw34BrFevF3Y9WmANo1wOA1/eUWGaqX8rMOfM/Q==
+  dependencies:
+    "@keplr-wallet/router" "0.12.95"
+    "@keplr-wallet/types" "0.12.95"
     buffer "^6.0.3"
     deepmerge "^4.2.2"
     long "^4.0.0"
 
-"@keplr-wallet/router@0.12.90":
-  version "0.12.90"
-  resolved "https://registry.yarnpkg.com/@keplr-wallet/router/-/router-0.12.90.tgz#458d63de4168ef6933237007c14c2f655190a636"
-  integrity sha512-iYCrtqJIznMCJOQL6J2ra93u1ophLf2txFRvT1E8FCxWd0JVyH49Q6CSD6n0vuQY/aq7tWLeUo+5qRKmXwl6BQ==
+"@keplr-wallet/router@0.12.95":
+  version "0.12.95"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/router/-/router-0.12.95.tgz#0e6aad381b40fbc3c71bbe4e4325d38ea9c2bf47"
+  integrity sha512-S/iSANjcVi9dP9smymFYuHCsmOCtxCjp4qOuslYzbb5Hd0zqTQeeH7/CsmD9kzn+UiumjmEc3SDQh3WWjGt6Cw==
 
 "@keplr-wallet/simple-fetch@0.12.28":
   version "0.12.28"
@@ -3821,7 +3830,14 @@
   dependencies:
     long "^4.0.0"
 
-"@keplr-wallet/types@0.12.90", "@keplr-wallet/types@^0.12.90":
+"@keplr-wallet/types@0.12.95", "@keplr-wallet/types@^0.12.95":
+  version "0.12.95"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.12.95.tgz#db5e18d7fa7277b0831fb41c0e0fa0cee4ca6b6f"
+  integrity sha512-Wq+Sa0+Uk4hRBbA9J09jq55NkFarVCdiWUZjasIDjrpBfGisV3vtFerMyb1xGsRvj+lkO3HEMAki5h6bQ0sMtA==
+  dependencies:
+    long "^4.0.0"
+
+"@keplr-wallet/types@^0.12.90":
   version "0.12.90"
   resolved "https://registry.yarnpkg.com/@keplr-wallet/types/-/types-0.12.90.tgz#57fa70034bcd9b5354ed4d2656ce5b2a5390b36b"
   integrity sha512-MxWJOPMPDQbmy48aTepFzaDOrO70wYft6Ng1M32lS0PTO5NzmRuwCJ/WVbWcfQkAzHVq0xw7Du5Jks1MEMkBLQ==
@@ -3837,13 +3853,13 @@
     big-integer "^1.6.48"
     utility-types "^3.10.0"
 
-"@keplr-wallet/wc-client@0.12.90":
-  version "0.12.90"
-  resolved "https://registry.yarnpkg.com/@keplr-wallet/wc-client/-/wc-client-0.12.90.tgz#40852d5c09f566e495e7e76e0c01911a28946f20"
-  integrity sha512-5az2EIqfZLlBaCXW3ZyeOcwATELgdFKEkKG6MCoZK5WxWeNWiPKLc0379HGrCtkfprzXpZNvNY89ZjoWT2ZzOg==
+"@keplr-wallet/wc-client@^0.12.95":
+  version "0.12.95"
+  resolved "https://registry.yarnpkg.com/@keplr-wallet/wc-client/-/wc-client-0.12.95.tgz#24cbfe0c263bd585a9c2c0b882b79aa13620dc0c"
+  integrity sha512-jPjdOsp++8SdFCZUOseEEIITW9hz95etn0RfY9FvQ3pP0CJ2oZ4nhlrgpK8dh3J6jJg9aBypA7KZ4iu49gPezg==
   dependencies:
-    "@keplr-wallet/provider" "0.12.90"
-    "@keplr-wallet/types" "0.12.90"
+    "@keplr-wallet/provider" "0.12.95"
+    "@keplr-wallet/types" "0.12.95"
     buffer "^6.0.3"
     deepmerge "^4.2.2"
     long "^3 || ^4 || ^5"
@@ -17028,7 +17044,16 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -17076,7 +17101,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -17103,6 +17128,13 @@ strip-ansi@^5.1.0:
   integrity sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
   dependencies:
     ansi-regex "^4.1.0"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
 
 strip-ansi@^7.0.1:
   version "7.1.0"
@@ -18368,7 +18400,7 @@ wordwrap@^1.0.0:
   resolved "https://registry.npmjs.org/wordwrap/-/wordwrap-1.0.0.tgz"
   integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
   version "7.0.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -18381,6 +18413,15 @@ wrap-ansi@^6.0.1, wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
+  dependencies:
+    ansi-styles "^4.0.0"
+    string-width "^4.1.0"
+    strip-ansi "^6.0.0"
+
+wrap-ansi@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
+  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"

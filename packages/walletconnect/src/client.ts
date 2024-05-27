@@ -24,17 +24,18 @@ import type {
   WalletClientActions,
   WalletConnectOptions,
 } from '@cosmos-kit/core';
-import { State, ExpiredError, RejectedError } from '@cosmos-kit/core';
-import type {
+import { ExpiredError, RejectedError, State } from '@cosmos-kit/core';
+import SignClient from '@walletconnect/sign-client';
+import {
   EngineTypes,
   PairingTypes,
   SessionTypes,
+  SignClientTypes,
 } from '@walletconnect/types';
 import type EventEmitter from 'events';
 
 import { WCAccount, WCSignDirectRequest, WCSignDirectResponse } from './types';
 import { CoreUtil } from './utils';
-import SignClient from '@walletconnect/sign-client';
 
 const EXPLORER_API = 'https://explorer-api.walletconnect.com';
 
@@ -312,7 +313,9 @@ export class WCClient implements WalletClient {
       return;
     }
 
-    this.signClient = await SignClient.init(this.options?.signClient);
+    this.signClient = await SignClient.init(
+      this.options?.signClient as SignClientTypes.Options
+    );
     this.relayUrl = this.options?.signClient.relayUrl;
 
     this.logger?.debug('CREATED CLIENT: ', this.signClient);

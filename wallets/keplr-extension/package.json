@@ -73,7 +73,8 @@
   "dependencies": {
     "@chain-registry/keplr": "1.64.4",
     "@cosmos-kit/core": "^2.11.0",
-    "@keplr-wallet/types": "^0.12.90"
+    "@keplr-wallet/provider-extension": "^0.12.95",
+    "@keplr-wallet/types": "^0.12.95"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">=0.32.3",
