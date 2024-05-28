@@ -1,6 +1,6 @@
-import { Wallet } from '@cosmos-kit/core';
-import { MainWalletBase } from '@cosmos-kit/core';
 
+import { MainWalletBase } from '../../../src/bases';
+import { Wallet } from '../../../src/types';
 import { ChainMockExtension } from './chain-wallet';
 import { MockClient } from './client';
 import { getMockFromExtension } from './utils';
