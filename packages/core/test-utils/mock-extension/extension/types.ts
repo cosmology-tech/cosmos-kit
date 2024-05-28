@@ -6,8 +6,9 @@ import {
 } from '@cosmjs/amino';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
-import { BroadcastMode } from '@cosmos-kit/core';
+
 import type { ChainInfo } from '@keplr-wallet/types';
+import { BroadcastMode } from '../../../src/types';
 
 export interface Key {
   readonly name: string;
