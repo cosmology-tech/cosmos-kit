@@ -17,6 +17,7 @@ import { ReactNode, useCallback, useMemo } from 'react';
 
 import { ThemeCustomizationProps, WalletModal } from './modal';
 import { defaultModalViews } from './modal/components/views';
+import { SelectedWalletRepoProvider } from './context';
 
 export const ChainProvider = ({
   chains,
@@ -70,23 +71,25 @@ export const ChainProvider = ({
   const withChainProvider = (
     modal: (props: WalletModalProps) => JSX.Element
   ) => (
-    <ChainProviderLite
-      chains={chains}
-      assetLists={assetLists}
-      wallets={wallets}
-      walletModal={modal}
-      throwErrors={throwErrors}
-      subscribeConnectEvents={subscribeConnectEvents}
-      defaultNameService={defaultNameService}
-      walletConnectOptions={walletConnectOptions}
-      signerOptions={signerOptions}
-      endpointOptions={endpointOptions}
-      sessionOptions={sessionOptions}
-      logLevel={logLevel}
-      allowedIframeParentOrigins={allowedIframeParentOrigins}
-    >
-      {children}
-    </ChainProviderLite>
+    <SelectedWalletRepoProvider>
+      <ChainProviderLite
+        chains={chains}
+        assetLists={assetLists}
+        wallets={wallets}
+        walletModal={modal}
+        throwErrors={throwErrors}
+        subscribeConnectEvents={subscribeConnectEvents}
+        defaultNameService={defaultNameService}
+        walletConnectOptions={walletConnectOptions}
+        signerOptions={signerOptions}
+        endpointOptions={endpointOptions}
+        sessionOptions={sessionOptions}
+        logLevel={logLevel}
+        allowedIframeParentOrigins={allowedIframeParentOrigins}
+      >
+        {children}
+      </ChainProviderLite>
+    </SelectedWalletRepoProvider>
   );
 
   if (walletModal) {

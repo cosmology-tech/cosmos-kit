@@ -3,6 +3,7 @@ import { ConnectModalHead, ConnectModalWalletList } from '@interchain-ui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getWalletProp } from './config';
+import { useSelectedWalletRepoContext } from '../../../context';
 
 interface DynamicWalletListProps {
   wallets: WalletListViewProps['wallets'];
@@ -12,7 +13,10 @@ interface DynamicWalletListProps {
 function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
+  const { selectWalletRepo } = useSelectedWalletRepoContext()
+
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
+    selectWalletRepo(wallet)
     await wallet.connect(wallet.walletStatus !== 'NotExist');
     if (!['Rejected', 'NotExist'].includes(wallet.walletStatus)) {
       onClose();
