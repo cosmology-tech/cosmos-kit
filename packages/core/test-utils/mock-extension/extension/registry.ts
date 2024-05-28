@@ -1,5 +1,6 @@
-import { Wallet } from '@cosmos-kit/core';
 
+
+import { Wallet } from '../../../src/types';
 import { ICON } from '../constant';
 
 export const mockExtensionInfo: Wallet = {

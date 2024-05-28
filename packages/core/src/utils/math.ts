@@ -5,7 +5,8 @@ export function sum<T>(
     currentValue: T,
     currentIndex: number,
     array: T[]
-  ) => T
+  ) => T,
+  initialValue: T
 ) {
-  return Array.from(iterable).reduce(callbackfn);
+  return Array.from(iterable).reduce(callbackfn, initialValue);
 }

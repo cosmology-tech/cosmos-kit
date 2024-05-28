@@ -5,13 +5,14 @@ import {
   BroadcastMode,
   ChainRecord,
   ExtendedHttpEndpoint,
+  SignOptions,
   SignType,
   SuggestToken,
 } from '@cosmos-kit/core';
-import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
 import Long from 'long';
 
 import { Mock } from './types';
+import { DirectSignDoc, WalletClient } from '../../../src/types';
 
 export class MockClient implements WalletClient {
   readonly client: Mock;
