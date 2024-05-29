@@ -26,6 +26,7 @@ import {
   WalletListImplGetter,
   WalletViewImplGetter,
 } from './components/views';
+import { useSelectedWalletRepoContext } from '../context';
 
 export type ModalCustomizationProps = {
   modalContainerClassName?: string;
@@ -80,7 +81,8 @@ export function WalletModal({
     beforeConnect: { disconnect: disconnectOptions },
   });
 
-  const current = walletRepo?.current;
+  const { selectedWalletRepo } = useSelectedWalletRepoContext()
+  const current = walletRepo?.wallets.find(w => w.walletName === selectedWalletRepo?.walletName);
 
   (current?.client as any)?.setActions?.({
     qrUrl: {
