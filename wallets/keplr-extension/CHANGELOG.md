@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@2.11.0...@cosmos-kit/keplr-extension@2.11.1) (2024-05-29)
+
+**Note:** Version bump only for package @cosmos-kit/keplr-extension
+
+
+
+
+
 # [2.11.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/keplr-extension@2.10.0...@cosmos-kit/keplr-extension@2.11.0) (2024-05-28)
 
 **Note:** Version bump only for package @cosmos-kit/keplr-extension
