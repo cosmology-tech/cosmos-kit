@@ -7,6 +7,7 @@ import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
 import type { ChainInfo } from '@keplr-wallet/types';
+import type { StdSignature } from '@cosmjs/amino';
 
 export interface Key {
   readonly name: string;
@@ -57,5 +58,6 @@ export interface Fin {
     tx: Uint8Array,
     mode: BroadcastMode
   ): Promise<Uint8Array>;
+  signArbitrary(chainId: string, signer: string, data: string | Uint8Array): StdSignature | PromiseLike<StdSignature>;
   experimentalSuggestChain(chainInfo: ChainInfo): Promise<void>;
 }
