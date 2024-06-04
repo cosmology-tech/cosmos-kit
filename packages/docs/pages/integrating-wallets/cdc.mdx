@@ -1,0 +1,43 @@
+# How to Add Crypto.com Wallet to CosmosKit
+
+There are two packages for Crypto.com Wallet
+
+- `@cosmos-kit/cdcwallet`
+- `@cosmos-kit/cdcwallet-extension`
+
+`@cosmos-kit/cdcwallet` export all available Crypto.com wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmos-kit/cdcwallet-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmos-kit/cdcwallet` for example
+
+## add `@cosmos-kit/cdcwallet`
+
+```
+yarn add @cosmos-kit/cdcwallet
+```
+
+## import the wallets
+
+```js
+import { wallets as cdcwallet } from "@cosmos-kit/cdcwallet";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...cdcwallet]}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
