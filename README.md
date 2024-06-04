@@ -77,7 +77,7 @@ See our docs on [integrating your wallet](https://docs.cosmology.zone/cosmos-kit
 
 ```sh
 yarn build
-cd package/example
+cd packages/example
 yarn dev
 ```
 
