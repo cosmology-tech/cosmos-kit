@@ -26,6 +26,7 @@
     "@cosmjs/math": "0.32.3",
     "@cosmjs/proto-signing": ">=0.32.3",
     "@cosmjs/stargate": ">=0.32.3",
+    "@cosmos-kit/cdcwallet": "^2.11.0",
     "@cosmos-kit/coin98": "^2.10.0",
     "@cosmos-kit/core": "^2.12.0",
     "@cosmos-kit/cosmostation": "^2.10.0",

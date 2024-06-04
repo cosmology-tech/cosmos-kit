@@ -71,6 +71,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
+    "@cosmos-kit/cdcwallet": "^2.11.0",
     "@cosmos-kit/coin98": "^2.10.0",
     "@cosmos-kit/compass": "^2.10.0",
     "@cosmos-kit/cosmostation": "^2.10.0",
