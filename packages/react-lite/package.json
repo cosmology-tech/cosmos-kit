@@ -69,14 +69,13 @@
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "dist/"
-    ]
-  },
   "devDependencies": {
     "@types/react": "^18.2",
-    "@types/react-dom": "^18.2"
+    "@types/react-dom": "^18.2",
+    "@testing-library/react": "^15.0.7",
+    "jest-environment-jsdom": "29.7.0",
+    "@testing-library/react-hooks": "8.0.1",
+    "@testing-library/jest-dom": "5.14.1"
   },
   "dependencies": {
     "@chain-registry/types": "^0.41.3",
