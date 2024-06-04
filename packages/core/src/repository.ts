@@ -73,7 +73,12 @@ export class WalletRepo extends StateBase {
           );
         });
     }
-    if (!this.chainRecord.assetList) {
+    // TODO fix issue upstream in cosmos/chain-registry having bad data
+    // TODO look into removing the client and/or making a new provider or config
+    if (
+      !this.chainRecord.assetList &&
+      !['andromeda1', 'althea', 'thorchain'].includes(this.chainName)
+    ) {
       this.fetchInfo = true;
       const registry = new ChainRegistryFetcher({
         urls: [
@@ -139,10 +144,10 @@ export class WalletRepo extends StateBase {
   get platformEnabledWallets(): ChainWalletBase[] {
     return this.isMobile
       ? this._wallets.filter((w) =>
-          typeof w.walletInfo.mobileDisabled === 'boolean'
-            ? !w.walletInfo.mobileDisabled
-            : !w.walletInfo.mobileDisabled()
-        )
+        typeof w.walletInfo.mobileDisabled === 'boolean'
+          ? !w.walletInfo.mobileDisabled
+          : !w.walletInfo.mobileDisabled()
+      )
       : this._wallets;
   }
 
