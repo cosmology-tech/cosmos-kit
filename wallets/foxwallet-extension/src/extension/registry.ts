@@ -7,7 +7,7 @@ export const FoxWalletExtensionInfo: Wallet = {
   prettyName: 'FoxWallet',
   logo: ICON,
   mode: 'extension',
-  mobileDisabled: true,
+  mobileDisabled: false,
   rejectMessage: {
     source: 'Request rejected',
   },
