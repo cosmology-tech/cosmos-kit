@@ -40,7 +40,7 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 ## 📦 Wallets
 
 | Name                                                                      | Type          | Description                                                                                                                  |
-|---------------------------------------------------------------------------| ------------- |------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | [@cosmos-kit/react](packages/react)                                       | UI            | A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem.                                       |
 | [@cosmos-kit/coin98-extension/](wallets/coin98-extension/)                | Extension     | Coin98 Web Extension Wallet integration.                                                                                     |
 | [@cosmos-kit/coin98](wallets/coin98)                                      | Root Wallet   | Coin98 Wallet integration                                                                                                    |
@@ -60,10 +60,12 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 | [@cosmos-kit/vectis](wallets/vectis)                                      | Root Wallet   | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.            |
 | [@cosmos-kit/xdefi-extension](wallets/xdefi-extension)                    | Root Wallet   | XDEFI Wallet (Extension) integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
 | [@cosmos-kit/shell](wallets/shell)                                        | Root Wallet   | Shell Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.             |
-| [@cosmos-kit/tailwind-extension](wallets/tailwind-extension/)             | Extension | TAILWIND Wallet extension. Use this if you want to integrate the TAILWIND Chrome Extension                                   |
-| [@cosmos-kit/tailwind](wallets/tailwind/)                                 | Root Wallet | TAILWIND Wallet integration. Use this if you want to integrate any TAILWIND wallet. No mobile support yet.                   
-| [@cosmos-kit/galaxy-station-extension](wallets/galaxy-station-extension/) | Extension | Galaxy Station Wallet extension. Use this if you want to integrate the Galaxy Station Chrome Extension                       |
-| [@cosmos-kit/galaxy-station](wallets/galaxy-station/)                     | Root Wallet | Galaxy Station Wallet integration. Use this if you want to integrate any Galaxy Station wallet. No mobile support yet.             
+| [@cosmos-kit/tailwind-extension](wallets/tailwind-extension/)             | Extension     | TAILWIND Wallet extension. Use this if you want to integrate the TAILWIND Chrome Extension                                   |
+| [@cosmos-kit/tailwind](wallets/tailwind/)                                 | Root Wallet   | TAILWIND Wallet integration. Use this if you want to integrate any TAILWIND wallet. No mobile support yet.                   |
+| [@cosmos-kit/galaxy-station-extension](wallets/galaxy-station-extension/) | Extension     | Galaxy Station Wallet extension. Use this if you want to integrate the Galaxy Station Chrome Extension                       |
+| [@cosmos-kit/galaxy-station](wallets/galaxy-station/)                     | Root Wallet   | Galaxy Station Wallet integration. Use this if you want to integrate any Galaxy Station wallet. No mobile support yet.       |
+| [@cosmos-kit/cdcwallet-extension/](wallets/cdcwallet-extension/)          | Extension     | Crypto.com Web Extension Wallet integration.                                                                                 |
+| [@cosmos-kit/cdcwallet](wallets/cdcwallet)                                | Root Wallet   | Crypto.com Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.        |
 
 ### ✨ Example: [@cosmos-kit/example](packages/example)
 
@@ -110,13 +112,13 @@ lerna publish
 
 Checkout these related projects:
 
-* [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
-* [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
-* [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
-* [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
-* [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
-* [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
-* [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
+- [@cosmology/telescope](https://github.com/cosmology-tech/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
+- [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) Convert your CosmWasm smart contracts into dev-friendly TypeScript classes.
+- [chain-registry](https://github.com/cosmology-tech/chain-registry) Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
+- [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface.
+- [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) Set up a modern Cosmos app by running one command.
+- [interchain-ui](https://github.com/cosmology-tech/interchain-ui) The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit.
+- [starship](https://github.com/cosmology-tech/starship) Unified Testing and Development for the Interchain.
 
 ## Credits
 

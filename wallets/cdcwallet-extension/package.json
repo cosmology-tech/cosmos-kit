@@ -1,26 +1,14 @@
 {
-  "name": "cosmos-kit",
-  "version": "2.15.1",
+  "name": "@cosmos-kit/cdcwallet-extension",
+  "version": "2.11.0",
   "description": "cosmos-kit wallet connector",
-  "author": "developers@cosmology.zone",
+  "author": "andy.bin@crypto.com",
   "contributors": [
     {
-      "name": "Jun Liu"
+      "name": "Andy Bin"
     },
     {
-      "name": "Tom Wang"
-    },
-    {
-      "name": "Dan Lynch"
-    },
-    {
-      "name": "Noah Saso"
-    },
-    {
-      "name": "Eliot Baker"
-    },
-    {
-      "name": "Delivan Jeonghyeok Yoo"
+      "name": "Lucas Lee"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -30,7 +18,7 @@
   "types": "cjs/index.d.ts",
   "directories": {
     "lib": "src",
-    "test": "test"
+    "test": "__tests__"
   },
   "files": [
     "cjs",
@@ -62,35 +50,25 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "keplr",
-    "leap",
-    "cosmostation",
+    "cdcwallet",
+    "Crypto.com",
     "wallet"
   ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "dist/"
+    ]
+  },
   "dependencies": {
-    "@cosmos-kit/cdcwallet": "^2.11.0",
-    "@cosmos-kit/coin98": "^2.10.0",
-    "@cosmos-kit/compass": "^2.10.0",
-    "@cosmos-kit/cosmostation": "^2.10.0",
-    "@cosmos-kit/exodus": "^2.9.0",
-    "@cosmos-kit/fin": "^2.10.0",
-    "@cosmos-kit/frontier": "^2.9.0",
-    "@cosmos-kit/galaxy-station": "^2.9.0",
-    "@cosmos-kit/keplr": "^2.10.1",
-    "@cosmos-kit/leap": "^2.11.0",
-    "@cosmos-kit/ledger": "^2.10.0",
-    "@cosmos-kit/okxwallet-extension": "^2.10.0",
-    "@cosmos-kit/omni": "^2.9.0",
-    "@cosmos-kit/owallet": "^2.10.0",
-    "@cosmos-kit/shell": "^2.10.0",
-    "@cosmos-kit/station": "^2.9.0",
-    "@cosmos-kit/tailwind": "^1.4.0",
-    "@cosmos-kit/trust": "^2.10.0",
-    "@cosmos-kit/vectis": "^2.10.0",
-    "@cosmos-kit/xdefi": "^2.9.0"
+    "@chain-registry/keplr": "1.64.4",
+    "@cosmos-kit/core": "^2.12.0"
+  },
+  "peerDependencies": {
+    "@cosmjs/amino": ">=0.32.3",
+    "@cosmjs/proto-signing": ">=0.32.3"
   },
   "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
