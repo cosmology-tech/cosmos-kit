@@ -8,11 +8,12 @@ import { assets } from "chain-registry";
 import { Button } from "components/button";
 import { AccountData } from "@cosmjs/proto-signing";
 
-
 export default () => {
   const walletManager = useMemo(() => {
     return new WalletManager(
-      ["cosmoshub", "juno", "stargaze"], [keplrWallets[0], leapWallets[0], stationWallets[0], coin98Wallets[0]], new Logger('NONE'), false,
+      ["cosmoshub", "juno", "stargaze"], [
+      keplrWallets[0], leapWallets[0], stationWallets[0], coin98Wallets[0]
+    ], new Logger('NONE'), false,
       undefined, undefined, assets
     );
   }, [])
