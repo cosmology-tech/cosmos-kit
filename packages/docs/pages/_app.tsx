@@ -63,6 +63,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             "tailwind",
             "owallet",
             "galaxystation",
+            "cdcwallet",
             "foxwallet"
           ),
           // ...web3AuthWallets,

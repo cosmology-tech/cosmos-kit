@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.15.1...docs@2.16.0) (2024-06-05)
+
+
+### Features
+
+* add cdc wallet integration doc ([43b3f68](https://github.com/cosmology-tech/cosmos-kit/commit/43b3f6878998f33ad5e14ea393541e43d269b445))
+* add cdc wallet to package deps ([f1ab3e0](https://github.com/cosmology-tech/cosmos-kit/commit/f1ab3e029bddcf59d20926709fcd784c6ba3e24b))
+
+
+
+
+
 ## [2.15.1](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.15.0...docs@2.15.1) (2024-05-29)
 
 **Note:** Version bump only for package docs
