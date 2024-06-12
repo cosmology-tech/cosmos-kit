@@ -1,16 +1,30 @@
 // @ts-nocheck
+import { Chain } from '@chain-registry/types';
 import {
   AminoSignResponse,
   OfflineAminoSigner,
   StdSignature,
   StdSignDoc,
 } from '@cosmjs/amino';
+import { sha256 } from '@cosmjs/crypto';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
+import type { ChainInfo } from '@keplr-wallet/types';
+import * as bech32 from 'bech32';
+import { chains } from 'chain-registry';
+import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import Long from 'long';
+import * as secp256k1 from '@noble/secp256k1';
 
-import { Key, Mock, MockSignOptions } from '../mock-extension/extension/types';
+import { Key, Mock, MockSignOptions } from '../mock-extension';
+import { generateWallet, getChildKey } from '../utils';
+import {
+  KeyChain,
+  BrowserStorage,
+  SITE,
+  ACTIVE_WALLET,
+} from '../mock-extension/extension/utils';
 
 export class MockWallet implements Mock {
   defaultOptions = {
@@ -28,7 +42,36 @@ export class MockWallet implements Mock {
   }
 
   async enable(chainIds: string | string[]): Promise<void> {
-    // Simulate enabling logic
+    if (typeof chainIds === 'string') chainIds = [chainIds];
+
+    const validChainIds = [];
+    chainIds.forEach((chainId: string) => {
+      const validChain = chains.find(
+        (chain: Chain) => chain.chain_id === chainId
+      );
+      if (validChain) validChainIds.push(validChain.chain_id);
+    });
+
+    if (validChainIds.length === 0) {
+      return { error: 'Invalid chain ids' };
+    }
+
+    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+
+    let connections = BrowserStorage.get('connections');
+    if (!connections) connections = {};
+    if (!connections[activeWallet.id]) connections[activeWallet.id] = {};
+
+    validChainIds.forEach((chainId) => {
+      const enabledList = connections[activeWallet.id][chainId] || [];
+      connections[activeWallet.id][chainId] = Array.from(
+        new Set([...enabledList, SITE])
+      );
+    });
+
+    BrowserStorage.set('connections', connections);
+
+    return { success: 'Chain enabled' };
   }
 
   async suggestToken(chainId: string, contractAddress: string): Promise<void> {
@@ -43,12 +86,23 @@ export class MockWallet implements Mock {
   }
 
   async getKey(chainId: string): Promise<Key> {
+    const chainInfo = chains.find((chain) => chain.chain_id === chainId);
+
+    if (!chainInfo || !chainInfo.status === 'live')
+      throw new Error('Invalid chainId');
+
+    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+
+    const pubKey = activeWallet.pubKeys?.[chainId] ?? '';
+
+    const address = getAddressFromBech32(activeWallet.addresses[chainId] ?? '');
+
     return {
-      name: 'Test Key',
+      name: activeWallet.name,
       algo: 'secp256k1',
-      pubKey: new Uint8Array(),
-      address: new Uint8Array(),
-      bech32Address: 'cosmos1...',
+      pubKey,
+      address,
+      bech32Address: activeWallet.addresses[chainId],
       isNanoLedger: false,
     };
   }
@@ -91,16 +145,25 @@ export class MockWallet implements Mock {
     chainId: string,
     signer: string,
     signDoc: {
-      bodyBytes?: Uint8Array | null;
       authInfoBytes?: Uint8Array | null;
-      chainId?: string | null;
       accountNumber?: Long | null;
+      bodyBytes?: Uint8Array | null;
+      chainId?: string | null;
     },
     signOptions?: MockSignOptions
   ): Promise<DirectSignResponse> {
+    const key = getSignerKey(signer);
+
+    const hash = sha256(serializeSignDoc(signDoc));
+    const signature = await secp256k1.sign(hash, key.privateKey, {
+      canonical: true,
+      extraEntropy: signOptions?.extraEntropy === false ? undefined : true,
+      der: false,
+    });
+
     return {
       signed: signDoc,
-      signature: new Uint8Array(),
+      signature: signature,
     };
   }
 
@@ -151,6 +214,69 @@ export class MockWallet implements Mock {
   }
 
   async experimentalSuggestChain(chainInfo: ChainInfo): Promise<void> {
-    // Simulate suggesting a chain
+    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const newKeystoreEntries = await Promise.all(
+      Object.entries(KeyChain.storage.get('keystore')).map(
+        async ([walletId, walletInfo]) => {
+          const wallet = await generateWallet(walletInfo.cipher, {
+            prefix: chainInfo.bech32Config.bech32PrefixAccAddr,
+          });
+
+          const accounts = await wallet.getAccounts();
+
+          const newWallet = {
+            ...walletInfo,
+            addresses: {
+              ...walletInfo.addresses,
+              [chainInfo.chainId]: accounts[0].address,
+            },
+            pubKeys: {
+              ...walletInfo.pubKeys,
+              [chainInfo.chainId]: Buffer.from(accounts[0].pubkey),
+            },
+          };
+
+          return [walletId, newWallet];
+        }
+      )
+    );
+
+    const newKeystore = newKeystoreEntries.reduce((res, entry) => {
+      res[entry[0]] = entry[1];
+      return res;
+    }, {});
+
+    KeyChain.storage.set('keystore', newKeystore);
+    KeyChain.storage.set(ACTIVE_WALLET, newKeystore[activeWallet.id]);
+
+    return newKeystore;
   }
+}
+
+function getAddressFromBech32(bech32Address) {
+  const decoded = bech32.decode(bech32Address);
+  return new Uint8Array(bech32.fromWords(decoded.words));
+}
+
+function serializeSignDoc(signDoc: SignDoc) {
+  return SignDoc.encode(
+    SignDoc.fromPartial({
+      accountNumber: signDoc.accountNumber,
+      authInfoBytes: signDoc.authInfoBytes,
+      bodyBytes: signDoc.bodyBytes,
+      chainId: signDoc.chainId,
+    })
+  ).finish();
+}
+
+function getSignerKey(signer) {
+  const activeAddress = activeWallet.addresses[chainInfo.chain_id];
+  if (signer !== activeAddress)
+    throw new Error('Signer address does not match wallet address');
+
+  const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+  const mnemonic = activeWallet.cipher; // decrypt
+  const hdPath = `m/44'/${118}'/${0}'/${0}/${0}`;
+
+  return getChildKey(mnemonic, hdPath);
 }

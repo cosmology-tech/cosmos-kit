@@ -14,6 +14,7 @@ export class MockExtensionWallet extends MainWalletBase {
     this.initingClient();
     try {
       const mock = await getMockFromExtension();
+      // @ts-ignore
       this.initClientDone(mock ? new MockClient(mock) : undefined);
     } catch (error) {
       this.initClientError(error);
