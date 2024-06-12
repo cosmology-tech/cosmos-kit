@@ -2,37 +2,65 @@
 import './setup.test';
 
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
-import { assertIsDeliverTxSuccess } from '@cosmjs/stargate';
+import {
+  assertIsDeliverTxSuccess,
+  SigningStargateClient,
+} from '@cosmjs/stargate';
+
 import BigNumber from 'bignumber.js';
 import { useChain } from 'starshipjs';
 import { chains, assets } from 'chain-registry';
 import { cosmos, getSigningCosmosClient } from 'osmojs';
 import { generateMnemonic } from '../src';
-import { WalletManager } from '../../src';
+import { Logger, WalletManager } from '../../src';
 import { wallets } from '@cosmos-kit/cosmjs';
+
+// import { CosmjsClient } from './../../../../wallets/cosmjs-extension/src/extension/client';
 
 describe('Staking tokens testing', () => {
   let wallet, denom, address;
-  let chainInfo, getCoin, getRpcEndpoint, creditFromFaucet;
+  let chainInfo, getCoin, getRpcEndpoint, creditFromFaucet, client;
 
   // Variables used accross testcases
   let queryClient;
   let validatorAddress;
   let delegationAmount;
+  let chainName = 'cosmos';
 
   beforeAll(async () => {
-    const { chain, chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } = useChain('cosmos');
-    const walletManager = new WalletManager([chain], wallets);
+    ({ chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } =
+      useChain(chainName));
     denom = getCoin().base;
-    const client = await walletManager.connect('cosmjs');
 
-    // Initialize wallet
-    wallet = await DirectSecp256k1HdWallet.fromMnemonic(generateMnemonic(), {
-      prefix: chainInfo.chain.bech32_prefix,
-    });
-    address = client.address;
+    // const client = new CosmjsClient();
+    // console.log('client', await client.getAccount(chainInfo.chain.chain_id));
 
-    // Create custom cosmos interchain client
+    const walletManager = new WalletManager(
+      [chainName],
+      [...wallets],
+      new Logger('DEBUG'),
+      false,
+      true,
+      [],
+      []
+    );
+
+    const mainWallet = walletManager.getMainWallet('cosmjs-extension');
+
+    const account = await mainWallet.client.getAccount(
+      chainInfo.chain.chain_id
+    );
+
+    const client = await SigningStargateClient.connectWithSigner(
+      getRpcEndpoint(),
+      wallet
+    );
+
+    wallet = account.wallet;
+    address = account.address;
+
+    console.log('address', address, client);
+
     queryClient = await cosmos.ClientFactory.createRPCQueryClient({
       rpcEndpoint: getRpcEndpoint(),
     });
@@ -53,13 +81,13 @@ describe('Staking tokens testing', () => {
   it('query validator address', async () => {
     const { validators } = await queryClient.cosmos.staking.v1beta1.validators({
       status: cosmos.staking.v1beta1.bondStatusToJSON(
-        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED,
+        cosmos.staking.v1beta1.BondStatus.BOND_STATUS_BONDED
       ),
     });
     let allValidators = validators;
     if (validators.length > 1) {
       allValidators = validators.sort((a, b) =>
-        new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber(),
+        new BigNumber(b.tokens).minus(new BigNumber(a.tokens)).toNumber()
       );
     }
 
@@ -107,16 +135,17 @@ describe('Staking tokens testing', () => {
   });
 
   it('query delegation', async () => {
-    const { delegationResponse } = await queryClient.cosmos.staking.v1beta1.delegation({
-      delegatorAddr: address,
-      validatorAddr: validatorAddress,
-    });
+    const { delegationResponse } =
+      await queryClient.cosmos.staking.v1beta1.delegation({
+        delegatorAddr: address,
+        validatorAddr: validatorAddress,
+      });
 
     // Assert that the delegation amount is the set delegation amount
     // eslint-disable-next-line no-undef
     expect(BigInt(delegationResponse.balance.amount)).toBeGreaterThan(
       // eslint-disable-next-line no-undef
-      BigInt(0),
+      BigInt(0)
     );
     expect(delegationResponse.balance.amount).toEqual(delegationAmount);
     expect(delegationResponse.balance.denom).toEqual(denom);

@@ -93,7 +93,8 @@
   "devDependencies": {
     "osmojs": "16.14.0",
     "@starship-ci/cli": "1.9.0",
-    "starshipjs": "^1.4.0"
+    "starshipjs": "^1.4.0",
+    "jest-environment-jsdom": "^29.7.0"
   },
   "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
 }
