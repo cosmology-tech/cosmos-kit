@@ -66,8 +66,7 @@
   "dependencies": {
     "@chain-registry/keplr": "1.28.0",
     "@cosmos-kit/core": "^2.9.0",
-    "@initia/initia.proto": "^0.1.20",
-    "@initia/shared": "^0.6.0"
+    "@initia/initia.proto": "^0.1.20"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">=0.32.3",

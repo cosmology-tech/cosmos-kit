@@ -22,6 +22,7 @@ export type Wallet = {
 
 export const SITE = 'https://mock.mock';
 export const ACTIVE_WALLET = 'ACTIVE_WALLET';
+export const BETA_CW20_TOKENS = 'beta-cw20-tokens';
 
 export const KeyChain = {
   storage: new Map(), // browser.local.storage

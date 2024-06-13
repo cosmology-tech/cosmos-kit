@@ -5,20 +5,21 @@ import {
   OfflineAminoSigner,
   StdSignature,
   StdSignDoc,
+  encodeSecp256k1Signature,
+  Secp256k1HdWallet,
 } from '@cosmjs/amino';
 import { sha256 } from '@cosmjs/crypto';
 import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
-import { DirectSignResponse } from '@cosmjs/proto-signing';
+import { DirectSignResponse, makeSignBytes } from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
 import type { ChainInfo } from '@keplr-wallet/types';
 import * as bech32 from 'bech32';
 import { chains } from 'chain-registry';
-import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import Long from 'long';
-import * as secp256k1 from '@noble/secp256k1';
+import { Secp256k1, sha256 } from '@cosmjs/crypto';
 
 import { Key, Mock, MockSignOptions } from '../mock-extension';
-import { generateWallet, getChildKey } from '../utils';
+import { generateWallet, getADR36SignDoc, getChildKey } from '../utils';
 import {
   KeyChain,
   BrowserStorage,
@@ -135,10 +136,14 @@ export class MockWallet implements Mock {
     signDoc: StdSignDoc,
     signOptions?: MockSignOptions
   ): Promise<AminoSignResponse> {
-    return {
-      signed: signDoc,
-      signature: new Uint8Array(),
-    };
+    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+
+    const wallet = await Secp256k1HdWallet.fromMnemonic(activeWallet.cipher, {
+      prefix: 'archway',
+    });
+
+    const { signed, signature } = await wallet.signAmino(signer, signDoc);
+    return { signed, signature };
   }
 
   async signDirect(
@@ -152,18 +157,29 @@ export class MockWallet implements Mock {
     },
     signOptions?: MockSignOptions
   ): Promise<DirectSignResponse> {
-    const key = getSignerKey(signer);
+    // or use DirectSecp256k1HdWallet - signDirect
 
-    const hash = sha256(serializeSignDoc(signDoc));
-    const signature = await secp256k1.sign(hash, key.privateKey, {
-      canonical: true,
-      extraEntropy: signOptions?.extraEntropy === false ? undefined : true,
-      der: false,
-    });
+    const key = await getSignerKey(chainId, signer);
+
+    const hash = sha256(makeSignBytes(signDoc));
+    const signature = await Secp256k1.createSignature(
+      hash,
+      new Uint8Array(key.privateKey)
+    );
+
+    const signatureBytes = new Uint8Array([
+      ...signature.r(32),
+      ...signature.s(32),
+    ]);
+
+    const stdSignature = encodeSecp256k1Signature(
+      new Uint8Array(key.publicKey),
+      signatureBytes
+    );
 
     return {
       signed: signDoc,
-      signature: signature,
+      signature: stdSignature,
     };
   }
 
@@ -172,10 +188,12 @@ export class MockWallet implements Mock {
     signer: string,
     data: string | Uint8Array
   ): Promise<StdSignature> {
-    return {
-      pubKey: new Uint8Array(),
-      signature: new Uint8Array(),
-    };
+    data = Buffer.from(data).toString('base64');
+    const signDoc = getADR36SignDoc(signer, data);
+
+    const { signature } = await this.signAmino(chainId, signer, signDoc);
+
+    return signature;
   }
 
   async getEnigmaPubKey(chainId: string): Promise<Uint8Array> {
@@ -258,23 +276,13 @@ function getAddressFromBech32(bech32Address) {
   return new Uint8Array(bech32.fromWords(decoded.words));
 }
 
-function serializeSignDoc(signDoc: SignDoc) {
-  return SignDoc.encode(
-    SignDoc.fromPartial({
-      accountNumber: signDoc.accountNumber,
-      authInfoBytes: signDoc.authInfoBytes,
-      bodyBytes: signDoc.bodyBytes,
-      chainId: signDoc.chainId,
-    })
-  ).finish();
-}
+async function getSignerKey(chainId, signer) {
+  const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+  const activeAddress = activeWallet.addresses[chainId];
 
-function getSignerKey(signer) {
-  const activeAddress = activeWallet.addresses[chainInfo.chain_id];
   if (signer !== activeAddress)
     throw new Error('Signer address does not match wallet address');
 
-  const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
   const mnemonic = activeWallet.cipher; // decrypt
   const hdPath = `m/44'/${118}'/${0}'/${0}/${0}`;
 

@@ -5,6 +5,7 @@ import {
 } from '@cosmjs/proto-signing';
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
+import { StdSignDoc } from '@cosmjs/amino';
 
 export function getHDPath(
   coinType: '118' | '60',
@@ -30,4 +31,15 @@ export function getChildKey(mnemonic: string, HDPath: string) {
   const seed = bip39.mnemonicToSeedSync(mnemonic);
   const node = bip32.fromSeed(seed);
   return node.derivePath(HDPath);
+}
+
+export function getADR36SignDoc(signer: string, data: string): StdSignDoc {
+  return {
+    chain_id: '',
+    account_number: '0',
+    sequence: '0',
+    fee: { gas: '0', amount: [] },
+    msgs: [{ type: 'sign/MsgSignData', value: { signer, data } }],
+    memo: '',
+  };
 }
