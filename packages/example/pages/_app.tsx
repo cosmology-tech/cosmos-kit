@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-imports */
 import "bootstrap/dist/css/bootstrap.min.css";
+import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import "../style/global.css";
 import "@interchain-ui/react/styles";
-import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
-import "@leapwallet/react-ui/styles.css";
 
 import { Chain } from "@chain-registry/types";
 import { Decimal } from "@cosmjs/math";
@@ -94,7 +93,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={["cosmoshub", "secret"]}
         assetLists={[]}
         wallets={[
-          // ...wallets,
+          ...wallets,
           ...keplrWallets,
           ...leapWallets,
           // ...owalletWallets,
