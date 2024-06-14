@@ -6,14 +6,16 @@ import {
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
 import { StdSignDoc } from '@cosmjs/amino';
+import { chains } from 'chain-registry';
+import { Chain } from '@chain-registry/types';
 
-export function getHDPath(
-  coinType: '118' | '60',
-  index = '0',
+export function getHdPath(
+  coinType = '118',
+  addrIndex = '0',
   account = '0',
   chain = '0'
-) {
-  return `m/44'/${coinType}'/${account}'/${chain}/${index}`;
+): string {
+  return `m/44'/${coinType}'/${account}'/${chain}/${addrIndex}`;
 }
 
 export function generateMnemonic(): string {
@@ -27,10 +29,15 @@ export async function generateWallet(
   return DirectSecp256k1HdWallet.fromMnemonic(mnemonic, options);
 }
 
-export function getChildKey(mnemonic: string, HDPath: string) {
+export function getChainInfoByChainId(chainId: string): Chain {
+  const chainInfo = chains.find((chain) => chain.chain_id === chainId);
+  return chainInfo;
+}
+
+export function getChildKey(mnemonic: string, HdPath: string) {
   const seed = bip39.mnemonicToSeedSync(mnemonic);
   const node = bip32.fromSeed(seed);
-  return node.derivePath(HDPath);
+  return node.derivePath(HdPath);
 }
 
 export function getADR36SignDoc(signer: string, data: string): StdSignDoc {

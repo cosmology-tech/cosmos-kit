@@ -1,31 +1,45 @@
-// @ts-nocheck
+// @ts-nocheckk
 import { Chain } from '@chain-registry/types';
 import {
   AminoSignResponse,
+  encodeSecp256k1Signature,
   OfflineAminoSigner,
+  Secp256k1HdWallet,
   StdSignature,
   StdSignDoc,
-  encodeSecp256k1Signature,
-  Secp256k1HdWallet,
 } from '@cosmjs/amino';
-import { sha256 } from '@cosmjs/crypto';
-import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
-import { DirectSignResponse, makeSignBytes } from '@cosmjs/proto-signing';
+import { Secp256k1, sha256, stringToPath } from '@cosmjs/crypto';
+import {
+  DirectSignResponse,
+  makeSignBytes,
+  OfflineDirectSigner,
+  OfflineSigner,
+} from '@cosmjs/proto-signing';
 import { BroadcastMode } from '@cosmos-kit/core';
 import type { ChainInfo } from '@keplr-wallet/types';
 import * as bech32 from 'bech32';
-import { chains } from 'chain-registry';
-import Long from 'long';
-import { Secp256k1, sha256 } from '@cosmjs/crypto';
+import type { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import deepmerge from 'deepmerge';
 
 import { Key, Mock, MockSignOptions } from '../mock-extension';
-import { generateWallet, getADR36SignDoc, getChildKey } from '../utils';
 import {
-  KeyChain,
-  BrowserStorage,
-  SITE,
   ACTIVE_WALLET,
+  BrowserStorage,
+  KeyChain,
+  SITE,
+  Wallet,
 } from '../mock-extension/extension/utils';
+import {
+  generateWallet,
+  getADR36SignDoc,
+  getChainInfoByChainId,
+  getChildKey,
+  getHdPath,
+} from '../utils';
+import {
+  CosmJSOfflineSigner,
+  CosmJSOfflineSignerOnlyAmino,
+} from './offline-signer';
 
 export class MockWallet implements Mock {
   defaultOptions = {
@@ -47,17 +61,16 @@ export class MockWallet implements Mock {
 
     const validChainIds = [];
     chainIds.forEach((chainId: string) => {
-      const validChain = chains.find(
-        (chain: Chain) => chain.chain_id === chainId
-      );
+      const validChain = getChainInfoByChainId(chainId);
       if (validChain) validChainIds.push(validChain.chain_id);
     });
 
     if (validChainIds.length === 0) {
-      return { error: 'Invalid chain ids' };
+      // return { error: 'Invalid chain ids' };
+      return;
     }
 
-    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
 
     let connections = BrowserStorage.get('connections');
     if (!connections) connections = {};
@@ -72,7 +85,8 @@ export class MockWallet implements Mock {
 
     BrowserStorage.set('connections', connections);
 
-    return { success: 'Chain enabled' };
+    // return { success: 'Chain enabled' };
+    return;
   }
 
   async suggestToken(chainId: string, contractAddress: string): Promise<void> {
@@ -87,14 +101,14 @@ export class MockWallet implements Mock {
   }
 
   async getKey(chainId: string): Promise<Key> {
-    const chainInfo = chains.find((chain) => chain.chain_id === chainId);
+    const chainInfo: Chain = getChainInfoByChainId(chainId);
 
-    if (!chainInfo || !chainInfo.status === 'live')
+    if (!chainInfo || !(chainInfo.status === 'live'))
       throw new Error('Invalid chainId');
 
-    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
 
-    const pubKey = activeWallet.pubKeys?.[chainId] ?? '';
+    const pubKey = activeWallet.pubKeys?.[chainId];
 
     const address = getAddressFromBech32(activeWallet.addresses[chainId] ?? '');
 
@@ -108,26 +122,34 @@ export class MockWallet implements Mock {
     };
   }
 
-  async getOfflineSigner(
-    chainId: string
-  ): Promise<OfflineAminoSigner & OfflineDirectSigner> {
-    return {
-      // Implement Offline Signer logic as needed
-    } as OfflineAminoSigner & OfflineDirectSigner;
+  getOfflineSigner(
+    chainId: string,
+    signOptions?: MockSignOptions
+  ): OfflineAminoSigner & OfflineDirectSigner {
+    return new CosmJSOfflineSigner(
+      chainId,
+      this,
+      deepmerge(this.defaultOptions ?? {}, signOptions ?? {})
+    );
   }
 
-  async getOfflineSignerOnlyAmino(
-    chainId: string
-  ): Promise<OfflineAminoSigner> {
-    return {
-      // Implement Offline Amino Signer logic as needed
-    } as OfflineAminoSigner;
+  getOfflineSignerOnlyAmino(
+    chainId: string,
+    signOptions?: MockSignOptions
+  ): OfflineAminoSigner {
+    return new CosmJSOfflineSignerOnlyAmino(
+      chainId,
+      this,
+      deepmerge(this.defaultOptions ?? {}, signOptions ?? {})
+    );
   }
 
-  async getOfflineSignerAuto(chainId: string): Promise<OfflineSigner> {
-    return {
-      // Implement Auto Signer logic as needed
-    } as OfflineSigner;
+  async getOfflineSignerAuto(
+    chainId: string,
+    signOptions?: MockSignOptions
+  ): Promise<OfflineSigner> {
+    const _signOpts = deepmerge(this.defaultOptions ?? {}, signOptions ?? {});
+    return new CosmJSOfflineSigner(chainId, this, _signOpts);
   }
 
   async signAmino(
@@ -136,10 +158,16 @@ export class MockWallet implements Mock {
     signDoc: StdSignDoc,
     signOptions?: MockSignOptions
   ): Promise<AminoSignResponse> {
-    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
 
+    const chainInfo: Chain = getChainInfoByChainId(chainId);
+
+    const hdPath = stringToPath(
+      getHdPath(chainInfo.slip44 + '', activeWallet.addressIndex + '')
+    );
     const wallet = await Secp256k1HdWallet.fromMnemonic(activeWallet.cipher, {
-      prefix: 'archway',
+      prefix: chainInfo.bech32_prefix,
+      hdPaths: [hdPath],
     });
 
     const { signed, signature } = await wallet.signAmino(signer, signDoc);
@@ -157,11 +185,17 @@ export class MockWallet implements Mock {
     },
     signOptions?: MockSignOptions
   ): Promise<DirectSignResponse> {
-    // or use DirectSecp256k1HdWallet - signDirect
+    // Or use DirectSecp256k1HdWallet - signDirect
 
-    const key = await getSignerKey(chainId, signer);
+    const key = getSignerKey(chainId, signer);
 
-    const hash = sha256(makeSignBytes(signDoc));
+    const _signDoc = <SignDoc>{
+      ...signDoc,
+      accountNumber: signDoc.accountNumber
+        ? BigInt(signDoc.accountNumber.toString())
+        : null,
+    };
+    const hash = sha256(makeSignBytes(_signDoc));
     const signature = await Secp256k1.createSignature(
       hash,
       new Uint8Array(key.privateKey)
@@ -178,7 +212,7 @@ export class MockWallet implements Mock {
     );
 
     return {
-      signed: signDoc,
+      signed: _signDoc,
       signature: stdSignature,
     };
   }
@@ -232,10 +266,10 @@ export class MockWallet implements Mock {
   }
 
   async experimentalSuggestChain(chainInfo: ChainInfo): Promise<void> {
-    const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
     const newKeystoreEntries = await Promise.all(
       Object.entries(KeyChain.storage.get('keystore')).map(
-        async ([walletId, walletInfo]) => {
+        async ([walletId, walletInfo]: [string, Wallet]) => {
           const wallet = await generateWallet(walletInfo.cipher, {
             prefix: chainInfo.bech32Config.bech32PrefixAccAddr,
           });
@@ -259,15 +293,15 @@ export class MockWallet implements Mock {
       )
     );
 
-    const newKeystore = newKeystoreEntries.reduce((res, entry) => {
-      res[entry[0]] = entry[1];
-      return res;
-    }, {});
+    const newKeystore = newKeystoreEntries.reduce(
+      (res, entry: [string, Wallet]) => (res[entry[0]] = entry[1]) && res,
+      {}
+    );
 
     KeyChain.storage.set('keystore', newKeystore);
     KeyChain.storage.set(ACTIVE_WALLET, newKeystore[activeWallet.id]);
 
-    return newKeystore;
+    // return newKeystore;
   }
 }
 
@@ -276,15 +310,20 @@ function getAddressFromBech32(bech32Address) {
   return new Uint8Array(bech32.fromWords(decoded.words));
 }
 
-async function getSignerKey(chainId, signer) {
-  const activeWallet = KeyChain.storage.get(ACTIVE_WALLET);
+function getSignerKey(chainId, signer) {
+  const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
   const activeAddress = activeWallet.addresses[chainId];
 
-  if (signer !== activeAddress)
+  if (signer !== activeAddress) {
     throw new Error('Signer address does not match wallet address');
+  }
 
   const mnemonic = activeWallet.cipher; // decrypt
-  const hdPath = `m/44'/${118}'/${0}'/${0}/${0}`;
+  const chainInfo = getChainInfoByChainId(chainId);
+  const hdPath = getHdPath(
+    chainInfo.slip44 + '',
+    activeWallet.addressIndex + ''
+  );
 
   return getChildKey(mnemonic, hdPath);
 }

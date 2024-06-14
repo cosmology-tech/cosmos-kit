@@ -3,8 +3,10 @@ import { ClientNotExistError } from '@cosmos-kit/core';
 import { v4 as uuidv4 } from 'uuid';
 
 import { MockWallet } from '../../mocker'; // Ensure this path is correct
-import { generateMnemonic, generateWallet } from '../../utils';
+import { generateMnemonic, generateWallet, getHdPath } from '../../utils';
 import { Mock } from './types';
+import { DirectSecp256k1HdWalletOptions } from '@cosmjs/proto-signing';
+import { stringToPath } from '@cosmjs/crypto';
 
 interface MockWindow {
   mock?: Mock;
@@ -13,7 +15,7 @@ interface MockWindow {
 export type Wallet = {
   addressIndex: number;
   name: string;
-  cipher: string;
+  cipher: string; // mnemonic, should be encrypted in real environment.
   addresses: Record<string, string>;
   pubKeys: Record<string, Uint8Array>;
   walletType: string;
@@ -31,7 +33,6 @@ export const KeyChain = {
 export const BrowserStorage = new Map();
 
 let mockWalletInstance = null;
-
 export const getMockFromExtension: (
   mockWindow?: MockWindow
 ) => Promise<MockWallet> = async (_window: any) => {
@@ -47,8 +48,12 @@ async function initWallet(chains: Chain[]) {
   const mnemonic = generateMnemonic();
 
   for (const chain of chains) {
-    const { chain_id, bech32_prefix } = chain;
-    const wallet = await generateWallet(mnemonic, { prefix: bech32_prefix });
+    const { chain_id, bech32_prefix, slip44 } = chain;
+    const options: Partial<DirectSecp256k1HdWalletOptions> = {
+      prefix: bech32_prefix,
+      hdPaths: [stringToPath(getHdPath(`${slip44}`))],
+    };
+    const wallet = await generateWallet(mnemonic, options);
     const accounts = await wallet.getAccounts();
 
     addresses[chain_id] = accounts[0].address;
