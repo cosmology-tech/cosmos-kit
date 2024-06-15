@@ -30,6 +30,9 @@ import { toBase64, fromBase64 } from '@cosmjs/encoding';
 import { Secp256k1, Secp256k1Signature, sha256 } from '@cosmjs/crypto';
 import { serializeSignDoc } from '@cosmjs/amino';
 import { getADR36SignDoc } from '../src/utils';
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
+import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 // Mock global window object
 // @ts-ignore
@@ -65,20 +68,30 @@ function logoutUser() {
 // Start the session when the user logs in
 // userSession.update();
 
-let client: MockClient,
-  initialChain: Chain,
-  walletManager: WalletManager,
-  context: ChainWalletContext;
+let walletManager: WalletManager;
+let client: MockClient;
+let context: ChainWalletContext;
+
+const initChainsCount = 2;
+
+let initialChain: Chain;
+let suggestChain: Chain;
 
 const mainWalletBase = new MockExtensionWallet(walletInfo);
 
-const startIndex = 8;
-const endIndex = 10;
-const initChainsCount = endIndex - startIndex;
-
 beforeAll(async () => {
-  const enabledChains = chains.slice(startIndex, endIndex);
+  const liveChainsOfType118 = chains.filter(
+    (chain) => chain.slip44 === 118 && chain.status === 'live'
+  );
+  const startIndex = liveChainsOfType118.findIndex(
+    (chain) => chain.chain_name === 'cosmoshub'
+  );
+
+  const endIndex = startIndex + initChainsCount;
+  const enabledChains = liveChainsOfType118.slice(startIndex, endIndex);
+
   initialChain = enabledChains[0];
+  suggestChain = liveChainsOfType118[endIndex];
 
   await init(enabledChains);
 
@@ -103,6 +116,7 @@ describe('WalletManager', () => {
 
   it('should handle onMounted lifecycle correctly', async () => {
     // Mock environment parser
+    // `getParser` is a static method of `Bowser` class, unable to mock directly.
     // jest.mock('Bowser', () => ({
     //   getParser: () => ({
     //     getBrowserName: jest.fn().mockReturnValue('chrome'),
@@ -111,13 +125,18 @@ describe('WalletManager', () => {
     //   }),
     // }));
 
+    await walletManager.onMounted();
+
+    expect(window.addEventListener).toHaveBeenCalledWith(
+      walletInfo.connectEventNamesOnWindow[0],
+      expect.any(Function)
+    );
+
     expect(walletManager.walletRepos).toHaveLength(initChainsCount); // Depends on internal logic
     // expect(logger.debug).toHaveBeenCalled(); // Check if debug logs are called
   });
 
   it('should active wallet', async () => {
-    await walletManager.onMounted();
-
     const walletRepo = walletManager.getWalletRepo(initialChain.chain_name);
     const chainWallet = walletManager.getChainWallet(
       initialChain.chain_name,
@@ -140,8 +159,6 @@ describe('WalletManager', () => {
   });
 
   it('should suggest chain', async () => {
-    const suggestChain: Chain = chains[6];
-
     const newKeystore = (await client.addChain({
       name: suggestChain.chain_name,
       chain: suggestChain,
@@ -197,8 +214,8 @@ describe('WalletManager', () => {
 
     const authInfoBytes = makeAuthInfoBytes(
       [{ pubkey, sequence: 0 }],
-      coins(2000, 'usd'),
-      200000,
+      coins(1000, 'usdt'),
+      1000,
       undefined,
       undefined
     );
@@ -229,7 +246,7 @@ describe('WalletManager', () => {
 
     const signDoc = {
       msgs: [],
-      fee: { amount: [], gas: '100' },
+      fee: { amount: [], gas: '1000' },
       chain_id: initialChain.chain_id,
       memo: '',
       account_number: '1',
@@ -292,4 +309,60 @@ describe('WalletManager', () => {
     // @ts-ignore
     expect(offlineSigner.signDirect).toBeFalsy();
   });
+
+  it('should send tx', async () => {
+    const registry = new Registry();
+
+    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const address = activeWallet.addresses[initialChain.chain_id];
+
+    const coin = Coin.fromPartial({ denom: 'usdt', amount: '1000' });
+    const msgSend = MsgSend.fromPartial({
+      fromAddress: address,
+      toAddress: 'archway1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc52fs6vt',
+      amount: [coin],
+    });
+    const message = { typeUrl: '/cosmos.bank.v1beta1.MsgSend', value: msgSend };
+    const txBody = { messages: [message], memo: '' };
+    const txBodyBytes = registry.encodeTxBody(txBody);
+
+    const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
+    const pubKeyBytes = new Uint8Array(pubKeyBuf);
+    const pubkey = encodePubkey({
+      type: 'tendermint/PubKeySecp256k1',
+      value: toBase64(pubKeyBytes),
+    });
+
+    const authInfoBytes = makeAuthInfoBytes(
+      [{ pubkey, sequence: 0 }],
+      coins(1000, 'usdt'),
+      1000,
+      undefined,
+      undefined
+    );
+
+    const accountNumber = 1;
+    const signDoc = makeSignDoc(
+      txBodyBytes,
+      authInfoBytes,
+      initialChain.chain_id,
+      accountNumber
+    ) as DirectSignDoc;
+
+    const { signature, signed } = await context.signDirect(address, signDoc);
+
+    const txRaw = TxRaw.fromPartial({
+      bodyBytes: signed.bodyBytes,
+      authInfoBytes: signed.authInfoBytes,
+      signatures: [fromBase64(signature.signature)],
+    });
+    const txRawBytes = Uint8Array.from(TxRaw.encode(txRaw).finish());
+
+    // `BroadcastMode.SYNC` There is a problem with enum definition at runtime.
+    // @ts-expect-error
+    const result = await context.sendTx(txRawBytes, 'sync');
+
+    // since this is a mock tx, the tx will not succeed, but we will still get a response with a txhash.
+    expect(toBase64(result)).toHaveLength(64);
+  }, 10000); // set timeout to 10 seconds, in case slow network.
 });

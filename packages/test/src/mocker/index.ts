@@ -1,4 +1,3 @@
-// @ts-nocheckk
 import { Chain } from '@chain-registry/types';
 import {
   AminoSignResponse,
@@ -259,10 +258,32 @@ export class MockWallet implements Mock {
 
   async sendTx(
     chainId: string,
-    tx: Uint8Array,
+    tx: Uint8Array, // protobuf tx
     mode: BroadcastMode
   ): Promise<Uint8Array> {
-    return new Uint8Array();
+    const chain = getChainInfoByChainId(chainId);
+
+    const params = {
+      tx_bytes: Buffer.from(tx).toString('base64'),
+      mode: mode
+        ? `BROADCAST_MODE_${mode.toUpperCase()}`
+        : 'BROADCAST_MODE_UNSPECIFIED',
+    };
+
+    const url = `${chain.apis.rest[0].address}/cosmos/tx/v1beta1/txs`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(params),
+    });
+    const result = await res.json();
+    const txResponse = result['tx_response'];
+
+    // if (txResponse.code != null && txResponse.code !== 0) {
+    //   throw new Error(txResponse['raw_log']);
+    // }
+
+    return Buffer.from(txResponse.txhash, 'base64');
   }
 
   async experimentalSuggestChain(chainInfo: ChainInfo): Promise<void> {

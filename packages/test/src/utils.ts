@@ -1,13 +1,13 @@
+import { Chain } from '@chain-registry/types';
+import { StdSignDoc } from '@cosmjs/amino';
 import { Bip39, Random } from '@cosmjs/crypto';
 import {
   DirectSecp256k1HdWallet,
   DirectSecp256k1HdWalletOptions,
 } from '@cosmjs/proto-signing';
-import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
-import { StdSignDoc } from '@cosmjs/amino';
+import * as bip39 from 'bip39';
 import { chains } from 'chain-registry';
-import { Chain } from '@chain-registry/types';
 
 export function getHdPath(
   coinType = '118',
@@ -43,9 +43,9 @@ export function getChildKey(mnemonic: string, HdPath: string) {
 export function getADR36SignDoc(signer: string, data: string): StdSignDoc {
   return {
     chain_id: '',
-    account_number: '0',
+    account_number: '1',
     sequence: '0',
-    fee: { gas: '0', amount: [] },
+    fee: { gas: '1000', amount: [] },
     msgs: [{ type: 'sign/MsgSignData', value: { signer, data } }],
     memo: '',
   };
