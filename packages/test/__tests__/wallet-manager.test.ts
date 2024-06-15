@@ -3,6 +3,7 @@ import {
   Logger,
   ChainWalletContext,
   DirectSignDoc,
+  SuggestTokenTypes,
 } from '../../core';
 import { chains, assets } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
@@ -10,12 +11,14 @@ import { MockExtensionWallet } from '../src/mock-extension';
 import { mockExtensionInfo as walletInfo } from '../src/mock-extension/extension/registry';
 import { getChainWalletContext } from '../../react-lite/src/utils';
 import {
-  init,
   ACTIVE_WALLET,
+  BETA_CW20_TOKENS,
+  BrowserStorage,
+  CONNECTIONS,
   KeyChain,
-  Wallet,
-} from '../src/mock-extension/extension/utils';
-import { MockWallet } from '../src/mocker/index';
+  ORIGIN,
+  TWallet,
+} from '../src/utils';
 import { MockClient } from '../src/mock-extension/extension/client';
 
 import {
@@ -29,7 +32,7 @@ import {
 import { toBase64, fromBase64 } from '@cosmjs/encoding';
 import { Secp256k1, Secp256k1Signature, sha256 } from '@cosmjs/crypto';
 import { serializeSignDoc } from '@cosmjs/amino';
-import { getADR36SignDoc } from '../src/utils';
+import { getADR36SignDoc, initWallet } from '../src/utils';
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
@@ -89,11 +92,10 @@ beforeAll(async () => {
 
   const endIndex = startIndex + initChainsCount;
   const enabledChains = liveChainsOfType118.slice(startIndex, endIndex);
-
   initialChain = enabledChains[0];
   suggestChain = liveChainsOfType118[endIndex];
 
-  await init(enabledChains);
+  await initWallet(enabledChains);
 
   walletManager = new WalletManager(
     enabledChains,
@@ -158,14 +160,21 @@ describe('WalletManager', () => {
     expect(context.wallet.name).toBe('mock-extension');
   });
 
-  it('should suggest chain', async () => {
-    const newKeystore = (await client.addChain({
+  it('should suggest chain and addChain', async () => {
+    await client.addChain({
       name: suggestChain.chain_name,
       chain: suggestChain,
       assetList: assets.find(
         ({ chain_name }) => chain_name === suggestChain.chain_name
       ),
-    })) as unknown as Record<string, Wallet>;
+    });
+
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const connections = BrowserStorage.get(CONNECTIONS);
+
+    expect(connections[activeWallet.id][suggestChain.chain_id]).toContain(
+      ORIGIN
+    );
 
     walletManager.addChains([suggestChain], assets);
 
@@ -202,7 +211,7 @@ describe('WalletManager', () => {
     };
     const txBodyBytes = registry.encodeTxBody(txBody);
 
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
 
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
@@ -214,7 +223,7 @@ describe('WalletManager', () => {
 
     const authInfoBytes = makeAuthInfoBytes(
       [{ pubkey, sequence: 0 }],
-      coins(1000, 'usdt'),
+      coins(1000, 'ucosm'),
       1000,
       undefined,
       undefined
@@ -240,7 +249,7 @@ describe('WalletManager', () => {
   });
 
   it('should sign amino', async () => {
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
 
@@ -267,7 +276,7 @@ describe('WalletManager', () => {
   it('should sign arbitrary', async () => {
     const data = 'cosmos-kit';
 
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
 
@@ -310,13 +319,13 @@ describe('WalletManager', () => {
     expect(offlineSigner.signDirect).toBeFalsy();
   });
 
-  it('should send tx', async () => {
+  it('should send proto tx', async () => {
     const registry = new Registry();
 
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
 
-    const coin = Coin.fromPartial({ denom: 'usdt', amount: '1000' });
+    const coin = Coin.fromPartial({ denom: 'ucosm', amount: '1000' });
     const msgSend = MsgSend.fromPartial({
       fromAddress: address,
       toAddress: 'archway1qypqxpq9qcrsszg2pvxq6rs0zqg3yyc52fs6vt',
@@ -335,7 +344,7 @@ describe('WalletManager', () => {
 
     const authInfoBytes = makeAuthInfoBytes(
       [{ pubkey, sequence: 0 }],
-      coins(1000, 'usdt'),
+      coins(1000, 'ucosm'),
       1000,
       undefined,
       undefined
@@ -364,5 +373,27 @@ describe('WalletManager', () => {
 
     // since this is a mock tx, the tx will not succeed, but we will still get a response with a txhash.
     expect(toBase64(result)).toHaveLength(64);
+  }, 10000); // set timeout to 10 seconds, in case slow network.
+
+  it('should suggest cw20 token', async () => {
+    const chainId = 'pacific-1';
+    const chainName = 'sei';
+    const contractAddress =
+      'sei1hrndqntlvtmx2kepr0zsfgr7nzjptcc72cr4ppk4yav58vvy7v3s4er8ed';
+    // symbol = 'SEIYAN'
+
+    await context.suggestToken({
+      chainId,
+      chainName,
+      type: SuggestTokenTypes.CW20,
+      tokens: [{ contractAddress }],
+    });
+
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const betaTokens = BrowserStorage.get(BETA_CW20_TOKENS);
+    const connections = BrowserStorage.get(CONNECTIONS);
+
+    expect(connections[activeWallet.id][chainId]).toContain(ORIGIN);
+    expect(betaTokens[chainId][contractAddress].coinDenom).toBe('SEIYAN');
   }, 10000); // set timeout to 10 seconds, in case slow network.
 });

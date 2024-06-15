@@ -23,16 +23,20 @@ import deepmerge from 'deepmerge';
 import { Key, Mock, MockSignOptions } from '../mock-extension';
 import {
   ACTIVE_WALLET,
+  BETA_CW20_TOKENS,
   BrowserStorage,
+  CONNECTIONS,
   KeyChain,
-  SITE,
-  Wallet,
-} from '../mock-extension/extension/utils';
+  KEYSTORE,
+  ORIGIN,
+  TWallet,
+} from '../utils';
 import {
   generateWallet,
   getADR36SignDoc,
   getChainInfoByChainId,
   getChildKey,
+  getContractInfo,
   getHdPath,
 } from '../utils';
 import {
@@ -66,26 +70,24 @@ export class MockWallet implements Mock {
 
     if (validChainIds.length === 0) {
       // return { error: 'Invalid chain ids' };
-      return;
+      throw new Error('Invalid chain ids');
     }
 
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
 
-    let connections = BrowserStorage.get('connections');
-    if (!connections) connections = {};
-    if (!connections[activeWallet.id]) connections[activeWallet.id] = {};
+    const connections = BrowserStorage.get(CONNECTIONS);
+    const newConnections = { ...(connections ?? {}) };
 
+    if (!newConnections[activeWallet.id]) newConnections[activeWallet.id] = {};
     validChainIds.forEach((chainId) => {
-      const enabledList = connections[activeWallet.id][chainId] || [];
-      connections[activeWallet.id][chainId] = Array.from(
-        new Set([...enabledList, SITE])
+      newConnections[activeWallet.id][chainId] = Array.from(
+        new Set([...(newConnections[activeWallet.id][chainId] ?? []), ORIGIN])
       );
     });
 
-    BrowserStorage.set('connections', connections);
+    BrowserStorage.set(CONNECTIONS, newConnections);
 
     // return { success: 'Chain enabled' };
-    return;
   }
 
   async suggestToken(chainId: string, contractAddress: string): Promise<void> {
@@ -96,7 +98,42 @@ export class MockWallet implements Mock {
     chainId: string,
     contractAddress: string
   ): Promise<void> {
-    // Simulate suggesting a CW20 token
+    // `chainId` should be added to `CONNECTIONS` if not present.
+    // since the mock env, no end user approval is required,
+    // `enable` function can be treated as `add connection` approval.
+    await this.enable(chainId);
+
+    const res = await getContractInfo(chainId, contractAddress);
+    const chainInfo = getChainInfoByChainId(chainId);
+
+    if (typeof res.message === 'string' && res.message.includes('invalid')) {
+      throw new Error('Invalid Contract Address');
+    }
+
+    const cw20Token = {
+      coinDenom: res.data.symbol,
+      coinMinimalDenom: contractAddress,
+      coinDecimals: res.data.decimals,
+      chain: chainInfo,
+      coinGeckoId: '',
+      icon: '',
+    };
+
+    const betaTokens = BrowserStorage.get(BETA_CW20_TOKENS);
+
+    const newBetaTokens = {
+      ...(betaTokens || {}),
+      ...{
+        [chainId]: {
+          ...(betaTokens?.[chainId] ?? {}),
+          [contractAddress]: cw20Token,
+        },
+      },
+    };
+
+    BrowserStorage.set(BETA_CW20_TOKENS, newBetaTokens);
+
+    // return { success: 'token suggested' };
   }
 
   async getKey(chainId: string): Promise<Key> {
@@ -105,11 +142,12 @@ export class MockWallet implements Mock {
     if (!chainInfo || !(chainInfo.status === 'live'))
       throw new Error('Invalid chainId');
 
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
 
     const pubKey = activeWallet.pubKeys?.[chainId];
 
-    const address = getAddressFromBech32(activeWallet.addresses[chainId] ?? '');
+    const decoded = bech32.decode(activeWallet.addresses[chainId]);
+    const address = new Uint8Array(bech32.fromWords(decoded.words));
 
     return {
       name: activeWallet.name,
@@ -157,7 +195,7 @@ export class MockWallet implements Mock {
     signDoc: StdSignDoc,
     signOptions?: MockSignOptions
   ): Promise<AminoSignResponse> {
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
 
     const chainInfo: Chain = getChainInfoByChainId(chainId);
 
@@ -186,7 +224,7 @@ export class MockWallet implements Mock {
   ): Promise<DirectSignResponse> {
     // Or use DirectSecp256k1HdWallet - signDirect
 
-    const key = getSignerKey(chainId, signer);
+    const key = getChildKey(chainId, signer);
 
     const _signDoc = <SignDoc>{
       ...signDoc,
@@ -287,10 +325,10 @@ export class MockWallet implements Mock {
   }
 
   async experimentalSuggestChain(chainInfo: ChainInfo): Promise<void> {
-    const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
     const newKeystoreEntries = await Promise.all(
       Object.entries(KeyChain.storage.get('keystore')).map(
-        async ([walletId, walletInfo]: [string, Wallet]) => {
+        async ([walletId, walletInfo]: [string, TWallet]) => {
           const wallet = await generateWallet(walletInfo.cipher, {
             prefix: chainInfo.bech32Config.bech32PrefixAccAddr,
           });
@@ -315,36 +353,18 @@ export class MockWallet implements Mock {
     );
 
     const newKeystore = newKeystoreEntries.reduce(
-      (res, entry: [string, Wallet]) => (res[entry[0]] = entry[1]) && res,
+      (res, entry: [string, TWallet]) => (res[entry[0]] = entry[1]) && res,
       {}
     );
 
-    KeyChain.storage.set('keystore', newKeystore);
+    KeyChain.storage.set(KEYSTORE, newKeystore);
     KeyChain.storage.set(ACTIVE_WALLET, newKeystore[activeWallet.id]);
+
+    // `chainId` should be added to `CONNECTIONS` if not present.
+    // since the mock env, no end user approval is required,
+    // `enable` function can be treated as `add connection` approval
+    await this.enable(chainInfo.chainId);
 
     // return newKeystore;
   }
-}
-
-function getAddressFromBech32(bech32Address) {
-  const decoded = bech32.decode(bech32Address);
-  return new Uint8Array(bech32.fromWords(decoded.words));
-}
-
-function getSignerKey(chainId, signer) {
-  const activeWallet: Wallet = KeyChain.storage.get(ACTIVE_WALLET);
-  const activeAddress = activeWallet.addresses[chainId];
-
-  if (signer !== activeAddress) {
-    throw new Error('Signer address does not match wallet address');
-  }
-
-  const mnemonic = activeWallet.cipher; // decrypt
-  const chainInfo = getChainInfoByChainId(chainId);
-  const hdPath = getHdPath(
-    chainInfo.slip44 + '',
-    activeWallet.addressIndex + ''
-  );
-
-  return getChildKey(mnemonic, hdPath);
 }
