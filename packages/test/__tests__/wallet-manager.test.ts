@@ -4,7 +4,8 @@ import {
   ChainWalletContext,
   DirectSignDoc,
   SuggestTokenTypes,
-} from '../../core';
+  Session,
+} from '@cosmos-kit/core';
 import { chains, assets } from 'chain-registry';
 import { Chain } from '@chain-registry/types';
 import { MockExtensionWallet } from '../src/mock-extension';
@@ -32,10 +33,11 @@ import {
 import { toBase64, fromBase64 } from '@cosmjs/encoding';
 import { Secp256k1, Secp256k1Signature, sha256 } from '@cosmjs/crypto';
 import { serializeSignDoc } from '@cosmjs/amino';
-import { getADR36SignDoc, initWallet } from '../src/utils';
+import { getADR36SignDoc, initActiveWallet } from '../src/utils';
 import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import { getMockFromExtension } from '../src/mock-extension/extension/utils';
 
 // Mock global window object
 // @ts-ignore
@@ -63,15 +65,15 @@ function logoutUser() {
 }
 
 // Session duration set for 30 minutes
-// const userSession = new Session({
-//   duration: 30 * 60 * 1000, // 30 minutes in milliseconds
-//   callback: logoutUser,
-// });
+const userSession = new Session({
+  duration: 30 * 60 * 1000, // 30 minutes in milliseconds
+  callback: logoutUser,
+});
 
 // Start the session when the user logs in
-// userSession.update();
+userSession.update();
 
-let walletManager: WalletManager;
+export let walletManager: WalletManager;
 let client: MockClient;
 let context: ChainWalletContext;
 
@@ -95,7 +97,7 @@ beforeAll(async () => {
   initialChain = enabledChains[0];
   suggestChain = liveChainsOfType118[endIndex];
 
-  await initWallet(enabledChains);
+  await initActiveWallet(enabledChains);
 
   walletManager = new WalletManager(
     enabledChains,
@@ -113,12 +115,18 @@ describe('WalletManager', () => {
     expect(walletManager.throwErrors).toBe(true);
     expect(walletManager.subscribeConnectEvents).toBe(true);
     expect(walletManager.disableIframe).toBe(false);
-    expect(walletManager.chainRecords).toHaveLength(initChainsCount); // Assuming `convertChain` is mocked
+
+    expect(walletManager.chainRecords).toHaveLength(initChainsCount);
+    expect(walletManager.walletRepos).toHaveLength(initChainsCount);
+
+    const mainWallet = walletManager.getMainWallet(walletInfo.name);
+    expect(mainWallet).toBe(mainWalletBase);
+    expect(mainWallet.getChainWalletList(false)).toHaveLength(initChainsCount);
   });
 
   it('should handle onMounted lifecycle correctly', async () => {
-    // Mock environment parser
     // `getParser` is a static method of `Bowser` class, unable to mock directly.
+    // Mock environment parser
     // jest.mock('Bowser', () => ({
     //   getParser: () => ({
     //     getBrowserName: jest.fn().mockReturnValue('chrome'),
@@ -134,33 +142,47 @@ describe('WalletManager', () => {
       expect.any(Function)
     );
 
-    expect(walletManager.walletRepos).toHaveLength(initChainsCount); // Depends on internal logic
-    // expect(logger.debug).toHaveBeenCalled(); // Check if debug logs are called
+    expect(window.localStorage.getItem).toHaveBeenCalledWith(
+      'cosmos-kit@2:core//current-wallet'
+    );
+
+    expect((mainWalletBase.client as MockClient).client).toBe(
+      await getMockFromExtension()
+    );
   });
 
-  it('should active wallet', async () => {
+  it('should connect wallet', async () => {
+    // import { useChain } from "@cosmos-kit/react";
+    // mock `useChain` hook
+
     const walletRepo = walletManager.getWalletRepo(initialChain.chain_name);
+    walletRepo.activate();
+
     const chainWallet = walletManager.getChainWallet(
       initialChain.chain_name,
-      'mock-extension'
+      walletInfo.name
     );
-    walletRepo.activate();
-    await chainWallet.connect();
 
     expect(walletRepo.isActive).toBe(true);
     expect(chainWallet.isActive).toBe(true);
-    expect(chainWallet.isWalletConnected).toBe(true);
-    expect(chainWallet.address.length).toBeGreaterThan(20);
 
     context = getChainWalletContext(initialChain.chain_id, chainWallet);
 
-    // @ts-ignore
-    client = context.chainWallet.client;
+    expect(context.wallet.name).toBe(walletInfo.name);
+    expect(context.isWalletDisconnected).toBe(true);
 
-    expect(context.wallet.name).toBe('mock-extension');
+    await chainWallet.connect();
+
+    expect(chainWallet.isWalletConnected).toBe(true);
+    expect(chainWallet.address.startsWith(initialChain.bech32_prefix)).toBe(
+      true
+    );
   });
 
   it('should suggest chain and addChain', async () => {
+    // @ts-ignore
+    client = context.chainWallet.client;
+
     await client.addChain({
       name: suggestChain.chain_name,
       chain: suggestChain,
@@ -179,7 +201,7 @@ describe('WalletManager', () => {
     walletManager.addChains([suggestChain], assets);
 
     const walletRepos = walletManager.walletRepos;
-    const mainWallet = walletManager.getMainWallet('mock-extension');
+    const mainWallet = walletManager.getMainWallet(walletInfo.name);
     const chainWalletMap = mainWallet.chainWalletMap;
 
     expect(walletManager.chainRecords).toHaveLength(initChainsCount + 1);
@@ -187,23 +209,16 @@ describe('WalletManager', () => {
     expect(chainWalletMap.size).toBe(initChainsCount + 1);
 
     const newWalletRepo = walletManager.getWalletRepo(suggestChain.chain_name);
-    const newChainWallet = newWalletRepo.getWallet('mock-extension');
-    newWalletRepo.activate();
+    const newChainWallet = newWalletRepo.getWallet(walletInfo.name);
+
+    expect(newChainWallet.address).toBeFalsy();
     await newChainWallet.connect();
-
-    // const addressOfSuggestChain =
-    //   Object.values(newKeystore)[0].addresses[suggestChain.chain_id];
-    //
-    // expect(addressOfSuggestChain).toEqual(newChainWallet.address);
-
-    // console.log(
-    //   Object.values(newKeystore)[0].addresses,
-    //   chainWalletMap.get(initialChain.chain_name).address,
-    //   newChainWallet.address
-    // );
+    expect(newChainWallet.address.startsWith(suggestChain.bech32_prefix)).toBe(
+      true
+    );
   });
 
-  it('should sign direct', async () => {
+  it('should sign direct (using ChainWalletContext)', async () => {
     const registry = new Registry();
     const txBody = {
       messages: [],
@@ -248,7 +263,7 @@ describe('WalletManager', () => {
     expect(valid).toBe(true);
   });
 
-  it('should sign amino', async () => {
+  it('should sign amino (using ChainWalletContext)', async () => {
     const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
@@ -273,7 +288,7 @@ describe('WalletManager', () => {
     expect(valid).toBe(true);
   });
 
-  it('should sign arbitrary', async () => {
+  it('should sign arbitrary (using ChainWalletContext)', async () => {
     const data = 'cosmos-kit';
 
     const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
@@ -296,19 +311,19 @@ describe('WalletManager', () => {
     expect(toBase64(pubKeyBuf)).toEqual(pub_key.value);
   });
 
-  it('should getOfflineSignerDirect', async () => {
+  it('should getOfflineSignerDirect (using ChainWalletContext)', async () => {
     const offlineSignerDirect = context.getOfflineSignerDirect();
     expect(offlineSignerDirect.signDirect).toBeTruthy();
   });
 
-  it('should getOfflineSignerAmino', async () => {
+  it('should getOfflineSignerAmino (using ChainWalletContext)', async () => {
     const offlineSignerAmino = context.getOfflineSignerAmino();
     // @ts-ignore
     expect(offlineSignerAmino.signDirect).toBeFalsy();
     expect(offlineSignerAmino.signAmino).toBeTruthy();
   });
 
-  it('should getOfflineSigner', async () => {
+  it('should getOfflineSigner (using ChainWalletContext)', async () => {
     // default preferredSignType - 'amino', packages/core/src/bases/chain-wallet.ts, line 41
     expect(context.chainWallet.preferredSignType).toBe('amino');
 
@@ -319,7 +334,29 @@ describe('WalletManager', () => {
     expect(offlineSigner.signDirect).toBeFalsy();
   });
 
-  it('should send proto tx', async () => {
+  it('should suggest cw20 token (using ChainWalletContext)', async () => {
+    const chainId = 'pacific-1';
+    const chainName = 'sei';
+    const contractAddress =
+      'sei1hrndqntlvtmx2kepr0zsfgr7nzjptcc72cr4ppk4yav58vvy7v3s4er8ed';
+    // symbol = 'SEIYAN'
+
+    await context.suggestToken({
+      chainId,
+      chainName,
+      type: SuggestTokenTypes.CW20,
+      tokens: [{ contractAddress }],
+    });
+
+    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const betaTokens = BrowserStorage.get(BETA_CW20_TOKENS);
+    const connections = BrowserStorage.get(CONNECTIONS);
+
+    expect(connections[activeWallet.id][chainId]).toContain(ORIGIN);
+    expect(betaTokens[chainId][contractAddress].coinDenom).toBe('SEIYAN');
+  }, 10000); // set timeout to 10 seconds, in case slow network.
+
+  it('should send proto tx (using ChainWalletContext)', async () => {
     const registry = new Registry();
 
     const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
@@ -373,27 +410,5 @@ describe('WalletManager', () => {
 
     // since this is a mock tx, the tx will not succeed, but we will still get a response with a txhash.
     expect(toBase64(result)).toHaveLength(64);
-  }, 10000); // set timeout to 10 seconds, in case slow network.
-
-  it('should suggest cw20 token', async () => {
-    const chainId = 'pacific-1';
-    const chainName = 'sei';
-    const contractAddress =
-      'sei1hrndqntlvtmx2kepr0zsfgr7nzjptcc72cr4ppk4yav58vvy7v3s4er8ed';
-    // symbol = 'SEIYAN'
-
-    await context.suggestToken({
-      chainId,
-      chainName,
-      type: SuggestTokenTypes.CW20,
-      tokens: [{ contractAddress }],
-    });
-
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
-    const betaTokens = BrowserStorage.get(BETA_CW20_TOKENS);
-    const connections = BrowserStorage.get(CONNECTIONS);
-
-    expect(connections[activeWallet.id][chainId]).toContain(ORIGIN);
-    expect(betaTokens[chainId][contractAddress].coinDenom).toBe('SEIYAN');
   }, 10000); // set timeout to 10 seconds, in case slow network.
 });

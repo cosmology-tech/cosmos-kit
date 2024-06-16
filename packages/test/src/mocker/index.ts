@@ -146,6 +146,7 @@ export class MockWallet implements Mock {
 
     const pubKey = activeWallet.pubKeys?.[chainId];
 
+
     const decoded = bech32.decode(activeWallet.addresses[chainId]);
     const address = new Uint8Array(bech32.fromWords(decoded.words));
 

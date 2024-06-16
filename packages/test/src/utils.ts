@@ -56,7 +56,7 @@ export async function generateWallet(
   return DirectSecp256k1HdWallet.fromMnemonic(mnemonic, options);
 }
 
-export async function initWallet(chains: Chain[]) {
+export async function initActiveWallet(chains: Chain[]) {
   const addresses: Record<string, string> = {};
   const pubKeys: Record<string, Uint8Array> = {};
 
