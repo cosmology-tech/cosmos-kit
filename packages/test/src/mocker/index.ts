@@ -20,17 +20,20 @@ import * as bech32 from 'bech32';
 import type { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import deepmerge from 'deepmerge';
 
-import { Key, Mock, MockSignOptions } from '../mock-extension';
 import {
-  ACTIVE_WALLET,
   BETA_CW20_TOKENS,
   BrowserStorage,
   CONNECTIONS,
+} from '../browser-storage';
+import {
+  ACTIVE_WALLET,
   KeyChain,
   KEYSTORE,
-  ORIGIN,
+  TValueMap,
   TWallet,
-} from '../utils';
+} from '../key-chain';
+import { Key, Mock, MockSignOptions } from '../mock-extension';
+import { ORIGIN } from '../utils';
 import {
   generateWallet,
   getADR36SignDoc,
@@ -73,9 +76,9 @@ export class MockWallet implements Mock {
       throw new Error('Invalid chain ids');
     }
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
 
-    const connections = BrowserStorage.get(CONNECTIONS);
+    const connections = BrowserStorage.getItem(CONNECTIONS);
     const newConnections = { ...(connections ?? {}) };
 
     if (!newConnections[activeWallet.id]) newConnections[activeWallet.id] = {};
@@ -85,7 +88,7 @@ export class MockWallet implements Mock {
       );
     });
 
-    BrowserStorage.set(CONNECTIONS, newConnections);
+    BrowserStorage.setItem(CONNECTIONS, newConnections);
 
     // return { success: 'Chain enabled' };
   }
@@ -119,7 +122,7 @@ export class MockWallet implements Mock {
       icon: '',
     };
 
-    const betaTokens = BrowserStorage.get(BETA_CW20_TOKENS);
+    const betaTokens = BrowserStorage.getItem(BETA_CW20_TOKENS);
 
     const newBetaTokens = {
       ...(betaTokens || {}),
@@ -131,7 +134,7 @@ export class MockWallet implements Mock {
       },
     };
 
-    BrowserStorage.set(BETA_CW20_TOKENS, newBetaTokens);
+    BrowserStorage.setItem(BETA_CW20_TOKENS, newBetaTokens);
 
     // return { success: 'token suggested' };
   }
@@ -142,10 +145,9 @@ export class MockWallet implements Mock {
     if (!chainInfo || !(chainInfo.status === 'live'))
       throw new Error('Invalid chainId');
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
 
     const pubKey = activeWallet.pubKeys?.[chainId];
-
 
     const decoded = bech32.decode(activeWallet.addresses[chainId]);
     const address = new Uint8Array(bech32.fromWords(decoded.words));
@@ -196,7 +198,7 @@ export class MockWallet implements Mock {
     signDoc: StdSignDoc,
     signOptions?: MockSignOptions
   ): Promise<AminoSignResponse> {
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
 
     const chainInfo: Chain = getChainInfoByChainId(chainId);
 
@@ -326,10 +328,10 @@ export class MockWallet implements Mock {
   }
 
   async experimentalSuggestChain(chainInfo: ChainInfo): Promise<void> {
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
     const newKeystoreEntries = await Promise.all(
-      Object.entries(KeyChain.storage.get('keystore')).map(
-        async ([walletId, walletInfo]: [string, TWallet]) => {
+      Object.entries(KeyChain.getItem(KEYSTORE)).map(
+        async ([walletId, walletInfo]) => {
           const wallet = await generateWallet(walletInfo.cipher, {
             prefix: chainInfo.bech32Config.bech32PrefixAccAddr,
           });
@@ -353,13 +355,13 @@ export class MockWallet implements Mock {
       )
     );
 
-    const newKeystore = newKeystoreEntries.reduce(
+    const newKeystore: TValueMap[typeof KEYSTORE] = newKeystoreEntries.reduce(
       (res, entry: [string, TWallet]) => (res[entry[0]] = entry[1]) && res,
       {}
     );
 
-    KeyChain.storage.set(KEYSTORE, newKeystore);
-    KeyChain.storage.set(ACTIVE_WALLET, newKeystore[activeWallet.id]);
+    KeyChain.setItem(KEYSTORE, newKeystore);
+    KeyChain.setItem(ACTIVE_WALLET, newKeystore[activeWallet.id]);
 
     // `chainId` should be added to `CONNECTIONS` if not present.
     // since the mock env, no end user approval is required,

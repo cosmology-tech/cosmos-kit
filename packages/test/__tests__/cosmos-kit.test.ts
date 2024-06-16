@@ -15,7 +15,7 @@ describe('Wallet functionality', () => {
   });
 
   // Add more tests as needed
-  //
+  // Some `Wallet` functions has been tested in `wallet-manager.test.ts` using `ChainWalletContext`
 });
 
 describe('getMockFromExtension', () => {

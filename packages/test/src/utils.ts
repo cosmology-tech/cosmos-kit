@@ -11,30 +11,10 @@ import * as bip39 from 'bip39';
 import { chains } from 'chain-registry';
 import { v4 as uuidv4 } from 'uuid';
 
-export type TWallet = {
-  addressIndex: number;
-  name: string;
-  cipher: string; // mnemonic, should be encrypted in real environment.
-  addresses: Record<string, string>;
-  pubKeys: Record<string, Uint8Array>;
-  walletType: string;
-  id: string;
-};
+import { ACTIVE_WALLET, KeyChain, KEYSTORE, TWallet } from './key-chain';
 
 // website mock
 export const ORIGIN = 'https://mock.mock';
-
-export const KEYSTORE = 'keystore';
-export const ACTIVE_WALLET = 'active-wallet';
-type TKeyChainMapKey = 'keystore' | 'active-wallet';
-export const KeyChain = {
-  storage: new Map<TKeyChainMapKey, any>(),
-};
-
-export const CONNECTIONS = 'connections';
-export const BETA_CW20_TOKENS = 'beta-cw20-tokens';
-type TBrowserStorageMapKey = 'connections' | 'beta-cw20-tokens';
-export const BrowserStorage = new Map<TBrowserStorageMapKey, any>();
 
 export function getHdPath(
   coinType = '118',
@@ -87,8 +67,8 @@ export async function initActiveWallet(chains: Chain[]) {
     id: walletId,
   };
 
-  KeyChain.storage.set(KEYSTORE, { [walletId]: wallet });
-  KeyChain.storage.set(ACTIVE_WALLET, wallet);
+  KeyChain.setItem(KEYSTORE, { [walletId]: wallet });
+  KeyChain.setItem(ACTIVE_WALLET, wallet);
 }
 
 export function getChainInfoByChainId(chainId: string): Chain {
@@ -96,7 +76,7 @@ export function getChainInfoByChainId(chainId: string): Chain {
 }
 
 export function getChildKey(chainId: string, address: string) {
-  const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+  const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
   const activeAddress = activeWallet.addresses[chainId];
 
   if (address !== activeAddress) {

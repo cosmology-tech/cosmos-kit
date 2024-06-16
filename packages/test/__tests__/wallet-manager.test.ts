@@ -11,15 +11,13 @@ import { Chain } from '@chain-registry/types';
 import { MockExtensionWallet } from '../src/mock-extension';
 import { mockExtensionInfo as walletInfo } from '../src/mock-extension/extension/registry';
 import { getChainWalletContext } from '../../react-lite/src/utils';
+import { ORIGIN } from '../src/utils';
+import { ACTIVE_WALLET, KeyChain } from '../src/key-chain';
 import {
-  ACTIVE_WALLET,
-  BETA_CW20_TOKENS,
   BrowserStorage,
+  BETA_CW20_TOKENS,
   CONNECTIONS,
-  KeyChain,
-  ORIGIN,
-  TWallet,
-} from '../src/utils';
+} from '../src/browser-storage';
 import { MockClient } from '../src/mock-extension/extension/client';
 
 import {
@@ -191,8 +189,8 @@ describe('WalletManager', () => {
       ),
     });
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
-    const connections = BrowserStorage.get(CONNECTIONS);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
+    const connections = BrowserStorage.getItem(CONNECTIONS);
 
     expect(connections[activeWallet.id][suggestChain.chain_id]).toContain(
       ORIGIN
@@ -226,7 +224,7 @@ describe('WalletManager', () => {
     };
     const txBodyBytes = registry.encodeTxBody(txBody);
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
 
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
@@ -264,7 +262,7 @@ describe('WalletManager', () => {
   });
 
   it('should sign amino (using ChainWalletContext)', async () => {
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
 
@@ -291,7 +289,7 @@ describe('WalletManager', () => {
   it('should sign arbitrary (using ChainWalletContext)', async () => {
     const data = 'cosmos-kit';
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
     const pubKeyBuf = activeWallet.pubKeys[initialChain.chain_id];
 
@@ -348,18 +346,18 @@ describe('WalletManager', () => {
       tokens: [{ contractAddress }],
     });
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
-    const betaTokens = BrowserStorage.get(BETA_CW20_TOKENS);
-    const connections = BrowserStorage.get(CONNECTIONS);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
+    const betaTokens = BrowserStorage.getItem(BETA_CW20_TOKENS);
+    const connections = BrowserStorage.getItem(CONNECTIONS);
 
     expect(connections[activeWallet.id][chainId]).toContain(ORIGIN);
     expect(betaTokens[chainId][contractAddress].coinDenom).toBe('SEIYAN');
-  }, 10000); // set timeout to 10 seconds, in case slow network.
+  }, 15000); // set timeout to 15 seconds, in case slow network.
 
   it('should send proto tx (using ChainWalletContext)', async () => {
     const registry = new Registry();
 
-    const activeWallet: TWallet = KeyChain.storage.get(ACTIVE_WALLET);
+    const activeWallet = KeyChain.getItem(ACTIVE_WALLET);
     const address = activeWallet.addresses[initialChain.chain_id];
 
     const coin = Coin.fromPartial({ denom: 'ucosm', amount: '1000' });
@@ -410,5 +408,5 @@ describe('WalletManager', () => {
 
     // since this is a mock tx, the tx will not succeed, but we will still get a response with a txhash.
     expect(toBase64(result)).toHaveLength(64);
-  }, 10000); // set timeout to 10 seconds, in case slow network.
+  }, 15000); // set timeout to 15 seconds, in case slow network.
 });
