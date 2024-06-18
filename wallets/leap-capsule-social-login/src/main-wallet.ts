@@ -28,7 +28,7 @@ export class LeapCapsuleWallet extends MainWalletBase {
           }),
         })
       );
-    } catch (eror) {
+    } catch (error) {
       this.initClientError(error as Error);
     }
   }
