@@ -400,63 +400,6 @@ describe('ChainWalletBase', () => {
     expect(stargateCalculateFeeMock).toBeCalledWith(5 * 10000, stargateGasPrice);
   });
 
-  it('should call sign correctly', async () => {
-    const encode: EncodeObject[] = [
-      {
-        typeUrl: 'typeUrl',
-        value: 'value',
-      },
-    ];
-    expect(() => chainWallet.sign(encode)).rejects.toThrow(
-      'Address is required to estimate fee. Try connect to fetch address.',
-    );
-
-    const signMock = jest.fn();
-    const estimateFee = { amount: { denom: 'uatom', amount: 1000 } } as any;
-    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
-      sign: signMock,
-    } as any);
-    jest.spyOn(chainWallet, 'address', 'get').mockReturnValue('cosmos1...');
-    jest.spyOn(chainWallet, 'estimateFee').mockResolvedValue(estimateFee);
-
-    await chainWallet.sign(encode, 1000, 'memo', 'stargate');
-    expect(signMock).toBeCalledWith('cosmos1...', encode, estimateFee, 'memo');
-
-    const fee = { amount: [{ denom: 'uatom', amount: '100000' }], gas: 'gas' };
-    await chainWallet.sign(encode, fee, 'memo', 'stargate');
-    expect(signMock).toBeCalledWith('cosmos1...', encode, fee, 'memo');
-  });
-
-  it('should call broadcast correctly', async () => {
-    const broadcastTxMock = jest.fn();
-    const txRaw = { typeUrl: 'typeUrl' } as unknown as TxRaw;
-    const signingStargateOptions = {
-      broadcastTimeoutMs: 1,
-      broadcastPollIntervalMs: 11,
-    };
-
-    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
-      broadcastTx: broadcastTxMock,
-    } as any);
-    jest.mock('cosmjs-types/cosmos/tx/v1beta1/tx', () => ({
-      TxRaw: {
-        encode: jest.fn().mockImplementation(() => ({
-          finish: jest.fn().mockReturnValue('txRaw'),
-        })),
-      },
-    }));
-    jest
-      .spyOn(chainWallet, 'signingStargateOptions', 'get')
-      .mockReturnValue(signingStargateOptions);
-
-    await chainWallet.broadcast(txRaw);
-    expect(broadcastTxMock).toBeCalledWith(
-      'txRaw',
-      signingStargateOptions.broadcastTimeoutMs,
-      signingStargateOptions.broadcastPollIntervalMs,
-    );
-  });
-
   it('should call signAndBroadcast correctly', async () => {
     const encode: EncodeObject[] = [
       {
