@@ -6,17 +6,17 @@ import { CosmjsClient } from './client';
 import { getCosmjsFromExtension } from './utils';
 
 export class CosmjsExtensionWallet extends MainWalletBase {
-  constructor(walletInfo: Wallet) {
+  constructor(walletInfo: Wallet, mnemonic?: string) {
     super(walletInfo, ChainCosmjsExtension);
-    this.initClient();
+    this.initClient(mnemonic);
   }
 
-  async initClient() {
+  async initClient(mnemonic) {
     this.initingClient();
     try {
       const cosmjs = await getCosmjsFromExtension();
       // this.initClientDone(cosmjs ? new CosmjsClient(cosmjs) : undefined);
-      this.initClientDone(new CosmjsClient(cosmjs));
+      this.initClientDone(new CosmjsClient(cosmjs, mnemonic));
     } catch (error) {
       this.initClientError(error);
     }

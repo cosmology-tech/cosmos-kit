@@ -1,11 +1,7 @@
 import { chainRegistryChainToKeplr } from '@chain-registry/keplr';
 import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Bip39, Random } from '@cosmjs/crypto';
-import {
-  Algo,
-  OfflineDirectSigner,
-  DirectSecp256k1HdWallet,
-} from '@cosmjs/proto-signing';
+import { Algo, OfflineDirectSigner, DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 
 import {
   BroadcastMode,
@@ -21,6 +17,7 @@ import Long from 'long';
 
 export class CosmjsClient implements WalletClient {
   readonly client: Cosmjs;
+  readonly mnemonic: string;
   private _defaultSignOptions: SignOptions = {
     preferNoSetFee: false,
     preferNoSetMemo: true,
@@ -35,8 +32,9 @@ export class CosmjsClient implements WalletClient {
     this._defaultSignOptions = options;
   }
 
-  constructor(client: Cosmjs) {
+  constructor(client: Cosmjs, mnemonic?: string) {
     this.client = client;
+    this.mnemonic = mnemonic || this.generateMnemonic();
   }
 
   async enable(chainIds: string | string[]) {
@@ -54,7 +52,7 @@ export class CosmjsClient implements WalletClient {
   async addChain(chainInfo: ChainRecord) {
     const suggestChain = chainRegistryChainToKeplr(
       chainInfo.chain,
-      (chainInfo.assetList ? [chainInfo.assetList] : []) as any
+      (chainInfo.assetList ? [chainInfo.assetList] : []) as any,
     );
 
     if (chainInfo.preferredEndpoints?.rest?.[0]) {
@@ -63,8 +61,7 @@ export class CosmjsClient implements WalletClient {
     }
 
     if (chainInfo.preferredEndpoints?.rpc?.[0]) {
-      (suggestChain.rpc as string | ExtendedHttpEndpoint) =
-        chainInfo.preferredEndpoints?.rpc?.[0];
+      (suggestChain.rpc as string | ExtendedHttpEndpoint) = chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
     await this.client.experimentalSuggestChain(suggestChain);
@@ -90,10 +87,7 @@ export class CosmjsClient implements WalletClient {
   }
 
   async getAccount(chainId: string) {
-    // const key = await this.client.getKey(chainId);
-    const mnemonic = this.generateMnemonic();
-
-    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic);
+    const wallet = await DirectSecp256k1HdWallet.fromMnemonic(this.mnemonic);
     const [firstAccount] = await wallet.getAccounts();
     return {
       username: firstAccount.address,
@@ -125,24 +119,19 @@ export class CosmjsClient implements WalletClient {
     return this.client.getOfflineSigner(chainId) as OfflineDirectSigner;
   }
 
-  async signAmino(
-    chainId: string,
-    signer: string,
-    signDoc: StdSignDoc,
-    signOptions?: SignOptions
-  ) {
+  async signAmino(chainId: string, signer: string, signDoc: StdSignDoc, signOptions?: SignOptions) {
     return await this.client.signAmino(
       chainId,
       signer,
       signDoc,
-      signOptions || this.defaultSignOptions
+      signOptions || this.defaultSignOptions,
     );
   }
 
   async signArbitrary(
     chainId: string,
     signer: string,
-    data: string | Uint8Array
+    data: string | Uint8Array,
   ): Promise<StdSignature> {
     return await this.client.signArbitrary(chainId, signer, data);
   }
@@ -151,7 +140,7 @@ export class CosmjsClient implements WalletClient {
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,
-    signOptions?: SignOptions
+    signOptions?: SignOptions,
   ) {
     return await this.client.signDirect(
       chainId,
@@ -160,7 +149,7 @@ export class CosmjsClient implements WalletClient {
         ...signDoc,
         accountNumber: Long.fromString(signDoc.accountNumber.toString()),
       },
-      signOptions || this.defaultSignOptions
+      signOptions || this.defaultSignOptions,
     );
   }
 

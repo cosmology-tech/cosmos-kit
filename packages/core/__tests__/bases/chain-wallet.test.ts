@@ -1,21 +1,15 @@
 import { Decimal } from '@cosmjs/math';
 import { EncodeObject } from '@cosmjs/proto-signing';
-import {
-  CosmWasmClient,
-  SigningCosmWasmClientOptions,
-} from '@cosmjs/cosmwasm-stargate';
-import {
-  calculateFee,
-  SigningStargateClient,
-  StargateClientOptions,
-} from '@cosmjs/stargate';
+import { CosmWasmClient, SigningCosmWasmClientOptions } from '@cosmjs/cosmwasm-stargate';
+import { StargateClientOptions } from '@cosmjs/stargate';
 import { mockExtensionInfo as walletInfo } from '../../test-utils/mock-extension/extension/registry';
 import { chains, assets } from 'chain-registry';
 import { AssetList, Chain } from '@chain-registry/types';
 import { ChainWalletBase } from '../../src/bases/chain-wallet';
-import { ChainRecord, Endpoints, State, WalletClient } from '../../src/types';
+import { ChainRecord, Endpoints, State } from '../../src/types';
 import nock from 'nock';
 import { nameServiceRegistries } from '../../src/config';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 
 function storageMock() {
   let storage = {};
@@ -100,9 +94,7 @@ describe('ChainWalletBase', () => {
       .get('/cosmos/base/tendermint/v1beta1/node_info')
       .delayConnection(5)
       .reply(200, 'ok');
-    nock(fastRestURL)
-      .get('/cosmos/base/tendermint/v1beta1/node_info')
-      .reply(200, 'ok');
+    nock(fastRestURL).get('/cosmos/base/tendermint/v1beta1/node_info').reply(200, 'ok');
     nock(slowRpcURL).post('/').delayConnection(5).reply(200, 'ok');
     nock(fastRpcURL).post('/').reply(200, 'ok');
   });
@@ -178,7 +170,7 @@ describe('ChainWalletBase', () => {
     expect(chainWallet.chainLogoUrl).toBe(
       assetListMock.assets[0]?.logo_URIs?.svg ||
         assetListMock.assets[0].logo_URIs?.png ||
-        undefined
+        undefined,
     );
   });
 
@@ -187,20 +179,16 @@ describe('ChainWalletBase', () => {
   });
 
   it('should have the stargateOptions', () => {
-    expect(chainWallet.stargateOptions).toEqual(
-      chainRecordMock.clientOptions?.stargate
-    );
+    expect(chainWallet.stargateOptions).toEqual(chainRecordMock.clientOptions?.stargate);
   });
 
   it('should have the correct signing options', () => {
-    expect(chainWallet.signingStargateOptions).toEqual(
-      chainRecordMock.clientOptions?.stargate
-    );
+    expect(chainWallet.signingStargateOptions).toEqual(chainRecordMock.clientOptions?.stargate);
   });
 
   it('should have the correct signing cosmwasm options', () => {
     expect(chainWallet.signingCosmwasmOptions).toEqual(
-      chainRecordMock.clientOptions?.signingCosmwasm
+      chainRecordMock.clientOptions?.signingCosmwasm,
     );
   });
 
@@ -213,9 +201,7 @@ describe('ChainWalletBase', () => {
   });
 
   it('should have cosmwasm enabled', () => {
-    expect(chainWallet.cosmwasmEnabled).toBe(
-      chainMock.codebase?.cosmwasm_enabled
-    );
+    expect(chainWallet.cosmwasmEnabled).toBe(chainMock.codebase?.cosmwasm_enabled);
   });
 
   it('should have the correct address', () => {
@@ -250,14 +236,12 @@ describe('ChainWalletBase', () => {
     expect(chainWallet.mutable.data).toEqual(data);
     expect(localStorageSetItemMock).toHaveBeenCalled();
     expect(window.localStorage.getItem('cosmos-kit@2:core//accounts')).toEqual(
-      JSON.stringify([data])
+      JSON.stringify([data]),
     );
   });
 
   it('should throw an error when calling initClient', () => {
-    expect(() => chainWallet.initClient()).toThrow(
-      'initClient not implemented'
-    );
+    expect(() => chainWallet.initClient()).toThrow('initClient not implemented');
   });
 
   it('should update state and data correctly', async () => {
@@ -278,9 +262,7 @@ describe('ChainWalletBase', () => {
   });
 
   it('should set error state when update failed', async () => {
-    const errorMessageFromWalletInfo = (
-      walletInfo.rejectMessage as { source: string }
-    ).source;
+    const errorMessageFromWalletInfo = (walletInfo.rejectMessage as { source: string }).source;
     const mockError = new Error(errorMessageFromWalletInfo);
     jest.spyOn(chainWallet, 'client', 'get').mockReturnValue({
       getSimpleAccount: jest.fn().mockRejectedValue(mockError),
@@ -317,10 +299,7 @@ describe('ChainWalletBase', () => {
 
   it('should call getStargateClient correctly', async () => {
     await chainWallet.getStargateClient();
-    expect(stargateClientConnectMock).toHaveBeenCalledWith(
-      fastRpcURL,
-      stargateMock
-    );
+    expect(stargateClientConnectMock).toHaveBeenCalledWith(fastRpcURL, stargateMock);
   });
 
   it('should call getCosmWasmClient correctly', async () => {
@@ -332,15 +311,12 @@ describe('ChainWalletBase', () => {
     const clientMock = expect.any(CosmWasmClient);
     chainWallet.getCosmWasmClient = jest.fn().mockResolvedValue(clientMock);
     await chainWallet.getNameService();
-    expect(NameServiceMock).toBeCalledWith(
-      clientMock,
-      nameServiceRegistries[0]
-    );
+    expect(NameServiceMock).toBeCalledWith(clientMock, nameServiceRegistries[0]);
   });
 
   it('should call initOfflineSigner correctly', async () => {
     expect(() => chainWallet.initOfflineSigner()).rejects.toThrow(
-      'WalletClient is not initialized'
+      'WalletClient is not initialized',
     );
     //mock initial client
     const walletClient = {
@@ -350,10 +326,7 @@ describe('ChainWalletBase', () => {
     jest.spyOn(chainWallet, 'client', 'get').mockReturnValue(walletClient);
     await chainWallet.initOfflineSigner('amino');
     expect(chainWallet.preferredSignType).toBe('amino');
-    expect(chainWallet.client.getOfflineSigner).toHaveBeenCalledWith(
-      chainWallet.chainId,
-      'amino'
-    );
+    expect(chainWallet.client.getOfflineSigner).toHaveBeenCalledWith(chainWallet.chainId, 'amino');
   });
 
   it('should call getSigningStargateClient correctly', async () => {
@@ -362,16 +335,13 @@ describe('ChainWalletBase', () => {
       getSimpleAccount: jest.fn(),
       getOfflineSigner: jest.fn(),
     };
-    chainWallet.offlineSigner = {
-      getAccounts: jest.fn(),
-      signAmino: jest.fn(),
-    };
+    chainWallet.offlineSigner = { getAccounts: jest.fn(), signAmino: jest.fn() };
     jest.spyOn(chainWallet, 'client', 'get').mockReturnValue(walletClient);
     await chainWallet.getSigningStargateClient();
     expect(stargateClientConnectWithSignerMock).toBeCalledWith(
       fastRpcURL,
       chainWallet.offlineSigner,
-      signingCosmwasmMock
+      signingCosmwasmMock,
     );
   });
 
@@ -389,15 +359,12 @@ describe('ChainWalletBase', () => {
     expect(chainWallet.initOfflineSigner).toBeCalled();
 
     //with offlineSigner
-    chainWallet.offlineSigner = {
-      getAccounts: jest.fn(),
-      signAmino: jest.fn(),
-    };
+    chainWallet.offlineSigner = { getAccounts: jest.fn(), signAmino: jest.fn() };
     await chainWallet.getSigningCosmWasmClient();
     expect(cosmwasmClientConnectWithSignerMock).toBeCalledWith(
       fastRpcURL,
       chainWallet.offlineSigner,
-      signingCosmwasmMock
+      signingCosmwasmMock,
     );
   });
 
@@ -409,12 +376,12 @@ describe('ChainWalletBase', () => {
       },
     ];
     expect(() => chainWallet.estimateFee(encode)).rejects.toThrow(
-      'Address is required to estimate fee. Try connect to fetch address.'
+      'Address is required to estimate fee. Try connect to fetch address.',
     );
 
     jest.spyOn(chainWallet, 'address', 'get').mockReturnValue('cosmos1...');
     expect(() => chainWallet.estimateFee(encode)).rejects.toThrow(
-      'Gas price must be set in the client options when auto gas is used.'
+      'Gas price must be set in the client options when auto gas is used.',
     );
 
     const stargateGasPrice = {
@@ -429,14 +396,79 @@ describe('ChainWalletBase', () => {
       simulate: simulateMock,
     } as any);
     await chainWallet.estimateFee(encode, 'stargate', 'memo', 5);
-    expect(simulateMock).toBeCalledWith(
-      'cosmos1...',
-      encode,
-      expect.any(String)
+    expect(simulateMock).toBeCalledWith('cosmos1...', encode, expect.any(String));
+    expect(stargateCalculateFeeMock).toBeCalledWith(5 * 10000, stargateGasPrice);
+  });
+
+  it('should call sign correctly', async () => {
+    const encode: EncodeObject[] = [
+      {
+        typeUrl: 'typeUrl',
+        value: 'value',
+      },
+    ];
+    expect(() => chainWallet.sign(encode)).rejects.toThrow(
+      'Address is required to estimate fee. Try connect to fetch address.',
     );
-    expect(stargateCalculateFeeMock).toBeCalledWith(
-      5 * 10000,
-      stargateGasPrice
+
+    const signMock = jest.fn();
+    const estimateFee = { amount: { denom: 'uatom', amount: 1000 } } as any;
+    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
+      sign: signMock,
+    } as any);
+    jest.spyOn(chainWallet, 'address', 'get').mockReturnValue('cosmos1...');
+    jest.spyOn(chainWallet, 'estimateFee').mockResolvedValue(estimateFee);
+
+    await chainWallet.sign(encode, 1000, 'memo', 'stargate');
+    expect(signMock).toBeCalledWith('cosmos1...', encode, estimateFee, 'memo');
+
+    const fee = { amount: [{ denom: 'uatom', amount: '100000' }], gas: 'gas' };
+    await chainWallet.sign(encode, fee, 'memo', 'stargate');
+    expect(signMock).toBeCalledWith('cosmos1...', encode, fee, 'memo');
+  });
+
+  it('should call broadcast correctly', async () => {
+    const broadcastTxMock = jest.fn();
+    const txRaw = { typeUrl: 'typeUrl' } as unknown as TxRaw;
+    const signingStargateOptions = {
+      broadcastTimeoutMs: 1,
+      broadcastPollIntervalMs: 11,
+    };
+
+    jest.spyOn(chainWallet, 'getSigningStargateClient').mockResolvedValue({
+      broadcastTx: broadcastTxMock,
+    } as any);
+    jest.mock('cosmjs-types/cosmos/tx/v1beta1/tx', () => ({
+      TxRaw: {
+        encode: jest.fn().mockImplementation(() => ({
+          finish: jest.fn().mockReturnValue('txRaw'),
+        })),
+      },
+    }));
+    jest
+      .spyOn(chainWallet, 'signingStargateOptions', 'get')
+      .mockReturnValue(signingStargateOptions);
+
+    await chainWallet.broadcast(txRaw);
+    expect(broadcastTxMock).toBeCalledWith(
+      'txRaw',
+      signingStargateOptions.broadcastTimeoutMs,
+      signingStargateOptions.broadcastPollIntervalMs,
     );
+  });
+
+  it('should call signAndBroadcast correctly', async () => {
+    const encode: EncodeObject[] = [
+      {
+        typeUrl: 'typeUrl',
+        value: 'value',
+      },
+    ];
+    chainWallet.sign = jest.fn().mockResolvedValue('txRaw');
+    chainWallet.broadcast = jest.fn();
+    await chainWallet.signAndBroadcast(encode, 1000, 'memo', 'stargate');
+
+    expect(chainWallet.sign).toBeCalledWith(encode, 1000, 'memo', 'stargate');
+    expect(chainWallet.broadcast).toBeCalledWith('txRaw', 'stargate');
   });
 });
