@@ -25,15 +25,6 @@ export class LeapCapsuleWallet extends MainWalletBase {
               process.env.CAPSULE_ENV ||
               (process.env
                 .NEXT_PUBLIC_CAPSULE_ENV as unknown as CapsuleEnvironment),
-            opts: {
-              emailPrimaryColor: '#29a873',
-              homepageUrl: 'https://www.leapwallet.io',
-              portalTheme: {
-                backgroundColor: '#141414',
-                foregroundColor: '#29a873',
-                borderRadius: 'sm',
-              },
-            },
           }),
         })
       );
