@@ -5,8 +5,13 @@ interface MockWindow {
   mock?: Mock;
 }
 
+let mockWallet = null;
 export const getMockFromExtension: (
   mockWindow?: MockWindow
 ) => Promise<MockWallet> = async (_window: any) => {
-  return new MockWallet();
+  if (!mockWallet) {
+    mockWallet = new MockWallet();
+  }
+
+  return mockWallet;
 };

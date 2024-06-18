@@ -45,7 +45,7 @@ export class MockClient implements WalletClient {
     }
   }
 
-  async addChain(chainInfo: ChainRecord) {
+  async addChain(chainInfo: ChainRecord): Promise<void> {
     const suggestChain = chainRegistryChainToKeplr(
       chainInfo.chain,
       chainInfo.assetList ? [chainInfo.assetList] : []
@@ -61,7 +61,7 @@ export class MockClient implements WalletClient {
         chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
-    await this.client.experimentalSuggestChain(suggestChain);
+    return await this.client.experimentalSuggestChain(suggestChain);
   }
 
   async disconnect() {
