@@ -8,6 +8,9 @@ import { useChain } from 'starshipjs';
 import { cosmos, getSigningCosmosClient } from 'osmojs';
 import { Logger, WalletManager } from '../../src';
 import { wallets } from '@cosmos-kit/cosmjs';
+import { Bip39 } from '@cosmjs/crypto';
+
+const mnemonic = Bip39.encode(Random.getBytes(16)).toString();
 
 describe('Staking tokens testing', () => {
   let wallet, denom, address;
@@ -22,10 +25,10 @@ describe('Staking tokens testing', () => {
   beforeAll(async () => {
     ({ chainInfo, getCoin, getRpcEndpoint, creditFromFaucet } = useChain(chainName));
     denom = getCoin().base;
-
+    const [genWallet, ...restWallets] = wallets;
     const walletManager = new WalletManager(
       [chainName],
-      [...wallets],
+      [genWallet(mnemonic), ...restWallets],
       new Logger('DEBUG'),
       false,
       true,
