@@ -11,8 +11,8 @@ import {
 } from '@cosmos-kit/core';
 import Long from 'long';
 
-import { Mock } from './types';
 import { DirectSignDoc, WalletClient } from '../../../src/types';
+import { Mock } from './types';
 
 export class MockClient implements WalletClient {
   readonly client: Mock;

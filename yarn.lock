@@ -1193,6 +1193,16 @@
     "@keplr-wallet/crypto" "0.12.28"
     semver "^7.5.0"
 
+"@chain-registry/keplr@1.68.2":
+  version "1.68.2"
+  resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.68.2.tgz#d322db5317e3c5299aa3cf62d1971403ed08fd31"
+  integrity sha512-H3rdf/cLx7bNyyKo+1nI9HpLTlLzyeqi0Rmt+ggwtFRC63ZmDaMg/3vPY4rHvu38OdcaOid4Nyfc+7h3EEPW8Q==
+  dependencies:
+    "@chain-registry/types" "^0.45.1"
+    "@keplr-wallet/cosmos" "0.12.28"
+    "@keplr-wallet/crypto" "0.12.28"
+    semver "^7.5.0"
+
 "@chain-registry/keplr@^1.64.2":
   version "1.64.2"
   resolved "https://registry.yarnpkg.com/@chain-registry/keplr/-/keplr-1.64.2.tgz#254f392a8a2db285daa75dd849fb652e1973cf39"
@@ -1212,6 +1222,11 @@
   version "0.41.1"
   resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.41.1.tgz#0da38b579265456ded54d556f8da6a555babd086"
   integrity sha512-YZcmYjc1N4eOSd5Vi8rT1CtIDNvcqVoSNPBImfEqpBG+NBokO02WVQtsflFi4/MYRkLQQIHN7yDok09hld+c+Q==
+
+"@chain-registry/types@^0.45.1":
+  version "0.45.1"
+  resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.45.1.tgz#bbe8cb65d80cf6be658f9eb0840eb72648d8cd08"
+  integrity sha512-xDq3RZwLM6VZt7Bwrilm588xTce7mOZIpLIjpwaT/V6HD3TuzJC3FWMRAxUtMuhQldcjW8b8em5HdFY467FRhA==
 
 "@chain-registry/utils@^1.42.3":
   version "1.42.3"
