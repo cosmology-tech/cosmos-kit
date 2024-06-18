@@ -7,7 +7,7 @@ import { chains, assets } from 'chain-registry';
 import { AssetList, Chain } from '@chain-registry/types';
 import { ChainWalletBase } from '../../src/bases/chain-wallet';
 import { ChainRecord, Endpoints, State } from '../../src/types';
-import nock from 'nock';
+import nock from 'nock'
 import { nameServiceRegistries } from '../../src/config';
 
 function storageMock() {
