@@ -14,6 +14,8 @@ import {
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 import Long from 'long';
 
+import { keplrExtensionInfo } from './registry';
+
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
   private _defaultSignOptions: SignOptions = {
@@ -121,6 +123,20 @@ export class KeplrClient implements WalletClient {
   }
 
   async addChain(chainInfo: ChainRecord) {
+    // TODO later allow walletInfo getter to be available here
+    // make this more generic
+    if (
+      keplrExtensionInfo.supportedChains &&
+      keplrExtensionInfo.supportedChains.length
+    ) {
+      if (keplrExtensionInfo.supportedChains.includes(chainInfo.name)) {
+        console.warn(
+          `${chainInfo.name} is already added. No need to call experimentalSuggestChain()`
+        );
+        return;
+      }
+    }
+
     const suggestChain = chainRegistryChainToKeplr(
       chainInfo.chain,
       chainInfo.assetList ? [chainInfo.assetList] : []
