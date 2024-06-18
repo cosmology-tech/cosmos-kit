@@ -36,11 +36,11 @@ export async function generateWallet(
   return DirectSecp256k1HdWallet.fromMnemonic(mnemonic, options);
 }
 
-export async function initActiveWallet(chains: Chain[]) {
+export async function initActiveWallet(chains: Chain[], mnemonic?: string) {
   const addresses: Record<string, string> = {};
   const pubKeys: Record<string, Uint8Array> = {};
 
-  const mnemonic = generateMnemonic();
+  const _mnemonic = mnemonic ?? generateMnemonic();
 
   for (const chain of chains) {
     const { chain_id, bech32_prefix, slip44 } = chain;
@@ -48,7 +48,7 @@ export async function initActiveWallet(chains: Chain[]) {
       prefix: bech32_prefix,
       hdPaths: [stringToPath(getHdPath(`${slip44}`))],
     };
-    const wallet = await generateWallet(mnemonic, options);
+    const wallet = await generateWallet(_mnemonic, options);
     const accounts = await wallet.getAccounts();
 
     addresses[chain_id] = accounts[0].address;
@@ -60,7 +60,7 @@ export async function initActiveWallet(chains: Chain[]) {
   const wallet: TWallet = {
     addressIndex: 0,
     name: `Wallet 0`,
-    cipher: mnemonic, // cipher: encrypt(mnemonic, password),
+    cipher: _mnemonic, // cipher: encrypt(_mnemonic, password),
     addresses,
     pubKeys,
     walletType: 'SEED_PHRASE',
