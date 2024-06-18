@@ -135,7 +135,7 @@ export class KeplrClient implements WalletClient {
       }
     }
 
-    chainInfo.chain.codebase = undefined // bypass @chain-registry/keplr's check for codebase
+
 
     const suggestChain = chainRegistryChainToKeplr(
       chainInfo.chain,
