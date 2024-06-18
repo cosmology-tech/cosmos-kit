@@ -59,7 +59,7 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/keplr": "1.64.4",
+    "@chain-registry/keplr": "1.68.2",
     "@cosmos-kit/core": "^2.12.0",
     "@leapwallet/cosmos-snap-provider": "0.1.26",
     "@metamask/providers": "^11.1.1"

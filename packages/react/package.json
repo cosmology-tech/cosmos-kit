@@ -79,7 +79,7 @@
     "@types/react-dom": "^18.2"
   },
   "dependencies": {
-    "@chain-registry/types": "^0.41.3",
+    "@chain-registry/types": "^0.45.1",
     "@cosmos-kit/core": "^2.12.0",
     "@cosmos-kit/react-lite": "^2.11.0",
     "@react-icons/all-files": "^4.1.0"

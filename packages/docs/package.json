@@ -22,7 +22,7 @@
     "@cosmos-kit/core": "^2.12.0",
     "@cosmos-kit/react": "^2.15.0",
     "@interchain-ui/react": "^1.23.13",
-    "chain-registry": "^1.59.4",
+    "chain-registry": "^1.63.2",
     "cosmos-kit": "^2.17.0",
     "fast-fuzzy": "^1.12.0",
     "flexsearch": "^0.7.43",
