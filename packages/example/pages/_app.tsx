@@ -93,7 +93,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         chains={["cosmoshub", "secret"]}
         assetLists={[]}
         wallets={[
-          ...wallets,
+          // ...wallets,
           ...keplrWallets,
           ...leapWallets,
           // ...owalletWallets,
