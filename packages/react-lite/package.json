@@ -78,7 +78,7 @@
     "jest-environment-jsdom": "29.7.0"
   },
   "dependencies": {
-    "@chain-registry/types": "^0.41.3",
+    "@chain-registry/types": "^0.45.1",
     "@cosmos-kit/core": "^2.12.0",
     "@dao-dao/cosmiframe": "^0.1.0"
   },

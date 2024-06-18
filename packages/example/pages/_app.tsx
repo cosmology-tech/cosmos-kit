@@ -90,7 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         // chains={chains}
         // assetLists={[...assets]}
-        chains={["cosmoshub", "secret"]}
+        chains={["cosmoshub", "secretnetwork"]}
         assetLists={[]}
         wallets={[
           // ...wallets,

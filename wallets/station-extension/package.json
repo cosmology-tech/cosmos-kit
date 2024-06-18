@@ -66,7 +66,7 @@
     "@terra-money/wallet-types": "^3.11.2"
   },
   "devDependencies": {
-    "@chain-registry/types": "^0.41.3"
+    "@chain-registry/types": "^0.45.1"
   },
   "peerDependencies": {
     "@chain-registry/types": ">= 0.17",

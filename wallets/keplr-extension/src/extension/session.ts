@@ -43,17 +43,22 @@ export class ExpiringLocalStorage {
     const validItems = [];
 
     // Filter out expired items
-    for (let item of items) {
+    for (const item of items) {
       if (now.getTime() <= item.expiry) {
         validItems.push(item.value);
       }
     }
 
     // Update local storage with only valid items
-    localStorage.setItem(key, JSON.stringify(validItems.map(value => ({
-      value,
-      expiry: items.find(item => item.value === value).expiry
-    }))));
+    localStorage.setItem(
+      key,
+      JSON.stringify(
+        validItems.map((value) => ({
+          value,
+          expiry: items.find((item) => item.value === value).expiry,
+        }))
+      )
+    );
 
     return validItems;
   }
@@ -74,7 +79,7 @@ export class ExpiringLocalStorage {
     let items = JSON.parse(itemStr);
 
     // Filter out the item to be removed
-    items = items.filter(item => item.value !== value);
+    items = items.filter((item) => item.value !== value);
 
     // Update local storage with the remaining items
     localStorage.setItem(key, JSON.stringify(items));
