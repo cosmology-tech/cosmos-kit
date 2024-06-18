@@ -178,14 +178,14 @@ describe('WalletManager', () => {
     })
   });
 
-  // it('should addChains functional', () => {
-  //   walletManager.addChains(['osmosis'], assets);
-  //   expect(walletManager.chainRecords).toHaveLength(2)
-  //   expect(walletManager.walletRepos).toHaveLength(2)
-  //   walletManager.addChains(['stargaze'], assets);
-  //   expect(walletManager.chainRecords).toHaveLength(3)
-  //   expect(walletManager.walletRepos).toHaveLength(3)
-  // });
+  it('should addChains functional', () => {
+    walletManager.addChains(['osmosis'], assets);
+    expect(walletManager.chainRecords).toHaveLength(2)
+    expect(walletManager.walletRepos).toHaveLength(2)
+    walletManager.addChains(['stargaze'], assets);
+    expect(walletManager.chainRecords).toHaveLength(3)
+    expect(walletManager.walletRepos).toHaveLength(3)
+  });
 
   it('should register event handlers with on()', () => {
     const event = 'refresh_connection';
