@@ -13,10 +13,10 @@ interface DynamicWalletListProps {
 function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
-  const { selectWalletRepo } = useSelectedWalletRepoContext()
+  const { selectWalletRepoName } = useSelectedWalletRepoContext()
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
-    selectWalletRepo(wallet)
+    selectWalletRepoName(wallet.walletName)
     await wallet.connect(wallet.walletStatus !== 'NotExist');
     if (!['Rejected', 'NotExist'].includes(wallet.walletStatus)) {
       onClose();

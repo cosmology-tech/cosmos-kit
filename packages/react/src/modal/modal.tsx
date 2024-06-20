@@ -81,8 +81,8 @@ export function WalletModal({
     beforeConnect: { disconnect: disconnectOptions },
   });
 
-  const { selectedWalletRepo } = useSelectedWalletRepoContext()
-  const current = walletRepo?.wallets.find(w => w.walletName === selectedWalletRepo?.walletName);
+  const { selectedWalletRepoName } = useSelectedWalletRepoContext()
+  const current = walletRepo?.wallets.find(w => w.walletName === selectedWalletRepoName);
 
   (current?.client as any)?.setActions?.({
     qrUrl: {
