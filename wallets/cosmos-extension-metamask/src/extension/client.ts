@@ -10,6 +10,7 @@ import {
   suggestChain,
 } from '@cosmsnap/snapper';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
+import Long from 'long';
 
 export class CosmosExtensionClient implements WalletClient {
   cosmos: CosmosSnap;
@@ -76,7 +77,10 @@ export class CosmosExtensionClient implements WalletClient {
         return [await this.getAccount(chainId)];
       },
       signDirect: (signerAddress: string, signDoc: SignDoc) =>
-        this.signDirect(chainId, signerAddress, signDoc),
+        this.signDirect(chainId, signerAddress, {
+          ...signDoc,
+          accountNumber: BigInt(signDoc.accountNumber.toInt()),
+        }),
     };
   }
 
@@ -104,6 +108,9 @@ export class CosmosExtensionClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return this.cosmos.signDirect(chainId, signer, signDoc);
+    return this.cosmos.signDirect(chainId, signer, {
+      ...signDoc,
+      accountNumber: new Long(Number(signDoc.accountNumber.toString())),
+    });
   }
 }
