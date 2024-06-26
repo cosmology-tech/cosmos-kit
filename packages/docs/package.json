@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "2.19.0",
+  "version": "2.19.1",
   "private": true,
   "main": "index.js",
   "license": "MIT",
@@ -20,10 +20,10 @@
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.13.0",
-    "@cosmos-kit/react": "^2.17.0",
+    "@cosmos-kit/react": "^2.17.1",
     "@interchain-ui/react": "^1.23.13",
     "chain-registry": "^1.63.2",
-    "cosmos-kit": "^2.18.0",
+    "cosmos-kit": "^2.18.1",
     "fast-fuzzy": "^1.12.0",
     "flexsearch": "^0.7.43",
     "framer-motion": "^9.0.7",

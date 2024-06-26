@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/initia-extension",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "@cosmos-kit/initia-extension is the Initia integration for CosmosKit",
   "author": "kanisorn@alleslabs.com",
   "contributors": [
