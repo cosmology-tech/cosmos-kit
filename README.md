@@ -31,45 +31,71 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 
 ## 📦 Packages
 
-| Name                                                | Type          | Description                                                                            |
-| --------------------------------------------------- | ------------- | -------------------------------------------------------------------------------------- |
-| [@cosmos-kit/core](packages/core)                   | Core          | Core CosmosKit functionality                                                           |
-| [@cosmos-kit/react](packages/react)                 | UI            | A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem. |
-| [@cosmos-kit/walletconnect](packages/walletconnect) | WalletConnect | Mobile WalletConnect support for the Cosmos ecosystem.                                 |
+| Name | Description |
+| --- | --- |
+| [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/cosmos-kit) | Single package for React developers to install Cosmos Kit |
+| [@cosmos-kit/core](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/core) | Core Cosmos Kit functionality |
+| [@cosmos-kit/walletconnect](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/walletconnect) | Mobile WalletConnect support for the Cosmos ecosystem |
+| [@cosmos-kit/react](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react) | React integration with Interchain UI Modal for simple usage |
+| [@cosmos-kit/react-lite](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react-lite) | A lightweight version of React integration without UI for customization |
 
 ## 📦 Wallets
 
-| Name                                                                      | Type          | Description                                                                                                                  |
-| ------------------------------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [@cosmos-kit/react](packages/react)                                       | UI            | A wallet adapter for React with mobile WalletConnect support for the Cosmos ecosystem.                                       |
-| [@cosmos-kit/coin98-extension/](wallets/coin98-extension/)                | Extension     | Coin98 Web Extension Wallet integration.                                                                                     |
-| [@cosmos-kit/coin98](wallets/coin98)                                      | Root Wallet   | Coin98 Wallet integration                                                                                                    |
-| [@cosmos-kit/cosmostation-extension/](wallets/cosmostation-extension/)    | Extension     | Cosmostation Web Extension Wallet integration.                                                                               |
-| [@cosmos-kit/cosmostation-mobile/](wallets/cosmostation-mobile/)          | WalletConnect | Cosmostation Mobile Wallet integration.                                                                                      |
-| [@cosmos-kit/cosmostation](wallets/cosmostation)                          | Root Wallet   | Cosmostation Wallet integration. Use this if you want to integrate both extension & mobile wallet connect                    |
-| [@cosmos-kit/keplr-extension/](wallets/keplr-extension/)                  | Extension     | Keplr Web Extension Wallet integration.                                                                                      |
-| [@cosmos-kit/keplr-mobile/](wallets/keplr-mobile/)                        | WalletConnect | Keplr Mobile Wallet integration.                                                                                             |
-| [@cosmos-kit/keplr](wallets/keplr)                                        | Root Wallet   | Keplr Wallet integration. Use this if you want to integrate both extension & mobile wallet connect                           |
-| [@cosmos-kit/leap](wallets/leap)                                          | Root Wallet   | Leap Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.              |
-| [@cosmos-kit/omni](wallets/omni)                                          | Root Wallet   | Omni Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.              |
-| [@cosmos-kit/owallet-extension/](wallets/owallet-extension/)              | Extension     | OWallet Web Extension Wallet integration.                                                                                    |
-| [@cosmos-kit/owallet](wallets/owallet)                                    | Root Wallet   | OWallet Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.           |
-| [@cosmos-kit/station-extension](wallets/station-extension)                | Extension     | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.           |
-| [@cosmos-kit/station](wallets/station)                                    | Root Wallet   | Station Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.           |
-| [@cosmos-kit/trust](wallets/trust)                                        | Root Wallet   | Trust Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.             |
-| [@cosmos-kit/vectis](wallets/vectis)                                      | Root Wallet   | Vectis Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.            |
-| [@cosmos-kit/xdefi-extension](wallets/xdefi-extension)                    | Root Wallet   | XDEFI Wallet (Extension) integration. Use this if you want to integrate the extension, no mobile wallet connect support yet. |
-| [@cosmos-kit/shell](wallets/shell)                                        | Root Wallet   | Shell Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.             |
-| [@cosmos-kit/tailwind-extension](wallets/tailwind-extension/)             | Extension     | TAILWIND Wallet extension. Use this if you want to integrate the TAILWIND Chrome Extension                                   |
-| [@cosmos-kit/tailwind](wallets/tailwind/)                                 | Root Wallet   | TAILWIND Wallet integration. Use this if you want to integrate any TAILWIND wallet. No mobile support yet.                   |
-| [@cosmos-kit/galaxy-station-extension](wallets/galaxy-station-extension/) | Extension     | Galaxy Station Wallet extension. Use this if you want to integrate the Galaxy Station Chrome Extension                       |
-| [@cosmos-kit/galaxy-station](wallets/galaxy-station/)                     | Root Wallet   | Galaxy Station Wallet integration. Use this if you want to integrate any Galaxy Station wallet. No mobile support yet.       |
-| [@cosmos-kit/cdcwallet-extension/](wallets/cdcwallet-extension/)          | Extension     | Crypto.com Web Extension Wallet integration.                                                                                 |
-| [@cosmos-kit/cdcwallet](wallets/cdcwallet)                                | Root Wallet   | Crypto.com Wallet integration. Use this if you want to integrate the extension, no mobile wallet connect support yet.        |
+Explore the range of wallet adapters available in our [wallets directory](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets). 
 
-### ✨ Example: [@cosmos-kit/example](packages/example)
+<p align="center" width="100%">
+<a href="https://www.keplr.app/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/keplr.svg" />
+</a>
+<a href="https://www.ledger.com/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/ledger.png" />
+</a>
+<a href="https://www.leapwallet.io/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/leap.png" />
+</a>
+<a href="https://wallet.cosmostation.io/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/cosmostation.png" />
+</a>
+<a href="https://www.xdefi.io/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/xdefi.svg" />
+</a>
+<a href="https://www.exodus.com/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/exodus.png" />
+</a>
+<br />
+<a href="https://www.okx.com/web3">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/okxwallet.svg" />
+</a>
+<a href="https://walletconnect.com/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/wallet-connect.svg" />
+</a>
+<a href="https://chromewebstore.google.com/detail/station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp?hl=en">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/station.svg" />
+</a>
+<a href="https://vectis.space/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/vectis.png" />
+</a>
+<a href="https://trustwallet.com/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/trust.png" />
+</a>
+<a href="https://omni.app/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/omni.png" />
+</a>
+<br />
+<a href="https://compasswallet.io/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/compass.png" />
+</a>
+<a href="https://coin98.com/wallet">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/coin98.png" />
+</a>
+<a href="https://chromewebstore.google.com/detail/galaxy-station-wallet/akckefnapafjbpphkefbpkpcamkoaoai?hl=en">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/galaxystation.svg" />
+</a>
+<a href="https://www.frontier.xyz/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/frontier.png" />
+</a>
+</p>
 
-An example Next.js project integrating `@cosmos-kit/react` wallet adapter.
 
 ## 🔌 Integrating Wallets
 
@@ -77,11 +103,28 @@ See our docs on [integrating your wallet](https://docs.cosmology.zone/cosmos-kit
 
 ### 🚀 Running Example
 
+For high-level examples suitable for most developers, explore our [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app). For a deeper, more technical understanding, this repository contains an example, which is also useful when integrating new wallets.
+
 ```sh
 yarn build
 cd packages/example
 yarn dev
 ```
+
+#### [Basic Next.js Example](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/example) 
+
+This example demonstrates a Next.js project that integrates the `@cosmos-kit/react` wallet adapter. Note that this example has historically been used by multiple teams to test PRs.
+
+#### ["vanilla" example showing how `WalletManager` works](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/example/pages/wallet-manager)
+
+This example is ideal for developers looking to create integrations for Vue.js, Svelte, or other frameworks. It uses a basic Next.js setup without relying on React-specific hooks, providing a clear model for building custom integrations.
+
+- `/wallet-manager` - Index page for wallet functionality
+- `/wallet-manager/wallet-operate` - Operate Wallet Directly
+- `/wallet-manager/main-wallets` - Show All Main Wallets
+- `/wallet-manager/wallet-manager` - Wallet Manager Without Hook
+- `/wallet-manager/wallet-repos` - Show All Wallet Repos
+- `/wallet-manager/wallet-repo` - Show One Wallet Repo
 
 ## 🛠 Developing
 
