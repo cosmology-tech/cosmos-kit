@@ -12,9 +12,9 @@
    <a href="https://www.npmjs.com/package/@cosmos-kit/exodus-extension"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fexodus-extension%2Fpackage.json"></a>
 </p>
 
-CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
+Cosmos Kit is a univeral wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
-@cosmos-kit/exodus-extension is the Exodus Web3 Wallet integration for CosmosKit.
+@cosmos-kit/exodus-extension is the Exodus Web3 Wallet integration for Cosmos Kit.
 
 ## Related
 

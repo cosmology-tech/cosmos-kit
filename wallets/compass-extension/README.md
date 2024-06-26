@@ -12,7 +12,7 @@
    <a href="https://www.npmjs.com/package/@cosmos-kit/compass-extension"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=wallets%2Fcompass-extension%2Fpackage.json"></a>
 </p>
 
-CosmosKit is a wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
+Cosmos Kit is a univeral wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
 @cosmos-kit/compass-extension is the compass integration for CosmosKit.
 
