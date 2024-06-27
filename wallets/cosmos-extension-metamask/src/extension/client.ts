@@ -105,7 +105,7 @@ export class CosmosExtensionClient implements WalletClient {
 
     const { accountNumber } = signDoc;
 
-    const accountNumberLong = new Long(Number(accountNumber.toString()) || 0, Number(accountNumber.toString()), true);
+    const accountNumberLong = Long.fromString(accountNumber.toString());
 
     const newSignDoc: SignDoc = {
       bodyBytes: signDoc.bodyBytes,
