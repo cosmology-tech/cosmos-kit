@@ -76,8 +76,15 @@ export class CosmosExtensionClient implements WalletClient {
       getAccounts: async () => {
         return [await this.getAccount(chainId)];
       },
-      signDirect: async (signerAddress: string, signDoc: SignDoc) =>
-        await this.signDirect(chainId, signerAddress, signDoc),
+      signDirect: async (signerAddress: string, signDoc: SignDoc) => {
+        const newSignDoc: DirectSignDoc = {
+          bodyBytes: signDoc.bodyBytes,
+          authInfoBytes: signDoc.authInfoBytes,
+          chainId: signDoc.chainId,
+          accountNumber: BigInt(signDoc.accountNumber.toString())
+        };
+        return await this.signDirect(chainId, signerAddress, newSignDoc)
+      }
     };
   }
 
@@ -105,6 +112,12 @@ export class CosmosExtensionClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.cosmos.signDirect(chainId, signer, signDoc);
+    const signDocNew: SignDoc = {
+      bodyBytes: signDoc.bodyBytes,
+      authInfoBytes: signDoc.authInfoBytes,
+      chainId: signDoc.chainId,
+      accountNumber: new Long(Number(signDoc.accountNumber.toString()), Number(signDoc.accountNumber.toString()), true)
+    };
+    return await this.cosmos.signDirect(chainId, signer, signDocNew);
   }
 }
