@@ -1,12 +1,13 @@
 import { OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
-import { Algo } from '@cosmjs/proto-signing';
+import { Algo, DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { ChainRecord, DirectSignDoc, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
 import {
   Chain,
-  CosmJSOfflineSigner,
   CosmosSnap,
   installSnap,
+  signDirect,
+  signAmino,
   suggestChain,
 } from '@cosmsnap/snapper';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
@@ -64,24 +65,14 @@ export class CosmosExtensionClient implements WalletClient {
       default:
         return this.getOfflineSignerAmino(chainId);
     }
-    // return this.client.getOfflineSignerAuto(chainId);
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return new CosmJSOfflineSigner(chainId) as unknown as OfflineAminoSigner;
+    return this.cosmos.getOfflineSigner(chainId, "amino") as unknown as OfflineAminoSigner;
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return {
-      getAccounts: async () => {
-        return [await this.getAccount(chainId)];
-      },
-      signDirect: async (signerAddress: string, signDoc: SignDoc) =>
-        await this.signDirect(chainId, signerAddress, {
-          ...signDoc,
-          accountNumber: BigInt(signDoc.accountNumber.toInt()),
-        }),
-    };
+    return this.cosmos.getOfflineSigner(chainId, "direct") as unknown as OfflineDirectSigner;
   }
 
   async signAmino(
@@ -90,7 +81,7 @@ export class CosmosExtensionClient implements WalletClient {
     signDoc: StdSignDoc,
     signOptions?: SignOptions
   ) {
-    return await this.cosmos.signAmino(chainId, signer, signDoc);
+    return await signAmino(chainId, signer, signDoc);
   }
 
   async signArbitrary(
@@ -107,10 +98,36 @@ export class CosmosExtensionClient implements WalletClient {
     signer: string,
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
-  ) {
-    return await this.cosmos.signDirect(chainId, signer, {
-      ...signDoc,
-      accountNumber: new Long(Number(signDoc.accountNumber.toString())),
-    });
+  ): Promise<DirectSignResponse> {
+    if (chainId !== signDoc.chainId) {
+      throw new Error('Chain IDs do not match.');
+    }
+
+    const { accountNumber } = signDoc;
+
+    const accountNumberLong = Long.fromString(accountNumber.toString());
+
+    const newSignDoc: SignDoc = {
+      bodyBytes: signDoc.bodyBytes,
+      authInfoBytes: signDoc.authInfoBytes,
+      chainId: signDoc.chainId,
+      accountNumber: accountNumberLong
+    };
+
+    let signRes = await signDirect(chainId, signer, newSignDoc);
+
+    const sign = {
+      signature: signRes.signature,
+      signed: {
+        ...signRes.signed,
+        accountNumber: accountNumberLong,
+        authInfoBytes: new Uint8Array(
+          Object.values(signRes.signed.authInfoBytes),
+        ),
+        bodyBytes: new Uint8Array(Object.values(signRes.signed.bodyBytes)),
+      },
+    };
+  
+    return sign;
   }
 }

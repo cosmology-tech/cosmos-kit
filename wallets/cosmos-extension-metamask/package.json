@@ -62,7 +62,7 @@
   "dependencies": {
     "@chain-registry/keplr": "1.68.2",
     "@cosmos-kit/core": "^2.13.0",
-    "@cosmsnap/snapper": "^0.2.3",
+    "@cosmsnap/snapper": "^0.2.4",
     "cosmjs-types": ">=0.9.0"
   },
   "peerDependencies": {
