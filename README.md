@@ -8,9 +8,13 @@
   <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
     <img height="20" src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg" />
   </a>
+  <a href="https://github.com/cosmology-tech/lib-count">
     <img height="20" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcosmology-tech%2Flib-count%2Fmain%2Foutput%2Fbadges%2Fproducts%2Fcosmos-kit%2Ftotal.json"/>  
+  </a>
+  <a href="https://github.com/cosmology-tech/lib-count">
     <img height="20" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcosmology-tech%2Flib-count%2Fmain%2Foutput%2Fbadges%2Fproducts%2Fcosmos-kit%2Fmonthly.json"/>  
-    <br />
+  </a>
+  <br />
    <a href="https://github.com/cosmology-tech/cosmos-kit/blob/main/LICENSE"><img height="20" src="https://img.shields.io/badge/license-BSD%203--Clause%20Clear-blue.svg"></a>
    <a href="https://www.npmjs.com/package/@cosmos-kit/core"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=packages%2Fcore%2Fpackage.json"></a>
 </p>
@@ -63,6 +67,9 @@ Explore the range of wallet adapters available in our [wallets directory](https:
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/exodus.png" />
 </a>
 <br />
+<a href="https://crypto.com/defi-wallet">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/cdcwallet.png" />
+</a>
 <a href="https://www.okx.com/web3">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/okxwallet.svg" />
 </a>
@@ -71,9 +78,6 @@ Explore the range of wallet adapters available in our [wallets directory](https:
 </a>
 <a href="https://chromewebstore.google.com/detail/station-wallet/aiifbnbfobpmeekipheeijimdpnlpgpp?hl=en">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/station.svg" />
-</a>
-<a href="https://vectis.space/">
-  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/vectis.png" />
 </a>
 <a href="https://trustwallet.com/">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/trust.png" />
@@ -90,6 +94,9 @@ Explore the range of wallet adapters available in our [wallets directory](https:
 </a>
 <a href="https://chromewebstore.google.com/detail/galaxy-station-wallet/akckefnapafjbpphkefbpkpcamkoaoai?hl=en">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/galaxystation.svg" />
+</a>
+<a href="https://vectis.space/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/vectis.png" />
 </a>
 <a href="https://www.frontier.xyz/">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/frontier.png" />
