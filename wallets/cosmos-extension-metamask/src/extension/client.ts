@@ -68,11 +68,11 @@ export class CosmosExtensionClient implements WalletClient {
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return this.getOfflineSigner(chainId, "amino") as unknown as OfflineAminoSigner;
+    return this.cosmos.getOfflineSigner(chainId, "amino") as unknown as OfflineAminoSigner;
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return this.getOfflineSigner(chainId, "direct") as unknown as OfflineDirectSigner;
+    return this.cosmos.getOfflineSigner(chainId, "direct") as unknown as OfflineDirectSigner;
   }
 
   async signAmino(
