@@ -104,8 +104,16 @@ export const decrypt = async (
   );
 
 // Used for signing and verifying objects.
-export const hashObject = (object: unknown): Buffer =>
-  Buffer.from(sha256(toUtf8(JSON.stringify(object))));
+export const hashObject = (object: any) => {
+  const replacer = (_: string, value: any) => {
+    if (typeof value === 'bigint') {
+      return value.toString();
+    }
+    return value;
+  };
+
+  return Buffer.from(sha256(toUtf8(JSON.stringify(object, replacer))));
+};
 
 export const connectClientAndProvider = async (
   isMobile: boolean,
