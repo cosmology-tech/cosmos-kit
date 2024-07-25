@@ -1,0 +1,38 @@
+# How to Add Okto Wallet to CosmosKit
+
+There is one package for Okto
+
+- `@cosmos-kit/okto-extension`
+
+> Note: This package exports `wallets` and it's an array of `MainWalletBase`.
+
+## add `@cosmos-kit/okto-extension`
+
+```
+yarn add @cosmos-kit/okto
+```
+
+## import the wallets
+
+```js
+import { wallets as okto } from "@cosmos-kit/okto";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...okto]}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
