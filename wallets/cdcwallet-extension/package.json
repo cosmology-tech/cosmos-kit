@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/cdcwallet-extension",
-  "version": "2.13.1",
+  "version": "2.13.2",
   "description": "cosmos-kit wallet connector",
   "author": "andy.bin@crypto.com",
   "contributors": [
@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "@chain-registry/keplr": "1.68.2",
-    "@cosmos-kit/core": "^2.13.0"
+    "@cosmos-kit/core": "^2.13.1"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">=0.32.3",
