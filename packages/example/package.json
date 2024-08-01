@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.24.0",
+  "version": "2.25.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -29,7 +29,7 @@
     "@cosmos-kit/cdcwallet": "^2.13.2",
     "@cosmos-kit/coin98": "^2.11.2",
     "@cosmos-kit/core": "^2.13.1",
-    "@cosmos-kit/cosmostation": "^2.11.2",
+    "@cosmos-kit/cosmostation": "^2.12.0",
     "@cosmos-kit/fin": "^2.11.2",
     "@cosmos-kit/galaxy-station": "^2.10.2",
     "@cosmos-kit/ins": "^2.1.7",
