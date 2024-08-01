@@ -1,13 +1,13 @@
-import { OfflineAminoSigner, StdSignature, StdSignDoc } from '@cosmjs/amino';
-import { Algo, DirectSignResponse, OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { OfflineAminoSigner, StdSignature, StdSignDoc, AminoSignResponse } from '@cosmjs/amino';
+import { Algo, DirectSignResponse } from '@cosmjs/proto-signing';
 import { ChainRecord, DirectSignDoc, SignType } from '@cosmos-kit/core';
 import { SignOptions, WalletClient } from '@cosmos-kit/core';
 import {
   Chain,
+  CosmJSOfflineSigner,
   CosmosSnap,
   installSnap,
   signDirect,
-  signAmino,
   suggestChain,
 } from '@cosmsnap/snapper';
 import { SignDoc } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
@@ -68,11 +68,38 @@ export class CosmosExtensionClient implements WalletClient {
   }
 
   getOfflineSignerAmino(chainId: string) {
-    return this.cosmos.getOfflineSigner(chainId, "amino") as unknown as OfflineAminoSigner;
+    return new CosmJSOfflineSigner(chainId) as unknown as OfflineAminoSigner;
   }
 
   getOfflineSignerDirect(chainId: string) {
-    return this.cosmos.getOfflineSigner(chainId, "direct") as unknown as OfflineDirectSigner;
+    return {
+      getAccounts: async () => {
+        return [await this.getAccount(chainId)];
+      },
+      signDirect: async (signerAddress: string, signDoc: SignDoc): Promise<DirectSignResponse> => {
+        const { accountNumber } = signDoc;
+
+        const signDocNew = {
+          bodyBytes: signDoc.bodyBytes,
+          authInfoBytes: signDoc.authInfoBytes,
+          chainId: signDoc.chainId,
+          accountNumber: Long.fromString(signDoc.accountNumber.toString())
+        };
+        const signRes = await signDirect(chainId, signerAddress, signDocNew);
+        const sign = {
+          signature: signRes.signature,
+          signed: {
+            ...signRes.signed,
+            accountNumber,
+            authInfoBytes: new Uint8Array(
+              Object.values(signRes.signed.authInfoBytes),
+            ),
+            bodyBytes: new Uint8Array(Object.values(signRes.signed.bodyBytes)),
+          },
+        };
+        return sign
+      }
+    };
   }
 
   async signAmino(
@@ -80,8 +107,8 @@ export class CosmosExtensionClient implements WalletClient {
     signer: string,
     signDoc: StdSignDoc,
     signOptions?: SignOptions
-  ) {
-    return await signAmino(chainId, signer, signDoc);
+  ): Promise<AminoSignResponse> {
+    return await this.cosmos.signAmino(chainId, signer, signDoc);
   }
 
   async signArbitrary(
@@ -99,35 +126,28 @@ export class CosmosExtensionClient implements WalletClient {
     signDoc: DirectSignDoc,
     signOptions?: SignOptions
   ): Promise<DirectSignResponse> {
-    if (chainId !== signDoc.chainId) {
-      throw new Error('Chain IDs do not match.');
-    }
 
     const { accountNumber } = signDoc;
 
-    const accountNumberLong = Long.fromString(accountNumber.toString());
-
-    const newSignDoc: SignDoc = {
+    const signDocNew = {
       bodyBytes: signDoc.bodyBytes,
       authInfoBytes: signDoc.authInfoBytes,
       chainId: signDoc.chainId,
-      accountNumber: accountNumberLong
+      accountNumber: Long.fromString(accountNumber.toString())
     };
-
-    let signRes = await signDirect(chainId, signer, newSignDoc);
-
+    const signRes = await signDirect(chainId, signer, signDocNew);
     const sign = {
       signature: signRes.signature,
       signed: {
         ...signRes.signed,
-        accountNumber: accountNumberLong,
+        accountNumber,
         authInfoBytes: new Uint8Array(
           Object.values(signRes.signed.authInfoBytes),
         ),
         bodyBytes: new Uint8Array(Object.values(signRes.signed.bodyBytes)),
       },
     };
-  
+
     return sign;
   }
 }
