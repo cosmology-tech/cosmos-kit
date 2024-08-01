@@ -1884,10 +1884,10 @@
   resolved "https://registry.yarnpkg.com/@cosmostation/extension-client/-/extension-client-0.1.15.tgz#cdc6d8fce42217704c1c0d5814f0ee7ce27e8dab"
   integrity sha512-HlXYJjFrNpjiV/GUKhri1UL8/bhlOIFFLpRF78YDSqq16x0+plIqx5CAvEusFcKTDpVfpeD5sfUHiKvP7euNFg==
 
-"@cosmsnap/snapper@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@cosmsnap/snapper/-/snapper-0.2.4.tgz#1f4ab1c8a2130512f9f33d6e9356ac0887e8ccc9"
-  integrity sha512-XeoexbmjKhA0RT13aO4pO5clEmH69gYE+rRqVOD2xFcnSKnJrMV9fm27MbC5qcJ1s7FfxazOXzo06FCc3TFlYQ==
+"@cosmsnap/snapper@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@cosmsnap/snapper/-/snapper-0.2.5.tgz#ad52dfa59cad371ef77085769309f591ad854cd8"
+  integrity sha512-85E/LVkHG01JxEqd6VpCPot0jJH7fR+3iBBNG5YIUHYaiHbWu6RDB2CGRhNJMt+lev1B/Wd6DN4J75UrSBdhIg==
   dependencies:
     "@cosmjs/amino" "^0.31.3"
     "@keplr-wallet/proto-types" "0.12.12"
