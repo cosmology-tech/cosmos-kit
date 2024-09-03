@@ -1,19 +1,10 @@
-import {
-  ref,
-  computed,
-  inject,
-  nextTick,
-  watch,
-  onMounted,
-  watchEffect,
-  onUpdated,
-} from "vue";
+import { ref, reactive, inject, watch, onMounted, onUnmounted } from "vue";
 import { ChainContext, ChainName, DisconnectOptions } from "@cosmos-kit/core";
 import { getChainWalletContext } from "../utils";
 
 const walletContextKey = "walletManager";
 
-export const useChain = (chainName: ChainName, sync = true): ChainContext => {
+export const useChain = (chainName: ChainName, sync = true) => {
   const context = inject(walletContextKey);
 
   if (!context) {
@@ -38,42 +29,8 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     getNameService,
   } = walletRepo;
 
-  const chainWalletContext = ref(null);
-
-  watchEffect((onCleanup) => {
-    const timeoutId = setTimeout(() => {
-      chainWalletContext.value = chain
-        ? getChainWalletContext(chain.chain_id, walletRepo.current, sync)
-        : undefined;
-
-      console.log("chainWalletContext", chainWalletContext.value);
-    }, 600);
-
-    onCleanup(() => {
-      clearTimeout(timeoutId);
-    });
-  });
-
-  watch(
-    [() => chain, () => assetList],
-    () => {
-      const currentWallet = window.localStorage.getItem(
-        "cosmos-kit@2:core//current-wallet"
-      );
-      if (
-        sync &&
-        chainWalletContext.value &&
-        chainWalletContext.value.isWalletDisconnected &&
-        currentWallet
-      ) {
-        connect(currentWallet);
-      }
-    },
-    { immediate: true } // immediate: true ensures the watch function runs initially
-  );
-
-  return {
-    ...chainWalletContext.value,
+  // create a reactive object
+  const state = reactive<ChainContext>({
     walletRepo,
     chain,
     assets: assetList,
@@ -87,5 +44,40 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     getStargateClient,
     getCosmWasmClient,
     getNameService,
-  };
+    address: undefined,
+    status: undefined,
+    isWalletConnected: undefined,
+    isWalletDisconnected: undefined,
+  } as ChainContext);
+
+  watch(
+    [() => chain, () => assetList],
+    () => {
+      const currentWallet = window.localStorage.getItem(
+        "cosmos-kit@2:core//current-wallet"
+      );
+      if (sync && currentWallet) {
+        connect(currentWallet);
+      }
+    },
+    { immediate: true }
+  );
+
+  onMounted(() => {
+    const timeoutId = setTimeout(() => {
+      const chainWalletContext = chain
+        ? getChainWalletContext(chain.chain_id, walletRepo.current, sync)
+        : undefined;
+
+      Object.assign(state, chainWalletContext);
+
+      console.log("Updated state", state);
+    }, 600);
+
+    onUnmounted(() => {
+      clearTimeout(timeoutId);
+    });
+  });
+
+  return state;
 };
