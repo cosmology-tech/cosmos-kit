@@ -199,13 +199,19 @@ const LeapSocialLogin = dynamic(
 
 export function CustomCapsuleModalViewX() {
   const [showCapsuleModal, setShowCapsuleModal] = useState(false);
-  const [oAuthMethods, setOAuthMethods] = useState<Array<any>>([])
+  const [oAuthMethods, setOAuthMethods] = useState<Array<any>>([]);
 
   useEffect(() => {
-    import("@leapwallet/cosmos-social-login-capsule-provider").then((capsuleProvider) => {
-      setOAuthMethods([capsuleProvider.OAuthMethod.GOOGLE, capsuleProvider.OAuthMethod.FACEBOOK, capsuleProvider.OAuthMethod.TWITTER])
-    })
-  }, [])
+    import("@leapwallet/cosmos-social-login-capsule-provider").then(
+      (capsuleProvider) => {
+        setOAuthMethods([
+          capsuleProvider.OAuthMethod.GOOGLE,
+          capsuleProvider.OAuthMethod.FACEBOOK,
+          capsuleProvider.OAuthMethod.TWITTER,
+        ]);
+      }
+    );
+  }, []);
 
   return (
     <>

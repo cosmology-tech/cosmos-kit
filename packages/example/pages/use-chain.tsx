@@ -7,6 +7,8 @@ export default function () {
   const [chainName, setChainName] = useState("cosmoshub");
   const chain = useChain(chainName);
 
+  console.log(chain);
+
   return (
     <div className="space-y-4 mx-auto max-w-3xl">
       <h1 className="text-2xl font-semibold">useChain</h1>

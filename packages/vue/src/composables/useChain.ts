@@ -1,25 +1,27 @@
-// useChain.js
-import { inject, ref, watch, onMounted } from "vue";
+import {
+  ref,
+  computed,
+  inject,
+  nextTick,
+  watch,
+  onMounted,
+  watchEffect,
+  onUpdated,
+} from "vue";
 import { ChainContext, ChainName, DisconnectOptions } from "@cosmos-kit/core";
-import { getChainWalletContext } from "../utils/getChainWalletContext";
+import { getChainWalletContext } from "../utils";
 
-export function useChain(chainName, sync = true) {
-  const context = inject("walletContext");
-  const forceRender = ref(0);
+const walletContextKey = "walletManager";
+
+export const useChain = (chainName: ChainName, sync = true): ChainContext => {
+  const context = inject(walletContextKey);
 
   if (!context) {
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const { walletManager, modalProvided } = context;
-
-  if (!modalProvided) {
-    throw new Error(
-      "You have to provide `walletModal` to use `useChain`, or use `useChainWallet` instead."
-    );
-  }
-
-  const walletRepo = walletManager.getWalletRepo(chainName);
+  const walletManager: any = context;
+  const walletRepo = walletManager?.getWalletRepo(chainName);
   walletRepo.activate();
 
   const {
@@ -36,29 +38,39 @@ export function useChain(chainName, sync = true) {
     getNameService,
   } = walletRepo;
 
-  const chainWalletContext = ref(
-    chain ? getChainWalletContext(chain.chain_id, current, sync) : undefined
-  );
+  const chainWalletContext = ref(null);
+
+  watchEffect((onCleanup) => {
+    const timeoutId = setTimeout(() => {
+      chainWalletContext.value = chain
+        ? getChainWalletContext(chain.chain_id, walletRepo.current, sync)
+        : undefined;
+
+      console.log("chainWalletContext", chainWalletContext.value);
+    }, 600);
+
+    onCleanup(() => {
+      clearTimeout(timeoutId);
+    });
+  });
 
   watch(
-    [() => chain, () => assetList, () => chainWalletContext.value?.address],
+    [() => chain, () => assetList],
     () => {
-      forceRender.value += 1;
-    }
+      const currentWallet = window.localStorage.getItem(
+        "cosmos-kit@2:core//current-wallet"
+      );
+      if (
+        sync &&
+        chainWalletContext.value &&
+        chainWalletContext.value.isWalletDisconnected &&
+        currentWallet
+      ) {
+        connect(currentWallet);
+      }
+    },
+    { immediate: true } // immediate: true ensures the watch function runs initially
   );
-
-  onMounted(() => {
-    const currentWallet = window.localStorage.getItem(
-      "cosmos-kit@2:core//current-wallet"
-    );
-    if (
-      sync &&
-      chainWalletContext.value?.isWalletDisconnected &&
-      currentWallet
-    ) {
-      connect(currentWallet);
-    }
-  });
 
   return {
     ...chainWalletContext.value,
@@ -67,12 +79,13 @@ export function useChain(chainName, sync = true) {
     assets: assetList,
     openView,
     closeView,
-    connect: () => connect(undefined, sync),
-    disconnect: (options) => disconnect(undefined, sync, options),
+    connect: () => connect(void 0, sync),
+    disconnect: (options?: DisconnectOptions) =>
+      walletRepo.disconnect(void 0, sync, options),
     getRpcEndpoint,
     getRestEndpoint,
     getStargateClient,
     getCosmWasmClient,
     getNameService,
   };
-}
+};

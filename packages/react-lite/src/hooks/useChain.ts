@@ -12,16 +12,11 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
     throw new Error('You have forgot to use ChainProvider.');
   }
 
-  const { walletManager, modalProvided } = context;
-
-  if (!modalProvided) {
-    throw new Error(
-      'You have to provide `walletModal` to use `useChain`, or use `useChainWallet` instead.'
-    );
-  }
+  const { walletManager } = context;
 
   const walletRepo = walletManager.getWalletRepo(chainName);
   walletRepo.activate();
+
   const {
     connect,
     disconnect,
