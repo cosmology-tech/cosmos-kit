@@ -1,10 +1,21 @@
-import { ref, reactive, inject, watch, onMounted, onUnmounted } from "vue";
+import {
+  ref,
+  reactive,
+  Reactive,
+  inject,
+  watch,
+  onMounted,
+  onUnmounted,
+} from "vue";
 import { ChainContext, ChainName, DisconnectOptions } from "@cosmos-kit/core";
 import { getChainWalletContext } from "../utils";
 
 const walletContextKey = "walletManager";
 
-export const useChain = (chainName: ChainName, sync = true) => {
+export const useChain = (
+  chainName: ChainName,
+  sync = true
+): Reactive<ChainContext> => {
   const context = inject(walletContextKey);
 
   if (!context) {
@@ -71,7 +82,7 @@ export const useChain = (chainName: ChainName, sync = true) => {
 
       Object.assign(state, chainWalletContext);
 
-      console.log("Updated state", state);
+      // console.log("Updated state", state);
     }, 600);
 
     onUnmounted(() => {

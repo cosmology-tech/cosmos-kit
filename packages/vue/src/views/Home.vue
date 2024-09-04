@@ -9,17 +9,22 @@
         {{ chainContext?.address || "No address connected" }}
       </p>
       <el-button @click="chainContext.openView">Open Modal</el-button>
+      <el-button @click="chainsContext.cosmoshub.openView"
+        >cosmoshub openView
+      </el-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { useChain } from "./../composables/useChain";
+import { useChain, useChains } from "./../composables";
 
 const chainContext = useChain("cosmoshub");
+const chainsContext = useChains(["cosmoshub", "osmosis"]);
 
-console.log("useChain chainContext", chainContext);
+// console.log("useChain", chainsContext);
+console.log("useChains", chainsContext);
 </script>
 
 <style scoped></style>
