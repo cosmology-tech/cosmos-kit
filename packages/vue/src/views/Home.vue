@@ -23,11 +23,11 @@ import { useChain, useChains, useChainWallet } from "./../composables";
 
 const chainContext = useChain("cosmoshub");
 // const chainsContext = useChains(["cosmoshub", "osmosis"]);
-const chainWalletContext = useChainWallet("cosmoshub", "keplr-extension");
+// const chainWalletContext = useChainWallet("cosmoshub", "keplr-extension");
 
 console.log("useChain:", chainContext);
 // console.log("useChains:", chainsContext);
-console.log("useChainWallet:", chainWalletContext);
+// console.log("useChainWallet:", chainWalletContext);
 </script>
 
 <style scoped></style>
