@@ -42,15 +42,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, watch } from "vue";
+import { ref, defineProps, defineEmits, watch, reactive } from "vue";
 import { ElDialog, ElRow, ElCol, ElButton, ElAlert } from "element-plus";
 import type { WalletModalProps } from "@cosmos-kit/core";
 
 const props = defineProps<WalletModalProps>();
-const emit = defineEmits<{
-  (e: "update:isOpen", value: boolean): void;
-}>();
-
 const isOpen = ref(props.isOpen);
 const walletRepo = ref(props.walletRepo);
 
@@ -64,7 +60,7 @@ watch(
 watch(
   () => props.walletRepo,
   (newValue) => {
-    console.log(newValue);
+    // console.log(newValue);
     walletRepo.value = newValue;
   }
 );
@@ -72,6 +68,10 @@ watch(
 const onCloseModal = () => {
   props.setOpen(false);
 };
+
+const emit = defineEmits<{
+  (e: "update:isOpen", value: boolean): void;
+}>();
 </script>
 
 <style scoped>

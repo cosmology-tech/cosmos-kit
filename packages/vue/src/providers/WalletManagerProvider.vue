@@ -1,4 +1,3 @@
-<!-- WalletManagerProvider.vue -->
 <template>
   <slot />
   <component

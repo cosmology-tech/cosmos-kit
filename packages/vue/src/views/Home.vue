@@ -8,23 +8,26 @@
         <strong>Wallet Address:</strong>
         {{ chainContext?.address || "No address connected" }}
       </p>
-      <el-button @click="chainContext.openView">Open Modal</el-button>
-      <el-button @click="chainsContext.cosmoshub.openView"
+      <el-button @click="chainContext?.openView">Open Modal</el-button>
+
+      <!-- <el-button @click="chainsContext?.cosmoshub?.openView"
         >cosmoshub openView
-      </el-button>
+      </el-button> -->
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
-import { useChain, useChains } from "./../composables";
+import { useChain, useChains, useChainWallet } from "./../composables";
 
 const chainContext = useChain("cosmoshub");
-const chainsContext = useChains(["cosmoshub", "osmosis"]);
+// const chainsContext = useChains(["cosmoshub", "osmosis"]);
+const chainWalletContext = useChainWallet("cosmoshub", "keplr-extension");
 
-// console.log("useChain", chainsContext);
-console.log("useChains", chainsContext);
+console.log("useChain:", chainContext);
+// console.log("useChains:", chainsContext);
+console.log("useChainWallet:", chainWalletContext);
 </script>
 
 <style scoped></style>
