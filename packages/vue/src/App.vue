@@ -7,6 +7,7 @@
       :assetLists="assets"
       :walletConnectOptions="walletConnectOptions"
       :walletModal="CustomModal"
+      :defaultNameService="icns"
     >
       <router-view />
     </ChainProvider>
