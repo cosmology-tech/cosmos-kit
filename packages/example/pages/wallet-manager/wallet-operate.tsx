@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
 import { wallets as stationWallets } from "@cosmos-kit/station";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
+import { wallets as oWallets } from "@cosmos-kit/owallet";
 import { assets } from "chain-registry";
 import { Button } from "components/button";
 import { SigningStargateClient } from "@cosmjs/stargate";
@@ -11,7 +12,7 @@ export default () => {
   const walletManager = useMemo(() => {
     return new WalletManager(
       ["cosmoshub", "juno", "stargaze"],
-      [keplrWallets[0], leapWallets[0], stationWallets[0]],
+      [keplrWallets[0], oWallets[0], leapWallets[0], stationWallets[0]],
       new Logger("NONE"),
       false,
       undefined,
@@ -20,18 +21,16 @@ export default () => {
     );
   }, []);
 
-
   const wallet = walletManager
     .getWalletRepo("juno")
     .getWallet("keplr-extension");
 
-
   const [accounts, setAccounts] = useState(undefined);
-  const [signingStargateClient, setSigningStargateClient] =
-    useState<SigningStargateClient | undefined>(undefined);
+  const [signingStargateClient, setSigningStargateClient] = useState<
+    SigningStargateClient | undefined
+  >(undefined);
 
   const [_, forceUpdate] = useState(0);
-
 
   const connect = async () => {
     try {
@@ -84,9 +83,7 @@ export default () => {
     } catch (error) {
       console.error(error);
     }
-  }
-
-
+  };
 
   return (
     <div>
@@ -108,7 +105,6 @@ export default () => {
         </Button>
         <Button onClick={getFastEndpoints}>Get Fast Endpoints</Button> */}
       </div>
-
       <p>status:{wallet?.state}</p>
       <p>address:{wallet?.address}</p>
       <p>walletState:{wallet?.walletStatus}</p>

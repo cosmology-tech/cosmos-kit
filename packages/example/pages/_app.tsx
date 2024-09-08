@@ -45,7 +45,11 @@ import { RootLayout } from "../components/layout";
 // import { useTheme } from "@interchain-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
+  const defaultWallets: MainWalletBase[] = [
+    ...keplrWallets,
+    ...leapWallets,
+    ...owalletWallets,
+  ];
   const [wallets, setWallets] = useState<MainWalletBase[]>(defaultWallets);
   const [loadingWallets, setLoadingWallet] = useState<boolean>(false);
   // const web3AuthWallets = useMemo(
@@ -94,9 +98,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={[]}
         wallets={[
           // ...wallets,
+          ...owalletWallets,
           ...keplrWallets,
           ...leapWallets,
-          // ...owalletWallets,
+
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
