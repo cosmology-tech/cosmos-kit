@@ -22,10 +22,12 @@
 import { ref, onMounted, watch, watchEffect } from "vue";
 import {
   useChain,
+  useNameService,
   useChains,
   useChainWallet,
   useManager,
-  useNameService,
+  useWallet,
+  useWalletClient,
 } from "./../composables";
 
 const resolvedName = ref<any>(null);
@@ -35,17 +37,20 @@ const serviceContext = useNameService();
 // const chainsContext = useChains(["cosmoshub", "osmosis"]);
 // const chainWalletContext = useChainWallet("cosmoshub", "keplr-extension");
 // const managerContext = useManager();
+// const walletContext = useWallet();
+// const walletClientContext = useWalletClient();
 
 // console.log("useChain:", chainContext);
 // console.log("useChains:", chainsContext);
 // console.log("useChainWallet:", chainWalletContext);
 // console.log("useManager:", managerContext);
+// console.log("useWallet", walletContext);
+// console.log("useWalletClient", walletClientContext);
 
 watchEffect(() => {
   if (serviceContext.ns) {
     serviceContext.ns.resolveName(chainContext.address).then((name) => {
-      console.log("useNameService", serviceContext, name);
-      resolvedName.value = name; // 将返回的 name 更新到 resolvedName 中
+      resolvedName.value = name;
     });
   }
 });
