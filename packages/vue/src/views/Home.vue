@@ -14,6 +14,18 @@
       <!-- <el-button @click="chainsContext?.cosmoshub?.openView"
         >cosmoshub openView
       </el-button> -->
+
+      <!-- <div>
+        <iframe
+          ref="iframeRef"
+          :style="{
+            width: '50%',
+            height: '50vh',
+            borderRadius: '4px',
+          }"
+          src="https://example-cosmos-kit-dapp.zone"
+        ></iframe>
+      </div> -->
     </div>
   </div>
 </template>
@@ -28,11 +40,13 @@ import {
   useManager,
   useWallet,
   useWalletClient,
+  useIframe,
 } from "./../composables";
 
 const resolvedName = ref<any>(null);
 const chainContext = useChain("cosmoshub");
 const serviceContext = useNameService();
+// const { iframeRef } = useIframe();
 
 // const chainsContext = useChains(["cosmoshub", "osmosis"]);
 // const chainWalletContext = useChainWallet("cosmoshub", "keplr-extension");
