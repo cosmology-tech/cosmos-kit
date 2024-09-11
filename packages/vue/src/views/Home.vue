@@ -1,6 +1,11 @@
 <template>
   <div>
     <div>
+      <el-row style="justify-content: center; align-items: center; gap: 5">
+        <p style="margin-right: 20px">ModalTheme: {{ modalTheme }}</p>
+        <el-button @click="setModalTheme('dark')"> Light</el-button>
+        <el-button @click="setModalTheme('light')"> Dark</el-button>
+      </el-row>
       <p><strong>Chain Name:</strong> {{ chainContext.chain?.chain_name }}</p>
       <p><strong>Chain ID:</strong> {{ chainContext.chain?.chain_id }}</p>
       <p><strong>Status:</strong> {{ chainContext.status }}</p>
@@ -20,6 +25,7 @@
           ref="iframeRef"
           :style="{
             width: '50%',
+            marginTop: '20px',
             height: '50vh',
             borderRadius: '4px',
           }"
@@ -41,8 +47,10 @@ import {
   useWallet,
   useWalletClient,
   useIframe,
+  useModalTheme,
 } from "./../composables";
 
+const { modalTheme, setModalTheme } = useModalTheme();
 const resolvedName = ref<any>(null);
 const chainContext = useChain("cosmoshub");
 const serviceContext = useNameService();

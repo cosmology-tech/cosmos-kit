@@ -5,7 +5,7 @@ import path from 'path'
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
-  plugins: [vue(), react(), nodePolyfills({
+  plugins: [vue(), nodePolyfills({
     buffer: true,
   }),],
   resolve: {

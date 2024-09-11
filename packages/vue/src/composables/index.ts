@@ -6,3 +6,4 @@ export * from "./useManager";
 export * from "./useNameService";
 export * from "./useWallet";
 export * from "./useWalletClient";
+export * from "./useModalTheme";

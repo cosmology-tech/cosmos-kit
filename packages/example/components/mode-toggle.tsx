@@ -14,6 +14,8 @@ export function ModeToggle() {
   const { setTheme } = useTheme();
   const { modalTheme, setModalTheme } = useModalTheme();
 
+  console.log(modalTheme);
+
   return (
     <>
       <DropdownMenu>

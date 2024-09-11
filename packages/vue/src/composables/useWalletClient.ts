@@ -1,5 +1,4 @@
 import { State, WalletClientContext, WalletName } from "@cosmos-kit/core";
-import { useContext } from "react";
 import { inject, onMounted, onUnmounted, reactive, Reactive } from "vue";
 
 const walletContextKey = "walletManager";
