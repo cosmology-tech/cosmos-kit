@@ -11,7 +11,7 @@ export function useChains(chainNames: ChainName[], sync = true) {
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const walletManager: any = context;
+  const { walletManager, isViewOpen }: any = context;
 
   const names = Array.from(new Set(chainNames));
   const repos = names.map((name) => walletManager?.getWalletRepo(name));
@@ -82,14 +82,13 @@ export function useChains(chainNames: ChainName[], sync = true) {
       getNameService,
     } as ChainContext;
 
-    const timeoutId = setTimeout(() => {
+    setTimeout(() => {
       const chainWalletContext = getChainWalletContext(
         chain.chain_id,
         walletRepo.current,
         sync
       );
 
-      // 将获取到的链上下文赋值到对应链的键
       Object.assign(state[chainName], chainWalletContext);
 
       console.log(`Updated state for chain ${chainName}`, state[chainName]);

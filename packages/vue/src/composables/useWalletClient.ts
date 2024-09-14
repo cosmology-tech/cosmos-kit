@@ -12,7 +12,7 @@ export const useWalletClient = (
     throw new Error("You have forgot to use ChainProvider.");
   }
 
-  const walletManager: any = context;
+  const { walletManager }: any = context;
   const state = reactive<WalletClientContext>({
     client: void 0,
     status: State.Init,

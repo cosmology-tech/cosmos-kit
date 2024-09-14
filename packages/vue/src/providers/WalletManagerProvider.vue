@@ -10,7 +10,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, provide, defineProps, onMounted, onUnmounted } from "vue";
+import {
+  ref,
+  provide,
+  reactive,
+  defineProps,
+  onMounted,
+  onUnmounted,
+} from "vue";
 import { Logger, WalletManager, State, WalletRepo } from "@cosmos-kit/core";
 import type { AssetList, Chain } from "@chain-registry/types";
 import type {
@@ -39,6 +46,7 @@ const props = defineProps<{
 }>();
 
 const logger = new Logger(props.logLevel || "WARN");
+
 const walletManager = new WalletManager(
   props.chains,
   props.wallets,
@@ -59,44 +67,51 @@ const viewWalletRepo = ref<WalletRepo | undefined>();
 const data = ref<any>();
 const state = ref<State>(State.Init);
 const msg = ref<string | undefined>();
+const render = ref(0);
 const ProvidedWalletModal = props.walletModal;
 
 const setViewOpen = (value: boolean) => {
   isViewOpen.value = value;
 };
 
-walletManager.setActions({
-  viewOpen: setViewOpen,
-  viewWalletRepo: (repo) => (viewWalletRepo.value = repo),
-  data: (newData) => (data.value = newData),
-  state: (newState) => (state.value = newState),
-  message: (message) => (msg.value = message),
-});
-
-walletManager.walletRepos.forEach((wr) => {
-  wr.setActions({
+const actionStaus = () => {
+  walletManager.setActions({
     viewOpen: setViewOpen,
     viewWalletRepo: (repo) => (viewWalletRepo.value = repo),
+    data: (newData) => (data.value = newData),
+    state: (newState) => (state.value = newState),
+    message: (message) => (msg.value = message),
   });
-  wr.wallets.forEach((w) => {
+
+  walletManager.walletRepos.forEach((wr) => {
+    wr.setActions({
+      viewOpen: setViewOpen,
+      viewWalletRepo: (repo) => (viewWalletRepo.value = repo),
+      render: (v) => {
+        render.value = v;
+      },
+    });
+    wr.wallets.forEach((w) => {
+      w.setActions({
+        data: (newData) => (data.value = newData),
+        state: (newState) => (state.value = newState),
+        message: (message) => (msg.value = message),
+      });
+    });
+  });
+
+  walletManager.mainWallets.forEach((w) => {
     w.setActions({
       data: (newData) => (data.value = newData),
       state: (newState) => (state.value = newState),
       message: (message) => (msg.value = message),
     });
   });
-});
-
-walletManager.mainWallets.forEach((w) => {
-  w.setActions({
-    data: (newData) => (data.value = newData),
-    state: (newState) => (state.value = newState),
-    message: (message) => (msg.value = message),
-  });
-});
+};
 
 onMounted(() => {
   walletManager.onMounted();
+  actionStaus();
 });
 
 onUnmounted(() => {
@@ -104,5 +119,9 @@ onUnmounted(() => {
   setViewOpen(false);
 });
 
-provide(walletManagerKey, walletManager);
+provide(walletManagerKey, {
+  walletManager: walletManager,
+  isViewOpen: isViewOpen,
+  modalProvided: Boolean(ProvidedWalletModal),
+});
 </script>

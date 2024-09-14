@@ -26,7 +26,7 @@ export const useWallet = (
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const walletManager: any = context;
+  const { walletManager }: any = context;
   const state = reactive<WalletContext>({
     mainWallet: null,
     chainWallets: [],

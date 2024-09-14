@@ -10,7 +10,7 @@ export const useManager = (): ManagerContext => {
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const walletManager: any = context;
+  const { walletManager }: any = context;
   const {
     mainWallets,
     chainRecords,
@@ -26,7 +26,6 @@ export const useManager = (): ManagerContext => {
     off,
   } = walletManager;
 
-  // 返回 ManagerContext 对象
   return {
     chainRecords,
     walletRepos,

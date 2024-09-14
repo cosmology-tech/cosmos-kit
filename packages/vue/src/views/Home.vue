@@ -3,8 +3,8 @@
     <div>
       <el-row style="justify-content: center; align-items: center; gap: 5">
         <p style="margin-right: 20px">ModalTheme: {{ modalTheme }}</p>
-        <el-button @click="setModalTheme('dark')"> Light</el-button>
-        <el-button @click="setModalTheme('light')"> Dark</el-button>
+        <el-button @click="setModalTheme('light')"> Light</el-button>
+        <el-button @click="setModalTheme('dark')"> Dark</el-button>
       </el-row>
       <p><strong>Chain Name:</strong> {{ chainContext.chain?.chain_name }}</p>
       <p><strong>Chain ID:</strong> {{ chainContext.chain?.chain_id }}</p>
@@ -53,7 +53,7 @@ import {
 const { modalTheme, setModalTheme } = useModalTheme();
 const resolvedName = ref<any>(null);
 const chainContext = useChain("cosmoshub");
-const serviceContext = useNameService();
+// const serviceContext = useNameService();
 // const { iframeRef } = useIframe();
 
 // const chainsContext = useChains(["cosmoshub", "osmosis"]);
@@ -69,11 +69,25 @@ const serviceContext = useNameService();
 // console.log("useWallet", walletContext);
 // console.log("useWalletClient", walletClientContext);
 
+// watchEffect(() => {
+//   if (serviceContext.ns) {
+//     serviceContext.ns.resolveName(chainContext.address).then((name) => {
+//       resolvedName.value = name;
+//     });
+//   }
+// });
+
 watchEffect(() => {
-  if (serviceContext.ns) {
-    serviceContext.ns.resolveName(chainContext.address).then((name) => {
-      resolvedName.value = name;
-    });
+  if (modalTheme.value === "dark") {
+    document.body.style.backgroundColor = "#333";
+    document.body.style.setProperty("color", "#fff", "important");
+  } else if (modalTheme.value === "light") {
+    document.body.style.backgroundColor = "#fff";
+    document.body.style.color = "#000";
+  } else {
+    // 系统主题为 light 模式
+    document.body.style.backgroundColor = "#f0f0f0";
+    document.body.style.color = "#000";
   }
 });
 </script>

@@ -1,4 +1,4 @@
-import { inject, computed, onMounted, onUnmounted, reactive } from "vue";
+import { inject, computed, onMounted, onUnmounted, reactive, watch } from "vue";
 import { ChainName, ChainWalletContext, WalletName } from "@cosmos-kit/core";
 import { getChainWalletContext } from "../utils";
 
@@ -15,7 +15,7 @@ export const useChainWallet = (
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const walletManager: any = context;
+  const { walletManager, isViewOpen }: any = context;
 
   const wallet = walletManager.getChainWallet(chainName, walletName);
   wallet.activate();
@@ -30,16 +30,26 @@ export const useChainWallet = (
 
   const state = reactive<ChainWalletContext | Record<string, any>>({});
 
+  const getWalletContext = async () => {
+    const chainWalletContext = wallet.chain
+      ? getChainWalletContext(wallet.chain.chain_id, wallet, sync)
+      : undefined;
+
+    Object.assign(state, chainWalletContext);
+  };
+
+  watch(
+    () => isViewOpen,
+    () => {
+      getWalletContext();
+    },
+    { deep: true }
+  );
+
   onMounted(() => {
     const timeoutId = setTimeout(() => {
-      const chainWalletContext = wallet.chain
-        ? getChainWalletContext(wallet.chain.chain_id, wallet, sync)
-        : undefined;
-
-      Object.assign(state, chainWalletContext);
-
-      // console.log("Updated state", state);
-    }, 500);
+      getWalletContext();
+    }, 600);
 
     onUnmounted(() => {
       clearTimeout(timeoutId);

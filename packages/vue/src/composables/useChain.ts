@@ -22,69 +22,64 @@ export const useChain = (
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const walletManager: any = context;
-  const walletRepo = walletManager?.getWalletRepo(chainName);
+  const { walletManager, isViewOpen }: any = context;
+  let walletRepo = walletManager.getWalletRepo(chainName);
   walletRepo.activate();
 
-  const {
-    connect,
-    disconnect,
-    openView,
-    closeView,
-    current,
-    chainRecord: { chain, assetList },
-    getRpcEndpoint,
-    getRestEndpoint,
-    getStargateClient,
-    getCosmWasmClient,
-    getNameService,
-  } = walletRepo;
-
-  // create a reactive object
   const state = reactive<ChainContext>({
     walletRepo,
-    chain,
-    assets: assetList,
-    openView,
-    closeView,
-    connect: () => connect(void 0, sync),
+    chain: walletRepo.chainRecord.chain,
+    assets: walletRepo.chainRecord.assetList,
+    openView: walletRepo.openView,
+    closeView: walletRepo.closeView,
+    connect: () => walletRepo.connect(void 0, sync),
     disconnect: (options?: DisconnectOptions) =>
       walletRepo.disconnect(void 0, sync, options),
-    getRpcEndpoint,
-    getRestEndpoint,
-    getStargateClient,
-    getCosmWasmClient,
-    getNameService,
-    address: undefined,
-    status: undefined,
-    isWalletConnected: undefined,
-    isWalletDisconnected: undefined,
+    getRpcEndpoint: walletRepo.getRpcEndpoint,
+    getRestEndpoint: walletRepo.getRestEndpoint,
+    getStargateClient: walletRepo.getStargateClient,
+    getCosmWasmClient: walletRepo.getCosmWasmClient,
+    getNameService: walletRepo.getNameService,
   } as ChainContext);
 
+  const getWalletContext = async () => {
+    const chainWalletContext = walletRepo.chainRecord.chain
+      ? getChainWalletContext(
+          walletRepo.chainRecord.chain.chain_id,
+          walletRepo.current,
+          sync
+        )
+      : undefined;
+
+    console.log("WalletManager changed:", chainWalletContext);
+    Object.assign(state, chainWalletContext);
+  };
+
   watch(
-    [() => chain, () => assetList],
+    [() => state.chain, () => state.assets],
     () => {
       const currentWallet = window.localStorage.getItem(
         "cosmos-kit@2:core//current-wallet"
       );
       if (sync && currentWallet) {
-        connect(currentWallet);
+        walletRepo.connect(currentWallet);
       }
     },
     { immediate: true }
   );
 
+  watch(
+    () => isViewOpen,
+    () => {
+      getWalletContext();
+    },
+    { deep: true }
+  );
+
   onMounted(() => {
     const timeoutId = setTimeout(() => {
-      const chainWalletContext = chain
-        ? getChainWalletContext(chain.chain_id, walletRepo.current, sync)
-        : undefined;
-
-      Object.assign(state, chainWalletContext);
-
-      // console.log("Updated state", state);
+      getWalletContext();
     }, 600);
-
     onUnmounted(() => {
       clearTimeout(timeoutId);
     });

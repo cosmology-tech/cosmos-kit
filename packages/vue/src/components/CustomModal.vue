@@ -23,13 +23,15 @@
       </el-col>
       <el-col :span="12" class="wallet-actions">
         <template v-if="wallet.walletStatus === 'Disconnected'">
-          <el-button type="primary" @click="wallet.connect">Connect</el-button>
+          <el-button type="primary" @click="connectWallet(wallet)"
+            >Connect</el-button
+          >
         </template>
         <template v-else-if="wallet.walletStatus === 'NotExist'">
           <el-button type="warning">Install</el-button>
         </template>
         <template v-else-if="wallet.walletStatus === 'Connected'">
-          <el-button type="success" @click="wallet.disconnect"
+          <el-button type="success" @click="disconnectWallet(wallet)"
             >Disconnect</el-button
           >
         </template>
@@ -42,8 +44,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, watch, reactive } from "vue";
-import { ElDialog, ElRow, ElCol, ElButton, ElAlert } from "element-plus";
+import { ref, defineProps, watch } from "vue";
+import {
+  ElDialog,
+  ElRow,
+  ElCol,
+  ElButton,
+  ElAlert,
+  ElImage,
+} from "element-plus";
 import type { WalletModalProps } from "@cosmos-kit/core";
 
 const props = defineProps<WalletModalProps>();
@@ -60,18 +69,27 @@ watch(
 watch(
   () => props.walletRepo,
   (newValue) => {
-    // console.log(newValue);
     walletRepo.value = newValue;
   }
 );
 
+const connectWallet = (wallet) => {
+  wallet.connect().then(() => {
+    // 连接成功后的操作，如更新UI
+    props.setOpen(false);
+  });
+};
+
+const disconnectWallet = (wallet) => {
+  wallet.disconnect().then(() => {
+    // 断开成功后的操作，如更新UI
+    props.setOpen(false);
+  });
+};
+
 const onCloseModal = () => {
   props.setOpen(false);
 };
-
-const emit = defineEmits<{
-  (e: "update:isOpen", value: boolean): void;
-}>();
 </script>
 
 <style scoped>
