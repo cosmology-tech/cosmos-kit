@@ -13,6 +13,7 @@ import {
   WalletStatus,
   State,
 } from "@cosmos-kit/core";
+import { WalletManagerContext } from "../types";
 
 const walletContextKey = "walletManager";
 
@@ -20,7 +21,7 @@ export const useWallet = (
   walletName?: WalletName,
   activeOnly = true
 ): Reactive<WalletContext> => {
-  const context = inject(walletContextKey);
+  const context = inject<WalletManagerContext>(walletContextKey);
 
   if (!context) {
     throw new Error("You have forgotten to use ChainProvider.");

@@ -22,16 +22,25 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
+import { defineProps, ref, watchEffect } from "vue";
+import { ThemeCustomizationProps } from "../types";
 import WalletManagerProvider from "./WalletManagerProvider.vue";
 import SelectedWalletRepoProvider from "./SelectedWalletRepoProvider.vue";
 import type { Chain, AssetList } from "@chain-registry/types";
-import {
+import type {
   ChainName,
-  LogLevel,
   MainWalletBase,
+  LogLevel,
   WalletModalProps,
+  WalletConnectOptions,
+  NameServiceName,
+  SignerOptions,
+  EndpointOptions,
+  SessionOptions,
+  ModalOptions,
 } from "@cosmos-kit/core";
+
+import { Logger } from "@cosmos-kit/core";
 
 const props = defineProps<{
   chains: (Chain | ChainName)[];
@@ -39,13 +48,26 @@ const props = defineProps<{
   wallets: MainWalletBase[];
   throwErrors?: boolean;
   subscribeConnectEvents?: boolean;
-  defaultNameService?: string;
-  walletConnectOptions?: any;
-  signerOptions?: any;
-  endpointOptions?: any;
-  sessionOptions?: any;
+  defaultNameService?: NameServiceName;
+  walletConnectOptions?: WalletConnectOptions;
+  signerOptions?: SignerOptions;
+  endpointOptions?: EndpointOptions;
+  sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
   allowedIframeParentOrigins?: string[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
+  modalViews?: any;
+  modalTheme?: ThemeCustomizationProps;
+  modalOptions?: ModalOptions;
 }>();
+
+const logger = ref(new Logger(props.logLevel || "WARN"));
+
+watchEffect(() => {
+  if (props.walletModal) {
+    logger.value.debug("Use custom wallet modal.");
+  } else {
+    logger.value.debug("You have forgot to use wallet modal.");
+  }
+});
 </script>

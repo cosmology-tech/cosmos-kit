@@ -12,12 +12,14 @@
 <script setup lang="ts">
 import {
   ref,
+  Ref,
   provide,
   reactive,
   defineProps,
   onMounted,
   onUnmounted,
 } from "vue";
+import { WalletManagerContext } from "../types";
 import { Logger, WalletManager, State, WalletRepo } from "@cosmos-kit/core";
 import type { AssetList, Chain } from "@chain-registry/types";
 import type {
@@ -25,6 +27,12 @@ import type {
   MainWalletBase,
   LogLevel,
   WalletModalProps,
+  WalletConnectOptions,
+  NameServiceName,
+  SignerOptions,
+  EndpointOptions,
+  SessionOptions,
+  Data,
 } from "@cosmos-kit/core";
 
 const walletManagerKey = "walletManager";
@@ -35,11 +43,11 @@ const props = defineProps<{
   assetLists?: AssetList[];
   throwErrors?: boolean;
   subscribeConnectEvents?: boolean;
-  defaultNameService?: string;
-  walletConnectOptions?: any;
-  signerOptions?: any;
-  endpointOptions?: any;
-  sessionOptions?: any;
+  defaultNameService?: NameServiceName;
+  walletConnectOptions?: WalletConnectOptions;
+  signerOptions?: SignerOptions;
+  endpointOptions?: EndpointOptions;
+  sessionOptions?: SessionOptions;
   logLevel?: LogLevel;
   allowedIframeParentOrigins?: string[];
   walletModal?: (props: WalletModalProps) => JSX.Element;
@@ -64,7 +72,7 @@ const walletManager = new WalletManager(
 
 const isViewOpen = ref(false);
 const viewWalletRepo = ref<WalletRepo | undefined>();
-const data = ref<any>();
+const data = ref<Data>();
 const state = ref<State>(State.Init);
 const msg = ref<string | undefined>();
 const render = ref(0);
@@ -119,7 +127,7 @@ onUnmounted(() => {
   setViewOpen(false);
 });
 
-provide(walletManagerKey, {
+provide<WalletManagerContext>(walletManagerKey, {
   walletManager: walletManager,
   isViewOpen: isViewOpen,
   modalProvided: Boolean(ProvidedWalletModal),

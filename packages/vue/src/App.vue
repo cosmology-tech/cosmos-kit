@@ -18,8 +18,8 @@
 import ChainProvider from "./providers/ChainProvider.vue";
 import CustomModal from "./components/CustomModal.vue";
 import { assets as _assets, chains as _chains } from "chain-registry";
-// import { wallets as _wallets } from "@cosmos-kit/keplr";
 import { wallets as keplrExtension } from "@cosmos-kit/keplr-extension";
+// import { wallets as _wallets } from "@cosmos-kit/keplr";
 
 const chains = [..._chains];
 const wallets = [...keplrExtension];

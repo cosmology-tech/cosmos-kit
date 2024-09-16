@@ -1,6 +1,7 @@
 import { inject, computed, onMounted, onUnmounted, reactive, watch } from "vue";
 import { ChainName, ChainWalletContext, WalletName } from "@cosmos-kit/core";
 import { getChainWalletContext } from "../utils";
+import { WalletManagerContext } from "../types";
 
 const walletContextKey = "walletManager";
 
@@ -9,7 +10,7 @@ export const useChainWallet = (
   walletName: WalletName,
   sync = true
 ) => {
-  const context = inject(walletContextKey);
+  const context = inject<WalletManagerContext>(walletContextKey);
 
   if (!context) {
     throw new Error("You have forgotten to use ChainProvider.");
@@ -19,14 +20,6 @@ export const useChainWallet = (
 
   const wallet = walletManager.getChainWallet(chainName, walletName);
   wallet.activate();
-
-  // const chainWalletContext = computed<ChainWalletContext | undefined>(() => {
-  //   if (wallet.chain) {
-  //     return getChainWalletContext(wallet.chain.chain_id, wallet, sync);
-  //   } else {
-  //     return void 0;
-  //   }
-  // });
 
   const state = reactive<ChainWalletContext | Record<string, any>>({});
 

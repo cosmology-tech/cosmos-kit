@@ -53,7 +53,7 @@ import {
 const { modalTheme, setModalTheme } = useModalTheme();
 const resolvedName = ref<any>(null);
 const chainContext = useChain("cosmoshub");
-// const serviceContext = useNameService();
+const serviceContext = useNameService();
 // const { iframeRef } = useIframe();
 
 // const chainsContext = useChains(["cosmoshub", "osmosis"]);
@@ -69,13 +69,13 @@ const chainContext = useChain("cosmoshub");
 // console.log("useWallet", walletContext);
 // console.log("useWalletClient", walletClientContext);
 
-// watchEffect(() => {
-//   if (serviceContext.ns) {
-//     serviceContext.ns.resolveName(chainContext.address).then((name) => {
-//       resolvedName.value = name;
-//     });
-//   }
-// });
+watchEffect(() => {
+  if (serviceContext.ns) {
+    serviceContext.ns.resolveName(chainContext.address).then((name) => {
+      resolvedName.value = name;
+    });
+  }
+});
 
 watchEffect(() => {
   if (modalTheme.value === "dark") {

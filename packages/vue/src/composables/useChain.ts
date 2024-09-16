@@ -9,6 +9,7 @@ import {
 } from "vue";
 import { ChainContext, ChainName, DisconnectOptions } from "@cosmos-kit/core";
 import { getChainWalletContext } from "../utils";
+import { WalletManagerContext } from "../types";
 
 const walletContextKey = "walletManager";
 
@@ -16,13 +17,13 @@ export const useChain = (
   chainName: ChainName,
   sync = true
 ): Reactive<ChainContext> => {
-  const context = inject(walletContextKey);
+  const context = inject<WalletManagerContext>(walletContextKey);
 
   if (!context) {
     throw new Error("You have forgotten to use ChainProvider.");
   }
 
-  const { walletManager, isViewOpen }: any = context;
+  const { walletManager, isViewOpen } = context;
   let walletRepo = walletManager.getWalletRepo(chainName);
   walletRepo.activate();
 

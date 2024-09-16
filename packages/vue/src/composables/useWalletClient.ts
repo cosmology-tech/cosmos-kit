@@ -1,12 +1,13 @@
 import { State, WalletClientContext, WalletName } from "@cosmos-kit/core";
 import { inject, onMounted, onUnmounted, reactive, Reactive } from "vue";
+import { WalletManagerContext } from "../types";
 
 const walletContextKey = "walletManager";
 
 export const useWalletClient = (
   walletName?: WalletName
 ): Reactive<WalletClientContext> => {
-  const context = inject(walletContextKey);
+  const context = inject<WalletManagerContext>(walletContextKey);
 
   if (!context) {
     throw new Error("You have forgot to use ChainProvider.");
