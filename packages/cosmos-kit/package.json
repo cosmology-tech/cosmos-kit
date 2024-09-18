@@ -85,6 +85,7 @@
     "@cosmos-kit/okxwallet-extension": "^2.11.2",
     "@cosmos-kit/omni": "^2.10.2",
     "@cosmos-kit/owallet": "^2.11.2",
+    "@cosmos-kit/prax-extension": "0.0.1",
     "@cosmos-kit/shell": "^2.11.2",
     "@cosmos-kit/station": "^2.10.2",
     "@cosmos-kit/tailwind": "^1.5.2",
