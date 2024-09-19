@@ -48,7 +48,7 @@ import {
   useWalletClient,
   useIframe,
   useModalTheme,
-} from "./../composables";
+} from "../../../vue";
 
 const { modalTheme, setModalTheme } = useModalTheme();
 const resolvedName = ref<any>(null);

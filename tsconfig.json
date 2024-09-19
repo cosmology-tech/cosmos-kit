@@ -7,10 +7,7 @@
     "esModuleInterop": true,
     "target": "es2022",
     "module": "es2022",
-    "lib": [
-      "es2022",
-      "DOM"
-    ],
+    "lib": ["es2022", "DOM"],
     "sourceMap": false,
     "isolatedModules": true,
     "allowJs": true,

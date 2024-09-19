@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>Welcome to My Vue 3 App</h1>
+    <h1>Welcome to Example-Vue</h1>
     <ChainProvider
       :chains="chains"
       :wallets="wallets"
@@ -15,11 +15,10 @@
 </template>
 
 <script setup>
-import ChainProvider from "./providers/ChainProvider.vue";
+import { ChainProvider } from "../../vue";
 import CustomModal from "./components/CustomModal.vue";
 import { assets as _assets, chains as _chains } from "chain-registry";
 import { wallets as keplrExtension } from "@cosmos-kit/keplr-extension";
-// import { wallets as _wallets } from "@cosmos-kit/keplr";
 
 const chains = [..._chains];
 const wallets = [...keplrExtension];
