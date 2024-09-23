@@ -1,0 +1,43 @@
+# How to Add imToken Wallet to CosmosKit
+
+There are two packages for imToken
+
+- `@cosmos-kit/imtoken`
+- `@cosmos-kit/imtoken-extension`
+
+`@cosmos-kit/imtoken` export all available imToken wallets, while if you only want to add a particular one, choose `@cosmos-kit/imtoken-extension`
+
+> Note: all these packages export `wallets` and it's an array of `MainWalletBase`
+
+Take `@cosmos-kit/imtoken` for example
+
+## install `@cosmos-kit/imtoken`
+
+```
+yarn add @cosmos-kit/imtoken
+```
+
+## import the wallets
+
+```js
+import { wallets as imToken } from "@cosmos-kit/imtoken";
+```
+
+## add to your provider
+
+```js
+function MyCosmosApp({ Component, pageProps }: AppProps) {
+  return (
+      <ChainProvider
+        chains={chains}
+        assetLists={assets}
+        wallets={[...imToken]}
+        walletConnectOptions={...} // required if `wallets` contains mobile wallets
+      >
+        <Component {...pageProps} />
+      </ChainProvider>
+  );
+}
+
+export default MyCosmosApp;
+```
