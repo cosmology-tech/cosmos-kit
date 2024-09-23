@@ -1,4 +1,5 @@
 import { Wallet } from '@cosmos-kit/core';
+
 import { LEAP_SOCIAL_LOGIN_LOGO } from './constant';
 
 export const LeapSocialLoginInfo: Wallet = {

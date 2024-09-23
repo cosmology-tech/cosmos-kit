@@ -3,6 +3,97 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.23.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.22.0...docs@2.23.0) (2024-09-23)
+
+
+### Features
+
+* add imToken wallet ([62f671e](https://github.com/cosmology-tech/cosmos-kit/commit/62f671e2de4060ec1bf36e33e1970ed1e88595aa))
+
+
+
+
+
+# [2.22.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.21.0...docs@2.22.0) (2024-08-01)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+# [2.21.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.20.0...docs@2.21.0) (2024-07-25)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+# [2.20.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.19.4...docs@2.20.0) (2024-07-11)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [2.19.4](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.19.3...docs@2.19.4) (2024-06-28)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [2.19.3](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.19.2...docs@2.19.3) (2024-06-28)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [2.19.2](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.19.1...docs@2.19.2) (2024-06-26)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+## [2.19.1](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.19.0...docs@2.19.1) (2024-06-26)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+# [2.19.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.18.0...docs@2.19.0) (2024-06-21)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+# [2.18.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.17.0...docs@2.18.0) (2024-06-18)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
+# [2.17.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.16.0...docs@2.17.0) (2024-06-12)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
 # [2.16.0](https://github.com/cosmology-tech/cosmos-kit/compare/docs@2.15.1...docs@2.16.0) (2024-06-05)
 
 

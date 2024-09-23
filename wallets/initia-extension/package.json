@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/initia-extension",
-  "version": "0.7.0",
+  "version": "0.8.2",
   "description": "@cosmos-kit/initia-extension is the Initia integration for CosmosKit",
   "author": "kanisorn@alleslabs.com",
   "contributors": [
@@ -64,8 +64,8 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/keplr": "1.64.4",
-    "@cosmos-kit/core": "^2.12.0",
+    "@chain-registry/keplr": "1.68.2",
+    "@cosmos-kit/core": "^2.13.1",
     "@initia/initia-registry-types": "^0.0.17",
     "@initia/initia.proto": "^0.1.33"
   },

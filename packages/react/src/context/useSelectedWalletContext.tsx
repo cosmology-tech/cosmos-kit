@@ -1,21 +1,30 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from "react";
 
-export const SelectedWalletRepoContext = createContext(null);
+
+type SelectedWalletRepoContextType = {
+  selectedWalletRepoName: string, selectWalletRepoName: (name: string) => void
+}
+
+export const SelectedWalletRepoContext = createContext<SelectedWalletRepoContextType>(null)
 
 export const SelectedWalletRepoProvider = ({ children }) => {
   const [selectedWalletRepo, selectWalletRepo] = useState(null);
 
-  return (
-    <SelectedWalletRepoContext.Provider
-      value={{
-        selectedWalletRepo,
-        selectWalletRepo,
-      }}
-    >
-      {children}
-    </SelectedWalletRepoContext.Provider>
-  );
-};
+  const [selectedWalletRepoName, selectWalletRepoName] = useState<string>('')
 
-export const useSelectedWalletRepoContext = () =>
-  useContext(SelectedWalletRepoContext);
+  useEffect(() => {
+    const selectedWalletName = localStorage.getItem('cosmos-kit@2:core//current-wallet')
+    if (selectedWalletName) {
+      selectWalletRepoName(selectedWalletName)
+    }
+  }, [])
+
+
+  return <SelectedWalletRepoContext.Provider value={{
+    selectedWalletRepoName, selectWalletRepoName
+  }}>
+    {children}
+  </SelectedWalletRepoContext.Provider>
+}
+
+export const useSelectedWalletRepoContext = () => useContext(SelectedWalletRepoContext)
