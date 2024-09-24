@@ -77,7 +77,7 @@ export class CosmosCapsuleClient implements WalletClient {
   ): Promise<StdSignature> {
     const account = await this.getAccount(chainId);
     if (!account) {
-      throw new Error(`Wallet not connected to account ${signer}`);
+      throw new Error(`Wallet not connected to chain ${chainId}`);
     }
     const pubkey = (() => {
       switch (account.algo) {
