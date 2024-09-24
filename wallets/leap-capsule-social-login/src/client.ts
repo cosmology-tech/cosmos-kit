@@ -60,6 +60,14 @@ export class CosmosCapsuleClient implements WalletClient {
     return this.loginProvider.signAmino(chainId, signer, signDoc, signOptions);
   }
 
+  async signArbitrary(
+    chainId: string,
+    signer: string,
+    data: string | Uint8Array
+  ) {
+    return this.loginProvider.signArbitrary(chainId, signer, data);
+  }
+
   async signDirect(
     chainId: string,
     signer: string,
