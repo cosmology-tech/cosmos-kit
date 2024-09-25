@@ -77,6 +77,21 @@ export class KeplrClient extends WCClient {
     const pairing = this.pairing;
     this.logger?.debug('Restored active pairing topic is:', pairing?.topic);
 
+    // If the pairing topic is already set, try to connect to the session
+    if (this.signClient && pairing?.topic) {
+      const allSessions = this.signClient.session.getAll();
+      const currentSession = allSessions.find(
+        (session) => session.pairingTopic === pairing.topic
+      );
+
+      if (allSessions.length > 0 && currentSession) {
+        this.initKeplrWCClient(this.signClient, {
+          sessionProperties: currentSession.sessionProperties,
+        });
+        return;
+      }
+    }
+
     if (this.displayQRCode) this.setQRState(State.Pending);
 
     const requiredNamespaces = {

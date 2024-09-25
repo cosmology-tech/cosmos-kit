@@ -9,9 +9,9 @@ import {
   SuggestToken,
 } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
+import Long from 'long';
 
 import { Leap } from './types';
-import Long from 'long';
 
 export class LeapClient implements WalletClient {
   readonly client: Leap;

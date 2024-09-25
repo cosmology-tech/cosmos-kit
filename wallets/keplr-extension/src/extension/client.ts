@@ -14,6 +14,8 @@ import {
 import { BroadcastMode, Keplr } from '@keplr-wallet/types';
 import Long from 'long';
 
+import { ExpiringLocalStorage } from './session';
+
 export class KeplrClient implements WalletClient {
   readonly client: Keplr;
   private _defaultSignOptions: SignOptions = {
@@ -121,6 +123,17 @@ export class KeplrClient implements WalletClient {
   }
 
   async addChain(chainInfo: ChainRecord) {
+    // TODO later allow walletInfo getter to be available here
+    // make this more generic
+    const chainsAlreadyAdded = ExpiringLocalStorage.getItems(
+      'cosmos-kit@2:keplr/supported-chain'
+    );
+    if (chainsAlreadyAdded && chainsAlreadyAdded.length > 0) {
+      if (chainsAlreadyAdded.includes(chainInfo.name)) {
+        return;
+      }
+    }
+
     const suggestChain = chainRegistryChainToKeplr(
       chainInfo.chain,
       chainInfo.assetList ? [chainInfo.assetList] : []
@@ -136,7 +149,17 @@ export class KeplrClient implements WalletClient {
         chainInfo.preferredEndpoints?.rpc?.[0];
     }
 
-    await this.client.experimentalSuggestChain(suggestChain);
+    try {
+      await this.client.experimentalSuggestChain(suggestChain);
+      ExpiringLocalStorage.addItem(
+        'cosmos-kit@2:keplr/supported-chain',
+        chainInfo.name,
+        1000 * 60
+      );
+    } catch (error) {
+      console.log('Error while adding chain', error);
+      throw error;
+    }
   }
 
   async signAmino(

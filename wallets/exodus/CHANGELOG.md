@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.10.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/exodus@2.10.1...@cosmos-kit/exodus@2.10.2) (2024-06-28)
+
+**Note:** Version bump only for package @cosmos-kit/exodus
+
+
+
+
+
+## [2.10.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/exodus@2.10.0...@cosmos-kit/exodus@2.10.1) (2024-06-26)
+
+**Note:** Version bump only for package @cosmos-kit/exodus
+
+
+
+
+
+# [2.10.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/exodus@2.9.0...@cosmos-kit/exodus@2.10.0) (2024-06-18)
+
+**Note:** Version bump only for package @cosmos-kit/exodus
+
+
+
+
+
 # [2.9.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/exodus@2.8.0...@cosmos-kit/exodus@2.9.0) (2024-05-28)
 
 **Note:** Version bump only for package @cosmos-kit/exodus

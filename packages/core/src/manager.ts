@@ -87,8 +87,8 @@ export class WalletManager extends StateBase {
     ];
     wallets.forEach(
       ({ walletName }) =>
-        (this._reconnectMap[walletName] = () =>
-          this._reconnect(walletName, true))
+      (this._reconnectMap[walletName] = () =>
+        this._reconnect(walletName, true))
     );
     this.init(
       chains,
@@ -195,7 +195,7 @@ export class WalletManager extends StateBase {
     });
     newChainRecords.forEach((chainRecord) => {
       const index = this.chainRecords.findIndex(
-        (chainRecord2) => chainRecord2.name !== chainRecord.name
+        (chainRecord2) => chainRecord2.name === chainRecord.name
       );
       if (index == -1) {
         this.chainRecords.push(chainRecord);
@@ -237,7 +237,7 @@ export class WalletManager extends StateBase {
       }
 
       const index = this.walletRepos.findIndex(
-        (repo2) => repo2.chainName !== repo.chainName
+        (repo2) => repo2.chainName === repo.chainName
       );
       if (index == -1) {
         this.walletRepos.push(repo);
