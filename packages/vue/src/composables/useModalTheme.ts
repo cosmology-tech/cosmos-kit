@@ -1,13 +1,13 @@
-import { ref } from "vue";
-import { ModePreference, useTheme } from "@interchain-ui/react";
+import { computed, ref } from 'vue';
+import { ModePreference, useTheme } from '@interchain-ui/vue';
 
-type ModalTheme = "light" | "dark" | "system";
 export function useModalTheme() {
-  const modalTheme = ref<ModalTheme>("light");
+  const { theme, setColorMode } = useTheme();
 
-  function setModalTheme(theme: ModalTheme) {
-    modalTheme.value = theme;
-  }
+  const modalTheme = computed(() => theme.value);
+  const setModalTheme = (mode: ModePreference) => {
+    setColorMode(mode);
+  };
 
   return {
     modalTheme,

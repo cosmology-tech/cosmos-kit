@@ -16,7 +16,6 @@
     "@cosmos-kit/core": "^2.12.0",
     "@cosmos-kit/keplr": "^2.10.1",
     "@cosmos-kit/react": "2.12.0",
-    "@interchain-ui/vue": "^1.2.55",
     "@dao-dao/cosmiframe": "^0.1.0",
     "@testing-library/jest-dom": "5.14.1",
     "vite-plugin-node-polyfills": "^0.22.0",
@@ -29,6 +28,9 @@
     "buffer": "^6.0.3",
     "vite": "^5.4.1",
     "jsdom": "^21.1.0"
+  },
+  "peerDependencies": {
+    "@interchain-ui/vue": "^1.3.0"
   },
   "vitest": {
     "environment": "jsdom"
