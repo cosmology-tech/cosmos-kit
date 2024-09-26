@@ -1,0 +1,33 @@
+{
+  "name": "@cosmos-kit/vue",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@cosmos-kit/core": "^2.12.0",
+    "@cosmos-kit/keplr": "^2.10.1",
+    "@cosmos-kit/react": "2.12.0",
+    "@dao-dao/cosmiframe": "^0.1.0",
+    "@testing-library/jest-dom": "5.14.1",
+    "vite-plugin-dts": "^4.2.1",
+    "vite-plugin-node-polyfills": "^0.22.0",
+    "vue": "^3.4.37"
+  },
+  "devDependencies": {
+    "@chain-registry/types": "^0.41.3",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "@vue/test-utils": "^2.3.3",
+    "buffer": "^6.0.3",
+    "jsdom": "^21.1.0",
+    "typescript": "^5.0.0",
+    "vite": "^5.4.1"
+  },
+  "peerDependencies": {
+    "@interchain-ui/vue": "^1.3.0"
+  },
+  "vitest": {
+    "environment": "jsdom"
+  }
+}

@@ -42,7 +42,6 @@ import React, { useEffect, useMemo, useState } from "react";
 
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
-// import { useTheme } from "@interchain-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];

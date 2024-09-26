@@ -22,6 +22,7 @@ export const useChain = (chainName: ChainName, sync = true): ChainContext => {
 
   const walletRepo = walletManager.getWalletRepo(chainName);
   walletRepo.activate();
+
   const {
     connect,
     disconnect,
