@@ -43,7 +43,6 @@ import React, { useEffect, useMemo, useState } from "react";
 // import { CustomConnectedView } from "../components/custom-connected";
 import { RootLayout } from "../components/layout";
 
-
 function MyApp({ Component, pageProps }: AppProps) {
   const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
   const [wallets, setWallets] = useState<MainWalletBase[]>(defaultWallets);
