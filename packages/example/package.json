@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.25.0",
+  "version": "2.25.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -35,7 +35,7 @@
     "@cosmos-kit/ins": "^2.1.7",
     "@cosmos-kit/keplr": "^2.12.2",
     "@cosmos-kit/leap": "^2.12.2",
-    "@cosmos-kit/leap-capsule-social-login": "^0.10.2",
+    "@cosmos-kit/leap-capsule-social-login": "^0.10.3",
     "@cosmos-kit/leap-metamask-cosmos-snap": "^0.12.2",
     "@cosmos-kit/ledger": "^2.11.2",
     "@cosmos-kit/owallet": "^2.11.2",
