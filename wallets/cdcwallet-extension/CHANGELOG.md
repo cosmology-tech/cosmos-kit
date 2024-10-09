@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cdcwallet-extension@2.14.0...@cosmos-kit/cdcwallet-extension@2.15.0) (2024-10-09)
+
+**Note:** Version bump only for package @cosmos-kit/cdcwallet-extension
+
+
+
+
+
 # [2.14.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/cdcwallet-extension@2.13.2...@cosmos-kit/cdcwallet-extension@2.14.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/cdcwallet-extension
