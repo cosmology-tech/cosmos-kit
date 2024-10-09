@@ -119,55 +119,55 @@ export function getChainWalletContext(
       ...params: Parameters<ChainWalletContext['setDefaultSignOptions']>
     ) =>
       clientMethodAssert(
-        wallet?.client?.setDefaultSignOptions.bind(wallet.client),
+        wallet?.client?.setDefaultSignOptions?.bind(wallet.client),
         [...params],
         'setDefaultSignOptions'
       ),
     enable: () =>
       clientMethodAssert(
-        wallet?.client?.enable.bind(wallet.client),
+        wallet?.client?.enable?.bind(wallet.client),
         [chainId],
         'enable'
       ),
     suggestToken: (...params: Parameters<ChainWalletContext['suggestToken']>) =>
       clientMethodAssert(
-        wallet?.client?.suggestToken.bind(wallet.client),
+        wallet?.client?.suggestToken?.bind(wallet.client),
         [...params],
         'suggestToken'
       ),
     getAccount: () =>
       clientMethodAssert(
-        wallet?.client?.getAccount.bind(wallet.client),
+        wallet?.client?.getAccount?.bind(wallet.client),
         [chainId],
         'getAccount'
       ),
     getOfflineSigner: () =>
       clientMethodAssert(
-        wallet?.client?.getOfflineSigner.bind(wallet.client),
+        wallet?.client?.getOfflineSigner?.bind(wallet.client),
         [chainId, wallet?.preferredSignType],
         'getOfflineSigner'
       ),
     getOfflineSignerAmino: () =>
       clientMethodAssert(
-        wallet?.client?.getOfflineSignerAmino.bind(wallet.client),
+        wallet?.client?.getOfflineSignerAmino?.bind(wallet.client),
         [chainId],
         'getOfflineSignerAmino'
       ),
     getOfflineSignerDirect: () =>
       clientMethodAssert(
-        wallet?.client?.getOfflineSignerDirect.bind(wallet.client),
+        wallet?.client?.getOfflineSignerDirect?.bind(wallet.client),
         [chainId],
         'getOfflineSignerDirect'
       ),
     signAmino: (...params: Parameters<ChainWalletContext['signAmino']>) =>
       clientMethodAssert(
-        wallet?.client?.signAmino.bind(wallet.client),
+        wallet?.client?.signAmino?.bind(wallet.client),
         [chainId, ...params],
         'signAmino'
       ),
     signDirect: (...params: Parameters<ChainWalletContext['signDirect']>) =>
       clientMethodAssert(
-        wallet?.client?.signDirect.bind(wallet.client),
+        wallet?.client?.signDirect?.bind(wallet.client),
         [chainId, ...params],
         'signDirect'
       ),
@@ -175,13 +175,13 @@ export function getChainWalletContext(
       ...params: Parameters<ChainWalletContext['signArbitrary']>
     ) =>
       clientMethodAssert(
-        wallet?.client?.signArbitrary.bind(wallet.client),
+        wallet?.client?.signArbitrary?.bind(wallet.client),
         [chainId, ...params],
         'signArbitrary'
       ),
     sendTx: (...params: Parameters<ChainWalletContext['sendTx']>) =>
       clientMethodAssert(
-        wallet?.client?.sendTx.bind(wallet.client),
+        wallet?.client?.sendTx?.bind(wallet.client),
         [chainId, ...params],
         'sendTx'
       ),
