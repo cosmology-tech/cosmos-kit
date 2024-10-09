@@ -48,7 +48,7 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@chain-registry/keplr": "1.68.2",
+    "@chain-registry/keplr": "1.69.13",
     "@cosmos-kit/core": "^2.14.0"
   },
   "devDependencies": {
