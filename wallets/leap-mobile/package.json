@@ -71,7 +71,7 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/keplr": "1.69.13",
+    "@chain-registry/keplr": "^1.69.13",
     "@cosmos-kit/core": "^2.15.0",
     "@cosmos-kit/walletconnect": "^2.12.0"
   }
