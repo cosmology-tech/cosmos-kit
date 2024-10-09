@@ -62,6 +62,5 @@
     "@chain-registry/cosmostation": "1.67.13",
     "@cosmos-kit/core": "^2.14.0",
     "@cosmos-kit/walletconnect": "^2.11.0"
-  },
-  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
+  }
 }

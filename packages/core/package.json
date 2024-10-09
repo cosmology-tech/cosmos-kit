@@ -68,6 +68,9 @@
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
+  "devDependencies": {
+    "chain-registry": "^1.64.13"
+  },
   "dependencies": {
     "@chain-registry/client": "^1.49.11",
     "@chain-registry/keplr": "^1.69.13",
@@ -83,6 +86,5 @@
     "events": "3.3.0",
     "nock": "13.5.4",
     "uuid": "^9.0.1"
-  },
-  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
+  }
 }

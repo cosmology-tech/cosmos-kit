@@ -1226,11 +1226,6 @@
   resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.46.11.tgz#68efa85ba5ed4d451218a515a06239594b4125dd"
   integrity sha512-ASeCtZ3i6g4buyP/43qRnkJo2w50bpX6hsZOapkwOYqAGY83ZE+NZMUcv0UUsiVBHKqC3hAWTLjFNF5q7GR4Gg==
 
-"@chain-registry/types@^0.45.1":
-  version "0.45.1"
-  resolved "https://registry.yarnpkg.com/@chain-registry/types/-/types-0.45.1.tgz#bbe8cb65d80cf6be658f9eb0840eb72648d8cd08"
-  integrity sha512-xDq3RZwLM6VZt7Bwrilm588xTce7mOZIpLIjpwaT/V6HD3TuzJC3FWMRAxUtMuhQldcjW8b8em5HdFY467FRhA==
-
 "@chain-registry/utils@^1.47.11":
   version "1.47.11"
   resolved "https://registry.yarnpkg.com/@chain-registry/utils/-/utils-1.47.11.tgz#00603a1bf454d7d816f4cbcdf5f91cbd21e564ce"
@@ -8591,12 +8586,12 @@ ccount@^2.0.0:
   resolved "https://registry.npmjs.org/ccount/-/ccount-2.0.1.tgz"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
-chain-registry@^1.63.2:
-  version "1.63.2"
-  resolved "https://registry.yarnpkg.com/chain-registry/-/chain-registry-1.63.2.tgz#66907525bceef8b386e23fcc52d15a18b3bd4790"
-  integrity sha512-3Pxo0BW5bsO0H9l3jry2+NLpntLXu7wbVWlQBoOpRUUuWdwRhy+P77dmKbflZqagG3jvyTGNdP8kZ06rcoQYGg==
+chain-registry@^1.64.13:
+  version "1.64.13"
+  resolved "https://registry.yarnpkg.com/chain-registry/-/chain-registry-1.64.13.tgz#86aac5d802eba03163a601c1e0e6313e20666540"
+  integrity sha512-FNdWpcK6K/7p5JXf80ULVNYIqBLnz3R5Ml04lb9+mqbBKhIyEXwbFuvPIlk7fUMnWA0LR5CifMLK0IfIlmxHbQ==
   dependencies:
-    "@chain-registry/types" "^0.45.1"
+    "@chain-registry/types" "^0.46.11"
 
 chalk@2.3.0:
   version "2.3.0"
