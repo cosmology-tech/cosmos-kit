@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/fin",
-  "version": "2.13.0",
+  "version": "2.13.1",
   "description": "cosmos-kit wallet connector",
   "author": "quangmv@coin98.finance",
   "contributors": [
@@ -53,6 +53,6 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/fin-extension": "^2.13.0"
+    "@cosmos-kit/fin-extension": "^2.13.1"
   }
 }

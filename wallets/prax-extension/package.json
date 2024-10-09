@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/prax-extension",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "cosmos-kit wallet connector for Prax",
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",

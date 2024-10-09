@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/okto-extension",
-  "version": "2.10.0",
+  "version": "2.10.1",
   "description": "cosmos-kit wallet connector",
   "author": "mayank.yadav@oktowallet.io",
   "contributors": [
