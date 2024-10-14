@@ -1,6 +1,6 @@
 {
   "name": "example-nextjs-app-router",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,21 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.15",
-    "@cosmos-kit/react": "*",
     "@cosmos-kit/keplr": "*",
-    "chain-registry": "*"
+    "@cosmos-kit/react": "^2.20.1",
+    "chain-registry": "*",
+    "next": "14.2.15",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.15",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.15"
+    "typescript": "^5"
   }
 }
