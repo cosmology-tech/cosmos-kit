@@ -7,9 +7,8 @@ export const owalletMobileInfo: Wallet = {
   prettyName: 'OWallet Mobile',
   logo: ICON,
   mode: 'wallet-connect',
-  // mobileDisabled: () =>
-  //   'owallet' in window && /OWalletMobile/i.test(navigator.userAgent),
-  mobileDisabled: false,
+  mobileDisabled: () =>
+    'owallet' in window && /OWalletMobile/i.test(navigator.userAgent),
   rejectMessage: {
     source: 'Request rejected',
   },
@@ -31,9 +30,9 @@ export const owalletMobileInfo: Wallet = {
   connectEventNamesOnWindow: ['keplr_keystorechange'],
 
   walletconnect: {
-    name: 'OWallet Mobile',
+    name: 'OWallet',
     projectId:
-      '3ed8cc046c6211a798dc5ec70f1302b43e07db9639fd287de44a9aa115a21ed6',
+      '5a2b2db3d2ed90458a41d2a0c5e4bd28ec67b6fa272b0e201cc8508dc3d4be87',
     encoding: 'base64',
     mobile: {
       native: {
@@ -53,9 +52,7 @@ export const owalletMobileInfo: Wallet = {
         case 'ios':
           return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
         case 'android':
-          const linkAndroid = `intent://wcV2?${encodedWcUrl}#Intent;package=com.io.owallet;scheme=owallet;end;`;
-          alert(linkAndroid);
-          return linkAndroid;
+          return `intent://wcV2?${encodedWcUrl}#Intent;package=com.io.owallet;scheme=owallet;end;`;
         default:
           return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
       }
