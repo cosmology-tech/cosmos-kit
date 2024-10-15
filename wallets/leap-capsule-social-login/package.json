@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/leap-capsule-social-login",
-  "version": "0.10.2",
+  "version": "0.12.1",
   "description": "cosmos-kit wallet connector",
   "author": "samvel@leapwallet.io",
   "contributors": [
@@ -59,13 +59,12 @@
     ]
   },
   "dependencies": {
-    "@chain-registry/keplr": "1.68.2",
-    "@cosmos-kit/core": "^2.13.1",
-    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.39"
+    "@chain-registry/keplr": "^1.69.13",
+    "@cosmos-kit/core": "^2.15.0",
+    "@leapwallet/cosmos-social-login-capsule-provider": "0.0.41"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
-  },
-  "gitHead": "4e5a90510271d84165d456fece16ab0b2b4b3ee5"
+  }
 }

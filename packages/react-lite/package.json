@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/react-lite",
-  "version": "2.13.0",
+  "version": "2.15.1",
   "description": "cosmos-kit wallet connector",
   "author": "developers@cosmology.zone",
   "contributors": [
@@ -78,8 +78,8 @@
     "jest-environment-jsdom": "29.7.0"
   },
   "dependencies": {
-    "@chain-registry/types": "^0.45.1",
-    "@cosmos-kit/core": "^2.13.1",
+    "@chain-registry/types": "^0.46.11",
+    "@cosmos-kit/core": "^2.15.0",
     "@dao-dao/cosmiframe": "^0.1.0"
   },
   "resolutions": {
@@ -90,6 +90,5 @@
     "@types/react-dom": ">= 17",
     "react": "^18",
     "react-dom": "^18"
-  },
-  "gitHead": "2b5f2de5d9ed1580be4137736dfc6cce779679d1"
+  }
 }
