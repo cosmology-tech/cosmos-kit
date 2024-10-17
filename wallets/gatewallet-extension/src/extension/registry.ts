@@ -2,7 +2,7 @@ import { Wallet } from '@cosmos-kit/core';
 
 import { ICON } from '../constant';
 
-export const OkxwalletExtensionInfo: Wallet = {
+export const GatewalletExtensionInfo: Wallet = {
   name: 'okxwallet-extension',
   prettyName: 'OKX Wallet',
   logo: ICON,

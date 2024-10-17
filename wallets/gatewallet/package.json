@@ -53,6 +53,6 @@
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/gatewallet-extension": "^2.13.0"
+    "@cosmos-kit/gatewallet-extension": "^1.0.0"
   }
 }

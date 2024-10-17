@@ -1,5 +1,5 @@
-import { OkxwalletExtensionInfo, OkxwalletExtensionWallet } from './extension';
+import { GatewalletExtensionInfo, GatewalletExtensionWallet } from './extension';
 
-const okxwalletExtension = new OkxwalletExtensionWallet(OkxwalletExtensionInfo);
+const gatewalletExtension = new GatewalletExtensionWallet(GatewalletExtensionInfo);
 
-export const wallets = [okxwalletExtension];
+export const wallets = [gatewalletExtension];
