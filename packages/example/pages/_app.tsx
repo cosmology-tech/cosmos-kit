@@ -15,6 +15,7 @@ import { MainWalletBase } from "@cosmos-kit/core";
 import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
 import { wallets as exodusWallets } from "@cosmos-kit/exodus";
 import { wallets as finWallets } from "@cosmos-kit/fin";
+import { wallets as foxWallets } from "@cosmos-kit/foxwallet";
 import { wallets as frontierWallets } from "@cosmos-kit/frontier";
 import { wallets as galaxyStationWallets } from "@cosmos-kit/galaxy-station";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
@@ -113,6 +114,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...xdefiWallets,
           // ...frontierWallets,
           ...coin98Wallets,
+          ...foxWallets,
           // ...finWallets,
           // ...cdcwalletWallets,
         ]}
