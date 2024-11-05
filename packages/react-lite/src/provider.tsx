@@ -36,9 +36,14 @@ export function ChainProvider({
   sessionOptions,
   logLevel = 'WARN',
   allowedIframeParentOrigins = [
+    'http://localhost:*',
+    'https://localhost:*',
     'https://app.osmosis.zone',
     'https://daodao.zone',
     'https://dao.daodao.zone',
+    'https://my.abstract.money',
+    'https://apps.abstract.money',
+    'https://console.abstract.money',
   ],
   children,
 }: {
@@ -64,22 +69,6 @@ export function ChainProvider({
   children: ReactNode;
 }) {
   const logger = useMemo(() => new Logger(logLevel), []);
-  const walletManager = useMemo(() => {
-    return new WalletManager(
-      chains,
-      wallets,
-      logger,
-      throwErrors,
-      subscribeConnectEvents,
-      allowedIframeParentOrigins,
-      assetLists,
-      defaultNameService,
-      walletConnectOptions,
-      signerOptions,
-      endpointOptions,
-      sessionOptions
-    );
-  }, []);
 
   const [isViewOpen, setViewOpen] = useState<boolean>(false);
   const [viewWalletRepo, setViewWalletRepo] = useState<
@@ -99,46 +88,69 @@ export function ChainProvider({
   logger.debug('[provider.tsx] state:', state);
   logger.debug('[provider.tsx] message:', msg);
 
-  walletManager.setActions({
-    viewOpen: setViewOpen,
-    viewWalletRepo: setViewWalletRepo,
-    data: setData,
-    state: setState,
-    message: setMsg,
-  });
+  const [walletManager, setWalletManager] = useState<WalletManager | null>();
 
-  walletManager.walletRepos.forEach((wr) => {
-    wr.setActions({
+  useEffect(() => {
+    const walletManager = new WalletManager(
+      chains,
+      wallets,
+      logger,
+      throwErrors,
+      subscribeConnectEvents,
+      allowedIframeParentOrigins,
+      assetLists,
+      defaultNameService,
+      walletConnectOptions,
+      signerOptions,
+      endpointOptions,
+      sessionOptions
+    );
+
+    walletManager.setActions({
       viewOpen: setViewOpen,
       viewWalletRepo: setViewWalletRepo,
-      render: forceRender,
+      data: setData,
+      state: setState,
+      message: setMsg,
     });
-    wr.wallets.forEach((w) => {
+
+    walletManager.walletRepos.forEach((wr) => {
+      wr.setActions({
+        viewOpen: setViewOpen,
+        viewWalletRepo: setViewWalletRepo,
+        render: forceRender,
+      });
+      wr.wallets.forEach((w) => {
+        w.setActions({
+          data: setData,
+          state: setState,
+          message: setMsg,
+        });
+      });
+    });
+
+    walletManager.mainWallets.forEach((w) => {
       w.setActions({
         data: setData,
         state: setState,
         message: setMsg,
+        clientState: setClientState,
+        clientMessage: setClientMsg,
       });
     });
-  });
 
-  walletManager.mainWallets.forEach((w) => {
-    w.setActions({
-      data: setData,
-      state: setState,
-      message: setMsg,
-      clientState: setClientState,
-      clientMessage: setClientMsg,
-    });
-  });
+    setWalletManager(walletManager);
+  }, []);
 
   useEffect(() => {
-    walletManager.onMounted();
+    walletManager && walletManager.onMounted();
     return () => {
       setViewOpen(false);
-      walletManager.onUnmounted();
+      walletManager && walletManager.onUnmounted();
     };
-  }, [render]);
+  }, [render, walletManager]);
+
+  if (!walletManager) return null;
 
   return (
     <walletContext.Provider

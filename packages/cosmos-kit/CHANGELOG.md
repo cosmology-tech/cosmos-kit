@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.21.1](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.21.0...cosmos-kit@2.21.1) (2024-10-09)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+# [2.21.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.20.0...cosmos-kit@2.21.0) (2024-10-09)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+# [2.20.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.19.0...cosmos-kit@2.20.0) (2024-10-09)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+# [2.19.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.18.4...cosmos-kit@2.19.0) (2024-08-01)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+## [2.18.4](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.18.3...cosmos-kit@2.18.4) (2024-06-28)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+## [2.18.3](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.18.2...cosmos-kit@2.18.3) (2024-06-28)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+## [2.18.2](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.18.1...cosmos-kit@2.18.2) (2024-06-26)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+## [2.18.1](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.18.0...cosmos-kit@2.18.1) (2024-06-26)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+# [2.18.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.17.0...cosmos-kit@2.18.0) (2024-06-18)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
+# [2.17.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.16.0...cosmos-kit@2.17.0) (2024-06-12)
+
+**Note:** Version bump only for package cosmos-kit
+
+
+
+
+
 # [2.16.0](https://github.com/cosmology-tech/cosmos-kit/compare/cosmos-kit@2.15.1...cosmos-kit@2.16.0) (2024-06-05)
 
 

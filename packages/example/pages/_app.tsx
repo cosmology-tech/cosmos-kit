@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-imports */
 import "bootstrap/dist/css/bootstrap.min.css";
+import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import "../style/global.css";
 import "@interchain-ui/react/styles";
 
@@ -34,6 +35,7 @@ import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
+import { useTheme } from "@interchain-ui/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
@@ -89,7 +91,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         // chains={chains}
         // assetLists={[...assets]}
-        chains={["cosmoshub", "secret"]}
+        chains={["cosmoshub", "secretnetwork"]}
         assetLists={[]}
         wallets={[
           // ...wallets,
@@ -215,8 +217,10 @@ export function CustomCapsuleModalViewX() {
     );
   }, []);
 
+  const { theme } = useTheme();
+
   return (
-    <>
+    <div className={`leap-ui z-[9999] fixed ${theme === "dark" ? "dark" : ""}`}>
       <LeapSocialLogin
         showCapsuleModal={showCapsuleModal}
         setShowCapsuleModal={setShowCapsuleModal}
@@ -232,6 +236,6 @@ export function CustomCapsuleModalViewX() {
         appName="CosmosKit"
         oAuthMethods={oAuthMethods}
       />
-    </>
+    </div>
   );
 }

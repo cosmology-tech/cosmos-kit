@@ -103,7 +103,7 @@ export interface ChainWalletContext {
   // from wallet client
   qrUrl: Mutable<string> | undefined;
   appUrl: Mutable<AppUrl> | undefined;
-  defaultSignOptions: SignOptions;
+  defaultSignOptions: SignOptions | undefined;
 
   setDefaultSignOptions: (options: SignOptions) => void;
   enable: () => Promise<void>;

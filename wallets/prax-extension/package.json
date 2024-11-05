@@ -1,0 +1,67 @@
+{
+  "name": "@cosmos-kit/prax-extension",
+  "version": "0.3.1",
+  "description": "cosmos-kit wallet connector for Prax",
+  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist",
+    "!CHANGELOG.md",
+    "!LICENSE"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsup src/index.ts --dts --format esm,cjs",
+    "prepare": "npm run build",
+    "lint": "eslint --ext .tsx,.ts .",
+    "format": "eslint --ext .tsx,.ts --fix ."
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cosmology-tech/cosmos-kit"
+  },
+  "keywords": [
+    "cosmos-kit",
+    "cosmos",
+    "prax",
+    "wallet"
+  ],
+  "bugs": {
+    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
+  },
+  "dependencies": {
+    "@chain-registry/keplr": "^1.69.13",
+    "@cosmos-kit/core": "^2.15.0"
+  },
+  "devDependencies": {
+    "@bufbuild/protobuf": "^1.10.0",
+    "@connectrpc/connect": "^1.4.0",
+    "@penumbra-zone/bech32m": "^7.0.0",
+    "@penumbra-zone/client": "^18.1.0",
+    "@penumbra-zone/protobuf": "^6.0.0",
+    "@penumbra-zone/transport-dom": "^7.5.0",
+    "tsup": "^8.2.4"
+  },
+  "peerDependencies": {
+    "@cosmjs/amino": ">=0.32.3",
+    "@cosmjs/proto-signing": ">=0.32.3"
+  }
+}

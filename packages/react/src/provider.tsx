@@ -34,9 +34,14 @@ export const ChainProvider = ({
   sessionOptions,
   logLevel = 'WARN',
   allowedIframeParentOrigins = [
+    'http://localhost:*',
+    'https://localhost:*',
     'https://app.osmosis.zone',
     'https://daodao.zone',
     'https://dao.daodao.zone',
+    'https://my.abstract.money',
+    'https://apps.abstract.money',
+    'https://console.abstract.money'
   ],
   children,
   modalTheme = {},

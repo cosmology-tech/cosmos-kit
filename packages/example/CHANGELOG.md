@@ -3,6 +3,118 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.27.2](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.27.1...example@2.27.2) (2024-10-14)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [2.27.1](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.27.0...example@2.27.1) (2024-10-09)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.27.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.26.0...example@2.27.0) (2024-10-09)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.26.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.25.1...example@2.26.0) (2024-10-09)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [2.25.1](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.25.0...example@2.25.1) (2024-09-30)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.25.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.24.0...example@2.25.0) (2024-08-01)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.24.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.23.2...example@2.24.0) (2024-07-11)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [2.23.2](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.23.1...example@2.23.2) (2024-06-28)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+## [2.23.1](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.23.0...example@2.23.1) (2024-06-26)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.23.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.22.0...example@2.23.0) (2024-06-21)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.22.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.21.0...example@2.22.0) (2024-06-18)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.21.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.20.0...example@2.21.0) (2024-06-18)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.20.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.19.0...example@2.20.0) (2024-06-18)
+
+**Note:** Version bump only for package example
+
+
+
+
+
+# [2.19.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.18.0...example@2.19.0) (2024-06-12)
+
+**Note:** Version bump only for package example
+
+
+
+
+
 # [2.18.0](https://github.com/cosmology-tech/cosmos-kit/compare/example@2.17.1...example@2.18.0) (2024-06-05)
 
 
