@@ -1,4 +1,4 @@
-import { EndpointOptions, Wallet } from '@cosmos-kit/core';
+import { ClientNotExistError, EndpointOptions, Wallet } from '@cosmos-kit/core';
 import { MainWalletBase } from '@cosmos-kit/core';
 import { Keplr } from '@keplr-wallet/provider-extension';
 
@@ -18,7 +18,10 @@ export class KeplrExtensionWallet extends MainWalletBase {
     this.initingClient();
     try {
       const keplr = await Keplr.getKeplr();
-      this.initClientDone(keplr ? new KeplrClient(keplr) : undefined);
+      if (!keplr) {
+        throw ClientNotExistError;
+      }
+      this.initClientDone(new KeplrClient(keplr));
     } catch (error) {
       this.initClientError(error);
     }
