@@ -2,12 +2,12 @@ import { StdSignature, StdSignDoc } from '@cosmjs/amino';
 import { Algo, OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { BroadcastMode, SignType } from '@cosmos-kit/core';
 import { DirectSignDoc, SignOptions, WalletClient } from '@cosmos-kit/core';
-
-import { XDEFI } from './types';
 import Long from 'long';
 
-export class XDEFIClient implements WalletClient {
-  readonly client: XDEFI;
+import { CTRL } from './types';
+
+export class CTRLClient implements WalletClient {
+  readonly client: CTRL;
   private _defaultSignOptions: SignOptions = {
     preferNoSetFee: false,
     preferNoSetMemo: true,
@@ -22,7 +22,7 @@ export class XDEFIClient implements WalletClient {
     this._defaultSignOptions = options;
   }
 
-  constructor(client: XDEFI) {
+  constructor(client: CTRL) {
     this.client = client;
   }
 

@@ -90,6 +90,6 @@
     "@cosmos-kit/tailwind": "^1.7.0",
     "@cosmos-kit/trust": "^2.13.0",
     "@cosmos-kit/vectis": "^2.13.1",
-    "@cosmos-kit/xdefi": "^2.12.0"
+    "@cosmos-kit/ctrl": "^2.12.0"
   }
 }

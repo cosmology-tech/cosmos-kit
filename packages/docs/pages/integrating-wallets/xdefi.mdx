@@ -1,26 +1,26 @@
-# How to Add Xdefi Wallet to CosmosKit
+# How to Add CTRL Wallet to CosmosKit
 
-There are two packages for xdefi
+There are two packages for ctrl
 
-- `@cosmos-kit/xdefi`
-- `@cosmos-kit/xdefi-extension`
+- `@cosmos-kit/ctrl`
+- `@cosmos-kit/ctrl-extension`
 
-`@cosmos-kit/xdefi` export all available xdefi wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmos-kit/xdefi-extension`
+`@cosmos-kit/ctrl` export all available ctrl wallets (currently only extension available), while if you only want to add a particular one, choose `@cosmos-kit/ctrl-extension`
 
 > Note: all these packages export `wallets` and it's an array of `MainWalletBase`
 
-Take `@cosmos-kit/xdefi` for example
+Take `@cosmos-kit/ctrl` for example
 
-## add `@cosmos-kit/xdefi`
+## add `@cosmos-kit/ctrl`
 
 ```
-yarn add @cosmos-kit/xdefi
+yarn add @cosmos-kit/ctrl
 ```
 
 ## import the wallets
 
 ```js
-import { wallets as xdefi } from "@cosmos-kit/xdefi";
+import { wallets as ctrl } from "@cosmos-kit/ctrl";
 ```
 
 ## add to your provider
@@ -31,7 +31,7 @@ function MyCosmosApp({ Component, pageProps }: AppProps) {
       <ChainProvider
         chains={chains}
         assetLists={assets}
-        wallets={[...xdefi]}
+        wallets={[...ctrl]}
         walletConnectOptions={...} // required if `wallets` contains mobile wallets
       >
         <Component {...pageProps} />

@@ -1,11 +1,11 @@
 {
-  "name": "@cosmos-kit/xdefi",
+  "name": "@cosmos-kit/ctrl",
   "version": "2.12.0",
   "description": "cosmos-kit wallet connector",
-  "author": "mayank.yadav@xdefiwallet.io",
+  "author": "amin@ctrl.xyz",
   "contributors": [
     {
-      "name": "Mayank Yadav"
+      "name": "Amin Limbada"
     }
   ],
   "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
@@ -46,13 +46,13 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "xdefi",
+    "ctrl",
     "wallet"
   ],
   "bugs": {
     "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/xdefi-extension": "^2.13.0"
+    "@cosmos-kit/ctrl-extension": "^2.13.0"
   }
 }

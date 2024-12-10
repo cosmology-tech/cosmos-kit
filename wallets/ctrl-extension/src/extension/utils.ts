@@ -1,33 +1,29 @@
 import { ClientNotExistError } from '@cosmos-kit/core';
 
-import { XDEFI } from './types';
+import { CTRL } from './types';
 
-interface XDEFIWindow {
+interface CTRLWindow {
   xfi?: {
-    keplr?: XDEFI;
+    keplr?: CTRL;
   };
 }
 
-export const getXDEFIFromExtension: () => Promise<
-  XDEFI | undefined
+export const getCTRLFromExtension: () => Promise<
+  CTRL | undefined
 > = async () => {
   if (typeof window === 'undefined') {
     return void 0;
   }
 
-  const xdefi = (window as XDEFIWindow)?.xfi?.keplr;
+  const ctrl = (window as CTRLWindow)?.xfi?.keplr;
 
-  if (xdefi && !xdefi.isXDEFI) {
-    throw ClientNotExistError;
-  }
-
-  if (xdefi) {
-    return xdefi;
+  if (ctrl) {
+    return ctrl;
   }
 
   if (document.readyState === 'complete') {
-    if (xdefi) {
-      return xdefi;
+    if (ctrl) {
+      return ctrl;
     } else {
       throw ClientNotExistError;
     }
@@ -39,9 +35,9 @@ export const getXDEFIFromExtension: () => Promise<
         event.target &&
         (event.target as Document).readyState === 'complete'
       ) {
-        const xdefi = (window as XDEFIWindow)?.xfi?.keplr;
-        if (xdefi) {
-          resolve(xdefi);
+        const ctrl = (window as CTRLWindow)?.xfi?.keplr;
+        if (ctrl) {
+          resolve(ctrl);
         } else {
           reject(ClientNotExistError.message);
         }

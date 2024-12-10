@@ -1,8 +1,8 @@
 {
-  "name": "@cosmos-kit/xdefi-extension",
+  "name": "@cosmos-kit/ctrl-extension",
   "version": "2.13.0",
   "description": "cosmos-kit wallet connector",
-  "author": "dp@xdefi.io",
+  "author": "dp@ctrl.xyz",
   "contributors": [
     {
       "name": "David Phan"
@@ -47,7 +47,7 @@
   "keywords": [
     "cosmos-kit",
     "cosmos",
-    "xdefi",
+    "ctrl",
     "wallet"
   ],
   "bugs": {
