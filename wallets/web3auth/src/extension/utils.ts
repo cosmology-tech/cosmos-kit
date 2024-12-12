@@ -132,7 +132,6 @@ export const connectClientAndProvider = async (
     chainId: 'other',
     rpcTarget: 'other',
     displayName: 'other',
-    blockExplorer: 'other',
     ticker: 'other',
     tickerName: 'other',
     ...options.client.chainConfig,
@@ -180,6 +179,7 @@ export const connectClientAndProvider = async (
     try {
       provider = await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
         loginProvider: options.loginProvider,
+        login_hint: options.loginHint, // Required by {email,sms}_passwordless providers.
       } as OpenloginLoginParams);
     } catch (err) {
       // Unnecessary error thrown during redirect, so log and ignore it.

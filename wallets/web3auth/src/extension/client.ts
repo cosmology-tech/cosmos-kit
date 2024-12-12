@@ -5,6 +5,7 @@ import { DappEnv, WalletClient } from '@cosmos-kit/core';
 import { makeADR36AminoSignDoc } from '@keplr-wallet/cosmos';
 import eccrypto from '@toruslabs/eccrypto';
 import { UserInfo } from '@web3auth/base';
+import { LOGIN_PROVIDER } from '@web3auth/openlogin-adapter';
 
 import { Web3AuthSigner } from './signer';
 import { Web3AuthClientOptions } from './types';
@@ -47,6 +48,16 @@ export class Web3AuthClient implements WalletClient {
   async ensureSetup(): Promise<void> {
     if (this.ready) {
       return;
+    }
+
+    if (
+      (this.#options?.loginProvider === LOGIN_PROVIDER.EMAIL_PASSWORDLESS ||
+        this.#options?.loginProvider === LOGIN_PROVIDER.SMS_PASSWORDLESS) &&
+      this.#options.loginHint === undefined
+    ) {
+      throw new Error(
+        'Login hint is required for email/sms passwordless login'
+      );
     }
 
     if (!this.#options) {
