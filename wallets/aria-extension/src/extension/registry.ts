@@ -17,10 +17,7 @@ export const ariaExtensionInfo: Wallet = {
     {
       device: 'desktop',
       browser: 'chrome',
-      link: 'https://chrome.google.com/webstore/detail/aria-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
-    },
-    {
-      link: 'https://chrome.google.com/webstore/detail/aria-cosmos-wallet/fcfcfllfndlomdhbehjjcoimbgofdncg',
+      link: 'https://chromewebstore.google.com/detail/aria-wallet/cgghllcclkhfpkjhgomhehlebgphifbm',
     },
   ],
 };
