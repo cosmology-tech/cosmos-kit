@@ -19,7 +19,6 @@ export type Web3AuthLoginMethod = {
 
 export type Web3AuthClientOptions = {
   loginProvider: LOGIN_PROVIDER_TYPE;
-  loginHint?: string;
   getLoginHint?: () => string | undefined;
 
   // Web3Auth client options.

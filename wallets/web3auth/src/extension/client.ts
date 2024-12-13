@@ -63,7 +63,7 @@ export class Web3AuthClient implements WalletClient {
     if (
       (this.#options?.loginProvider === LOGIN_PROVIDER.EMAIL_PASSWORDLESS ||
         this.#options?.loginProvider === LOGIN_PROVIDER.SMS_PASSWORDLESS) &&
-      this.#options.loginHint === undefined
+      this.#loginHint === undefined
     ) {
       throw new Error(
         'Login hint is required for email/sms passwordless login'
