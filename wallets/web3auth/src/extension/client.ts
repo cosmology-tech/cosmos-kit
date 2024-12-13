@@ -35,6 +35,8 @@ export class Web3AuthClient implements WalletClient {
 
   ready = false;
 
+  #loginHint?: string;
+
   constructor(
     env: DappEnv,
     options: Web3AuthClientOptions,
@@ -43,6 +45,14 @@ export class Web3AuthClient implements WalletClient {
     this.env = env;
     this.#options = Object.freeze(options);
     this.getChain = getChain;
+  }
+
+  setLoginHint(hint: string) {
+    this.#loginHint = hint;
+  }
+
+  getLoginHint() {
+    return this.#loginHint;
   }
 
   async ensureSetup(): Promise<void> {
@@ -71,7 +81,10 @@ export class Web3AuthClient implements WalletClient {
     // provider will be destroyed by the garbage collector, hopefully ASAP.
     const { client, provider } = await connectClientAndProvider(
       this.env.device === 'mobile',
-      this.#options
+      {
+        ...this.#options,
+        getLoginHint: () => this.#loginHint,
+      }
     );
 
     // Get connected user info.

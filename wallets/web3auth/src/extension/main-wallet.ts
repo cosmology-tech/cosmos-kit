@@ -93,4 +93,10 @@ export class Web3AuthWallet extends MainWalletBase {
       this.initClientError(error);
     }
   }
+
+  setLoginHint(hint: string) {
+    if (this.client instanceof Web3AuthClient) {
+      this.client.setLoginHint(hint);
+    }
+  }
 }
