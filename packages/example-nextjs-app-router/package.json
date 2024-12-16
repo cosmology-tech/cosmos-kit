@@ -1,6 +1,6 @@
 {
   "name": "example-nextjs-app-router",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@cosmos-kit/keplr": "*",
-    "@cosmos-kit/react": "^2.20.1",
+    "@cosmos-kit/react": "^2.21.0",
     "chain-registry": "*",
     "next": "14.2.15",
     "react": "^18",
