@@ -5,22 +5,18 @@ import {
   ADAPTER_STATUS,
   CHAIN_NAMESPACES,
   CustomChainConfig,
-  SafeEventEmitterProvider,
+  SafeEventEmitterProvider, UX_MODE,
   WALLET_ADAPTERS,
 } from '@web3auth/base';
 import { CommonPrivateKeyProvider } from '@web3auth/base-provider';
 import { Web3AuthNoModal } from '@web3auth/no-modal';
-import {
-  OpenloginAdapter,
-  OpenloginLoginParams,
-  UX_MODE,
-} from '@web3auth/openlogin-adapter';
 
 import {
   FromWorkerMessage,
   ToWorkerMessage,
   Web3AuthClientOptions,
 } from './types';
+import {AuthAdapter, AuthLoginParams} from "@web3auth/auth-adapter";
 
 // If we connect to the Web3Auth client via redirect, set this key in
 // localStorage to indicate that we should try to reconnect to this wallet
@@ -158,13 +154,13 @@ export const connectClientAndProvider = async (
       chainConfig,
     },
   });
-  const openloginAdapter = new OpenloginAdapter({
+  const authAdapter = new AuthAdapter({
     privateKeyProvider,
     adapterSettings: {
       uxMode,
     },
   });
-  client.configureAdapter(openloginAdapter);
+  client.configureAdapter(authAdapter);
 
   await client.init();
 
@@ -172,10 +168,10 @@ export const connectClientAndProvider = async (
   if (!client.connected && !dontAttemptLogin) {
     const loginHint = options.getLoginHint?.();
 
-    provider = await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+    provider = await client.connectTo(WALLET_ADAPTERS.AUTH, {
       loginProvider: options.loginProvider,
       login_hint: loginHint,
-    } as OpenloginLoginParams);
+    } as AuthLoginParams);
   }
 
   if (usingRedirect) {
