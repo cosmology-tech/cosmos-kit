@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/web3auth@2.13.0...@cosmos-kit/web3auth@2.14.0) (2024-12-16)
+
+
+### Bug Fixes
+
+* passwordless login support ([dda24dd](https://github.com/cosmology-tech/cosmos-kit/commit/dda24dde909d569e390cb28f897d35f7e689d05f))
+
+
+### Features
+
+* bump web3auth & login hint ([630c512](https://github.com/cosmology-tech/cosmos-kit/commit/630c512fa2eb5704eebf2bc712042914b00fdae8))
+
+
+
+
+
 # [2.13.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/web3auth@2.12.0...@cosmos-kit/web3auth@2.13.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
