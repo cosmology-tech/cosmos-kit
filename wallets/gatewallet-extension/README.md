@@ -12,7 +12,7 @@
    <a href="https://www.npmjs.com/package/@cosmos-kit/gatewallet-extension"><img height="20" src="https://img.shields.io/github/package-json/v/cosmology-tech/cosmos-kit?filename=wallets%2Fgatewallet-extension%2Fpackage.json"></a>
 </p>
 
-Cosmos Kit is a univeral wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
+Cosmos Kit is a universal wallet adapter for developers to build apps that quickly and easily interact with Cosmos blockchains and wallets.
 
 @cosmos-kit/gatewallet is the gatewallet integration for Cosmos Kit.
 
