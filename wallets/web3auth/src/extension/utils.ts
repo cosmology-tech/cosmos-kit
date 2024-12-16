@@ -49,7 +49,6 @@ export const listenOnce = (
     try {
       remove = await callback(data);
     } catch (error) {
-      console.error(error);
       remove = true;
     }
 
@@ -118,12 +117,7 @@ export const hashObject = (object: any) => {
 export const connectClientAndProvider = async (
   isMobile: boolean,
   options: Web3AuthClientOptions,
-  {
-    // If no login provider already connected (cached), don't attempt to login
-    // by showing the popup auth flow. This is useful for connecting just to
-    // logout of the session, not prompting to login if already logged out.
-    dontAttemptLogin = false,
-  } = {}
+  { dontAttemptLogin = false } = {}
 ): Promise<{
   client: Web3AuthNoModal;
   provider: SafeEventEmitterProvider | null;
@@ -132,7 +126,6 @@ export const connectClientAndProvider = async (
     chainId: 'other',
     rpcTarget: 'other',
     displayName: 'other',
-    blockExplorer: 'other',
     ticker: 'other',
     tickerName: 'other',
     ...options.client.chainConfig,
@@ -177,23 +170,12 @@ export const connectClientAndProvider = async (
 
   let provider = client.connected ? client.provider : null;
   if (!client.connected && !dontAttemptLogin) {
-    try {
-      provider = await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
-        loginProvider: options.loginProvider,
-      } as OpenloginLoginParams);
-    } catch (err) {
-      // Unnecessary error thrown during redirect, so log and ignore it.
-      if (
-        usingRedirect &&
-        err instanceof Error &&
-        err.message.includes('null')
-      ) {
-        console.error(err);
-      } else {
-        // Rethrow all other relevant errors.
-        throw err;
-      }
-    }
+    const loginHint = options.getLoginHint?.();
+
+    provider = await client.connectTo(WALLET_ADAPTERS.OPENLOGIN, {
+      loginProvider: options.loginProvider,
+      login_hint: loginHint,
+    } as OpenloginLoginParams);
   }
 
   if (usingRedirect) {
@@ -211,8 +193,5 @@ export const connectClientAndProvider = async (
     }
   }
 
-  return {
-    client,
-    provider,
-  };
+  return { client, provider };
 };

@@ -2,7 +2,7 @@ import { AminoSignResponse, StdSignDoc } from '@cosmjs/amino';
 import { AccountData, DirectSignResponse } from '@cosmjs/proto-signing';
 import { Wallet } from '@cosmos-kit/core';
 import { Ecies } from '@toruslabs/eccrypto';
-import { Web3AuthNoModalOptions } from '@web3auth/no-modal';
+import { Web3AuthNoModalOptions } from '@web3auth/base';
 import {
   LOGIN_PROVIDER_TYPE,
   OPENLOGIN_NETWORK_TYPE,
@@ -19,6 +19,7 @@ export type Web3AuthLoginMethod = {
 
 export type Web3AuthClientOptions = {
   loginProvider: LOGIN_PROVIDER_TYPE;
+  getLoginHint?: () => string | undefined;
 
   // Web3Auth client options.
   client: {

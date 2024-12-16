@@ -46,7 +46,7 @@ export class Web3AuthSigner implements OfflineDirectSigner, OfflineAminoSigner {
         type: 'request_accounts',
         payload: {
           id,
-          chainBech32Prefix: this.chain.bech32_prefix,
+          chainBech32Prefix: this.chain.bech32_prefix || '',
         },
       },
       async (data) => {
@@ -100,7 +100,7 @@ export class Web3AuthSigner implements OfflineDirectSigner, OfflineAminoSigner {
       payload: {
         id,
         signerAddress,
-        chainBech32Prefix: this.chain.bech32_prefix,
+        chainBech32Prefix: this.chain.bech32_prefix || '',
         data: signData,
       },
       signature: new Uint8Array(),
@@ -166,7 +166,7 @@ export class Web3AuthSigner implements OfflineDirectSigner, OfflineAminoSigner {
       payload: {
         id,
         signerAddress,
-        chainBech32Prefix: this.chain.bech32_prefix,
+        chainBech32Prefix: this.chain.bech32_prefix || '',
         data: signData,
       },
       signature: new Uint8Array(),
