@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.15.0 (2024-12-16)
+
+
+### Bug Fixes
+
+* update link to correct webstore link ([395d5a7](https://github.com/cosmology-tech/cosmos-kit/commit/395d5a7fb285f5cb9c033bc511f24a9ed0b99280))
+
+
+### Features
+
+* add aria wallet extension ([e30b438](https://github.com/cosmology-tech/cosmos-kit/commit/e30b438a159721c05e9c21e10261448eaa399d8e))
+
+
+
+
+
 ## [2.14.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/aria-extension@2.14.0...@cosmos-kit/aria-extension@2.14.1) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/aria-extension

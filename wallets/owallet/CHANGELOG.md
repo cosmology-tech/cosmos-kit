@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/owallet@2.13.1...@cosmos-kit/owallet@2.14.0) (2024-12-16)
+
+
+### Features
+
+* Setup owallet for mobile ([8f2e653](https://github.com/cosmology-tech/cosmos-kit/commit/8f2e6533370fa5195d3d5e3d646a4acc0f68b108))
+
+
+
+
+
 ## [2.13.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/owallet@2.13.0...@cosmos-kit/owallet@2.13.1) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/owallet
