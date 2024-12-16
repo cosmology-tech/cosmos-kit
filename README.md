@@ -35,17 +35,17 @@ If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our 
 
 ## 📦 Packages
 
-| Name | Description |
-| --- | --- |
-| [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/cosmos-kit) | Single package for React developers to install Cosmos Kit |
-| [@cosmos-kit/core](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/core) | Core Cosmos Kit functionality |
-| [@cosmos-kit/walletconnect](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/walletconnect) | Mobile WalletConnect support for the Cosmos ecosystem |
-| [@cosmos-kit/react](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react) | React integration with Interchain UI Modal for simple usage |
-| [@cosmos-kit/react-lite](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react-lite) | A lightweight version of React integration without UI for customization |
+| Name                                                                                                       | Description                                                             |
+| ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/cosmos-kit)                   | Single package for React developers to install Cosmos Kit               |
+| [@cosmos-kit/core](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/core)                   | Core Cosmos Kit functionality                                           |
+| [@cosmos-kit/walletconnect](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/walletconnect) | Mobile WalletConnect support for the Cosmos ecosystem                   |
+| [@cosmos-kit/react](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react)                 | React integration with Interchain UI Modal for simple usage             |
+| [@cosmos-kit/react-lite](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/react-lite)       | A lightweight version of React integration without UI for customization |
 
 ## 📦 Wallets
 
-Explore the range of wallet adapters available in our [wallets directory](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets). 
+Explore the range of wallet adapters available in our [wallets directory](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets).
 
 <p align="center" width="100%">
 <a href="https://www.keplr.app/">
@@ -60,8 +60,8 @@ Explore the range of wallet adapters available in our [wallets directory](https:
 <a href="https://wallet.cosmostation.io/">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/cosmostation.png" />
 </a>
-<a href="https://www.xdefi.io/">
-  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/xdefi.svg" />
+<a href="https://www.ctrl.xyz/">
+  <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/ctrl.svg" />
 </a>
 <a href="https://www.exodus.com/">
   <img width="30px" src="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/public/images/logos/wallets/exodus.png" />
@@ -103,7 +103,6 @@ Explore the range of wallet adapters available in our [wallets directory](https:
 </a>
 </p>
 
-
 ## 🔌 Integrating Wallets
 
 See our docs on [integrating your wallet](https://docs.cosmology.zone/cosmos-kit/integrating-wallets)
@@ -118,7 +117,7 @@ cd packages/example
 yarn dev
 ```
 
-#### [Basic Next.js Example](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/example) 
+#### [Basic Next.js Example](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/example)
 
 This example demonstrates a Next.js project that integrates the `@cosmos-kit/react` wallet adapter. Note that this example has historically been used by multiple teams to test PRs.
 

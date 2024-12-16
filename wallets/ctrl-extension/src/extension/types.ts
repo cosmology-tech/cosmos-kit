@@ -8,14 +8,13 @@ import { OfflineDirectSigner, OfflineSigner } from '@cosmjs/proto-signing';
 import { DirectSignResponse } from '@cosmjs/proto-signing';
 import { BroadcastMode, Key } from '@cosmos-kit/core';
 
-export interface XDEFISignOptions {
+export interface CTRLSignOptions {
   readonly preferNoSetFee?: boolean;
   readonly preferNoSetMemo?: boolean;
   readonly disableBalanceCheck?: boolean;
 }
 
-export interface XDEFI {
-  isXDEFI: boolean;
+export interface CTRL {
   disconnect(): Promise<void>;
   enable(chainIds: string | string[]): Promise<void>;
   mode: 'extension';
@@ -27,7 +26,7 @@ export interface XDEFI {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions?: XDEFISignOptions
+    signOptions?: CTRLSignOptions
   ): Promise<AminoSignResponse>;
   signDirect(
     chainId: string,
@@ -42,7 +41,7 @@ export interface XDEFI {
       /** SignDoc accountNumber */
       accountNumber?: Long | null;
     },
-    signOptions?: XDEFISignOptions
+    signOptions?: CTRLSignOptions
   ): Promise<DirectSignResponse>;
   signArbitrary(
     chainId: string,
