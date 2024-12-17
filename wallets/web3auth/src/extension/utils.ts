@@ -1,11 +1,13 @@
 import { sha256 } from '@cosmjs/crypto';
 import { toUtf8 } from '@cosmjs/encoding';
 import eccrypto, { Ecies } from '@toruslabs/eccrypto';
+import { AuthAdapter, AuthLoginParams } from '@web3auth/auth-adapter';
 import {
   ADAPTER_STATUS,
   CHAIN_NAMESPACES,
   CustomChainConfig,
-  SafeEventEmitterProvider, UX_MODE,
+  SafeEventEmitterProvider,
+  UX_MODE,
   WALLET_ADAPTERS,
 } from '@web3auth/base';
 import { CommonPrivateKeyProvider } from '@web3auth/base-provider';
@@ -16,7 +18,6 @@ import {
   ToWorkerMessage,
   Web3AuthClientOptions,
 } from './types';
-import {AuthAdapter, AuthLoginParams} from "@web3auth/auth-adapter";
 
 // If we connect to the Web3Auth client via redirect, set this key in
 // localStorage to indicate that we should try to reconnect to this wallet
@@ -127,9 +128,15 @@ export const connectClientAndProvider = async (
     ...options.client.chainConfig,
     chainNamespace: CHAIN_NAMESPACES.OTHER,
   };
+  const privateKeyProvider = new CommonPrivateKeyProvider({
+    config: {
+      chainConfig,
+    },
+  });
   const client = new Web3AuthNoModal({
     ...options.client,
     chainConfig,
+    privateKeyProvider,
   });
 
   // Popups are blocked by default on mobile browsers, so use redirect. Popup is
@@ -149,13 +156,7 @@ export const connectClientAndProvider = async (
     );
   }
 
-  const privateKeyProvider = new CommonPrivateKeyProvider({
-    config: {
-      chainConfig,
-    },
-  });
   const authAdapter = new AuthAdapter({
-    privateKeyProvider,
     adapterSettings: {
       uxMode,
     },
