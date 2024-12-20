@@ -123,7 +123,7 @@ export const connectClientAndProvider = async (
     chainId: 'other',
     rpcTarget: 'other',
     displayName: 'other',
-    blockExplorer: 'other',
+    blockExplorerUrl: 'other',
     ticker: 'other',
     tickerName: 'other',
     ...options.client.chainConfig,
