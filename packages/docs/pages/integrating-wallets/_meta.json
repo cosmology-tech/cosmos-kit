@@ -3,6 +3,7 @@
   "adding-new-wallets": "Adding New Wallets",
   "adding-all-wallets": "Adding All Wallets",
   "compass": "@ Compass Wallet",
+  "ctrl": "@ CTRL Wallet",
   "cosmos-metamask-extension": "@ Cosmos MetaMask Extension",
   "cosmostation": "@ Cosmostation Wallet",
   "exodus": "@ Exodus Wallet",
@@ -20,6 +21,5 @@
   "station": "@ Station Wallet",
   "trust": "@ Trust Wallet",
   "vectis": "@ Vectis Wallet",
-  "web3auth": "@ Web3Auth",
-  "xdefi": "@ Xdefi Wallet"
+  "web3auth": "@ Web3Auth"
 }

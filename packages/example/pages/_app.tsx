@@ -33,7 +33,7 @@ import { wallets as tailwindWallet } from "@cosmos-kit/tailwind";
 import { wallets as trustWallets } from "@cosmos-kit/trust";
 import { wallets as vectisWallets } from "@cosmos-kit/vectis";
 // import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
-import { wallets as xdefiWallets } from "@cosmos-kit/xdefi";
+import { wallets as ctrlWallets } from "@cosmos-kit/ctrl";
 import { useTheme } from "@interchain-ui/react";
 import { assets, chains } from "chain-registry";
 import type { AppProps } from "next/app";
@@ -45,7 +45,11 @@ import { RootLayout } from "../components/layout";
 // import { useTheme } from "@interchain-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const defaultWallets: MainWalletBase[] = [...keplrWallets, ...leapWallets];
+  const defaultWallets: MainWalletBase[] = [
+    ...keplrWallets,
+    ...leapWallets,
+    ...owalletWallets,
+  ];
   const [wallets, setWallets] = useState<MainWalletBase[]>(defaultWallets);
   const [loadingWallets, setLoadingWallet] = useState<boolean>(false);
   // const web3AuthWallets = useMemo(
@@ -94,9 +98,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         assetLists={[]}
         wallets={[
           // ...wallets,
+          ...owalletWallets,
           ...keplrWallets,
           ...leapWallets,
-          // ...owalletWallets,
+
           // ...ninjiWallets,
           // ...snapWallet,
           // ...ledgerWallets,
@@ -110,7 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...exodusWallets,
           // ...shellWallets,
           // ...vectisWallets,
-          // ...xdefiWallets,
+          ...ctrlWallets,
           // ...frontierWallets,
           ...coin98Wallets,
           // ...finWallets,

@@ -8,6 +8,7 @@ import { wallets as frontierExtension } from '@cosmos-kit/frontier-extension';
 import { wallets as keplrExtension } from '@cosmos-kit/keplr-extension';
 import { wallets as keplrMobile } from '@cosmos-kit/keplr-mobile';
 import { wallets as owalletExtension } from '@cosmos-kit/owallet-extension';
+import { wallets as owalletMobile } from '@cosmos-kit/owallet-mobile';
 import { wallets as leapExtension } from '@cosmos-kit/leap-extension';
 import { wallets as leapMobile } from '@cosmos-kit/leap-mobile';
 import { wallets as leapMetamaskCosmosSnap } from '@cosmos-kit/leap-metamask-cosmos-snap';
@@ -19,7 +20,7 @@ import { wallets as trustExtension } from '@cosmos-kit/trust-extension';
 import { wallets as trustMobile } from '@cosmos-kit/trust-mobile';
 import { wallets as shellExtension } from '@cosmos-kit/shell-extension';
 import { wallets as vectisExtension } from '@cosmos-kit/vectis-extension';
-import { wallets as xdefiExtension } from '@cosmos-kit/xdefi-extension';
+import { wallets as ctrlExtension } from '@cosmos-kit/ctrl-extension';
 import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
 import { wallets as tailwindWallet } from '@cosmos-kit/tailwind';
 import { wallets as galaxyStationExtension } from '@cosmos-kit/galaxy-station-extension';
@@ -33,7 +34,7 @@ export type WalletName =
   | 'station'
   | 'leap'
   | 'trust'
-  | 'xdefi'
+  | 'ctrl'
   | 'vectis'
   | 'frontier'
   | 'fin'
@@ -79,7 +80,6 @@ export function createWalletList<
 }
 
 export const keplr = createWalletList(keplrExtension[0], keplrMobile[0]);
-
 export const cosmostation = createWalletList(
   cosmostationExtension[0],
   cosmostationMobile[0]
@@ -93,7 +93,7 @@ export const leap = createWalletList(
 export const station = createWalletList(stationExtension[0], null);
 export const okxwallet = createWalletList(okxwalletExtension[0], null);
 export const trust = createWalletList(trustExtension[0], trustMobile[0]);
-export const xdefi = createWalletList(xdefiExtension[0], null);
+export const ctrl = createWalletList(ctrlExtension[0], null);
 export const vectis = createWalletList(vectisExtension[0], null);
 export const frontier = createWalletList(frontierExtension[0], null);
 export const fin = createWalletList(finExtension[0], null);
@@ -103,7 +103,7 @@ export const coin98 = createWalletList(coin98Extension[0], null);
 export const compass = createWalletList(compassExtension[0], null);
 export const exodus = createWalletList(exodusExtension[0], null);
 export const tailwind = createWalletList(tailwindWallet[0], null);
-export const owallet = createWalletList(owalletExtension[0], null);
+export const owallet = createWalletList(owalletExtension[0], owalletMobile[0]);
 export const galaxystation = createWalletList(galaxyStationExtension[0], null);
 export const cdcwallet = createWalletList(cdcwalletExtension[0], null);
 
@@ -120,7 +120,7 @@ export type AllWalletList = SubWalletList & {
   station: typeof station;
   leap: typeof leap;
   trust: typeof trust;
-  xdefi: typeof xdefi;
+  ctrl: typeof ctrl;
   vectis: typeof vectis;
   frontier: typeof frontier;
   fin: typeof fin;
@@ -130,7 +130,7 @@ export type AllWalletList = SubWalletList & {
   exodus: typeof exodus;
   tailwind: typeof tailwind;
   owallet: typeof owallet;
-  galaxystation: typeof owallet;
+  galaxystation: typeof galaxystation;
   cdcwallet: typeof cdcwallet;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
@@ -163,7 +163,7 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.station = station;
   wallets.leap = leap;
   wallets.trust = trust;
-  wallets.xdefi = xdefi;
+  wallets.ctrl = ctrl;
   wallets.vectis = vectis;
   wallets.frontier = frontier;
   wallets.fin = fin;
@@ -214,7 +214,7 @@ export const wallets = createAllWalletList([
   ...station,
   ...trust,
   ...cosmostation,
-  ...xdefi,
+  ...ctrl,
   ...vectis,
   ...frontier,
   ...fin,

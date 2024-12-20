@@ -2,8 +2,8 @@ import { ChainWalletBase, WalletListViewProps } from '@cosmos-kit/core';
 import { ConnectModalHead, ConnectModalWalletList } from '@interchain-ui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { getWalletProp } from './config';
 import { useSelectedWalletRepoContext } from '../../../context';
+import { getWalletProp } from './config';
 
 interface DynamicWalletListProps {
   wallets: WalletListViewProps['wallets'];
@@ -13,10 +13,10 @@ interface DynamicWalletListProps {
 function DynamicWalletList({ wallets, onClose }: DynamicWalletListProps) {
   const [isLargeScreen, setIsLargeScreen] = useState(true);
 
-  const { selectWalletRepoName } = useSelectedWalletRepoContext()
+  const { selectWalletRepoName } = useSelectedWalletRepoContext();
 
   const onWalletClicked = useCallback(async (wallet: ChainWalletBase) => {
-    selectWalletRepoName(wallet.walletName)
+    selectWalletRepoName(wallet.walletName);
     await wallet.connect(wallet.walletStatus !== 'NotExist');
     if (!['Rejected', 'NotExist'].includes(wallet.walletStatus)) {
       onClose();

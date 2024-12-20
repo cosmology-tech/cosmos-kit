@@ -46,6 +46,7 @@ export const listenOnce = (
     try {
       remove = await callback(data);
     } catch (error) {
+      console.error(error);
       remove = true;
     }
 
@@ -54,7 +55,6 @@ export const listenOnce = (
       removeEventListener?.call(worker, 'message', listener as any);
     }
   };
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   addEventListener?.call(worker, 'message', listener as any);
 };
@@ -123,6 +123,7 @@ export const connectClientAndProvider = async (
     chainId: 'other',
     rpcTarget: 'other',
     displayName: 'other',
+    blockExplorer: 'other',
     ticker: 'other',
     tickerName: 'other',
     ...options.client.chainConfig,
@@ -167,12 +168,25 @@ export const connectClientAndProvider = async (
 
   let provider = client.connected ? client.provider : null;
   if (!client.connected && !dontAttemptLogin) {
-    const loginHint = options.getLoginHint?.();
-
-    provider = await client.connectTo(WALLET_ADAPTERS.AUTH, {
-      loginProvider: options.loginProvider,
-      login_hint: loginHint,
-    } as AuthLoginParams);
+    try {
+      const loginHint = options.getLoginHint?.();
+      provider = await client.connectTo(WALLET_ADAPTERS.AUTH, {
+        loginProvider: options.loginProvider,
+        login_hint: loginHint,
+      } as AuthLoginParams);
+    } catch (err) {
+      // Unnecessary error thrown during redirect, so log and ignore it.
+      if (
+        usingRedirect &&
+        err instanceof Error &&
+        err.message.includes('null')
+      ) {
+        console.error(err);
+      } else {
+        // Rethrow all other relevant errors.
+        throw err;
+      }
+    }
   }
 
   if (usingRedirect) {

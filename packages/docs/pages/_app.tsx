@@ -57,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             "vectis",
             "frontier",
             "leap",
-            "xdefi",
+            "ctrl",
             "coin98",
             "fin",
             "tailwind",
