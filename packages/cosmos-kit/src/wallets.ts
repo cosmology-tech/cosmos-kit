@@ -25,6 +25,7 @@ import { wallets as exodusExtension } from '@cosmos-kit/exodus-extension';
 import { wallets as tailwindWallet } from '@cosmos-kit/tailwind';
 import { wallets as galaxyStationExtension } from '@cosmos-kit/galaxy-station-extension';
 import { wallets as cdcwalletExtension } from '@cosmos-kit/cdcwallet-extension';
+import { wallets as oktoWallet } from '@cosmos-kit/okto-extension';
 
 export type WalletName =
   | 'keplr'
@@ -46,7 +47,8 @@ export type WalletName =
   | 'owallet'
   | 'exodus'
   | 'galaxystation'
-  | 'cdcwallet';
+  | 'cdcwallet'
+  | 'okto';
 
 export type WalletList<
   E extends MainWalletBase | null,
@@ -106,6 +108,7 @@ export const tailwind = createWalletList(tailwindWallet[0], null);
 export const owallet = createWalletList(owalletExtension[0], owalletMobile[0]);
 export const galaxystation = createWalletList(galaxyStationExtension[0], null);
 export const cdcwallet = createWalletList(cdcwalletExtension[0], null);
+export const okto = createWalletList(oktoWallet[0], null);
 
 export type SubWalletList = MainWalletBase[] & {
   get mobile(): MainWalletBase[];
@@ -132,6 +135,7 @@ export type AllWalletList = SubWalletList & {
   owallet: typeof owallet;
   galaxystation: typeof galaxystation;
   cdcwallet: typeof cdcwallet;
+  okto: typeof okto;
   for: (...names: WalletName[]) => SubWalletList;
   not: (...names: WalletName[]) => SubWalletList;
 };
@@ -175,6 +179,7 @@ export function createAllWalletList(ws: MainWalletBase[]) {
   wallets.owallet = owallet;
   wallets.galaxystation = galaxystation;
   wallets.cdcwallet = cdcwallet;
+  wallets.okto = okto;
 
   defineGetters(wallets);
 
@@ -226,4 +231,5 @@ export const wallets = createAllWalletList([
   ...owallet,
   ...galaxystation,
   ...cdcwallet,
+  ...okto,
 ]);
