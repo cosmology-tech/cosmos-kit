@@ -59,16 +59,32 @@ export type UseIframeOptions = {
   origins?: string[];
 };
 
+export type UseIframeReturn = {
+  /**
+   * The main wallet, or undefined if the wallet is not connected.
+   */
+  wallet: MainWalletBase | undefined;
+  /**
+   * A ref callback to set the iframe element.
+   */
+  iframeRef: RefCallback<HTMLIFrameElement | null>;
+  /**
+   * The iframe element.
+   */
+  iframe: HTMLIFrameElement | null;
+  /**
+   * A function to trigger a keystore change event on the iframe app wallet.
+   */
+  triggerKeystoreChange: () => void;
+};
+
 export const useIframe = ({
   walletName,
   metadata,
   walletClientOverrides,
   signerOverrides,
   origins,
-}: UseIframeOptions = {}): {
-  wallet: MainWalletBase;
-  iframeRef: RefCallback<HTMLIFrameElement | null>;
-} => {
+}: UseIframeOptions = {}): UseIframeReturn => {
   const wallet = useWallet(walletName).mainWallet;
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
 
@@ -79,20 +95,22 @@ export const useIframe = ({
   const signerOverridesRef = useRef(signerOverrides);
   signerOverridesRef.current = signerOverrides;
 
-  // Broadcast keystore change event to iframe wallet.
-  useEffect(() => {
-    const notifyIframe = () => {
+  const triggerKeystoreChange = useCallback(
+    () =>
       iframe?.contentWindow.postMessage(
         {
           event: COSMIFRAME_KEYSTORECHANGE_EVENT,
         },
         '*'
-      );
-    };
+      ),
+    [iframe]
+  );
 
+  // Broadcast keystore change event to iframe wallet.
+  useEffect(() => {
     // Notify inner window of keystore change on any wallet client change
     // (likely either connection or disconnection).
-    notifyIframe();
+    triggerKeystoreChange();
 
     if (!wallet || typeof window === 'undefined') {
       return;
@@ -100,33 +118,28 @@ export const useIframe = ({
 
     // Notify inner window of keystore change on any wallet connect event.
     wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-      window.addEventListener(eventName, notifyIframe);
+      window.addEventListener(eventName, triggerKeystoreChange);
     });
     wallet.walletInfo.connectEventNamesOnClient?.forEach(async (eventName) => {
-      wallet.client?.on?.(eventName, notifyIframe);
+      wallet.client?.on?.(eventName, triggerKeystoreChange);
     });
 
     return () => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-        window.removeEventListener(eventName, notifyIframe);
+        window.removeEventListener(eventName, triggerKeystoreChange);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          wallet.client?.off?.(eventName, notifyIframe);
+          wallet.client?.off?.(eventName, triggerKeystoreChange);
         }
       );
     };
-  }, [wallet, iframe]);
+  }, [wallet, triggerKeystoreChange]);
 
   // Whenever wallet changes, broadcast keystore change event to iframe wallet.
   useEffect(() => {
-    iframe?.contentWindow.postMessage(
-      {
-        event: COSMIFRAME_KEYSTORECHANGE_EVENT,
-      },
-      '*'
-    );
-  }, [wallet, iframe]);
+    triggerKeystoreChange();
+  }, [wallet, triggerKeystoreChange]);
 
   useEffect(() => {
     if (!iframe) {
@@ -189,5 +202,7 @@ export const useIframe = ({
   return {
     wallet,
     iframeRef,
+    iframe,
+    triggerKeystoreChange,
   };
 };
