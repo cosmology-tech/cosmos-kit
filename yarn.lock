@@ -1974,6 +1974,23 @@
     "@babel/runtime" "^7.21.0"
     axios "0.27.2"
 
+"@cosmos-kit/galaxy-station-extension@^2.13.1":
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/galaxy-station-extension/-/galaxy-station-extension-2.13.1.tgz#317066c9865c18955ec80517f95c78cd20cee375"
+  integrity sha512-mSVZ9Pk5vltdgoE2FIuhAX2ABVCeBYB91JOr6bvOYbHKy0gKWJsfW2EPdOW173Xf5s7bJA6seJjLkkwcx9EW5w==
+  dependencies:
+    "@chain-registry/types" "0.46.11"
+    "@cosmos-kit/core" "^2.15.0"
+    "@hexxagon/feather.js" "^1.0.9-beta.8"
+    "@hexxagon/station-connector" "^1.0.17"
+
+"@cosmos-kit/galaxy-station@^2.12.1":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@cosmos-kit/galaxy-station/-/galaxy-station-2.12.1.tgz#e4bab457687af57b8fae8f82bd97fe7a8bb7ad5a"
+  integrity sha512-SP2iToolVdpBvIzqcJEyWj9sehlw2jWPG/bVyAs4S9mZNH5z3ZuSGILrzIPxwMZG7JYq5PUqK7tupOp1Wl2KLA==
+  dependencies:
+    "@cosmos-kit/galaxy-station-extension" "^2.13.1"
+
 "@cosmostation/extension-client@0.1.15":
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/@cosmostation/extension-client/-/extension-client-0.1.15.tgz#cdc6d8fce42217704c1c0d5814f0ee7ce27e8dab"
