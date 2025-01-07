@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type { AssetList, Chain } from '@chain-registry/types';
-import { isInIframe } from '@dao-dao/cosmiframe';
+import { isInIframe, Origin } from '@dao-dao/cosmiframe';
 import Bowser from 'bowser';
 import EventEmitter from 'events';
 
@@ -52,7 +52,13 @@ export class WalletManager extends StateBase {
     logger: Logger,
     throwErrors: boolean | 'connect_only',
     subscribeConnectEvents = true,
-    allowedCosmiframeParentOrigins?: string[],
+    allowedCosmiframeParentOrigins: Origin[] = [
+      /^https?:\/\/localhost(:\d+)?/,
+      /^https:\/\/(.+\.)?osmosis\.zone/,
+      /^https:\/\/(.+\.)?daodao\.zone/,
+      /^https:\/\/.+-da0da0\.vercel\.app/,
+      /^https:\/\/(.+\.)?abstract\.money/,
+    ],
     assetLists?: AssetList[],
     defaultNameService?: NameServiceName,
     walletConnectOptions?: WalletConnectOptions,
@@ -87,8 +93,8 @@ export class WalletManager extends StateBase {
     ];
     wallets.forEach(
       ({ walletName }) =>
-      (this._reconnectMap[walletName] = () =>
-        this._reconnect(walletName, true))
+        (this._reconnectMap[walletName] = () =>
+          this._reconnect(walletName, true))
     );
     this.init(
       chains,

@@ -13,11 +13,12 @@ import {
   WalletModalProps,
 } from '@cosmos-kit/core';
 import { ChainProvider as ChainProviderLite } from '@cosmos-kit/react-lite';
+import { Origin } from '@dao-dao/cosmiframe';
 import { ReactNode, useCallback, useMemo } from 'react';
 
+import { SelectedWalletRepoProvider } from './context';
 import { ThemeCustomizationProps, WalletModal } from './modal';
 import { defaultModalViews } from './modal/components/views';
-import { SelectedWalletRepoProvider } from './context';
 
 export const ChainProvider = ({
   chains,
@@ -33,16 +34,7 @@ export const ChainProvider = ({
   endpointOptions,
   sessionOptions,
   logLevel = 'WARN',
-  allowedIframeParentOrigins = [
-    'http://localhost:3000',
-    'https://localhost:3000',
-    'https://app.osmosis.zone',
-    'https://daodao.zone',
-    'https://dao.daodao.zone',
-    'https://my.abstract.money',
-    'https://apps.abstract.money',
-    'https://console.abstract.money'
-  ],
+  allowedIframeParentOrigins,
   children,
   modalTheme = {},
   modalOptions,
@@ -64,9 +56,9 @@ export const ChainProvider = ({
    * Origins to allow wrapping this app in an iframe and connecting to this
    * Cosmos Kit instance.
    *
-   * Defaults to Osmosis and DAO DAO.
+   * Defaults to Osmosis, DAO DAO, and Abstract.
    */
-  allowedIframeParentOrigins?: string[];
+  allowedIframeParentOrigins?: Origin[];
   children: ReactNode;
   modalTheme?: ThemeCustomizationProps;
   modalOptions?: ModalOptions;
