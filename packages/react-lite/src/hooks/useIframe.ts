@@ -9,6 +9,7 @@ import {
 } from '@cosmos-kit/core';
 import {
   Cosmiframe,
+  Origin,
   OverrideHandler,
   ParentMetadata,
 } from '@dao-dao/cosmiframe';
@@ -19,6 +20,12 @@ import { useWallet } from './useWallet';
 export type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: unknown[]) => unknown ? K : never;
 }[keyof T];
+
+export type UseIframeSignerOverrides = Partial<{
+  [K in keyof (OfflineAminoSigner & OfflineDirectSigner)]: (
+    ...params: Parameters<(OfflineAminoSigner & OfflineDirectSigner)[K]>
+  ) => OverrideHandler | Promise<OverrideHandler>;
+}>;
 
 export type UseIframeOptions = {
   /**
@@ -47,16 +54,15 @@ export type UseIframeOptions = {
    * should handle the function. By default, if nothing is returned, an error
    * will be thrown with the message "Handled by outer wallet."
    */
-  signerOverrides?: Partial<{
-    [K in keyof (OfflineAminoSigner & OfflineDirectSigner)]: (
-      ...params: Parameters<(OfflineAminoSigner & OfflineDirectSigner)[K]>
-    ) => OverrideHandler | Promise<OverrideHandler>;
-  }>;
+  signerOverrides?:
+    | UseIframeSignerOverrides
+    | ((chainId: string) => UseIframeSignerOverrides)
+    | ((chainId: string) => Promise<UseIframeSignerOverrides>);
   /**
    * Optionally only respond to requests from iframes of specific origin. If
    * undefined or empty, all origins are allowed.
    */
-  origins?: string[];
+  origins?: Origin[];
 };
 
 export type UseIframeReturn = {
@@ -151,13 +157,21 @@ export const useIframe = ({
       target: wallet?.client || {},
       getOfflineSignerDirect:
         wallet?.client.getOfflineSignerDirect.bind(wallet.client) ||
-        (() => Promise.reject(COSMIFRAME_NOT_CONNECTED_MESSAGE)),
+        (() =>
+          Promise.reject(
+            COSMIFRAME_NOT_CONNECTED_MESSAGE +
+              ' No direct signer client function found.'
+          )),
       getOfflineSignerAmino:
         wallet?.client.getOfflineSignerAmino.bind(wallet.client) ||
-        (() => Promise.reject(COSMIFRAME_NOT_CONNECTED_MESSAGE)),
+        (() =>
+          Promise.reject(
+            COSMIFRAME_NOT_CONNECTED_MESSAGE +
+              ' No amino signer client function found.'
+          )),
       nonSignerOverrides: () => ({
         ...walletClientOverridesRef.current,
-        // Override connect to return wallet info.
+        // Override connect to return specific error.
         connect: async (...params) => {
           if (walletClientOverridesRef.current?.connect) {
             return await walletClientOverridesRef.current.connect(
@@ -169,12 +183,17 @@ export const useIframe = ({
           } else {
             return {
               type: 'error',
-              error: COSMIFRAME_NOT_CONNECTED_MESSAGE,
+              error:
+                COSMIFRAME_NOT_CONNECTED_MESSAGE +
+                ' No connect client function found or override provided.',
             };
           }
         },
       }),
-      signerOverrides: () => signerOverridesRef.current,
+      signerOverrides: async (chainId) =>
+        typeof signerOverridesRef.current === 'function'
+          ? signerOverridesRef.current(chainId)
+          : signerOverridesRef.current,
       origins,
       metadata: {
         name:
