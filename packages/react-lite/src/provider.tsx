@@ -36,8 +36,8 @@ export function ChainProvider({
   sessionOptions,
   logLevel = 'WARN',
   allowedIframeParentOrigins = [
-    'http://localhost:*',
-    'https://localhost:*',
+    'http://localhost:3000',
+    'https://localhost:3000',
     'https://app.osmosis.zone',
     'https://daodao.zone',
     'https://dao.daodao.zone',
