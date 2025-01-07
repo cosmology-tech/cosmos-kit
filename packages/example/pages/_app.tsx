@@ -8,31 +8,15 @@ import "@interchain-ui/react/styles";
 import { Chain } from "@chain-registry/types";
 import { Decimal } from "@cosmjs/math";
 import { GasPrice } from "@cosmjs/stargate";
-import { wallets as cdcwalletWallets } from "@cosmos-kit/cdcwallet";
 import { wallets as coin98Wallets } from "@cosmos-kit/coin98";
 import { ChainName } from "@cosmos-kit/core";
 import { MainWalletBase } from "@cosmos-kit/core";
-import { wallets as cosmostationWallets } from "@cosmos-kit/cosmostation";
-import { wallets as exodusWallets } from "@cosmos-kit/exodus";
-import { wallets as finWallets } from "@cosmos-kit/fin";
-import { wallets as frontierWallets } from "@cosmos-kit/frontier";
-import { wallets as galaxyStationWallets } from "@cosmos-kit/galaxy-station";
 import { wallets as keplrWallets } from "@cosmos-kit/keplr";
 import { wallets as leapWallets } from "@cosmos-kit/leap";
-import { wallets as snapWallet } from "@cosmos-kit/leap-metamask-cosmos-snap";
-import { wallets as ledgerWallets } from "@cosmos-kit/ledger";
-import { wallets as ninjiWallets } from "@cosmos-kit/ninji";
-import { wallets as omniWallets } from "@cosmos-kit/omni";
 import { wallets as owalletWallets } from "@cosmos-kit/owallet";
 // Show how to custom modal views
 import { ChainProvider, defaultModalViews } from "@cosmos-kit/react";
-// import { ChainProvider } from "@cosmos-kit/react";
-import { wallets as shellWallets } from "@cosmos-kit/shell";
 import { wallets as stationWallets } from "@cosmos-kit/station";
-import { wallets as tailwindWallet } from "@cosmos-kit/tailwind";
-import { wallets as trustWallets } from "@cosmos-kit/trust";
-import { wallets as vectisWallets } from "@cosmos-kit/vectis";
-// import { makeWeb3AuthWallets } from "@cosmos-kit/web3auth";
 import { wallets as ctrlWallets } from "@cosmos-kit/ctrl";
 import { useTheme } from "@interchain-ui/react";
 import { assets, chains } from "chain-registry";
@@ -108,7 +92,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           // ...web3AuthWallets,
           // ...trustWallets,
           ...stationWallets,
-          ...galaxyStationWallets,
           // ...tailwindWallet,
           // ...cosmostationWallets,
           // ...omniWallets,
@@ -175,17 +158,17 @@ function MyApp({ Component, pageProps }: AppProps) {
             // },
           },
         }}
-        // // ==== Custom base modal customization
-        // // modalTheme={{
-        // //   modalContentClassName: "my-custom-modal-content",
-        // }}
-        // // ==== Custom components
-        // // modalViews={{
-        // //   ...defaultModalViews,
-        // //   Connected: CustomConnectedView,
-        // // }}
-        // walletModal={CustomModal}
-        // modalOptions={{ mobile: { displayQRCodeEveryTime: true } }}
+      // // ==== Custom base modal customization
+      // // modalTheme={{
+      // //   modalContentClassName: "my-custom-modal-content",
+      // }}
+      // // ==== Custom components
+      // // modalViews={{
+      // //   ...defaultModalViews,
+      // //   Connected: CustomConnectedView,
+      // // }}
+      // walletModal={CustomModal}
+      // modalOptions={{ mobile: { displayQRCodeEveryTime: true } }}
       >
         <Component {...pageProps} />
       </ChainProvider>
