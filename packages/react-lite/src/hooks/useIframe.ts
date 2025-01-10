@@ -9,6 +9,7 @@ import {
 } from '@cosmos-kit/core';
 import {
   Cosmiframe,
+  Origin,
   OverrideHandler,
   ParentMetadata,
 } from '@dao-dao/cosmiframe';
@@ -19,6 +20,12 @@ import { useWallet } from './useWallet';
 export type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: unknown[]) => unknown ? K : never;
 }[keyof T];
+
+export type UseIframeSignerOverrides = Partial<{
+  [K in keyof (OfflineAminoSigner & OfflineDirectSigner)]: (
+    ...params: Parameters<(OfflineAminoSigner & OfflineDirectSigner)[K]>
+  ) => OverrideHandler | Promise<OverrideHandler>;
+}>;
 
 export type UseIframeOptions = {
   /**
@@ -47,16 +54,34 @@ export type UseIframeOptions = {
    * should handle the function. By default, if nothing is returned, an error
    * will be thrown with the message "Handled by outer wallet."
    */
-  signerOverrides?: Partial<{
-    [K in keyof (OfflineAminoSigner & OfflineDirectSigner)]: (
-      ...params: Parameters<(OfflineAminoSigner & OfflineDirectSigner)[K]>
-    ) => OverrideHandler | Promise<OverrideHandler>;
-  }>;
+  signerOverrides?:
+    | UseIframeSignerOverrides
+    | ((chainId: string) => UseIframeSignerOverrides)
+    | ((chainId: string) => Promise<UseIframeSignerOverrides>);
   /**
    * Optionally only respond to requests from iframes of specific origin. If
    * undefined or empty, all origins are allowed.
    */
-  origins?: string[];
+  origins?: Origin[];
+};
+
+export type UseIframeReturn = {
+  /**
+   * The main wallet, or undefined if the wallet is not connected.
+   */
+  wallet: MainWalletBase | undefined;
+  /**
+   * A ref callback to set the iframe element.
+   */
+  iframeRef: RefCallback<HTMLIFrameElement | null>;
+  /**
+   * The iframe element.
+   */
+  iframe: HTMLIFrameElement | null;
+  /**
+   * A function to trigger a keystore change event on the iframe app wallet.
+   */
+  triggerKeystoreChange: () => void;
 };
 
 export const useIframe = ({
@@ -65,10 +90,7 @@ export const useIframe = ({
   walletClientOverrides,
   signerOverrides,
   origins,
-}: UseIframeOptions = {}): {
-  wallet: MainWalletBase;
-  iframeRef: RefCallback<HTMLIFrameElement | null>;
-} => {
+}: UseIframeOptions = {}): UseIframeReturn => {
   const wallet = useWallet(walletName).mainWallet;
   const [iframe, setIframe] = useState<HTMLIFrameElement | null>(null);
 
@@ -79,20 +101,22 @@ export const useIframe = ({
   const signerOverridesRef = useRef(signerOverrides);
   signerOverridesRef.current = signerOverrides;
 
-  // Broadcast keystore change event to iframe wallet.
-  useEffect(() => {
-    const notifyIframe = () => {
+  const triggerKeystoreChange = useCallback(
+    () =>
       iframe?.contentWindow.postMessage(
         {
           event: COSMIFRAME_KEYSTORECHANGE_EVENT,
         },
         '*'
-      );
-    };
+      ),
+    [iframe]
+  );
 
+  // Broadcast keystore change event to iframe wallet.
+  useEffect(() => {
     // Notify inner window of keystore change on any wallet client change
     // (likely either connection or disconnection).
-    notifyIframe();
+    triggerKeystoreChange();
 
     if (!wallet || typeof window === 'undefined') {
       return;
@@ -100,33 +124,28 @@ export const useIframe = ({
 
     // Notify inner window of keystore change on any wallet connect event.
     wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-      window.addEventListener(eventName, notifyIframe);
+      window.addEventListener(eventName, triggerKeystoreChange);
     });
     wallet.walletInfo.connectEventNamesOnClient?.forEach(async (eventName) => {
-      wallet.client?.on?.(eventName, notifyIframe);
+      wallet.client?.on?.(eventName, triggerKeystoreChange);
     });
 
     return () => {
       wallet.walletInfo.connectEventNamesOnWindow?.forEach((eventName) => {
-        window.removeEventListener(eventName, notifyIframe);
+        window.removeEventListener(eventName, triggerKeystoreChange);
       });
       wallet.walletInfo.connectEventNamesOnClient?.forEach(
         async (eventName) => {
-          wallet.client?.off?.(eventName, notifyIframe);
+          wallet.client?.off?.(eventName, triggerKeystoreChange);
         }
       );
     };
-  }, [wallet, iframe]);
+  }, [wallet, triggerKeystoreChange]);
 
   // Whenever wallet changes, broadcast keystore change event to iframe wallet.
   useEffect(() => {
-    iframe?.contentWindow.postMessage(
-      {
-        event: COSMIFRAME_KEYSTORECHANGE_EVENT,
-      },
-      '*'
-    );
-  }, [wallet, iframe]);
+    triggerKeystoreChange();
+  }, [wallet, triggerKeystoreChange]);
 
   useEffect(() => {
     if (!iframe) {
@@ -138,13 +157,21 @@ export const useIframe = ({
       target: wallet?.client || {},
       getOfflineSignerDirect:
         wallet?.client.getOfflineSignerDirect.bind(wallet.client) ||
-        (() => Promise.reject(COSMIFRAME_NOT_CONNECTED_MESSAGE)),
+        (() =>
+          Promise.reject(
+            COSMIFRAME_NOT_CONNECTED_MESSAGE +
+              ' No direct signer client function found.'
+          )),
       getOfflineSignerAmino:
         wallet?.client.getOfflineSignerAmino.bind(wallet.client) ||
-        (() => Promise.reject(COSMIFRAME_NOT_CONNECTED_MESSAGE)),
+        (() =>
+          Promise.reject(
+            COSMIFRAME_NOT_CONNECTED_MESSAGE +
+              ' No amino signer client function found.'
+          )),
       nonSignerOverrides: () => ({
         ...walletClientOverridesRef.current,
-        // Override connect to return wallet info.
+        // Override connect to return specific error.
         connect: async (...params) => {
           if (walletClientOverridesRef.current?.connect) {
             return await walletClientOverridesRef.current.connect(
@@ -156,12 +183,17 @@ export const useIframe = ({
           } else {
             return {
               type: 'error',
-              error: COSMIFRAME_NOT_CONNECTED_MESSAGE,
+              error:
+                COSMIFRAME_NOT_CONNECTED_MESSAGE +
+                ' No connect client function found or override provided.',
             };
           }
         },
       }),
-      signerOverrides: () => signerOverridesRef.current,
+      signerOverrides: async (chainId) =>
+        typeof signerOverridesRef.current === 'function'
+          ? signerOverridesRef.current(chainId)
+          : signerOverridesRef.current,
       origins,
       metadata: {
         name:
@@ -189,5 +221,7 @@ export const useIframe = ({
   return {
     wallet,
     iframeRef,
+    iframe,
+    triggerKeystoreChange,
   };
 };

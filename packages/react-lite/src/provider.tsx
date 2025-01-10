@@ -15,6 +15,7 @@ import {
   WalletModalProps,
   WalletRepo,
 } from '@cosmos-kit/core';
+import { Origin } from '@dao-dao/cosmiframe';
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react';
 
 export const walletContext = createContext<{
@@ -35,16 +36,7 @@ export function ChainProvider({
   endpointOptions,
   sessionOptions,
   logLevel = 'WARN',
-  allowedIframeParentOrigins = [
-    'http://localhost:*',
-    'https://localhost:*',
-    'https://app.osmosis.zone',
-    'https://daodao.zone',
-    'https://dao.daodao.zone',
-    'https://my.abstract.money',
-    'https://apps.abstract.money',
-    'https://console.abstract.money',
-  ],
+  allowedIframeParentOrigins,
   children,
 }: {
   chains: (Chain | ChainName)[];
@@ -63,9 +55,9 @@ export function ChainProvider({
    * Origins to allow wrapping this app in an iframe and connecting to this
    * Cosmos Kit instance.
    *
-   * Defaults to Osmosis and DAO DAO.
+   * Defaults to localhost, Osmosis, DAO DAO, and Abstract.
    */
-  allowedIframeParentOrigins?: string[];
+  allowedIframeParentOrigins?: Origin[];
   children: ReactNode;
 }) {
   const logger = useMemo(() => new Logger(logLevel), []);
@@ -143,10 +135,10 @@ export function ChainProvider({
   }, []);
 
   useEffect(() => {
-    walletManager && walletManager.onMounted();
+    walletManager?.onMounted();
     return () => {
       setViewOpen(false);
-      walletManager && walletManager.onUnmounted();
+      walletManager?.onUnmounted();
     };
   }, [render, walletManager]);
 
