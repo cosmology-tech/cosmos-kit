@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.13.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.13.2...@cosmos-kit/ledger@2.13.3) (2025-01-14)
+
+
+### Bug Fixes
+
+* ledger wallet ([2873855](https://github.com/cosmology-tech/cosmos-kit/commit/2873855f6b3b5019cdebac650cbe2282e7c210ba))
+
+
+
+
+
 ## [2.13.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.13.1...@cosmos-kit/ledger@2.13.2) (2025-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
