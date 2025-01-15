@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "2.30.4",
+  "version": "2.30.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -43,7 +43,7 @@
     "@cosmos-kit/station": "^2.12.2",
     "@cosmos-kit/tailwind": "^1.7.2",
     "@cosmos-kit/vectis": "^2.13.3",
-    "@cosmos-kit/web3auth": "^2.14.3",
+    "@cosmos-kit/web3auth": "^2.14.4",
     "@interchain-ui/react": "^1.23.13",
     "@leapwallet/cosmos-social-login-capsule-provider-ui": "0.0.58",
     "@radix-ui/react-dropdown-menu": "^2.0.5",

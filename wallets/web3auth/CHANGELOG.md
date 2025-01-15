@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.3...@cosmos-kit/web3auth@2.14.4) (2025-01-15)
+
+
+### Bug Fixes
+
+* field name ([3ca753d](https://github.com/cosmology-tech/cosmos-kit/commit/3ca753d8530cc6d40874c293f11d01171319c2a4))
+* pass private key provider to web3auth no modal ([4bdb16a](https://github.com/cosmology-tech/cosmos-kit/commit/4bdb16a1d5a330c1ef0233c726740c53b7d99151))
+
+
+
+
+
 ## [2.14.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.2...@cosmos-kit/web3auth@2.14.3) (2025-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
