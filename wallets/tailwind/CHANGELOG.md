@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/tailwind@1.7.3...@cosmos-kit/tailwind@1.7.4) (2025-01-18)
+
+**Note:** Version bump only for package @cosmos-kit/tailwind
+
+
+
+
+
 ## [1.7.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/tailwind@1.7.2...@cosmos-kit/tailwind@1.7.3) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/tailwind

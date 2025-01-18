@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/ledger",
-  "version": "2.13.4",
+  "version": "2.13.5",
   "description": "cosmos-kit wallet connector",
   "author": "developers@hyperweb.io",
   "contributors": [
@@ -65,7 +65,7 @@
     ]
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.15.2",
+    "@cosmos-kit/core": "^2.15.3",
     "@ledgerhq/hw-app-cosmos": "^6.30.4",
     "@ledgerhq/hw-transport-webhid": "^6.30.0",
     "@ledgerhq/hw-transport-webusb": "^6.29.4"
