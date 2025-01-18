@@ -2,13 +2,18 @@
   "lerna": "7",
   "conventionalCommits": true,
   "npmClient": "yarn",
-  "npmClientArgs": ["--no-lockfile"],
-  "packages": ["packages/*", "wallets/*"],
+  "npmClientArgs": [
+    "--no-lockfile"
+  ],
+  "packages": [
+    "packages/*",
+    "wallets/*"
+  ],
   "version": "independent",
   "registry": "https://registry.npmjs.org",
   "command": {
     "create": {
-      "homepage": "https://github.com/cosmology-tech/cosmos-kit",
+      "homepage": "https://github.com/hyperweb-io/cosmos-kit",
       "license": "SEE LICENSE IN LICENSE",
       "access": "restricted"
     },

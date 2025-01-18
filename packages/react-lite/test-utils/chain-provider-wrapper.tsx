@@ -27,7 +27,7 @@ export const customWrapper = ({ children }) => {
             description: "CosmosKit test dapp",
             url: "https://test.cosmoskit.com/",
             icons: [
-              "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
+              "https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
             ],
           },
         },

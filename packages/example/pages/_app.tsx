@@ -116,7 +116,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               description: "CosmosKit test dapp",
               url: "https://test.cosmoskit.com/",
               icons: [
-                "https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
+                "https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/packages/docs/public/favicon-96x96.png",
               ],
             },
           },
@@ -218,7 +218,7 @@ export function CustomCapsuleModalViewX() {
         onLoginFailure={() => {
           window.failureFromCapsuleModal?.();
         }}
-        logoUrl="https://raw.githubusercontent.com/cosmology-tech/cosmos-kit/main/packages/docs/public/favicon-96x96.png"
+        logoUrl="https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/packages/docs/public/favicon-96x96.png"
         appName="CosmosKit"
         oAuthMethods={oAuthMethods}
       />

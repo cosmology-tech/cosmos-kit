@@ -8,7 +8,7 @@
       "name": "Noah Saso"
     }
   ],
-  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
+  "homepage": "https://github.com/hyperweb-io/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "main": "esm/index.js",
@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmos-kit"
+    "url": "https://github.com/hyperweb-io/cosmos-kit"
   },
   "keywords": [
     "cosmos-kit",
@@ -49,7 +49,7 @@
     "wallet"
   ],
   "bugs": {
-    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
+    "url": "https://github.com/hyperweb-io/cosmos-kit/issues"
   },
   "jest": {
     "testPathIgnorePatterns": [

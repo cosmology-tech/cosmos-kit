@@ -3,18 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.13.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.13.2...@cosmos-kit/ledger@2.13.3) (2025-01-14)
+## [2.13.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.13.2...@cosmos-kit/ledger@2.13.3) (2025-01-14)
 
 
 ### Bug Fixes
 
-* ledger wallet ([2873855](https://github.com/cosmology-tech/cosmos-kit/commit/2873855f6b3b5019cdebac650cbe2282e7c210ba))
+* ledger wallet ([2873855](https://github.com/hyperweb-io/cosmos-kit/commit/2873855f6b3b5019cdebac650cbe2282e7c210ba))
 
 
 
 
 
-## [2.13.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.13.1...@cosmos-kit/ledger@2.13.2) (2025-01-07)
+## [2.13.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.13.1...@cosmos-kit/ledger@2.13.2) (2025-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -22,7 +22,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.13.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.13.0...@cosmos-kit/ledger@2.13.1) (2024-12-16)
+## [2.13.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.13.0...@cosmos-kit/ledger@2.13.1) (2024-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -30,7 +30,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.13.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.12.0...@cosmos-kit/ledger@2.13.0) (2024-10-09)
+# [2.13.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.12.0...@cosmos-kit/ledger@2.13.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -38,7 +38,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.12.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.11.2...@cosmos-kit/ledger@2.12.0) (2024-10-09)
+# [2.12.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.11.2...@cosmos-kit/ledger@2.12.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -46,7 +46,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.11.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.11.1...@cosmos-kit/ledger@2.11.2) (2024-06-28)
+## [2.11.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.11.1...@cosmos-kit/ledger@2.11.2) (2024-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -54,7 +54,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.11.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.11.0...@cosmos-kit/ledger@2.11.1) (2024-06-26)
+## [2.11.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.11.0...@cosmos-kit/ledger@2.11.1) (2024-06-26)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -62,7 +62,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.11.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.10.0...@cosmos-kit/ledger@2.11.0) (2024-06-18)
+# [2.11.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.10.0...@cosmos-kit/ledger@2.11.0) (2024-06-18)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -70,7 +70,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.10.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.9.0...@cosmos-kit/ledger@2.10.0) (2024-05-28)
+# [2.10.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.9.0...@cosmos-kit/ledger@2.10.0) (2024-05-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -78,7 +78,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.9.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.8.0...@cosmos-kit/ledger@2.9.0) (2024-05-22)
+# [2.9.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.8.0...@cosmos-kit/ledger@2.9.0) (2024-05-22)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -86,7 +86,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [2.8.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.7.3...@cosmos-kit/ledger@2.8.0) (2024-05-08)
+# [2.8.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.7.3...@cosmos-kit/ledger@2.8.0) (2024-05-08)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -94,317 +94,317 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [2.7.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.7.2...@cosmos-kit/ledger@2.7.3) (2024-05-07)
+## [2.7.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.7.2...@cosmos-kit/ledger@2.7.3) (2024-05-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.7.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.7.1...@cosmos-kit/ledger@2.7.2) (2024-04-28)
+## [2.7.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.7.1...@cosmos-kit/ledger@2.7.2) (2024-04-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.7.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.7.0...@cosmos-kit/ledger@2.7.1) (2024-04-27)
+## [2.7.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.7.0...@cosmos-kit/ledger@2.7.1) (2024-04-27)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.7.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.9...@cosmos-kit/ledger@2.7.0) (2024-04-20)
+# [2.7.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.9...@cosmos-kit/ledger@2.7.0) (2024-04-20)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.8...@cosmos-kit/ledger@2.6.9) (2024-01-31)
+## [2.6.9](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.8...@cosmos-kit/ledger@2.6.9) (2024-01-31)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.7...@cosmos-kit/ledger@2.6.8) (2024-01-25)
+## [2.6.8](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.7...@cosmos-kit/ledger@2.6.8) (2024-01-25)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.6...@cosmos-kit/ledger@2.6.7) (2024-01-23)
+## [2.6.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.6...@cosmos-kit/ledger@2.6.7) (2024-01-23)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.5...@cosmos-kit/ledger@2.6.6) (2024-01-22)
+## [2.6.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.5...@cosmos-kit/ledger@2.6.6) (2024-01-22)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.4...@cosmos-kit/ledger@2.6.5) (2024-01-19)
+## [2.6.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.4...@cosmos-kit/ledger@2.6.5) (2024-01-19)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.3...@cosmos-kit/ledger@2.6.4) (2024-01-19)
+## [2.6.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.3...@cosmos-kit/ledger@2.6.4) (2024-01-19)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.2...@cosmos-kit/ledger@2.6.3) (2024-01-19)
+## [2.6.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.2...@cosmos-kit/ledger@2.6.3) (2024-01-19)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.1...@cosmos-kit/ledger@2.6.2) (2024-01-15)
+## [2.6.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.1...@cosmos-kit/ledger@2.6.2) (2024-01-15)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.6.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.6.0...@cosmos-kit/ledger@2.6.1) (2024-01-08)
+## [2.6.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.6.0...@cosmos-kit/ledger@2.6.1) (2024-01-08)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.6.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.14...@cosmos-kit/ledger@2.6.0) (2024-01-07)
+# [2.6.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.14...@cosmos-kit/ledger@2.6.0) (2024-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.14](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.13...@cosmos-kit/ledger@2.5.14) (2023-12-26)
+## [2.5.14](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.13...@cosmos-kit/ledger@2.5.14) (2023-12-26)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.13](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.12...@cosmos-kit/ledger@2.5.13) (2023-12-25)
+## [2.5.13](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.12...@cosmos-kit/ledger@2.5.13) (2023-12-25)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.11...@cosmos-kit/ledger@2.5.12) (2023-12-22)
+## [2.5.12](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.11...@cosmos-kit/ledger@2.5.12) (2023-12-22)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.10...@cosmos-kit/ledger@2.5.11) (2023-12-18)
+## [2.5.11](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.10...@cosmos-kit/ledger@2.5.11) (2023-12-18)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.9...@cosmos-kit/ledger@2.5.10) (2023-12-14)
+## [2.5.10](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.9...@cosmos-kit/ledger@2.5.10) (2023-12-14)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.8...@cosmos-kit/ledger@2.5.9) (2023-12-14)
+## [2.5.9](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.8...@cosmos-kit/ledger@2.5.9) (2023-12-14)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.7...@cosmos-kit/ledger@2.5.8) (2023-12-07)
+## [2.5.8](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.7...@cosmos-kit/ledger@2.5.8) (2023-12-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.6...@cosmos-kit/ledger@2.5.7) (2023-11-08)
+## [2.5.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.6...@cosmos-kit/ledger@2.5.7) (2023-11-08)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.5...@cosmos-kit/ledger@2.5.6) (2023-11-06)
+## [2.5.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.5...@cosmos-kit/ledger@2.5.6) (2023-11-06)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.4...@cosmos-kit/ledger@2.5.5) (2023-11-06)
+## [2.5.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.4...@cosmos-kit/ledger@2.5.5) (2023-11-06)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.3...@cosmos-kit/ledger@2.5.4) (2023-10-31)
+## [2.5.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.3...@cosmos-kit/ledger@2.5.4) (2023-10-31)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.2...@cosmos-kit/ledger@2.5.3) (2023-10-31)
+## [2.5.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.2...@cosmos-kit/ledger@2.5.3) (2023-10-31)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.1...@cosmos-kit/ledger@2.5.2) (2023-10-19)
+## [2.5.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.1...@cosmos-kit/ledger@2.5.2) (2023-10-19)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.5.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.5.0...@cosmos-kit/ledger@2.5.1) (2023-10-19)
+## [2.5.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.5.0...@cosmos-kit/ledger@2.5.1) (2023-10-19)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.5.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.9...@cosmos-kit/ledger@2.5.0) (2023-10-07)
+# [2.5.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.9...@cosmos-kit/ledger@2.5.0) (2023-10-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.8...@cosmos-kit/ledger@2.4.9) (2023-10-05)
+## [2.4.9](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.8...@cosmos-kit/ledger@2.4.9) (2023-10-05)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.7...@cosmos-kit/ledger@2.4.8) (2023-10-04)
+## [2.4.8](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.7...@cosmos-kit/ledger@2.4.8) (2023-10-04)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.6...@cosmos-kit/ledger@2.4.7) (2023-09-26)
+## [2.4.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.6...@cosmos-kit/ledger@2.4.7) (2023-09-26)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.5...@cosmos-kit/ledger@2.4.6) (2023-09-22)
+## [2.4.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.5...@cosmos-kit/ledger@2.4.6) (2023-09-22)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.4...@cosmos-kit/ledger@2.4.5) (2023-09-18)
+## [2.4.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.4...@cosmos-kit/ledger@2.4.5) (2023-09-18)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.3...@cosmos-kit/ledger@2.4.4) (2023-09-15)
+## [2.4.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.3...@cosmos-kit/ledger@2.4.4) (2023-09-15)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.2...@cosmos-kit/ledger@2.4.3) (2023-09-12)
+## [2.4.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.2...@cosmos-kit/ledger@2.4.3) (2023-09-12)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.1...@cosmos-kit/ledger@2.4.2) (2023-09-07)
+## [2.4.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.1...@cosmos-kit/ledger@2.4.2) (2023-09-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.4.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.4.0...@cosmos-kit/ledger@2.4.1) (2023-09-07)
+## [2.4.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.4.0...@cosmos-kit/ledger@2.4.1) (2023-09-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.4.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.3.3...@cosmos-kit/ledger@2.4.0) (2023-09-05)
+# [2.4.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.3.3...@cosmos-kit/ledger@2.4.0) (2023-09-05)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.3.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.3.2...@cosmos-kit/ledger@2.3.3) (2023-08-24)
+## [2.3.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.3.2...@cosmos-kit/ledger@2.3.3) (2023-08-24)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.3.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.3.1...@cosmos-kit/ledger@2.3.2) (2023-08-24)
+## [2.3.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.3.1...@cosmos-kit/ledger@2.3.2) (2023-08-24)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.3.0...@cosmos-kit/ledger@2.3.1) (2023-08-21)
+## [2.3.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.3.0...@cosmos-kit/ledger@2.3.1) (2023-08-21)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.2.1...@cosmos-kit/ledger@2.3.0) (2023-08-17)
+# [2.3.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.2.1...@cosmos-kit/ledger@2.3.0) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.2.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.2.0...@cosmos-kit/ledger@2.2.1) (2023-08-17)
+## [2.2.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.2.0...@cosmos-kit/ledger@2.2.1) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.2.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.12...@cosmos-kit/ledger@2.2.0) (2023-08-17)
+# [2.2.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.12...@cosmos-kit/ledger@2.2.0) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.12](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.11...@cosmos-kit/ledger@2.1.12) (2023-08-17)
+## [2.1.12](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.11...@cosmos-kit/ledger@2.1.12) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.11](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.10...@cosmos-kit/ledger@2.1.11) (2023-08-17)
+## [2.1.11](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.10...@cosmos-kit/ledger@2.1.11) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.10](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.9...@cosmos-kit/ledger@2.1.10) (2023-08-17)
+## [2.1.10](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.9...@cosmos-kit/ledger@2.1.10) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.9](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.8...@cosmos-kit/ledger@2.1.9) (2023-08-17)
+## [2.1.9](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.8...@cosmos-kit/ledger@2.1.9) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.8](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.7...@cosmos-kit/ledger@2.1.8) (2023-08-17)
+## [2.1.8](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.7...@cosmos-kit/ledger@2.1.8) (2023-08-17)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.7](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.6...@cosmos-kit/ledger@2.1.7) (2023-08-09)
+## [2.1.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.6...@cosmos-kit/ledger@2.1.7) (2023-08-09)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.5...@cosmos-kit/ledger@2.1.6) (2023-08-07)
+## [2.1.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.5...@cosmos-kit/ledger@2.1.6) (2023-08-07)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.4...@cosmos-kit/ledger@2.1.5) (2023-08-03)
+## [2.1.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.4...@cosmos-kit/ledger@2.1.5) (2023-08-03)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.3...@cosmos-kit/ledger@2.1.4) (2023-08-03)
+## [2.1.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.3...@cosmos-kit/ledger@2.1.4) (2023-08-03)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.2...@cosmos-kit/ledger@2.1.3) (2023-08-01)
+## [2.1.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.2...@cosmos-kit/ledger@2.1.3) (2023-08-01)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.1...@cosmos-kit/ledger@2.1.2) (2023-07-31)
+## [2.1.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.1...@cosmos-kit/ledger@2.1.2) (2023-07-31)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.1.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.1.0...@cosmos-kit/ledger@2.1.1) (2023-07-30)
+## [2.1.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.1.0...@cosmos-kit/ledger@2.1.1) (2023-07-30)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [2.1.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.5...@cosmos-kit/ledger@2.1.0) (2023-07-28)
+# [2.1.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.5...@cosmos-kit/ledger@2.1.0) (2023-07-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.4...@cosmos-kit/ledger@2.0.5) (2023-07-28)
+## [2.0.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.4...@cosmos-kit/ledger@2.0.5) (2023-07-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.3...@cosmos-kit/ledger@2.0.4) (2023-07-27)
+## [2.0.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.3...@cosmos-kit/ledger@2.0.4) (2023-07-27)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.2...@cosmos-kit/ledger@2.0.3) (2023-07-24)
+## [2.0.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.2...@cosmos-kit/ledger@2.0.3) (2023-07-24)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1...@cosmos-kit/ledger@2.0.2) (2023-07-21)
+## [2.0.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1...@cosmos-kit/ledger@2.0.2) (2023-07-21)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.6...@cosmos-kit/ledger@2.0.1) (2023-07-21)
+## [2.0.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.6...@cosmos-kit/ledger@2.0.1) (2023-07-21)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.5...@cosmos-kit/ledger@2.0.1-beta.6) (2023-07-19)
+## [2.0.1-beta.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.5...@cosmos-kit/ledger@2.0.1-beta.6) (2023-07-19)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.4...@cosmos-kit/ledger@2.0.1-beta.5) (2023-07-18)
+## [2.0.1-beta.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.4...@cosmos-kit/ledger@2.0.1-beta.5) (2023-07-18)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.3...@cosmos-kit/ledger@2.0.1-beta.4) (2023-07-18)
+## [2.0.1-beta.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.3...@cosmos-kit/ledger@2.0.1-beta.4) (2023-07-18)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.2...@cosmos-kit/ledger@2.0.1-beta.3) (2023-07-18)
+## [2.0.1-beta.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.2...@cosmos-kit/ledger@2.0.1-beta.3) (2023-07-18)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.1...@cosmos-kit/ledger@2.0.1-beta.2) (2023-07-12)
+## [2.0.1-beta.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.1...@cosmos-kit/ledger@2.0.1-beta.2) (2023-07-12)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.0...@cosmos-kit/ledger@2.0.1-beta.1) (2023-07-11)
+## [2.0.1-beta.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@2.0.1-beta.0...@cosmos-kit/ledger@2.0.1-beta.1) (2023-07-11)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [2.0.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@1.0.0...@cosmos-kit/ledger@2.0.1-beta.0) (2023-07-11)
+## [2.0.1-beta.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@1.0.0...@cosmos-kit/ledger@2.0.1-beta.0) (2023-07-11)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-# [1.0.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.6...@cosmos-kit/ledger@1.0.0) (2023-07-05)
+# [1.0.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.6...@cosmos-kit/ledger@1.0.0) (2023-07-05)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1-beta.6](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.5...@cosmos-kit/ledger@0.2.1-beta.6) (2023-06-30)
+## [0.2.1-beta.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.5...@cosmos-kit/ledger@0.2.1-beta.6) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1-beta.5](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.4...@cosmos-kit/ledger@0.2.1-beta.5) (2023-06-30)
+## [0.2.1-beta.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.4...@cosmos-kit/ledger@0.2.1-beta.5) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1-beta.4](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.3...@cosmos-kit/ledger@0.2.1-beta.4) (2023-06-30)
+## [0.2.1-beta.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.3...@cosmos-kit/ledger@0.2.1-beta.4) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1-beta.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1...@cosmos-kit/ledger@0.2.1-beta.3) (2023-06-30)
+## [0.2.1-beta.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1...@cosmos-kit/ledger@0.2.1-beta.3) (2023-06-30)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.0...@cosmos-kit/ledger@0.2.1) (2023-06-30)
+## [0.2.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.0...@cosmos-kit/ledger@0.2.1) (2023-06-30)
 
-## [0.2.1-beta.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.1...@cosmos-kit/ledger@0.2.1-beta.2) (2023-06-28)
+## [0.2.1-beta.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.1...@cosmos-kit/ledger@0.2.1-beta.2) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1-beta.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.0...@cosmos-kit/ledger@0.2.1-beta.1) (2023-06-28)
+## [0.2.1-beta.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.1-beta.0...@cosmos-kit/ledger@0.2.1-beta.1) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
-## [0.2.1-beta.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/ledger@0.2.0...@cosmos-kit/ledger@0.2.1-beta.0) (2023-06-28)
+## [0.2.1-beta.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/ledger@0.2.0...@cosmos-kit/ledger@0.2.1-beta.0) (2023-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/ledger
 
@@ -412,8 +412,8 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- fix build errors in GitHub Actions ([2b19ba3](https://github.com/cosmology-tech/cosmos-kit/commit/2b19ba384ec45912de9f0e500568743f44410643))
+- fix build errors in GitHub Actions ([2b19ba3](https://github.com/hyperweb-io/cosmos-kit/commit/2b19ba384ec45912de9f0e500568743f44410643))
 
 ### Features
 
-- connect to Ledger via Web USB / HID ([70c222d](https://github.com/cosmology-tech/cosmos-kit/commit/70c222d150e06955d765f8f521b0f74d79a66081))
+- connect to Ledger via Web USB / HID ([70c222d](https://github.com/hyperweb-io/cosmos-kit/commit/70c222d150e06955d765f8f521b0f74d79a66081))

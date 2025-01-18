@@ -5,8 +5,8 @@
 </p>
 
 <p align="center" width="100%">
-  <a href="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml">
-    <img height="20" src="https://github.com/cosmology-tech/cosmos-kit/actions/workflows/run-tests.yml/badge.svg" />
+  <a href="https://github.com/hyperweb-io/cosmos-kit/actions/workflows/run-tests.yml">
+    <img height="20" src="https://github.com/hyperweb-io/cosmos-kit/actions/workflows/run-tests.yml/badge.svg" />
   </a>
 </p>
 
@@ -19,11 +19,11 @@ Cosmos Kit is a universal wallet adapter for developers to build apps that quick
 Checkout these related projects:
 
 - [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) for generated CosmWasm contract Typescript classes
-- [@cosmology/telescope](https://github.com/cosmology-tech/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
-- [chain-registry](https://github.com/cosmology-tech/chain-registry) an npm module for the official Cosmos chain-registry.
-- [cosmos-kit](https://github.com/cosmology-tech/cosmos-kit) A wallet connector for the Cosmos ⚛️
-- [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app) set up a modern Cosmos app by running one command.
-- [starship](https://github.com/cosmology-tech/starship) a k8s-based unified development environment for Cosmos Ecosystem
+- [@cosmology/telescope](https://github.com/hyperweb-io/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
+- [chain-registry](https://github.com/hyperweb-io/chain-registry) an npm module for the official Cosmos chain-registry.
+- [cosmos-kit](https://github.com/hyperweb-io/cosmos-kit) A wallet connector for the Cosmos ⚛️
+- [create-cosmos-app](https://github.com/hyperweb-io/create-cosmos-app) set up a modern Cosmos app by running one command.
+- [starship](https://github.com/hyperweb-io/starship) a k8s-based unified development environment for Cosmos Ecosystem
 
 ## Credits
 

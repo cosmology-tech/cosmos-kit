@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [1.3.3](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.3.2...@cosmos-kit/imtoken-extension@1.3.3) (2025-01-07)
+## [1.3.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.3.2...@cosmos-kit/imtoken-extension@1.3.3) (2025-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/imtoken-extension
 
@@ -11,7 +11,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [1.3.2](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.3.1...@cosmos-kit/imtoken-extension@1.3.2) (2024-12-16)
+## [1.3.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.3.1...@cosmos-kit/imtoken-extension@1.3.2) (2024-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/imtoken-extension
 
@@ -19,7 +19,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [1.3.1](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.3.0...@cosmos-kit/imtoken-extension@1.3.1) (2024-10-09)
+## [1.3.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.3.0...@cosmos-kit/imtoken-extension@1.3.1) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/imtoken-extension
 
@@ -27,7 +27,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [1.3.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.2.0...@cosmos-kit/imtoken-extension@1.3.0) (2024-10-09)
+# [1.3.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.2.0...@cosmos-kit/imtoken-extension@1.3.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/imtoken-extension
 
@@ -35,7 +35,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [1.2.0](https://github.com/cosmology-tech/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.1.0...@cosmos-kit/imtoken-extension@1.2.0) (2024-10-09)
+# [1.2.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken-extension@1.1.0...@cosmos-kit/imtoken-extension@1.2.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/imtoken-extension
 
@@ -48,7 +48,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* add imToken wallet ([62f671e](https://github.com/cosmology-tech/cosmos-kit/commit/62f671e2de4060ec1bf36e33e1970ed1e88595aa))
+* add imToken wallet ([62f671e](https://github.com/hyperweb-io/cosmos-kit/commit/62f671e2de4060ec1bf36e33e1970ed1e88595aa))
 
 
 

@@ -119,7 +119,7 @@ export class KeplrClient extends WCClient {
         ...options,
       });
 
-      // https://github.com/cosmology-tech/projects-issues/issues/349
+      // https://github.com/hyperweb-io/projects-issues/issues/349
       // Commented out because of the issue above.
       // if (typeof connectResp.uri === 'undefined') {
       //   throw new Error('Failed to generate WalletConnect URI!');

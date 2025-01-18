@@ -15,7 +15,7 @@ const config: DocsThemeConfig = {
     </>
   ),
   project: {
-    link: "https://github.com/cosmology-tech/cosmos-kit",
+    link: "https://github.com/hyperweb-io/cosmos-kit",
   },
   useNextSeoProps() {
     const { asPath } = useRouter();
@@ -73,7 +73,7 @@ const config: DocsThemeConfig = {
     link: "https://discord.gg/6hy8KQ9aJY",
   },
   docsRepositoryBase:
-    "https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/docs",
+    "https://github.com/hyperweb-io/cosmos-kit/tree/main/packages/docs",
   editLink: {
     text: "Edit this page on GitHub",
   },

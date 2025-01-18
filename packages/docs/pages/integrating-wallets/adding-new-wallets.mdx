@@ -2,7 +2,7 @@
 
 ## Quickly Add Extension Wallets
 
-1. Copy files in [Leap Extension](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/leap-extension/src/extension) to your package;
+1. Copy files in [Leap Extension](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/leap-extension/src/extension) to your package;
 
 2. Replace `Leap` with your wallet name (_with first letter capitalized_) **globally**;
 
@@ -16,7 +16,7 @@
 
 ### For wallets support [Wallet Connect v2.0](https://docs.walletconnect.com/2.0)
 
-1. Copy files in [Keplr Mobile](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-mobile/src/wallet-connect) to your package;
+1. Copy files in [Keplr Mobile](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/keplr-mobile/src/wallet-connect) to your package;
 
 2. Replace `Keplr` with your wallet name (_with first letter capitalized_) **globally**;
 
@@ -49,15 +49,15 @@
 | **rejectMessage**             | `string` \| `{ source: string; target?: string }`  | `rejectMessage` or `rejectMessage.source` is error message string thrown by wallet app/extension when user rejects, while `rejectMessage.target` is `message` returned by hooks. If not provided, `target` would be `'Request Rejected!'` |
 | **connectEventNamesOnWindow** | `string[]`                                         | window event names to fire auto-connect                                                                                                        |
 | **connectEventNamesOnClient** | `string[]`                                         | wallet client event names to fire auto-connect (make sure `on` and `off` methods are defined in [`WalletClient`](#2️⃣-implement-walletclient))   |
-| **downloads**                 | [`DownloadInfo[]`](https://github.com/cosmology-tech/cosmos-kit/blob/ce50648487e73c1f6f17777347df7984168381af/packages/core/src/types/wallet.ts#L28-L31) | wallet app/extension download information |
+| **downloads**                 | [`DownloadInfo[]`](https://github.com/hyperweb-io/cosmos-kit/blob/ce50648487e73c1f6f17777347df7984168381af/packages/core/src/types/wallet.ts#L28-L31) | wallet app/extension download information |
 | **logo**                      | `string` \| `{ major: string, minor: string }`     | wallet logo url, display on default modal. For MetaMask Snaps, use `logo: { major: METAMASK_LOGO, minor: WALLET_LOGO }`|
 | **extends**                   | 'MetaMask'                                         | indicate it's a MetaMask Snap
 
 #### Examples
 
-- [Keplr Extension - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/registry.ts)
+- [Keplr Extension - Wallet Info](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/registry.ts)
 
-- [Keplr Mobile - Wallet Info](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/wallet-connect/registry.ts)
+- [Keplr Mobile - Wallet Info](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/keplr-extension/src/wallet-connect/registry.ts)
 
 ### 2️⃣ Implement `WalletClient`
 
@@ -82,7 +82,7 @@
 
 #### Examples
 
-- [Keplr Client](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/client.ts)
+- [Keplr Client](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/client.ts)
 
 ### 3️⃣ Extend `ChainWalletBase`
 
@@ -92,9 +92,9 @@ Create a `ChainWallet` class that extends `ChainWalletBase`. `ChainWallet` provi
 
 #### Examples
 
-- [Keplr Extension - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/chain-wallet.ts)
+- [Keplr Extension - Chain Wallet](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/chain-wallet.ts)
 
-- [Keplr Mobile - Chain Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/chain-wallet.ts)
+- [Keplr Mobile - Chain Wallet](https://github.com/hyperweb-io/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/chain-wallet.ts)
 
 ### 4️⃣ Extend `MainWalletBase`
 
@@ -114,9 +114,9 @@ Also, feel free to overwrite methods in `MainWalletBase` or add new methods/prop
 
 #### Examples
 
-- [Keplr Extension - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/main-wallet.ts)
+- [Keplr Extension - Main Wallet](https://github.com/hyperweb-io/cosmos-kit/tree/main/wallets/keplr-extension/src/extension/main-wallet.ts)
 
-- [Keplr Mobile - Main Wallet](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/main-wallet.ts)
+- [Keplr Mobile - Main Wallet](https://github.com/hyperweb-io/cosmos-kit/tree/main/packages/keplr/src/wallet-connect/main-wallet.ts)
 
 ### 5️⃣ Get `MainWallet` instance
 
@@ -124,10 +124,10 @@ You can construct your `MainWallet` Instance according to your `MainWallet` cons
 
 #### Examples
 
-- [keplrExtension & keplrMobile](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/keplr/src/keplr.ts)
+- [keplrExtension & keplrMobile](https://github.com/hyperweb-io/cosmos-kit/tree/main/packages/keplr/src/keplr.ts)
 
 Last but not least, append this instance to the `wallets` property of [ChainProvider](/provider/chain-provider).
 
 ## 6️⃣ Don't Forget To Update Docs
 
-Add `Markdown File` just like other wallets [here](https://github.com/cosmology-tech/cosmos-kit/tree/main/packages/docs/pages/integrating-wallets).
+Add `Markdown File` just like other wallets [here](https://github.com/hyperweb-io/cosmos-kit/tree/main/packages/docs/pages/integrating-wallets).

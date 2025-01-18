@@ -2,7 +2,7 @@
   "name": "@cosmos-kit/prax-extension",
   "version": "0.3.3",
   "description": "cosmos-kit wallet connector for Prax",
-  "homepage": "https://github.com/cosmology-tech/cosmos-kit#readme",
+  "homepage": "https://github.com/hyperweb-io/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -36,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cosmology-tech/cosmos-kit"
+    "url": "https://github.com/hyperweb-io/cosmos-kit"
   },
   "keywords": [
     "cosmos-kit",
@@ -45,7 +45,7 @@
     "wallet"
   ],
   "bugs": {
-    "url": "https://github.com/cosmology-tech/cosmos-kit/issues"
+    "url": "https://github.com/hyperweb-io/cosmos-kit/issues"
   },
   "dependencies": {
     "@chain-registry/keplr": "^1.69.13",
