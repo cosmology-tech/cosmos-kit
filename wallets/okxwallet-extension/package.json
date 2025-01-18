@@ -2,7 +2,7 @@
   "name": "@cosmos-kit/okxwallet-extension",
   "version": "2.13.2",
   "description": "cosmos-kit wallet connector",
-  "author": "developers@cosmology.zone",
+  "author": "developers@hyperweb.io",
   "contributors": [
     {
       "name": "okxwallet"

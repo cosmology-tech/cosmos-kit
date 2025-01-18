@@ -2,7 +2,7 @@
   "name": "@cosmos-kit/walletconnect",
   "version": "2.12.2",
   "description": "cosmos-kit wallet connector using walletconnect",
-  "author": "developers@cosmology.zone",
+  "author": "developers@hyperweb.io",
   "contributors": [
     {
       "name": "Jun Liu"
