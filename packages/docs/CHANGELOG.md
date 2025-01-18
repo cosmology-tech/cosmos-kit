@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.28.8](https://github.com/hyperweb-io/cosmos-kit/compare/docs@2.28.7...docs@2.28.8) (2025-01-18)
+
+**Note:** Version bump only for package docs
+
+
+
+
+
 ## [2.28.7](https://github.com/hyperweb-io/cosmos-kit/compare/docs@2.28.6...docs@2.28.7) (2025-01-18)
 
 **Note:** Version bump only for package docs

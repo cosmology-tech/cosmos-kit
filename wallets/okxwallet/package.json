@@ -1,6 +1,6 @@
 {
   "name": "@cosmos-kit/okxwallet",
-  "version": "2.11.4",
+  "version": "2.11.5",
   "description": "cosmos-kit wallet connector",
   "author": "developers@hyperweb.io",
   "contributors": [
@@ -53,6 +53,6 @@
     "url": "https://github.com/hyperweb-io/cosmos-kit/issues"
   },
   "dependencies": {
-    "@cosmos-kit/okxwallet-extension": "^2.13.3"
+    "@cosmos-kit/okxwallet-extension": "^2.13.4"
   }
 }
