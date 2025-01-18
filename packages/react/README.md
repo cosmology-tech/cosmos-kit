@@ -42,7 +42,7 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 Checkout these related projects:
 
 * [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) for generated CosmWasm contract Typescript classes
-* [@cosmology/telescope](https://github.com/hyperweb-io/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
+* [telescope](https://github.com/hyperweb-io/telescope) Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules.
 * [chain-registry](https://github.com/hyperweb-io/chain-registry) Get everything from token symbols, logos, and IBC denominations for all assets you want to support in your application.
 * [cosmos-kit](https://github.com/hyperweb-io/cosmos-kit) Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface ⚛️
 * [create-cosmos-app](https://github.com/hyperweb-io/create-cosmos-app) set up a modern Cosmos app by running one command.

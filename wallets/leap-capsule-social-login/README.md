@@ -135,7 +135,7 @@ export function CustomCapsuleModalViewX() {
 Checkout these related projects:
 
 * [@cosmwasm/ts-codegen](https://github.com/CosmWasm/ts-codegen) for generated CosmWasm contract Typescript classes
-* [@cosmology/telescope](https://github.com/hyperweb-io/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
+* [telescope](https://github.com/hyperweb-io/telescope) a "babel for the Cosmos", Telescope is a TypeScript Transpiler for Cosmos Protobufs.
 * [chain-registry](https://github.com/hyperweb-io/chain-registry) an npm module for the official Cosmos chain-registry.
 * [cosmos-kit](https://github.com/hyperweb-io/cosmos-kit) A wallet connector for the Cosmos ⚛️
 * [create-cosmos-app](https://github.com/hyperweb-io/create-cosmos-app) set up a modern Cosmos app by running one command.
