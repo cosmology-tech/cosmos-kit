@@ -50,11 +50,11 @@ export const GalaxyStationMobileInfo: Wallet = {
       const encodedWcUrl = encodeURIComponent(wcUri);
       switch (os) {
         case 'ios':
-          return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
+          return `https://station.hexxagon.io/wcV2?${encodedWcUrl}`;
         case 'android':
-          return `${plainAppUrl}://wcV2?${encodedWcUrl}#Intent;package=io.hexxagon.station;scheme=galaxystation;end;`;
+          return `https://station.hexxagon.io/wcV2?${encodedWcUrl}`;
         default:
-          return `${plainAppUrl}://wcV2?${encodedWcUrl}`;
+          return `https://station.hexxagon.io/wcV2?${encodedWcUrl}`;
       }
     },
   },
