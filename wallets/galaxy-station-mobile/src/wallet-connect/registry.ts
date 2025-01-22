@@ -30,7 +30,7 @@ export const GalaxyStationMobileInfo: Wallet = {
   ],
   connectEventNamesOnWindow: ['keplr_keystorechange'],
   walletconnect: {
-    name: 'Galaxy Station Wallet',
+    name: 'Galaxy Station',
     projectId:
       'f2259af02252a23d5c69867f4ce1656b',
     encoding: 'base64',
