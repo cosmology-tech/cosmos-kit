@@ -435,7 +435,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-- formating and styling ([e40d490](https://github.com/hyperweb-io/cosmos-kit/commit/e40d4909ef9f18b61a0bcad0cae3ebb44d20ceae))
+- formatting and styling ([e40d490](https://github.com/hyperweb-io/cosmos-kit/commit/e40d4909ef9f18b61a0bcad0cae3ebb44d20ceae))
 
 ## [0.0.1] (2023-06-09)
 
