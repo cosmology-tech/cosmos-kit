@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken@1.3.6...@cosmos-kit/imtoken@1.3.7) (2025-01-28)
+
+**Note:** Version bump only for package @cosmos-kit/imtoken
+
+
+
+
+
 ## [1.3.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/imtoken@1.3.5...@cosmos-kit/imtoken@1.3.6) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/imtoken
