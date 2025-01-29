@@ -4,6 +4,7 @@ import { Wallet } from '@cosmos-kit/core';
 import { Ecies } from '@toruslabs/eccrypto';
 import {
   LOGIN_PROVIDER_TYPE,
+  MfaLevelType,
   WEB3AUTH_NETWORK_TYPE,
 } from '@web3auth/auth-adapter';
 import { Web3AuthNoModalOptions } from '@web3auth/base';
@@ -19,6 +20,7 @@ export type Web3AuthLoginMethod = {
 
 export type Web3AuthClientOptions = {
   loginProvider: LOGIN_PROVIDER_TYPE;
+  mfaLevel?: MfaLevelType;
   getLoginHint?: () => string | undefined;
 
   // Web3Auth client options.

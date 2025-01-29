@@ -157,9 +157,13 @@ export const connectClientAndProvider = async (
     );
   }
 
+  const mfaLevel = options.mfaLevel ?? 'default';
   const authAdapter = new AuthAdapter({
     adapterSettings: {
       uxMode,
+    },
+    loginSettings: {
+      mfaLevel,
     },
   });
   client.configureAdapter(authAdapter);
