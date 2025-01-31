@@ -80,7 +80,7 @@ Explore the range of wallet adapters available in our [wallets directory](https:
   <img width="30px" src="https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/public/images/logos/wallets/station.svg" />
 </a>
 <a href="https://trustwallet.com/">
-  <img width="30px" src="https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/public/images/logos/wallets/trust.png" />
+  <img width="30px" src="https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/public/images/logos/wallets/trust.svg" />
 </a>
 <a href="https://omni.app/">
   <img width="30px" src="https://raw.githubusercontent.com/hyperweb-io/cosmos-kit/main/public/images/logos/wallets/omni.png" />
