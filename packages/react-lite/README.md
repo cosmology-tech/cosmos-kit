@@ -21,7 +21,7 @@ Cosmos Kit is a universal wallet adapter for developers to build apps that quick
 
 ## Documentation
 
-[docs.cosmology.zone/cosmos-kit](https://docs.cosmology.zone/cosmos-kit)
+[docs.hyperweb.io/cosmos-kit](https://docs.hyperweb.io/cosmos-kit)
 
 ## Installation
 
@@ -31,11 +31,11 @@ yarn add @cosmos-kit/react @cosmos-kit/core @cosmos-kit/keplr chain-registry
 
 ## Provider
 
-- [ChainProvider](https://docs.cosmology.zone/cosmos-kit/provider/chain-provider)
+- [ChainProvider](https://docs.hyperweb.io/cosmos-kit/provider/chain-provider)
 
 ## Hooks
 
-- [useChain](https://docs.cosmology.zone/cosmos-kit/hooks/use-chain)
+- [useChain](https://docs.hyperweb.io/cosmos-kit/hooks/use-chain)
 
 ## Interchain JavaScript Stack 
 

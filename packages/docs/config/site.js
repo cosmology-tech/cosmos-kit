@@ -16,12 +16,12 @@ module.exports = {
     host: siteAddress.host
   },
   emails: {
-    hello: 'hello@cosmology.zone',
-    support: 'support@cosmology.zone',
-    abuse: 'abuse@cosmology.zone',
-    privacy: 'privacy@cosmology.zone',
-    legal: 'legal@cosmology.zone',
-    copyright: 'copyright@cosmology.zone',
-    arbitrationOptOut: 'arbitration-opt-out@cosmology.zone'
+    hello: 'hello@hyperweb.io',
+    support: 'support@hyperweb.io',
+    abuse: 'abuse@hyperweb.io',
+    privacy: 'privacy@hyperweb.io',
+    legal: 'legal@hyperweb.io',
+    copyright: 'copyright@hyperweb.io',
+    arbitrationOptOut: 'arbitration-opt-out@hyperweb.io'
   }
 };

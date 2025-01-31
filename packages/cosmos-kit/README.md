@@ -27,11 +27,11 @@ Get started quickly by using [create-cosmos-app](https://github.com/hyperweb-io/
 
 ## ⚙️ Configuration
 
-Check out [our docs here](https://docs.cosmology.zone/cosmos-kit/get-started) to configure CosmosKit.
+Check out [our docs here](https://docs.hyperweb.io/cosmos-kit/get-started) to configure CosmosKit.
 
 ## ⚛️ CosmJS Signers
 
-If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://docs.cosmology.zone/cosmos-kit/hooks)
+If you want to get a cosmjs stargate or cosmwasm signer, [here are docs for our hooks](https://docs.hyperweb.io/cosmos-kit/hooks)
 
 ## 📦 Packages
 
@@ -105,7 +105,7 @@ Explore the range of wallet adapters available in our [wallets directory](https:
 
 ## 🔌 Integrating Wallets
 
-See our docs on [integrating your wallet](https://docs.cosmology.zone/cosmos-kit/integrating-wallets)
+See our docs on [integrating your wallet](https://docs.hyperweb.io/cosmos-kit/integrating-wallets)
 
 ### 🚀 Running Example
 
