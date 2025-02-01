@@ -3,77 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.12.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.12.0...@cosmos-kit/galaxy-station@2.12.1) (2024-12-16)
+## [2.13.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.12.1...@cosmos-kit/galaxy-station@2.13.7) (2025-02-01)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
 
+## [2.12.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.12.0...@cosmos-kit/galaxy-station@2.12.1) (2024-12-16)
 
-
-
+**Note:** Version bump only for package @cosmos-kit/galaxy-station
 
 # [2.12.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.11.0...@cosmos-kit/galaxy-station@2.12.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
 
-
-
-
-
 # [2.11.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.10.2...@cosmos-kit/galaxy-station@2.11.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
-
-
-
-
 
 ## [2.10.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.10.1...@cosmos-kit/galaxy-station@2.10.2) (2024-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
 
-
-
-
-
 ## [2.10.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.10.0...@cosmos-kit/galaxy-station@2.10.1) (2024-06-26)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
-
-
-
-
 
 # [2.10.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.9.0...@cosmos-kit/galaxy-station@2.10.0) (2024-06-18)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
 
-
-
-
-
 # [2.9.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.8.0...@cosmos-kit/galaxy-station@2.9.0) (2024-05-28)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
-
-
-
-
 
 # [2.8.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/galaxy-station@2.7.0...@cosmos-kit/galaxy-station@2.8.0) (2024-05-22)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
 
-
-
-
-
 # 2.7.0 (2024-05-08)
 
 **Note:** Version bump only for package @cosmos-kit/galaxy-station
-
-
-
-
 
 ## [2.6.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/station@2.6.1...@cosmos-kit/station@2.6.2) (2024-04-28)
 

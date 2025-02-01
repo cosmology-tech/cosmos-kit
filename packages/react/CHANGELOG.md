@@ -3,165 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.21.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.5...@cosmos-kit/react@2.21.6) (2025-01-28)
+## [2.21.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.6...@cosmos-kit/react@2.21.7) (2025-02-01)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
+## [2.21.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.5...@cosmos-kit/react@2.21.6) (2025-01-28)
 
-
-
+**Note:** Version bump only for package @cosmos-kit/react
 
 ## [2.21.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.4...@cosmos-kit/react@2.21.5) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 ## [2.21.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.3...@cosmos-kit/react@2.21.4) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 ## [2.21.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.2...@cosmos-kit/react@2.21.3) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 ## [2.21.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.1...@cosmos-kit/react@2.21.2) (2025-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 ## [2.21.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.21.0...@cosmos-kit/react@2.21.1) (2024-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 # [2.21.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.20.1...@cosmos-kit/react@2.21.0) (2024-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 ## [2.20.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.20.0...@cosmos-kit/react@2.20.1) (2024-10-14)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 # [2.20.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.19.0...@cosmos-kit/react@2.20.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 # [2.19.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.18.0...@cosmos-kit/react@2.19.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 # [2.18.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.17.2...@cosmos-kit/react@2.18.0) (2024-07-11)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 ## [2.17.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.17.1...@cosmos-kit/react@2.17.2) (2024-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 ## [2.17.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.17.0...@cosmos-kit/react@2.17.1) (2024-06-26)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 # [2.17.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.16.0...@cosmos-kit/react@2.17.0) (2024-06-21)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 # [2.16.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.15.0...@cosmos-kit/react@2.16.0) (2024-06-18)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 # [2.15.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.14.1...@cosmos-kit/react@2.15.0) (2024-06-05)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 ## [2.14.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.14.0...@cosmos-kit/react@2.14.1) (2024-05-29)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 # [2.14.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.13.0...@cosmos-kit/react@2.14.0) (2024-05-28)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 # [2.13.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.12.0...@cosmos-kit/react@2.13.0) (2024-05-22)
 
 **Note:** Version bump only for package @cosmos-kit/react
 
-
-
-
-
 # [2.12.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.11.3...@cosmos-kit/react@2.12.0) (2024-05-08)
 
 **Note:** Version bump only for package @cosmos-kit/react
-
-
-
-
 
 ## [2.11.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/react@2.11.2...@cosmos-kit/react@2.11.3) (2024-05-07)
 

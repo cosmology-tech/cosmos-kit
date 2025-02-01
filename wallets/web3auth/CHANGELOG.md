@@ -3,164 +3,94 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.8...@cosmos-kit/web3auth@2.15.0) (2025-02-01)
+
+### Features
+
+- add web3auth mfa level support ([#538](https://github.com/hyperweb-io/cosmos-kit/issues/538)) ([36579fb](https://github.com/hyperweb-io/cosmos-kit/commit/36579fb5ef6d93f85fcb3fdf790440b0ab36ba85))
+
 ## [2.14.8](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.7...@cosmos-kit/web3auth@2.14.8) (2025-01-28)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
-
-
-
-
 
 ## [2.14.7](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.6...@cosmos-kit/web3auth@2.14.7) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 ## [2.14.6](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.5...@cosmos-kit/web3auth@2.14.6) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
-
-
-
-
 
 ## [2.14.5](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.4...@cosmos-kit/web3auth@2.14.5) (2025-01-18)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 ## [2.14.4](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.3...@cosmos-kit/web3auth@2.14.4) (2025-01-15)
-
 
 ### Bug Fixes
 
-* field name ([3ca753d](https://github.com/hyperweb-io/cosmos-kit/commit/3ca753d8530cc6d40874c293f11d01171319c2a4))
-* pass private key provider to web3auth no modal ([4bdb16a](https://github.com/hyperweb-io/cosmos-kit/commit/4bdb16a1d5a330c1ef0233c726740c53b7d99151))
-
-
-
-
+- field name ([3ca753d](https://github.com/hyperweb-io/cosmos-kit/commit/3ca753d8530cc6d40874c293f11d01171319c2a4))
+- pass private key provider to web3auth no modal ([4bdb16a](https://github.com/hyperweb-io/cosmos-kit/commit/4bdb16a1d5a330c1ef0233c726740c53b7d99151))
 
 ## [2.14.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.2...@cosmos-kit/web3auth@2.14.3) (2025-01-07)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 ## [2.14.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.1...@cosmos-kit/web3auth@2.14.2) (2024-12-20)
-
 
 ### Bug Fixes
 
-* add back error handling in web3auth utils ([d147c8f](https://github.com/hyperweb-io/cosmos-kit/commit/d147c8f3739c95897fce4c7538badebfec35ec9e))
-
-
-
-
+- add back error handling in web3auth utils ([d147c8f](https://github.com/hyperweb-io/cosmos-kit/commit/d147c8f3739c95897fce4c7538badebfec35ec9e))
 
 ## [2.14.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.14.0...@cosmos-kit/web3auth@2.14.1) (2024-12-16)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 # [2.14.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.13.0...@cosmos-kit/web3auth@2.14.0) (2024-12-16)
-
 
 ### Bug Fixes
 
-* passwordless login support ([dda24dd](https://github.com/hyperweb-io/cosmos-kit/commit/dda24dde909d569e390cb28f897d35f7e689d05f))
-
+- passwordless login support ([dda24dd](https://github.com/hyperweb-io/cosmos-kit/commit/dda24dde909d569e390cb28f897d35f7e689d05f))
 
 ### Features
 
-* bump web3auth & login hint ([630c512](https://github.com/hyperweb-io/cosmos-kit/commit/630c512fa2eb5704eebf2bc712042914b00fdae8))
-
-
-
-
+- bump web3auth & login hint ([630c512](https://github.com/hyperweb-io/cosmos-kit/commit/630c512fa2eb5704eebf2bc712042914b00fdae8))
 
 # [2.13.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.12.0...@cosmos-kit/web3auth@2.13.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 # [2.12.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.11.0...@cosmos-kit/web3auth@2.12.0) (2024-10-09)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
-
-
-
-
 
 # [2.11.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.10.2...@cosmos-kit/web3auth@2.11.0) (2024-07-11)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 ## [2.10.2](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.10.1...@cosmos-kit/web3auth@2.10.2) (2024-06-28)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
-
-
-
-
 
 ## [2.10.1](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.10.0...@cosmos-kit/web3auth@2.10.1) (2024-06-26)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 # [2.10.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.9.0...@cosmos-kit/web3auth@2.10.0) (2024-06-18)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
-
-
-
-
 
 # [2.9.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.8.0...@cosmos-kit/web3auth@2.9.0) (2024-05-28)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 # [2.8.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.7.0...@cosmos-kit/web3auth@2.8.0) (2024-05-22)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
 
-
-
-
-
 # [2.7.0](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.6.3...@cosmos-kit/web3auth@2.7.0) (2024-05-08)
 
 **Note:** Version bump only for package @cosmos-kit/web3auth
-
-
-
-
 
 ## [2.6.3](https://github.com/hyperweb-io/cosmos-kit/compare/@cosmos-kit/web3auth@2.6.2...@cosmos-kit/web3auth@2.6.3) (2024-05-07)
 

@@ -1,6 +1,6 @@
 {
   "name": "cosmos-kit",
-  "version": "2.23.9",
+  "version": "2.23.10",
   "description": "cosmos-kit wallet connector",
   "author": "developers@hyperweb.io",
   "contributors": [
@@ -76,9 +76,9 @@
     "@cosmos-kit/compass": "^2.13.7",
     "@cosmos-kit/cosmostation": "^2.14.6",
     "@cosmos-kit/ctrl": "^2.13.6",
-    "@cosmos-kit/exodus": "^2.12.6",
+    "@cosmos-kit/exodus": "^2.12.7",
     "@cosmos-kit/fin": "^2.13.7",
-    "@cosmos-kit/galaxy-station": "^2.13.6",
+    "@cosmos-kit/galaxy-station": "^2.13.7",
     "@cosmos-kit/keplr": "^2.14.7",
     "@cosmos-kit/leap": "^2.14.7",
     "@cosmos-kit/ledger": "^2.13.7",
@@ -87,6 +87,6 @@
     "@cosmos-kit/owallet": "^2.14.6",
     "@cosmos-kit/shell": "^2.13.7",
     "@cosmos-kit/tailwind": "^1.7.6",
-    "@cosmos-kit/trust": "^2.13.6"
+    "@cosmos-kit/trust": "^2.13.7"
   }
 }

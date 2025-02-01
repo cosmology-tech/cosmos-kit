@@ -3,233 +3,124 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.23.9](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.8...cosmos-kit@2.23.9) (2025-01-28)
+## [2.23.10](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.9...cosmos-kit@2.23.10) (2025-02-01)
 
 **Note:** Version bump only for package cosmos-kit
 
+## [2.23.9](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.8...cosmos-kit@2.23.9) (2025-01-28)
 
-
-
+**Note:** Version bump only for package cosmos-kit
 
 ## [2.23.8](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.7...cosmos-kit@2.23.8) (2025-01-18)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 ## [2.23.7](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.6...cosmos-kit@2.23.7) (2025-01-18)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.23.6](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.5...cosmos-kit@2.23.6) (2025-01-18)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 ## [2.23.5](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.4...cosmos-kit@2.23.5) (2025-01-14)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.23.4](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.3...cosmos-kit@2.23.4) (2025-01-07)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 ## [2.23.3](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.2...cosmos-kit@2.23.3) (2025-01-07)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.23.2](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.1...cosmos-kit@2.23.2) (2025-01-07)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 ## [2.23.1](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.23.0...cosmos-kit@2.23.1) (2024-12-16)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 # [2.23.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.22.0...cosmos-kit@2.23.0) (2024-12-16)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.22.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.21.1...cosmos-kit@2.22.0) (2024-12-16)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.21.1](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.21.0...cosmos-kit@2.21.1) (2024-10-09)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.21.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.20.0...cosmos-kit@2.21.0) (2024-10-09)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 # [2.20.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.19.0...cosmos-kit@2.20.0) (2024-10-09)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.19.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.18.4...cosmos-kit@2.19.0) (2024-08-01)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.18.4](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.18.3...cosmos-kit@2.18.4) (2024-06-28)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 ## [2.18.3](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.18.2...cosmos-kit@2.18.3) (2024-06-28)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.18.2](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.18.1...cosmos-kit@2.18.2) (2024-06-26)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 ## [2.18.1](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.18.0...cosmos-kit@2.18.1) (2024-06-26)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 # [2.18.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.17.0...cosmos-kit@2.18.0) (2024-06-18)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.17.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.16.0...cosmos-kit@2.17.0) (2024-06-12)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.16.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.15.1...cosmos-kit@2.16.0) (2024-06-05)
-
 
 ### Features
 
-* add cdc wallet to all wallets list ([d3ad047](https://github.com/hyperweb-io/cosmos-kit/commit/d3ad047d281b751b1f5c51f0c91b45c4703bb338))
-* add cdc wallet to package deps ([f1ab3e0](https://github.com/hyperweb-io/cosmos-kit/commit/f1ab3e029bddcf59d20926709fcd784c6ba3e24b))
-
-
-
-
+- add cdc wallet to all wallets list ([d3ad047](https://github.com/hyperweb-io/cosmos-kit/commit/d3ad047d281b751b1f5c51f0c91b45c4703bb338))
+- add cdc wallet to package deps ([f1ab3e0](https://github.com/hyperweb-io/cosmos-kit/commit/f1ab3e029bddcf59d20926709fcd784c6ba3e24b))
 
 ## [2.15.1](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.15.0...cosmos-kit@2.15.1) (2024-05-29)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.15.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.14.0...cosmos-kit@2.15.0) (2024-05-28)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 # [2.14.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.13.0...cosmos-kit@2.14.0) (2024-05-23)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.13.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.12.0...cosmos-kit@2.13.0) (2024-05-22)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 # [2.12.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.11.0...cosmos-kit@2.12.0) (2024-05-08)
 
 **Note:** Version bump only for package cosmos-kit
 
-
-
-
-
 # [2.11.0](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.10.3...cosmos-kit@2.11.0) (2024-05-08)
 
 **Note:** Version bump only for package cosmos-kit
-
-
-
-
 
 ## [2.10.3](https://github.com/hyperweb-io/cosmos-kit/compare/cosmos-kit@2.10.2...cosmos-kit@2.10.3) (2024-05-07)
 
